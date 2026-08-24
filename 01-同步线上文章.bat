@@ -3,7 +3,7 @@ setlocal EnableExtensions
 cd /d "%~dp0"
 
 echo ========================================
-echo   The Aden Family - Sync from GitHub
+echo   Aden's Space - Sync from GitHub
 echo ========================================
 echo.
 

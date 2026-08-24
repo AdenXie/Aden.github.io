@@ -3,7 +3,7 @@ setlocal EnableExtensions
 cd /d "%~dp0"
 
 echo ========================================
-echo   The Aden Family - Submit and Publish
+echo   Aden's Space - Submit and Publish
 echo ========================================
 echo.
 
