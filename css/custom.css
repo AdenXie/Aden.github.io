@@ -1,14 +1,82 @@
 :root {
-  --aden-deep: #062c54;
-  --aden-blue: #087bc1;
-  --aden-cyan: #45b8e8;
-  --aden-mist: #eaf6fb;
-  --aden-ink: #10243a;
+  --aden-void: #070a0f;
+  --aden-panel: #101821;
+  --aden-panel-raised: #151f2b;
+  --aden-signal: #f2e94e;
+  --aden-amber: #ffb800;
+  --aden-cyan: #18d5e8;
+  --aden-ink: #e8edf2;
+  --aden-muted: #8e99a8;
+}
+
+html.light {
+  --background-color: #f3f2e8;
+  --background-color-transparent: rgb(243 242 232 / 72%);
+  --background-color-transparent-80: rgb(243 242 232 / 88%);
+  --second-background-color: #e9eadf;
+  --third-background-color: #dfe3da;
+  --third-background-color-transparent: rgb(223 227 218 / 72%);
+  --primary-color: #786500;
+  --first-text-color: #111821;
+  --second-text-color: #26313b;
+  --third-text-color: #5f6972;
+  --default-text-color: #18212b;
+  --border-color: rgb(7 10 15 / 15%);
+  --selection-color: #d7cb22;
+  --link-color: #0c6672;
+  --scrollbar-color: #a79f31;
+  --scrollbar-color-hover: #756f18;
+  --scroll-bar-bg-color: #dedfd5;
+}
+
+html.dark {
+  --background-color: var(--aden-void);
+  --background-color-transparent: rgb(7 10 15 / 72%);
+  --background-color-transparent-80: rgb(7 10 15 / 88%);
+  --second-background-color: var(--aden-panel);
+  --third-background-color: var(--aden-panel-raised);
+  --third-background-color-transparent: rgb(21 31 43 / 74%);
+  --primary-color: var(--aden-signal);
+  --first-text-color: var(--aden-ink);
+  --second-text-color: #c7d0da;
+  --third-text-color: var(--aden-muted);
+  --default-text-color: #d5dce3;
+  --border-color: rgb(242 233 78 / 15%);
+  --selection-color: var(--aden-signal);
+  --link-color: var(--aden-cyan);
+  --shadow-color-1: rgb(242 233 78 / 9%);
+  --shadow-color-2: rgb(0 0 0 / 34%);
+  --shadow-hover-color: rgb(24 213 232 / 14%);
+  --scrollbar-color: #746f2b;
+  --scrollbar-color-hover: var(--aden-signal);
+  --scroll-bar-bg-color: #0b1017;
 }
 
 body {
   font-family: "Segoe UI Variable", "MiSans", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
   text-rendering: optimizeLegibility;
+}
+
+::selection {
+  color: var(--aden-void);
+  background: var(--aden-signal);
+}
+
+.navbar-container {
+  border-bottom: 1px solid rgb(242 233 78 / 28%);
+  box-shadow: 0 10px 32px rgb(0 0 0 / 18%);
+}
+
+.navbar-container .logo-title,
+.navbar-container .navbar-list,
+.home-article-meta-info-container,
+.article-meta-info {
+  font-family: "Geist Mono", "Cascadia Code", "SFMono-Regular", monospace;
+}
+
+.navbar-container .navbar-item a.active,
+.navbar-container .navbar-item a:hover {
+  color: var(--aden-signal) !important;
 }
 
 .home-banner-background::after {
@@ -18,8 +86,9 @@ body {
   content: "";
   pointer-events: none;
   background:
-    linear-gradient(105deg, rgb(6 31 60 / 74%) 0%, rgb(6 44 84 / 42%) 42%, rgb(8 123 193 / 8%) 72%),
-    linear-gradient(0deg, rgb(4 23 43 / 28%), transparent 52%);
+    repeating-linear-gradient(0deg, transparent 0 3px, rgb(7 10 15 / 8%) 3px 4px),
+    linear-gradient(100deg, rgb(7 10 15 / 90%) 0%, rgb(7 10 15 / 58%) 43%, rgb(7 10 15 / 14%) 78%),
+    linear-gradient(0deg, rgb(7 10 15 / 76%) 0%, transparent 48%);
 }
 
 .home-banner-background img {
@@ -34,19 +103,74 @@ body {
   max-width: min(88vw, 920px);
   align-items: flex-start;
   padding: 0 5vw;
+  color: #fff;
+  font-family: "Geist Mono", "Cascadia Code", "SFMono-Regular", "Microsoft YaHei", monospace;
   text-align: left;
-  letter-spacing: -0.035em;
-  text-shadow: 0 2px 24px rgb(0 24 52 / 38%);
+  letter-spacing: -0.045em;
+  text-shadow: 0 2px 26px rgb(0 0 0 / 58%);
+}
+
+.home-banner-container .description::before {
+  display: block;
+  margin-bottom: 1rem;
+  color: var(--aden-signal);
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.24em;
+  content: "ADEN // FIELD NOTES";
+}
+
+.home-banner-container .description::after {
+  width: min(15rem, 48vw);
+  height: 3px;
+  margin-top: 1.15rem;
+  content: "";
+  background: linear-gradient(90deg, var(--aden-signal) 0 72%, var(--aden-cyan) 72% 82%, transparent 82%);
 }
 
 .home-banner-container .description p {
   margin-top: 0.9rem;
-  letter-spacing: 0.08em;
+  color: #f5f5ee;
+  letter-spacing: 0.1em;
 }
 
-.home-article-item {
+.home-banner-container .social-contacts,
+.home-banner-container [onclick="scrollToMain()"] {
+  border-color: rgb(242 233 78 / 38%) !important;
+  border-radius: 8px !important;
+  background: rgb(7 10 15 / 68%) !important;
+  box-shadow: 0 0 24px rgb(24 213 232 / 8%);
+}
+
+.home-banner-container .social-contact-item a:hover,
+.home-banner-container [onclick="scrollToMain()"]:hover {
+  color: var(--aden-signal);
+}
+
+.home-content-container .home-article-list .home-article-item {
+  position: relative;
   overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--primary-color) 14%, var(--border-color));
+  border: 1px solid color-mix(in srgb, var(--aden-signal) 25%, var(--border-color));
+  background: linear-gradient(145deg, color-mix(in srgb, var(--second-background-color) 94%, var(--aden-cyan)), var(--second-background-color) 36%);
+}
+
+html.dark .home-content-container .home-article-list .home-article-item {
+  background: linear-gradient(145deg, rgb(16 24 33 / 98%), rgb(7 10 15 / 98%));
+}
+
+html.light .home-content-container .home-article-list .home-article-item {
+  background: linear-gradient(145deg, #f8f7ed, #e9eadf);
+}
+
+.home-content-container .home-article-list .home-article-item::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 3;
+  height: 3px;
+  content: "";
+  background: linear-gradient(90deg, var(--aden-signal) 0 24%, transparent 24% 27%, var(--aden-cyan) 27% 34%, transparent 34%);
 }
 
 .home-article-thumbnail {
@@ -57,44 +181,75 @@ body {
   transition: transform 420ms cubic-bezier(.2, .75, .25, 1), filter 240ms ease;
 }
 
-.home-article-item:hover .home-article-thumbnail img {
+.home-content-container .home-article-list .home-article-item:hover .home-article-thumbnail img {
   transform: scale(1.025);
+  filter: saturate(1.08) contrast(1.04);
 }
 
-.home-article-title {
+html .home-content-container .home-article-list .home-article-item .home-article-title {
+  font-family: "Geist Mono", "Cascadia Code", "Microsoft YaHei", monospace;
   letter-spacing: -0.025em;
 }
 
+.home-content-container .home-article-list .home-article-item .home-article-title a:hover,
+.home-content-container .home-article-list .home-article-item .home-article-meta-info-container > a:hover {
+  color: var(--aden-signal);
+}
+
+.home-sidebar-container .sidebar-content,
+.home-sidebar-container .sidebar-links {
+  border-left: 3px solid var(--aden-signal);
+}
+
 .markdown-body {
-  color: var(--aden-ink);
+  color: var(--default-text-color);
   letter-spacing: 0.012em;
 }
 
-.dark .markdown-body {
-  color: var(--first-text-color);
+.markdown-body a {
+  color: var(--link-color);
+  text-decoration-color: color-mix(in srgb, var(--aden-cyan) 55%, transparent);
+  text-underline-offset: 0.18em;
 }
 
 .markdown-body h2 {
   padding-left: 0.72rem;
-  border-left: 3px solid var(--aden-cyan);
+  border-left: 3px solid var(--aden-signal);
+  font-family: "Geist Mono", "Cascadia Code", "Microsoft YaHei", monospace;
 }
 
 .markdown-body blockquote {
-  border-left-color: var(--aden-cyan);
-  background: color-mix(in srgb, var(--aden-mist) 64%, transparent);
+  border-left-color: var(--aden-signal);
+  background: color-mix(in srgb, var(--aden-signal) 8%, var(--second-background-color));
 }
 
 .dark .markdown-body blockquote {
-  background: rgb(69 184 232 / 8%);
+  background: rgb(242 233 78 / 6%);
 }
 
 .article-content img {
-  box-shadow: 0 18px 52px rgb(6 44 84 / 12%);
+  border: 1px solid rgb(242 233 78 / 16%);
+  box-shadow: 0 18px 52px rgb(0 0 0 / 24%);
+}
+
+.article-content-container .article-title,
+.page-template-container .page-template-title {
+  font-family: "Geist Mono", "Cascadia Code", "Microsoft YaHei", monospace;
+}
+
+.pagination-container .pagination-item.active,
+.pagination-container .pagination-item:hover {
+  color: var(--aden-void) !important;
+  background: var(--aden-signal) !important;
+}
+
+footer.footer-container {
+  border-top: 1px solid rgb(242 233 78 / 18%);
 }
 
 a:focus-visible,
 button:focus-visible {
-  outline: 3px solid var(--aden-cyan);
+  outline: 3px solid var(--aden-signal);
   outline-offset: 3px;
 }
 
@@ -103,6 +258,12 @@ button:focus-visible {
     align-items: center;
     padding: 0 1.25rem;
     text-align: center;
+  }
+
+  .home-banner-container .description::before {
+    margin-bottom: 0.75rem;
+    font-size: 0.64rem;
+    letter-spacing: 0.18em;
   }
 
   .home-banner-background img {
@@ -124,4 +285,3 @@ button:focus-visible {
     transition-duration: 0.01ms !important;
   }
 }
-
