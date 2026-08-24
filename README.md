@@ -16,10 +16,14 @@ npm run server
 ## 发布
 
 ```bash
+npm run server
+git add .
+git commit -m "更新文章"
+git push
 npm run release
 ```
 
-该命令会清理旧产物、重新生成站点，并发布到 `AdenXie/Aden.github.io` 的 `main` 分支。源码保存在同一仓库的 `source` 分支。
+前三条 Git 命令会把源码备份到同一仓库的 `source` 分支；`npm run release` 会清理旧产物、重新生成站点，并发布到 `main` 分支。
 
 ## 写新文章
 
@@ -27,4 +31,4 @@ npm run release
 npx hexo new "文章标题"
 ```
 
-生成的 Markdown 位于 `source/_posts/`。编辑完成后先运行 `npm run server` 检查，再运行 `npm run release` 发布。
+生成的 Markdown 位于 `source/_posts/`。编辑完成后按上面的“发布”步骤操作即可。
