@@ -18,14 +18,16 @@ npm run server
 ## 发布
 
 ```bash
-npm run server
+npm run clean
+npm run build
 git add .
 git commit -m "更新文章"
-git push
-npm run release
+git push origin source
 ```
 
-前三条 Git 命令会把源码备份到同一仓库的 `source` 分支；`npm run release` 会清理旧产物、重新生成站点并发布到 `main` 分支。Vercel 的 Git 集成随后会自动同步正式站。
+推送到 `source` 分支后，仓库现有的 Hexo 部署工作流会构建站点并更新 `main` 分支；GitHub Pages 与 Vercel 随后同步正式站。此工作流只负责构建和部署，不会自动生成文章。
+
+每日简报不再定时发布。需要发布时，在 Codex 中调用本机的 `$aden-blog-daily-publish` Skill，选择使用已有新闻/汇率报告，或重新检索生成报告；检查草稿并确认后才会写入 GitHub。
 
 ## 写新文章
 
