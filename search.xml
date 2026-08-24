@@ -11,6 +11,69 @@
       </tags>
   </entry>
   <entry>
+    <title>MIUI EU添加国内版钱包实现刷公交卡和门卡</title>
+    <url>/2024/01/05/MIUI-EU%E6%B7%BB%E5%8A%A0%E5%9B%BD%E5%86%85%E7%89%88%E9%92%B1%E5%8C%85%E5%AE%9E%E7%8E%B0%E5%88%B7%E5%85%AC%E4%BA%A4%E5%8D%A1%E5%92%8C%E9%97%A8%E5%8D%A1/</url>
+    <content><![CDATA[<p>众所周知，MIUI是臃肿和卡顿的代名词。而这个现象只存在于国内版，虽然MIUI14剃刀计划使系统流畅性大幅提升，但是还不够。相比于MIUI EU（MIUI欧洲版）来说，欧洲版更加简洁、轻快、满血的FCM，而重点是<strong>无广告，无广告，无广告！</strong></p>
+<hr>
+<p>废话不多说，直接一个模块解决问题！今天介绍的是MIUI国际版添加小米钱包组件的模块，原作者是<a class="link"   href="https://52huameng.com/software/1614" >华梦博客<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>，但是这个教程是2020年的，部分组件已经outdated了，我经过改良发布这个新模块。这个模块完全适配CAS（小米10至尊），其他MIUI14&#x2F;HyperOS机型理论上也通用。不通用也不要紧，下面我来说如何修改模块来适配你自己的手机</p>
+<ol>
+<li><p>提取钱包APP、小米智能卡、小米智能卡组件以及银联安全组件。</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">/system/app/NextPay #小米智能卡相关组件<br>/system/app/TSMClient #小米智能卡<br>/system/app/UPTsmService #银联安全组件<br></code></pre></td></tr></table></figure></div>
+
+<p>最简单的方法就是找你同机型国内版的兄弟麻烦一下他们。那么假如我们没有兄弟（bushi）怎么办呢，可以使用dump的方式。dump是网站上别人解好的包方便做定制版。这里我提供<a class="link"   href="https://dumps.tadiphone.dev/dumps/xiaomi/cas" >CAS<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>的dump，其他机型可以自己在这个网站上寻找。</p>
+<p>而在dump中，钱包APP、小米智能卡、小米智能卡组件以及银联安全组件的位置是</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">/cas/product/app/MINextpay<br>/cas/product/app/UPTsmService<br>/cas/product/app/MITSMClient<br></code></pre></td></tr></table></figure></div>
+</li>
+<li><p>把这三个文件替换模块文件中的system&#x2F;app文件夹中的文件，使用Magisk刷入即可</p>
+</li>
+</ol>
+<p><a class="link"   href="https://xmxk.lanzouu.com/iv0KE1k5kg2f" >https://xmxk.lanzouu.com/iv0KE1k5kg2f<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+]]></content>
+      <tags>
+        <tag>教程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Windows11正式版使用WSA方法</title>
+    <url>/2023/03/06/Windows11%E6%AD%A3%E5%BC%8F%E7%89%88%E4%BD%BF%E7%94%A8WSA%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<p>tip: 本文仅在greataden.top发表， 转载请注明出处。</p>
+<hr>
+<p>今天我要来介绍的是WSA（Windows Subsystem of Android)在Win11非预览正式版的电脑上安装和使用的说明。提前声明一下，这篇教程结合网络和个人经验写成，具体情况具体对待。</p>
+<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><h2 id="1-WSA环境"><a href="#1-WSA环境" class="headerlink" title="1. WSA环境"></a>1. WSA环境</h2><p>依次打开“设置”-“可选功能”-“更多Windows功能”，找到<strong>Hyper-V</strong>，<strong>Windows虚拟机监控程序平台</strong>，<strong>虚拟机平台</strong>这三个选项打钩，然后点确定，等待功能添加完成后<strong>重启电脑</strong>。</p>
+<p><strong>假如你使用的是Windows11家庭版，没有Hyper-V，请参考<a class="link"   href="https://zhuanlan.zhihu.com/p/512823841" >这篇文章<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></strong></p>
+<h2 id="2-WSA程序包"><a href="#2-WSA程序包" class="headerlink" title="2. WSA程序包"></a>2. WSA程序包</h2><p>下载WSA环境安装包，此版本是1.8.32822.0，感谢远景的网友提供下载链接。<a class="link"   href="https://cloud.189.cn/t/mymIZjJnyY7n" >天翼云链接<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>：访问码:srm6</p>
+<p>当然，你也可以在<a class="link"   href="https://apps.microsoft.com/store/detail/windows-subsystem-for-android%E2%84%A2-with-amazon-appstore/9P3395VX91NR?hl=en-us&gl=us" >微软商店<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>直接下载，这里需要将系统<strong>时间和语言</strong>设置的<strong>国家或地区</strong>改为<strong>美国</strong>。遇到下载问题可以参考下面部分第二点<strong>安装WSA Toolbox</strong>的加粗注释</p>
+<h1 id="开整"><a href="#开整" class="headerlink" title="开整"></a>开整</h1><h2 id="1-安装WSA环境"><a href="#1-安装WSA环境" class="headerlink" title="1.安装WSA环境"></a>1.安装WSA环境</h2><p>刚才准备工作里面下载好的程序包找一个<strong>没有中文名称</strong>的文件夹放好，同时按住Win+X组合键，选择</p>
+<p>“Windows PowerShell(管理员)”，然后定位到WSA文件存储的位置。</p>
+<p>比如，放在D盘downloads文件夹，那就<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://pic1.zhimg.com/80/v2-d831d31e0ae17af0f6f94fa8b978215c_720w.webp"
+                     
+                ></p>
+<p>通过这个命令然后按下Enter来安装</p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tr><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">Add-AppxPackage</span> <span class="hljs-literal">-Path</span> MicrosoftCorporationII.WindowsSubsystemForAndroid_1.<span class="hljs-number">8.32822</span>.<span class="hljs-number">0</span>_neutral___8wekyb3d8bbwe.Msixbundle<br></code></pre></td></tr></table></figure></div>
+
+<p>其实你没必要输入这么多，只需要在Add-APPxPackage -Path后按下Tab键选择你下载的文件就行了。</p>
+<p><strong>注意，这个时候如果提示安装错误，其中有Microsoft.UI.Xaml.2.6的字样，你就<a class="link"   href="https://apps.microsoft.com/store/detail/microsoftuixaml26/9MXT2SGCT564" >到这里下载<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>一个补充包就好了</strong></p>
+<h2 id="2-安装WSA-Toolbox"><a href="#2-安装WSA-Toolbox" class="headerlink" title="2.安装WSA Toolbox"></a>2.安装WSA Toolbox</h2><p>在原文中是让你下载adb tools通过adb的方式安装apk，但是我个人觉得太麻烦了，不如直接下载一个<a class="link"   href="https://apps.microsoft.com/store/detail/wsa%E5%B7%A5%E5%85%B7%E7%AE%B1/9PPSP2MKVTGT?hl=zh-cn&gl=cn" >WSA Toolbox<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>来的方便。</p>
+<p><strong>如果遇到下载方面的问题，可以参考<a class="link"   href="https://www.bilibili.com/video/BV1ca41117Wk/?vd_source=51c0287a5d3458a92b7796d97d73cb37" >这个视频<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>，我有这个软件原作者的链接，从<a class="link"   href="https://wwd.lanzouj.com/iaGQO05wvi2j" >这里下载<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></strong></p>
+<h2 id="3-打开WSA系统设置"><a href="#3-打开WSA系统设置" class="headerlink" title="3.打开WSA系统设置"></a>3.打开WSA系统设置</h2><p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://pic3.zhimg.com/v2-7fd8f5e3f8edeaa8af59c03b35a60dce_r.jpg"
+                     
+                ></p>
+<p>然后在设置中开启“开发者模式”</p>
+<h2 id="4-WSA工具箱的使用"><a href="#4-WSA工具箱的使用" class="headerlink" title="4.WSA工具箱的使用"></a>4.WSA工具箱的使用</h2><p>打开WSA工具箱，首次使用可能需要在<strong>故障诊断</strong>中配置adb相关设置，首次配置结束后，可以进行安装APK，APP管理等相关内容。</p>
+<h5 id="同时，为了节省资源，不用WSA的时候可以在子系统设置里面把子系统关闭，要用的时候再打开"><a href="#同时，为了节省资源，不用WSA的时候可以在子系统设置里面把子系统关闭，要用的时候再打开" class="headerlink" title="同时，为了节省资源，不用WSA的时候可以在子系统设置里面把子系统关闭，要用的时候再打开"></a>同时，为了节省资源，不用WSA的时候可以在子系统设置里面把子系统关闭，要用的时候再打开</h5><h1 id="后话"><a href="#后话" class="headerlink" title="后话"></a>后话</h1><p>我最早接触WSA还是上一台电脑的Win11预览版，也就是Win11才发布WSA这个项目没多久的时候。当时安卓内核还是安卓12，现在已经升级到了安卓13，并且在流畅度和稳定性上面都有不小的提升。我看好巨硬的这个项目有朝一日能干碎国内那些广告多还不好用的模拟器</p>
+<p>本文参考<a class="link"   href="https://zhuanlan.zhihu.com/p/431557897" >知乎文章<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>写成，其中包含了一些现在安装可能遇到的一些问题，如有侵权请联系删除</p>
+]]></content>
+      <tags>
+        <tag>教程</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>OPPOPad2 和 OPPO FindX6</title>
     <url>/2023/03/21/OPPOPad2%20%E5%92%8C%20OPPO%20FindX6/</url>
     <content><![CDATA[<h2 id="OPPO-Pad-2-功能强大的多功能平板电脑"><a href="#OPPO-Pad-2-功能强大的多功能平板电脑" class="headerlink" title="OPPO Pad 2: 功能强大的多功能平板电脑"></a><strong>OPPO Pad 2: 功能强大的多功能平板电脑</strong></h2><p>OPPO Pad 2 是一款功能强大的多功能平板电脑，非常适合从娱乐到生产力的各种任务。 它由 MediaTek Dimensity 9000 处理器提供动力，即使是最苛刻的任务也能提供充足的动力。 Pad 2 还配备了 11.61 英寸 IPS LCD 显示屏，分辨率为 2000 x 2800 像素，无论是看电影、玩游戏还是浏览网页，都能提供令人惊叹的视觉效果。</p>
@@ -86,146 +149,6 @@
 <p><strong>如果你正在寻找一款功能强大且时尚的智能手机，OPPO FindX6 Pro是一个很好的选择。</strong></p>
 <p>其中，根据我查询的数据，FindX6标准版采用天玑9200+MariSiliconX，前置IMX709，后置IMX890 5000万主摄+JN1 5000万超广角+IMX890 5000万2.7倍光学 悬浮棱镜防抖<br>Pro版本将采用8Gen2+MariSiliconX，前置IMX709，后置IMX989 5000万主摄，IMX890 5000万 自由曲面超广角，IMX890 5000万像素2.7倍光学变焦 悬浮棱镜防抖</p>
 <p>其中，Pro版本的8Gen2加权后是175%的骁龙870，而友商13Pro的8Gen2加权后是177%的骁龙870，友商5至臻版的8Gen2加权后是175%的骁龙870，友商11的8Gen2加权后是175%的骁龙870，友商90Pro+的8Gen2加权后是175%的骁龙870，友商50Ultra的8Gen2加权后为176%的骁龙870，友商23Ultra的8Gen2加权后约为180%的骁龙870，总结：FindX6Pro的8Gen2调教并不出众。</p>
-]]></content>
-      <tags>
-        <tag>发布会</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MIUI EU添加国内版钱包实现刷公交卡和门卡</title>
-    <url>/2024/01/05/MIUI-EU%E6%B7%BB%E5%8A%A0%E5%9B%BD%E5%86%85%E7%89%88%E9%92%B1%E5%8C%85%E5%AE%9E%E7%8E%B0%E5%88%B7%E5%85%AC%E4%BA%A4%E5%8D%A1%E5%92%8C%E9%97%A8%E5%8D%A1/</url>
-    <content><![CDATA[<p>众所周知，MIUI是臃肿和卡顿的代名词。而这个现象只存在于国内版，虽然MIUI14剃刀计划使系统流畅性大幅提升，但是还不够。相比于MIUI EU（MIUI欧洲版）来说，欧洲版更加简洁、轻快、满血的FCM，而重点是<strong>无广告，无广告，无广告！</strong></p>
-<hr>
-<p>废话不多说，直接一个模块解决问题！今天介绍的是MIUI国际版添加小米钱包组件的模块，原作者是<a class="link"   href="https://52huameng.com/software/1614" >华梦博客<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>，但是这个教程是2020年的，部分组件已经outdated了，我经过改良发布这个新模块。这个模块完全适配CAS（小米10至尊），其他MIUI14&#x2F;HyperOS机型理论上也通用。不通用也不要紧，下面我来说如何修改模块来适配你自己的手机</p>
-<ol>
-<li><p>提取钱包APP、小米智能卡、小米智能卡组件以及银联安全组件。</p>
-<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">/system/app/NextPay #小米智能卡相关组件<br>/system/app/TSMClient #小米智能卡<br>/system/app/UPTsmService #银联安全组件<br></code></pre></td></tr></table></figure></div>
-
-<p>最简单的方法就是找你同机型国内版的兄弟麻烦一下他们。那么假如我们没有兄弟（bushi）怎么办呢，可以使用dump的方式。dump是网站上别人解好的包方便做定制版。这里我提供<a class="link"   href="https://dumps.tadiphone.dev/dumps/xiaomi/cas" >CAS<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>的dump，其他机型可以自己在这个网站上寻找。</p>
-<p>而在dump中，钱包APP、小米智能卡、小米智能卡组件以及银联安全组件的位置是</p>
-<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tr><td class="code"><pre><code class="hljs plaintext">/cas/product/app/MINextpay<br>/cas/product/app/UPTsmService<br>/cas/product/app/MITSMClient<br></code></pre></td></tr></table></figure></div>
-</li>
-<li><p>把这三个文件替换模块文件中的system&#x2F;app文件夹中的文件，使用Magisk刷入即可</p>
-</li>
-</ol>
-<p><a class="link"   href="https://xmxk.lanzouu.com/iv0KE1k5kg2f" >https://xmxk.lanzouu.com/iv0KE1k5kg2f<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-]]></content>
-      <tags>
-        <tag>教程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Windows11正式版使用WSA方法</title>
-    <url>/2023/03/06/Windows11%E6%AD%A3%E5%BC%8F%E7%89%88%E4%BD%BF%E7%94%A8WSA%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<p>tip: 本文仅在greataden.top发表， 转载请注明出处。</p>
-<hr>
-<p>今天我要来介绍的是WSA（Windows Subsystem of Android)在Win11非预览正式版的电脑上安装和使用的说明。提前声明一下，这篇教程结合网络和个人经验写成，具体情况具体对待。</p>
-<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><h2 id="1-WSA环境"><a href="#1-WSA环境" class="headerlink" title="1. WSA环境"></a>1. WSA环境</h2><p>依次打开“设置”-“可选功能”-“更多Windows功能”，找到<strong>Hyper-V</strong>，<strong>Windows虚拟机监控程序平台</strong>，<strong>虚拟机平台</strong>这三个选项打钩，然后点确定，等待功能添加完成后<strong>重启电脑</strong>。</p>
-<p><strong>假如你使用的是Windows11家庭版，没有Hyper-V，请参考<a class="link"   href="https://zhuanlan.zhihu.com/p/512823841" >这篇文章<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></strong></p>
-<h2 id="2-WSA程序包"><a href="#2-WSA程序包" class="headerlink" title="2. WSA程序包"></a>2. WSA程序包</h2><p>下载WSA环境安装包，此版本是1.8.32822.0，感谢远景的网友提供下载链接。<a class="link"   href="https://cloud.189.cn/t/mymIZjJnyY7n" >天翼云链接<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>：访问码:srm6</p>
-<p>当然，你也可以在<a class="link"   href="https://apps.microsoft.com/store/detail/windows-subsystem-for-android%E2%84%A2-with-amazon-appstore/9P3395VX91NR?hl=en-us&gl=us" >微软商店<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>直接下载，这里需要将系统<strong>时间和语言</strong>设置的<strong>国家或地区</strong>改为<strong>美国</strong>。遇到下载问题可以参考下面部分第二点<strong>安装WSA Toolbox</strong>的加粗注释</p>
-<h1 id="开整"><a href="#开整" class="headerlink" title="开整"></a>开整</h1><h2 id="1-安装WSA环境"><a href="#1-安装WSA环境" class="headerlink" title="1.安装WSA环境"></a>1.安装WSA环境</h2><p>刚才准备工作里面下载好的程序包找一个<strong>没有中文名称</strong>的文件夹放好，同时按住Win+X组合键，选择</p>
-<p>“Windows PowerShell(管理员)”，然后定位到WSA文件存储的位置。</p>
-<p>比如，放在D盘downloads文件夹，那就<img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://pic1.zhimg.com/80/v2-d831d31e0ae17af0f6f94fa8b978215c_720w.webp"
-                     
-                ></p>
-<p>通过这个命令然后按下Enter来安装</p>
-<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tr><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">Add-AppxPackage</span> <span class="hljs-literal">-Path</span> MicrosoftCorporationII.WindowsSubsystemForAndroid_1.<span class="hljs-number">8.32822</span>.<span class="hljs-number">0</span>_neutral___8wekyb3d8bbwe.Msixbundle<br></code></pre></td></tr></table></figure></div>
-
-<p>其实你没必要输入这么多，只需要在Add-APPxPackage -Path后按下Tab键选择你下载的文件就行了。</p>
-<p><strong>注意，这个时候如果提示安装错误，其中有Microsoft.UI.Xaml.2.6的字样，你就<a class="link"   href="https://apps.microsoft.com/store/detail/microsoftuixaml26/9MXT2SGCT564" >到这里下载<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>一个补充包就好了</strong></p>
-<h2 id="2-安装WSA-Toolbox"><a href="#2-安装WSA-Toolbox" class="headerlink" title="2.安装WSA Toolbox"></a>2.安装WSA Toolbox</h2><p>在原文中是让你下载adb tools通过adb的方式安装apk，但是我个人觉得太麻烦了，不如直接下载一个<a class="link"   href="https://apps.microsoft.com/store/detail/wsa%E5%B7%A5%E5%85%B7%E7%AE%B1/9PPSP2MKVTGT?hl=zh-cn&gl=cn" >WSA Toolbox<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>来的方便。</p>
-<p><strong>如果遇到下载方面的问题，可以参考<a class="link"   href="https://www.bilibili.com/video/BV1ca41117Wk/?vd_source=51c0287a5d3458a92b7796d97d73cb37" >这个视频<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>，我有这个软件原作者的链接，从<a class="link"   href="https://wwd.lanzouj.com/iaGQO05wvi2j" >这里下载<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></strong></p>
-<h2 id="3-打开WSA系统设置"><a href="#3-打开WSA系统设置" class="headerlink" title="3.打开WSA系统设置"></a>3.打开WSA系统设置</h2><p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://pic3.zhimg.com/v2-7fd8f5e3f8edeaa8af59c03b35a60dce_r.jpg"
-                     
-                ></p>
-<p>然后在设置中开启“开发者模式”</p>
-<h2 id="4-WSA工具箱的使用"><a href="#4-WSA工具箱的使用" class="headerlink" title="4.WSA工具箱的使用"></a>4.WSA工具箱的使用</h2><p>打开WSA工具箱，首次使用可能需要在<strong>故障诊断</strong>中配置adb相关设置，首次配置结束后，可以进行安装APK，APP管理等相关内容。</p>
-<h5 id="同时，为了节省资源，不用WSA的时候可以在子系统设置里面把子系统关闭，要用的时候再打开"><a href="#同时，为了节省资源，不用WSA的时候可以在子系统设置里面把子系统关闭，要用的时候再打开" class="headerlink" title="同时，为了节省资源，不用WSA的时候可以在子系统设置里面把子系统关闭，要用的时候再打开"></a>同时，为了节省资源，不用WSA的时候可以在子系统设置里面把子系统关闭，要用的时候再打开</h5><h1 id="后话"><a href="#后话" class="headerlink" title="后话"></a>后话</h1><p>我最早接触WSA还是上一台电脑的Win11预览版，也就是Win11才发布WSA这个项目没多久的时候。当时安卓内核还是安卓12，现在已经升级到了安卓13，并且在流畅度和稳定性上面都有不小的提升。我看好巨硬的这个项目有朝一日能干碎国内那些广告多还不好用的模拟器</p>
-<p>本文参考<a class="link"   href="https://zhuanlan.zhihu.com/p/431557897" >知乎文章<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>写成，其中包含了一些现在安装可能遇到的一些问题，如有侵权请联系删除</p>
-]]></content>
-      <tags>
-        <tag>教程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>关于联想小新系列低温锡事件个人看法</title>
-    <url>/2023/02/27/%E5%85%B3%E4%BA%8E%E8%81%94%E6%83%B3%E5%B0%8F%E6%96%B0%E7%B3%BB%E5%88%97%E4%BD%8E%E6%B8%A9%E9%94%A1%E4%BA%8B%E4%BB%B6%E4%B8%AA%E4%BA%BA%E7%9C%8B%E6%B3%95/</url>
-    <content><![CDATA[<p>tip:</p>
-<ol>
-<li>本文仅在greataden.top发表， 转载请注明出处。</li>
-<li>由于属于个人看法，作者不对文章中出现的任何负面言论负法律责任</li>
-</ol>
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>随着事情的发酵，2月13日，联想小新微博官方账号发文回应这一事件：《小新轻薄本低温锡膏焊接技术说明》（下称《说明》）回应，称低温锡膏焊接是一项电子产品生产线成熟的且更加环保的技术，符合国家和国际标准，并表示根据历年小新轻薄本售后数据，采用低温锡膏焊接技术的机型和常温锡焊技术的机型之间返修率没有差异。</p>
-<h1 id="首先"><a href="#首先" class="headerlink" title="首先"></a>首先</h1><p>笔者自己使用的就是联想小新的电脑，去年（2022年）11月份京东自营旗舰店购入，型号为小新14Pro-IAH5R，价格为6199（个人感觉这个价格还算合适）拿来的第一感觉就是轻，太轻了。官方数据来看，14Pro重量为1.3kg，大约是MacBook Air 2020款的重量。就算再加个100W氮化镓的充电器，便携和轻薄方面也是毋庸置疑的。</p>
-<h1 id="其次"><a href="#其次" class="headerlink" title="其次"></a>其次</h1><p>针对这次低温锡的事件，我不认为是联想计划性报废的一部分。在看完b站UP笔记本维修厮（我是他的粉丝）的视频后，发现普遍出问题的都是AMD平台的机器。众所周知AMD是出了名的热，而且空焊的机器中也有一些是板载内存高温脱焊导致的，这个可能是当时的散热结构设计不合理导致的。其中英特尔中招的机型，我分析是因为联想的黑胶打多了，导致CPU被固定死了，当主板由于电脑摇晃发生形变的时候，CPU不能移动，导致锡球错位。所以这给我们一个启示就是<strong>没事不要晃你的电脑，拿着的时候注意拿稳一点</strong>。所以我认为是设计上的缺陷。</p>
-<h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>如果发生在你身上了，怎么办？我的建议是尽量别找联想售后。买回来这两个月我是体会到联想的售后是出奇地差，我可以说有些售后工程师对电脑的了解和解决问题的方法甚至没有我们社里某些同学的水平高。那么遇到这种问题，保内好像可以免费修（？）保外的话就去找这种大UP或者电脑城里你熟悉的维修师傅修一下吧，重新焊一下脱焊的部分可能只收个手工费，联想售后是直接给你换主板，<strong>要1000</strong>，那价格就有些高了。</p>
-<p>综上，我首先不认为“低温锡事件”是联想计划性报废的一部分，这可能只是设计缺陷导致的。其次，尽量避免这些问题的发生，你最好拿稳一点。最后就是，假如你中招了，过保找个维修师傅修修算了，送官方售后真没必要（摆手</p>
-]]></content>
-      <tags>
-        <tag>看法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>努比亚Z50S Pro</title>
-    <url>/2023/07/23/%E5%8A%AA%E6%AF%94%E4%BA%9AZ50S-Pro/</url>
-    <content><![CDATA[<h1 id="努比亚Z50S-Pro：直屏影像全能旗舰，打造光影艺术"><a href="#努比亚Z50S-Pro：直屏影像全能旗舰，打造光影艺术" class="headerlink" title="努比亚Z50S Pro：直屏影像全能旗舰，打造光影艺术"></a>努比亚Z50S Pro：直屏影像全能旗舰，打造光影艺术</h1><p>努比亚Z50S Pro是努比亚最新推出的一款直屏影像旗舰手机，于2023年7月20日正式发布。该机搭载了全球首批骁龙8 Gen2领先版处理器，拥有1.5K超视网膜级护眼直屏、5100mAh超大电池和80W快充等硬件配置，同时还采用了全新一代35mm定制镜头模组，重磅升级带来更大光圈和全新传感器，影像体验革命性跃升。此外，该机还推动了旗舰手机1TB大内存的普及，让用户无需担心存储空间不足的问题。在外观设计上，该机借鉴了经典专业相机的元素，采用了小牛皮玻璃圆盘相机设计，兼具艺术美感和科技质感。本文将为您详细介绍努比亚Z50S Pro的各方面特点和优势。</p>
-<h2 id="35mm高定光学-超越一英寸"><a href="#35mm高定光学-超越一英寸" class="headerlink" title="35mm高定光学 超越一英寸"></a>35mm高定光学 超越一英寸</h2><p><a class="link"   href="https://www.ztedevices.com/cn/news/nubia-z50s-pro/" >努比亚Z50S Pro的最大亮点是其全新一代35mm高定光学系统，让每一个器件都发挥出最大优势，超越一英寸。<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a><a class="link"   href="https://www.ztedevices.com/cn/news/nubia-z50s-pro/" >1<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a><a class="link"   href="https://www.ithome.com/0/706/216.htm" >2<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a><a class="link"   href="https://finance.sina.com.cn/tech/mobile/n/n/2023-07-20/doc-imzciprp9215194.shtml" >3<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<ul>
-<li>新机35mm主摄通光孔径达到业界最大的<strong>5.21mm</strong>，进光量较上一代提升**34%**，光学虚化效果、夜景成像效果、抓拍速度进一步升级。</li>
-<li>全新传感器感光量提升**56%**，在同一拍摄距离用相同像素镜头，拍摄35mm焦距镜头相同构图的照片，努比亚Z50S Pro有更高的像素密度及清晰度，画质超越一英寸旗舰主摄。</li>
-<li>影像模组尺寸<strong>22.5*22*6.6mm</strong>，与业界主流一英寸大底主摄的模组尺寸相当。</li>
-<li>同时，35mm主摄还定制<strong>1G+6P专业级光学镜头</strong>，阿贝数高达<strong>81.6</strong>，可实现超低色散和超低温漂，能有效改善拍照时的紫边现象，并降低温度对镜头的影响，成像更稳定。</li>
-</ul>
-<p>此外，努比亚Z50S Pro还拥有一颗50MP AF超广角超微距二合一主摄，13mm等效焦距、125度超广角，支持2.5cm微距拍摄；以及一颗AF长焦镜头，80mm等效焦距，支持OIS光学防抖。</p>
-<p>在影像模组设计方面，努比亚Z50S Pro致敬经典专业相机，采用人文之眼设计，圆形镜头模组如同“光之焦点”，搭配努比亚经典双红圈腰线，使镜头整体充满了辨识度，其边缘还特别采用了立体精雕CD纹理，可随着光线流转呈现丰富的光影变化，让艺术美感与科技质感融合为一。</p>
-<h2 id="计算摄影升级-人文街拍2-0更快更强更全面"><a href="#计算摄影升级-人文街拍2-0更快更强更全面" class="headerlink" title="计算摄影升级 人文街拍2.0更快更强更全面"></a>计算摄影升级 人文街拍2.0更快更强更全面</h2><p><a class="link"   href="https://www.ztedevices.com/cn/news/nubia-z50s-pro/" >定制光学是影像硬件的基础，计算摄影是软件的升华。努比亚Z50S Pro融合多种微单拍摄技巧，推出了全新的人文街拍2.0功能。<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a><a class="link"   href="https://www.ztedevices.com/cn/news/nubia-z50s-pro/" >1<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a><a class="link"   href="https://www.ithome.com/0/706/216.htm" >2<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<ul>
-<li>通过自定义滑动键，用户可快速启动街拍模式，并借助全新的闪电抓拍4.0，轻松锁定精彩瞬间。</li>
-<li>新机全面升级超感光追焦功能，可精准捕捉人脸、人体和宠物，让抓拍过程快速精准对焦。</li>
-<li>借鉴专业相机，努比亚Z50S Pro新增包围摄影功能，只需一次拍摄即可得到三张不同参数的拍摄画面。</li>
-<li>全新的夜魈算法2.0和银河超夜2.0，对夜景拍摄和星空摄影进一步优化，暗光成像更加细腻清晰。</li>
-<li>努比亚光学超分算法，长焦拍照清晰度提升30%。</li>
-<li>全新UI界面融入nubia红色元素，人文街拍控制区设计了专业相机的皮质纹理，相机家族支持全新自定义界面，好看更好拍。</li>
-</ul>
-<h2 id="全球首批骁龙8-Gen2领先版-性能新标杆"><a href="#全球首批骁龙8-Gen2领先版-性能新标杆" class="headerlink" title="全球首批骁龙8 Gen2领先版 性能新标杆"></a>全球首批骁龙8 Gen2领先版 性能新标杆</h2><p><a class="link"   href="https://www.ztedevices.com/cn/news/nubia-z50s-pro/" >作为全球首批搭载骁龙8Gen2领先版处理器的旗舰手机，努比亚Z50S Pro芯片将Cortex-X3超大核的主频升级到3.36GHz，GPU主频提升至719MHz。<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a><a class="link"   href="https://www.ztedevices.com/cn/news/nubia-z50s-pro/" >1<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a><a class="link"   href="https://www.ithome.com/0/706/216.htm" >2<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
-<p>内置独有的灵犀性能引擎，可对CPU、GPU及一系列硬件单元进行自适应调节，通过深度精细化调度机制，实现最佳性能匹配。</p>
-<p>为助力性能释放，新机搭载4233mm2超大面积仿生设计VC，以及金刚石导热凝胶、纳米碳纤维、石墨烯等多层散热材料，总散热面积高达42833mm2。</p>
-<p>机身背面还配备9颗高精度NTC温度传感器，可灵敏检测机身细微温度变化，实时调节散热策略。</p>
-<p>游戏体验方面，新机搭载灵犀游戏中枢，精细化管理游戏过程中的算力和渲染需求，按需调动计算资源，电竞级游戏稳帧引擎，有效提升游戏帧率稳定性，减少波动和掉帧导致的卡顿，画面更顺滑。</p>
-<p>电竞级游戏空间，不仅提供各种助战工具和插件库，还有多种趣味性功能，游戏体验更加酷爽。</p>
-<h2 id="1-5K-超视网膜级护眼直屏-显示与功耗平衡"><a href="#1-5K-超视网膜级护眼直屏-显示与功耗平衡" class="headerlink" title="1.5K 超视网膜级护眼直屏 显示与功耗平衡"></a>1.5K 超视网膜级护眼直屏 显示与功耗平衡</h2><p>屏幕方面，努比亚Z50S Pro搭载6.78英寸AMOLED护眼直屏，采用顶级蓝钻排列，可实现2800×1260超高分辨率及452PPI超视网膜级高像素密度；具备影院级绚丽臻彩显示，100%覆盖DCI-P3色域，10bit色深，10.7亿色彩范围，8000000:1对比度；支持120Hz刷新率及1000Hz瞬时触控采样率。</p>
-<ul>
-<li>在具备出色显示效果的同时，努比亚Z50S Pro屏幕还实现了功耗的平衡，搭载Q9发光材料，相比上一代发光材料功耗降低15%。</li>
-<li>屏幕钢化玻璃采用深度多重强化工艺，硬核防摔。</li>
-<li>为保护用眼健康，新机屏幕还支持2160Hz高频PWM调光，以及全局DC调光，让视觉感受更轻松，有效降低视觉疲劳度。</li>
-</ul>
-<h2 id="专业相机经典设计-拾光之镜特别版点亮“光的艺术”"><a href="#专业相机经典设计-拾光之镜特别版点亮“光的艺术”" class="headerlink" title="专业相机经典设计 拾光之镜特别版点亮“光的艺术”"></a>专业相机经典设计 拾光之镜特别版点亮“光的艺术”</h2><p>外观上，努比亚Z50S Pro拥有黑咖和卡其两款经典配色，借鉴了经典旁轴相机金属外壳搭配皮革外衣的设计，打造出双重质感机身后壳，可同时呈现AG闪光砂和皮纹效果。</p>
-<ul>
-<li>玻璃表面通过独特的立体蚀刻工艺，还原出细腻的小牛皮手感，触感更为清凉舒适，并具有耐磨、防滑、防污、抗指纹的特性。</li>
-<li>机身采用了金属中框及自然R角设计，厚度仅8.6mm，重量约228克。</li>
-</ul>
-<p>基于“摄影是光的艺术”的理念，此次努比亚还倾情打造了Z50S Pro拾光之镜特别版。</p>
-<ul>
-<li>机身后壳采用意大利“卡拉拉白”天然大理石纹理设计，并以3D激光光刻叠加纳米级镀膜工艺，还原天然原石自然晶体质感。</li>
-<li>后置镜头模组采用彩虹全息纹理透明环设计，可在不同的光线角度下绽放出独特的绚丽色彩，表达努比亚对光影艺术的极致追求。</li>
-</ul>
-<h2 id="轻快纯净的MyOS13系统-助力用户畅快使用"><a href="#轻快纯净的MyOS13系统-助力用户畅快使用" class="headerlink" title="轻快纯净的MyOS13系统 助力用户畅快使用"></a>轻快纯净的MyOS13系统 助力用户畅快使用</h2><p>努比亚Z50S Pro搭载MyOS13系统，轻快纯净，好玩好用。</p>
-<ul>
-<li>轻量级固件，绝大部分预置应用均可卸载，广告少，且默认关闭系统广告开关。</li>
-<li>系统还将游戏空间中备受好评的充电分离功能，升级到系统全局支持，更多的场景下支持只供电不充电，保持边充边玩的低温手感，带来良好的机身温度及性能供给。</li>
-</ul>
-<h2 id="价格与购买方式"><a href="#价格与购买方式" class="headerlink" title="价格与购买方式"></a>价格与购买方式</h2><p>努比亚Z50S Pro将于7月27日于中兴商城，京东、天猫、抖音、京东之家、京东电脑数码、京东电器超级体验店等平台全渠道正式开售。</p>
-<ul>
-<li>新机12GB+ 256GB版售价3699元；</li>
-<li>推出4款1TB大内存版：普通版12GB+1TB售价3999元，16GB+1TB售价4399元；拾光之镜特别版12GB+1TB售价 4099元，16GB+1TB版售价4499元。</li>
-</ul>
 ]]></content>
       <tags>
         <tag>发布会</tag>
@@ -322,78 +245,80 @@
       </tags>
   </entry>
   <entry>
-    <title>小米13Ultra半年使用报告-小米13Ultra祛魅篇</title>
-    <url>/2024/07/16/%E5%B0%8F%E7%B1%B313Ultra%E5%8D%8A%E5%B9%B4%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A/</url>
-    <content><![CDATA[<p>本文是关于小米2023年度影像旗舰半年的使用报告，为Aden原创未经允许不得转载</p>
-<hr>
-<p>在2024年初，小米14Ultra发布之际，我以极为便宜的价格购入了一台降价后的小米年度影像旗舰。这部手机的影像能力在2023年度一度被评为最强，同时也是小米跟徕卡合作后的第二台Ultra机器。</p>
-<p><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://img.antutu.com/2023/04/18/e8j06c8e16dec770c59cfa0ac07b546a5bfa6ozb.jpg"
-                     
-                ></p>
-<p>从这张图不难看出这部手机影像部分的夸张，也有人说这台手机不是一台合格的手机，它更像一台相机。</p>
-<h2 id="一、外观部分"><a href="#一、外观部分" class="headerlink" title="一、外观部分"></a>一、外观部分</h2><p>这台手机的外观给人留下最深印象的无非就是这个溜背造型了。我使用过这台手机后的感受就是“成也溜背，败也溜背”。为什么这么说呢，因为不是这个溜背，这台手机可能塞不下四颗大底光学镜头，败也溜背是因为这个溜背给这台手机带来了十分糟糕的握持手感。我日常使用这个手机就是食指顶着镜头下面，不然手机会因为头重脚轻翻出去。</p>
-<p>除了溜背，这台13Ultra与一般手机不太一样的就是它的背板采用填充式设计，就是素皮填充在中框中，是一种独特的设计语言。这样的设计得以延续到14Ultra。这种设计方式带来的一个好处就是中框可以做的十分的扎实。在我日常裸机使用的过程中，能明显感受到中框跟整个手机是一体化的，手感非常硬核。<img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://p6.itc.cn/images01/20230502/c19ad76746f249078d5eef3e45260d36.png"
-                     
-                ></p>
-<h2 id="二、影像部分"><a href="#二、影像部分" class="headerlink" title="二、影像部分"></a>二、影像部分</h2><p>作为一款影像旗舰，这台手机的重点应该就是影像了。</p>
-<h3 id="首先说主摄"><a href="#首先说主摄" class="headerlink" title="首先说主摄"></a>首先说主摄</h3><p>主摄是来自索尼的IMX989，这颗CMOS最早在小米12SUltra上面世，是小米和索尼联合研发的产物。小米独占了半年索尼才给其他手机厂家使用。</p>
-<p>这颗CMOS的大小来到了1英寸，理论上在暗光环境下能有非常好的效果。但我在实际使用中只能说好好的1英寸被小米糟糕的夜景算法毁了。在灯牌比较多的地方13Ultra就不压高光了，灯牌直接给你曝光个白色的；然后遇到暖光或者白光灯，有概率白平衡会飘，拍出来的照片是惨白惨白的带点灰色的。</p>
-<p><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s2.loli.net/2024/07/16/EBbQNi2fHrqdYVS.jpg"
-                      alt="无法处理复杂的光源，而且炫光严重"
-                ><figcaption>无法处理复杂的光源，而且炫光严重</figcaption></figure></p>
-<p>拍这张图的时候用的默认模式，没有贴镜头膜，镜头擦干净了。据说小米14Ultra改进了镀膜，效果应该比13Ultra会好一些。</p>
-<p>13Ultra的夜景算法调度非常不积极，默认模式直出基本不会有算法介入，只有在开夜景模式的时候才能感到明显有HDR算法处理过的痕迹（虽然也不会转圈圈）。我认为小米这种策略非常不好，一味的追求出片的速度反而会导致拍出很多废片。</p>
-<p><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s2.loli.net/2024/07/16/hFueZLJsBYxdzRT.jpg"
-                      alt="十分严重的红色溢出"
-                ><figcaption>十分严重的红色溢出</figcaption></figure></p>
-<p>在使用的过程中我还发现另外一个问题就是小米（也有可能是徕卡影调的问题）在拍红色的时候有明显的溢出，并且触发率100%，不是偶然现象。这个可能就是算法偏颇导致的，没有对红色做特别的优化。</p>
-<p><strong>缺点说完了，有优点吗？答案肯定是有的</strong></p>
-<p>自从跟徕卡合作以后，小米一直在吹它的影调。其实小米的影调我觉得调的算是挺成功的，徕卡经典、徕卡鲜艳、徕卡单色HC足以应对各种风景。自从我用了这台手机，我朋友都说我是“风景摄影大师”</p>
-<p><figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://s2.loli.net/2024/07/16/vXkQ2WFEAism1wB.jpg"
-                      alt="徕卡单色HC滤镜，拍摄地点：合柴1972"
-                ><figcaption>徕卡单色HC滤镜，拍摄地点：合柴1972</figcaption></figure></p>
-<p>以及主摄用上了可变光圈，虽然只有F&#x2F;1.9和F&#x2F;4两档，但是F&#x2F;4足以让我在拍文本的时候不会有边缘模糊的现象。不过拍照过程中很少有“可变”的参与，大多数场景都是由F&#x2F;1.9来完成的（ps:就这个可变光圈让很多小白误以为镜头裂了）</p>
-<h3 id="然后是中焦"><a href="#然后是中焦" class="headerlink" title="然后是中焦"></a>然后是中焦</h3><p>中焦镜头没什么好说的，是我用过素质最好的3倍，75mm的黄金焦段拍照很出片。</p>
-<p>不过要注意的是小米13Ultra的3.2倍镜头其实是68mm（2.6倍）裁切而来，如果你想用满整个镜头你需要手动拉回68mm。</p>
-<p>唯一美中不足的就是没给浮动镜头模组（微距），长焦微距自家13Pro都配了到Ultra反而简配让我不太理解。</p>
-<h3 id="最后是长焦"><a href="#最后是长焦" class="headerlink" title="最后是长焦"></a>最后是长焦</h3><p>长焦是5倍的858镜头，看参数是1&#x2F;2.51英寸，光圈F3.0。实测下来望远能力其实是差不多甚至不如小米10至尊纪念版和小米11Ultra和小米12SUltra上面那个IMX586的。上网搜索后才发现是因为IMX858是2x2OCL，天生不太适合望远，素质肯定不如IMX586好。</p>
-<p>不过在使用过程中发现它的色彩准确度都是要比前代（12SUltra）调的更好，这也算是一个提升吧。</p>
-<p>5月更新中小米给13Ultra OTA了14Ultra同款的AI超级长焦，其实就是使用AI大模型绘制更多细节。实际使用下来望远能力确实得到了提升，但是效果依旧不及14Ultra。我的评价是有就不错了，你米能记得给就已经很好了，过气旗舰和狗不得入内没听说过吗？</p>
-<h3 id="人像"><a href="#人像" class="headerlink" title="人像"></a>人像</h3><p>人像可谓是你米最糟糕的部分之一。我要说的糟糕是后置而非前置，小米目前前置人像算法是第一梯队，已经获得我周围多位女性的认可。后置人像之前一直是徕卡影调，主打一个把人拍的蜡黄，边缘虚化处理的也很糟糕。</p>
-<p>5月底随着AI超级长焦的更新也把最新的大师人像(Master Portrait)下放给了小米13Ultra，但是经过我比较发现大概只是给13Ultra下放了一个滤镜，拍照页面依旧是糟糕的镜头包设计（默认75mm不能切换镜头，切换镜头就得套镜头包中的柔焦、旋焦、肖像等糟糕的效果）所以可以说没有改善。拍照主界面也没给快捷EV切换按钮（Turbo3都给了你米不给上放是真的逆天），专业模式也没给预设，视频录制的连续变焦也依旧捂着不放。</p>
-<p>总结下来其实就一句话，过气旗舰不如狗。何况13Ultra根本没过气呢，7月11号官方调价1400现在3999就能买到12+256，你米就这么对待老机器请问以后谁买？</p>
-<p>所以说目前相比较14Ultra、Turbo3、Civi4Pro来说小米13Ultra相机部分还缺少专业模式影调预设、视频连续变焦、EV快捷调节、人像新UI（焦段调节），其实这些都是软件层面的东西，如果有很强的开发者甚至可以通过移植的方式移植过来，但是你米就是不下放。这里面还不包括比如4K120这种可能是硬件层面的东西。作为开发版用户，连续三个月基本都是对联真有点遭不住了。</p>
-<h2 id="三、周边配置"><a href="#三、周边配置" class="headerlink" title="三、周边配置"></a>三、周边配置</h2><p>对于小米的机器，周边配置没什么好说的，基本上该有的都有，也都不会太差。</p>
-<p>比如说充电90W有线50W无线，5000mAh的电池基本都是标配（吐槽一句，你米5000的电池怎么续航这么差啊，4G亮屏就4-5个小时）</p>
-<p>红外遥控、IP68、双扬声器、USB3.2也不会少你的。</p>
-<p>说到屏幕，这块来自华星光电的C7屏我个人觉得素质还是可以的，护眼做的的挺不错，就是功耗有点高。宣传的2600nit的峰值我感觉从来没达到过，到室外依旧看不清屏幕<figure class="image-caption"><img  
-                     lazyload
-                     src="/images/loading.svg"
-                     data-src="https://cdn.cnbj1.fds.api.mi-img.com/product-images/xiaomi-13-ultraeyyn4y/index/4797.png?x-fds-process=image/resize,q_90"
-                      alt="你米的宣传看看得了"
-                ><figcaption>你米的宣传看看得了</figcaption></figure></p>
-<p>这手机有一个不好的点就是特别容易发热，一发热就降亮度，然后畸形的机身温度还不容易排掉全都积在镜头下面支撑手机的食指上，在比较热的天体验不是很好。</p>
-<p>无论是4G&#x2F;5G还是WiFi信号我觉得都可以算是第一梯队的水平，跟华为是不相上下的。WiFi抢网挺快的，下载经常挤的我家华为网速很差。</p>
-<h2 id="系统"><a href="#系统" class="headerlink" title="系统"></a>系统</h2><p>小米在去年11月随小米14发布了他的自研系统Xiaomi HyperOS，也就是澎湃OS。在此之前MIUI12开始很多人就说小米系统bug多，我当时不信邪入了小米以后发现真香。小米的系统是目前我用起来最顺手的系统，里面的小功能还有UI设计非常的人性化非常的高效。说到bug我还真没遇到太多，卡顿可能我不太敏感感觉也还好，就是时不时有一点掉帧。MIUI和澎湃在root以后加上自己喜欢的功能会更好用一点。在我小米13Ultra卖掉之前是开发版1.0.24.7.8.DEV，综合来说对比初版的那些bug已经尽数修复了，整体的调度和发热也降下来很多，系统总体也流畅了一些（当然相比目前T0依旧有差距）。千万不要因为听说系统不好用就放弃一部好机，之前人人吹的vivo的originOS4，在我推荐下朋友买了个X100Pro我体验下来感觉也就那样。<strong>系统好不好一定要自己用用才知道</strong>。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总的来说，小米13Ultra不算是一台合格的手机，畸形的设计、糟糕的散热和发热给人的体验可以说不如自家小米13，甚至是K60、K70这种性能机。但是他的拍照的确有可圈可点的地方。在小米14Ultra出来之前综合来说确实是拍照最均衡的机器。有句话说的好：没有不合适的机器，只有不合适的价格，现在二手13Ultra已经掉到3000以下了，3999就可以买全新的12+256。如果你预算不足又想买一台拍照还可以的手机，目前13Ultra确实是你的不二之选。</p>
+    <title>关于联想小新系列低温锡事件个人看法</title>
+    <url>/2023/02/27/%E5%85%B3%E4%BA%8E%E8%81%94%E6%83%B3%E5%B0%8F%E6%96%B0%E7%B3%BB%E5%88%97%E4%BD%8E%E6%B8%A9%E9%94%A1%E4%BA%8B%E4%BB%B6%E4%B8%AA%E4%BA%BA%E7%9C%8B%E6%B3%95/</url>
+    <content><![CDATA[<p>tip:</p>
+<ol>
+<li>本文仅在greataden.top发表， 转载请注明出处。</li>
+<li>由于属于个人看法，作者不对文章中出现的任何负面言论负法律责任</li>
+</ol>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>随着事情的发酵，2月13日，联想小新微博官方账号发文回应这一事件：《小新轻薄本低温锡膏焊接技术说明》（下称《说明》）回应，称低温锡膏焊接是一项电子产品生产线成熟的且更加环保的技术，符合国家和国际标准，并表示根据历年小新轻薄本售后数据，采用低温锡膏焊接技术的机型和常温锡焊技术的机型之间返修率没有差异。</p>
+<h1 id="首先"><a href="#首先" class="headerlink" title="首先"></a>首先</h1><p>笔者自己使用的就是联想小新的电脑，去年（2022年）11月份京东自营旗舰店购入，型号为小新14Pro-IAH5R，价格为6199（个人感觉这个价格还算合适）拿来的第一感觉就是轻，太轻了。官方数据来看，14Pro重量为1.3kg，大约是MacBook Air 2020款的重量。就算再加个100W氮化镓的充电器，便携和轻薄方面也是毋庸置疑的。</p>
+<h1 id="其次"><a href="#其次" class="headerlink" title="其次"></a>其次</h1><p>针对这次低温锡的事件，我不认为是联想计划性报废的一部分。在看完b站UP笔记本维修厮（我是他的粉丝）的视频后，发现普遍出问题的都是AMD平台的机器。众所周知AMD是出了名的热，而且空焊的机器中也有一些是板载内存高温脱焊导致的，这个可能是当时的散热结构设计不合理导致的。其中英特尔中招的机型，我分析是因为联想的黑胶打多了，导致CPU被固定死了，当主板由于电脑摇晃发生形变的时候，CPU不能移动，导致锡球错位。所以这给我们一个启示就是<strong>没事不要晃你的电脑，拿着的时候注意拿稳一点</strong>。所以我认为是设计上的缺陷。</p>
+<h1 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h1><p>如果发生在你身上了，怎么办？我的建议是尽量别找联想售后。买回来这两个月我是体会到联想的售后是出奇地差，我可以说有些售后工程师对电脑的了解和解决问题的方法甚至没有我们社里某些同学的水平高。那么遇到这种问题，保内好像可以免费修（？）保外的话就去找这种大UP或者电脑城里你熟悉的维修师傅修一下吧，重新焊一下脱焊的部分可能只收个手工费，联想售后是直接给你换主板，<strong>要1000</strong>，那价格就有些高了。</p>
+<p>综上，我首先不认为“低温锡事件”是联想计划性报废的一部分，这可能只是设计缺陷导致的。其次，尽量避免这些问题的发生，你最好拿稳一点。最后就是，假如你中招了，过保找个维修师傅修修算了，送官方售后真没必要（摆手</p>
 ]]></content>
       <tags>
-        <tag>指南</tag>
+        <tag>看法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>努比亚Z50S Pro</title>
+    <url>/2023/07/23/%E5%8A%AA%E6%AF%94%E4%BA%9AZ50S-Pro/</url>
+    <content><![CDATA[<h1 id="努比亚Z50S-Pro：直屏影像全能旗舰，打造光影艺术"><a href="#努比亚Z50S-Pro：直屏影像全能旗舰，打造光影艺术" class="headerlink" title="努比亚Z50S Pro：直屏影像全能旗舰，打造光影艺术"></a>努比亚Z50S Pro：直屏影像全能旗舰，打造光影艺术</h1><p>努比亚Z50S Pro是努比亚最新推出的一款直屏影像旗舰手机，于2023年7月20日正式发布。该机搭载了全球首批骁龙8 Gen2领先版处理器，拥有1.5K超视网膜级护眼直屏、5100mAh超大电池和80W快充等硬件配置，同时还采用了全新一代35mm定制镜头模组，重磅升级带来更大光圈和全新传感器，影像体验革命性跃升。此外，该机还推动了旗舰手机1TB大内存的普及，让用户无需担心存储空间不足的问题。在外观设计上，该机借鉴了经典专业相机的元素，采用了小牛皮玻璃圆盘相机设计，兼具艺术美感和科技质感。本文将为您详细介绍努比亚Z50S Pro的各方面特点和优势。</p>
+<h2 id="35mm高定光学-超越一英寸"><a href="#35mm高定光学-超越一英寸" class="headerlink" title="35mm高定光学 超越一英寸"></a>35mm高定光学 超越一英寸</h2><p><a class="link"   href="https://www.ztedevices.com/cn/news/nubia-z50s-pro/" >努比亚Z50S Pro的最大亮点是其全新一代35mm高定光学系统，让每一个器件都发挥出最大优势，超越一英寸。<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a><a class="link"   href="https://www.ztedevices.com/cn/news/nubia-z50s-pro/" >1<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a><a class="link"   href="https://www.ithome.com/0/706/216.htm" >2<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a><a class="link"   href="https://finance.sina.com.cn/tech/mobile/n/n/2023-07-20/doc-imzciprp9215194.shtml" >3<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<ul>
+<li>新机35mm主摄通光孔径达到业界最大的<strong>5.21mm</strong>，进光量较上一代提升**34%**，光学虚化效果、夜景成像效果、抓拍速度进一步升级。</li>
+<li>全新传感器感光量提升**56%**，在同一拍摄距离用相同像素镜头，拍摄35mm焦距镜头相同构图的照片，努比亚Z50S Pro有更高的像素密度及清晰度，画质超越一英寸旗舰主摄。</li>
+<li>影像模组尺寸<strong>22.5*22*6.6mm</strong>，与业界主流一英寸大底主摄的模组尺寸相当。</li>
+<li>同时，35mm主摄还定制<strong>1G+6P专业级光学镜头</strong>，阿贝数高达<strong>81.6</strong>，可实现超低色散和超低温漂，能有效改善拍照时的紫边现象，并降低温度对镜头的影响，成像更稳定。</li>
+</ul>
+<p>此外，努比亚Z50S Pro还拥有一颗50MP AF超广角超微距二合一主摄，13mm等效焦距、125度超广角，支持2.5cm微距拍摄；以及一颗AF长焦镜头，80mm等效焦距，支持OIS光学防抖。</p>
+<p>在影像模组设计方面，努比亚Z50S Pro致敬经典专业相机，采用人文之眼设计，圆形镜头模组如同“光之焦点”，搭配努比亚经典双红圈腰线，使镜头整体充满了辨识度，其边缘还特别采用了立体精雕CD纹理，可随着光线流转呈现丰富的光影变化，让艺术美感与科技质感融合为一。</p>
+<h2 id="计算摄影升级-人文街拍2-0更快更强更全面"><a href="#计算摄影升级-人文街拍2-0更快更强更全面" class="headerlink" title="计算摄影升级 人文街拍2.0更快更强更全面"></a>计算摄影升级 人文街拍2.0更快更强更全面</h2><p><a class="link"   href="https://www.ztedevices.com/cn/news/nubia-z50s-pro/" >定制光学是影像硬件的基础，计算摄影是软件的升华。努比亚Z50S Pro融合多种微单拍摄技巧，推出了全新的人文街拍2.0功能。<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a><a class="link"   href="https://www.ztedevices.com/cn/news/nubia-z50s-pro/" >1<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a><a class="link"   href="https://www.ithome.com/0/706/216.htm" >2<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<ul>
+<li>通过自定义滑动键，用户可快速启动街拍模式，并借助全新的闪电抓拍4.0，轻松锁定精彩瞬间。</li>
+<li>新机全面升级超感光追焦功能，可精准捕捉人脸、人体和宠物，让抓拍过程快速精准对焦。</li>
+<li>借鉴专业相机，努比亚Z50S Pro新增包围摄影功能，只需一次拍摄即可得到三张不同参数的拍摄画面。</li>
+<li>全新的夜魈算法2.0和银河超夜2.0，对夜景拍摄和星空摄影进一步优化，暗光成像更加细腻清晰。</li>
+<li>努比亚光学超分算法，长焦拍照清晰度提升30%。</li>
+<li>全新UI界面融入nubia红色元素，人文街拍控制区设计了专业相机的皮质纹理，相机家族支持全新自定义界面，好看更好拍。</li>
+</ul>
+<h2 id="全球首批骁龙8-Gen2领先版-性能新标杆"><a href="#全球首批骁龙8-Gen2领先版-性能新标杆" class="headerlink" title="全球首批骁龙8 Gen2领先版 性能新标杆"></a>全球首批骁龙8 Gen2领先版 性能新标杆</h2><p><a class="link"   href="https://www.ztedevices.com/cn/news/nubia-z50s-pro/" >作为全球首批搭载骁龙8Gen2领先版处理器的旗舰手机，努比亚Z50S Pro芯片将Cortex-X3超大核的主频升级到3.36GHz，GPU主频提升至719MHz。<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a><a class="link"   href="https://www.ztedevices.com/cn/news/nubia-z50s-pro/" >1<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a><a class="link"   href="https://www.ithome.com/0/706/216.htm" >2<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>内置独有的灵犀性能引擎，可对CPU、GPU及一系列硬件单元进行自适应调节，通过深度精细化调度机制，实现最佳性能匹配。</p>
+<p>为助力性能释放，新机搭载4233mm2超大面积仿生设计VC，以及金刚石导热凝胶、纳米碳纤维、石墨烯等多层散热材料，总散热面积高达42833mm2。</p>
+<p>机身背面还配备9颗高精度NTC温度传感器，可灵敏检测机身细微温度变化，实时调节散热策略。</p>
+<p>游戏体验方面，新机搭载灵犀游戏中枢，精细化管理游戏过程中的算力和渲染需求，按需调动计算资源，电竞级游戏稳帧引擎，有效提升游戏帧率稳定性，减少波动和掉帧导致的卡顿，画面更顺滑。</p>
+<p>电竞级游戏空间，不仅提供各种助战工具和插件库，还有多种趣味性功能，游戏体验更加酷爽。</p>
+<h2 id="1-5K-超视网膜级护眼直屏-显示与功耗平衡"><a href="#1-5K-超视网膜级护眼直屏-显示与功耗平衡" class="headerlink" title="1.5K 超视网膜级护眼直屏 显示与功耗平衡"></a>1.5K 超视网膜级护眼直屏 显示与功耗平衡</h2><p>屏幕方面，努比亚Z50S Pro搭载6.78英寸AMOLED护眼直屏，采用顶级蓝钻排列，可实现2800×1260超高分辨率及452PPI超视网膜级高像素密度；具备影院级绚丽臻彩显示，100%覆盖DCI-P3色域，10bit色深，10.7亿色彩范围，8000000:1对比度；支持120Hz刷新率及1000Hz瞬时触控采样率。</p>
+<ul>
+<li>在具备出色显示效果的同时，努比亚Z50S Pro屏幕还实现了功耗的平衡，搭载Q9发光材料，相比上一代发光材料功耗降低15%。</li>
+<li>屏幕钢化玻璃采用深度多重强化工艺，硬核防摔。</li>
+<li>为保护用眼健康，新机屏幕还支持2160Hz高频PWM调光，以及全局DC调光，让视觉感受更轻松，有效降低视觉疲劳度。</li>
+</ul>
+<h2 id="专业相机经典设计-拾光之镜特别版点亮“光的艺术”"><a href="#专业相机经典设计-拾光之镜特别版点亮“光的艺术”" class="headerlink" title="专业相机经典设计 拾光之镜特别版点亮“光的艺术”"></a>专业相机经典设计 拾光之镜特别版点亮“光的艺术”</h2><p>外观上，努比亚Z50S Pro拥有黑咖和卡其两款经典配色，借鉴了经典旁轴相机金属外壳搭配皮革外衣的设计，打造出双重质感机身后壳，可同时呈现AG闪光砂和皮纹效果。</p>
+<ul>
+<li>玻璃表面通过独特的立体蚀刻工艺，还原出细腻的小牛皮手感，触感更为清凉舒适，并具有耐磨、防滑、防污、抗指纹的特性。</li>
+<li>机身采用了金属中框及自然R角设计，厚度仅8.6mm，重量约228克。</li>
+</ul>
+<p>基于“摄影是光的艺术”的理念，此次努比亚还倾情打造了Z50S Pro拾光之镜特别版。</p>
+<ul>
+<li>机身后壳采用意大利“卡拉拉白”天然大理石纹理设计，并以3D激光光刻叠加纳米级镀膜工艺，还原天然原石自然晶体质感。</li>
+<li>后置镜头模组采用彩虹全息纹理透明环设计，可在不同的光线角度下绽放出独特的绚丽色彩，表达努比亚对光影艺术的极致追求。</li>
+</ul>
+<h2 id="轻快纯净的MyOS13系统-助力用户畅快使用"><a href="#轻快纯净的MyOS13系统-助力用户畅快使用" class="headerlink" title="轻快纯净的MyOS13系统 助力用户畅快使用"></a>轻快纯净的MyOS13系统 助力用户畅快使用</h2><p>努比亚Z50S Pro搭载MyOS13系统，轻快纯净，好玩好用。</p>
+<ul>
+<li>轻量级固件，绝大部分预置应用均可卸载，广告少，且默认关闭系统广告开关。</li>
+<li>系统还将游戏空间中备受好评的充电分离功能，升级到系统全局支持，更多的场景下支持只供电不充电，保持边充边玩的低温手感，带来良好的机身温度及性能供给。</li>
+</ul>
+<h2 id="价格与购买方式"><a href="#价格与购买方式" class="headerlink" title="价格与购买方式"></a>价格与购买方式</h2><p>努比亚Z50S Pro将于7月27日于中兴商城，京东、天猫、抖音、京东之家、京东电脑数码、京东电器超级体验店等平台全渠道正式开售。</p>
+<ul>
+<li>新机12GB+ 256GB版售价3699元；</li>
+<li>推出4款1TB大内存版：普通版12GB+1TB售价3999元，16GB+1TB售价4399元；拾光之镜特别版12GB+1TB售价 4099元，16GB+1TB版售价4499元。</li>
+</ul>
+]]></content>
+      <tags>
+        <tag>发布会</tag>
       </tags>
   </entry>
   <entry>
@@ -686,6 +611,95 @@
       </tags>
   </entry>
   <entry>
+    <title>小米13Ultra半年使用报告-小米13Ultra祛魅篇</title>
+    <url>/2024/07/16/%E5%B0%8F%E7%B1%B313Ultra%E5%8D%8A%E5%B9%B4%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A/</url>
+    <content><![CDATA[<p>本文是关于小米2023年度影像旗舰半年的使用报告，为Aden原创未经允许不得转载</p>
+<hr>
+<p>在2024年初，小米14Ultra发布之际，我以极为便宜的价格购入了一台降价后的小米年度影像旗舰。这部手机的影像能力在2023年度一度被评为最强，同时也是小米跟徕卡合作后的第二台Ultra机器。</p>
+<p><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://img.antutu.com/2023/04/18/e8j06c8e16dec770c59cfa0ac07b546a5bfa6ozb.jpg"
+                     
+                ></p>
+<p>从这张图不难看出这部手机影像部分的夸张，也有人说这台手机不是一台合格的手机，它更像一台相机。</p>
+<h2 id="一、外观部分"><a href="#一、外观部分" class="headerlink" title="一、外观部分"></a>一、外观部分</h2><p>这台手机的外观给人留下最深印象的无非就是这个溜背造型了。我使用过这台手机后的感受就是“成也溜背，败也溜背”。为什么这么说呢，因为不是这个溜背，这台手机可能塞不下四颗大底光学镜头，败也溜背是因为这个溜背给这台手机带来了十分糟糕的握持手感。我日常使用这个手机就是食指顶着镜头下面，不然手机会因为头重脚轻翻出去。</p>
+<p>除了溜背，这台13Ultra与一般手机不太一样的就是它的背板采用填充式设计，就是素皮填充在中框中，是一种独特的设计语言。这样的设计得以延续到14Ultra。这种设计方式带来的一个好处就是中框可以做的十分的扎实。在我日常裸机使用的过程中，能明显感受到中框跟整个手机是一体化的，手感非常硬核。<img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://p6.itc.cn/images01/20230502/c19ad76746f249078d5eef3e45260d36.png"
+                     
+                ></p>
+<h2 id="二、影像部分"><a href="#二、影像部分" class="headerlink" title="二、影像部分"></a>二、影像部分</h2><p>作为一款影像旗舰，这台手机的重点应该就是影像了。</p>
+<h3 id="首先说主摄"><a href="#首先说主摄" class="headerlink" title="首先说主摄"></a>首先说主摄</h3><p>主摄是来自索尼的IMX989，这颗CMOS最早在小米12SUltra上面世，是小米和索尼联合研发的产物。小米独占了半年索尼才给其他手机厂家使用。</p>
+<p>这颗CMOS的大小来到了1英寸，理论上在暗光环境下能有非常好的效果。但我在实际使用中只能说好好的1英寸被小米糟糕的夜景算法毁了。在灯牌比较多的地方13Ultra就不压高光了，灯牌直接给你曝光个白色的；然后遇到暖光或者白光灯，有概率白平衡会飘，拍出来的照片是惨白惨白的带点灰色的。</p>
+<p><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s2.loli.net/2024/07/16/EBbQNi2fHrqdYVS.jpg"
+                      alt="无法处理复杂的光源，而且炫光严重"
+                ><figcaption>无法处理复杂的光源，而且炫光严重</figcaption></figure></p>
+<p>拍这张图的时候用的默认模式，没有贴镜头膜，镜头擦干净了。据说小米14Ultra改进了镀膜，效果应该比13Ultra会好一些。</p>
+<p>13Ultra的夜景算法调度非常不积极，默认模式直出基本不会有算法介入，只有在开夜景模式的时候才能感到明显有HDR算法处理过的痕迹（虽然也不会转圈圈）。我认为小米这种策略非常不好，一味的追求出片的速度反而会导致拍出很多废片。</p>
+<p><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s2.loli.net/2024/07/16/hFueZLJsBYxdzRT.jpg"
+                      alt="十分严重的红色溢出"
+                ><figcaption>十分严重的红色溢出</figcaption></figure></p>
+<p>在使用的过程中我还发现另外一个问题就是小米（也有可能是徕卡影调的问题）在拍红色的时候有明显的溢出，并且触发率100%，不是偶然现象。这个可能就是算法偏颇导致的，没有对红色做特别的优化。</p>
+<p><strong>缺点说完了，有优点吗？答案肯定是有的</strong></p>
+<p>自从跟徕卡合作以后，小米一直在吹它的影调。其实小米的影调我觉得调的算是挺成功的，徕卡经典、徕卡鲜艳、徕卡单色HC足以应对各种风景。自从我用了这台手机，我朋友都说我是“风景摄影大师”</p>
+<p><figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://s2.loli.net/2024/07/16/vXkQ2WFEAism1wB.jpg"
+                      alt="徕卡单色HC滤镜，拍摄地点：合柴1972"
+                ><figcaption>徕卡单色HC滤镜，拍摄地点：合柴1972</figcaption></figure></p>
+<p>以及主摄用上了可变光圈，虽然只有F&#x2F;1.9和F&#x2F;4两档，但是F&#x2F;4足以让我在拍文本的时候不会有边缘模糊的现象。不过拍照过程中很少有“可变”的参与，大多数场景都是由F&#x2F;1.9来完成的（ps:就这个可变光圈让很多小白误以为镜头裂了）</p>
+<h3 id="然后是中焦"><a href="#然后是中焦" class="headerlink" title="然后是中焦"></a>然后是中焦</h3><p>中焦镜头没什么好说的，是我用过素质最好的3倍，75mm的黄金焦段拍照很出片。</p>
+<p>不过要注意的是小米13Ultra的3.2倍镜头其实是68mm（2.6倍）裁切而来，如果你想用满整个镜头你需要手动拉回68mm。</p>
+<p>唯一美中不足的就是没给浮动镜头模组（微距），长焦微距自家13Pro都配了到Ultra反而简配让我不太理解。</p>
+<h3 id="最后是长焦"><a href="#最后是长焦" class="headerlink" title="最后是长焦"></a>最后是长焦</h3><p>长焦是5倍的858镜头，看参数是1&#x2F;2.51英寸，光圈F3.0。实测下来望远能力其实是差不多甚至不如小米10至尊纪念版和小米11Ultra和小米12SUltra上面那个IMX586的。上网搜索后才发现是因为IMX858是2x2OCL，天生不太适合望远，素质肯定不如IMX586好。</p>
+<p>不过在使用过程中发现它的色彩准确度都是要比前代（12SUltra）调的更好，这也算是一个提升吧。</p>
+<p>5月更新中小米给13Ultra OTA了14Ultra同款的AI超级长焦，其实就是使用AI大模型绘制更多细节。实际使用下来望远能力确实得到了提升，但是效果依旧不及14Ultra。我的评价是有就不错了，你米能记得给就已经很好了，过气旗舰和狗不得入内没听说过吗？</p>
+<h3 id="人像"><a href="#人像" class="headerlink" title="人像"></a>人像</h3><p>人像可谓是你米最糟糕的部分之一。我要说的糟糕是后置而非前置，小米目前前置人像算法是第一梯队，已经获得我周围多位女性的认可。后置人像之前一直是徕卡影调，主打一个把人拍的蜡黄，边缘虚化处理的也很糟糕。</p>
+<p>5月底随着AI超级长焦的更新也把最新的大师人像(Master Portrait)下放给了小米13Ultra，但是经过我比较发现大概只是给13Ultra下放了一个滤镜，拍照页面依旧是糟糕的镜头包设计（默认75mm不能切换镜头，切换镜头就得套镜头包中的柔焦、旋焦、肖像等糟糕的效果）所以可以说没有改善。拍照主界面也没给快捷EV切换按钮（Turbo3都给了你米不给上放是真的逆天），专业模式也没给预设，视频录制的连续变焦也依旧捂着不放。</p>
+<p>总结下来其实就一句话，过气旗舰不如狗。何况13Ultra根本没过气呢，7月11号官方调价1400现在3999就能买到12+256，你米就这么对待老机器请问以后谁买？</p>
+<p>所以说目前相比较14Ultra、Turbo3、Civi4Pro来说小米13Ultra相机部分还缺少专业模式影调预设、视频连续变焦、EV快捷调节、人像新UI（焦段调节），其实这些都是软件层面的东西，如果有很强的开发者甚至可以通过移植的方式移植过来，但是你米就是不下放。这里面还不包括比如4K120这种可能是硬件层面的东西。作为开发版用户，连续三个月基本都是对联真有点遭不住了。</p>
+<h2 id="三、周边配置"><a href="#三、周边配置" class="headerlink" title="三、周边配置"></a>三、周边配置</h2><p>对于小米的机器，周边配置没什么好说的，基本上该有的都有，也都不会太差。</p>
+<p>比如说充电90W有线50W无线，5000mAh的电池基本都是标配（吐槽一句，你米5000的电池怎么续航这么差啊，4G亮屏就4-5个小时）</p>
+<p>红外遥控、IP68、双扬声器、USB3.2也不会少你的。</p>
+<p>说到屏幕，这块来自华星光电的C7屏我个人觉得素质还是可以的，护眼做的的挺不错，就是功耗有点高。宣传的2600nit的峰值我感觉从来没达到过，到室外依旧看不清屏幕<figure class="image-caption"><img  
+                     lazyload
+                     src="/images/loading.svg"
+                     data-src="https://cdn.cnbj1.fds.api.mi-img.com/product-images/xiaomi-13-ultraeyyn4y/index/4797.png?x-fds-process=image/resize,q_90"
+                      alt="你米的宣传看看得了"
+                ><figcaption>你米的宣传看看得了</figcaption></figure></p>
+<p>这手机有一个不好的点就是特别容易发热，一发热就降亮度，然后畸形的机身温度还不容易排掉全都积在镜头下面支撑手机的食指上，在比较热的天体验不是很好。</p>
+<p>无论是4G&#x2F;5G还是WiFi信号我觉得都可以算是第一梯队的水平，跟华为是不相上下的。WiFi抢网挺快的，下载经常挤的我家华为网速很差。</p>
+<h2 id="系统"><a href="#系统" class="headerlink" title="系统"></a>系统</h2><p>小米在去年11月随小米14发布了他的自研系统Xiaomi HyperOS，也就是澎湃OS。在此之前MIUI12开始很多人就说小米系统bug多，我当时不信邪入了小米以后发现真香。小米的系统是目前我用起来最顺手的系统，里面的小功能还有UI设计非常的人性化非常的高效。说到bug我还真没遇到太多，卡顿可能我不太敏感感觉也还好，就是时不时有一点掉帧。MIUI和澎湃在root以后加上自己喜欢的功能会更好用一点。在我小米13Ultra卖掉之前是开发版1.0.24.7.8.DEV，综合来说对比初版的那些bug已经尽数修复了，整体的调度和发热也降下来很多，系统总体也流畅了一些（当然相比目前T0依旧有差距）。千万不要因为听说系统不好用就放弃一部好机，之前人人吹的vivo的originOS4，在我推荐下朋友买了个X100Pro我体验下来感觉也就那样。<strong>系统好不好一定要自己用用才知道</strong>。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>总的来说，小米13Ultra不算是一台合格的手机，畸形的设计、糟糕的散热和发热给人的体验可以说不如自家小米13，甚至是K60、K70这种性能机。但是他的拍照的确有可圈可点的地方。在小米14Ultra出来之前综合来说确实是拍照最均衡的机器。有句话说的好：没有不合适的机器，只有不合适的价格，现在二手13Ultra已经掉到3000以下了，3999就可以买全新的12+256。如果你预算不足又想买一台拍照还可以的手机，目前13Ultra确实是你的不二之选。</p>
+]]></content>
+      <tags>
+        <tag>指南</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>荣耀Magic5系列发布</title>
+    <url>/2023/03/12/%E8%8D%A3%E8%80%80Magic5%E7%B3%BB%E5%88%97%E5%8F%91%E5%B8%83/</url>
+    <content><![CDATA[<p>评价荣耀Magic5系列</p>
+<p>荣耀Magic5系列是荣耀在2023年3月6日发布的旗舰手机，包括荣耀Magic5和荣耀Magic5 Pro两款型号。这两款手机都搭载了全新的骁龙8Gen 2处理器，支持120Hz刷新率的OLED屏幕，以及三体星环设计的后置摄像头。那么，它们有什么区别呢？哪一款更适合你呢？让我们来对比一下。</p>
+<p>首先，从外观上看，荣耀Magic5和Magic5 Pro都采用了四曲面屏幕设计，但是屏幕大小和分辨率有所不同。荣耀Magic5的屏幕为6.73英寸，分辨率为2688×1224像素，而荣耀Magic5 Pro的屏幕为6.81英寸，分辨率为2848×1312像素。两者都支持10.7亿色彩显示和DCI-P3广色域，但是峰值亮度方面，荣耀Magic5 Pro要高一些，达到了1800nit，而荣耀Magic5则为1600nit。另外，荣耀Magic5 Pro还支持LTPO技术，可以根据内容自适应调节刷新率，在节省电量的同时保证流畅度。</p>
+<p>其次，从性能上看，荣耀Magic5系列都采用了骁龙8Gen 2处理器，这是一款基于4nm工艺制程的SoC芯片，拥有强大的算力、图形处理能力和AI性能。两者都配备了LPDDR5X内存和UFS 4.0闪存组合，并且提供了256GB、512GB两种存储容量选择。不过，在内存方面，荣耀Magic5只有8GB和12GB两种规格可选，而荣耀Magic5 Pro则多出了一个16GB的顶配版本。此外，荣耀Magic5 Pro还独家搭载了一颗显示芯片（Display Chip），可以协助处理器进行图形渲染和视频编解码等任务。</p>
+<p>再次，从拍照上看，荣耀Magic5系列都采用了三体星环设计的后置摄像头模组，并且配置相同：5000万像素广角主摄+122°超广角镜头+高清微距镜头。这套摄像头系统可以实现多种拍摄模式和效果，并且支持HDR10+视频录制。在前置摄像头方面，则有所差异：荣耀Magic5使用了4200万像素单摄方案，并且内外屏都配备了前置摄像头；而荣耀Magic5 Pro则使用了5000万像素双摄方案，并且只在内屏上设置了前置摄像头。</p>
+<p>最后，在续航上看，虽然两款手机都使用了4750mAh（典型值）的电池容量，并且都支持66W超级快充技术（需使用原装充电器和数据线），但是由于屏幕尺寸、分辨率、刷新率等因素的影响，在实际使用中可能会有续航表现上的差异。具体情况还需要根据个人使用习惯和场景来判断。</p>
+]]></content>
+      <tags>
+        <tag>发布会</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>荣耀青海湖&amp;固态电池技术</title>
     <url>/2023/03/12/%E8%8D%A3%E8%80%80%E9%9D%92%E6%B5%B7%E6%B9%96-%E5%9B%BA%E6%80%81%E7%94%B5%E6%B1%A0%E6%8A%80%E6%9C%AF/</url>
     <content><![CDATA[<h1 id="荣耀Magic5系列“青海湖”电池技术"><a href="#荣耀Magic5系列“青海湖”电池技术" class="headerlink" title="荣耀Magic5系列“青海湖”电池技术"></a>荣耀Magic5系列“青海湖”电池技术</h1><p>荣耀Magic5是一款备受瞩目的智能手机，最近引起了广泛的讨论，因为它搭载了一项新的电池技术，被称为“青海湖电池技术”。</p>
@@ -704,20 +718,6 @@
 <li>更小的体积和重量。由于固态电池不需要液态电解质和防漏结构，所以可以设计更小、更轻的电池。</li>
 </ol>
 <p>固态电池技术的应用前景非常广阔，不仅可以用于智能手机，还可以应用于其他电子设备和电动车等领域。目前，一些厂商已经开始研发固态电池技术，并在实验室中获得了一些令人鼓舞的结果。但是，固态电池技术仍然存在着一些挑战，如制造成本高、生产难度大等问题。因此，未来仍需要进行大量的研究和开发，以使这项技术能够广泛应用于市场。</p>
-]]></content>
-      <tags>
-        <tag>发布会</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>荣耀Magic5系列发布</title>
-    <url>/2023/03/12/%E8%8D%A3%E8%80%80Magic5%E7%B3%BB%E5%88%97%E5%8F%91%E5%B8%83/</url>
-    <content><![CDATA[<p>评价荣耀Magic5系列</p>
-<p>荣耀Magic5系列是荣耀在2023年3月6日发布的旗舰手机，包括荣耀Magic5和荣耀Magic5 Pro两款型号。这两款手机都搭载了全新的骁龙8Gen 2处理器，支持120Hz刷新率的OLED屏幕，以及三体星环设计的后置摄像头。那么，它们有什么区别呢？哪一款更适合你呢？让我们来对比一下。</p>
-<p>首先，从外观上看，荣耀Magic5和Magic5 Pro都采用了四曲面屏幕设计，但是屏幕大小和分辨率有所不同。荣耀Magic5的屏幕为6.73英寸，分辨率为2688×1224像素，而荣耀Magic5 Pro的屏幕为6.81英寸，分辨率为2848×1312像素。两者都支持10.7亿色彩显示和DCI-P3广色域，但是峰值亮度方面，荣耀Magic5 Pro要高一些，达到了1800nit，而荣耀Magic5则为1600nit。另外，荣耀Magic5 Pro还支持LTPO技术，可以根据内容自适应调节刷新率，在节省电量的同时保证流畅度。</p>
-<p>其次，从性能上看，荣耀Magic5系列都采用了骁龙8Gen 2处理器，这是一款基于4nm工艺制程的SoC芯片，拥有强大的算力、图形处理能力和AI性能。两者都配备了LPDDR5X内存和UFS 4.0闪存组合，并且提供了256GB、512GB两种存储容量选择。不过，在内存方面，荣耀Magic5只有8GB和12GB两种规格可选，而荣耀Magic5 Pro则多出了一个16GB的顶配版本。此外，荣耀Magic5 Pro还独家搭载了一颗显示芯片（Display Chip），可以协助处理器进行图形渲染和视频编解码等任务。</p>
-<p>再次，从拍照上看，荣耀Magic5系列都采用了三体星环设计的后置摄像头模组，并且配置相同：5000万像素广角主摄+122°超广角镜头+高清微距镜头。这套摄像头系统可以实现多种拍摄模式和效果，并且支持HDR10+视频录制。在前置摄像头方面，则有所差异：荣耀Magic5使用了4200万像素单摄方案，并且内外屏都配备了前置摄像头；而荣耀Magic5 Pro则使用了5000万像素双摄方案，并且只在内屏上设置了前置摄像头。</p>
-<p>最后，在续航上看，虽然两款手机都使用了4750mAh（典型值）的电池容量，并且都支持66W超级快充技术（需使用原装充电器和数据线），但是由于屏幕尺寸、分辨率、刷新率等因素的影响，在实际使用中可能会有续航表现上的差异。具体情况还需要根据个人使用习惯和场景来判断。</p>
 ]]></content>
       <tags>
         <tag>发布会</tag>
@@ -745,27 +745,6 @@
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>关于</title>
-    <url>/about/index.html</url>
-    <content><![CDATA[<p>本站建设于2021年8月由@QQ老冰协助完成，完工与2021年9月，美化由官方<a class="link"   href="https://butterfly.js.org/" >Betterfly<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>教程以及<a class="link"   href="https://tzy1997.com/" >唐先森<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>的博客，崩溃于2022年1月。</p>
-<p>在2022年7月21日，重启了网站的建设计划，并且成为The official site of <a class="link"   href="https://www.hfyz.net/" >Hefei No.1 High School<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> Computer Hardware Club. 这次网站由大佬<a class="link"   href="https://imql.life/" >完美的冰柜<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>协助完成，焕然一新的界面和内容呈现在大家面前。</p>
-<p>后期我们将会添加更多有关于我们社团的内容，不定期更新电子产品选购建议以及使用相关知识，以及有关经济学的文章。</p>
-<p><a class="link"   href="https://space.bilibili.com/492412734" >b站主页<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> 也会有一些文章，欢迎大家访问</p>
-<p>2023年3月整个网站推倒重建。自此会更新更多个人见解&#x2F;由AI辅助完成的文章和大牌新品发布会的内容。</p>
-<p>2024年6月网站打赢复活赛了，我也进入了新的阶段，可以说Aden Family进入了新的篇章</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>友链</title>
-    <url>/link/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>分类</title>
-    <url>/categories/index.html</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title></title>
     <url>/css/custom.css</url>
     <content><![CDATA[:root {
@@ -777,6 +756,9 @@
   --aden-cyan: #18d5e8;
   --aden-ink: #e8edf2;
   --aden-muted: #8e99a8;
+  --aden-display-font: "Google Sans", "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+  --aden-body-font: "Segoe UI Variable", "MiSans", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --aden-mono-font: "Geist Mono", "Cascadia Code", "SFMono-Regular", "Microsoft YaHei", monospace;
 }
 
 html.light {
@@ -823,7 +805,7 @@ html.dark {
 }
 
 body {
-  font-family: "Segoe UI Variable", "MiSans", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  font-family: var(--aden-body-font);
   text-rendering: optimizeLegibility;
 }
 
@@ -837,11 +819,16 @@ body {
   box-shadow: 0 10px 32px rgb(0 0 0 / 18%);
 }
 
-.navbar-container .logo-title,
 .navbar-container .navbar-list,
 .home-article-meta-info-container,
 .article-meta-info {
-  font-family: "Geist Mono", "Cascadia Code", "SFMono-Regular", monospace;
+  font-family: var(--aden-mono-font);
+}
+
+.navbar-container .logo-title {
+  font-family: var(--aden-display-font);
+  font-weight: 500;
+  letter-spacing: -0.025em;
 }
 
 .navbar-container .navbar-item a.active,
@@ -874,9 +861,10 @@ body {
   align-items: flex-start;
   padding: 0 5vw;
   color: #fff;
-  font-family: "Geist Mono", "Cascadia Code", "SFMono-Regular", "Microsoft YaHei", monospace;
+  font-family: var(--aden-display-font);
+  font-weight: 500;
   text-align: left;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.035em;
   text-shadow: 0 2px 26px rgb(0 0 0 / 58%);
 }
 
@@ -884,6 +872,7 @@ body {
   display: block;
   margin-bottom: 1rem;
   color: var(--aden-signal);
+  font-family: var(--aden-mono-font);
   font-size: 0.72rem;
   font-weight: 650;
   letter-spacing: 0.24em;
@@ -901,6 +890,8 @@ body {
 .home-banner-container .description p {
   margin-top: 0.9rem;
   color: #f5f5ee;
+  font-family: var(--aden-body-font) !important;
+  font-weight: 500;
   letter-spacing: 0.1em;
 }
 
@@ -1058,8 +1049,29 @@ button:focus-visible {
 ]]></content>
   </entry>
   <entry>
+    <title>关于</title>
+    <url>/about/index.html</url>
+    <content><![CDATA[<p>本站建设于2021年8月由@QQ老冰协助完成，完工与2021年9月，美化由官方<a class="link"   href="https://butterfly.js.org/" >Betterfly<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>教程以及<a class="link"   href="https://tzy1997.com/" >唐先森<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>的博客，崩溃于2022年1月。</p>
+<p>在2022年7月21日，重启了网站的建设计划，并且成为The official site of <a class="link"   href="https://www.hfyz.net/" >Hefei No.1 High School<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> Computer Hardware Club. 这次网站由大佬<a class="link"   href="https://imql.life/" >完美的冰柜<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>协助完成，焕然一新的界面和内容呈现在大家面前。</p>
+<p>后期我们将会添加更多有关于我们社团的内容，不定期更新电子产品选购建议以及使用相关知识，以及有关经济学的文章。</p>
+<p><a class="link"   href="https://space.bilibili.com/492412734" >b站主页<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> 也会有一些文章，欢迎大家访问</p>
+<p>2023年3月整个网站推倒重建。自此会更新更多个人见解&#x2F;由AI辅助完成的文章和大牌新品发布会的内容。</p>
+<p>2024年6月网站打赢复活赛了，我也进入了新的阶段，可以说Aden Family进入了新的篇章</p>
+]]></content>
+  </entry>
+  <entry>
     <title>标签</title>
     <url>/tags/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>友链</title>
+    <url>/link/index.html</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>分类</title>
+    <url>/categories/index.html</url>
     <content><![CDATA[]]></content>
   </entry>
 </search>
