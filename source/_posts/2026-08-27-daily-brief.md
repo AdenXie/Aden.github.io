@@ -7,6 +7,7 @@ tags:
   - 新闻
   - 汇率
   - 市场观察
+cover: https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=2400&q=85
 ---
 
 ## 今日主线
@@ -45,3 +46,5 @@ tags:
 ## 市场关联与今日观察
 
 今天最值得观察的，是利率、AI与能源三条线能否同时稳定。若美国通胀继续维持高位，全球成长股估值和非美货币都可能承压；英伟达业绩则继续为AI投资链提供基本面支撑。另一方面，霍尔木兹海峡若出现更明确的通航改善，油价与通胀预期可能得到缓解。对人民币兑澳元而言，短期仍需同时关注美元方向、中国稳增长政策落地以及能源价格对澳大利亚贸易条件的影响。
+
+*封面照片：[Taylor Vick](https://unsplash.com/@tvick) / [Unsplash](https://unsplash.com/photos/M5tzZtFCOfs)*

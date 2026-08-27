@@ -8,6 +8,7 @@ tags:
   - 新闻
   - 汇率
   - 市场观察
+cover: https://images.unsplash.com/photo-1767424412548-1a1ac7f4b9bc?auto=format&fit=crop&w=2400&q=85
 ---
 
 ## 今日主线
@@ -50,3 +51,5 @@ Google推出面向律师事务所的Gemini Enterprise for Legal，将AI代理、
 ## 市场关联与今日观察
 
 今日最值得关注的是利率、AI资本开支和能源风险之间的拉扯。央行在通胀回落时获得有限降息空间，但中东局势若再次推高油气和运输成本，宽松节奏可能被迫放慢；与此同时，AI正在从算力建设进入法律等垂直行业，商业化质量将比单纯投入规模更受关注。澳元方面，中国投资与全球风险偏好提供支撑，而能源冲击、美元流动性及主要央行预期变化仍可能带来短线波动。换汇需求宜同时观察银行卖出价和实际费用，不把单一时点报价当作趋势判断。
+
+*封面照片：[Jakub Żerdzicki](https://unsplash.com/@jakubzerdzicki) / [Unsplash](https://unsplash.com/photos/trading-charts-displayed-on-multiple-screens-and-tablet-vKNRKjSNbTo)*
