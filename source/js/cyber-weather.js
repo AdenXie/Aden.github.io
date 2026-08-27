@@ -1,14 +1,26 @@
 (() => {
   "use strict";
 
-  const WEATHER_URL =
+  const VISITOR_WEATHER_URL = "/api/visitor-weather";
+  const SYDNEY_WEATHER_URL =
     "https://api.open-meteo.com/v1/forecast?latitude=-33.8688&longitude=151.2093&current=temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m,is_day&daily=sunrise,sunset&timezone=Australia%2FSydney&forecast_days=1";
-  const CACHE_KEY = "aden-sydney-weather-v1";
+  const CACHE_KEY = "aden-visitor-weather-v2";
   const CACHE_TTL = 10 * 60 * 1000;
-  const SYDNEY_TIME_ZONE = "Australia/Sydney";
+  const FALLBACK_LOCATION = {
+    label: "悉尼",
+    city: "Sydney",
+    region: "NSW",
+    country: "AU",
+    timezone: "Australia/Sydney",
+    source: "fallback",
+    approximate: true
+  };
 
   let clockTimer = null;
   let swupBound = false;
+  let activeTimeZone = FALLBACK_LOCATION.timezone;
+  let timeFormatter = createTimeFormatter(activeTimeZone);
+  let dateFormatter = createDateFormatter(activeTimeZone);
 
   const weatherCodes = {
     0: ["晴朗", "SUN", "☀"],
@@ -41,35 +53,61 @@
     99: ["强雷暴伴冰雹", "STORM", "ϟ"]
   };
 
-  const timeFormatter = new Intl.DateTimeFormat("en-AU", {
-    timeZone: SYDNEY_TIME_ZONE,
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hourCycle: "h23"
-  });
+  function createTimeFormatter(timeZone) {
+    return new Intl.DateTimeFormat("en-AU", {
+      timeZone,
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hourCycle: "h23"
+    });
+  }
 
-  const dateFormatter = new Intl.DateTimeFormat("zh-CN", {
-    timeZone: SYDNEY_TIME_ZONE,
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    weekday: "long"
-  });
+  function createDateFormatter(timeZone) {
+    return new Intl.DateTimeFormat("zh-CN", {
+      timeZone,
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      weekday: "long"
+    });
+  }
+
+  function isValidTimeZone(timeZone) {
+    if (!timeZone) return false;
+    try {
+      new Intl.DateTimeFormat("en", { timeZone }).format();
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  function getTimeZoneName(timeZone) {
+    try {
+      const parts = new Intl.DateTimeFormat("en-AU", {
+        timeZone,
+        timeZoneName: "short"
+      }).formatToParts(new Date());
+      return parts.find((part) => part.type === "timeZoneName")?.value || timeZone;
+    } catch (_) {
+      return timeZone;
+    }
+  }
 
   function createCard() {
     const card = document.createElement("section");
     card.className = "cyber-weather-card";
-    card.id = "sydney-status-hud";
-    card.setAttribute("aria-label", "悉尼时间与天气");
+    card.id = "visitor-status-hud";
+    card.setAttribute("aria-label", "访客所在地时间与天气");
     card.innerHTML = `
       <div class="cyber-weather-header">
-        <span class="cyber-weather-live"><i aria-hidden="true"></i> LIVE // SYDNEY</span>
-        <span class="cyber-weather-coords">33.8688°S / 151.2093°E</span>
+        <span class="cyber-weather-live"><i aria-hidden="true"></i> LIVE // <span data-location="name">LOCATING</span></span>
+        <span class="cyber-weather-coords" data-location="timezone">LOCAL NODE</span>
       </div>
       <div class="cyber-weather-grid">
         <div class="cyber-clock-block">
-          <span class="cyber-data-label">LOCAL TIME / AEST·AEDT</span>
+          <span class="cyber-data-label" data-location="clock-label">LOCAL TIME / CALIBRATING</span>
           <time class="cyber-clock" datetime="">--:--:--</time>
           <span class="cyber-date">正在校准时间…</span>
         </div>
@@ -77,7 +115,7 @@
           <span class="cyber-weather-icon" aria-hidden="true">◌</span>
           <div>
             <span class="cyber-temperature">--°</span>
-            <span class="cyber-condition">连接气象节点…</span>
+            <span class="cyber-condition">正在识别访客地区…</span>
             <span class="cyber-feels-like">体感温度 --°C</span>
           </div>
         </div>
@@ -88,10 +126,23 @@
         </dl>
       </div>
       <div class="cyber-weather-footer">
-        <span data-weather="status">WEATHER LINK / CONNECTING</span>
+        <span data-weather="status">LOCATION LINK / CONNECTING</span>
         <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">DATA / OPEN-METEO</a>
       </div>`;
     return card;
+  }
+
+  function applyLocation(card, location = FALLBACK_LOCATION) {
+    const timeZone = isValidTimeZone(location.timezone) ? location.timezone : FALLBACK_LOCATION.timezone;
+    const label = String(location.label || location.city || location.region || location.country || "当前位置");
+    activeTimeZone = timeZone;
+    timeFormatter = createTimeFormatter(activeTimeZone);
+    dateFormatter = createDateFormatter(activeTimeZone);
+
+    card.querySelector('[data-location="name"]').textContent = label.toLocaleUpperCase();
+    card.querySelector('[data-location="timezone"]').textContent = timeZone;
+    card.querySelector('[data-location="clock-label"]').textContent = `LOCAL TIME / ${getTimeZoneName(timeZone)}`;
+    card.setAttribute("aria-label", `${label}时间与天气`);
   }
 
   function updateClock(card) {
@@ -109,8 +160,11 @@
     return Number.isFinite(number) ? number.toFixed(fractionDigits) : "--";
   }
 
-  function renderWeather(card, payload, source = "live") {
+  function renderWeather(card, payload, source = "vercel") {
     if (!card?.isConnected || !payload?.current) return;
+    applyLocation(card, payload.location);
+    updateClock(card);
+
     const current = payload.current;
     const [condition, codeLabel, icon] = weatherCodes[current.weather_code] || ["天气未知", "UNKNOWN", "◇"];
     const sunset = payload.daily?.sunset?.[0]?.slice(11, 16) || "--:--";
@@ -122,8 +176,12 @@
     card.querySelector('[data-weather="humidity"]').textContent = `${formatNumber(current.relative_humidity_2m)}%`;
     card.querySelector('[data-weather="wind"]').textContent = `${formatNumber(current.wind_speed_10m)} km/h`;
     card.querySelector('[data-weather="sunset"]').textContent = sunset;
-    card.querySelector('[data-weather="status"]').textContent =
-      source === "cache" ? "WEATHER LINK / CACHED" : "WEATHER LINK / NOMINAL";
+
+    const status = card.querySelector('[data-weather="status"]');
+    if (source === "cache") status.textContent = "LOCATION LINK / CACHED";
+    else if (source === "fallback") status.textContent = "LOCATION LINK / SYDNEY FALLBACK";
+    else status.textContent = "LOCATION LINK / IP APPROX";
+    card.classList.remove("is-offline");
     card.classList.add("is-online");
   }
 
@@ -137,6 +195,40 @@
     return null;
   }
 
+  function cacheWeather(payload) {
+    try {
+      sessionStorage.setItem(CACHE_KEY, JSON.stringify({ savedAt: Date.now(), payload }));
+    } catch (_) {
+      // The card still works when storage is unavailable.
+    }
+  }
+
+  async function fetchJson(url, timeoutMs = 8000) {
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const response = await fetch(url, {
+        signal: controller.signal,
+        headers: { Accept: "application/json" }
+      });
+      if (!response.ok) throw new Error(`${url} returned ${response.status}`);
+      return await response.json();
+    } finally {
+      window.clearTimeout(timeout);
+    }
+  }
+
+  async function loadSydneyFallback(card) {
+    const forecast = await fetchJson(SYDNEY_WEATHER_URL);
+    const payload = {
+      location: FALLBACK_LOCATION,
+      current: forecast.current,
+      daily: forecast.daily
+    };
+    cacheWeather(payload);
+    renderWeather(card, payload, "fallback");
+  }
+
   async function loadWeather(card) {
     const cached = readCachedWeather();
     if (cached) {
@@ -144,25 +236,23 @@
       return;
     }
 
-    const controller = new AbortController();
-    const timeout = window.setTimeout(() => controller.abort(), 8000);
     try {
-      const response = await fetch(WEATHER_URL, {
-        signal: controller.signal,
-        headers: { Accept: "application/json" }
-      });
-      if (!response.ok) throw new Error(`Weather API returned ${response.status}`);
-      const payload = await response.json();
-      sessionStorage.setItem(CACHE_KEY, JSON.stringify({ savedAt: Date.now(), payload }));
-      renderWeather(card, payload);
-    } catch (error) {
-      if (!card?.isConnected) return;
-      card.querySelector(".cyber-condition").textContent = "气象数据暂不可用";
-      card.querySelector('[data-weather="status"]').textContent = "WEATHER LINK / OFFLINE";
-      card.classList.add("is-offline");
-      console.warn("Sydney weather widget:", error);
-    } finally {
-      window.clearTimeout(timeout);
+      const payload = await fetchJson(VISITOR_WEATHER_URL);
+      if (!payload?.location || !payload?.current) throw new Error("Incomplete visitor weather response");
+      cacheWeather(payload);
+      renderWeather(card, payload, "vercel");
+    } catch (locationError) {
+      try {
+        await loadSydneyFallback(card);
+      } catch (weatherError) {
+        if (!card?.isConnected) return;
+        applyLocation(card, FALLBACK_LOCATION);
+        updateClock(card);
+        card.querySelector(".cyber-condition").textContent = "气象数据暂不可用";
+        card.querySelector('[data-weather="status"]').textContent = "LOCATION LINK / OFFLINE";
+        card.classList.add("is-offline");
+        console.warn("Visitor weather widget:", { locationError, weatherError });
+      }
     }
   }
 
@@ -175,12 +265,17 @@
     const homeContent = document.querySelector(".home-content-container");
     if (!homeContent) return;
 
-    let card = document.getElementById("sydney-status-hud");
+    let card = document.getElementById("visitor-status-hud");
     if (!card) {
       card = createCard();
       homeContent.prepend(card);
     }
 
+    const browserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    applyLocation(card, {
+      label: "定位中",
+      timezone: isValidTimeZone(browserTimeZone) ? browserTimeZone : FALLBACK_LOCATION.timezone
+    });
     updateClock(card);
     clockTimer = window.setInterval(() => updateClock(card), 1000);
     loadWeather(card);
