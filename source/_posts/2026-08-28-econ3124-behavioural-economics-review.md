@@ -4,8 +4,6 @@ date: 2026-08-28 20:20:54
 categories:
   - 学习笔记
 tags:
-  - ECON3124
-  - 行为经济学
   - UNSW
   - 复习经验
 cover: https://images.pexels.com/photos/5386425/pexels-photo-5386425.jpeg?auto=compress&cs=tinysrgb&w=1600

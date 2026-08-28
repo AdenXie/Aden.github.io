@@ -4,9 +4,6 @@ date: 2026-08-28 21:18:00
 categories:
   - 学习笔记
 tags:
-  - ECON3116
-  - International Trade
-  - 国际贸易
   - UNSW
   - 复习经验
 cover: https://images.pexels.com/photos/906494/pexels-photo-906494.jpeg?auto=compress&cs=tinysrgb&w=1600
