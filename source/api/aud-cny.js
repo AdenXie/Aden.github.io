@@ -1,7 +1,6 @@
 "use strict";
 
-const BOC_RATES_URL = "https://www.boc.cn/sourcedb/whpj/";
-const BOC_RATES_MIRROR_URL = "https://www.bankofchina.com/sourcedb/whpj/";
+const BOC_RATES_URL = "https://www.bankofchina.com/sourcedb/whpj/";
 const CACHE_SECONDS = 3 * 60 * 60;
 const STALE_SECONDS = 7 * 24 * 60 * 60;
 const REQUEST_TIMEOUT_MS = 7000;
@@ -74,8 +73,8 @@ function parseAustralianDollarQuote(html) {
   return {
     currency: "AUD",
     quoteCurrency: "CNY",
-    spotBuy: Number((spotBuyPer100 / 100).toFixed(4)),
-    spotSell: Number((spotSellPer100 / 100).toFixed(4)),
+    spotBuy: spotBuyPer100,
+    spotSell: spotSellPer100,
     officialUnit: "CNY per 100 AUD",
     officialSpotBuy: spotBuyPer100,
     officialSpotSell: spotSellPer100,
@@ -108,15 +107,7 @@ async function fetchOfficialRatesPage(url) {
 }
 
 async function fetchOfficialRates() {
-  let lastError;
-  for (const url of [BOC_RATES_URL, BOC_RATES_MIRROR_URL]) {
-    try {
-      return await fetchOfficialRatesPage(url);
-    } catch (error) {
-      lastError = error;
-    }
-  }
-  throw lastError || new Error("Bank of China is unavailable");
+  return fetchOfficialRatesPage(BOC_RATES_URL);
 }
 
 module.exports = async function audCnyQuote(request, response) {

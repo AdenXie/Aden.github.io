@@ -1,8 +1,8 @@
 (() => {
   "use strict";
 
-  const QUOTE_URL = "/api/aud-cny";
-  const CACHE_KEY = "aden-aud-cny-v1";
+  const QUOTE_URL = "/api/aud-cny?v=2";
+  const CACHE_KEY = "aden-aud-cny-v2";
   const CACHE_TTL = 3 * 60 * 60 * 1000;
   const FALLBACK_TTL = 30 * 24 * 60 * 60 * 1000;
   let swupBound = false;
@@ -21,30 +21,30 @@
         <div class="cyber-exchange-intro">
           <span class="cyber-data-label">FOREIGN EXCHANGE TAPE</span>
           <strong>澳元现汇牌价</strong>
-          <span>人民币 / 1澳元</span>
+          <span>人民币 / 100澳元</span>
         </div>
         <dl class="cyber-exchange-quotes">
           <div class="is-buy">
             <dt>现汇买入价 <span>BUY</span></dt>
-            <dd data-exchange="buy">-.----</dd>
+            <dd data-exchange="buy">---.--</dd>
           </div>
           <div class="is-sell">
             <dt>现汇卖出价 <span>SELL</span></dt>
-            <dd data-exchange="sell">-.----</dd>
+            <dd data-exchange="sell">---.--</dd>
           </div>
         </dl>
       </div>
       <div class="cyber-exchange-footer">
         <span data-exchange="status">正在连接中国银行牌价…</span>
-        <a href="https://www.boc.cn/sourcedb/whpj/" target="_blank" rel="noopener noreferrer">数据来源于中国银行 ↗</a>
+        <a href="https://www.bankofchina.com/sourcedb/whpj/" target="_blank" rel="noopener noreferrer">数据来源于中国银行 ↗</a>
       </div>
-      <p class="cyber-exchange-notice">每1澳元价格由中国银行每100澳元官方牌价换算。仅供个人非商业展示；实际交易以中国银行网上银行、手机银行、智能柜台或网点柜台价格为准。未经中国银行许可，不得用于商业转载。</p>`;
+      <p class="cyber-exchange-notice">现汇买入价与现汇卖出价均为中国银行每100澳元折合人民币的官方牌价。仅供个人非商业展示；实际交易以中国银行网上银行、手机银行、智能柜台或网点柜台价格为准。未经中国银行许可，不得用于商业转载。</p>`;
     return card;
   }
 
   function formatRate(value) {
     const number = Number(value);
-    return Number.isFinite(number) ? `¥${number.toFixed(4)}` : "-.----";
+    return Number.isFinite(number) ? `¥${number.toFixed(2)}` : "---.--";
   }
 
   function formatPublishedAt(value) {
@@ -56,8 +56,11 @@
   function isValidQuote(payload) {
     return (
       payload?.currency === "AUD" &&
+      payload?.officialUnit === "CNY per 100 AUD" &&
       Number.isFinite(Number(payload.spotBuy)) &&
       Number.isFinite(Number(payload.spotSell)) &&
+      Number(payload.spotBuy) >= 100 &&
+      Number(payload.spotSell) >= 100 &&
       Boolean(payload.publishedAt)
     );
   }
