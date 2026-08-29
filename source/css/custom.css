@@ -497,6 +497,192 @@ html.light .cyber-weather-icon {
   }
 }
 
+.cyber-exchange-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin-bottom: 1.15rem;
+  border: 1px solid color-mix(in srgb, var(--aden-cyan) 30%, var(--border-color));
+  border-radius: 12px;
+  color: var(--second-text-color);
+  background:
+    linear-gradient(100deg, color-mix(in srgb, var(--aden-cyan) 5%, transparent), transparent 45%),
+    var(--second-background-color);
+  box-shadow: 0 16px 42px rgb(0 0 0 / 14%);
+  font-family: var(--aden-mono-font);
+}
+
+html.dark .cyber-exchange-card {
+  background:
+    linear-gradient(100deg, rgb(24 213 232 / 6%), transparent 45%),
+    linear-gradient(145deg, rgb(16 24 33 / 98%), rgb(7 10 15 / 98%));
+  box-shadow: 0 18px 50px rgb(0 0 0 / 28%);
+}
+
+html.light .cyber-exchange-card {
+  border-color: rgb(12 102 114 / 28%);
+  background:
+    linear-gradient(100deg, rgb(12 102 114 / 5%), transparent 45%),
+    linear-gradient(145deg, #f8f7ed, #e9eadf);
+  box-shadow: 0 14px 34px rgb(17 24 33 / 10%);
+}
+
+.cyber-exchange-card::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 2;
+  height: 3px;
+  content: "";
+  background: linear-gradient(90deg, var(--aden-cyan) 0 34%, transparent 34% 38%, var(--aden-signal) 38% 72%, transparent 72%);
+}
+
+.cyber-exchange-header,
+.cyber-exchange-footer {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.7rem 1rem;
+  color: var(--third-text-color);
+  font-size: 0.65rem;
+  font-weight: 650;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.cyber-exchange-header {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.cyber-exchange-footer {
+  border-top: 1px solid var(--border-color);
+}
+
+.cyber-exchange-footer a {
+  color: var(--link-color);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.cyber-exchange-pair {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+  color: var(--aden-cyan);
+}
+
+.cyber-exchange-pair i {
+  width: 0.46rem;
+  height: 0.46rem;
+  border-radius: 50%;
+  background: var(--aden-amber);
+  box-shadow: 0 0 0 4px rgb(255 184 0 / 10%), 0 0 13px rgb(255 184 0 / 46%);
+}
+
+.cyber-exchange-card.is-online .cyber-exchange-pair i {
+  background: var(--aden-cyan);
+  box-shadow: 0 0 0 4px rgb(24 213 232 / 10%), 0 0 13px rgb(24 213 232 / 52%);
+}
+
+.cyber-exchange-card.is-stale .cyber-exchange-pair i {
+  background: var(--aden-signal);
+  box-shadow: 0 0 0 4px rgb(242 233 78 / 10%), 0 0 13px rgb(242 233 78 / 36%);
+}
+
+.cyber-exchange-card.is-offline .cyber-exchange-pair i {
+  background: #ff5b5b;
+  box-shadow: 0 0 0 4px rgb(255 91 91 / 10%), 0 0 13px rgb(255 91 91 / 48%);
+}
+
+.cyber-exchange-body {
+  display: grid;
+  grid-template-columns: minmax(210px, 0.72fr) minmax(0, 1.5fr);
+  min-height: 128px;
+}
+
+.cyber-exchange-intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1.05rem 1.2rem;
+  border-right: 1px solid var(--border-color);
+}
+
+.cyber-exchange-intro strong {
+  color: var(--first-text-color);
+  font-family: var(--aden-display-font);
+  font-size: clamp(1.25rem, 2.7vw, 2rem);
+  font-weight: 560;
+  letter-spacing: -0.035em;
+}
+
+.cyber-exchange-intro > span:last-child {
+  margin-top: 0.35rem;
+  color: var(--third-text-color);
+  font-family: var(--aden-body-font);
+  font-size: 0.72rem;
+}
+
+.cyber-exchange-quotes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+}
+
+.cyber-exchange-quotes > div {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem 1.35rem;
+}
+
+.cyber-exchange-quotes > div + div {
+  border-left: 1px dashed color-mix(in srgb, var(--border-color) 78%, transparent);
+}
+
+.cyber-exchange-quotes dt {
+  color: var(--third-text-color);
+  font-family: var(--aden-body-font);
+  font-size: 0.72rem;
+}
+
+.cyber-exchange-quotes dt span {
+  margin-left: 0.35rem;
+  font-family: var(--aden-mono-font);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+}
+
+.cyber-exchange-quotes dd {
+  margin: 0.35rem 0 0;
+  font-size: clamp(1.75rem, 4.6vw, 3.35rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.065em;
+}
+
+.cyber-exchange-quotes .is-buy dd {
+  color: var(--aden-cyan);
+}
+
+.cyber-exchange-quotes .is-sell dd {
+  color: var(--aden-signal);
+}
+
+.cyber-exchange-notice {
+  margin: 0;
+  padding: 0.7rem 1rem 0.8rem;
+  border-top: 1px dashed color-mix(in srgb, var(--border-color) 70%, transparent);
+  color: var(--third-text-color);
+  font-family: var(--aden-body-font);
+  font-size: 0.67rem;
+  line-height: 1.55;
+}
+
 .markdown-body {
   color: var(--default-text-color);
   letter-spacing: 0.012em;
@@ -619,6 +805,48 @@ button:focus-visible {
 
   .cyber-condition {
     max-width: 9rem;
+  }
+
+  .cyber-exchange-header,
+  .cyber-exchange-footer {
+    align-items: flex-start;
+    padding-right: 0.8rem;
+    padding-left: 0.8rem;
+    font-size: 0.56rem;
+    letter-spacing: 0.08em;
+  }
+
+  .cyber-exchange-header > span:last-child {
+    display: none;
+  }
+
+  .cyber-exchange-body {
+    grid-template-columns: 1fr;
+  }
+
+  .cyber-exchange-intro {
+    padding: 0.9rem;
+    border-right: 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .cyber-exchange-quotes > div {
+    padding: 0.95rem 0.85rem;
+  }
+
+  .cyber-exchange-quotes dd {
+    font-size: clamp(1.65rem, 9vw, 2.5rem);
+  }
+
+  .cyber-exchange-footer {
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .cyber-exchange-notice {
+    padding-right: 0.8rem;
+    padding-left: 0.8rem;
+    font-size: 0.62rem;
   }
 }
 
