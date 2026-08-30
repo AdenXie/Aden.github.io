@@ -2,23 +2,26 @@
   "use strict";
 
   const VISITOR_WEATHER_URL = "/api/visitor-weather";
-  const SYDNEY_WEATHER_URL =
-    "https://api.open-meteo.com/v1/forecast?latitude=-33.8688&longitude=151.2093&current=temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m,is_day&daily=sunrise,sunset&timezone=Australia%2FSydney&forecast_days=1";
   const CACHE_KEY = "aden-visitor-weather-v2";
   const CACHE_TTL = 10 * 60 * 1000;
-  const FALLBACK_LOCATION = {
-    label: "悉尼",
-    city: "Sydney",
-    region: "NSW",
-    country: "AU",
-    timezone: "Australia/Sydney",
-    source: "fallback",
-    approximate: true
+  const REQUEST_TIMEOUT_MS = 15000;
+  const RETRY_DELAY_MS = 1500;
+  const ERROR_MESSAGES = {
+    connection_timeout: "连接天气服务超时",
+    connection_failed: "无法连接天气服务，请检查网络",
+    location_unavailable: "暂时无法识别 IP 所在地区",
+    weather_timeout: "天气数据源响应超时",
+    weather_unavailable: "天气数据源暂不可用",
+    invalid_response: "天气服务返回的数据异常",
+    not_found: "天气接口不存在（404）",
+    access_denied: "天气请求被拒绝",
+    rate_limited: "天气请求过于频繁，请稍后再试",
+    service_unavailable: "天气接口暂不可用"
   };
 
   let clockTimer = null;
   let swupBound = false;
-  let activeTimeZone = FALLBACK_LOCATION.timezone;
+  let activeTimeZone = getDeviceLocation().timezone;
   let timeFormatter = createTimeFormatter(activeTimeZone);
   let dateFormatter = createDateFormatter(activeTimeZone);
 
@@ -132,8 +135,13 @@
     return card;
   }
 
-  function applyLocation(card, location = FALLBACK_LOCATION) {
-    const timeZone = isValidTimeZone(location.timezone) ? location.timezone : FALLBACK_LOCATION.timezone;
+  function getDeviceLocation() {
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    return { label: "设备时间", timezone: isValidTimeZone(timezone) ? timezone : "UTC" };
+  }
+
+  function applyLocation(card, location = getDeviceLocation()) {
+    const timeZone = isValidTimeZone(location.timezone) ? location.timezone : getDeviceLocation().timezone;
     const label = String(location.label || location.city || location.region || location.country || "当前位置");
     activeTimeZone = timeZone;
     timeFormatter = createTimeFormatter(activeTimeZone);
@@ -180,7 +188,6 @@
 
     const status = card.querySelector('[data-weather="status"]');
     if (source === "cache") status.textContent = "LOCATION LINK / CACHED";
-    else if (source === "fallback") status.textContent = "LOCATION LINK / SYDNEY FALLBACK";
     else status.textContent = "LOCATION LINK / IP APPROX";
     card.classList.remove("is-offline");
     card.classList.add("is-online");
@@ -191,6 +198,7 @@
       payload &&
       typeof payload.location === "object" &&
       payload.location !== null &&
+      payload.location.source !== "fallback" &&
       typeof payload.location.timezone === "string" &&
       isValidTimeZone(payload.location.timezone) &&
       payload.current &&
@@ -232,7 +240,19 @@
     }
   }
 
-  async function fetchJson(url, timeoutMs = 8000) {
+  function weatherError(code) {
+    return Object.assign(new Error(code), { code });
+  }
+
+  function errorMessage(error) {
+    return ERROR_MESSAGES[error?.code] || ERROR_MESSAGES.service_unavailable;
+  }
+
+  function canRetry(error) {
+    return ["connection_timeout", "connection_failed", "weather_timeout", "weather_unavailable", "service_unavailable"].includes(error?.code);
+  }
+
+  async function fetchJson(url, timeoutMs = REQUEST_TIMEOUT_MS) {
     const controller = new AbortController();
     const timeout = window.setTimeout(() => controller.abort(), timeoutMs);
     try {
@@ -240,23 +260,25 @@
         signal: controller.signal,
         headers: { Accept: "application/json" }
       });
-      if (!response.ok) throw new Error(`${url} returned ${response.status}`);
-      return await response.json();
+      let payload;
+      try {
+        payload = await response.json();
+      } catch (error) {
+        if (error?.name === "AbortError") throw error;
+        if (response.ok) throw weatherError("invalid_response");
+      }
+      if (!response.ok) {
+        const statusCode = { 404: "not_found", 401: "access_denied", 403: "access_denied", 429: "rate_limited" }[response.status];
+        const sourceCode = ["location_unavailable", "weather_timeout", "weather_unavailable"].includes(payload?.error) ? payload.error : null;
+        throw weatherError(statusCode || sourceCode || "service_unavailable");
+      }
+      return payload;
+    } catch (error) {
+      if (controller.signal.aborted || error?.name === "AbortError") throw weatherError("connection_timeout");
+      throw error?.code ? error : weatherError("connection_failed");
     } finally {
       window.clearTimeout(timeout);
     }
-  }
-
-  async function loadSydneyFallback(card) {
-    const forecast = await fetchJson(SYDNEY_WEATHER_URL);
-    const payload = {
-      location: FALLBACK_LOCATION,
-      current: forecast.current,
-      daily: forecast.daily
-    };
-    if (!isValidWeather(payload)) throw new Error("Incomplete fallback weather response");
-    cacheWeather(payload);
-    renderWeather(card, payload, "fallback");
   }
 
   async function loadWeather(card) {
@@ -271,22 +293,35 @@
       clearCachedWeather();
     }
 
-    try {
-      const payload = await fetchJson(VISITOR_WEATHER_URL);
-      if (!isValidWeather(payload)) throw new Error("Incomplete visitor weather response");
-      cacheWeather(payload);
-      renderWeather(card, payload, "vercel");
-    } catch (locationError) {
+    for (let attempt = 0; attempt < 2; attempt += 1) {
       try {
-        await loadSydneyFallback(card);
-      } catch (weatherError) {
+        const payload = await fetchJson(VISITOR_WEATHER_URL);
+        if (!isValidWeather(payload)) throw weatherError("invalid_response");
+        cacheWeather(payload);
+        renderWeather(card, payload, "vercel");
+        return;
+      } catch (error) {
         if (!card?.isConnected) return;
-        applyLocation(card, FALLBACK_LOCATION);
+        if (attempt === 0 && canRetry(error)) {
+          card.querySelector(".cyber-condition").textContent = `${errorMessage(error)}，正在重试…`;
+          card.querySelector('[data-weather="status"]').textContent = "LOCATION LINK / RETRY 1/1";
+          await new Promise(resolve => window.setTimeout(resolve, RETRY_DELAY_MS));
+          if (!card.isConnected) return;
+          continue;
+        }
+        applyLocation(card, getDeviceLocation());
         updateClock(card);
-        card.querySelector(".cyber-condition").textContent = "气象数据暂不可用";
-        card.querySelector('[data-weather="status"]').textContent = "LOCATION LINK / OFFLINE";
+        card.querySelector(".cyber-temperature").textContent = "--°";
+        card.querySelector(".cyber-weather-icon").textContent = "!";
+        card.querySelector(".cyber-feels-like").textContent = "已保留设备时区 · 可稍后刷新重试";
+        for (const [key, value] of [["humidity", "--%"], ["wind", "-- km/h"], ["sunset", "--:--"]]) {
+          card.querySelector(`[data-weather="${key}"]`).textContent = value;
+        }
+        card.querySelector(".cyber-condition").textContent = errorMessage(error);
+        card.querySelector('[data-weather="status"]').textContent = "LOCATION LINK / OFFLINE · 设备时间";
+        card.classList.remove("is-online");
         card.classList.add("is-offline");
-        console.warn("Visitor weather widget:", { locationError, weatherError });
+        return;
       }
     }
   }
@@ -306,10 +341,9 @@
       homeContent.prepend(card);
     }
 
-    const browserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     applyLocation(card, {
+      ...getDeviceLocation(),
       label: "定位中",
-      timezone: isValidTimeZone(browserTimeZone) ? browserTimeZone : FALLBACK_LOCATION.timezone
     });
     updateClock(card);
     clockTimer = window.setInterval(() => updateClock(card), 1000);
