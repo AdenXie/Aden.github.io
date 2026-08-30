@@ -167,7 +167,8 @@
 
     const current = payload.current;
     const [condition, codeLabel, icon] = weatherCodes[current.weather_code] || ["天气未知", "UNKNOWN", "◇"];
-    const sunset = payload.daily?.sunset?.[0]?.slice(11, 16) || "--:--";
+    const sunsetValue = payload.daily?.sunset?.[0];
+    const sunset = typeof sunsetValue === "string" ? sunsetValue.slice(11, 16) : "--:--";
 
     card.querySelector(".cyber-weather-icon").textContent = icon;
     card.querySelector(".cyber-temperature").textContent = `${formatNumber(current.temperature_2m)}°`;
@@ -185,13 +186,41 @@
     card.classList.add("is-online");
   }
 
+  function isValidWeather(payload) {
+    return Boolean(
+      payload &&
+      typeof payload.location === "object" &&
+      payload.location !== null &&
+      typeof payload.location.timezone === "string" &&
+      isValidTimeZone(payload.location.timezone) &&
+      payload.current &&
+      Number.isFinite(payload.current.temperature_2m) &&
+      Number.isFinite(payload.current.weather_code)
+    );
+  }
+
+  function clearCachedWeather() {
+    try {
+      sessionStorage.removeItem(CACHE_KEY);
+    } catch (_) {
+      // Storage may be blocked entirely, including removal. It is optional.
+    }
+  }
+
   function readCachedWeather() {
     try {
       const cached = JSON.parse(sessionStorage.getItem(CACHE_KEY));
-      if (cached && Date.now() - cached.savedAt < CACHE_TTL) return cached.payload;
+      const age = Date.now() - cached?.savedAt;
+      if (
+        Number.isFinite(cached?.savedAt) &&
+        age >= 0 &&
+        age < CACHE_TTL &&
+        isValidWeather(cached.payload)
+      ) return cached.payload;
     } catch (_) {
-      sessionStorage.removeItem(CACHE_KEY);
+      // Unreadable or malformed cache must not prevent a network request.
     }
+    clearCachedWeather();
     return null;
   }
 
@@ -225,20 +254,26 @@
       current: forecast.current,
       daily: forecast.daily
     };
+    if (!isValidWeather(payload)) throw new Error("Incomplete fallback weather response");
     cacheWeather(payload);
     renderWeather(card, payload, "fallback");
   }
 
   async function loadWeather(card) {
-    const cached = readCachedWeather();
-    if (cached) {
-      renderWeather(card, cached, "cache");
-      return;
+    try {
+      const cached = readCachedWeather();
+      if (cached) {
+        renderWeather(card, cached, "cache");
+        return;
+      }
+    } catch (_) {
+      // A cached payload that cannot render must fall through to a fresh request.
+      clearCachedWeather();
     }
 
     try {
       const payload = await fetchJson(VISITOR_WEATHER_URL);
-      if (!payload?.location || !payload?.current) throw new Error("Incomplete visitor weather response");
+      if (!isValidWeather(payload)) throw new Error("Incomplete visitor weather response");
       cacheWeather(payload);
       renderWeather(card, payload, "vercel");
     } catch (locationError) {
