@@ -9,13 +9,25 @@ const cities = require('../lib/world-time-cities.json');
 const map = require('../lib/world-time-map.json');
 const at = (date, zone) => snapshot(new Date(date), zone);
 
-test('exactly the requested 19 distinct cities, with valid coordinates and IANA zones', () => {
-  assert.equal(cities.length, 19);
-  assert.equal(new Set(cities.map(c => c.id)).size, 19);
-  assert.deepEqual(cities.map(c => c.name).sort(), ['多伦多','洛杉矶','纽约','华盛顿','亚特兰大','圣路易斯','伦敦','莫斯科','香港','北京','东京','新加坡','珀斯','悉尼','墨尔本','奥克兰','首尔','布里斯班','霍巴特'].sort());
+test('exactly the requested 21 distinct cities, with valid coordinates and IANA zones', () => {
+  assert.equal(cities.length, 21);
+  assert.equal(new Set(cities.map(c => c.id)).size, 21);
+  assert.deepEqual(cities.map(c => c.name).sort(), ['多伦多','洛杉矶','纽约','华盛顿','亚特兰大','香槟','伦敦','莫斯科','斯德哥尔摩','迪拜','香港','北京','东京','新加坡','珀斯','悉尼','墨尔本','奥克兰','首尔','布里斯班','霍巴特'].sort());
   for (const city of cities) {
     assert.ok(city.lon >= -180 && city.lon <= 180 && city.lat > -60 && city.lat < 85);
     assert.match(at('2026-09-01T00:00:00Z', city.zone).time, /^\d\d:\d\d:\d\d$/);
+  }
+});
+test('Champaign uses US Central time, Stockholm follows DST, and Dubai stays at UTC+4', () => {
+  for (const [id, zone, winter, summer] of [
+    ['champaign', 'America/Chicago', -360, -300],
+    ['stockholm', 'Europe/Stockholm', 60, 120],
+    ['dubai', 'Asia/Dubai', 240, 240]
+  ]) {
+    const city = cities.find(c => c.id === id);
+    assert.equal(city.zone, zone);
+    assert.equal(at('2026-01-15T12:00:00Z', city.zone).offset, winter);
+    assert.equal(at('2026-07-15T12:00:00Z', city.zone).offset, summer);
   }
 });
 test('Sydney and New York compare date as well as time, not hours modulo 24', () => {
@@ -65,8 +77,10 @@ test('tag renders accessible markers and buttons; assets are scoped to the page'
     hexo: { extend: { filter: { register() {} }, tag: { register: (name, fn) => { assert.equal(name, 'world_time'); render = fn; } } } }
   });
   const html = render();
-  assert.equal((html.match(/class="wt-marker"/g) || []).length, 19);
-  assert.equal((html.match(/<button type="button"/g) || []).length, 19);
+  assert.equal((html.match(/class="wt-marker"/g) || []).length, 21);
+  assert.equal((html.match(/<button type="button"/g) || []).length, 21);
+  assert.ok(html.includes('WORLD TIME / 21 CITIES'));
+  assert.ok(!html.includes('圣路易斯'));
   assert.ok(html.includes('data-swup-reload-script'));
   assert.ok(html.includes('Natural Earth'));
   assert.ok(!html.includes('iframe'));
