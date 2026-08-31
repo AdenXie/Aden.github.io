@@ -292,6 +292,7 @@ html.light .cyber-weather-icon {
 }
 
 .cyber-weather-header {
+  gap: 0.75rem;
   border-bottom: 1px solid var(--border-color);
 }
 
@@ -309,6 +310,7 @@ html.light .cyber-weather-icon {
   min-width: 0;
   gap: 0.5rem;
   align-items: center;
+  white-space: nowrap;
   color: var(--aden-signal);
 }
 
@@ -325,11 +327,18 @@ html.light .cyber-weather-icon {
 
 .cyber-weather-coords {
   max-width: 45%;
+  flex: 0 0 auto;
+  text-align: right;
+}
+
+.cyber-weather-coords [data-location="timezone-short"] {
+  display: none;
 }
 
 .cyber-weather-live i {
   width: 0.46rem;
   height: 0.46rem;
+  flex-shrink: 0;
   border-radius: 50%;
   background: var(--aden-amber);
   box-shadow: 0 0 0 4px rgb(255 184 0 / 10%), 0 0 13px rgb(255 184 0 / 46%);
@@ -776,8 +785,12 @@ button:focus-visible {
     letter-spacing: 0.08em;
   }
 
-  .cyber-weather-coords {
+  .cyber-weather-coords [data-location="timezone"] {
     display: none;
+  }
+
+  .cyber-weather-coords [data-location="timezone-short"] {
+    display: inline;
   }
 
   .cyber-weather-live [data-location="name"] {

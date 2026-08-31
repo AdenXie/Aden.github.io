@@ -93,7 +93,25 @@ test('valid fresh cache renders without a network request', async () => {
   await h.run();
   assert.equal(h.calls.length, 0);
   assert.equal(h.text('[data-weather="status"]'), 'LOCATION LINK / CACHED');
+  assert.equal(h.text('[data-location="timezone-short"]'), 'Shanghai');
 });
+
+for (const [timezone, shortName] of [
+  ['Australia/Sydney', 'Sydney'],
+  ['Asia/Shanghai', 'Shanghai'],
+  ['America/New_York', 'New York'],
+  ['America/Argentina/Buenos_Aires', 'Buenos Aires'],
+  ['UTC', 'UTC']
+]) {
+  test(`mobile timezone label shortens ${timezone} without changing desktop timezone`, async () => {
+    const payload = fixture();
+    payload.location.timezone = timezone;
+    const h = harness({ responses: [payload] });
+    await h.run();
+    assert.equal(h.text('[data-location="timezone"]'), timezone);
+    assert.equal(h.text('[data-location="timezone-short"]'), shortName);
+  });
+}
 
 test('malformed optional sunset does not interrupt cached rendering', async () => {
   const payload = { ...fixture(), daily: { sunset: [123] } };
@@ -118,6 +136,7 @@ test('invalid response renders a data error without retrying or changing device 
   assert.equal(h.calls.length, 1);
   assert.equal(h.text('.cyber-condition'), '天气服务返回的数据异常');
   assert.equal(h.text('[data-location="timezone"]'), 'Asia/Shanghai');
+  assert.equal(h.text('[data-location="timezone-short"]'), 'Shanghai');
   assert.equal(h.text('[data-location="name"]'), '设备时间');
   assert.ok(h.classes.has('is-offline'));
 });

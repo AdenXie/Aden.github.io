@@ -106,7 +106,10 @@
     card.innerHTML = `
       <div class="cyber-weather-header">
         <span class="cyber-weather-live"><i aria-hidden="true"></i> LIVE // <span data-location="name">LOCATING</span></span>
-        <span class="cyber-weather-coords" data-location="timezone">LOCAL NODE</span>
+        <span class="cyber-weather-coords">
+          <span data-location="timezone">LOCAL NODE</span>
+          <span data-location="timezone-short">LOCAL</span>
+        </span>
       </div>
       <div class="cyber-weather-grid">
         <div class="cyber-clock-block">
@@ -149,6 +152,8 @@
 
     card.querySelector('[data-location="name"]').textContent = label.toLocaleUpperCase();
     card.querySelector('[data-location="timezone"]').textContent = timeZone;
+    // Keep the full IANA timezone on desktop, but omit its area prefix on phones.
+    card.querySelector('[data-location="timezone-short"]').textContent = timeZone.split("/").pop().replace(/_/g, " ");
     card.querySelector('[data-location="clock-label"]').textContent = `LOCAL TIME / ${getTimeZoneName(timeZone)}`;
     card.setAttribute("aria-label", `${label}时间与天气`);
   }
