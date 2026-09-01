@@ -6,6 +6,7 @@ categories:
 tags:
   - 新闻
   - 市场观察
+cover: https://images.unsplash.com/photo-1612911853182-96e6be2792c7?auto=format&blend=000000&blend-alpha=10&blend-mode=normal&blend-w=1&crop=faces%2Cedges&fit=crop&h=630&ixid=M3wxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNzAwMTU2NzY2fA&ixlib=rb-4.0.3&mark=https%3A%2F%2Fimages.unsplash.com%2Fopengraph%2Flogo.png&mark-align=top%2Cleft&mark-pad=50&mark-w=64&q=60&w=1200
 ---
 
 ## 今日主线
@@ -41,3 +42,6 @@ AI投资并没有因为高利率环境而停下。欧盟高性能计算联合体
 今天几条新闻放在一起看，最重要的变化是市场重新从“增长能否延续”转向“增长质量能否抵消供给端通胀”。美伊冲突推高油价，会直接影响通胀、债券收益率和美元定价，并压缩央行宽松空间；如果高油价持续，澳元等大宗商品货币可能因贸易条件改善获得一定支撑，但风险厌恶上升又可能强化美元需求，因此汇率反应未必单向。中国PMI则显示工业端比服务端更有韧性，高技术制造业继续扩张，但内需和就业相关分项仍弱，这意味着人民币资产的修复更依赖政策能否把工业增长传导到居民收入和消费。
 
 AI方向仍然是少数能够承受高资金成本的大规模资本开支领域。欧盟3.878亿欧元的LUMI-AI项目说明，各经济体已经把算力视为战略基础设施，而不是单纯的科技公司支出。但如果债券收益率继续走高，市场会更加区分“有现金流和订单支撑的AI基础设施”与单纯依赖远期增长叙事的高估值公司。与此同时，俄乌冲突对粮食港口和物流系统的破坏意味着地缘风险正在影响更多实体商品。如果能源和粮食同时出现价格压力，全球通胀下降的最后一段路会更困难。今天最值得跟踪的三个变量因此是：布油能否守住90美元、美国利率预期是否继续上修，以及中国服务业和消费端能否在9月出现更明确改善。
+
+---
+封面图片：[Jamie / Unsplash](https://unsplash.com/fr/photos/skyline-da-cidade-sob-o-ceu-azul-durante-o-dia-mVXskviY-PQ)
