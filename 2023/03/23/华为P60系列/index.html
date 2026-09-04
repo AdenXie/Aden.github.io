@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+        
+        
+        
+            <link rel="preconnect" href="https://evan.beee.top" crossorigin>
+        
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/2023/03/23/华为p60系列/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="华为P60系列">
+<meta property="og:url" content="https://blog.adenxie.com.cn/2023/03/23/%E5%8D%8E%E4%B8%BAP60%E7%B3%BB%E5%88%97/index.html">
+<meta property="og:site_name" content="Aden&#39;s Space">
+<meta property="og:description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2023-03-23T11:56:25.000Z">
+<meta property="article:modified_time" content="2023-04-14T11:28:43.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="发布会">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            华为P60系列 | Aden&#39;s Space
+        
+    </title>
+
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fonts/Chillax/chillax.css">
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    <script data-swup-reload-script src="/js/theme-default.js"></script>
+                
+    
+            
+                
+                    <link rel="stylesheet" href="/css/custom.css">
+                
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/css/build/tailwind.css">
+    
+
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fonts/GeistMono/geist-mono.css">
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fonts/Geist/geist.css">
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"zh-CN","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"17px","line_height":1.85,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"all_rights_reserved"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"static","image":{"light":"https://files.seeusercontent.com/2026/08/27/5xbK/IMG_20260718_compressed_under_5M.jpg","dark":"https://files.seeusercontent.com/2026/08/27/5xbK/IMG_20260718_compressed_under_5M.jpg"},"title":"Aden's Space","subtitle":{"text":["科技、体验与个人判断","写下真实体验，也保留观点的棱角"],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"世界时间":{"path":"/world-time/","icon":"fa-regular fa-clock"},"关于":{"path":"/about/","icon":"fa-regular fa-user"},"友链":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":true,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.i18n = {"search":"站内搜索您需要的内容...","toc":"目录","prev":"上一页","next":"下一页","prev_posts":"上一篇","next_posts":"下一篇","page":"第 %d 页","recent_posts":"最新文章","share":"分享","powered_by":"由 %s 驱动","theme":"主题","rss_feed":"RSS Feed","category":"分类","categories":"分类","tag":"标签","tags":"标签","post":"文章","posts":"文章","tagcloud":"标签云","comment":"评论","comments":"评论","top":"置顶","sticky":"置顶","go-back-home":"回到首页","masonry_loading":"照片加载中...","image_viewer":"图片查看器","close":"关闭","exif":{"title":"EXIF","cards":{"camera":"相机","lens":"镜头","exposure":"曝光","other":"其他"},"fields":{"make":"品牌","model":"机型","date_taken":"拍摄时间","lens_model":"镜头","focal_length":"焦距","focus_mode":"对焦模式","shutter":"快门","aperture":"光圈","iso":"感光度","exposure_program":"曝光程序","exposure_compensation":"曝光补偿","metering_mode":"测光模式","flash":"闪光灯","white_balance":"白平衡","latitude":"纬度","longitude":"经度","altitude":"海拔"},"status":{"loading":"加载中...","no_exif":"无 EXIF 信息","library_missing":"EXIF 库未加载","image_source_missing":"图片地址不可用","unavailable":"EXIF 不可用（可能被 CORS 阻止或缺少元数据）","flag_unavailable":"EXIF 不可用"}},"home":"首页","archive":"归档","archives":"归档","about":"关于","links":"链接","link":"链接","friends":"友情链接","friend":"友情链接","timeline":"时间轴","shuoshuo":"说说","bookmarks":"书签","site_uv":"访问人数","site_pv":"总访问量","read_more":"阅读全文","wordcount":"字","min2read":"分钟","changelog":"更新日志","status":"状态","runtime":"博客已运行","days":"天","hours":"小时","minutes":"分钟","seconds":"秒","optimized_by":"并由 Evan 进行优化","rights":"版权所有","site_posts":"共撰写了 %s 篇文章","site_wordcount":"共 %s 字","copyright":{"title":"标题","author":"作者","link":"链接","create_time":"创建于","update_time":"更新于","license_title":"版权声明","license_content":"本文章采用 %s 进行许可。","all_rights_reserved":"版权所有 &#169 %s，禁止转载。","public_domain":"本文为公有领域作品，可自由转载、引用。"},"ago":{"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"},"create_time":"创建","update_time":"更新","expired":"这篇文章最后更新于 %s 天前，内容可能已经过时。"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fontawesome/fontawesome.min.css">
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fontawesome/brands.min.css">
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fontawesome/solid.min.css">
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fontawesome/regular.min.css">
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Aden&#39;s Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives/"
+                                        >
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    归档
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/tags/"
+                                        >
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    标签
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/world-time/"
+                                        >
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    世界时间
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/about/"
+                                        >
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/link/"
+                                        >
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    友链
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives/"
+                        >
+                            <span>
+                                归档
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/tags/"
+                        >
+                            <span>
+                                标签
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/world-time/"
+                        >
+                            <span>
+                                世界时间
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/about/"
+                        >
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/link/"
+                        >
+                            <span>
+                                友链
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/archives/"
+                        >
+                            <span>文章归档</span>
+                            <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/tags/"
+                        >
+                            <span>主题标签</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/about/"
+                        >
+                            <span>关于 Aden</span>
+                            <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">14</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">3</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">31</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://doc-fd.zol-img.com.cn/t_s640x2000/g7/M00/01/0B/ChMkLGQcIqCIUYMHAARiK9dbGqsAAOFzwJSYl8ABGJD278.jpg" alt="华为P60系列" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" />
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">华为P60系列</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-03-23 19:56:25</span>
+        <span class="mobile">2023-03-23 19:56:25</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2023-04-14 19:28:43</span>
+            <span class="mobile">2023-04-14 19:28:43</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E5%8F%91%E5%B8%83%E4%BC%9A/">发布会</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>2k 字</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>7 分钟</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h2 id="华为-P60：迄今为止功能最强大、功能最全的智能手机"><a href="#华为-P60：迄今为止功能最强大、功能最全的智能手机" class="headerlink" title="华为 P60：迄今为止功能最强大、功能最全的智能手机"></a><strong>华为 P60：迄今为止功能最强大、功能最全的智能手机</strong></h2><p>华为刚刚发布了其最新的旗舰智能手机P60。 全新的 P60 拥有尖端的功能和技术，使其成为市场上功能最强大、用途最广泛的智能手机之一。</p>
+<p>P60 由最新的 Snapdragon 8+ Gen 1 4G 处理器提供支持，该处理器可为从游戏到多任务处理的一切提供极快的性能。 该手机还配备令人惊叹的 6.67 英寸四曲线 LTPO 显示屏，刷新率为 120 Hz，可提供流畅和身临其境的观看体验。</p>
+<p>在相机方面，P60 确实是一个强大的力量。 后置摄像头系统配备一个 50 MP 主摄像头、一个 13 MP 超宽摄像头、一个 40 MP 长焦摄像头和一个 2 MP 微距摄像头。 前置摄像头也是一个 13 MP 射手。 使用这些相机，您可以在任何照明条件下拍摄精美的照片和视频。</p>
+<p>P60 还运行最新的 HarmonyOS 3.1 操作系统，该操作系统包含许多新功能和改进。 HarmonyOS 3.1比以往任何时候都更加人性化和直观，它提供了更流畅、更流畅的用户体验。</p>
+<p>P60还配备了强劲的4815毫安时电池，一次充电即可轻松使用一整天。 该手机还支持 66W 快速充电，因此您可以在需要时快速为电池充电。</p>
+<p>总体而言，华为 P60 是市场上功能最强大、用途最广泛的智能手机之一。 凭借其尖端的功能和技术，P60 一定会带来令人难忘的智能手机体验。</p>
+<p><strong>以下是华为 P60 的一些主要功能：</strong></p>
+<ul>
+<li>骁龙 8+ Gen 1 4G 处理器</li>
+<li>具有 120 Hz 刷新率的 6.67 英寸四曲线 LTPO 显示屏</li>
+<li>背面的四摄像头系统，包括一个 50 MP 主摄像头、一个 13 MP 超宽摄像头、一个 40 MP 长焦摄像头和一个 2 MP 微距摄像头</li>
+<li>13 MP 前置摄像头</li>
+<li>鸿蒙OS 3.1</li>
+<li>4815毫安电池</li>
+<li>66W快充</li>
+</ul>
+<p><strong>如果您正在寻找一款功能强大、用途广泛、可提供令人难忘的用户体验的智能手机，那么华为 P60 是您的完美选择。</strong></p>
+<p><strong>以下是华为 P60 的一些优缺点：</strong></p>
+<p><strong>优点：</strong></p>
+<ul>
+<li>强大的 Snapdragon 8+ Gen 1 4G 处理器</li>
+<li>令人惊叹的 6.67 英寸四曲线 LTPO 显示屏，刷新率为 120 Hz</li>
+<li>出色的四摄系统</li>
+<li>HarmonyOS 3.1 流畅流畅的用户体验</li>
+<li>强大的 4815 mAh 电池，支持 66W 快速充电</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>没有谷歌播放服务</li>
+<li>昂贵的</li>
+<li>并非在所有国家&#x2F;地区都可用</li>
+</ul>
+<p>总体而言，华为 P60 是一款功能强大的智能手机。 如果你可以在没有 Google Play 服务的情况下生活并且愿意支付额外费用，那么 P60 是一个不错的选择。</p>
+<h2 id="华为P60-Pro-摄影爱好者的终极智能手机"><a href="#华为P60-Pro-摄影爱好者的终极智能手机" class="headerlink" title="华为P60 Pro:摄影爱好者的终极智能手机"></a><strong>华为P60 Pro:摄影爱好者的终极智能手机</strong></h2><p>华为P60 Pro是华为最新的旗舰智能手机，它的众多功能使其成为摄影爱好者的最佳选择。强大的摄像头系统，令人惊叹的显示屏，以及持久的电池，P60 Pro是一股不可忽视的力量。</p>
+<p><strong>相机</strong></p>
+<p>华为P60 Pro的摄像头系统是其最令人印象深刻的功能之一。它具有四摄像头设置，带有一个50MP主传感器，一个40MP超宽传感器，一个12MP长焦传感器和一个3D深度传感器。这种传感器组合使P60 Pro在任何照明条件下都能拍摄出令人惊叹的照片。<br>主传感器能够在明亮和弱光环境中捕捉令人难以置信的细节。超宽传感器非常适合拍摄风景和集体照，而长焦传感器可以让你在不丢失细节的情况下放大远处的主题。3D深度传感器有助于创建具有自然散景效果的令人惊叹的肖像。</p>
+<p><strong>显示</strong></p>
+<p>华为P60 Pro还拥有令人惊叹的显示屏。它拥有6.67英寸的OLED显示屏，分辨率为1220 x 2700像素。显示屏明亮、多彩、清晰，非常适合观看视频、玩游戏或浏览网页。</p>
+<p><strong>电池</strong></p>
+<p>华为P60 Pro由一块4500mAh电池供电，充电一次可以轻松使用一整天。电池支持66W快速充电，需要时可以快速充满。</p>
+<p><strong>其他功能</strong></p>
+<p>华为P60 Pro还具有其他一些令人印象深刻的功能，包括强大的麒麟990处理器，8GB的RAM和256GB的存储空间。它还可以运行最新版本的华为HarmonyOS操作系统。</p>
+<p><strong>总的来说，华为P60 Pro是一款优秀的智能手机，非常适合摄影爱好者。它拥有强大的摄像系统，令人惊叹的显示屏，持久的电池，以及其他一些令人印象深刻的功能。如果你正在寻找一款可以拍摄惊人照片的智能手机，华为P60 Pro是你的最佳选择。</strong></p>
+<p><strong>以下是华为P60 Pro的一些主要功能:</strong></p>
+<ul>
+<li>50MP主摄像机</li>
+<li>40MP超宽摄像头</li>
+<li>12MP长焦相机</li>
+<li>三维深度传感器</li>
+<li>6.67英寸OLED显示屏</li>
+<li>1220 x 2700像素分辨率</li>
+<li>4500毫安时电池</li>
+<li>66W快充</li>
+<li>骁龙 8+ Gen 1 4G处理器</li>
+<li>8GB内存</li>
+<li>256GB存储空间</li>
+<li>HarmonyOS操作系统</li>
+<li>起价999美元</li>
+</ul>
+<p><strong>如果你正在寻找一款功能强大、时尚、配有出色摄像头的智能手机，华为P60 Pro是一个不错的选择。</strong></p>
+<h2 id="华为P60-Art-智能手机的艺术作品"><a href="#华为P60-Art-智能手机的艺术作品" class="headerlink" title="华为P60 Art:智能手机的艺术作品"></a><strong>华为P60 Art:智能手机的艺术作品</strong></h2><p>华为P60 Art是一款既漂亮又强大的智能手机。它以艺术为灵感的独特设计为特色，它的众多功能使它成为任何想要时尚和功能强大的智能手机的人的绝佳选择。</p>
+<p><strong>设计</strong></p>
+<p>华为P60 Art是第一款采用再生纸背板的智能手机。这种纸来自可持续发展的森林，并经过特殊涂层处理，使其防水和防刮。背板有两种颜色可供选择:陶瓷白和釉黑。</p>
+<p>华为P60 Art的正面采用6.67英寸AMOLED显示屏，分辨率为1220 x 2700像素。显示屏明亮，色彩丰富，清晰，它有120Hz的刷新率，可以流畅地滚动和游戏。</p>
+<p><strong>相机</strong></p>
+<p>华为P60 Art背面有一个三摄像头系统，有一个50MP的主传感器，一个40MP的超宽传感器和一个12MP的长焦传感器。该相机系统可以在任何照明条件下拍摄出令人惊叹的照片，而且它还具有许多高级功能，如人像模式、夜间模式和AI场景识别。</p>
+<p><strong>性能</strong></p>
+<p>华为P60 Art采用最新的高通骁龙8 Gen 2处理器。这个处理器非常强大，甚至可以处理最苛刻的任务。这款手机还有12GB的内存和256GB的存储空间。</p>
+<p><strong>电池</strong></p>
+<p>华为P60 Art拥有5000毫安时的电池，充一次电可以轻松使用一整天。电池还支持88W快速充电，需要时可以快速充满。</p>
+<p><strong>其他功能</strong></p>
+<p>华为P60 Art还具有其他一些令人印象深刻的功能，包括:</p>
+<ul>
+<li>6.67英寸AMOLED显示屏，分辨率为1220 x 2700像素</li>
+<li>背面的三摄像头系统，主传感器为50MP，超宽传感器为40MP，远摄传感器为12MP</li>
+<li>高通骁龙8代2处理器</li>
+<li>12GB内存</li>
+<li>256GB存储空间</li>
+<li>5000mAh电池，88W快充</li>
+<li>Android 13操作系统</li>
+</ul>
+<p><strong>总的来说，华为P60 Art是一款优秀的智能手机，适合任何想要时尚而强大的设备的人。它拥有独特的设计，强大的处理器，多功能的摄像系统，以及持久的电池。如果你正在寻找一款新的智能手机，华为P60 Art是一个很好的选择。</strong></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> 华为P60系列</li>
+        <li><strong>作者:</strong> AdenXie</li>
+        <li><strong>创建于
+                :</strong> 2023-03-23 19:56:25</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2023-04-14 19:28:43
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://blog.adenxie.com.cn/2023/03/23/华为P60系列/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                版权所有 &#169 AdenXie，禁止转载。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%8F%91%E5%B8%83%E4%BC%9A/">#发布会</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2023/03/21/OPPOPad2%20%E5%92%8C%20OPPO%20FindX6/" title="OPPOPad2 和 OPPO FindX6" rel="bookmark">
+  <img src="https://doc-fd.zol-img.com.cn/g7/M00/0F/0C/ChMkK2QYNWWIVoCzAAm4MTM9Zj8AAN-NgGr7oQACbhJ505.jpg" alt="OPPOPad2 和 OPPO FindX6" class="!max-w-none">
+  <span class="title">OPPOPad2 和 OPPO FindX6</span>
+</a><a class="recommended-article-item" href="/2024/06/21/%E5%B0%8F%E7%B1%B3%E5%B9%B4%E5%BA%A6%E6%97%97%E8%88%B0-%E5%B0%8F%E7%B1%B314Ultra%E5%8F%91%E5%B8%83/" title="小米年度旗舰---小米14Ultra发布" rel="bookmark">
+  <img src="https://ares.shiftdelete.net/2024/02/xiaomi-14-ultra-resmiyet-kazandi-1.jpg" alt="小米年度旗舰---小米14Ultra发布" class="!max-w-none">
+  <span class="title">小米年度旗舰---小米14Ultra发布</span>
+</a><a class="recommended-article-item" href="/2022/07/23/%E6%96%B0%E5%AD%A6%E6%9C%9F%E9%80%89%E8%B4%AD%E5%B9%B3%E6%9D%BF%E7%94%B5%E8%84%91%E6%8C%87%E5%8D%97/" title="新学期选购平板电脑指南" rel="bookmark">
+  <img src="https://th.bing.com/th/id/OIP.0LikbI9N3Pzmv2Fxmiz-SQHaEo?pid=ImgDet&rs=1" alt="新学期选购平板电脑指南" class="!max-w-none">
+  <span class="title">新学期选购平板电脑指南</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2023/03/21/OPPOPad2%20%E5%92%8C%20OPPO%20FindX6/" title="OPPOPad2 和 OPPO FindX6" rel="bookmark">
+  <img src="https://doc-fd.zol-img.com.cn/g7/M00/0F/0C/ChMkK2QYNWWIVoCzAAm4MTM9Zj8AAN-NgGr7oQACbhJ505.jpg" alt="OPPOPad2 和 OPPO FindX6" class="!max-w-none">
+  <span class="title">OPPOPad2 和 OPPO FindX6</span>
+</a><a class="recommended-article-item" href="/2024/06/21/%E5%B0%8F%E7%B1%B3%E5%B9%B4%E5%BA%A6%E6%97%97%E8%88%B0-%E5%B0%8F%E7%B1%B314Ultra%E5%8F%91%E5%B8%83/" title="小米年度旗舰---小米14Ultra发布" rel="bookmark">
+  <img src="https://ares.shiftdelete.net/2024/02/xiaomi-14-ultra-resmiyet-kazandi-1.jpg" alt="小米年度旗舰---小米14Ultra发布" class="!max-w-none">
+  <span class="title">小米年度旗舰---小米14Ultra发布</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2023/03/28/AP-Macroeconomics-2018/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">AP Macroeconomics 2018</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2023/03/21/OPPOPad2%20%E5%92%8C%20OPPO%20FindX6/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">OPPOPad2 和 OPPO FindX6</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+    <div class="twikoo-container">
+        <script data-swup-reload-script
+                src='https://cdnjs.cloudflare.com/ajax/libs/twikoo/1.7.20/twikoo.all.min.js'
+        ></script>
+        <div id="twikoo-comment"></div>
+        <script data-swup-reload-script>
+            (function() {
+                const startPath = location.pathname;
+                const startTime = Date.now();
+                const retryDelay = 200;
+                const retryLimit = 5000;
+
+                const runTwikoo = () => {
+                    if (location.pathname !== startPath) {
+                        return;
+                    }
+
+                    const container = document.getElementById('twikoo-comment');
+                    if (!container || typeof twikoo === 'undefined') {
+                        if (Date.now() - startTime < retryLimit) {
+                            setTimeout(runTwikoo, retryDelay);
+                        }
+                        return;
+                    }
+
+                    container.innerHTML = '';
+                    twikoo.init({
+                        el: '#twikoo-comment',
+                        envId: 'https://twikoo-six-weld.vercel.app',
+                        path: location.pathname,
+                    });
+                };
+
+                runTwikoo();
+            })();
+        </script>
+    </div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">华为P60系列</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%8E%E4%B8%BA-P60%EF%BC%9A%E8%BF%84%E4%BB%8A%E4%B8%BA%E6%AD%A2%E5%8A%9F%E8%83%BD%E6%9C%80%E5%BC%BA%E5%A4%A7%E3%80%81%E5%8A%9F%E8%83%BD%E6%9C%80%E5%85%A8%E7%9A%84%E6%99%BA%E8%83%BD%E6%89%8B%E6%9C%BA"><span class="nav-text">华为 P60：迄今为止功能最强大、功能最全的智能手机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%8E%E4%B8%BAP60-Pro-%E6%91%84%E5%BD%B1%E7%88%B1%E5%A5%BD%E8%80%85%E7%9A%84%E7%BB%88%E6%9E%81%E6%99%BA%E8%83%BD%E6%89%8B%E6%9C%BA"><span class="nav-text">华为P60 Pro:摄影爱好者的终极智能手机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%8E%E4%B8%BAP60-Art-%E6%99%BA%E8%83%BD%E6%89%8B%E6%9C%BA%E7%9A%84%E8%89%BA%E6%9C%AF%E4%BD%9C%E5%93%81"><span class="nav-text">华为P60 Art:智能手机的艺术作品</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">写下真实体验，也保留观点的棱角。</div>
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 31 篇文章
+                    </span>
+                    
+                        <span>
+                            共 62.1k 字
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        <script data-swup-reload-script src="/js/cyber-weather.js" defer></script>
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script src="/js/cyber-exchange.js" defer></script>
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="图片查看器">
+	<button class="image-viewer-close" type="button" aria-label="关闭">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="上一页">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="关闭">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="下一页">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="站内搜索您需要的内容..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+<script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/Swup.min.js" ></script><script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupSlideTheme.min.js" ></script><script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupScriptsPlugin.min.js" ></script><script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupProgressPlugin.min.js" ></script><script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupScrollPlugin.min.js" ></script><script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupPreloadPlugin.min.js" ></script>
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	<script type="module" src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/main.js" ></script>
+
+
+    <script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/odometer.min.js" ></script>
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/assets/odometer-theme-minimal.css">
+
+
+
+
+
+
+  <script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/Typed.min.js" ></script>
+
+
+
+
+
+
+
+
+<script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/moment-with-locales.min.js" data-swup-reload-script></script>
+
+
+	
+	<div id="aplayer"></div>
+<script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/APlayer.min.js" ></script>
+<script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/plugins/aplayer.js" ></script>
+
+	
+</body>
+
+</html>

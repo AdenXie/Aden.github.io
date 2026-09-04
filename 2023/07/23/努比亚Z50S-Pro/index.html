@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+        
+        
+        
+            <link rel="preconnect" href="https://evan.beee.top" crossorigin>
+        
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/2023/07/23/努比亚z50s-pro/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="努比亚Z50S Pro">
+<meta property="og:url" content="https://blog.adenxie.com.cn/2023/07/23/%E5%8A%AA%E6%AF%94%E4%BA%9AZ50S-Pro/index.html">
+<meta property="og:site_name" content="Aden&#39;s Space">
+<meta property="og:description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2023-07-23T08:57:46.000Z">
+<meta property="article:modified_time" content="2023-07-23T09:03:08.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="发布会">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            努比亚Z50S Pro | Aden&#39;s Space
+        
+    </title>
+
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fonts/Chillax/chillax.css">
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    <script data-swup-reload-script src="/js/theme-default.js"></script>
+                
+    
+            
+                
+                    <link rel="stylesheet" href="/css/custom.css">
+                
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/css/build/tailwind.css">
+    
+
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fonts/GeistMono/geist-mono.css">
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fonts/Geist/geist.css">
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"zh-CN","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"17px","line_height":1.85,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"all_rights_reserved"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"static","image":{"light":"https://files.seeusercontent.com/2026/08/27/5xbK/IMG_20260718_compressed_under_5M.jpg","dark":"https://files.seeusercontent.com/2026/08/27/5xbK/IMG_20260718_compressed_under_5M.jpg"},"title":"Aden's Space","subtitle":{"text":["科技、体验与个人判断","写下真实体验，也保留观点的棱角"],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"世界时间":{"path":"/world-time/","icon":"fa-regular fa-clock"},"关于":{"path":"/about/","icon":"fa-regular fa-user"},"友链":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":true,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.i18n = {"search":"站内搜索您需要的内容...","toc":"目录","prev":"上一页","next":"下一页","prev_posts":"上一篇","next_posts":"下一篇","page":"第 %d 页","recent_posts":"最新文章","share":"分享","powered_by":"由 %s 驱动","theme":"主题","rss_feed":"RSS Feed","category":"分类","categories":"分类","tag":"标签","tags":"标签","post":"文章","posts":"文章","tagcloud":"标签云","comment":"评论","comments":"评论","top":"置顶","sticky":"置顶","go-back-home":"回到首页","masonry_loading":"照片加载中...","image_viewer":"图片查看器","close":"关闭","exif":{"title":"EXIF","cards":{"camera":"相机","lens":"镜头","exposure":"曝光","other":"其他"},"fields":{"make":"品牌","model":"机型","date_taken":"拍摄时间","lens_model":"镜头","focal_length":"焦距","focus_mode":"对焦模式","shutter":"快门","aperture":"光圈","iso":"感光度","exposure_program":"曝光程序","exposure_compensation":"曝光补偿","metering_mode":"测光模式","flash":"闪光灯","white_balance":"白平衡","latitude":"纬度","longitude":"经度","altitude":"海拔"},"status":{"loading":"加载中...","no_exif":"无 EXIF 信息","library_missing":"EXIF 库未加载","image_source_missing":"图片地址不可用","unavailable":"EXIF 不可用（可能被 CORS 阻止或缺少元数据）","flag_unavailable":"EXIF 不可用"}},"home":"首页","archive":"归档","archives":"归档","about":"关于","links":"链接","link":"链接","friends":"友情链接","friend":"友情链接","timeline":"时间轴","shuoshuo":"说说","bookmarks":"书签","site_uv":"访问人数","site_pv":"总访问量","read_more":"阅读全文","wordcount":"字","min2read":"分钟","changelog":"更新日志","status":"状态","runtime":"博客已运行","days":"天","hours":"小时","minutes":"分钟","seconds":"秒","optimized_by":"并由 Evan 进行优化","rights":"版权所有","site_posts":"共撰写了 %s 篇文章","site_wordcount":"共 %s 字","copyright":{"title":"标题","author":"作者","link":"链接","create_time":"创建于","update_time":"更新于","license_title":"版权声明","license_content":"本文章采用 %s 进行许可。","all_rights_reserved":"版权所有 &#169 %s，禁止转载。","public_domain":"本文为公有领域作品，可自由转载、引用。"},"ago":{"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"},"create_time":"创建","update_time":"更新","expired":"这篇文章最后更新于 %s 天前，内容可能已经过时。"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fontawesome/fontawesome.min.css">
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fontawesome/brands.min.css">
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fontawesome/solid.min.css">
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fontawesome/regular.min.css">
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Aden&#39;s Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives/"
+                                        >
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    归档
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/tags/"
+                                        >
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    标签
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/world-time/"
+                                        >
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    世界时间
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/about/"
+                                        >
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/link/"
+                                        >
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    友链
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives/"
+                        >
+                            <span>
+                                归档
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/tags/"
+                        >
+                            <span>
+                                标签
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/world-time/"
+                        >
+                            <span>
+                                世界时间
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/about/"
+                        >
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/link/"
+                        >
+                            <span>
+                                友链
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/archives/"
+                        >
+                            <span>文章归档</span>
+                            <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/tags/"
+                        >
+                            <span>主题标签</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/about/"
+                        >
+                            <span>关于 Aden</span>
+                            <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">14</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">3</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">31</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://n.sinaimg.cn/spider20230720/11/w1080h531/20230720/6c02-50febed59b3308a1f1bc32034614a15c.jpg" alt="努比亚Z50S Pro" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" />
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">努比亚Z50S Pro</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2023-07-23 16:57:46</span>
+        <span class="mobile">2023-07-23 16:57:46</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2023-07-23 17:03:08</span>
+            <span class="mobile">2023-07-23 17:03:08</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E5%8F%91%E5%B8%83%E4%BC%9A/">发布会</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>2.1k 字</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>7 分钟</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h1 id="努比亚Z50S-Pro：直屏影像全能旗舰，打造光影艺术"><a href="#努比亚Z50S-Pro：直屏影像全能旗舰，打造光影艺术" class="headerlink" title="努比亚Z50S Pro：直屏影像全能旗舰，打造光影艺术"></a>努比亚Z50S Pro：直屏影像全能旗舰，打造光影艺术</h1><p>努比亚Z50S Pro是努比亚最新推出的一款直屏影像旗舰手机，于2023年7月20日正式发布。该机搭载了全球首批骁龙8 Gen2领先版处理器，拥有1.5K超视网膜级护眼直屏、5100mAh超大电池和80W快充等硬件配置，同时还采用了全新一代35mm定制镜头模组，重磅升级带来更大光圈和全新传感器，影像体验革命性跃升。此外，该机还推动了旗舰手机1TB大内存的普及，让用户无需担心存储空间不足的问题。在外观设计上，该机借鉴了经典专业相机的元素，采用了小牛皮玻璃圆盘相机设计，兼具艺术美感和科技质感。本文将为您详细介绍努比亚Z50S Pro的各方面特点和优势。</p>
+<h2 id="35mm高定光学-超越一英寸"><a href="#35mm高定光学-超越一英寸" class="headerlink" title="35mm高定光学 超越一英寸"></a>35mm高定光学 超越一英寸</h2><p><a class="link"   target="_blank" rel="noopener" href="https://www.ztedevices.com/cn/news/nubia-z50s-pro/" >努比亚Z50S Pro的最大亮点是其全新一代35mm高定光学系统，让每一个器件都发挥出最大优势，超越一英寸。<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a><a class="link"   target="_blank" rel="noopener" href="https://www.ztedevices.com/cn/news/nubia-z50s-pro/" >1<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a><a class="link"   target="_blank" rel="noopener" href="https://www.ithome.com/0/706/216.htm" >2<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a><a class="link"   target="_blank" rel="noopener" href="https://finance.sina.com.cn/tech/mobile/n/n/2023-07-20/doc-imzciprp9215194.shtml" >3<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<ul>
+<li>新机35mm主摄通光孔径达到业界最大的<strong>5.21mm</strong>，进光量较上一代提升**34%**，光学虚化效果、夜景成像效果、抓拍速度进一步升级。</li>
+<li>全新传感器感光量提升**56%**，在同一拍摄距离用相同像素镜头，拍摄35mm焦距镜头相同构图的照片，努比亚Z50S Pro有更高的像素密度及清晰度，画质超越一英寸旗舰主摄。</li>
+<li>影像模组尺寸<strong>22.5*22*6.6mm</strong>，与业界主流一英寸大底主摄的模组尺寸相当。</li>
+<li>同时，35mm主摄还定制<strong>1G+6P专业级光学镜头</strong>，阿贝数高达<strong>81.6</strong>，可实现超低色散和超低温漂，能有效改善拍照时的紫边现象，并降低温度对镜头的影响，成像更稳定。</li>
+</ul>
+<p>此外，努比亚Z50S Pro还拥有一颗50MP AF超广角超微距二合一主摄，13mm等效焦距、125度超广角，支持2.5cm微距拍摄；以及一颗AF长焦镜头，80mm等效焦距，支持OIS光学防抖。</p>
+<p>在影像模组设计方面，努比亚Z50S Pro致敬经典专业相机，采用人文之眼设计，圆形镜头模组如同“光之焦点”，搭配努比亚经典双红圈腰线，使镜头整体充满了辨识度，其边缘还特别采用了立体精雕CD纹理，可随着光线流转呈现丰富的光影变化，让艺术美感与科技质感融合为一。</p>
+<h2 id="计算摄影升级-人文街拍2-0更快更强更全面"><a href="#计算摄影升级-人文街拍2-0更快更强更全面" class="headerlink" title="计算摄影升级 人文街拍2.0更快更强更全面"></a>计算摄影升级 人文街拍2.0更快更强更全面</h2><p><a class="link"   target="_blank" rel="noopener" href="https://www.ztedevices.com/cn/news/nubia-z50s-pro/" >定制光学是影像硬件的基础，计算摄影是软件的升华。努比亚Z50S Pro融合多种微单拍摄技巧，推出了全新的人文街拍2.0功能。<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a><a class="link"   target="_blank" rel="noopener" href="https://www.ztedevices.com/cn/news/nubia-z50s-pro/" >1<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a><a class="link"   target="_blank" rel="noopener" href="https://www.ithome.com/0/706/216.htm" >2<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<ul>
+<li>通过自定义滑动键，用户可快速启动街拍模式，并借助全新的闪电抓拍4.0，轻松锁定精彩瞬间。</li>
+<li>新机全面升级超感光追焦功能，可精准捕捉人脸、人体和宠物，让抓拍过程快速精准对焦。</li>
+<li>借鉴专业相机，努比亚Z50S Pro新增包围摄影功能，只需一次拍摄即可得到三张不同参数的拍摄画面。</li>
+<li>全新的夜魈算法2.0和银河超夜2.0，对夜景拍摄和星空摄影进一步优化，暗光成像更加细腻清晰。</li>
+<li>努比亚光学超分算法，长焦拍照清晰度提升30%。</li>
+<li>全新UI界面融入nubia红色元素，人文街拍控制区设计了专业相机的皮质纹理，相机家族支持全新自定义界面，好看更好拍。</li>
+</ul>
+<h2 id="全球首批骁龙8-Gen2领先版-性能新标杆"><a href="#全球首批骁龙8-Gen2领先版-性能新标杆" class="headerlink" title="全球首批骁龙8 Gen2领先版 性能新标杆"></a>全球首批骁龙8 Gen2领先版 性能新标杆</h2><p><a class="link"   target="_blank" rel="noopener" href="https://www.ztedevices.com/cn/news/nubia-z50s-pro/" >作为全球首批搭载骁龙8Gen2领先版处理器的旗舰手机，努比亚Z50S Pro芯片将Cortex-X3超大核的主频升级到3.36GHz，GPU主频提升至719MHz。<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a><a class="link"   target="_blank" rel="noopener" href="https://www.ztedevices.com/cn/news/nubia-z50s-pro/" >1<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a><a class="link"   target="_blank" rel="noopener" href="https://www.ithome.com/0/706/216.htm" >2<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>内置独有的灵犀性能引擎，可对CPU、GPU及一系列硬件单元进行自适应调节，通过深度精细化调度机制，实现最佳性能匹配。</p>
+<p>为助力性能释放，新机搭载4233mm2超大面积仿生设计VC，以及金刚石导热凝胶、纳米碳纤维、石墨烯等多层散热材料，总散热面积高达42833mm2。</p>
+<p>机身背面还配备9颗高精度NTC温度传感器，可灵敏检测机身细微温度变化，实时调节散热策略。</p>
+<p>游戏体验方面，新机搭载灵犀游戏中枢，精细化管理游戏过程中的算力和渲染需求，按需调动计算资源，电竞级游戏稳帧引擎，有效提升游戏帧率稳定性，减少波动和掉帧导致的卡顿，画面更顺滑。</p>
+<p>电竞级游戏空间，不仅提供各种助战工具和插件库，还有多种趣味性功能，游戏体验更加酷爽。</p>
+<h2 id="1-5K-超视网膜级护眼直屏-显示与功耗平衡"><a href="#1-5K-超视网膜级护眼直屏-显示与功耗平衡" class="headerlink" title="1.5K 超视网膜级护眼直屏 显示与功耗平衡"></a>1.5K 超视网膜级护眼直屏 显示与功耗平衡</h2><p>屏幕方面，努比亚Z50S Pro搭载6.78英寸AMOLED护眼直屏，采用顶级蓝钻排列，可实现2800×1260超高分辨率及452PPI超视网膜级高像素密度；具备影院级绚丽臻彩显示，100%覆盖DCI-P3色域，10bit色深，10.7亿色彩范围，8000000:1对比度；支持120Hz刷新率及1000Hz瞬时触控采样率。</p>
+<ul>
+<li>在具备出色显示效果的同时，努比亚Z50S Pro屏幕还实现了功耗的平衡，搭载Q9发光材料，相比上一代发光材料功耗降低15%。</li>
+<li>屏幕钢化玻璃采用深度多重强化工艺，硬核防摔。</li>
+<li>为保护用眼健康，新机屏幕还支持2160Hz高频PWM调光，以及全局DC调光，让视觉感受更轻松，有效降低视觉疲劳度。</li>
+</ul>
+<h2 id="专业相机经典设计-拾光之镜特别版点亮“光的艺术”"><a href="#专业相机经典设计-拾光之镜特别版点亮“光的艺术”" class="headerlink" title="专业相机经典设计 拾光之镜特别版点亮“光的艺术”"></a>专业相机经典设计 拾光之镜特别版点亮“光的艺术”</h2><p>外观上，努比亚Z50S Pro拥有黑咖和卡其两款经典配色，借鉴了经典旁轴相机金属外壳搭配皮革外衣的设计，打造出双重质感机身后壳，可同时呈现AG闪光砂和皮纹效果。</p>
+<ul>
+<li>玻璃表面通过独特的立体蚀刻工艺，还原出细腻的小牛皮手感，触感更为清凉舒适，并具有耐磨、防滑、防污、抗指纹的特性。</li>
+<li>机身采用了金属中框及自然R角设计，厚度仅8.6mm，重量约228克。</li>
+</ul>
+<p>基于“摄影是光的艺术”的理念，此次努比亚还倾情打造了Z50S Pro拾光之镜特别版。</p>
+<ul>
+<li>机身后壳采用意大利“卡拉拉白”天然大理石纹理设计，并以3D激光光刻叠加纳米级镀膜工艺，还原天然原石自然晶体质感。</li>
+<li>后置镜头模组采用彩虹全息纹理透明环设计，可在不同的光线角度下绽放出独特的绚丽色彩，表达努比亚对光影艺术的极致追求。</li>
+</ul>
+<h2 id="轻快纯净的MyOS13系统-助力用户畅快使用"><a href="#轻快纯净的MyOS13系统-助力用户畅快使用" class="headerlink" title="轻快纯净的MyOS13系统 助力用户畅快使用"></a>轻快纯净的MyOS13系统 助力用户畅快使用</h2><p>努比亚Z50S Pro搭载MyOS13系统，轻快纯净，好玩好用。</p>
+<ul>
+<li>轻量级固件，绝大部分预置应用均可卸载，广告少，且默认关闭系统广告开关。</li>
+<li>系统还将游戏空间中备受好评的充电分离功能，升级到系统全局支持，更多的场景下支持只供电不充电，保持边充边玩的低温手感，带来良好的机身温度及性能供给。</li>
+</ul>
+<h2 id="价格与购买方式"><a href="#价格与购买方式" class="headerlink" title="价格与购买方式"></a>价格与购买方式</h2><p>努比亚Z50S Pro将于7月27日于中兴商城，京东、天猫、抖音、京东之家、京东电脑数码、京东电器超级体验店等平台全渠道正式开售。</p>
+<ul>
+<li>新机12GB+ 256GB版售价3699元；</li>
+<li>推出4款1TB大内存版：普通版12GB+1TB售价3999元，16GB+1TB售价4399元；拾光之镜特别版12GB+1TB售价 4099元，16GB+1TB版售价4499元。</li>
+</ul>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> 努比亚Z50S Pro</li>
+        <li><strong>作者:</strong> AdenXie</li>
+        <li><strong>创建于
+                :</strong> 2023-07-23 16:57:46</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2023-07-23 17:03:08
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://blog.adenxie.com.cn/2023/07/23/努比亚Z50S-Pro/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                版权所有 &#169 AdenXie，禁止转载。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%8F%91%E5%B8%83%E4%BC%9A/">#发布会</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/06/21/%E5%B0%8F%E7%B1%B3%E5%B9%B4%E5%BA%A6%E6%97%97%E8%88%B0-%E5%B0%8F%E7%B1%B314Ultra%E5%8F%91%E5%B8%83/" title="小米年度旗舰---小米14Ultra发布" rel="bookmark">
+  <img src="https://ares.shiftdelete.net/2024/02/xiaomi-14-ultra-resmiyet-kazandi-1.jpg" alt="小米年度旗舰---小米14Ultra发布" class="!max-w-none">
+  <span class="title">小米年度旗舰---小米14Ultra发布</span>
+</a><a class="recommended-article-item" href="/2023/05/31/%E8%8D%A3%E8%80%8090%E7%B3%BB%E5%88%97%E6%89%8B%E6%9C%BA%E8%AF%84%E6%B5%8B/" title="荣耀90系列手机评测" rel="bookmark">
+  <img src="https://www.hihonor.com/content/dam/honor/cn/activity/honor-90-series-launch/s6/section6-1-pc.jpg" alt="荣耀90系列手机评测" class="!max-w-none">
+  <span class="title">荣耀90系列手机评测</span>
+</a><a class="recommended-article-item" href="/2023/03/23/%E5%8D%8E%E4%B8%BAP60%E7%B3%BB%E5%88%97/" title="华为P60系列" rel="bookmark">
+  <img src="https://doc-fd.zol-img.com.cn/t_s640x2000/g7/M00/01/0B/ChMkLGQcIqCIUYMHAARiK9dbGqsAAOFzwJSYl8ABGJD278.jpg" alt="华为P60系列" class="!max-w-none">
+  <span class="title">华为P60系列</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2024/06/21/%E5%B0%8F%E7%B1%B3%E5%B9%B4%E5%BA%A6%E6%97%97%E8%88%B0-%E5%B0%8F%E7%B1%B314Ultra%E5%8F%91%E5%B8%83/" title="小米年度旗舰---小米14Ultra发布" rel="bookmark">
+  <img src="https://ares.shiftdelete.net/2024/02/xiaomi-14-ultra-resmiyet-kazandi-1.jpg" alt="小米年度旗舰---小米14Ultra发布" class="!max-w-none">
+  <span class="title">小米年度旗舰---小米14Ultra发布</span>
+</a><a class="recommended-article-item" href="/2023/05/31/%E8%8D%A3%E8%80%8090%E7%B3%BB%E5%88%97%E6%89%8B%E6%9C%BA%E8%AF%84%E6%B5%8B/" title="荣耀90系列手机评测" rel="bookmark">
+  <img src="https://www.hihonor.com/content/dam/honor/cn/activity/honor-90-series-launch/s6/section6-1-pc.jpg" alt="荣耀90系列手机评测" class="!max-w-none">
+  <span class="title">荣耀90系列手机评测</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2023/08/15/%E5%B0%8F%E7%B1%B3MIX-Fold-3%E2%80%94%E2%80%94%E8%BD%BB%E8%96%84%E6%8A%98%E5%8F%A0%E7%9C%9F%E6%97%97%E8%88%B0/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">小米MIX Fold 3</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2023/05/31/%E8%8D%A3%E8%80%8090%E7%B3%BB%E5%88%97%E6%89%8B%E6%9C%BA%E8%AF%84%E6%B5%8B/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">荣耀90系列手机评测</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+    <div class="twikoo-container">
+        <script data-swup-reload-script
+                src='https://cdnjs.cloudflare.com/ajax/libs/twikoo/1.7.20/twikoo.all.min.js'
+        ></script>
+        <div id="twikoo-comment"></div>
+        <script data-swup-reload-script>
+            (function() {
+                const startPath = location.pathname;
+                const startTime = Date.now();
+                const retryDelay = 200;
+                const retryLimit = 5000;
+
+                const runTwikoo = () => {
+                    if (location.pathname !== startPath) {
+                        return;
+                    }
+
+                    const container = document.getElementById('twikoo-comment');
+                    if (!container || typeof twikoo === 'undefined') {
+                        if (Date.now() - startTime < retryLimit) {
+                            setTimeout(runTwikoo, retryDelay);
+                        }
+                        return;
+                    }
+
+                    container.innerHTML = '';
+                    twikoo.init({
+                        el: '#twikoo-comment',
+                        envId: 'https://twikoo-six-weld.vercel.app',
+                        path: location.pathname,
+                    });
+                };
+
+                runTwikoo();
+            })();
+        </script>
+    </div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">努比亚Z50S Pro</div>
+		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8A%AA%E6%AF%94%E4%BA%9AZ50S-Pro%EF%BC%9A%E7%9B%B4%E5%B1%8F%E5%BD%B1%E5%83%8F%E5%85%A8%E8%83%BD%E6%97%97%E8%88%B0%EF%BC%8C%E6%89%93%E9%80%A0%E5%85%89%E5%BD%B1%E8%89%BA%E6%9C%AF"><span class="nav-text">努比亚Z50S Pro：直屏影像全能旗舰，打造光影艺术</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#35mm%E9%AB%98%E5%AE%9A%E5%85%89%E5%AD%A6-%E8%B6%85%E8%B6%8A%E4%B8%80%E8%8B%B1%E5%AF%B8"><span class="nav-text">35mm高定光学 超越一英寸</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%91%84%E5%BD%B1%E5%8D%87%E7%BA%A7-%E4%BA%BA%E6%96%87%E8%A1%97%E6%8B%8D2-0%E6%9B%B4%E5%BF%AB%E6%9B%B4%E5%BC%BA%E6%9B%B4%E5%85%A8%E9%9D%A2"><span class="nav-text">计算摄影升级 人文街拍2.0更快更强更全面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A8%E7%90%83%E9%A6%96%E6%89%B9%E9%AA%81%E9%BE%998-Gen2%E9%A2%86%E5%85%88%E7%89%88-%E6%80%A7%E8%83%BD%E6%96%B0%E6%A0%87%E6%9D%86"><span class="nav-text">全球首批骁龙8 Gen2领先版 性能新标杆</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-5K-%E8%B6%85%E8%A7%86%E7%BD%91%E8%86%9C%E7%BA%A7%E6%8A%A4%E7%9C%BC%E7%9B%B4%E5%B1%8F-%E6%98%BE%E7%A4%BA%E4%B8%8E%E5%8A%9F%E8%80%97%E5%B9%B3%E8%A1%A1"><span class="nav-text">1.5K 超视网膜级护眼直屏 显示与功耗平衡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%93%E4%B8%9A%E7%9B%B8%E6%9C%BA%E7%BB%8F%E5%85%B8%E8%AE%BE%E8%AE%A1-%E6%8B%BE%E5%85%89%E4%B9%8B%E9%95%9C%E7%89%B9%E5%88%AB%E7%89%88%E7%82%B9%E4%BA%AE%E2%80%9C%E5%85%89%E7%9A%84%E8%89%BA%E6%9C%AF%E2%80%9D"><span class="nav-text">专业相机经典设计 拾光之镜特别版点亮“光的艺术”</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%BB%E5%BF%AB%E7%BA%AF%E5%87%80%E7%9A%84MyOS13%E7%B3%BB%E7%BB%9F-%E5%8A%A9%E5%8A%9B%E7%94%A8%E6%88%B7%E7%95%85%E5%BF%AB%E4%BD%BF%E7%94%A8"><span class="nav-text">轻快纯净的MyOS13系统 助力用户畅快使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%B7%E6%A0%BC%E4%B8%8E%E8%B4%AD%E4%B9%B0%E6%96%B9%E5%BC%8F"><span class="nav-text">价格与购买方式</span></a></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">写下真实体验，也保留观点的棱角。</div>
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 31 篇文章
+                    </span>
+                    
+                        <span>
+                            共 62.1k 字
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        <script data-swup-reload-script src="/js/cyber-weather.js" defer></script>
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script src="/js/cyber-exchange.js" defer></script>
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="图片查看器">
+	<button class="image-viewer-close" type="button" aria-label="关闭">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="上一页">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="关闭">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="下一页">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="站内搜索您需要的内容..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+<script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/Swup.min.js" ></script><script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupSlideTheme.min.js" ></script><script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupScriptsPlugin.min.js" ></script><script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupProgressPlugin.min.js" ></script><script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupScrollPlugin.min.js" ></script><script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupPreloadPlugin.min.js" ></script>
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	<script type="module" src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/main.js" ></script>
+
+
+    <script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/odometer.min.js" ></script>
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/assets/odometer-theme-minimal.css">
+
+
+
+
+
+
+  <script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/Typed.min.js" ></script>
+
+
+
+
+
+
+
+
+<script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/moment-with-locales.min.js" data-swup-reload-script></script>
+
+
+	
+	<div id="aplayer"></div>
+<script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/APlayer.min.js" ></script>
+<script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/plugins/aplayer.js" ></script>
+
+	
+</body>
+
+</html>
