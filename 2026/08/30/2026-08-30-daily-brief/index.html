@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+        
+        
+        
+            <link rel="preconnect" href="https://evan.beee.top" crossorigin>
+        
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/2026/08/30/2026-08-30-daily-brief/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="每日简报｜2026-08-30：日元再逼160，科技与能源风险升温">
+<meta property="og:url" content="https://blog.adenxie.com.cn/2026/08/30/2026-08-30-daily-brief/index.html">
+<meta property="og:site_name" content="Aden&#39;s Space">
+<meta property="og:description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-08-30T01:02:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="新闻">
+<meta property="article:tag" content="市场观察">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            每日简报｜2026-08-30：日元再逼160，科技与能源风险升温 | Aden&#39;s Space
+        
+    </title>
+
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fonts/Chillax/chillax.css">
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    <script data-swup-reload-script src="/js/theme-default.js"></script>
+                
+    
+            
+                
+                    <link rel="stylesheet" href="/css/custom.css">
+                
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/css/build/tailwind.css">
+    
+
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fonts/GeistMono/geist-mono.css">
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fonts/Geist/geist.css">
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"zh-CN","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"17px","line_height":1.85,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"all_rights_reserved"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"static","image":{"light":"https://files.seeusercontent.com/2026/08/27/5xbK/IMG_20260718_compressed_under_5M.jpg","dark":"https://files.seeusercontent.com/2026/08/27/5xbK/IMG_20260718_compressed_under_5M.jpg"},"title":"Aden's Space","subtitle":{"text":["科技、体验与个人判断","写下真实体验，也保留观点的棱角"],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"世界时间":{"path":"/world-time/","icon":"fa-regular fa-clock"},"关于":{"path":"/about/","icon":"fa-regular fa-user"},"友链":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":true,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.i18n = {"search":"站内搜索您需要的内容...","toc":"目录","prev":"上一页","next":"下一页","prev_posts":"上一篇","next_posts":"下一篇","page":"第 %d 页","recent_posts":"最新文章","share":"分享","powered_by":"由 %s 驱动","theme":"主题","rss_feed":"RSS Feed","category":"分类","categories":"分类","tag":"标签","tags":"标签","post":"文章","posts":"文章","tagcloud":"标签云","comment":"评论","comments":"评论","top":"置顶","sticky":"置顶","go-back-home":"回到首页","masonry_loading":"照片加载中...","image_viewer":"图片查看器","close":"关闭","exif":{"title":"EXIF","cards":{"camera":"相机","lens":"镜头","exposure":"曝光","other":"其他"},"fields":{"make":"品牌","model":"机型","date_taken":"拍摄时间","lens_model":"镜头","focal_length":"焦距","focus_mode":"对焦模式","shutter":"快门","aperture":"光圈","iso":"感光度","exposure_program":"曝光程序","exposure_compensation":"曝光补偿","metering_mode":"测光模式","flash":"闪光灯","white_balance":"白平衡","latitude":"纬度","longitude":"经度","altitude":"海拔"},"status":{"loading":"加载中...","no_exif":"无 EXIF 信息","library_missing":"EXIF 库未加载","image_source_missing":"图片地址不可用","unavailable":"EXIF 不可用（可能被 CORS 阻止或缺少元数据）","flag_unavailable":"EXIF 不可用"}},"home":"首页","archive":"归档","archives":"归档","about":"关于","links":"链接","link":"链接","friends":"友情链接","friend":"友情链接","timeline":"时间轴","shuoshuo":"说说","bookmarks":"书签","site_uv":"访问人数","site_pv":"总访问量","read_more":"阅读全文","wordcount":"字","min2read":"分钟","changelog":"更新日志","status":"状态","runtime":"博客已运行","days":"天","hours":"小时","minutes":"分钟","seconds":"秒","optimized_by":"并由 Evan 进行优化","rights":"版权所有","site_posts":"共撰写了 %s 篇文章","site_wordcount":"共 %s 字","copyright":{"title":"标题","author":"作者","link":"链接","create_time":"创建于","update_time":"更新于","license_title":"版权声明","license_content":"本文章采用 %s 进行许可。","all_rights_reserved":"版权所有 &#169 %s，禁止转载。","public_domain":"本文为公有领域作品，可自由转载、引用。"},"ago":{"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"},"create_time":"创建","update_time":"更新","expired":"这篇文章最后更新于 %s 天前，内容可能已经过时。"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fontawesome/fontawesome.min.css">
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fontawesome/brands.min.css">
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fontawesome/solid.min.css">
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fontawesome/regular.min.css">
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Aden&#39;s Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives/"
+                                        >
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    归档
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/tags/"
+                                        >
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    标签
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/world-time/"
+                                        >
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    世界时间
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/about/"
+                                        >
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/link/"
+                                        >
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    友链
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives/"
+                        >
+                            <span>
+                                归档
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/tags/"
+                        >
+                            <span>
+                                标签
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/world-time/"
+                        >
+                            <span>
+                                世界时间
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/about/"
+                        >
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/link/"
+                        >
+                            <span>
+                                友链
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/archives/"
+                        >
+                            <span>文章归档</span>
+                            <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/tags/"
+                        >
+                            <span>主题标签</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/about/"
+                        >
+                            <span>关于 Aden</span>
+                            <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">14</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">3</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">32</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://images.pexels.com/photos/27549583/pexels-photo-27549583.jpeg?cs=srgb&amp;dl=pexels-nick-gorniok-495871763-27549583.jpg&amp;fm=jpg" alt="每日简报｜2026-08-30：日元再逼160，科技与能源风险升温" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" />
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">每日简报｜2026-08-30：日元再逼160，科技与能源风险升温</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-08-30 09:02</span>
+        <span class="mobile">2026-08-30 09:02</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E6%AF%8F%E6%97%A5%E7%AE%80%E6%8A%A5/">每日简报</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E6%96%B0%E9%97%BB/">新闻</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/">市场观察</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>2.4k 字</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>8 分钟</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h2 id="今日主线"><a href="#今日主线" class="headerlink" title="今日主线"></a>今日主线</h2><p>过去24小时里，全球市场并没有出现单一的“超级事件”，但几条看似分散的新闻正在指向同一个方向：政策、科技供应关系与地缘冲突都在提高市场对尾部风险的定价。美国财政部长贝森特罕见公开强调日元失序波动可能触发强制平仓并反过来抬高美国融资成本，说明汇率问题已经从日本国内议题上升为全球金融稳定议题；AI领域，OpenAI拟停止向被SpaceX收购的Cursor提供模型，则把商业竞争、公司治理与基础模型依赖风险推到台前。与此同时，中国存储芯片龙头长鑫存储起诉美国国防部、俄罗斯延长柴油出口禁令、伊朗在制裁与战争压力下出现高通胀与贸易下滑，进一步显示科技、能源和金融正在被更深地嵌入国家安全逻辑。市场真正需要警惕的，不只是某一项资产价格波动，而是这些风险在高估值、高杠杆和供应链紧张背景下彼此放大。</p>
+<span id="more"></span>
+
+<h2 id="五条重点新闻"><a href="#五条重点新闻" class="headerlink" title="五条重点新闻"></a>五条重点新闻</h2><h3 id="1-贝森特警告日元失序波动，160关口重新成为全球市场风险点"><a href="#1-贝森特警告日元失序波动，160关口重新成为全球市场风险点" class="headerlink" title="1. 贝森特警告日元失序波动，160关口重新成为全球市场风险点"></a>1. 贝森特警告日元失序波动，160关口重新成为全球市场风险点</h3><p>美国财政部长斯科特·贝森特8月29日表示，日元如果出现无序下跌，可能迫使投资者集中平仓，从而冲击全球市场，并最终推高美国居民和企业的借贷成本。背景是日元此前一度跌至约164兑1美元的近40年低点，美国与日本7月31日曾进行罕见联合买入日元干预，汇率短暂回升至155附近，但近期又重新逼近160。贝森特此番表态的重要性在于，美国财政部明确把日元波动与全球杠杆交易、美国融资条件联系起来，而不再只是把它视作日本的汇率管理问题。市场上大量套利交易长期依赖低成本日元融资，一旦日元快速反弹，杠杆头寸可能被迫同步减仓，股票、债券和其他高风险资产都可能受到冲击。下一步最值得观察的是日本央行是否进一步加息、美日是否再次联合干预，以及160附近是否形成新的政策防线。<a class="link"   target="_blank" rel="noopener" href="https://www.reuters.com/business/finance/bessent-says-disorderly-yen-moves-can-destabilize-global-markets-2026-08-29/" >Reuters<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="2-OpenAI拟切断Cursor模型供应，AI应用层的“模型依赖风险”浮出水面"><a href="#2-OpenAI拟切断Cursor模型供应，AI应用层的“模型依赖风险”浮出水面" class="headerlink" title="2. OpenAI拟切断Cursor模型供应，AI应用层的“模型依赖风险”浮出水面"></a>2. OpenAI拟切断Cursor模型供应，AI应用层的“模型依赖风险”浮出水面</h3><p>OpenAI计划在11月12日前停止向代码工具Cursor提供模型服务，而Cursor的母公司Anysphere本月刚被埃隆·马斯克旗下SpaceX以约600亿美元股票交易收购。路透报道显示，OpenAI将这一决定与潜在合同风险联系起来，事件也延续了马斯克与OpenAI管理层之间长期的法律和商业冲突。对AI行业而言，这件事的意义远超过两家公司的关系恶化：大量AI应用企业的产品能力建立在外部大模型API之上，如果模型供应商因竞争、合同、所有权变化或战略冲突终止服务，应用公司的核心功能就可能受到直接影响。Cursor目前同时使用多家模型，Anthropic也表示将增加Claude支持，这说明“多模型供应”正在从产品选择变成经营韧性的一部分。后续应关注双方能否达成新协议，以及更多AI应用公司是否会主动降低对单一基础模型厂商的依赖。<a class="link"   target="_blank" rel="noopener" href="https://www.reuters.com/business/media-telecom/openai-end-partnership-with-spacexs-cursor-2026-08-29/" >Reuters<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="3-长鑫存储起诉美国国防部，中美芯片竞争延伸至法律与市场准入"><a href="#3-长鑫存储起诉美国国防部，中美芯片竞争延伸至法律与市场准入" class="headerlink" title="3. 长鑫存储起诉美国国防部，中美芯片竞争延伸至法律与市场准入"></a>3. 长鑫存储起诉美国国防部，中美芯片竞争延伸至法律与市场准入</h3><p>中国主要DRAM存储芯片制造商长鑫存储（CXMT）已在华盛顿联邦法院起诉美国国防部，要求撤销其“与中国军方有关企业”的认定。公司称自身从事民用和商业业务，与中国军方没有隶属关系，并指控美方认定缺乏依据、程序武断。被列入相关名单虽然不等同于全面制裁，但会影响美国政府采购、合作伙伴风险评估和企业声誉，并可能进一步限制融资与国际业务。长鑫近年来快速扩张，是中国减少对海外DRAM供应依赖的重要企业，其收入在今年上半年大幅增长，因此案件不仅涉及一家公司，也关系到中国半导体自主化与美国技术限制政策之间的博弈。值得注意的是，越来越多中国科技企业选择通过美国法院挑战行政认定，说明科技竞争正在从出口管制和补贴政策延伸到程序合法性与司法审查。接下来要看美国国防部是否调整名单，以及法院如何界定企业与军事体系之间的关联证据标准。<a class="link"   target="_blank" rel="noopener" href="https://www.reuters.com/world/cxmt-sues-pentagon-over-inclusion-list-companies-tied-chinas-military-2026-08-29/" >Reuters<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="4-俄罗斯延长柴油出口禁令，炼厂受袭开始向全球成品油供应传导"><a href="#4-俄罗斯延长柴油出口禁令，炼厂受袭开始向全球成品油供应传导" class="headerlink" title="4. 俄罗斯延长柴油出口禁令，炼厂受袭开始向全球成品油供应传导"></a>4. 俄罗斯延长柴油出口禁令，炼厂受袭开始向全球成品油供应传导</h3><p>俄罗斯政府8月29日宣布，将柴油出口禁令延长至9月30日，同时继续限制船用燃料和部分柴油馏分出口，理由是稳定国内燃料市场。俄罗斯是全球最重要的柴油出口国之一，通常仅次于美国；此次延长禁令的背景是多家炼油厂在乌克兰无人机持续袭击后停产或降低负荷，俄罗斯国内出现燃料短缺压力。与原油相比，柴油市场更容易受到炼化能力和区域库存限制，因此即使全球原油供应总量没有明显下降，炼厂受损也可能直接推高欧洲、亚洲和航运市场的成品油价格。柴油成本还会通过卡车运输、农业机械、工业生产和物流体系向更广泛的通胀传导。下一步关键是俄罗斯炼厂恢复速度、乌克兰是否继续打击能源设施，以及欧洲能否通过中东、美国和亚洲供应填补缺口。<a class="link"   target="_blank" rel="noopener" href="https://www.reuters.com/business/energy/russia-extends-ban-diesel-exports-until-september-30-2026-08-29/" >Reuters<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="5-伊朗通胀升至约66-，制裁与战争把能源博弈转化为国内经济压力"><a href="#5-伊朗通胀升至约66-，制裁与战争把能源博弈转化为国内经济压力" class="headerlink" title="5. 伊朗通胀升至约66%，制裁与战争把能源博弈转化为国内经济压力"></a>5. 伊朗通胀升至约66%，制裁与战争把能源博弈转化为国内经济压力</h3><p>伊朗领导层本周公开承认经济面临严重压力。路透报道显示，在美国强化制裁、海上封锁和持续冲突背景下，伊朗通胀已升至约66%，对外贸易规模同比下降近35%。美国近期又扩大与伊朗金融体系相关的制裁范围，使银行结算、能源出口和国际贸易融资更加困难。伊朗此前曾依靠有限的石油出口安排获得外汇缓冲，但相关机制并不稳定，而霍尔木兹海峡仍是全球最敏感的能源运输通道之一。这意味着伊朗国内经济恶化与国际油价风险之间存在双向反馈：外汇收入下降会加重财政和物价压力，而地区紧张升级又可能推高全球能源价格。对市场而言，真正需要关注的不是单日油价波动，而是制裁是否继续扩大、地区调停能否恢复更稳定的航运安排，以及伊朗是否通过能源运输政策增加谈判筹码。<a class="link"   target="_blank" rel="noopener" href="https://www.reuters.com/world/asia-pacific/war-weighs-irans-economy-us-intensifies-sanctions-2026-08-29/" >Reuters<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h2 id="市场关联与今日观察"><a href="#市场关联与今日观察" class="headerlink" title="市场关联与今日观察"></a>市场关联与今日观察</h2><p>把今天五条新闻放在一起看，可以看到一个非常明确的跨市场逻辑：全球资产价格正在同时受到“金融杠杆、科技供应链和能源安全”三类风险约束。日元如果再次突破160并引发政策干预，最先受到冲击的可能不是日本出口股，而是以日元低息融资建立的全球套利头寸；这类交易一旦快速反向，可能压低高估值科技股并推高市场波动率。AI行业内部的模型供应争议又提醒投资者，当前科技估值不仅依赖算力和用户增长，还依赖少数基础模型公司的持续授权，因此应用层企业的供应商集中度需要被重新定价。</p>
+<p>能源端则是另一条通胀传导链。俄罗斯柴油出口受限与伊朗贸易受压同时出现，意味着成品油和原油市场都存在供应弹性下降的问题。如果柴油价格持续偏强，物流、制造和农业成本可能再次抬头，这会让主要央行更难迅速转向宽松。对中国而言，长鑫存储诉讼显示半导体产业政策仍处于外部限制与自主替代并行的环境中；如果国际技术壁垒继续上升，国内科技资本开支可能维持高位，但企业也必须承担更高的合规和市场准入成本。下周市场值得优先观察三个变量：日元是否再次逼近政策干预区间、俄罗斯炼厂与成品油供应是否改善，以及AI应用公司是否开始公开调整模型供应策略。这三条线一旦同时恶化，风险资产的估值容忍度可能明显下降。</p>
+<hr>
+<p>封面图片：<a class="link"   target="_blank" rel="noopener" href="https://www.pexels.com/photo/a-view-of-the-city-skyline-at-dusk-27549583/" >Nick Gorniok &#x2F; Pexels<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> 每日简报｜2026-08-30：日元再逼160，科技与能源风险升温</li>
+        <li><strong>作者:</strong> AdenXie</li>
+        <li><strong>创建于
+                :</strong> 2026-08-30 09:02:00</li>
+        
+        <li>
+            <strong>链接:</strong> https://blog.adenxie.com.cn/2026/08/30/2026-08-30-daily-brief/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                版权所有 &#169 AdenXie，禁止转载。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E6%96%B0%E9%97%BB/">#新闻</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/">#市场观察</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/09/02/2026-09-02-daily-brief/" title="每日简报｜2026-09-02：欧元区通胀再升，政策干预全面加码" rel="bookmark">
+  <img src="https://images.pexels.com/photos/33119011/pexels-photo-33119011/free-photo-of-busy-urban-street-in-financial-district.jpeg?auto=compress&dpr=1&h=750&w=1260" alt="每日简报｜2026-09-02：欧元区通胀再升，政策干预全面加码" class="!max-w-none">
+  <span class="title">每日简报｜2026-09-02：欧元区通胀再升，政策干预全面加码</span>
+</a><a class="recommended-article-item" href="/2026/08/31/2026-08-31-daily-brief/" title="每日简报｜2026-08-31：霍尔木兹再紧张，全球资金重估风险" rel="bookmark">
+  <img src="https://images.pexels.com/photos/19217421/pexels-photo-19217421/free-photo-of-oil-tanker-on-sea.jpeg?auto=compress&w=1600&q=80" alt="每日简报｜2026-08-31：霍尔木兹再紧张，全球资金重估风险" class="!max-w-none">
+  <span class="title">每日简报｜2026-08-31：霍尔木兹再紧张，全球资金重估风险</span>
+</a><a class="recommended-article-item" href="/2026/09/06/2026-09-06-daily-brief/" title="每日简报｜2026-09-06：美伊再升级，AI算力继续扩张" rel="bookmark">
+  <img src="https://images.pexels.com/photos/321177/pexels-photo-321177.jpeg?auto=compress&dpr=1&h=750&w=1260" alt="每日简报｜2026-09-06：美伊再升级，AI算力继续扩张" class="!max-w-none">
+  <span class="title">每日简报｜2026-09-06：美伊再升级，AI算力继续扩张</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/09/02/2026-09-02-daily-brief/" title="每日简报｜2026-09-02：欧元区通胀再升，政策干预全面加码" rel="bookmark">
+  <img src="https://images.pexels.com/photos/33119011/pexels-photo-33119011/free-photo-of-busy-urban-street-in-financial-district.jpeg?auto=compress&dpr=1&h=750&w=1260" alt="每日简报｜2026-09-02：欧元区通胀再升，政策干预全面加码" class="!max-w-none">
+  <span class="title">每日简报｜2026-09-02：欧元区通胀再升，政策干预全面加码</span>
+</a><a class="recommended-article-item" href="/2026/08/31/2026-08-31-daily-brief/" title="每日简报｜2026-08-31：霍尔木兹再紧张，全球资金重估风险" rel="bookmark">
+  <img src="https://images.pexels.com/photos/19217421/pexels-photo-19217421/free-photo-of-oil-tanker-on-sea.jpeg?auto=compress&w=1600&q=80" alt="每日简报｜2026-08-31：霍尔木兹再紧张，全球资金重估风险" class="!max-w-none">
+  <span class="title">每日简报｜2026-08-31：霍尔木兹再紧张，全球资金重估风险</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2026/08/31/2026-08-31-daily-brief/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">每日简报｜2026-08-31：霍尔木兹再紧张，全球资金重估风险</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/08/29/2026-08-29-daily-brief/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">每日简报｜2026-08-29：美联储再转鹰，中国地产重塑预售规则</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+    <div class="twikoo-container">
+        <script data-swup-reload-script
+                src='https://cdnjs.cloudflare.com/ajax/libs/twikoo/1.7.20/twikoo.all.min.js'
+        ></script>
+        <div id="twikoo-comment"></div>
+        <script data-swup-reload-script>
+            (function() {
+                const startPath = location.pathname;
+                const startTime = Date.now();
+                const retryDelay = 200;
+                const retryLimit = 5000;
+
+                const runTwikoo = () => {
+                    if (location.pathname !== startPath) {
+                        return;
+                    }
+
+                    const container = document.getElementById('twikoo-comment');
+                    if (!container || typeof twikoo === 'undefined') {
+                        if (Date.now() - startTime < retryLimit) {
+                            setTimeout(runTwikoo, retryDelay);
+                        }
+                        return;
+                    }
+
+                    container.innerHTML = '';
+                    twikoo.init({
+                        el: '#twikoo-comment',
+                        envId: 'https://twikoo-six-weld.vercel.app',
+                        path: location.pathname,
+                    });
+                };
+
+                runTwikoo();
+            })();
+        </script>
+    </div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">每日简报｜2026-08-30：日元再逼160，科技与能源风险升温</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8A%E6%97%A5%E4%B8%BB%E7%BA%BF"><span class="nav-text">今日主线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E6%9D%A1%E9%87%8D%E7%82%B9%E6%96%B0%E9%97%BB"><span class="nav-text">五条重点新闻</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%B4%9D%E6%A3%AE%E7%89%B9%E8%AD%A6%E5%91%8A%E6%97%A5%E5%85%83%E5%A4%B1%E5%BA%8F%E6%B3%A2%E5%8A%A8%EF%BC%8C160%E5%85%B3%E5%8F%A3%E9%87%8D%E6%96%B0%E6%88%90%E4%B8%BA%E5%85%A8%E7%90%83%E5%B8%82%E5%9C%BA%E9%A3%8E%E9%99%A9%E7%82%B9"><span class="nav-text">1. 贝森特警告日元失序波动，160关口重新成为全球市场风险点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-OpenAI%E6%8B%9F%E5%88%87%E6%96%ADCursor%E6%A8%A1%E5%9E%8B%E4%BE%9B%E5%BA%94%EF%BC%8CAI%E5%BA%94%E7%94%A8%E5%B1%82%E7%9A%84%E2%80%9C%E6%A8%A1%E5%9E%8B%E4%BE%9D%E8%B5%96%E9%A3%8E%E9%99%A9%E2%80%9D%E6%B5%AE%E5%87%BA%E6%B0%B4%E9%9D%A2"><span class="nav-text">2. OpenAI拟切断Cursor模型供应，AI应用层的“模型依赖风险”浮出水面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E9%95%BF%E9%91%AB%E5%AD%98%E5%82%A8%E8%B5%B7%E8%AF%89%E7%BE%8E%E5%9B%BD%E5%9B%BD%E9%98%B2%E9%83%A8%EF%BC%8C%E4%B8%AD%E7%BE%8E%E8%8A%AF%E7%89%87%E7%AB%9E%E4%BA%89%E5%BB%B6%E4%BC%B8%E8%87%B3%E6%B3%95%E5%BE%8B%E4%B8%8E%E5%B8%82%E5%9C%BA%E5%87%86%E5%85%A5"><span class="nav-text">3. 长鑫存储起诉美国国防部，中美芯片竞争延伸至法律与市场准入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E4%BF%84%E7%BD%97%E6%96%AF%E5%BB%B6%E9%95%BF%E6%9F%B4%E6%B2%B9%E5%87%BA%E5%8F%A3%E7%A6%81%E4%BB%A4%EF%BC%8C%E7%82%BC%E5%8E%82%E5%8F%97%E8%A2%AD%E5%BC%80%E5%A7%8B%E5%90%91%E5%85%A8%E7%90%83%E6%88%90%E5%93%81%E6%B2%B9%E4%BE%9B%E5%BA%94%E4%BC%A0%E5%AF%BC"><span class="nav-text">4. 俄罗斯延长柴油出口禁令，炼厂受袭开始向全球成品油供应传导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E4%BC%8A%E6%9C%97%E9%80%9A%E8%83%80%E5%8D%87%E8%87%B3%E7%BA%A666-%EF%BC%8C%E5%88%B6%E8%A3%81%E4%B8%8E%E6%88%98%E4%BA%89%E6%8A%8A%E8%83%BD%E6%BA%90%E5%8D%9A%E5%BC%88%E8%BD%AC%E5%8C%96%E4%B8%BA%E5%9B%BD%E5%86%85%E7%BB%8F%E6%B5%8E%E5%8E%8B%E5%8A%9B"><span class="nav-text">5. 伊朗通胀升至约66%，制裁与战争把能源博弈转化为国内经济压力</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%82%E5%9C%BA%E5%85%B3%E8%81%94%E4%B8%8E%E4%BB%8A%E6%97%A5%E8%A7%82%E5%AF%9F"><span class="nav-text">市场关联与今日观察</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">写下真实体验，也保留观点的棱角。</div>
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 32 篇文章
+                    </span>
+                    
+                        <span>
+                            共 64.6k 字
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        <script data-swup-reload-script src="/js/cyber-weather.js" defer></script>
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script src="/js/cyber-exchange.js" defer></script>
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="图片查看器">
+	<button class="image-viewer-close" type="button" aria-label="关闭">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="上一页">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="关闭">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="下一页">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="站内搜索您需要的内容..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+<script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/Swup.min.js" ></script><script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupSlideTheme.min.js" ></script><script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupScriptsPlugin.min.js" ></script><script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupProgressPlugin.min.js" ></script><script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupScrollPlugin.min.js" ></script><script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupPreloadPlugin.min.js" ></script>
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	<script type="module" src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/main.js" ></script>
+
+
+    <script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/odometer.min.js" ></script>
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/assets/odometer-theme-minimal.css">
+
+
+
+
+
+
+  <script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/Typed.min.js" ></script>
+
+
+
+
+
+
+
+
+<script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/moment-with-locales.min.js" data-swup-reload-script></script>
+
+
+	
+	<div id="aplayer"></div>
+<script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/APlayer.min.js" ></script>
+<script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/plugins/aplayer.js" ></script>
+
+	
+</body>
+
+</html>

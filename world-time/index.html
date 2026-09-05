@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    
+        
+        
+        
+            <link rel="preconnect" href="https://evan.beee.top" crossorigin>
+        
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/world-time/"/>
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="世界时间">
+<meta property="og:url" content="https://blog.adenxie.com.cn/world-time/index.html">
+<meta property="og:site_name" content="Aden&#39;s Space">
+<meta property="og:description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-09-01T01:00:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="科技">
+<meta property="article:tag" content="数码">
+<meta property="article:tag" content="设备体验">
+<meta property="article:tag" content="系统教程">
+<meta property="article:tag" content="AdenXie">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            世界时间 | Aden&#39;s Space
+        
+    </title>
+
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fonts/Chillax/chillax.css">
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    <script data-swup-reload-script src="/js/theme-default.js"></script>
+                
+    
+            
+                
+                    <link rel="stylesheet" href="/css/custom.css">
+                
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/css/build/tailwind.css">
+    
+
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fonts/GeistMono/geist-mono.css">
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fonts/Geist/geist.css">
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"zh-CN","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"17px","line_height":1.85,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"all_rights_reserved"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"static","image":{"light":"https://files.seeusercontent.com/2026/08/27/5xbK/IMG_20260718_compressed_under_5M.jpg","dark":"https://files.seeusercontent.com/2026/08/27/5xbK/IMG_20260718_compressed_under_5M.jpg"},"title":"Aden's Space","subtitle":{"text":["科技、体验与个人判断","写下真实体验，也保留观点的棱角"],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"世界时间":{"path":"/world-time/","icon":"fa-regular fa-clock"},"关于":{"path":"/about/","icon":"fa-regular fa-user"},"友链":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":true,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.i18n = {"search":"站内搜索您需要的内容...","toc":"目录","prev":"上一页","next":"下一页","prev_posts":"上一篇","next_posts":"下一篇","page":"第 %d 页","recent_posts":"最新文章","share":"分享","powered_by":"由 %s 驱动","theme":"主题","rss_feed":"RSS Feed","category":"分类","categories":"分类","tag":"标签","tags":"标签","post":"文章","posts":"文章","tagcloud":"标签云","comment":"评论","comments":"评论","top":"置顶","sticky":"置顶","go-back-home":"回到首页","masonry_loading":"照片加载中...","image_viewer":"图片查看器","close":"关闭","exif":{"title":"EXIF","cards":{"camera":"相机","lens":"镜头","exposure":"曝光","other":"其他"},"fields":{"make":"品牌","model":"机型","date_taken":"拍摄时间","lens_model":"镜头","focal_length":"焦距","focus_mode":"对焦模式","shutter":"快门","aperture":"光圈","iso":"感光度","exposure_program":"曝光程序","exposure_compensation":"曝光补偿","metering_mode":"测光模式","flash":"闪光灯","white_balance":"白平衡","latitude":"纬度","longitude":"经度","altitude":"海拔"},"status":{"loading":"加载中...","no_exif":"无 EXIF 信息","library_missing":"EXIF 库未加载","image_source_missing":"图片地址不可用","unavailable":"EXIF 不可用（可能被 CORS 阻止或缺少元数据）","flag_unavailable":"EXIF 不可用"}},"home":"首页","archive":"归档","archives":"归档","about":"关于","links":"链接","link":"链接","friends":"友情链接","friend":"友情链接","timeline":"时间轴","shuoshuo":"说说","bookmarks":"书签","site_uv":"访问人数","site_pv":"总访问量","read_more":"阅读全文","wordcount":"字","min2read":"分钟","changelog":"更新日志","status":"状态","runtime":"博客已运行","days":"天","hours":"小时","minutes":"分钟","seconds":"秒","optimized_by":"并由 Evan 进行优化","rights":"版权所有","site_posts":"共撰写了 %s 篇文章","site_wordcount":"共 %s 字","copyright":{"title":"标题","author":"作者","link":"链接","create_time":"创建于","update_time":"更新于","license_title":"版权声明","license_content":"本文章采用 %s 进行许可。","all_rights_reserved":"版权所有 &#169 %s，禁止转载。","public_domain":"本文为公有领域作品，可自由转载、引用。"},"ago":{"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"},"create_time":"创建","update_time":"更新","expired":"这篇文章最后更新于 %s 天前，内容可能已经过时。"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fontawesome/fontawesome.min.css">
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fontawesome/brands.min.css">
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fontawesome/solid.min.css">
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fontawesome/regular.min.css">
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Aden&#39;s Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/"
+                                        >
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/archives/"
+                                        >
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    归档
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/tags/"
+                                        >
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    标签
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="active"
+                                   href="/world-time/"
+                                        >
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    世界时间
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/about/"
+                                        >
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class=""
+                                   href="/link/"
+                                        >
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    友链
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/"
+                        >
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/archives/"
+                        >
+                            <span>
+                                归档
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/tags/"
+                        >
+                            <span>
+                                标签
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/world-time/"
+                        >
+                            <span>
+                                世界时间
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/about/"
+                        >
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full "
+                           href="/link/"
+                        >
+                            <span>
+                                友链
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/archives/"
+                        >
+                            <span>文章归档</span>
+                            <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/tags/"
+                        >
+                            <span>主题标签</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active"
+                           href="/about/"
+                        >
+                            <span>关于 Aden</span>
+                            <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">14</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">3</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">32</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="page-template-container">
+	
+
+	
+
+	<div class="page-template-content markdown-body">
+		
+		<h1>世界时间</h1>
+		
+
+		<link rel="stylesheet" href="/css/world-time.css">
+  <section id="world-time" class="wt" aria-label="世界时间交互地图">
+    <p class="wt-intro">同一刻，世界各地的日常。悬停或点选城市，对照你的本地时间。</p>
+    <div class="wt-map-frame">
+      <div class="wt-map-caption"><span>WORLD TIME / 21 CITIES</span><span>悬停 · 点选</span></div>
+      <svg class="wt-map" viewBox="0 0 1000 460" aria-label="21个城市的世界时间地图">
+        <path class="wt-land" d="M311.8,440.5L319.3,443.2L318.1,444.8L314,443.8L310.7,446.1L307.7,445.7L299.3,442.5L292.6,437.3L302.5,441.2L307.4,436.3L311.8,440.5ZM337.4,431.8L339.6,433.2L338.8,434.3L331.4,435.6L330,434.1L337.4,431.8ZM695.2,427.4L691,427.6L691.5,423.9L695.9,425.3L695.2,427.4ZM903.9,399.1L911.9,399.3L910.9,406.7L905.7,407.8L902,400.2L903.9,399.1ZM980.6,399.5L984,400.8L979.8,407.3L980.8,408.8L976.3,410L973.9,415.3L970.4,417.6L963,416.3L964,412.8L973.7,406.2L978,399.6L980,398.1L980.6,399.5ZM985,384.4L991,389.8L995.9,389.2L994.4,393.9L992.2,393.8L986.8,401.9L985.1,400.6L985.8,396.3L982.8,395L985.3,388.2L979.5,379.2L984.2,381.5L985,384.4ZM964.2,340L959.7,338.4L955.6,333.4L964.2,340ZM995.5,324.7L996,327.2L992.7,327.3L993.5,324.8L995.5,324.7ZM639,312.7L639.9,319.5L638,319.5L632.1,345.1L630.8,348.8L626.1,350.9L622.3,348.9L620.4,341.9L623.5,331.3L622.1,324.9L623.5,321.1L628.6,319.7L632.5,316L636.7,307.9L639,312.7ZM898.8,313.3L899.8,315.8L901.6,314.6L903.8,317.2L906.6,329.8L913.5,334.3L915.8,340.5L918.7,340.7L919.2,344.1L925.4,352.4L926.6,358.8L924.7,370L917.6,382.8L916.7,388.4L906.4,393.5L902.4,391.5L902.9,389.9L898.9,392.8L890.7,390.3L887.7,384.3L883.7,382.6L883.9,378.7L880.1,381.5L882.8,374L877.7,380.3L873,373.1L864.8,369.6L850.4,371.9L845.1,374.2L843.5,377.2L833,377.4L827.8,380.9L819.5,378.1L821.4,375.2L821.4,369.9L814.8,352.5L816.1,353.9L815.1,350.9L817.3,353.1L815,347L817.1,338.7L817.3,341.1L824.2,335.3L835.7,332.1L841.7,321.7L842.9,324.4L844.1,323.8L843.1,322.3L849.1,314.8L853,313.5L856.6,316.8L860.1,317.1L862.8,309.4L868.3,308.1L866.2,305.4L867.7,305L875.8,308.5L879.1,307.3L880.4,308.8L876.4,317.2L889.5,325.8L892.4,321.6L893.6,309L895.9,303.5L898.8,313.3ZM835.3,302.1L830.5,300L833.1,299.4L835.3,302.1ZM845.7,301.8L842.9,302.1L844.4,299.1L853.7,296.3L845.7,301.8ZM827.5,295.3L830.9,297.3L824.3,298.3L827.5,295.3ZM841.4,295.3L841,297.1L833.1,297.6L841.4,295.3ZM801.7,291.2L807.7,290.2L821.4,296.2L818.2,297.4L792.7,291.4L794.6,288.4L801.7,291.2ZM933,291.3L931,290.4L929.6,285.7L933,291.3ZM922.2,287L917.3,289.7L912,287.9L917.1,285.5L918.9,287L920.9,282.9L923.2,283.3L922.2,287ZM862.4,279.5L863.4,281.9L855.3,280.4L855.9,278.7L862.4,279.5ZM925.4,283.9L924.5,284.8L923.4,281.7L918.5,278.4L922.9,279.9L925.4,283.9ZM872.6,273.3L873.4,278.4L876.3,280.3L878.6,277L884.2,275.1L901.6,281.9L905.5,287L910.1,289L910.8,290.6L908.3,291L908.9,293.1L918.6,303.2L910.9,301.8L905.7,295.2L902.1,293.9L898,295.8L898.4,298.2L896.2,299.2L886.5,295.3L882.3,296.3L885.2,292.9L883.1,286.8L871.3,280.9L869.4,282.7L866.6,278.6L871.4,276.7L867.3,276.7L862.6,272.6L867.7,270.8L872.6,273.3ZM847.9,265.2L843.6,268.9L833.8,268.9L833.4,271.3L835.9,274.1L842.6,271.6L837.5,275.7L842.1,286.6L839.5,286.4L840.9,283.8L837.5,284.2L836,278L834.2,279L834.5,287.2L832.8,287.7L831.9,280.7L829.9,278.5L833.4,267.9L835.8,265.5L841.5,266.9L847.9,265.2ZM857.5,266.1L855.8,272.5L853.9,266.4L855.4,262.8L857.5,266.1ZM793.9,288.2L790.9,288.3L785,283L773.9,263.9L764.7,252.3L770.8,253L779.6,263L782.4,263L788.4,269.3L787.3,271.9L794.7,279.4L793.9,288.2ZM827.4,263.9L830.5,266.8L827.3,267.2L826.4,272.2L823.8,274.4L822.6,282.4L806.2,279L803,271.1L803,265.4L804.6,263.3L808.8,263.8L809.4,261.1L813.9,259.8L824.2,247.7L831.1,252.5L825.9,259.4L827.4,263.9ZM851,243L851.5,246.8L850.5,249.8L849.5,246.5L848.2,248.1L848.3,251.9L845.1,250.1L845.1,246.3L843.4,244.8L838.7,246.8L843,242.1L844,243.5L848.5,241.1L848.4,238.7L851,243ZM725.6,250L723.2,250.7L721.9,248.2L722.6,238.5L727.2,245.8L725.6,250ZM844.4,237L841.7,241L839.9,238.8L841.5,235.1L843.1,234.9L842.6,237.1L844.7,234L844.4,237ZM829.2,240.1L825.5,243.1L832,233.6L832.5,236.2L829.2,240.1ZM838.6,231.9L842,232.9L838.9,236.5L838.6,231.9ZM848.6,231.1L849.4,234.6L847.3,233.8L846.7,237.5L845.3,233.2L846.9,232.2L845.2,229.8L848.6,231.1ZM837.6,228.2L836.8,230.9L834.2,226.9L837.6,228.2ZM837,211L839.6,211L840.3,215.4L838,219.1L838.1,224.2L844.3,225.9L844.7,229.9L841.5,226.7L840.8,227.8L835.1,225.7L836.1,223.6L833.5,222.2L833,217.7L834.1,218.8L835.3,210.9L837,211ZM317.8,211.8L313.4,212.7L313.2,211.4L317.8,211.8ZM286.4,213L282.4,211.8L286.4,211.3L288.3,212.9L286.4,213ZM298.4,206.6L305.7,207.3L310.2,210.6L303.7,211.2L301.7,213.8L293.2,211.5L299.1,210.4L296.1,207.4L298.4,206.6ZM806.5,210.4L804.1,211.9L801.8,210.9L801.7,208.2L807.7,206L806.5,210.4ZM67.9,209.1L67.1,205.4L70,207.8L67.9,209.1ZM278.7,197.4L293.6,206L284,206.7L285.9,204.9L281.3,201.1L272.7,199.3L272.8,197.8L264,200.2L271.5,196.1L278.7,197.4ZM284.6,194.3L282.2,191.7L282.8,189.7L284.6,194.3ZM836.6,197.4L835.4,200L833.6,194.9L837.5,189.4L838.8,190.4L836.6,197.4ZM874,161.3L872.8,164.3L867.7,165L869.2,161.6L874,161.3ZM596,156.5L591.6,160L589.6,158.3L596,156.5ZM565.8,156.4L573,157.7L568.7,158.9L565.3,157.7L565.8,156.4ZM543.1,148.4L541.9,153.5L534.5,150.3L534.9,148.7L543.1,148.4ZM525.6,138.9L526.9,145.4L524.5,146.2L522.7,139.7L525.6,138.9ZM891.6,151.8L889.6,158.2L881.2,159.9L877.2,163.5L875.2,159.9L863.9,162.2L866.7,164.5L864.8,169.9L863,171.2L861.7,170L862.4,167.1L859.5,164L868.4,157.2L876.9,156.9L879.8,151.3L881.6,152.8L887.3,148.4L888.6,141L892.7,138.4L894.1,145.4L891.6,148.6L891.6,151.8ZM526.6,135.9L525.6,138.4L523.7,135.6L526.1,133.2L526.6,135.9ZM899.8,129.5L903.7,128.8L904.3,132.4L900.2,133.3L897.7,136.4L893.4,134.3L891.9,137.7L888.8,137.8L888.4,134.6L889.8,132.2L892.7,132L894.4,125.1L899.8,129.5ZM323.2,122L327.7,122.3L325.3,123.8L321.1,121.4L322.2,120.4L323.2,122ZM156.9,115.8L151,114.8L144.3,111.1L143.4,108.6L150.7,110.1L156.9,115.8ZM344.1,108.9L342.2,111.6L344,110.6L345.9,111.2L344.9,112.3L351.5,113.4L350.6,115.7L352.5,115.2L353.8,118.9L352.6,121.6L349.5,121.2L349.3,118.2L346.1,120.9L344.5,120.8L346.4,119.3L343.7,118.5L335.4,118.6L336.7,116.6L335.5,115.7L340.7,108.8L346.1,106L344.1,108.9ZM131.4,98.2L134,98L133.2,101.6L135.6,104.1L130.4,100.2L130.1,97.8L131.4,98.2ZM899,108.7L901.8,114.3L897.7,113.2L896,117.8L898.6,123.3L896.5,121.4L894.7,123.8L893.6,100.6L896.3,97.2L899,108.7ZM481.1,103.9L472.3,105.3L474.5,101.9L473.1,98.7L481.3,94.6L484.3,96.6L481.1,103.9ZM535.3,93.2L533.6,95.8L530.3,92.7L534.4,91.6L535.3,93.2ZM75,88.5L72.2,89.7L70.4,87.4L74.4,85.8L77.4,87L75,88.5ZM491.7,83.6L488.7,87.1L494.6,86.7L491.3,92.1L494.2,92.3L501.3,101.7L504.7,102.3L502.9,105.3L504,106.9L485.4,111.2L484,110.5L490.5,106.5L485.4,104.7L488.3,103.7L487.3,99.9L491.4,100.2L491.8,98.4L486.5,95.8L486,92.7L484.5,94.2L482.9,89.5L486.1,83.7L491.7,83.6ZM272.5,70.7L269.3,72.5L266.7,71.5L272.5,70.7ZM23,67.3L31.4,68.8L29.1,69.9L23,67.3ZM263.4,61.4L277.5,67.5L275,68.5L269.1,66.3L262.4,69.6L261.5,67.8L257.7,68.1L260.1,66.5L261.4,61.1L263.4,61.4ZM459.7,58.8L459.1,60.9L462.2,63L448.2,68.2L436.8,66.7L439.5,65.3L433.5,63.8L438.3,62.2L432.4,61.5L438.5,59L442.8,61.1L459.7,58.8ZM289.3,56.6L286.1,56.8L286.6,53.5L291.3,53.9L289.3,56.6ZM13.8,58.4L15.7,59.2L15.1,56.9L22.6,57.4L28.1,60.3L20.7,62.1L19.6,65.8L10.5,62.3L4.6,62.2L3.6,59.9L0.3,60.7L1.6,62.2L0,63.5L0,50.9L14.1,56.5L13.8,58.4ZM234.3,50.4L232.6,51.5L222.8,49.5L227.2,47.1L234.3,50.4ZM3.6,44.8L0,44.9L0,42.8L6.7,43.6L3.6,44.8ZM248.5,49.2L248.5,52.4L252.2,49.9L255.5,52L254.7,54.3L257.4,56.5L262.3,51.4L262.4,48L270.5,48.7L274.2,50.2L272.3,53.5L274.3,55.2L268.5,59L261.8,58.5L257.4,64.2L250.2,66.5L247.9,69.9L241.2,72.9L238.2,76.5L237,82.6L241.1,83.2L243.6,88.6L247.5,87.9L263.9,94.2L271.5,94.7L271.9,100.6L278,107.2L281.7,102.9L278.3,96.2L287.4,90.3L285.3,85.5L281.9,83.1L285.2,79.8L283,72L294.9,71.6L301.7,75.7L306.7,75.9L307.5,82.6L312.1,85L320.6,78.2L329.5,88.9L328.3,90.9L340.7,96.4L345.1,100.7L345.3,104.2L333.2,110.3L315.6,110.3L302.5,121.1L309.3,116.4L319.3,113.5L321.7,115L319.1,117.2L320.9,123L329.1,124.1L331.9,120.5L333.9,124L318.4,131.5L316.3,131.3L316.2,128.6L321,126L313.5,126.5L303.6,133.1L303.3,135.4L305.7,137.6L295.2,139.8L300.2,139.8L294.6,140.4L291.9,146.1L290.2,144.3L291.5,147.8L289.1,151.6L287.9,145.5L288,148.8L286.2,148.4L288.1,149.4L289.6,156.9L274.1,169.9L277.6,184.4L276.7,189.7L273,187.6L269.6,177.3L266.4,174.2L263.6,175.6L260,173.2L252.3,173.5L252.2,176.7L249.6,177.3L239.3,175.4L231.7,179.9L229.5,182.8L228.1,198.5L232.5,208.4L237.7,212.1L244.3,210.3L247.9,208.5L249.2,203L258.2,201.3L253,219.3L263.9,218.9L268.3,221.2L267.2,234.4L273.8,241.8L279,239.2L286.6,242.2L289.8,239.7L291.9,234.5L296.1,234L300.7,230.2L302.4,231.2L300.1,233.4L300.8,240.9L302.7,238.4L301.7,234.9L305.1,233.6L305.7,231.1L310.6,236.2L319.7,237.7L321.3,235.9L328.1,235.7L325.7,236.6L326.7,238.1L331,239.9L331.5,242.4L335.8,244.3L341.3,250.7L350.1,251.4L357.5,256.3L361.2,264.1L360,269.9L364.9,270.4L365,273.6L367.2,271.5L375.3,274.6L376.2,278.2L388.9,278.8L396.6,284.9L401.1,286L403.5,293L402.4,298.2L392.6,311.1L390.9,326.3L386.3,339.2L383.4,342.5L376,343.7L367.6,348.6L365.3,351.7L364.2,360.6L350.5,378.8L343.8,380.2L337.7,377.2L342.3,386.7L339.6,390.8L335.5,392.5L326.8,392.8L327.4,398.7L325.7,399.8L319.1,399.9L319.5,403.1L322.9,403L323.7,404.7L318.9,407.6L317.9,412.5L313.1,414.2L312.3,416.5L317.7,419.5L316.7,422.4L307.9,430.6L310.7,435.7L303.2,437.5L302.8,440.4L291.8,435.5L290,424.1L294.1,418.6L289.9,417.6L292.5,414.8L293.5,409.6L296.6,410.7L298,404.1L296.1,403.3L295.3,407.2L293.5,406.8L296.6,394.2L295.6,387.5L301.6,372.5L305.1,332.3L304.5,327.9L301.5,324.7L288.9,316.1L278.4,292.5L274.3,289.1L273.9,284.7L278.4,278.1L275.1,276.8L275.2,273L277.5,267.2L281,265.3L285.8,257.4L282.8,243.3L279,241.3L276.4,244L277.8,245.7L275.3,246.7L274.8,244.9L268,242.9L264,237.7L263.6,239.3L262.1,238.1L261.9,234.5L257,227.5L246.6,225.5L237,218.3L231.8,220L212.5,211.6L207,206.4L207.6,201.7L205.5,197.4L188.3,177.8L185.7,170.8L181.2,168.8L181.5,174L196,196.1L194.4,197.3L188.4,191.2L188.1,187.1L180.4,181.7L182.9,179L179.1,175.9L174.2,164.8L164.9,159.9L154.4,141.8L155.8,125.2L153.6,116.8L158,117.3L159.5,120.2L158.8,114.2L146,108.4L144.9,103.6L141.3,102.3L140.8,99.7L133.4,93.6L127.6,85.3L120.5,85L111.5,80.8L91.3,76.5L88.3,77.2L88.8,79.4L78.6,82L79.4,77L81.6,75.2L72.2,81.4L74.2,82.9L71.6,85.2L59.9,92L42.3,97.1L61.9,87L63.8,82.7L58.2,84.3L54.6,82.3L50.1,83.5L50.3,80.5L44.9,80L38.6,74.6L42.9,69.3L53.4,67.4L51.3,65.3L53.4,64.1L41.8,65.2L33,61.3L43.1,58.4L45.4,58.4L45,60L50.9,59.9L36.8,52.8L46.8,49.6L50.3,46.5L65.1,43.3L71.3,45.4L101.1,47.1L120.8,51.1L139.5,47L141.4,48.3L144.1,46.1L150.7,49.2L154.4,47.1L154.8,49.5L162.6,48.2L183.6,52.7L179.7,54.2L194.6,54L197.6,55.9L200.6,54.3L197.7,52.9L199.5,51.9L205.1,51.4L218.2,55.1L226.5,54.6L226.2,52.6L228.7,52.1L233,53.2L233,56.2L234.8,53.6L237,53.7L238.2,50.5L232,47.3L232.2,43.8L235.5,41.5L242,43.4L245.8,47L243.3,48.5L248.5,49.2ZM182.9,37.7L181.5,39.2L187.7,38.2L191.5,39.8L194.7,38.2L199.5,42.3L200.9,41L198.9,37.8L204.1,37.8L207.2,39.1L209.8,44.4L219.5,47.5L219.2,48.9L214.6,49.2L216.4,50.4L215.5,51.5L205.7,50.2L185.2,52.2L174.1,47.7L187.7,46.4L172.5,45.9L171,44.7L177.5,43.4L168.3,42.6L172.6,39L182.9,37.7ZM209.7,36.7L207.3,38.8L202.9,36.6L209.7,36.7ZM287.9,37.7L279.2,38.9L275.5,35.9L287.9,37.7ZM259.5,37.6L261.7,39.5L264.3,37L271.3,35.7L276.1,39L275.7,41L283.8,38.9L294.2,43.4L299.3,42.6L308.9,45.9L314,50.2L308.9,51.6L328.2,57.5L322.4,63.5L314.7,59L311.1,59.4L310.7,61.3L318.6,65.4L320.4,68.5L319.4,70.8L308.9,67.4L316.2,73.2L302.7,70.1L292.1,64.5L284.1,65.9L281.8,64.8L283.6,62.5L294.6,62L293.6,60.9L298.2,56.2L297.4,54.8L286.5,51.1L288.3,50.3L280.7,47.1L274.2,48.4L251.4,45.2L254.3,43.7L250.3,43.7L249.4,40.5L251.6,37.7L261.6,35.5L259.5,37.6ZM221.2,35.4L229.5,35.7L227.6,38.1L231.8,39.5L231.3,42.3L224.1,43.3L215.3,39.6L221,39L217.9,36.9L221.2,35.4ZM898.9,37.4L888.5,36.9L894.6,35.3L898.9,37.4ZM241.1,38.8L238.1,41.2L235,41L233.3,36.7L237.5,34.5L248.6,35.4L241.1,38.8ZM165.4,43.1L158.1,44.7L150.2,41.7L155.7,35.9L153,34L173.5,34.3L179.1,36.6L168.8,39.6L165.4,43.1ZM918.7,31.5L915.5,32.7L905.9,31.2L918.7,31.5ZM240,31.8L238.5,33L231.1,32L236.5,29.7L240,31.8ZM903,29.9L900.8,32.3L886,33L880.5,30.9L882,28.7L885.6,28.1L903,29.9ZM226.4,26.3L228.5,27.7L227.3,31.7L215.3,29.9L215.1,27.5L226.4,26.3ZM199.4,27.9L205.9,28.6L206.4,30.2L188.3,33.6L183.7,32.6L189.5,31.2L173,31L179.4,27L197,30.2L193.1,27.2L195.6,26L199.4,27.9ZM659.8,45.3L649.1,45.2L643.3,42.9L642.9,41.2L651.2,36.1L648.6,35.7L655.3,32.9L654.5,31.5L669.9,27.8L689.3,25.6L691.3,26.8L662.4,33.9L653.9,40.1L654.5,42.7L659.8,45.3ZM237,25.1L245.5,26.1L252.3,29.8L274.6,29.5L278.2,32L272.4,33.5L250.7,33.3L243.3,32.2L239.2,27.5L230.2,26.2L237,25.1ZM177.2,23.3L174.7,26.9L158.7,28.2L169.2,23.8L177.2,23.3ZM797.1,25.5L797.9,27L808.5,26.3L817,29L816.3,30.7L803.9,34.3L813.9,35L815.4,37L821,35.7L842.2,38.2L842.4,35.7L852.7,36.3L857.2,37.9L858.5,40L856.8,41.3L864.7,45.1L867.4,41.8L888.5,42.9L886.5,39.9L890.2,38.5L915.3,40.6L924.9,44.9L941.7,44.8L944,46.1L943.6,48.5L947.1,49.4L966.2,48.9L971,51.7L974.5,50.7L972.2,48.7L973.5,47.3L996.1,49.5L1000,50.9L1000,63.5L992.8,64.7L998.6,71.2L982.4,74.1L973.1,79.7L969.2,77.5L961.9,80L954.3,79.7L950,84.9L953.3,86.9L952.9,91.5L950.4,91.6L949.2,94.3L950.3,95.6L945.5,97.3L944.5,100.9L940.4,101.6L939.5,104.9L935.5,107.8L931.8,94L933.1,89.6L935.6,86.2L939.9,85.5L954.6,75.7L956.9,71.2L953.5,71.5L944.8,77.6L942.5,73.7L935.3,74.8L928.4,80.1L930.7,82L920.2,83.2L920.4,80.9L916.1,80.4L912.6,82L895,82.4L875.4,96L883.8,99.1L888.6,97.7L892.6,101.2L892.7,103.9L889.1,116L883.9,122.7L874.6,132L870.9,133.8L867.4,132.3L854.3,143.5L853.8,145.3L859.6,153L858.6,158.4L851.3,160.6L850.3,153.1L852.4,152.6L850.5,149.9L846.4,148.8L848.1,144.2L845.2,143L836.3,146.3L839.4,141.4L837.9,139.8L827.9,145.3L826.5,146.8L830.3,150.9L832.5,151.8L835.6,149.5L839.9,150.8L840.3,152.5L836.4,153.4L831,158.9L834,160.6L838.6,169.1L836.8,172.3L839.1,175L838,180.1L829.6,191.8L821.9,197.4L807.7,201.8L806.8,205.1L805.2,205.3L805.2,201.8L801.5,200.8L794.1,207L793.5,209.2L802.4,221.2L803.7,227.1L803.3,232.6L792.1,242.4L791.9,238.2L787.5,235.9L785,231L780.1,229.6L780.5,227.1L778,227.1L775.6,240.3L777.4,240.4L779.1,246.1L786,252.1L789.5,265.6L781.6,260.9L778,249.1L773.6,243.1L773.2,244.9L774.3,233.4L769.9,216L764.9,219.8L761.6,218.8L762,211.9L753.9,197.4L751.4,197.3L750.8,200.4L741.6,201.5L740.3,205.7L736.3,207.9L728.3,217.1L723.1,219.2L721.8,236.8L715.4,244.4L712.8,241.4L704.3,218.9L701.8,201.9L695.8,203.4L692.1,199.6L692.6,197.2L687.3,193.7L684.4,189L670.8,190.1L659.4,188L656.9,183.5L652,185.6L643.1,181.3L639.2,174L633.3,174.6L641.1,191.1L641.7,187.1L643.3,187.8L643.9,193.5L650,193.1L656.6,185.9L657.9,192.8L663.1,194.9L666.1,198.9L660.6,205.4L660.3,209.6L653.5,215L645.5,217.7L644.9,220.2L635.2,225.2L620.8,229.6L618.5,216.4L608.7,202.1L606.9,194.5L596.2,180.6L597,176.1L594.2,181.9L590.1,175L599.1,193.7L598.7,196.4L602.4,199.9L604.1,210.6L606.7,212.6L609.1,219.1L620.3,230.3L618.7,232.4L623.9,236.5L642,231.5L641.8,235.9L632.6,256.3L611.8,277.8L608.9,284.5L607.8,290.2L609.6,291.4L608.9,296.6L612.4,303.8L613.3,316.3L609.6,322.7L603.9,325.4L596.6,332.4L598.9,344.9L590.5,351.3L589.5,360.9L576.3,375.1L571.6,377.3L562.7,377.1L555.8,380L552.4,378.9L549.8,373.1L550.6,370.1L542.3,355.6L539.6,339.8L532.8,327L532.7,319.8L538,303.7L533.1,285.6L524.4,273.2L527.2,259.9L526.1,257.8L523.6,254.5L516.4,256.1L512,249.8L505.2,250.2L494.5,254.7L487.1,253.3L479.1,255.9L475,254.3L465.5,246.6L458.8,235.1L453.9,231L453.6,226.5L451,222.9L454.3,218.5L455.1,212.2L452.9,200.2L459.9,186.4L473.4,174.7L474.2,166.3L480.8,161.4L483.5,156.2L494,158.1L504.1,153.5L526.4,151.2L528.3,153.2L530.8,152.6L528.7,162.5L542.3,167.3L543.6,170.1L553,173.6L555.7,171.4L555.9,167.4L559.8,165.5L580.3,171.7L586,169.5L588.8,171.5L593.8,171.4L600,159.7L600.4,153.4L590.3,155.1L588.1,153.4L582.5,155L576.8,153.4L573.1,148.4L574.5,146L572.7,144.5L575.8,141.4L580.1,141.3L581.2,138.9L586.5,139.3L593.1,136.4L606.5,139.7L612.1,139.5L615.8,136.5L615.1,134.4L601.9,126.1L606.2,123L604.6,121.7L608.7,119.7L597.1,122.9L597.3,124.8L601.5,125.4L600.9,126.5L594.1,128.9L590.2,125.9L592.5,123.5L585.4,121.9L582.3,126.8L580.1,127.2L576.9,134.6L580,139.4L573.2,142.3L572.4,140.1L569.2,139.8L565.9,140.6L567.8,142.4L566.4,142.9L562.9,141.9L566.8,150.2L564.2,149.4L564.3,154.1L562.5,154.1L553.9,142L554.3,137.3L536.5,124.6L534.2,125.7L535,129.8L551.3,142.2L550.8,143.4L546.9,141.4L545.7,143.4L547.4,146.2L544.7,149.1L542.8,142.6L533.6,137.4L528.3,130.3L524.7,128.9L518.1,132.8L508.6,133L508.4,136.8L502.3,139.5L499.2,144.9L500.3,146.8L494,153.3L487.9,153.3L485.1,155.6L481.9,152.5L475.3,152.7L475.4,148.3L473.5,146.8L475.6,140.3L473.9,133.2L477.8,130.9L494.7,131.9L496.2,130L496.7,123.7L491.8,118.7L487.5,117.5L487.2,115.2L495.5,115.3L494.6,111.7L497.3,113.1L503.7,110.6L504.6,108L510.6,105.9L513.1,101.2L522.6,99.8L524.4,98.3L522.6,93.5L523.7,88.5L529.4,86.5L528.5,89.2L530.3,90.5L526.8,93.7L530.4,98.3L534.8,96.9L539.2,99.1L549,95.6L554.6,97L559.1,94.6L559.9,87.5L562.6,86.4L567,88.7L567.9,84.4L565.1,83.7L564.8,81.9L577.7,81L580.9,79.2L578,77.7L563.5,79.8L559.2,77L559.8,69.2L570.6,63.1L566.4,60.3L561.6,61.2L558.9,63.4L559.4,65.3L549.6,70.6L547.6,75.1L552.2,79.1L549.6,82.6L546.7,83.4L544.1,91.7L540.7,91.4L539.2,93.9L536,94L528.8,81L523.3,84.7L515.7,83.8L513.9,73.1L529.2,65.1L541,54.5L553.3,48.2L564,46.9L568.2,44.3L578.2,43.8L586.9,46.1L583.3,47L586.4,49L589.3,47.9L601.4,50.6L614.1,55.7L614.2,57.8L606.6,60.3L592.2,58.3L596.7,60.6L597.1,65.3L602.8,67.1L601.4,64.1L603.3,63L610,65L612.3,64.2L610.5,61.9L616.9,58.8L622.1,60.1L623.7,57.9L620.7,52.1L628.5,53.1L630.1,54.9L626.5,55.3L626.6,57.1L628.7,58.2L649.2,51.2L651.3,51.4L648.6,53.3L663.3,51.1L666.5,53L669.7,50.9L666.8,49.1L668.2,48.1L690.3,53.6L692.2,52L685.9,49.3L685.3,44.3L692.2,38.6L701.6,38.8L702.2,40.5L699.6,43.1L702.2,46.3L701.6,50.7L704.6,52.6L698,59.3L701.2,59.7L708.5,54.7L706.9,52.9L708.2,50.8L705.1,50.5L704.4,48.8L706.7,45.6L703.1,43L708,40.9L707.4,38.6L710.2,40.3L709.1,43.3L712.1,43.9L710.8,41.6L715.5,40.4L726.4,42L723.6,36L741.2,35.1L738.9,33.4L742.1,31.4L779.9,27.2L783.3,24.5L789.9,23.2L794.6,24.2L790.8,25L797.1,25.5ZM193.9,23.2L184.6,23.1L190.9,21.7L194.8,22.2L193.9,23.2ZM568.7,22.7L557.6,23.2L559.5,22.4L557.8,21.4L563.6,20.8L568.7,22.7ZM233.8,22L227.4,21.9L226,19.4L234.6,20.9L233.8,22ZM222.1,21.2L223.1,22.5L207.8,21L210.5,20.1L207,18.1L222.1,21.2ZM791.9,21.2L776.2,22.5L783.6,17.9L792.7,19.9L791.9,21.2ZM550.7,16.8L559.8,19.2L552.9,20.4L547.6,26L544.2,26.1L538.2,24.2L540.7,23L531.2,19.4L529,17L550.7,16.8ZM570.7,14.6L576.1,15.7L564,17.8L548.2,14.9L570.7,14.6ZM642,14.1L632.2,15.8L629.2,15.1L630.8,14.1L624.6,14L642,14.1ZM777.6,19.4L763.8,18.9L753.3,14.8L766.5,11.9L778.3,16.6L777.6,19.4ZM258.3,16.9L261.6,18L247.8,21.5L242,21.1L239,19.8L241.3,17.8L236.2,17.9L231.4,15.4L238.1,12.8L236.8,12L243.3,11.9L256.1,14.8L258.3,16.9ZM309.7,6L328.2,7.5L312.1,11.1L318.1,11.1L302.3,16.5L286.4,18L290.2,18.4L288.3,19L290.6,20.5L278.4,24.7L283.6,26.1L276.2,28L251.4,27.1L251.1,25.5L256.2,24.8L254.8,22.5L264,23.7L255.7,21L263.6,17.9L258.5,15.1L272.6,14.4L256.7,14.2L245.6,9.9L262.5,7.4L268.9,8.5L279.7,5.9L309.7,6ZM424.7,4.7L442.1,7.2L411.4,8.9L438.7,10.4L435.6,12.2L456.2,9.8L466.1,11.8L444.3,15.3L450.7,15.5L445.3,19.8L445.4,23.4L448.7,25.4L439.8,26.6L444.9,28.2L445.6,30.9L442.6,31.2L446.2,34L440,34.2L443.2,35.5L442.3,36.6L434.5,37.1L438.1,40.7L431.1,40.2L438.5,42.9L439.6,45.5L434.6,46.1L429,43L430,45.2L426.8,46.9L437.9,47.2L422.9,52.4L411.7,53.5L405,58.1L389.4,62L385.6,68.3L381.1,70.8L382.2,73.3L379.5,79L365.9,76.6L356.6,67.8L350.1,56.5L352.8,52.8L357,51.6L358.7,47.8L351.5,49.9L348.1,48.8L349,45L357.2,45.8L344.9,42.3L348,39.4L337.3,30.1L329.8,28.2L309.7,28.4L301.7,25.4L314.5,24.2L296.4,22.1L317.5,17.8L318.5,16.6L311,15.5L327.1,11.7L326,10.2L352.7,9.9L360,8.1L376.3,10.6L369.7,8.9L370.1,7.5L392.7,4.6L424.7,4.7Z"/>
+        <path class="wt-equator" d="M0,269.7H1000"/>
+        <g class="wt-marker" data-city="toronto" role="button" tabindex="0" aria-label="查看多伦多时间" aria-pressed="false">
+      <title>多伦多</title>
+      <path class="wt-leader" d="M279.5,131.2L263,96"/>
+      <circle class="wt-hit" cx="279.5" cy="131.2" r="9"/>
+      <circle class="wt-dot" cx="279.5" cy="131.2" r="3"/>
+      <text x="263" y="100" text-anchor="end">多伦多</text>
+    </g><g class="wt-marker" data-city="los-angeles" role="button" tabindex="0" aria-label="查看洛杉矶时间" aria-pressed="false">
+      <title>洛杉矶</title>
+      <path class="wt-leader" d="M171.5,161.6L156,183"/>
+      <circle class="wt-hit" cx="171.5" cy="161.6" r="9"/>
+      <circle class="wt-dot" cx="171.5" cy="161.6" r="3"/>
+      <text x="156" y="187" text-anchor="end">洛杉矶</text>
+    </g><g class="wt-marker" data-city="new-york" role="button" tabindex="0" aria-label="查看纽约时间" aria-pressed="false">
+      <title>纽约</title>
+      <path class="wt-leader" d="M294.4,140.5L334,121"/>
+      <circle class="wt-hit" cx="294.4" cy="140.5" r="9"/>
+      <circle class="wt-dot" cx="294.4" cy="140.5" r="3"/>
+      <text x="334" y="125" text-anchor="start">纽约</text>
+    </g><g class="wt-marker" data-city="washington" role="button" tabindex="0" aria-label="查看华盛顿时间" aria-pressed="false">
+      <title>华盛顿</title>
+      <path class="wt-leader" d="M286.0,146.2L336,147"/>
+      <circle class="wt-hit" cx="286.0" cy="146.2" r="9"/>
+      <circle class="wt-dot" cx="286.0" cy="146.2" r="3"/>
+      <text x="336" y="151" text-anchor="start">华盛顿</text>
+    </g><g class="wt-marker" data-city="atlanta" role="button" tabindex="0" aria-label="查看亚特兰大时间" aria-pressed="false">
+      <title>亚特兰大</title>
+      <path class="wt-leader" d="M265.6,162.6L302,183"/>
+      <circle class="wt-hit" cx="265.6" cy="162.6" r="9"/>
+      <circle class="wt-dot" cx="265.6" cy="162.6" r="3"/>
+      <text x="302" y="187" text-anchor="start">亚特兰大</text>
+    </g><g class="wt-marker" data-city="champaign" role="button" tabindex="0" aria-label="查看香槟时间" aria-pressed="false">
+      <title>香槟</title>
+      <path class="wt-leader" d="M254.9,142.4L233,121"/>
+      <circle class="wt-hit" cx="254.9" cy="142.4" r="9"/>
+      <circle class="wt-dot" cx="254.9" cy="142.4" r="3"/>
+      <text x="233" y="125" text-anchor="end">香槟</text>
+    </g><g class="wt-marker" data-city="london" role="button" tabindex="0" aria-label="查看伦敦时间" aria-pressed="false">
+      <title>伦敦</title>
+      <path class="wt-leader" d="M499.6,106.3L483,79"/>
+      <circle class="wt-hit" cx="499.6" cy="106.3" r="9"/>
+      <circle class="wt-dot" cx="499.6" cy="106.3" r="3"/>
+      <text x="483" y="83" text-anchor="end">伦敦</text>
+    </g><g class="wt-marker" data-city="moscow" role="button" tabindex="0" aria-label="查看莫斯科时间" aria-pressed="false">
+      <title>莫斯科</title>
+      <path class="wt-leader" d="M604.5,92.8L627,73"/>
+      <circle class="wt-hit" cx="604.5" cy="92.8" r="9"/>
+      <circle class="wt-dot" cx="604.5" cy="92.8" r="3"/>
+      <text x="627" y="77" text-anchor="start">莫斯科</text>
+    </g><g class="wt-marker" data-city="stockholm" role="button" tabindex="0" aria-label="查看斯德哥尔摩时间" aria-pressed="false">
+      <title>斯德哥尔摩</title>
+      <path class="wt-leader" d="M550.2,81.4L551,52"/>
+      <circle class="wt-hit" cx="550.2" cy="81.4" r="9"/>
+      <circle class="wt-dot" cx="550.2" cy="81.4" r="3"/>
+      <text x="551" y="56" text-anchor="middle">斯德哥尔摩</text>
+    </g><g class="wt-marker" data-city="dubai" role="button" tabindex="0" aria-label="查看迪拜时间" aria-pressed="false">
+      <title>迪拜</title>
+      <path class="wt-leader" d="M653.5,189.7L674,209"/>
+      <circle class="wt-hit" cx="653.5" cy="189.7" r="9"/>
+      <circle class="wt-dot" cx="653.5" cy="189.7" r="3"/>
+      <text x="674" y="213" text-anchor="start">迪拜</text>
+    </g><g class="wt-marker" data-city="hong-kong" role="button" tabindex="0" aria-label="查看香港时间" aria-pressed="false">
+      <title>香港</title>
+      <path class="wt-leader" d="M817.1,198.8L799,218"/>
+      <circle class="wt-hit" cx="817.1" cy="198.8" r="9"/>
+      <circle class="wt-dot" cx="817.1" cy="198.8" r="3"/>
+      <text x="799" y="222" text-anchor="end">香港</text>
+    </g><g class="wt-marker" data-city="beijing" role="button" tabindex="0" aria-label="查看北京时间" aria-pressed="false">
+      <title>北京</title>
+      <path class="wt-leader" d="M823.4,143.1L802,130"/>
+      <circle class="wt-hit" cx="823.4" cy="143.1" r="9"/>
+      <circle class="wt-dot" cx="823.4" cy="143.1" r="3"/>
+      <text x="802" y="134" text-anchor="end">北京</text>
+    </g><g class="wt-marker" data-city="tokyo" role="button" tabindex="0" aria-label="查看东京时间" aria-pressed="false">
+      <title>东京</title>
+      <path class="wt-leader" d="M888.0,156.4L913,176"/>
+      <circle class="wt-hit" cx="888.0" cy="156.4" r="9"/>
+      <circle class="wt-dot" cx="888.0" cy="156.4" r="3"/>
+      <text x="913" y="180" text-anchor="start">东京</text>
+    </g><g class="wt-marker" data-city="singapore" role="button" tabindex="0" aria-label="查看新加坡时间" aria-pressed="false">
+      <title>新加坡</title>
+      <path class="wt-leader" d="M788.4,265.4L773,282"/>
+      <circle class="wt-hit" cx="788.4" cy="265.4" r="9"/>
+      <circle class="wt-dot" cx="788.4" cy="265.4" r="3"/>
+      <text x="773" y="286" text-anchor="end">新加坡</text>
+    </g><g class="wt-marker" data-city="seoul" role="button" tabindex="0" aria-label="查看首尔时间" aria-pressed="false">
+      <title>首尔</title>
+      <path class="wt-leader" d="M852.7,150.5L871,124"/>
+      <circle class="wt-hit" cx="852.7" cy="150.5" r="9"/>
+      <circle class="wt-dot" cx="852.7" cy="150.5" r="3"/>
+      <text x="871" y="128" text-anchor="start">首尔</text>
+    </g><g class="wt-marker" data-city="perth" role="button" tabindex="0" aria-label="查看珀斯时间" aria-pressed="false">
+      <title>珀斯</title>
+      <path class="wt-leader" d="M821.8,371.0L799,387"/>
+      <circle class="wt-hit" cx="821.8" cy="371.0" r="9"/>
+      <circle class="wt-dot" cx="821.8" cy="371.0" r="3"/>
+      <text x="799" y="391" text-anchor="end">珀斯</text>
+    </g><g class="wt-marker" data-city="sydney" role="button" tabindex="0" aria-label="查看悉尼时间" aria-pressed="false">
+      <title>悉尼</title>
+      <path class="wt-leader" d="M920.0,377.1L941,378"/>
+      <circle class="wt-hit" cx="920.0" cy="377.1" r="9"/>
+      <circle class="wt-dot" cx="920.0" cy="377.1" r="3"/>
+      <text x="941" y="382" text-anchor="start">悉尼</text>
+    </g><g class="wt-marker" data-city="melbourne" role="button" tabindex="0" aria-label="查看墨尔本时间" aria-pressed="false">
+      <title>墨尔本</title>
+      <path class="wt-leader" d="M902.7,389.6L887,413"/>
+      <circle class="wt-hit" cx="902.7" cy="389.6" r="9"/>
+      <circle class="wt-dot" cx="902.7" cy="389.6" r="3"/>
+      <text x="887" y="417" text-anchor="end">墨尔本</text>
+    </g><g class="wt-marker" data-city="auckland" role="button" tabindex="0" aria-label="查看奥克兰时间" aria-pressed="false">
+      <title>奥克兰</title>
+      <path class="wt-leader" d="M985.5,386.6L991,411"/>
+      <circle class="wt-hit" cx="985.5" cy="386.6" r="9"/>
+      <circle class="wt-dot" cx="985.5" cy="386.6" r="3"/>
+      <text x="991" y="415" text-anchor="end">奥克兰</text>
+    </g><g class="wt-marker" data-city="brisbane" role="button" tabindex="0" aria-label="查看布里斯班时间" aria-pressed="false">
+      <title>布里斯班</title>
+      <path class="wt-leader" d="M925.1,356.8L944,338"/>
+      <circle class="wt-hit" cx="925.1" cy="356.8" r="9"/>
+      <circle class="wt-dot" cx="925.1" cy="356.8" r="3"/>
+      <text x="944" y="342" text-anchor="start">布里斯班</text>
+    </g><g class="wt-marker" data-city="hobart" role="button" tabindex="0" aria-label="查看霍巴特时间" aria-pressed="false">
+      <title>霍巴特</title>
+      <path class="wt-leader" d="M909.2,405.7L929,441"/>
+      <circle class="wt-hit" cx="909.2" cy="405.7" r="9"/>
+      <circle class="wt-dot" cx="909.2" cy="405.7" r="3"/>
+      <text x="929" y="445" text-anchor="start">霍巴特</text>
+    </g>
+      </svg>
+    </div>
+    <div class="wt-comparison" id="wt-comparison"><section class="wt-clock-panel wt-local" aria-label="你的本地时间">
+    <span class="wt-eyebrow">YOUR LOCAL TIME</span>
+    <h2 data-wt="local-name">你的本地时间</h2>
+    <time class="wt-time" data-wt="local-time">--:--:--</time>
+    <span class="wt-date" data-wt="local-date">正在读取设备时间…</span>
+    <span class="wt-zone" data-wt="local-zone">—</span>
+  </section><section class="wt-clock-panel wt-remote" aria-label="选择一个城市">
+    <span class="wt-eyebrow">SELECTED CITY</span>
+    <h2 data-wt="remote-name">选择一个城市</h2>
+    <time class="wt-time" data-wt="remote-time">--:--:--</time>
+    <span class="wt-date" data-wt="remote-date">正在读取设备时间…</span>
+    <span class="wt-zone" data-wt="remote-zone">—</span>
+  </section></div>
+    <div class="wt-difference" aria-live="polite" aria-atomic="true"><span data-wt="difference">选择城市后，这里会显示与你的时差。</span><span data-wt="day-difference"></span></div>
+    <div class="wt-cities" aria-label="选择城市"><div class="wt-city-group"><span class="wt-group-label">美洲</span><div class="wt-city-buttons"><button type="button" data-city="toronto" data-zone="America/Toronto" data-name="多伦多" aria-pressed="false">多伦多</button><button type="button" data-city="los-angeles" data-zone="America/Los_Angeles" data-name="洛杉矶" aria-pressed="false">洛杉矶</button><button type="button" data-city="new-york" data-zone="America/New_York" data-name="纽约" aria-pressed="false">纽约</button><button type="button" data-city="washington" data-zone="America/New_York" data-name="华盛顿" aria-pressed="false">华盛顿</button><button type="button" data-city="atlanta" data-zone="America/New_York" data-name="亚特兰大" aria-pressed="false">亚特兰大</button><button type="button" data-city="champaign" data-zone="America/Chicago" data-name="香槟" aria-pressed="false">香槟</button></div></div><div class="wt-city-group"><span class="wt-group-label">欧洲</span><div class="wt-city-buttons"><button type="button" data-city="london" data-zone="Europe/London" data-name="伦敦" aria-pressed="false">伦敦</button><button type="button" data-city="moscow" data-zone="Europe/Moscow" data-name="莫斯科" aria-pressed="false">莫斯科</button><button type="button" data-city="stockholm" data-zone="Europe/Stockholm" data-name="斯德哥尔摩" aria-pressed="false">斯德哥尔摩</button></div></div><div class="wt-city-group"><span class="wt-group-label">亚洲</span><div class="wt-city-buttons"><button type="button" data-city="dubai" data-zone="Asia/Dubai" data-name="迪拜" aria-pressed="false">迪拜</button><button type="button" data-city="hong-kong" data-zone="Asia/Hong_Kong" data-name="香港" aria-pressed="false">香港</button><button type="button" data-city="beijing" data-zone="Asia/Shanghai" data-name="北京" aria-pressed="false">北京</button><button type="button" data-city="tokyo" data-zone="Asia/Tokyo" data-name="东京" aria-pressed="false">东京</button><button type="button" data-city="singapore" data-zone="Asia/Singapore" data-name="新加坡" aria-pressed="false">新加坡</button><button type="button" data-city="seoul" data-zone="Asia/Seoul" data-name="首尔" aria-pressed="false">首尔</button></div></div><div class="wt-city-group"><span class="wt-group-label">大洋洲</span><div class="wt-city-buttons"><button type="button" data-city="perth" data-zone="Australia/Perth" data-name="珀斯" aria-pressed="false">珀斯</button><button type="button" data-city="sydney" data-zone="Australia/Sydney" data-name="悉尼" aria-pressed="false">悉尼</button><button type="button" data-city="melbourne" data-zone="Australia/Melbourne" data-name="墨尔本" aria-pressed="false">墨尔本</button><button type="button" data-city="auckland" data-zone="Pacific/Auckland" data-name="奥克兰" aria-pressed="false">奥克兰</button><button type="button" data-city="brisbane" data-zone="Australia/Brisbane" data-name="布里斯班" aria-pressed="false">布里斯班</button><button type="button" data-city="hobart" data-zone="Australia/Hobart" data-name="霍巴特" aria-pressed="false">霍巴特</button></div></div></div>
+    <p class="wt-note">本地时区读取自你的设备，不使用 IP 定位。时间与夏令时规则由浏览器计算，请保持设备时间准确。</p>
+    <p class="wt-credit">地图仅展示简化陆地轮廓，不表示行政边界。<a class="link"   href="https://www.naturalearthdata.com/about/terms-of-use/"  target="_blank" rel="noopener noreferrer">Natural Earth · 公共领域数据<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+    <noscript>请启用 JavaScript 以查看实时日期、时间和时差。</noscript>
+  </section>
+  <script src="/js/world-time.js" defer data-swup-reload-script></script>
+
+	</div>
+
+	<div class="page-template-comments">
+		
+	</div>
+</div>
+
+<div class="paginator">
+	
+</div>
+  
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">写下真实体验，也保留观点的棱角。</div>
+        
+        <div class="text-center">
+            &copy;
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 32 篇文章
+                    </span>
+                    
+                        <span>
+                            共 64.6k 字
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <?xml version="1.0" encoding="utf-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"/></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days" ></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script>
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        <script data-swup-reload-script src="/js/cyber-weather.js" defer></script>
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script src="/js/cyber-exchange.js" defer></script>
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="图片查看器">
+	<button class="image-viewer-close" type="button" aria-label="关闭">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="上一页">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="关闭">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="下一页">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="站内搜索您需要的内容..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+<script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/Swup.min.js" ></script><script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupSlideTheme.min.js" ></script><script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupScriptsPlugin.min.js" ></script><script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupProgressPlugin.min.js" ></script><script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupScrollPlugin.min.js" ></script><script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupPreloadPlugin.min.js" ></script>
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+	<script type="module" src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/main.js" ></script>
+
+
+    <script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/odometer.min.js" ></script>
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/assets/odometer-theme-minimal.css">
+
+
+
+
+
+
+  <script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/Typed.min.js" ></script>
+
+
+
+
+
+
+
+
+<script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/moment-with-locales.min.js" data-swup-reload-script></script>
+
+
+	
+	<div id="aplayer"></div>
+<script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/APlayer.min.js" ></script>
+<script  src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/plugins/aplayer.js" ></script>
+
+	
+</body>
+
+</html>
