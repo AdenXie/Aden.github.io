@@ -81,6 +81,7 @@ function decorate($, original, english, available) {
   }
 }
 async function translate(text, key, appId) {
+  await new Promise(r => setTimeout(r, 600));
   const params = { from: 'zh', to: 'en', appId, srcText: text, timestamp: String(Date.now()) };
   const signed = { ...params, apikey: key };
   params.authStr = crypto.createHash('md5').update(Object.keys(signed).sort().map(k => `${k}=${signed[k]}`).join('&')).digest('hex');
@@ -114,20 +115,37 @@ async function main() {
   let next = 0;
   async function worker() {
     while (key && appId && next < pending.length && failed < 3) {
-    const text = pending[next++];
-    if (used + text.length > budget) return;
+    const batch = [pending[next++]];
+    let length = batch[0].length;
+    while (next < pending.length && batch.length < 20 && length + pending[next].length + 1 < 4000) {
+      length += pending[next].length + 1; batch.push(pending[next++]);
+    }
+    if (used + length > budget) return;
     // Count before attempting: uncertain network outcomes must not bypass the cap.
-    used += text.length; save();
+    used += length; save();
     try {
-      const chunks = text.match(/[\s\S]{1,4500}/gu) || [];
-      const outputs = [];
-      for (const chunk of chunks) { outputs.push(await translate(chunk, key, appId)); await new Promise(r => setTimeout(r, 220)); }
-      cache[hash(text)] = outputs.join(''); translated++; save();
-      if (translated % 50 === 0) console.log(`Translated ${translated}/${pending.length} segments`);
+      let outputs;
+      if (length < 4500) {
+        const response = await translate(batch.map(t => t.replace(/\s*\n\s*/g, ' ')).join('\n'), key, appId);
+        outputs = response.trim().split(/\r?\n/).map(t => t.trim()).filter(Boolean);
+      }
+      if (!outputs || outputs.length !== batch.length) {
+        outputs = [];
+        for (const text of batch) {
+          if (used + text.length > budget) throw new Error('Daily safety budget reached');
+          used += text.length; save();
+          const translatedChunks = [];
+          for (const chunk of text.match(/[\s\S]{1,4500}/gu) || []) translatedChunks.push(await translate(chunk, key, appId));
+          outputs.push(translatedChunks.join(''));
+        }
+      }
+      batch.forEach((text,i) => { cache[hash(text)] = outputs[i]; });
+      translated += batch.length; save();
+      console.log(`Translated ${translated}/${pending.length} segments`);
     } catch (e) { console.warn(e.message); failed++; }
     }
   }
-  await Promise.all(Array.from({ length: 4 }, () => worker()));
+  await worker();
   const ready = new Set(pages.filter(p => p.slots.every(s => cache[hash(s.text)])).map(p => p.url));
   for (const script of scripts) {
     let source = script.source;
