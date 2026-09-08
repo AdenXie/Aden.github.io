@@ -43,9 +43,9 @@ hexo.extend.tag.register('world_time', () => {
   </section>`;
   return `<link rel="stylesheet" href="/css/world-time.css">
   <section id="world-time" class="wt" aria-label="世界时间交互地图">
-    <p class="wt-intro">同一刻，世界各地的日常。悬停或点选城市，对照你的本地时间。</p>
+    <p class="wt-intro">同一刻，世界各地的日常。点击地图或下方城市名称，选定城市并对照你的本地时间。</p>
     <div class="wt-map-frame">
-      <div class="wt-map-caption"><span>WORLD TIME / ${cities.length} CITIES</span><span>悬停 · 点选</span></div>
+      <div class="wt-map-caption"><span>WORLD TIME / ${cities.length} CITIES</span><span>点击选定城市</span></div>
       <svg class="wt-map" viewBox="${map.viewBox}" aria-label="${cities.length}个城市的世界时间地图">
         <path class="wt-land" d="${map.path}"/>
         <path class="wt-equator" d="M0,269.7H1000"/>

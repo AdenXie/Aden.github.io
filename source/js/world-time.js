@@ -113,11 +113,7 @@
       const target = event.target.closest?.('[data-city]');
       if (target && root.contains(target)) select(target.dataset.city);
     }
-    root.addEventListener('pointerover', event => {
-      if (event.pointerType !== 'touch') selectTarget(event);
-    }, { signal: listeners.signal });
     root.addEventListener('click', selectTarget, { signal: listeners.signal });
-    root.addEventListener('focusin', selectTarget, { signal: listeners.signal });
     root.addEventListener('keydown', event => {
       if ((event.key === 'Enter' || event.key === ' ') && event.target.matches('.wt-marker')) {
         event.preventDefault();
