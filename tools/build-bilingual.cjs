@@ -153,6 +153,7 @@ async function main() {
     let source = script.source;
     for (const { node, value, texts } of [...script.segments].sort((a,b) => b.node.start - a.node.start)) {
       let translated = value === 'zh-CN' ? 'en-GB' : (terms[value] ?? value);
+      for (const [text, target] of Object.entries(terms).filter(([text]) => text.includes('100'))) translated = translated.replaceAll(text, target);
       if (!(value in terms)) for (const text of texts.sort((a,b) => b.length-a.length)) translated = translated.replaceAll(text, cache[hash(text)] ?? text);
       const encoded = node.type === 'Literal' ? JSON.stringify(translated) : translated.replace(/`/g, '\\`').replace(/\$\{/g, '\\${');
       source = source.slice(0, node.start) + encoded + source.slice(node.end);
