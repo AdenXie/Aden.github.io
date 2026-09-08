@@ -10,6 +10,7 @@ on:
       - scripts/**
       - lib/**
       - _config.yml
+      - _config.english.yml
       - _config.redefine.yml
       - package.json
       - package-lock.json
@@ -46,6 +47,9 @@ jobs:
 
       - name: Build site
         run: npm run clean && npm run build
+
+      - name: Render native Redefine English interface
+        run: npm run build:english
 
       - name: Restore persistent translations
         run: |

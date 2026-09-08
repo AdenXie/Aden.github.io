@@ -1,6 +1,12 @@
 # Bilingual static publishing
 
-Chinese source remains authoritative. `deploy.yml` builds Hexo, restores the
+Chinese source remains authoritative. `deploy.yml` builds Chinese Hexo, then
+renders a native English theme shell with
+`npm run build:english` (using the same Asia/Shanghai build timezone as Chinese).
+The shell lives in ignored `.english-theme`; Redefine's `languages/en.yml`
+supplies theme UI and dynamic localization. Site menu keys are mapped in
+`scripts/english-theme.js`. Only remaining Chinese content in that shell is
+machine-translated. The workflow restores the
 `translations` branch into ignored `.translation-cache`, runs
 `node tools/build-bilingual.cjs`, persists that cache, and deploys `public`.
 English pages are separate static files under `/en/`. No visitor calls a

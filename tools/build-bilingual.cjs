@@ -8,6 +8,7 @@ const acorn = require('acorn');
 const terms = require('../lib/bilingual-terms.json');
 const ROOT = path.resolve(__dirname, '..');
 const PUBLIC = path.join(ROOT, 'public');
+const ENGLISH_THEME = path.join(ROOT, '.english-theme');
 const CACHE = path.join(ROOT, '.translation-cache');
 const VERSION = 'niutrans-en-v1';
 const hasChinese = text => /[\u3400-\u9fff]/u.test(text);
@@ -109,7 +110,10 @@ async function main() {
   const cache = fs.existsSync(cacheFile) ? JSON.parse(fs.readFileSync(cacheFile, 'utf8')) : {};
   for (const [text, translated] of Object.entries(terms)) cache[hash(text)] = translated;
   const pages = files(PUBLIC).filter(f => f.endsWith('.html')).map(file => {
-    const html = fs.readFileSync(file, 'utf8'); const $ = cheerio.load(html);
+    const html = fs.readFileSync(file, 'utf8');
+    const nativeFile = path.join(ENGLISH_THEME, path.relative(PUBLIC, file));
+    // Fail safely instead of quietly falling back to machine-translated chrome.
+    const $ = cheerio.load(fs.readFileSync(nativeFile, 'utf8'));
     return { file, html, $, slots: slots($), url: urlFor(file) };
   });
   const scripts = ['cyber-weather.js', 'cyber-exchange.js', 'world-time.js'].map(name => {
