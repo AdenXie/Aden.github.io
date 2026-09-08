@@ -74,6 +74,17 @@ function decorate($, original, english, available) {
     $('script:not([src])').each((_, el) => {
       // Theme's generated search configuration must load the English index.
       el.children?.forEach(n => { if (n.type === 'text') n.data = n.data.replace(/(["'])search\.xml\1/g, '"en/search.xml"').replace(/"language":"zh-CN"/g, '"language":"en"'); });
+      el.children?.forEach(n => {
+        if (n.type !== 'text') return;
+        n.data = n.data.replace(/window\.theme\s*=\s*(\{[^\n]*\});/, (match, json) => {
+          const theme = JSON.parse(json);
+          if (theme.home_banner?.subtitle) {
+            theme.home_banner.subtitle.text = ['Technology, experience and independent thinking', 'Real experiences. A personal perspective.'];
+            if (theme.home_banner.subtitle.hitokoto) theme.home_banner.subtitle.hitokoto.enable = false;
+          }
+          return `window.theme = ${JSON.stringify(theme)};`;
+        });
+      });
     });
     const notice = $('<p class="aden-translation-notice">Machine-translated with NiuTrans. <a>Read the Chinese original</a>.</p>');
     notice.find('a').attr('href', original);
