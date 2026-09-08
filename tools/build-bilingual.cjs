@@ -5,6 +5,7 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 const cheerio = require('cheerio');
 const acorn = require('acorn');
+const terms = require('../lib/bilingual-terms.json');
 const ROOT = path.resolve(__dirname, '..');
 const PUBLIC = path.join(ROOT, 'public');
 const CACHE = path.join(ROOT, '.translation-cache');
@@ -76,7 +77,7 @@ function decorate($, original, english, available) {
     });
     const notice = $('<p class="aden-translation-notice">Machine-translated with NiuTrans. <a>Read the Chinese original</a>.</p>');
     notice.find('a').attr('href', original);
-    const content = $('.article-content, .post-content, main').first();
+    const content = $('.article-content, .post-content, .home-content-container').first();
     if (content.length) content.prepend(notice); else $('.navbar-container').after(notice);
   }
 }
@@ -95,6 +96,7 @@ async function main() {
   fs.mkdirSync(CACHE, { recursive: true });
   const cacheFile = path.join(CACHE, 'segments.json');
   const cache = fs.existsSync(cacheFile) ? JSON.parse(fs.readFileSync(cacheFile, 'utf8')) : {};
+  for (const [text, translated] of Object.entries(terms)) cache[hash(text)] = translated;
   const pages = files(PUBLIC).filter(f => f.endsWith('.html')).map(file => {
     const html = fs.readFileSync(file, 'utf8'); const $ = cheerio.load(html);
     return { file, html, $, slots: slots($), url: urlFor(file) };
@@ -150,8 +152,8 @@ async function main() {
   for (const script of scripts) {
     let source = script.source;
     for (const { node, value, texts } of [...script.segments].reverse()) {
-      let translated = value === 'zh-CN' ? 'en-GB' : value;
-      for (const text of texts.sort((a,b) => b.length-a.length)) translated = translated.replaceAll(text, cache[hash(text)] || text);
+      let translated = value === 'zh-CN' ? 'en-GB' : (terms[value] ?? value);
+      if (!(value in terms)) for (const text of texts.sort((a,b) => b.length-a.length)) translated = translated.replaceAll(text, cache[hash(text)] ?? text);
       const encoded = node.type === 'Literal' ? JSON.stringify(translated) : translated.replace(/`/g, '\\`').replace(/\$\{/g, '\\${');
       source = source.slice(0, node.start) + encoded + source.slice(node.end);
     }
@@ -175,7 +177,9 @@ async function main() {
         const href = en(el).attr('href');
         try {
           const u = new URL(href, 'https://blog.adenxie.com.cn' + p.url);
-          if (u.origin === 'https://blog.adenxie.com.cn' && ready.has(decodeURI(u.pathname).replace(/index\.html$/, ''))) en(el).attr('href', '/en' + u.pathname + u.search + u.hash);
+          const pathname = decodeURI(u.pathname).replace(/index\.html$/, '');
+          const target = ready.has(pathname) ? pathname : ready.has(pathname + '/') ? pathname + '/' : null;
+          if (u.origin === 'https://blog.adenxie.com.cn' && target) en(el).attr('href', '/en' + encodeURI(target) + u.search + u.hash);
         } catch (_) { /* Non-web links stay unchanged. */ }
       });
       decorate(en, p.url, true, true);
