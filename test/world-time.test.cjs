@@ -9,10 +9,10 @@ const cities = require('../lib/world-time-cities.json');
 const map = require('../lib/world-time-map.json');
 const at = (date, zone) => snapshot(new Date(date), zone);
 
-test('exactly the requested 21 distinct cities, with valid coordinates and IANA zones', () => {
-  assert.equal(cities.length, 21);
-  assert.equal(new Set(cities.map(c => c.id)).size, 21);
-  assert.deepEqual(cities.map(c => c.name).sort(), ['多伦多','洛杉矶','纽约','华盛顿','亚特兰大','香槟','伦敦','莫斯科','斯德哥尔摩','迪拜','香港','北京','东京','新加坡','珀斯','悉尼','墨尔本','奥克兰','首尔','布里斯班','霍巴特'].sort());
+test('exactly the requested 20 distinct cities, with valid coordinates and IANA zones', () => {
+  assert.equal(cities.length, 20);
+  assert.equal(new Set(cities.map(c => c.id)).size, 20);
+  assert.deepEqual(cities.map(c => c.name).sort(), ['多伦多','洛杉矶','纽约','亚特兰大','香槟','伦敦','莫斯科','斯德哥尔摩','迪拜','香港','北京','东京','新加坡','珀斯','悉尼','墨尔本','奥克兰','首尔','布里斯班','霍巴特'].sort());
   for (const city of cities) {
     assert.ok(city.lon >= -180 && city.lon <= 180 && city.lat > -60 && city.lat < 85);
     assert.match(at('2026-09-01T00:00:00Z', city.zone).time, /^\d\d:\d\d:\d\d$/);
@@ -66,7 +66,7 @@ test('international date-line comparison can span two calendar days', () => {
   assert.equal(compare(at('2026-01-01T10:30:00Z', 'Pacific/Pago_Pago'), at('2026-01-01T10:30:00Z', 'Pacific/Kiritimati')).dayDifference, '当地日期比你晚 2 天');
 });
 test('all America eastern cities keep their separate names but share current time', () => {
-  const times = cities.filter(c => ['toronto','new-york','washington','atlanta'].includes(c.id)).map(c => at('2026-09-01T00:00:00Z', c.zone).time);
+  const times = cities.filter(c => ['toronto','new-york','atlanta'].includes(c.id)).map(c => at('2026-09-01T00:00:00Z', c.zone).time);
   assert.equal(new Set(times).size, 1);
 });
 test('tag renders accessible markers and buttons; assets are scoped to the page', () => {
@@ -77,9 +77,9 @@ test('tag renders accessible markers and buttons; assets are scoped to the page'
     hexo: { extend: { filter: { register() {} }, tag: { register: (name, fn) => { assert.equal(name, 'world_time'); render = fn; } } } }
   });
   const html = render();
-  assert.equal((html.match(/class="wt-marker"/g) || []).length, 21);
-  assert.equal((html.match(/<button type="button"/g) || []).length, 21);
-  assert.ok(html.includes('WORLD TIME / 21 CITIES'));
+  assert.equal((html.match(/class="wt-marker"/g) || []).length, 20);
+  assert.equal((html.match(/<button type="button"/g) || []).length, 20);
+  assert.ok(html.includes('WORLD TIME / 20 CITIES'));
   assert.ok(!html.includes('圣路易斯'));
   assert.ok(html.includes('data-swup-reload-script'));
   assert.ok(html.includes('Natural Earth'));
