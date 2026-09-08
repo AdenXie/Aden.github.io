@@ -1,0 +1,1224 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+        
+        
+        
+            <link rel="preconnect" href="https://evan.beee.top" crossorigin="">
+        
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/2022/07/23/新学期选购平板电脑指南/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Guide to Buying a Tablet for the New Semester">
+<meta property="og:url" content="https://blog.adenxie.com.cn/2022/07/23/%E6%96%B0%E5%AD%A6%E6%9C%9F%E9%80%89%E8%B4%AD%E5%B9%B3%E6%9D%BF%E7%94%B5%E8%84%91%E6%8C%87%E5%8D%97/index.html">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2022-07-23T03:45:14.000Z">
+<meta property="article:modified_time" content="2023-03-23T12:30:29.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="指南">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            New Semester Tablet Buying Guide | Aden's Space
+        
+    </title>
+
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fonts/Chillax/chillax.css">
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js"></script>
+                
+    
+            
+                
+                    <link rel="stylesheet" href="/css/custom.css">
+                
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/css/build/tailwind.css">
+    
+
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fonts/GeistMono/geist-mono.css">
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fonts/Geist/geist.css">
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"zh-CN","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"17px","line_height":1.85,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"all_rights_reserved"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"static","image":{"light":"https://files.seeusercontent.com/2026/08/27/5xbK/IMG_20260718_compressed_under_5M.jpg","dark":"https://files.seeusercontent.com/2026/08/27/5xbK/IMG_20260718_compressed_under_5M.jpg"},"title":"Aden's Space","subtitle":{"text":["科技、体验与个人判断","写下真实体验，也保留观点的棱角"],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"世界时间":{"path":"/world-time/","icon":"fa-regular fa-clock"},"关于":{"path":"/about/","icon":"fa-regular fa-user"},"友链":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":true,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.i18n = {"search":"站内搜索您需要的内容...","toc":"目录","prev":"上一页","next":"下一页","prev_posts":"上一篇","next_posts":"下一篇","page":"第 %d 页","recent_posts":"最新文章","share":"分享","powered_by":"由 %s 驱动","theme":"主题","rss_feed":"RSS Feed","category":"分类","categories":"分类","tag":"标签","tags":"标签","post":"文章","posts":"文章","tagcloud":"标签云","comment":"评论","comments":"评论","top":"置顶","sticky":"置顶","go-back-home":"回到首页","masonry_loading":"照片加载中...","image_viewer":"图片查看器","close":"关闭","exif":{"title":"EXIF","cards":{"camera":"相机","lens":"镜头","exposure":"曝光","other":"其他"},"fields":{"make":"品牌","model":"机型","date_taken":"拍摄时间","lens_model":"镜头","focal_length":"焦距","focus_mode":"对焦模式","shutter":"快门","aperture":"光圈","iso":"感光度","exposure_program":"曝光程序","exposure_compensation":"曝光补偿","metering_mode":"测光模式","flash":"闪光灯","white_balance":"白平衡","latitude":"纬度","longitude":"经度","altitude":"海拔"},"status":{"loading":"加载中...","no_exif":"无 EXIF 信息","library_missing":"EXIF 库未加载","image_source_missing":"图片地址不可用","unavailable":"EXIF 不可用（可能被 CORS 阻止或缺少元数据）","flag_unavailable":"EXIF 不可用"}},"home":"首页","archive":"归档","archives":"归档","about":"关于","links":"链接","link":"链接","friends":"友情链接","friend":"友情链接","timeline":"时间轴","shuoshuo":"说说","bookmarks":"书签","site_uv":"访问人数","site_pv":"总访问量","read_more":"阅读全文","wordcount":"字","min2read":"分钟","changelog":"更新日志","status":"状态","runtime":"博客已运行","days":"天","hours":"小时","minutes":"分钟","seconds":"秒","optimized_by":"并由 Evan 进行优化","rights":"版权所有","site_posts":"共撰写了 %s 篇文章","site_wordcount":"共 %s 字","copyright":{"title":"标题","author":"作者","link":"链接","create_time":"创建于","update_time":"更新于","license_title":"版权声明","license_content":"本文章采用 %s 进行许可。","all_rights_reserved":"版权所有 &#169 %s，禁止转载。","public_domain":"本文为公有领域作品，可自由转载、引用。"},"ago":{"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"},"create_time":"创建","update_time":"更新","expired":"这篇文章最后更新于 %s 天前，内容可能已经过时。"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fontawesome/fontawesome.min.css">
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fontawesome/brands.min.css">
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fontawesome/solid.min.css">
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fontawesome/regular.min.css">
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    Homepage
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    Archive
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    label
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    World Time
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    about
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    Friendly links
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/">
+                            <span>
+                                Homepage
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/archives/">
+                            <span>
+                                Archive
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/tags/">
+                            <span>
+                                label
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/world-time/">
+                            <span>
+                                World Time
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/about/">
+                            <span>
+                                about
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/link/">
+                            <span>
+                                Friendly links
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/archives/">
+                            <span>Article Archive</span>
+                            <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/tags/">
+                            <span>Topic Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/about/">
+                            <span>About Aden</span>
+                            <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">14</div>
+        <div class="label text-third-text-color text-sm">label</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">3</div>
+        <div class="label text-third-text-color text-sm">classification</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">34</div>
+        <div class="label text-third-text-color text-sm">Article</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://th.bing.com/th/id/OIP.0LikbI9N3Pzmv2Fxmiz-SQHaEo?pid=ImgDet&amp;rs=1" alt="Guide to Buying a Tablet for the New Semester" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">Guide to Buying a Tablet for the New Semester</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2022-07-23 11:45:14</span>
+        <span class="mobile">2022-07-23 11:45:14</span>
+        <span class="hover-info">establish</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2023-03-23 20:30:29</span>
+            <span class="mobile">2023-03-23 20:30:29</span>
+            <span class="hover-info">update</span>
+        </span>
+    
+
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E6%8C%87%E5%8D%97/">Guide</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>3.6k words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>12 minutes</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<p>tip:</p>
+<ol>
+<li>This article is only published on greataden.top. Please indicate the source when reprinting.</li>
+<li>Unless otherwise specified, the prices of all electronic products mentioned in this article are subject to the original prices on JD.com.</li>
+<li>Due to space limitations, this article only provides the most basic advice, the advantages and disadvantages of each company, and a price comparison. Subjective items such as screen and system user experience are not taken into account.</li>
+</ol>
+<h1 id="前言"><a href="#前言" class="headerlink" title="preface"></a><strong>preface</strong></h1><p>The annual bushi is just around the corner, and as we all know, Heyi Meigao's ban on the use of electronic devices on campus is basically nonsense after just a few months of school, allowing everything except mobile phones to be used freely. As we all know, because textbooks are as heavy as bricks, many students tend to use tablets to read electronic textbooks and take class notes. The current electronics market is a mixed bag, with all sorts of brands rushing to make tablets (specifically Lenovo Xiaoxin, whose tablets are pure electronic garbage). So today, Heyi Meigao Hardware Society brings you a guide to buying tablets at different price points and for different needs now and in the next six months.</p>
+<h1 id="信仰篇"><a href="#信仰篇" class="headerlink" title="Faith"></a><strong>Faith</strong></h1><p>There's a kind of mental disability called Apple, a kind of patriotism called Huawei, and an explosion called Samsung (bushi).</p>
+<p>Judging from the names, everyone knows who I'm criticizing. The first two are the ones I think definitely need to be carefully considered. The reason is simple: the closed system ecosystem means that you can almost only buy the complete set, as well as the high price and low cost-effectiveness (the latter two are especially relevant to Apple).</p>
+<p>To give a simple example: Suppose Zhang San buys an iPad air5 (256GB), then in order to take notes, he also needs a second-generation Apple Pencil and an official Apple Magic Control keyboard. The total original price of these three items on JD.com is 8550 RMB, which is now enough for a high-end computer mainframe. Moreover, once you buy a tablet, you must buy an iPhone and an Apple computer to achieve the best ecosystem synergy and maximum efficiency (I can write a separate article about why later). The iPhone 13 Pro 256G version is priced at 8200 on JD.com, the M1 version of the MacBook Air 13 is 7400, and the M2 version is 9200. A complete set would cost at least two thousand yuan. Forgive my bluntness, whoever buys it is an idiot (just ignore the fact that my family is so poor they only have money left).</p>
+<p>Huawei's situation is similar, but in fact, Huawei's most important problem does not lie here, but in other aspects, which I will introduce in detail below.</p>
+<h2 id="苹果篇"><a href="#苹果篇" class="headerlink" title="Apple Edition"></a>Apple Edition</h2><p><strong>Once you've made up your mind to put up with Apple's poor software compatibility and game isolation on your computer, please read on. Alternatively, you can choose to jump to the Huawei section.</strong></p>
+<p>First, let me state my personal opinion: I won't buy pro unless it's necessary.</p>
+<p>The difference between the iPad air and iPad pro isn't that significant for the average consumer!<br></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/ipad-air-select-202203?wid=3530&amp;hei=4000&amp;fmt=jpeg&amp;qlt=90&amp;.v=1645665079887" alt="ipad air"><figcaption>ipad air</figcaption></figure><p></p>
+<p>Whether it's performance or user experience, it's hard to truly appreciate it without using an iPad for video editing. The same applies to gaming; the same M1 chip can completely handle the current performance killer, Genshin Impact. Taking notes goes without saying.</p>
+<p>To be honest, Apple really doesn't have much to say about it. It has a solid screen and stylus quality, a smooth system, and a whole host of other advantages. The only problem is its price. If you don't play games and won't need very specialized software for your college major in the future, but just want to use it for reading, writing, and taking notes, and your budget is not limited, then the Apple family bucket is indeed a good choice.</p>
+<p>Finally, when buying Apple products, please remember: Buy what you need, don't create demand. Beware of Cook's knife technique [doge]</p>
+<h2 id="华为篇"><a href="#华为篇" class="headerlink" title="Huawei Edition"></a>Huawei Edition</h2><p>Actually, I didn't originally want to include Huawei in the discussion, but since many people only know about Huawei besides Apple, I'll bring it up anyway.</p>
+<p>One thing is clear: HarmonyOS is not a user-friendly "mobile phone" system; its real advantage lies in the Internet of Everything. Never buy Huawei just because of HarmonyOS; its advantages may not be apparent for the next five years.</p>
+<p>Moreover, the desktop mode of the HarmonyOS system (the mode in which tablets improve the mouse and keyboard user experience by imitating the computer interface) is very poorly designed, almost unusable.</p>
+<p>Then comes a common misconception: the so-called "support for domestic products".</p>
+<p>Huawei has never been a conscientious company.</p>
+<p>Admittedly, Huawei is awesome, truly awesome. It is one of only four mobile phone manufacturers in the world that can design its own chips, and it has also modified Android to develop its own HarmonyOS system.</p>
+<p>However, it's really not as good as most people imagine. The Enjoy series is a huge rip-off for the poor, with the best configuration in the same price range coupled with the highest price. After being sanctioned, prices skyrocketed, with the P50E 778G chip selling for 4,000 yuan (compared to 2,000 yuan for the same Xiaomi configuration). Back when Huawei was still using Android 10's EMUI, it blatantly violated Google's Android Open Source Convention by blocking bl and root channels. (If anyone criticizes me for worshipping foreign things, please take a look up. I also criticize Apple, much harsher than Huawei.)</p>
+<p>In short, Huawei is indeed facing difficulties, but its current products offer very low cost-effectiveness. As consumers, especially those with limited budgets, the primary consideration should be whether their products are worth their investment, rather than whether they support so-called national enterprises and patriotism.</p>
+<p>Next, we'll begin the official Huawei tablet recommendation.</p>
+<p>If you only want to do light office work and study, the MatePad 11 (3999 + 600 + 450) is a good option.<br></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://zaaap-1254235226.cos.ap-guangzhou.myqcloud.com/long_pic/2021/07/07/20210707101129982.jpg?size=758x443&amp;imageMogr2/format/jpeg/quality/60" alt="matepad11"><figcaption>matepad11</figcaption></figure><p></p>
+<p>If you want to play some games, you'll need Pro 2021 (3299 + 600 + 450).<br></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://n.sinaimg.cn/sinakd20210602ac/300/w2000h1500/20210602/4cd2-kquziik5757525.jpg" alt="matepad pro"><figcaption>matepad pro</figcaption></figure><p></p>
+<h2 id="三星篇"><a href="#三星篇" class="headerlink" title="Samsung Edition"></a>Samsung Edition</h2><p>Samsung's newly released tab s8 series tablets this year (s8 4500-5700+700, s8+ 5700-7000+700, s8 ultra 7900-8900+700) call themselves the "King of Android Tablets." Although I still have doubts about whether this lousy 8-for-1 chip can be worthy of the King of Tablets, it must be said that Samsung is currently the most powerful manufacturer deeply involved in styluses. Samsung's first stylus was the one that came with the note1 11 years ago. Eleven years have passed since then, and its technological accumulation is not something that other manufacturers can easily catch up with. Based on my own experience, I believe that Samsung's note-taking experience is on par with Apple's and slightly surpasses Apple's.</p>
+<p>One of Samsung's notable features is its DEX mode. Samsung does a pretty good job with this computer mode. Personally, I was forced to use a tablet to work because my computer broke down, but now I haven't turned it on for two months.</p>
+<p>In terms of performance, the new generation Snapdragon 8 is quite good, but it gets very hot... (I personally tested it; this article was typed using a Samsung tab s8 with an external mechanical keyboard.)</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://2d.zol-img.com.cn/product/220/55/ceQDPwgxoVm6.jpg" alt="Samsung tab s8"><figcaption>Samsung tab s8</figcaption></figure><br>The looks are alright too (in my personal opinion).<p></p>
+<p>Finally, a purchase recommendation: The difference between the s8 series products is almost only in screen size. The stylus of the s8+/ultra has a very slight improvement over the s8 (6ms-2.8ms). Because it's a near-native system, it can be paired with any Android phone (though the user experience isn't very good either). If you have a limited budget, you can buy the base model s8 (which I am currently using), but based on my own experience, I recommend the s8+.</p>
+<p>Meanwhile, there are reports that Samsung is about to launch the s8FE, which will use the Snapdragon 8+Gen1 chip. If you can afford to wait, you should definitely wait! The difference between these two chips is stark.</p>
+<p>Summary of the products in the Faith section above: Choose wisely and avoid falling into traps, but the price is not worthwhile, and it is worth considering if you have a very sufficient budget.</p>
+<h1 id="性价比篇"><a href="#性价比篇" class="headerlink" title="Cost-effectiveness"></a><strong>Cost-effectiveness</strong></h1><p>Having discussed high-end tablets, let's move on to the mid-to-low-end market.</p>
+<p>Unlike the hidden struggle in the high-end market, the mid-to-low-end market is truly "like water and fire". Xiaomi, OPPO, VIVO, Honor, as well as Apple's digital series and Huawei's low-end series are fiercely competing here.</p>
+<p>Next, we will introduce them one by one.</p>
+<h2 id="小米篇"><a href="#小米篇" class="headerlink" title="Xiaomi Edition"></a>Xiaomi Edition</h2><p>The top contender is the Xiaomi Mi Tablet 5/5 pro (1999~2499 +350+400). As a tablet with a stylus latency of 22ms (Samsung's industry-leading 2.8ms, most others are between 6-9ms, and the sensation is generally not noticeable below 10ms), it can be ruled out as a learning tablet. At the same time, MIUI for pad cannot be said to be particularly good. Although the performance of the Xiaolong 860/870 combined with its price provides an excellent daily entertainment and gaming experience, the most important use of tablets in this article is for learning. Therefore, the Xiaomi pad 5 is not recommended for purchase.<br></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://x0.ifengimg.com/res/2021/730FED5310D5C889B3F3905E6BD374EC6AE35F22_size160_w1200_h800.jpg" alt="Xiaomi Tablet 5"><figcaption>Xiaomi Tablet 5</figcaption></figure><p></p>
+<p>However, there are reports that the Xiaomi Mi Pad 6 has effectively improved the above problems. Patient students can wait until the first half of the year, as it might be a very cost-effective option.</p>
+<h2 id="OPPO篇"><a href="#OPPO篇" class="headerlink" title="OPPO"></a>OPPO</h2><p>The second contender is OPPO's first tablet, the OPPO pad (2200~3000 +350+500). As the first tablet from a green factory, OPPO has shown great sincerity. Whether it is the 2k high refresh rate, the large battery or the LCD eye-protecting screen, it is basically on par with other mainstream tablet manufacturers. Although the stylus latency reached 16ms due to lack of experience, and the keyboard is not magnetically charged but has a built-in battery, resulting in an overall thickness, considering its price... it's not impossible to use. If you are currently using a new OPPO phone released in the last two years, then the OPPO pad can be considered one of your high-quality choices.</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://2e.zol-img.com.cn/product/218/312/cebUyUp3buHPg.jpg" alt="OPPO pad"><figcaption>OPPO pad</figcaption></figure><p></p>
+<p>However, please note: OPPO also has another, even lower-priced OPPO pad air. In my opinion, it's pure electronic garbage. It can only play iQiyi and games, so it's not included in the recommended list.</p>
+<h2 id="vivo篇"><a href="#vivo篇" class="headerlink" title="vivo"></a>vivo</h2><p>The third place winner is the vivo pad (2500~3000 +350+600). The blue manufacturer followed the green manufacturer into the pad market this year, but its performance can only be described as less than satisfactory. Although its basic specifications and price are roughly the same as the O-board, it falls short in terms of the stylus, which most affects the learning experience, with a latency of 17.5ms. <strong>non-magnetic charging</strong>Therefore, its stylus is relatively heavier and thicker. The fact that I need to replace the battery myself makes me list it and the Xiaomi tablet's stylus as unusable, so overall I don't recommend buying it.</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://pic4.zhimg.com/80/v2-5183642625e336c03f901d89ce0d4c6b_1440w.jpg" alt="vivo pad"><figcaption>vivo pad</figcaption></figure><p></p>
+<h2 id="苹果低端篇"><a href="#苹果低端篇" class="headerlink" title="Apple's low-end version"></a>Apple's low-end version</h2><p>The fourth place goes to a heavyweight player: the iPad 2021, also known as the iPad 9 (2500~3700 +730). As a player in Apple's digital series, which focuses on the low-end market, I have to say it's very tempting. Its powerful processor and screen, which are almost identical to the air Pro, make it an excellent tablet for "audio-visual entertainment".</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://img14.360buyimg.com/n1/s450x450_jfs/t1/83610/27/16161/125495/61410d43Ecf1b46a5/32f486b3670889eb.jpg.avif" alt="iPad 9"><figcaption>iPad 9</figcaption></figure><p></p>
+<p>Attentive students should have noticed that I didn't mention its learning experience. That's right, the learning experience on this tablet can't be described as good; it's practically unusable.</p>
+<p>First, it doesn't have an official magnetic keyboard; you can only choose to use an external third-party keyboard or type on the screen, which directly eliminates productivity queues.<br>Secondly, it uses the first-generation iPad pencil, which cannot magnetically charge, and its charging method is bizarre, comparable to an Apple mouse, resulting in poor latency (due to Apple's manipulation, I couldn't find the latency parameters for the high-end Apple pencil 1, but according to reviews, it should be around 20ms).<br>Finally, it's really ugly (personal opinion, light criticism).</p>
+<p>In summary, it is basically classified as a Mi-board 5, and V-boards are not recommended for purchase.</p>
+<h2 id="华为低端篇"><a href="#华为低端篇" class="headerlink" title="Huawei Low-End"></a>Huawei Low-End</h2><p>The fifth contestant is arguably in the same heavyweight class as the Apple I just took away: the Huawei M6 tablet (1600~2300 +0).</p>
+<p>Why is the price +0? Because it does not support stylus, nor does it support the official magnetic keyboard.</p>
+<p>Isn't that outrageous? The mold is from three years ago, and the chip is from Kirin 980 inventory. This can sell for the same or even higher price as Xiaomi tablets. It has to be said that Huawei really has a knack for ripping off the poor.</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://2d.zol-img.com.cn/product/199/527/ceWYQSMqXpLfI.jpg" alt="Huawei Tablet M6"><figcaption>Huawei Tablet M6</figcaption></figure><p></p>
+<p>My Samsung tab s3 from four or five years ago looks better than him. (Personal opinion, you can also find it beautiful)</p>
+<p>Similar to the V-board, Guozi low-end, and Mi5, it is classified as a non-recommended purchase.</p>
+<p>##Glory Edition<br>Sixth place, and the last player in the low-to-mid-range category, is the Honor Tablet v7 Pro.</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://pic1.zhimg.com/80/v2-6b2f58bdbc95f2f08dff51d6e628d0c0_1440w.jpg" alt="Honor Tablet V7 Pro"><figcaption>Honor Tablet V7 Pro</figcaption></figure><p></p>
+<p>It must be said that the Honor tablet is deeply inherited from its father, Huawei. Although it bypasses sanctions, it does not affect the fact that the processor is extremely bad. Whether it is the MediaTek 1300T in the V7 Pro or the Snapdragon 680 in the Honor tablet 8, it can only be said to be limited to daily learning and light gaming.</p>
+<p>However, its stylus experience seems to be quite good. Although I have doubts about its 2ms advertising, it is definitely not much different, and it is still very good for taking notes. If you happen to own a recent Honor phone but don't play games much, then the Honor Tablet V7 Pro would be the perfect choice.</p>
+<h1 id="特殊平板篇"><a href="#特殊平板篇" class="headerlink" title="Special Tablet Edition"></a><strong>Special Tablet Edition</strong></h1><p>Although the tablet positioning of various companies generally follows the standards of mid-to-low-end and high-end product lines, there will always be a few exceptions.</p>
+<p>For example</p>
+<p><strong>Savior Y700</strong></p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://2d.zol-img.com.cn/product/220/491/ceOV1ptJOvGQ2.jpg" alt="Savior Y700"><figcaption>Savior Y700</figcaption></figure><p></p>
+<p>Placing this tablet here has absolutely no recommendation whatsoever; it's just a reminder to students who are thinking of buying a gaming tablet and still being able to study.</p>
+<p>It really can only play games...</p>
+<p>They don't even have styluses; the official refusal to become a productive force is a fact.</p>
+<p>There's another one to send.<br><strong>Shin-chan pad Pro 2021</strong></p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://2d.zol-img.com.cn/product/220/453/ceRBIbI9ZofOQ.jpg" alt="Shin-chan pad Pro 2021"><figcaption>Shin-chan pad Pro 2021</figcaption></figure><p></p>
+<p>It has to be said that Lenovo is truly a place full of eccentricities.</p>
+<p>The biggest problem with this guy is probably the stylus, which is basically unusable. With that garbage system, it's practically paying for suffering.</p>
+<p>These two are highly, highly not recommended.</p>
+<p>Then there's a truly unique trend: "tablets, but not completely flat products."</p>
+<p><strong>Microsoft surface</strong></p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://cdn.microsoftstore.com.cn/media/catalog/product/cache/a3193a341ec9a0cf6c231785438df2fa/3/_/3_348_2.png" alt="surface Pro 8"><figcaption>surface Pro 8</figcaption></figure><p></p>
+<p>This is also a non-recommended purchase level; it's not that it doesn't work well, but rather that it's unsuitable. The essence of the surface is still a computer, just a very portable computer. The touch experience of Windows has always been terrible, and even after the Windows 11 upgrade, it is only usable. It's pretty good for office work. Some teachers at American high schools (yes, I'm talking about cr) use Surfaces, but they're not suitable for taking notes. OneNote isn't a good note-taking software.</p>
+<p>Finally, let me summarize.<br>High-end recommendations: Samsung tab s8+ and the upcoming s8FE version. Those with a large budget can also choose Apple or Huawei based on their own circumstances.</p>
+<p>Highly recommended mid-to-low-end products: OPPO pad, Honor V7 Pro</p>
+<p>We do not recommend purchasing: Xiaomi Tablet 5/5 Pro, Huawei M6, iPad 9, Legion Y700, Lenovo Xiaoxin Pro 11, or the entire surface series.</p>
+<p><em>In conclusion: Thanks to ZOL (Zhongguancun Online) and JD.com for providing parameters, images, and price data.</em></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> Guide to Buying a Tablet for the New Semester</li>
+        <li><strong>Author:</strong> AdenXie</li>
+        <li><strong>Created in :</strong> 2022-07-23 11:45:14</li>
+        
+            <li>
+                <strong>Updated on :</strong> 2023-03-23 20:30:29
+            </li>
+        
+        <li>
+            <strong>Links:</strong> https://blog.adenxie.com.cn/2022/07/23/New Semester Tablet Buying Guide/
+        </li>
+        <li>
+            <strong>
+                Copyright Notice:
+            </strong>
+            
+
+            
+                All rights reserved © AdenXie, reproduction prohibited.
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E6%8C%87%E5%8D%97/">#Guide</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2023/03/21/OPPOPad2%20%E5%92%8C%20OPPO%20FindX6/" title="OPPO Pad2 and OPPO FindX6" rel="bookmark">
+  <img src="https://doc-fd.zol-img.com.cn/g7/M00/0F/0C/ChMkK2QYNWWIVoCzAAm4MTM9Zj8AAN-NgGr7oQACbhJ505.jpg" alt="OPPO Pad2 and OPPO FindX6" class="!max-w-none">
+  <span class="title">OPPO Pad2 and OPPO FindX6</span>
+</a><a class="recommended-article-item" href="/2024/07/16/%E5%B0%8F%E7%B1%B313Ultra%E5%8D%8A%E5%B9%B4%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A/" title="Xiaomi 13 Ultra Half-Year Usage Report - Xiaomi 13 Ultra Demystification" rel="bookmark">
+  <img src="https://cdn.cnbj1.fds.api.mi-img.com/product-images/xiaomi-13-ultraeyyn4y/index/3.png?x-fds-process=image/resize,q_90" alt="Xiaomi 13 Ultra Half-Year Usage Report - Xiaomi 13 Ultra Demystification" class="!max-w-none">
+  <span class="title">Xiaomi 13 Ultra Half-Year Usage Report - Xiaomi 13 Ultra Demystification</span>
+</a><a class="recommended-article-item" href="/2023/03/23/%E5%8D%8E%E4%B8%BAP60%E7%B3%BB%E5%88%97/" title="Huawei P60 series" rel="bookmark">
+  <img src="https://doc-fd.zol-img.com.cn/t_s640x2000/g7/M00/01/0B/ChMkLGQcIqCIUYMHAARiK9dbGqsAAOFzwJSYl8ABGJD278.jpg" alt="Huawei P60 series" class="!max-w-none">
+  <span class="title">Huawei P60 series</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2023/03/21/OPPOPad2%20%E5%92%8C%20OPPO%20FindX6/" title="OPPO Pad2 and OPPO FindX6" rel="bookmark">
+  <img src="https://doc-fd.zol-img.com.cn/g7/M00/0F/0C/ChMkK2QYNWWIVoCzAAm4MTM9Zj8AAN-NgGr7oQACbhJ505.jpg" alt="OPPO Pad2 and OPPO FindX6" class="!max-w-none">
+  <span class="title">OPPO Pad2 and OPPO FindX6</span>
+</a><a class="recommended-article-item" href="/2024/07/16/%E5%B0%8F%E7%B1%B313Ultra%E5%8D%8A%E5%B9%B4%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A/" title="Xiaomi 13 Ultra Half-Year Usage Report - Xiaomi 13 Ultra Demystification" rel="bookmark">
+  <img src="https://cdn.cnbj1.fds.api.mi-img.com/product-images/xiaomi-13-ultraeyyn4y/index/3.png?x-fds-process=image/resize,q_90" alt="Xiaomi 13 Ultra Half-Year Usage Report - Xiaomi 13 Ultra Demystification" class="!max-w-none">
+  <span class="title">Xiaomi 13 Ultra Half-Year Usage Report - Xiaomi 13 Ultra Demystification</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2023/02/27/%E5%85%B3%E4%BA%8E%E8%81%94%E6%83%B3%E5%B0%8F%E6%96%B0%E7%B3%BB%E5%88%97%E4%BD%8E%E6%B8%A9%E9%94%A1%E4%BA%8B%E4%BB%B6%E4%B8%AA%E4%BA%BA%E7%9C%8B%E6%B3%95/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">My personal opinion on the Lenovo Xiaoxin series low-temperature tin incident</span>
+						<span class="post-nav-item">Previous</span>
+					</span>
+				</a>
+			</div>
+			
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comment
+    </div>
+    
+
+        
+            
+    <div class="twikoo-container">
+        <script data-swup-reload-script="" src="https://cdnjs.cloudflare.com/ajax/libs/twikoo/1.7.20/twikoo.all.min.js"></script>
+        <div id="twikoo-comment"></div>
+        <script data-swup-reload-script="">
+            (function() {
+                const startPath = location.pathname;
+                const startTime = Date.now();
+                const retryDelay = 200;
+                const retryLimit = 5000;
+
+                const runTwikoo = () => {
+                    if (location.pathname !== startPath) {
+                        return;
+                    }
+
+                    const container = document.getElementById('twikoo-comment');
+                    if (!container || typeof twikoo === 'undefined') {
+                        if (Date.now() - startTime < retryLimit) {
+                            setTimeout(runTwikoo, retryDelay);
+                        }
+                        return;
+                    }
+
+                    container.innerHTML = '';
+                    twikoo.init({
+                        el: '#twikoo-comment',
+                        envId: 'https://twikoo-six-weld.vercel.app',
+                        path: location.pathname,
+                    });
+                };
+
+                runTwikoo();
+            })();
+        </script>
+    </div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">catalogue</div>
+		<div class="page-title">Guide to Buying a Tablet for the New Semester</div>
+		<ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">preface</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BF%A1%E4%BB%B0%E7%AF%87"><span class="nav-text">Faith</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8B%B9%E6%9E%9C%E7%AF%87"><span class="nav-text">Apple Edition</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%8E%E4%B8%BA%E7%AF%87"><span class="nav-text">Huawei Edition</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E6%98%9F%E7%AF%87"><span class="nav-text">Samsung Edition</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%A7%E4%BB%B7%E6%AF%94%E7%AF%87"><span class="nav-text">Cost-effectiveness</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%B1%B3%E7%AF%87"><span class="nav-text">Xiaomi Edition</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OPPO%E7%AF%87"><span class="nav-text">OPPO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vivo%E7%AF%87"><span class="nav-text">vivo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8B%B9%E6%9E%9C%E4%BD%8E%E7%AB%AF%E7%AF%87"><span class="nav-text">Apple's low-end version</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%8E%E4%B8%BA%E4%BD%8E%E7%AB%AF%E7%AF%87"><span class="nav-text">Huawei Low-End</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E5%B9%B3%E6%9D%BF%E7%AF%87"><span class="nav-text">Special Tablet Edition</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">Write down your real experiences while retaining the edges of your viewpoints.</div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        A total of 34 articles were written.
+                    </span>
+                    
+                        <span>
+                            Total 69.6k characters
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">Number of visitors</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">Total visits</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">by <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> drive</span>
+            <span class="text-sm lg:block">subject&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog is running <span class="odometer" id="runtime_days"></span> sky <span class="odometer" id="runtime_hours"></span> hour <span class="odometer" id="runtime_minutes"></span> minute <span class="odometer" id="runtime_seconds"></span> second
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/cyber-weather.js" defer=""></script>
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/cyber-exchange.js" defer=""></script>
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="Image Viewer">
+	<button class="image-viewer-close" type="button" aria-label="close">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="Previous page">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="close">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="Next page">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Search the site for what you need..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+<script src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/Swup.min.js"></script><script src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupSlideTheme.min.js"></script><script src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupScriptsPlugin.min.js"></script><script src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupProgressPlugin.min.js"></script><script src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupScrollPlugin.min.js"></script><script src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupPreloadPlugin.min.js"></script>
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	<script type="module" src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/main.js"></script>
+
+
+    <script src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/odometer.min.js"></script>
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/assets/odometer-theme-minimal.css">
+
+
+
+
+
+
+  <script src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/Typed.min.js"></script>
+
+
+
+
+
+
+
+
+<script src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+	
+	<div id="aplayer"></div>
+<script src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/APlayer.min.js"></script>
+<script src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/plugins/aplayer.js"></script>
+
+	
+
+
+</body></html>
