@@ -151,7 +151,7 @@ async function main() {
   const ready = new Set(pages.filter(p => p.slots.every(s => cache[hash(s.text)])).map(p => p.url));
   for (const script of scripts) {
     let source = script.source;
-    for (const { node, value, texts } of [...script.segments].reverse()) {
+    for (const { node, value, texts } of [...script.segments].sort((a,b) => b.node.start - a.node.start)) {
       let translated = value === 'zh-CN' ? 'en-GB' : (terms[value] ?? value);
       if (!(value in terms)) for (const text of texts.sort((a,b) => b.length-a.length)) translated = translated.replaceAll(text, cache[hash(text)] ?? text);
       const encoded = node.type === 'Literal' ? JSON.stringify(translated) : translated.replace(/`/g, '\\`').replace(/\$\{/g, '\\${');
