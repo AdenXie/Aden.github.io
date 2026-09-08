@@ -6,6 +6,9 @@ on:
       - source
     paths:
       - source/**
+      - tools/**
+      - scripts/**
+      - lib/**
       - _config.yml
       - _config.redefine.yml
       - package.json
@@ -23,7 +26,7 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 90
 
     steps:
       - name: Check out source branch
@@ -43,6 +46,39 @@ jobs:
 
       - name: Build site
         run: npm run clean && npm run build
+
+      - name: Restore persistent translations
+        run: |
+          if git ls-remote --exit-code --heads origin translations; then
+            git clone --depth 1 --branch translations https://github.com/AdenXie/Aden.github.io.git .translation-cache
+          else
+            mkdir .translation-cache
+            git -C .translation-cache init -b translations
+            git -C .translation-cache remote add origin https://github.com/AdenXie/Aden.github.io.git
+          fi
+
+      - name: Generate English pages
+        env:
+          NIUTRANS_API_KEY: ${{ secrets.NIUTRANS_API_KEY }}
+          NIUTRANS_APP_ID: ${{ secrets.NIUTRANS_APP_ID }}
+          TRANSLATION_CHAR_LIMIT: '160000'
+        run: node tools/build-bilingual.cjs
+
+      - name: Save persistent translations
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -d .translation-cache/.git ]; then
+            git -C .translation-cache config user.name 'github-actions[bot]'
+            git -C .translation-cache config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git -C .translation-cache add .
+            if ! git -C .translation-cache diff --cached --quiet; then
+              git -C .translation-cache commit -m 'chore: cache English translations'
+              gh auth setup-git
+              git -C .translation-cache push origin translations
+            fi
+          fi
 
       - name: Publish generated site to main
         env:
