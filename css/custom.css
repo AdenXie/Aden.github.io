@@ -1,0 +1,868 @@
+:root {
+  --aden-void: #070a0f;
+  --aden-panel: #101821;
+  --aden-panel-raised: #151f2b;
+  --aden-signal: #f2e94e;
+  --aden-amber: #ffb800;
+  --aden-cyan: #18d5e8;
+  --aden-ink: #e8edf2;
+  --aden-muted: #8e99a8;
+  --aden-interface-font: "Segoe UI Variable", "MiSans", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --aden-display-font: "Chillax-Variable", var(--aden-interface-font);
+  --aden-body-font: var(--aden-interface-font);
+  --aden-mono-font: "Geist Mono", "Cascadia Code", "SFMono-Regular", "Microsoft YaHei", monospace;
+}
+
+html.light {
+  --aden-signal: #756800;
+  --aden-amber: #8a6200;
+  --aden-cyan: #0c6672;
+  --background-color: #f3f2e8;
+  --background-color-transparent: rgb(243 242 232 / 72%);
+  --background-color-transparent-80: rgb(243 242 232 / 88%);
+  --second-background-color: #e9eadf;
+  --third-background-color: #dfe3da;
+  --third-background-color-transparent: rgb(223 227 218 / 72%);
+  --primary-color: #786500;
+  --first-text-color: #111821;
+  --second-text-color: #26313b;
+  --third-text-color: #5f6972;
+  --default-text-color: #18212b;
+  --border-color: rgb(7 10 15 / 15%);
+  --selection-color: #d7cb22;
+  --link-color: #0c6672;
+  --scrollbar-color: #a79f31;
+  --scrollbar-color-hover: #756f18;
+  --scroll-bar-bg-color: #dedfd5;
+  color-scheme: light;
+}
+
+html.dark {
+  --background-color: var(--aden-void);
+  --background-color-transparent: rgb(7 10 15 / 72%);
+  --background-color-transparent-80: rgb(7 10 15 / 88%);
+  --second-background-color: var(--aden-panel);
+  --third-background-color: var(--aden-panel-raised);
+  --third-background-color-transparent: rgb(21 31 43 / 74%);
+  --primary-color: var(--aden-signal);
+  --first-text-color: var(--aden-ink);
+  --second-text-color: #c7d0da;
+  --third-text-color: var(--aden-muted);
+  --default-text-color: #d5dce3;
+  --border-color: rgb(242 233 78 / 15%);
+  --selection-color: var(--aden-signal);
+  --link-color: var(--aden-cyan);
+  --shadow-color-1: rgb(242 233 78 / 9%);
+  --shadow-color-2: rgb(0 0 0 / 34%);
+  --shadow-hover-color: rgb(24 213 232 / 14%);
+  --scrollbar-color: #746f2b;
+  --scrollbar-color-hover: var(--aden-signal);
+  --scroll-bar-bg-color: #0b1017;
+  color-scheme: dark;
+}
+
+body {
+  font-family: var(--aden-body-font);
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  color: var(--aden-void);
+  background: var(--aden-signal);
+}
+
+.navbar-container {
+  border-bottom: 1px solid rgb(242 233 78 / 28%);
+  box-shadow: 0 10px 32px rgb(0 0 0 / 18%);
+}
+
+.navbar-container .navbar-list,
+.home-article-meta-info-container,
+.article-meta-info {
+  font-family: var(--aden-mono-font);
+}
+
+.navbar-container .logo-title {
+  font-family: var(--aden-display-font);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+}
+
+.navbar-container .navbar-item a.active,
+.navbar-container .navbar-item a:hover {
+  color: var(--aden-signal) !important;
+}
+
+.home-banner-background::after {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  content: "";
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 3px, rgb(7 10 15 / 8%) 3px 4px),
+    linear-gradient(100deg, rgb(7 10 15 / 90%) 0%, rgb(7 10 15 / 58%) 43%, rgb(7 10 15 / 14%) 78%),
+    linear-gradient(0deg, rgb(7 10 15 / 76%) 0%, transparent 48%);
+}
+
+.home-banner-background img {
+  object-position: center 48%;
+}
+
+.home-banner-container > .content {
+  z-index: 2;
+}
+
+.home-banner-container .description {
+  max-width: min(88vw, 920px);
+  align-items: flex-start;
+  padding: 0 5vw;
+  color: #fff;
+  font-family: var(--aden-display-font);
+  font-weight: 500;
+  text-align: left;
+  letter-spacing: -0.035em;
+  text-shadow: 0 2px 26px rgb(0 0 0 / 58%);
+}
+
+.home-banner-container .description::before {
+  display: block;
+  margin-bottom: 1rem;
+  color: var(--aden-signal);
+  font-family: var(--aden-mono-font);
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.24em;
+  content: "ADEN // FIELD NOTES";
+}
+
+.home-banner-container .description::after {
+  width: min(15rem, 48vw);
+  height: 3px;
+  margin-top: 1.15rem;
+  content: "";
+  background: linear-gradient(90deg, var(--aden-signal) 0 72%, var(--aden-cyan) 72% 82%, transparent 82%);
+}
+
+.home-banner-container .description p {
+  margin-top: 0.9rem;
+  color: #f5f5ee;
+  font-family: var(--aden-body-font) !important;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+
+.home-banner-container .social-contacts,
+.home-banner-container [onclick="scrollToMain()"] {
+  border-color: color-mix(in srgb, var(--aden-signal) 42%, transparent) !important;
+  border-radius: 8px !important;
+  background: rgb(7 10 15 / 68%) !important;
+  box-shadow: 0 0 24px rgb(24 213 232 / 8%);
+}
+
+.home-banner-container .social-contact-item a,
+.home-banner-container .social-contact-item a i,
+.home-banner-container [onclick="scrollToMain()"],
+.home-banner-container [onclick="scrollToMain()"] i {
+  color: #d5dce3 !important;
+}
+
+.home-banner-container .social-contact-item a:hover,
+.home-banner-container .social-contact-item a:hover i,
+.home-banner-container [onclick="scrollToMain()"]:hover,
+.home-banner-container [onclick="scrollToMain()"]:hover i {
+  color: var(--aden-signal) !important;
+}
+
+.home-content-container .home-article-list .home-article-item {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--aden-signal) 25%, var(--border-color));
+  background: linear-gradient(145deg, color-mix(in srgb, var(--second-background-color) 94%, var(--aden-cyan)), var(--second-background-color) 36%);
+}
+
+html.dark .home-content-container .home-article-list .home-article-item {
+  background: linear-gradient(145deg, rgb(16 24 33 / 98%), rgb(7 10 15 / 98%));
+}
+
+html.light .home-content-container .home-article-list .home-article-item {
+  background: linear-gradient(145deg, #f8f7ed, #e9eadf);
+}
+
+.home-content-container .home-article-list .home-article-item::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 3;
+  height: 3px;
+  content: "";
+  background: linear-gradient(90deg, var(--aden-signal) 0 24%, transparent 24% 27%, var(--aden-cyan) 27% 34%, transparent 34%);
+}
+
+.home-article-thumbnail {
+  height: 190px !important;
+}
+
+html .home-content-container .home-article-list .home-article-item .home-article-title {
+  font-family: "Geist Mono", "Cascadia Code", "Microsoft YaHei", monospace;
+  letter-spacing: -0.025em;
+}
+
+.home-content-container .home-article-list .home-article-item .home-article-title a:hover,
+.home-content-container .home-article-list .home-article-item .home-article-meta-info-container > a:hover {
+  color: var(--aden-signal);
+}
+
+.home-sidebar-container .sidebar-content,
+.home-sidebar-container .sidebar-links {
+  border-left: 3px solid var(--aden-signal);
+}
+
+.cyber-weather-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin-bottom: 1.15rem;
+  border: 1px solid color-mix(in srgb, var(--aden-signal) 38%, var(--border-color));
+  border-radius: 12px;
+  color: var(--second-text-color);
+  background:
+    linear-gradient(112deg, color-mix(in srgb, var(--aden-signal) 5%, transparent), transparent 42%),
+    var(--second-background-color);
+  box-shadow: 0 16px 42px rgb(0 0 0 / 14%);
+  font-family: var(--aden-mono-font);
+}
+
+html.dark .cyber-weather-card {
+  background:
+    linear-gradient(112deg, rgb(242 233 78 / 7%), transparent 42%),
+    linear-gradient(145deg, rgb(16 24 33 / 98%), rgb(7 10 15 / 98%));
+  box-shadow: 0 18px 50px rgb(0 0 0 / 28%);
+}
+
+html.light .cyber-weather-card {
+  border-color: rgb(117 104 0 / 34%);
+  background:
+    linear-gradient(112deg, rgb(117 104 0 / 5%), transparent 42%),
+    linear-gradient(145deg, #f8f7ed, #e9eadf);
+  box-shadow: 0 14px 34px rgb(17 24 33 / 10%);
+}
+
+html.light .cyber-weather-icon {
+  text-shadow: none;
+}
+
+.cyber-weather-card::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 2;
+  height: 3px;
+  content: "";
+  background: linear-gradient(90deg, var(--aden-signal) 0 62%, var(--aden-cyan) 62% 72%, transparent 72%);
+}
+
+.cyber-weather-card::after {
+  position: absolute;
+  top: 3px;
+  bottom: 0;
+  left: -35%;
+  z-index: -1;
+  width: 32%;
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgb(24 213 232 / 7%), transparent);
+  transform: skewX(-18deg);
+  animation: aden-weather-scan 9s ease-in-out infinite;
+}
+
+.cyber-weather-header,
+.cyber-weather-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.7rem 1rem;
+  color: var(--third-text-color);
+  font-size: 0.65rem;
+  font-weight: 650;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.cyber-weather-header {
+  gap: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.cyber-weather-footer {
+  border-top: 1px solid var(--border-color);
+}
+
+.cyber-weather-footer a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+.cyber-weather-live {
+  display: inline-flex;
+  min-width: 0;
+  gap: 0.5rem;
+  align-items: center;
+  white-space: nowrap;
+  color: var(--aden-signal);
+}
+
+.cyber-weather-live [data-location="name"],
+.cyber-weather-coords {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cyber-weather-live [data-location="name"] {
+  max-width: 18rem;
+}
+
+.cyber-weather-coords {
+  max-width: 45%;
+  flex: 0 0 auto;
+  text-align: right;
+}
+
+.cyber-weather-live i {
+  width: 0.46rem;
+  height: 0.46rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--aden-amber);
+  box-shadow: 0 0 0 4px rgb(255 184 0 / 10%), 0 0 13px rgb(255 184 0 / 46%);
+}
+
+.cyber-weather-card.is-online .cyber-weather-live i {
+  background: var(--aden-cyan);
+  box-shadow: 0 0 0 4px rgb(24 213 232 / 10%), 0 0 13px rgb(24 213 232 / 52%);
+}
+
+.cyber-weather-card.is-offline .cyber-weather-live i {
+  background: #ff5b5b;
+  box-shadow: 0 0 0 4px rgb(255 91 91 / 10%), 0 0 13px rgb(255 91 91 / 48%);
+}
+
+.cyber-weather-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(190px, 0.85fr) minmax(210px, 0.8fr);
+  min-height: 138px;
+}
+
+.cyber-clock-block,
+.cyber-current-weather,
+.cyber-weather-metrics {
+  min-width: 0;
+  padding: 1.05rem 1.2rem;
+}
+
+.cyber-clock-block,
+.cyber-current-weather {
+  border-right: 1px solid var(--border-color);
+}
+
+.cyber-clock-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cyber-data-label {
+  margin-bottom: 0.34rem;
+  color: var(--third-text-color);
+  font-size: 0.64rem;
+  font-weight: 650;
+  letter-spacing: 0.13em;
+}
+
+.cyber-clock {
+  color: var(--first-text-color);
+  font-size: clamp(2.25rem, 5vw, 4.45rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 520;
+  line-height: 0.96;
+  letter-spacing: -0.075em;
+  text-shadow: 0 0 26px rgb(24 213 232 / 10%);
+}
+
+.cyber-clock::first-letter {
+  color: var(--aden-signal);
+}
+
+.cyber-date {
+  margin-top: 0.55rem;
+  color: var(--third-text-color);
+  font-family: var(--aden-body-font);
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+}
+
+.cyber-current-weather {
+  display: flex;
+  gap: 0.85rem;
+  align-items: center;
+}
+
+.cyber-weather-icon {
+  width: 2.75rem;
+  flex: 0 0 auto;
+  color: var(--aden-signal);
+  font-size: 2.4rem;
+  line-height: 1;
+  text-align: center;
+  text-shadow: 0 0 22px rgb(242 233 78 / 22%);
+}
+
+.cyber-current-weather > div {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.cyber-temperature {
+  color: var(--first-text-color);
+  font-size: 2rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 650;
+  line-height: 1;
+}
+
+.cyber-condition {
+  margin-top: 0.36rem;
+  overflow-wrap: anywhere;
+  color: var(--second-text-color);
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  white-space: normal;
+}
+
+.cyber-feels-like {
+  margin-top: 0.25rem;
+  color: var(--third-text-color);
+  font-family: var(--aden-body-font);
+  font-size: 0.72rem;
+}
+
+.cyber-weather-metrics {
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  margin: 0;
+}
+
+.cyber-weather-metrics > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px dashed color-mix(in srgb, var(--border-color) 72%, transparent);
+}
+
+.cyber-weather-metrics > div:last-child {
+  border-bottom: 0;
+}
+
+.cyber-weather-metrics dt {
+  color: var(--third-text-color);
+  font-size: 0.61rem;
+  font-weight: 650;
+  letter-spacing: 0.1em;
+}
+
+.cyber-weather-metrics dd {
+  margin: 0;
+  color: var(--first-text-color);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 650;
+}
+
+@keyframes aden-weather-scan {
+  0%,
+  58% {
+    left: -35%;
+    opacity: 0;
+  }
+
+  65% {
+    opacity: 1;
+  }
+
+  88%,
+  100% {
+    left: 115%;
+    opacity: 0;
+  }
+}
+
+.cyber-exchange-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin-bottom: 1.15rem;
+  border: 1px solid color-mix(in srgb, var(--aden-cyan) 30%, var(--border-color));
+  border-radius: 12px;
+  color: var(--second-text-color);
+  background:
+    linear-gradient(100deg, color-mix(in srgb, var(--aden-cyan) 5%, transparent), transparent 45%),
+    var(--second-background-color);
+  box-shadow: 0 16px 42px rgb(0 0 0 / 14%);
+  font-family: var(--aden-mono-font);
+}
+
+html.dark .cyber-exchange-card {
+  background:
+    linear-gradient(100deg, rgb(24 213 232 / 6%), transparent 45%),
+    linear-gradient(145deg, rgb(16 24 33 / 98%), rgb(7 10 15 / 98%));
+  box-shadow: 0 18px 50px rgb(0 0 0 / 28%);
+}
+
+html.light .cyber-exchange-card {
+  border-color: rgb(12 102 114 / 28%);
+  background:
+    linear-gradient(100deg, rgb(12 102 114 / 5%), transparent 45%),
+    linear-gradient(145deg, #f8f7ed, #e9eadf);
+  box-shadow: 0 14px 34px rgb(17 24 33 / 10%);
+}
+
+.cyber-exchange-card::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 2;
+  height: 3px;
+  content: "";
+  background: linear-gradient(90deg, var(--aden-cyan) 0 34%, transparent 34% 38%, var(--aden-signal) 38% 72%, transparent 72%);
+}
+
+.cyber-exchange-header,
+.cyber-exchange-footer {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.7rem 1rem;
+  color: var(--third-text-color);
+  font-size: 0.65rem;
+  font-weight: 650;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.cyber-exchange-header {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.cyber-exchange-footer {
+  border-top: 1px solid var(--border-color);
+}
+
+.cyber-exchange-footer a {
+  color: var(--link-color);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.cyber-exchange-pair {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+  color: var(--aden-cyan);
+}
+
+.cyber-exchange-pair i {
+  width: 0.46rem;
+  height: 0.46rem;
+  border-radius: 50%;
+  background: var(--aden-amber);
+  box-shadow: 0 0 0 4px rgb(255 184 0 / 10%), 0 0 13px rgb(255 184 0 / 46%);
+}
+
+.cyber-exchange-card.is-online .cyber-exchange-pair i {
+  background: var(--aden-cyan);
+  box-shadow: 0 0 0 4px rgb(24 213 232 / 10%), 0 0 13px rgb(24 213 232 / 52%);
+}
+
+.cyber-exchange-card.is-stale .cyber-exchange-pair i {
+  background: var(--aden-signal);
+  box-shadow: 0 0 0 4px rgb(242 233 78 / 10%), 0 0 13px rgb(242 233 78 / 36%);
+}
+
+.cyber-exchange-card.is-offline .cyber-exchange-pair i {
+  background: #ff5b5b;
+  box-shadow: 0 0 0 4px rgb(255 91 91 / 10%), 0 0 13px rgb(255 91 91 / 48%);
+}
+
+.cyber-exchange-body {
+  display: grid;
+  grid-template-columns: minmax(210px, 0.72fr) minmax(0, 1.5fr);
+  min-height: 128px;
+}
+
+.cyber-exchange-intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1.05rem 1.2rem;
+  border-right: 1px solid var(--border-color);
+}
+
+.cyber-exchange-intro strong {
+  color: var(--first-text-color);
+  font-family: var(--aden-display-font);
+  font-size: clamp(1.25rem, 2.7vw, 2rem);
+  font-weight: 560;
+  letter-spacing: -0.035em;
+}
+
+.cyber-exchange-intro > span:last-child {
+  margin-top: 0.35rem;
+  color: var(--third-text-color);
+  font-family: var(--aden-body-font);
+  font-size: 0.72rem;
+}
+
+.cyber-exchange-quotes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+}
+
+.cyber-exchange-quotes > div {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem 1.35rem;
+}
+
+.cyber-exchange-quotes > div + div {
+  border-left: 1px dashed color-mix(in srgb, var(--border-color) 78%, transparent);
+}
+
+.cyber-exchange-quotes dt {
+  color: var(--third-text-color);
+  font-family: var(--aden-body-font);
+  font-size: 0.72rem;
+}
+
+.cyber-exchange-quotes dt span {
+  margin-left: 0.35rem;
+  font-family: var(--aden-mono-font);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+}
+
+.cyber-exchange-quotes dd {
+  margin: 0.35rem 0 0;
+  font-size: clamp(1.75rem, 4.6vw, 3.35rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.065em;
+}
+
+.cyber-exchange-quotes .is-buy dd {
+  color: var(--aden-cyan);
+}
+
+.cyber-exchange-quotes .is-sell dd {
+  color: var(--aden-signal);
+}
+
+.cyber-exchange-notice {
+  margin: 0;
+  padding: 0.7rem 1rem 0.8rem;
+  border-top: 1px dashed color-mix(in srgb, var(--border-color) 70%, transparent);
+  color: var(--third-text-color);
+  font-family: var(--aden-body-font);
+  font-size: 0.67rem;
+  line-height: 1.55;
+}
+
+.markdown-body {
+  color: var(--default-text-color);
+  letter-spacing: 0.012em;
+}
+
+.markdown-body a {
+  color: var(--link-color);
+  text-decoration-color: color-mix(in srgb, var(--aden-cyan) 55%, transparent);
+  text-underline-offset: 0.18em;
+}
+
+.markdown-body h2 {
+  padding-left: 0.72rem;
+  border-left: 3px solid var(--aden-signal);
+  font-family: "Geist Mono", "Cascadia Code", "Microsoft YaHei", monospace;
+}
+
+.markdown-body blockquote {
+  border-left-color: var(--aden-signal);
+  background: color-mix(in srgb, var(--aden-signal) 8%, var(--second-background-color));
+}
+
+.dark .markdown-body blockquote {
+  background: rgb(242 233 78 / 6%);
+}
+
+.article-content img {
+  border: 1px solid rgb(242 233 78 / 16%);
+  box-shadow: 0 18px 52px rgb(0 0 0 / 24%);
+}
+
+.article-content-container .article-title,
+.page-template-container .page-template-title {
+  font-family: "Geist Mono", "Cascadia Code", "Microsoft YaHei", monospace;
+}
+
+.pagination-container .pagination-item.active,
+.pagination-container .pagination-item:hover {
+  color: var(--aden-void) !important;
+  background: var(--aden-signal) !important;
+}
+
+footer.footer-container {
+  border-top: 1px solid rgb(242 233 78 / 18%);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--aden-signal);
+  outline-offset: 3px;
+}
+
+@media (max-width: 960px) {
+  .cyber-weather-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(190px, 0.85fr);
+  }
+
+  .cyber-clock-block {
+    grid-column: 1 / -1;
+    border-right: 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+}
+
+@media (max-width: 640px) {
+  .home-banner-container .description {
+    align-items: center;
+    padding: 0 1.25rem;
+    text-align: center;
+  }
+
+  .home-banner-container .description::before {
+    margin-bottom: 0.75rem;
+    font-size: 0.64rem;
+    letter-spacing: 0.18em;
+  }
+
+  .home-banner-background img {
+    object-position: 57% center;
+  }
+
+  .home-article-thumbnail {
+    height: 160px !important;
+  }
+
+  .cyber-weather-header,
+  .cyber-weather-footer {
+    padding-right: 0.8rem;
+    padding-left: 0.8rem;
+    font-size: 0.56rem;
+    letter-spacing: 0.08em;
+  }
+
+  .cyber-weather-live [data-location="name"] {
+    max-width: 10rem;
+  }
+
+  .cyber-weather-coords {
+    max-width: 55%;
+  }
+
+  .cyber-weather-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cyber-clock-block {
+    grid-column: 1 / -1;
+    border-right: 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .cyber-current-weather,
+  .cyber-weather-metrics {
+    padding: 0.9rem;
+  }
+
+  .cyber-clock {
+    font-size: clamp(2.65rem, 15vw, 4rem);
+  }
+
+  .cyber-condition {
+    max-width: 9rem;
+  }
+
+  .cyber-exchange-header,
+  .cyber-exchange-footer {
+    align-items: flex-start;
+    padding-right: 0.8rem;
+    padding-left: 0.8rem;
+    font-size: 0.56rem;
+    letter-spacing: 0.08em;
+  }
+
+  .cyber-exchange-header {
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  .cyber-exchange-body {
+    grid-template-columns: 1fr;
+  }
+
+  .cyber-exchange-intro {
+    padding: 0.9rem;
+    border-right: 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .cyber-exchange-quotes > div {
+    padding: 0.95rem 0.85rem;
+  }
+
+  .cyber-exchange-quotes dd {
+    font-size: clamp(1.65rem, 9vw, 2.5rem);
+  }
+
+  .cyber-exchange-footer {
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .cyber-exchange-notice {
+    padding-right: 0.8rem;
+    padding-left: 0.8rem;
+    font-size: 0.62rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

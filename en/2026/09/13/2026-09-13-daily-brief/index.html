@@ -1,0 +1,1174 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+        
+        
+        
+            <link rel="preconnect" href="https://evan.beee.top" crossorigin="">
+        
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/en/2026/09/13/2026-09-13-daily-brief/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Daily Briefing | 2026-09-13: Red Sea shipping lanes under renewed pressure, Fed rate hike expectations rise">
+<meta property="og:url" content="https://blog.adenxie.com.cn/en/2026/09/13/2026-09-13-daily-brief/">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-09-13T01:01:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="新闻">
+<meta property="article:tag" content="市场观察">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Daily Briefing | 2026-09-13: Red Sea shipping lanes under renewed pressure, Fed rate hike expectations rise | Aden's Space
+        
+    </title>
+
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fonts/Chillax/chillax.css">
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js"></script>
+                
+    
+            
+                
+                    <link rel="stylesheet" href="/css/custom.css">
+                
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/css/build/tailwind.css">
+    
+
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fonts/GeistMono/geist-mono.css">
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fonts/Geist/geist.css">
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"en","path":"en/search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"17px","line_height":1.85,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"all_rights_reserved"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"static","image":{"light":"https://files.seeusercontent.com/2026/08/27/5xbK/IMG_20260718_compressed_under_5M.jpg","dark":"https://files.seeusercontent.com/2026/08/27/5xbK/IMG_20260718_compressed_under_5M.jpg"},"title":"Aden's Space","subtitle":{"text":["Technology, experience and independent thinking","Real experiences. A personal perspective."],"hitokoto":{"enable":false,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"archives":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"World Time":{"path":"/world-time/","icon":"fa-regular fa-clock"},"about":{"path":"/about/","icon":"fa-regular fa-user"},"links":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":true}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":true,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.i18n = {"search":"Search...","toc":"On this page","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"POWERED BY %s","theme":"THEME","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","post":"Post","posts":"Posts","tagcloud":"Tag Cloud","comment":"Comment","comments":"Comments","home":"Home","archive":"Archive","archives":"Archives","top":"TOP","sticky":"Sticky","go-back-home":"Go Back Home","masonry_loading":"Loading photos...","image_viewer":"Image viewer","close":"Close","exif":{"title":"EXIF","cards":{"camera":"Camera","lens":"Lens","exposure":"Exposure","other":"Other"},"fields":{"make":"Brand","model":"Model","date_taken":"Date taken","lens_model":"Lens","focal_length":"Focal length","focus_mode":"Focus mode","shutter":"Shutter","aperture":"Aperture","iso":"ISO","exposure_program":"Exposure program","exposure_compensation":"Exposure compensation","metering_mode":"Metering mode","flash":"Flash","white_balance":"White balance","latitude":"Latitude","longitude":"Longitude","altitude":"Altitude"},"status":{"loading":"Loading...","no_exif":"No EXIF available","library_missing":"EXIF library not loaded","image_source_missing":"Image source unavailable","unavailable":"EXIF unavailable (blocked by CORS or missing metadata)","flag_unavailable":"EXIF unavailable"}},"about":"About","changelog":"Changelog","links":"Links","link":"Link","friends":"Friends","friend":"Friend","timeline":"Timeline","shuoshuo":"Shuoshuo","bookmarks":"Bookmarks","site_uv":"VISITOR COUNT","site_pv":"TOTAL PAGE VIEWS","read_more":"Read more","wordcount":"Words","min2read":"Mins","status":"Status","runtime":"Blog up for","days":"days","hours":"hrs","minutes":"Min","seconds":"Sec","optimized_by":"and Optimized by Evan","rights":"All Rights Reserved","site_posts":"%s posts in total","site_wordcount":"%s words in total","copyright":{"author":"Author","title":"Title","link":"Link","create_time":"Created at","update_time":"Updated at","license_title":"License","license_content":"This work is licensed under %s.","all_rights_reserved":"All Rights Reserved &#169; %s","public_domain":"This work is in the public domain."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"},"create_time":"Created","update_time":"Updated","expired":"This post is written %s days ago, and the content may not be up to date."};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fontawesome/fontawesome.min.css">
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fontawesome/brands.min.css">
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fontawesome/solid.min.css">
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/fontawesome/regular.min.css">
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="stylesheet" href="/css/bilingual.css"><link rel="alternate" hreflang="zh-CN" href="https://blog.adenxie.com.cn/2026/09/13/2026-09-13-daily-brief/"><link rel="alternate" hreflang="en" href="https://blog.adenxie.com.cn/en/2026/09/13/2026-09-13-daily-brief/"></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/en/" data-no-swup="">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/" data-no-swup="">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/archives/" data-no-swup="">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/tags/" data-no-swup="">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/world-time/" data-no-swup="">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    WORLD TIME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/about/" data-no-swup="">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/link/" data-no-swup="">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    <nav class="aden-language-switch" aria-label="Language"><a lang="zh-CN" href="/2026/09/13/2026-09-13-daily-brief/" aria-current="false" data-no-swup="">中文</a><span> / </span><a lang="en" href="/en/2026/09/13/2026-09-13-daily-brief/" aria-current="page" data-no-swup="">English</a></nav></div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/" data-no-swup="">
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/archives/" data-no-swup="">
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/tags/" data-no-swup="">
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/world-time/" data-no-swup="">
+                            <span>
+                                WORLD TIME
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/about/" data-no-swup="">
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/link/" data-no-swup="">
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/en/archives/" data-no-swup="">
+                            <span>Article Archive</span>
+                            <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/en/tags/" data-no-swup="">
+                            <span>Topic Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/en/about/" data-no-swup="">
+                            <span>About Aden</span>
+                            <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/tags/" data-no-swup="">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">14</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/categories/" data-no-swup="">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">3</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/archives/" data-no-swup="">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">39</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://images.pexels.com/photos/33262604/pexels-photo-33262604/free-photo-of-sydney-cbd-skyline-with-sydney-harbour-view.jpeg?auto=compress&amp;dpr=1&amp;h=750&amp;w=1260" alt="Daily Briefing | 2026-09-13: Red Sea shipping lanes under renewed pressure, Fed rate hike expectations rise" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">Daily Briefing | 2026-09-13: Red Sea shipping lanes under renewed pressure, Fed rate hike expectations rise</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-09-13 09:01</span>
+        <span class="mobile">2026-09-13 09:01</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/en/categories/%E6%AF%8F%E6%97%A5%E7%AE%80%E6%8A%A5/" data-no-swup="">Daily Briefing</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/en/tags/%E6%96%B0%E9%97%BB/" data-no-swup="">News</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/" data-no-swup="">Market Watch</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>2.6k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>9 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8"><p class="aden-translation-notice">Machine-translated with NiuTrans. <a href="/2026/09/13/2026-09-13-daily-brief/">Read the Chinese original</a>.</p>
+			<h2 id="今日主线"><a href="/en/2026/09/13/2026-09-13-daily-brief/#%E4%BB%8A%E6%97%A5%E4%B8%BB%E7%BA%BF" class="headerlink" title="Today's main theme" data-no-swup=""></a>Today's main theme</h2><p>Over the past 24 hours, global markets have faced a set of mutually reinforcing risks: US inflation accelerated again in August, and the market has pushed the probability of the Federal Reserve raising interest rates by 25 basis points next week to nearly 90%; At the same time, the Middle East conflict has spilled further from the Strait of Hormuz to the southern tip of the Red Sea, with the Houthi rebels advancing to key positions in the Bab el-Mandeb Strait, raising energy and shipping risks once again. On the technology side, another kind of "tightening" has emerged: Anthropic CEO Dario Amodei has publicly called on cutting-edge AI companies to proactively slow down the pace of capability improvement and promote resident third-party security assessments. On the Chinese side, the leaders of China and India met in New Delhi, putting trade imbalances, supply chains, and predictable market access back at the center of the bilateral agenda. On the Russia-Ukraine battlefield, attacks on ports, industrial and energy infrastructure continue to deepen the economic nature of the war. The common thread is clear: policy, capital, and supply chains are all repricing "higher uncertainty."</p>
+<span id="more"></span>
+
+<h2 id="五条重点新闻"><a href="/en/2026/09/13/2026-09-13-daily-brief/#%E4%BA%94%E6%9D%A1%E9%87%8D%E7%82%B9%E6%96%B0%E9%97%BB" class="headerlink" title="Five key news items" data-no-swup=""></a>Five key news items</h2><h3 id="1-美国8月CPI环比升0-4-，美联储加息预期明显升温"><a href="/en/2026/09/13/2026-09-13-daily-brief/#1-%E7%BE%8E%E5%9B%BD8%E6%9C%88CPI%E7%8E%AF%E6%AF%94%E5%8D%870-4-%EF%BC%8C%E7%BE%8E%E8%81%94%E5%82%A8%E5%8A%A0%E6%81%AF%E9%A2%84%E6%9C%9F%E6%98%8E%E6%98%BE%E5%8D%87%E6%B8%A9" class="headerlink" title="1. The US CPI rose 0.4% month-on-month in August, significantly increasing expectations for a Federal Reserve rate hike." data-no-swup=""></a>1. The US CPI rose 0.4% month-on-month in August, significantly increasing expectations for a Federal Reserve rate hike.</h3><p>The latest data from the U.S. Department of Labor shows that the Consumer Price Index (CPI) rose 0.4% month-on-month in August, up from 0.1% in July. It rose 3.4% year-on-year, the same as in July. The core CPI, excluding food and energy, rose 0.3% month-on-month, the largest monthly increase since April, while the year-on-year increase slowed to 2.4% from 2.5%. This round of pressure mainly comes from energy: gasoline prices rose by 3.9% in a single month, contributing more than one-third of the overall CPI monthly increase, while other motor vehicle fuel prices rose even more by 9.6%. Meanwhile, real average hourly wages fell 0.3% year-on-year in August, meaning that price pressures once again outpaced the improvement in residents' purchasing power.</p>
+<p>This set of data has significantly changed interest rate pricing. According to Reuters, citing CME FedWatch, after the report was released, the market initially pushed the probability of the Federal Reserve raising interest rates by 25 basis points next week to 91%, but subsequently remained around 87%, up from 72% the previous day. The current target range for federal funds is 3.50%–3.75%. If the Middle East energy shock continues to spread to transportation, aviation, and commodity prices, the Federal Reserve may not only face pressure to raise interest rates in September, but discussions about tightening again in October or December will also intensify. The most important things to watch going forward are the duration of oil prices, core PCE, wage growth, and whether companies will pass on higher energy costs to end consumers.<a class="link" target="_blank" rel="noopener" href="https://www.reuters.com/world/us/us-consumer-inflation-picks-up-august-2026-09-11/" data-no-swup="">Source: Reuters<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="2-胡塞武装逼近曼德海峡，红海与霍尔木兹“双通道风险”上升"><a href="/en/2026/09/13/2026-09-13-daily-brief/#2-%E8%83%A1%E5%A1%9E%E6%AD%A6%E8%A3%85%E9%80%BC%E8%BF%91%E6%9B%BC%E5%BE%B7%E6%B5%B7%E5%B3%A1%EF%BC%8C%E7%BA%A2%E6%B5%B7%E4%B8%8E%E9%9C%8D%E5%B0%94%E6%9C%A8%E5%85%B9%E2%80%9C%E5%8F%8C%E9%80%9A%E9%81%93%E9%A3%8E%E9%99%A9%E2%80%9D%E4%B8%8A%E5%8D%87" class="headerlink" title="2. Houthi rebels are approaching the Bab el-Mandeb Strait, raising the risk of a &quot;dual-channel&quot; relationship between the Red Sea and Hormuz." data-no-swup=""></a>2. Houthi rebels are approaching the Bab el-Mandeb Strait, raising the risk of a "dual-channel" relationship between the Red Sea and Hormuz.</h3><p>The Houthi rebels in Yemen have recently been rapidly advancing southward along the west coast and have advanced near Perim Island in the middle of the Bab el-Mandeb Strait, giving them a stronger ability to threaten the key shipping lane at the southern tip of the Red Sea. The Bab el-Mandeb Strait connects the Red Sea and the Gulf of Aden, serving as a vital throat for European-Asian shipping and energy exports from the Middle East. The Strait of Hormuz had previously been severely disrupted by the US-Iran conflict, prompting Saudi Arabia to shift more crude oil to Red Sea ports. If a substantial blockade occurs in the Bab el-Mandeb Strait, global energy logistics will face unusual "double-throat" pressure.</p>
+<p>Reuters, citing estimates, said the Strait of Hormuz accounted for about one-fifth of the world's oil supply before the war, while the Bab el-Mandeb Strait involved about 7% of global oil supply and about 12% of global trade. The United States has stated that it will not directly join Saudi Arabia's military operations against the Houthis, but will provide intelligence support. This means that shipping safety will remain highly dependent on whether regional forces can stabilize the strait in the short term. For the market, the risk is not just oil prices themselves, but the simultaneous increase in tanker insurance premiums, detour times, freight costs, and the cost of imported energy from Europe. It remains to be seen whether the Houthis will truly restrict the passage of merchant ships, whether Saudi Arabia will expand its military operations, whether the United States will change its stance of "not directly intervening," and whether Brent crude can continue to hold above $100.<a class="link" target="_blank" rel="noopener" href="https://www.reuters.com/world/middle-east/houthi-advance-yemen-puts-us-new-bind-2026-09-12/" data-no-swup="">Source: Reuters<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="3-Anthropic呼吁前沿AI主动“降速”，安全治理开始触及研发节奏"><a href="/en/2026/09/13/2026-09-13-daily-brief/#3-Anthropic%E5%91%BC%E5%90%81%E5%89%8D%E6%B2%BFAI%E4%B8%BB%E5%8A%A8%E2%80%9C%E9%99%8D%E9%80%9F%E2%80%9D%EF%BC%8C%E5%AE%89%E5%85%A8%E6%B2%BB%E7%90%86%E5%BC%80%E5%A7%8B%E8%A7%A6%E5%8F%8A%E7%A0%94%E5%8F%91%E8%8A%82%E5%A5%8F" class="headerlink" title="3. Anthropic calls for cutting-edge AI to proactively &quot;slow down,&quot; as security governance begins to trigger the pace of research and development." data-no-swup=""></a>3. Anthropic calls for cutting-edge AI to proactively "slow down," as security governance begins to trigger the pace of research and development.</h3><p>On September 12, Anthropic CEO Dario Amodei publicly called on major AI companies to slow down the improvement of cutting-edge model capabilities in exchange for more time to address the risks of abuse and runaway control. He proposed a three-tiered framework: introducing more independent security reviews within cutting-edge labs, coordinating and unifying security standards among major AI companies, and promoting transnational cooperation. Amodei emphasized that this is not about stopping model training, but rather about maintaining a more controlled pace between capability growth and security verification. OpenAI CEO Sam Altman and xAI's Elon Musk both subsequently agreed with this direction.</p>
+<p>The background is that security incidents in AI agent systems are transforming from theoretical risks into real-world governance issues. Anthropic previously disclosed that the Claude model was used for cyber operations, surveillance, and fraud; Amodei also warned that collaborative AI agent swarms could cause significant damage to internet infrastructure within the next 6 to 12 months. For the capital market, this means that for the first time, AI valuation logic may face a direct conflict between "growth rate and security constraints": if third-party review, chip export restrictions, and model capability assessment systems are strengthened, the training pace, computing power procurement, and commercialization cycle of cutting-edge labs may be extended. The next step depends on whether major laboratories have formed formal industry agreements, and whether U.S. regulators have turned voluntary measures into mandatory rules.<a class="link" target="_blank" rel="noopener" href="https://www.reuters.com/business/anthropic-ceo-urges-ai-companies-slow-model-development-2026-09-12/" data-no-swup="">Source: Reuters<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="4-习近平与莫迪重启经贸议题，中印聚焦贸易失衡与市场准入"><a href="/en/2026/09/13/2026-09-13-daily-brief/#4-%E4%B9%A0%E8%BF%91%E5%B9%B3%E4%B8%8E%E8%8E%AB%E8%BF%AA%E9%87%8D%E5%90%AF%E7%BB%8F%E8%B4%B8%E8%AE%AE%E9%A2%98%EF%BC%8C%E4%B8%AD%E5%8D%B0%E8%81%9A%E7%84%A6%E8%B4%B8%E6%98%93%E5%A4%B1%E8%A1%A1%E4%B8%8E%E5%B8%82%E5%9C%BA%E5%87%86%E5%85%A5" class="headerlink" title="4. *and Modi restart trade issues, with China and India focusing on trade imbalances and market access." data-no-swup=""></a>4. *and Modi restart trade issues, with China and India focusing on trade imbalances and market access.</h3><p>Chinese President*and Indian Prime Minister Narendra Modi met on the sidelines of the BRICS summit in New Delhi, marking*’s first visit to India in seven years. In addition to emphasizing border peace, both sides placed economic and trade relations at the core of the repair agenda. The Indian Ministry of External Affairs said the two leaders agreed to strengthen commercial and transport ties and address structural trade imbalances, supply chain issues, and "meaningful and predictable market access." Bilateral trade between China and India will reach a record US$155.6 billion by 2025; India will import approximately $132 billion from China in the 2025/26 fiscal year, resulting in a trade deficit of over $100 billion with China.</p>
+<p>The economic significance of this meeting lies in the fact that China-India relations are shifting from simply "cooling down safely" to attempting to restore cooperation in investment, industrial equipment, personnel movement, and supply chains. India's manufacturing sector remains highly dependent on Chinese machinery, electronic components, and intermediate goods, but New Delhi has reduced its dependence on China in recent years through investment reviews, application bans, and industrial policies. Beijing, on the other hand, hopes to stabilize South Asian markets and the broader global Southern trade network. If both sides can make concrete relaxations in visas, flights, industrial equipment exports, and investment approvals, it will directly affect the layout of the Asian supply chain. The key variables going forward are whether border negotiations can continue to improve, whether India will relax investment restrictions for Chinese companies, and whether the two sides can reach more specific market access arrangements.<a class="link" target="_blank" rel="noopener" href="https://www.reuters.com/world/china/chinas-xi-lands-delhi-brics-summit-indian-tv-channels-report-2026-09-12/" data-no-swup="">Source: Reuters<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="5-俄罗斯近500架无人机扩大经济目标打击，乌克兰基础设施压力加深"><a href="/en/2026/09/13/2026-09-13-daily-brief/#5-%E4%BF%84%E7%BD%97%E6%96%AF%E8%BF%91500%E6%9E%B6%E6%97%A0%E4%BA%BA%E6%9C%BA%E6%89%A9%E5%A4%A7%E7%BB%8F%E6%B5%8E%E7%9B%AE%E6%A0%87%E6%89%93%E5%87%BB%EF%BC%8C%E4%B9%8C%E5%85%8B%E5%85%B0%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%E5%8E%8B%E5%8A%9B%E5%8A%A0%E6%B7%B1" class="headerlink" title="5. Nearly 500 Russian drones expand their strikes against economic targets, increasing pressure on Ukraine's infrastructure." data-no-swup=""></a>5. Nearly 500 Russian drones expand their strikes against economic targets, increasing pressure on Ukraine's infrastructure.</h3><p>Russia launched large-scale airstrikes on multiple parts of Ukraine on September 12. Ukraine stated that since early that morning, the Russian military had deployed nearly 500 drones, covering Kramatorsk, Zaporizhzhia, Kriverikh, Zhytomyr, and the Black Sea coast. Reuters reported that the attacks killed at least nine people and injured dozens, affecting homes, gas stations, industrial facilities, and ports. Russia also claimed to have struck the Zaporizhzhia Steel plant, the Interpipe Steel facility in Dnipro, and several industrial plants in Kriverikh, and continued to target ships in the ports of Odessa and Chornomorsk.</p>
+<p>This indicates that the Russia-Ukraine war is further shifting from frontline consumption to economic infrastructure consumption. Ports, steel, mining, electricity, and logistics networks determine not only Ukraine's export capacity, but also its fiscal revenue and winter economic resilience. At the same time, Ukraine also targeted a large synthetic rubber producer in Tolyatti, Russia, whose products it claimed involved missile fuel additives. For Europe, the escalating infrastructure war means that financial needs for aid to Ukraine, electricity security, and Black Sea trade risks may continue to rise. Going forward, attention should be paid to whether Russia will expand its systematic strikes on ports and power grids, the cost of Black Sea shipping insurance, and whether Europe and the United States can replenish air defense systems and provide financial assistance in a timely manner.<a class="link" target="_blank" rel="noopener" href="https://www.reuters.com/world/europe/russian-attacks-kill-six-injure-dozens-ukraine-moscow-says-it-hits-ships-plants-2026-09-12/" data-no-swup="">Source: Reuters<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h2 id="市场关联与今日观察"><a href="/en/2026/09/13/2026-09-13-daily-brief/#%E5%B8%82%E5%9C%BA%E5%85%B3%E8%81%94%E4%B8%8E%E4%BB%8A%E6%97%A5%E8%A7%82%E5%AF%9F" class="headerlink" title="Market Correlation and Today's Observation" data-no-swup=""></a>Market Correlation and Today's Observation</h2><p>The market implications of today's news can be strung together into a clear chain: Middle East shipping risks will first push up crude oil, diesel, and transportation costs, and then reinforce expectations that "high interest rates will last longer" through US CPI and corporate costs. US inflation in August has made a September rate hike the benchmark scenario again. If Brent crude remains around $100 for an extended period, the bond market may continue to demand higher maturity premiums, and the US dollar will also receive dual support from interest rate spreads and safe-haven assets. Correspondingly, overvalued technology stocks will face renewed discount rate pressure.</p>
+<p>However, the risks in the technology sector go beyond just interest rates. Anthropic's push for "proactive throttling" and third-party security assessments signifies that the AI industry has moved from simple computing power, model scale, and financing capabilities to a new stage where it is simultaneously constrained by "capabilities, regulation, and capital expenditure." On the Chinese side, if Sino-Indian relations continue to repair, it will help ease some frictions in Asian supply chains. However, India's trade deficit with China of more than $100 billion means that its policy will not quickly shift to full openness. Commodity markets will need to look at both the Bab el-Mandeb Strait and the Strait of Hormuz: further obstruction of either key shipping lane could trigger a second round of energy price surges. Today's focus is therefore on whether oil prices can hold their high levels, whether US Treasury yields will continue to rise, the interest rate differential pressure on Asian currencies such as the US dollar and RMB, and whether the two geopolitical risk lines in the Middle East and Russia-Ukraine will continue to spread to the real economy and supply chain.</p>
+<p>Cover image:<a class="link" target="_blank" rel="noopener" href="https://www.pexels.com/photo/sydney-cbd-skyline-with-sydney-harbour-view-33262604/" data-no-swup="">Dr Jorge Reyna / Pexels<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> Daily Briefing | 2026-09-13: Red Sea shipping lanes under renewed pressure, Fed rate hike expectations rise</li>
+        <li><strong>Author:</strong> AdenXie</li>
+        <li><strong>Created at
+                :</strong> 2026-09-13 09:01:00</li>
+        
+        <li>
+            <strong>Link:</strong> https://blog.adenxie.com.cn/2026/09/13/2026-09-13-daily-brief/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                All Rights Reserved © AdenXie
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E6%96%B0%E9%97%BB/" data-no-swup="">#News</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/" data-no-swup="">#MarketObservation</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/en/2026/09/09/2026-09-09-daily-brief/" title="Daily Briefing | 2026-09-09: Oil prices approach 100 yuan again, China's foreign trade and AI investment strengthen" rel="bookmark" data-no-swup="">
+  <img src="https://images.pexels.com/photos/33262604/pexels-photo-33262604/free-photo-of-sydney-cbd-skyline-with-sydney-harbour-view.jpeg?auto=compress&amp;dpr=1&amp;h=750&amp;w=1260" alt="Daily Briefing | 2026-09-09: Oil prices approach 100 yuan again, China's foreign trade and AI investment strengthen" class="!max-w-none">
+  <span class="title">Daily Briefing | 2026-09-09: Oil prices approach 100 yuan again, China's foreign trade and AI investment strengthen</span>
+</a><a class="recommended-article-item" href="/en/2026/09/11/2026-09-11-daily-brief/" title="Daily Briefing | 2026-09-11: Oil Prices Breaking 100 Force Global Reassessment of Interest Rate Path" rel="bookmark" data-no-swup="">
+  <img src="https://images.unsplash.com/photo-1656893239682-8d103dee562b?auto=format&amp;fit=crop&amp;fm=jpg&amp;ixlib=rb-4.1.0&amp;q=80&amp;w=2400" alt="Daily Briefing | 2026-09-11: Oil Prices Breaking 100 Force Global Reassessment of Interest Rate Path" class="!max-w-none">
+  <span class="title">Daily Briefing | 2026-09-11: Oil Prices Breaking 100 Force Global Reassessment of Interest Rate Path</span>
+</a><a class="recommended-article-item" href="/en/2026/09/01/2026-09-01-daily-brief/" title="Daily Briefing | 2026-09-01: Oil prices climb above $90 again, the gap between growth and computing power widens." rel="bookmark" data-no-swup="">
+  <img src="https://images.unsplash.com/photo-1612911853182-96e6be2792c7?auto=format&amp;blend=000000&amp;blend-alpha=10&amp;blend-mode=normal&amp;blend-w=1&amp;crop=faces%2Cedges&amp;fit=crop&amp;h=630&amp;ixid=M3wxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNzAwMTU2NzY2fA&amp;ixlib=rb-4.0.3&amp;mark=https%3A%2F%2Fimages.unsplash.com%2Fopengraph%2Flogo.png&amp;mark-align=top%2Cleft&amp;mark-pad=50&amp;mark-w=64&amp;q=60&amp;w=1200" alt="Daily Briefing | 2026-09-01: Oil prices climb above $90 again, the gap between growth and computing power widens." class="!max-w-none">
+  <span class="title">Daily Briefing | 2026-09-01: Oil prices climb above $90 again, the gap between growth and computing power widens.</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/en/2026/09/09/2026-09-09-daily-brief/" title="Daily Briefing | 2026-09-09: Oil prices approach 100 yuan again, China's foreign trade and AI investment strengthen" rel="bookmark" data-no-swup="">
+  <img src="https://images.pexels.com/photos/33262604/pexels-photo-33262604/free-photo-of-sydney-cbd-skyline-with-sydney-harbour-view.jpeg?auto=compress&amp;dpr=1&amp;h=750&amp;w=1260" alt="Daily Briefing | 2026-09-09: Oil prices approach 100 yuan again, China's foreign trade and AI investment strengthen" class="!max-w-none">
+  <span class="title">Daily Briefing | 2026-09-09: Oil prices approach 100 yuan again, China's foreign trade and AI investment strengthen</span>
+</a><a class="recommended-article-item" href="/en/2026/09/11/2026-09-11-daily-brief/" title="Daily Briefing | 2026-09-11: Oil Prices Breaking 100 Force Global Reassessment of Interest Rate Path" rel="bookmark" data-no-swup="">
+  <img src="https://images.unsplash.com/photo-1656893239682-8d103dee562b?auto=format&amp;fit=crop&amp;fm=jpg&amp;ixlib=rb-4.1.0&amp;q=80&amp;w=2400" alt="Daily Briefing | 2026-09-11: Oil Prices Breaking 100 Force Global Reassessment of Interest Rate Path" class="!max-w-none">
+  <span class="title">Daily Briefing | 2026-09-11: Oil Prices Breaking 100 Force Global Reassessment of Interest Rate Path</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/en/2026/09/12/2026-09-12-daily-brief/" data-no-swup="">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Daily Briefing | 2026-09-12: Oil market gap widens, interest rates and AI regulations tighten in tandem</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+    <div class="twikoo-container">
+        <script data-swup-reload-script="" src="https://cdnjs.cloudflare.com/ajax/libs/twikoo/1.7.20/twikoo.all.min.js"></script>
+        <div id="twikoo-comment"></div>
+        <script data-swup-reload-script="">
+            (function() {
+                const startPath = location.pathname;
+                const startTime = Date.now();
+                const retryDelay = 200;
+                const retryLimit = 5000;
+
+                const runTwikoo = () => {
+                    if (location.pathname !== startPath) {
+                        return;
+                    }
+
+                    const container = document.getElementById('twikoo-comment');
+                    if (!container || typeof twikoo === 'undefined') {
+                        if (Date.now() - startTime < retryLimit) {
+                            setTimeout(runTwikoo, retryDelay);
+                        }
+                        return;
+                    }
+
+                    container.innerHTML = '';
+                    twikoo.init({
+                        el: '#twikoo-comment',
+                        envId: 'https://twikoo-six-weld.vercel.app',
+                        path: location.pathname,
+                    });
+                };
+
+                runTwikoo();
+            })();
+        </script>
+    </div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">Daily Briefing | 2026-09-13: Red Sea shipping lanes under renewed pressure, Fed rate hike expectations rise</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="/en/2026/09/13/2026-09-13-daily-brief/#%E4%BB%8A%E6%97%A5%E4%B8%BB%E7%BA%BF" data-no-swup=""><span class="nav-text">Today's main theme</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="/en/2026/09/13/2026-09-13-daily-brief/#%E4%BA%94%E6%9D%A1%E9%87%8D%E7%82%B9%E6%96%B0%E9%97%BB" data-no-swup=""><span class="nav-text">Five key news items</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="/en/2026/09/13/2026-09-13-daily-brief/#1-%E7%BE%8E%E5%9B%BD8%E6%9C%88CPI%E7%8E%AF%E6%AF%94%E5%8D%870-4-%EF%BC%8C%E7%BE%8E%E8%81%94%E5%82%A8%E5%8A%A0%E6%81%AF%E9%A2%84%E6%9C%9F%E6%98%8E%E6%98%BE%E5%8D%87%E6%B8%A9" data-no-swup=""><span class="nav-text">1. The US CPI rose 0.4% month-on-month in August, significantly increasing expectations for a Federal Reserve rate hike.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="/en/2026/09/13/2026-09-13-daily-brief/#2-%E8%83%A1%E5%A1%9E%E6%AD%A6%E8%A3%85%E9%80%BC%E8%BF%91%E6%9B%BC%E5%BE%B7%E6%B5%B7%E5%B3%A1%EF%BC%8C%E7%BA%A2%E6%B5%B7%E4%B8%8E%E9%9C%8D%E5%B0%94%E6%9C%A8%E5%85%B9%E2%80%9C%E5%8F%8C%E9%80%9A%E9%81%93%E9%A3%8E%E9%99%A9%E2%80%9D%E4%B8%8A%E5%8D%87" data-no-swup=""><span class="nav-text">2. Houthi rebels are approaching the Bab el-Mandeb Strait, raising the risk of a "dual-channel" relationship between the Red Sea and Hormuz.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="/en/2026/09/13/2026-09-13-daily-brief/#3-Anthropic%E5%91%BC%E5%90%81%E5%89%8D%E6%B2%BFAI%E4%B8%BB%E5%8A%A8%E2%80%9C%E9%99%8D%E9%80%9F%E2%80%9D%EF%BC%8C%E5%AE%89%E5%85%A8%E6%B2%BB%E7%90%86%E5%BC%80%E5%A7%8B%E8%A7%A6%E5%8F%8A%E7%A0%94%E5%8F%91%E8%8A%82%E5%A5%8F" data-no-swup=""><span class="nav-text">3. Anthropic calls for cutting-edge AI to proactively "slow down," as security governance begins to trigger the pace of research and development.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="/en/2026/09/13/2026-09-13-daily-brief/#4-%E4%B9%A0%E8%BF%91%E5%B9%B3%E4%B8%8E%E8%8E%AB%E8%BF%AA%E9%87%8D%E5%90%AF%E7%BB%8F%E8%B4%B8%E8%AE%AE%E9%A2%98%EF%BC%8C%E4%B8%AD%E5%8D%B0%E8%81%9A%E7%84%A6%E8%B4%B8%E6%98%93%E5%A4%B1%E8%A1%A1%E4%B8%8E%E5%B8%82%E5%9C%BA%E5%87%86%E5%85%A5" data-no-swup=""><span class="nav-text">4. *and Modi restart trade issues, with China and India focusing on trade imbalances and market access.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="/en/2026/09/13/2026-09-13-daily-brief/#5-%E4%BF%84%E7%BD%97%E6%96%AF%E8%BF%91500%E6%9E%B6%E6%97%A0%E4%BA%BA%E6%9C%BA%E6%89%A9%E5%A4%A7%E7%BB%8F%E6%B5%8E%E7%9B%AE%E6%A0%87%E6%89%93%E5%87%BB%EF%BC%8C%E4%B9%8C%E5%85%8B%E5%85%B0%E5%9F%BA%E7%A1%80%E8%AE%BE%E6%96%BD%E5%8E%8B%E5%8A%9B%E5%8A%A0%E6%B7%B1" data-no-swup=""><span class="nav-text">5. Nearly 500 Russian drones expand their strikes against economic targets, increasing pressure on Ukraine's infrastructure.</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="/en/2026/09/13/2026-09-13-daily-brief/#%E5%B8%82%E5%9C%BA%E5%85%B3%E8%81%94%E4%B8%8E%E4%BB%8A%E6%97%A5%E8%A7%82%E5%AF%9F" data-no-swup=""><span class="nav-text">Market Correlation and Today's Observation</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">Write down your real experiences while retaining the edges of your viewpoints.</div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/en/" data-no-swup="">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        39 posts in total
+                    </span>
+                    
+                        <span>
+                            81.8k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io" data-no-swup="">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine" data-no-swup="">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days"></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/en/js/cyber-weather.js" defer=""></script>
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/en/js/cyber-exchange.js" defer=""></script>
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="Image viewer">
+	<button class="image-viewer-close" type="button" aria-label="Close">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="Prev">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="Close">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="Next">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Search..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+<script src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/Swup.min.js"></script><script src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupSlideTheme.min.js"></script><script src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupScriptsPlugin.min.js"></script><script src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupProgressPlugin.min.js"></script><script src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupScrollPlugin.min.js"></script><script src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/SwupPreloadPlugin.min.js"></script>
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	<script type="module" src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/main.js"></script>
+
+
+    <script src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/odometer.min.js"></script>
+    <link rel="stylesheet" href="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/assets/odometer-theme-minimal.css">
+
+
+
+
+
+
+  <script src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/Typed.min.js"></script>
+
+
+
+
+
+
+
+
+<script src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+	
+	<div id="aplayer"></div>
+<script src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/libs/APlayer.min.js"></script>
+<script src="https://evan.beee.top/projects/hexo-theme-redefine@2.9.0/source/js/build/plugins/aplayer.js"></script>
+
+	
+
+
+</body></html>
