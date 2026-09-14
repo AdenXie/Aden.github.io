@@ -18,7 +18,6 @@
     rate_limited: "汇率请求过于频繁，请稍后再试",
     service_unavailable: "汇率接口暂不可用"
   };
-  let swupBound = false;
 
   function createCard() {
     const card = document.createElement("section");
@@ -126,8 +125,11 @@
     return ["connection_timeout", "connection_failed", "source_timeout", "source_unavailable", "service_unavailable"].includes(error?.code);
   }
 
-  async function fetchQuote() {
+  async function fetchQuote(signal) {
     const controller = new AbortController();
+    const cancel = () => controller.abort();
+    if (signal?.aborted) { const error = new Error('Cancelled'); error.name = 'AbortError'; throw error; }
+    signal?.addEventListener('abort', cancel, { once: true });
     const timeout = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
     try {
       const response = await fetch(QUOTE_URL, {
@@ -153,28 +155,31 @@
       throw error?.code ? error : quoteError("connection_failed");
     } finally {
       window.clearTimeout(timeout);
+      signal?.removeEventListener('abort', cancel);
     }
   }
 
-  async function loadQuote(card) {
+  async function loadQuote(card, signal) {
     const fresh = readCachedQuote(false);
     if (fresh) {
       renderQuote(card, fresh, "cache");
       return;
     }
 
+    if (signal?.aborted) return;
     for (let attempt = 0; attempt < 2; attempt += 1) {
       try {
-        const payload = await fetchQuote();
+        const payload = await fetchQuote(signal);
+        if (signal?.aborted || !card.isConnected) return;
         cacheQuote(payload);
         renderQuote(card, payload, payload.stale ? "stale" : "live");
         return;
       } catch (error) {
-        if (!card?.isConnected) return;
+        if (signal?.aborted || !card?.isConnected) return;
         if (attempt === 0 && canRetry(error)) {
           card.querySelector('[data-exchange="status"]').textContent = `${errorMessage(error)} · 正在重试（1/1）…`;
-          await new Promise(resolve => window.setTimeout(resolve, RETRY_DELAY_MS));
-          if (!card.isConnected) return;
+          await (window.AdenSite?.delay(RETRY_DELAY_MS, signal) || new Promise(resolve => window.setTimeout(resolve, RETRY_DELAY_MS)));
+          if (signal?.aborted || !card.isConnected) return;
           continue;
         }
         const previous = readCachedQuote(true);
@@ -190,7 +195,7 @@
     }
   }
 
-  function mountExchangeCard() {
+  function mountExchangeCard(_root, scope) {
     const homeContent = document.querySelector(".home-content-container");
     if (!homeContent) return;
 
@@ -201,28 +206,11 @@
       if (weatherCard) weatherCard.insertAdjacentElement("afterend", card);
       else homeContent.prepend(card);
     }
-    loadQuote(card);
+    const fresh = readCachedQuote(false);
+    const cached = fresh || readCachedQuote(true);
+    if (cached) renderQuote(card, cached, fresh ? "cache" : "stale");
+    scope.afterPaint(() => loadQuote(card, scope.signal));
   }
 
-  function bindSwup(swup) {
-    if (swupBound || !swup?.hooks) return;
-    swupBound = true;
-    swup.hooks.on("page:view", mountExchangeCard);
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", mountExchangeCard, { once: true });
-  } else {
-    mountExchangeCard();
-  }
-
-  if (window.swup?.hooks) {
-    bindSwup(window.swup);
-  } else {
-    window.addEventListener(
-      "redefine:swup:ready",
-      (event) => bindSwup(event.detail?.swup || window.swup),
-      { once: true }
-    );
-  }
+  window.AdenSite?.register('exchange', '.home-content-container', mountExchangeCard);
 })();

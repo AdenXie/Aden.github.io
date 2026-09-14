@@ -7,8 +7,17 @@
     "build:english": "cross-env TZ=Asia/Shanghai hexo generate --config _config.yml,_config.english.yml --force",
     "clean": "cross-env TZ=Asia/Shanghai hexo clean",
     "deploy": "cross-env TZ=Asia/Shanghai hexo deploy",
-    "release": "npm run clean && npm run build && npm run deploy",
-    "server": "cross-env TZ=Asia/Shanghai hexo server"
+    "release": "npm run build:site && npm run deploy",
+    "server": "cross-env TZ=Asia/Shanghai hexo server",
+    "build:site": "node tools/build-site.cjs",
+    "prepare:site": "node tools/prepare-site.cjs",
+    "optimize": "node tools/optimize-site.cjs",
+    "test": "node --test test/*.test.cjs",
+    "preview": "node tools/preview.cjs",
+    "benchmark": "node tools/benchmark.cjs",
+    "prebuild": "npm run prepare:site",
+    "prebuild:english": "npm run prepare:site",
+    "preserver": "npm run prepare:site"
   },
   "hexo": {
     "version": "7.3.0"
@@ -27,13 +36,20 @@
     "hexo-renderer-pug": "^3.0.0",
     "hexo-renderer-stylus": "^3.0.1",
     "hexo-server": "^3.0.0",
-    "hexo-theme-redefine": "^2.9.0",
+    "hexo-theme-redefine": "2.9.0",
     "hexo-wordcount": "^6.0.1",
-    "nodejieba": "file:packages/nodejieba-compat"
+    "nodejieba": "file:packages/nodejieba-compat",
+    "twikoo": "1.7.20"
   },
   "devDependencies": {
     "acorn": "^8.18.0",
     "cheerio": "^1.0.0",
-    "cross-env": "^10.1.0"
+    "clean-css": "5.3.3",
+    "cross-env": "^10.1.0",
+    "esbuild": "0.28.2",
+    "fonteditor-core": "2.6.3",
+    "js-yaml": "4.3.2",
+    "playwright": "1.63.0",
+    "sharp": "0.35.4"
   }
 }

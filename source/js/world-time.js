@@ -46,10 +46,9 @@
     return;
   }
   // Swup may execute the page script again. Reuse a single lifecycle controller.
-  if (window.AdenWorldTime) { window.AdenWorldTime.mount(); return; }
+  if (window.AdenWorldTime) return;
 
   let active = null;
-  let boundSwup = null;
   function destroy() {
     if (!active) return;
     clearInterval(active.timer);
@@ -57,7 +56,7 @@
     active = null;
   }
 
-  function mount() {
+  function mount(_root, scope) {
     const root = document.getElementById('world-time');
     if (active?.root === root && root?.isConnected) return;
     destroy();
@@ -120,26 +119,11 @@
         selectTarget(event);
       }
     }, { signal: listeners.signal });
-    function startClock() {
-      clearInterval(active?.timer);
-      if (!active || active.root !== root || document.hidden) return;
-      render();
-      active.timer = setInterval(render, 1000);
-    }
-    document.addEventListener('visibilitychange', startClock, { signal: listeners.signal });
     select(selected.id);
-    startClock();
+    scope.clock(render);
+    return destroy;
   }
 
-  function bindSwup(swup) {
-    if (!swup?.hooks || boundSwup === swup) return;
-    boundSwup = swup;
-    swup.hooks.before('content:replace', destroy);
-    swup.hooks.on('page:view', mount);
-  }
-  window.AdenWorldTime = { mount, destroy };
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount, { once: true });
-  else mount();
-  if (window.swup?.hooks) bindSwup(window.swup);
-  else window.addEventListener('redefine:swup:ready', event => bindSwup(event.detail?.swup || window.swup), { once: true });
+  window.AdenWorldTime = { destroy };
+  window.AdenSite.register('world-time', '#world-time', mount);
 })();

@@ -1,5 +1,13 @@
 # Bilingual static publishing
 
+Production entry point: `npm run build:site`. It runs both native renders and
+this translation stage, then optimizes resources and validates all output paths.
+The optimizer also normalizes asset wiring in older cached English snapshots;
+do not run another Hexo generation after it or the optimized output is replaced.
+Site-runtime is shared across languages and chooses its small status messages
+from the document language; weather, exchange, and world-time scripts retain
+their separate generated English variants.
+
 Chinese source remains authoritative. `deploy.yml` builds Chinese Hexo, then
 renders a native English theme shell with
 `npm run build:english` (using the same Asia/Shanghai build timezone as Chinese).

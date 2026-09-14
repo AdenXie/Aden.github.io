@@ -52,11 +52,21 @@ function harness({ cached = null, blocked = false, responses = [fixture()], devi
   // Expose private functions only inside this test VM; the shipped file stays an IIFE.
   vm.runInContext(script.replace(/\}\)\(\);\s*$/, 'globalThis.loadWeatherForTest = loadWeather; })();'), context);
   return {
-    run: () => context.loadWeatherForTest(card), calls, removed, classes, timers,
+    run: signal => context.loadWeatherForTest(card, signal), calls, removed, classes, timers,
     text: selector => card.querySelector(selector).textContent,
     stored: () => stored
   };
 }
+
+test('navigation abort stops an in-flight weather request without retry or stale DOM writes', async () => {
+  const controller = new AbortController();
+  const h = harness({ responses: [options => new Promise((_, reject) => options.signal.addEventListener('abort', () => reject(Object.assign(new Error('aborted'), { name: 'AbortError' }))))] });
+  const pending = h.run(controller.signal);
+  controller.abort(); await pending;
+  assert.equal(h.calls.length, 1);
+  assert.equal(h.text('.cyber-condition'), '');
+  assert(!h.timers.includes(1500));
+});
 
 test('blocked reads, removals and writes still fetch and render live weather', async () => {
   const h = harness({ blocked: true });

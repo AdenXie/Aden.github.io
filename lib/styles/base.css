@@ -1,0 +1,221 @@
+:root {
+  --aden-void: #070a0f;
+  --aden-panel: #101821;
+  --aden-panel-raised: #151f2b;
+  --aden-signal: #f2e94e;
+  --aden-amber: #ffb800;
+  --aden-cyan: #18d5e8;
+  --aden-ink: #e8edf2;
+  --aden-muted: #8e99a8;
+  --aden-interface-font: "Segoe UI Variable", "MiSans", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --aden-display-font: "Chillax-Variable", var(--aden-interface-font);
+  --aden-body-font: var(--aden-interface-font);
+  --aden-mono-font: "Geist Mono", "Cascadia Code", "SFMono-Regular", "Microsoft YaHei", monospace;
+}
+
+html.light {
+  --aden-signal: #756800;
+  --aden-amber: #8a6200;
+  --aden-cyan: #0c6672;
+  --background-color: #f3f2e8;
+  --background-color-transparent: rgb(243 242 232 / 72%);
+  --background-color-transparent-80: rgb(243 242 232 / 88%);
+  --second-background-color: #e9eadf;
+  --third-background-color: #dfe3da;
+  --third-background-color-transparent: rgb(223 227 218 / 72%);
+  --primary-color: #786500;
+  --first-text-color: #111821;
+  --second-text-color: #26313b;
+  --third-text-color: #5f6972;
+  --default-text-color: #18212b;
+  --border-color: rgb(7 10 15 / 15%);
+  --selection-color: #d7cb22;
+  --link-color: #0c6672;
+  --scrollbar-color: #a79f31;
+  --scrollbar-color-hover: #756f18;
+  --scroll-bar-bg-color: #dedfd5;
+  color-scheme: light;
+}
+
+html.dark {
+  --background-color: var(--aden-void);
+  --background-color-transparent: rgb(7 10 15 / 72%);
+  --background-color-transparent-80: rgb(7 10 15 / 88%);
+  --second-background-color: var(--aden-panel);
+  --third-background-color: var(--aden-panel-raised);
+  --third-background-color-transparent: rgb(21 31 43 / 74%);
+  --primary-color: var(--aden-signal);
+  --first-text-color: var(--aden-ink);
+  --second-text-color: #c7d0da;
+  --third-text-color: var(--aden-muted);
+  --default-text-color: #d5dce3;
+  --border-color: rgb(242 233 78 / 15%);
+  --selection-color: var(--aden-signal);
+  --link-color: var(--aden-cyan);
+  --shadow-color-1: rgb(242 233 78 / 9%);
+  --shadow-color-2: rgb(0 0 0 / 34%);
+  --shadow-hover-color: rgb(24 213 232 / 14%);
+  --scrollbar-color: #746f2b;
+  --scrollbar-color-hover: var(--aden-signal);
+  --scroll-bar-bg-color: #0b1017;
+  color-scheme: dark;
+}
+
+body {
+  font-family: var(--aden-body-font);
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  color: var(--aden-void);
+  background: var(--aden-signal);
+}
+
+.navbar-container {
+  border-bottom: 1px solid rgb(242 233 78 / 28%);
+  box-shadow: 0 10px 32px rgb(0 0 0 / 18%);
+}
+
+.navbar-container .navbar-list,
+.home-article-meta-info-container,
+.article-meta-info {
+  font-family: var(--aden-mono-font);
+}
+
+.navbar-container .logo-title {
+  font-family: var(--aden-display-font);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+}
+
+.navbar-container .navbar-item a.active,
+.navbar-container .navbar-item a:hover {
+  color: var(--aden-signal) !important;
+}
+
+.home-banner-background::after {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  content: "";
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 3px, rgb(7 10 15 / 8%) 3px 4px),
+    linear-gradient(100deg, rgb(7 10 15 / 90%) 0%, rgb(7 10 15 / 58%) 43%, rgb(7 10 15 / 14%) 78%),
+    linear-gradient(0deg, rgb(7 10 15 / 76%) 0%, transparent 48%);
+}
+
+.home-banner-background img {
+  object-position: center 48%;
+}
+
+.home-banner-container > .content {
+  z-index: 2;
+}
+
+.home-banner-container .description {
+  max-width: min(88vw, 920px);
+  align-items: flex-start;
+  padding: 0 5vw;
+  color: #fff;
+  font-family: var(--aden-display-font);
+  font-weight: 500;
+  text-align: left;
+  letter-spacing: -0.035em;
+  text-shadow: 0 2px 26px rgb(0 0 0 / 58%);
+}
+
+.home-banner-container .description::before {
+  display: block;
+  margin-bottom: 1rem;
+  color: var(--aden-signal);
+  font-family: var(--aden-mono-font);
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.24em;
+  content: "ADEN // FIELD NOTES";
+}
+
+.home-banner-container .description::after {
+  width: min(15rem, 48vw);
+  height: 3px;
+  margin-top: 1.15rem;
+  content: "";
+  background: linear-gradient(90deg, var(--aden-signal) 0 72%, var(--aden-cyan) 72% 82%, transparent 82%);
+}
+
+.home-banner-container .description p {
+  margin-top: 0.9rem;
+  color: #f5f5ee;
+  font-family: var(--aden-body-font) !important;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+
+.home-banner-container .social-contacts,
+.home-banner-container [onclick="scrollToMain()"] {
+  border-color: color-mix(in srgb, var(--aden-signal) 42%, transparent) !important;
+  border-radius: 8px !important;
+  background: rgb(7 10 15 / 68%) !important;
+  box-shadow: 0 0 24px rgb(24 213 232 / 8%);
+}
+
+.home-banner-container .social-contact-item a,
+.home-banner-container .social-contact-item a i,
+.home-banner-container [onclick="scrollToMain()"],
+.home-banner-container [onclick="scrollToMain()"] i {
+  color: #d5dce3 !important;
+}
+
+.home-banner-container .social-contact-item a:hover,
+.home-banner-container .social-contact-item a:hover i,
+.home-banner-container [onclick="scrollToMain()"]:hover,
+.home-banner-container [onclick="scrollToMain()"]:hover i {
+  color: var(--aden-signal) !important;
+}
+
+.home-content-container .home-article-list .home-article-item {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--aden-signal) 25%, var(--border-color));
+  background: linear-gradient(145deg, color-mix(in srgb, var(--second-background-color) 94%, var(--aden-cyan)), var(--second-background-color) 36%);
+}
+
+html.dark .home-content-container .home-article-list .home-article-item {
+  background: linear-gradient(145deg, rgb(16 24 33 / 98%), rgb(7 10 15 / 98%));
+}
+
+html.light .home-content-container .home-article-list .home-article-item {
+  background: linear-gradient(145deg, #f8f7ed, #e9eadf);
+}
+
+.home-content-container .home-article-list .home-article-item::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 3;
+  height: 3px;
+  content: "";
+  background: linear-gradient(90deg, var(--aden-signal) 0 24%, transparent 24% 27%, var(--aden-cyan) 27% 34%, transparent 34%);
+}
+
+.home-article-thumbnail {
+  height: 190px !important;
+}
+
+html .home-content-container .home-article-list .home-article-item .home-article-title {
+  font-family: "Geist Mono", "Cascadia Code", "Microsoft YaHei", monospace;
+  letter-spacing: -0.025em;
+}
+
+.home-content-container .home-article-list .home-article-item .home-article-title a:hover,
+.home-content-container .home-article-list .home-article-item .home-article-meta-info-container > a:hover {
+  color: var(--aden-signal);
+}
+
+.home-sidebar-container .sidebar-content,
+.home-sidebar-container .sidebar-links {
+  border-left: 3px solid var(--aden-signal);
+}
+

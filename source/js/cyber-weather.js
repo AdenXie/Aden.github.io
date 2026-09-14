@@ -19,8 +19,6 @@
     service_unavailable: "天气接口暂不可用"
   };
 
-  let clockTimer = null;
-  let swupBound = false;
   let activeTimeZone = getDeviceLocation().timezone;
   let timeFormatter = createTimeFormatter(activeTimeZone);
   let dateFormatter = createDateFormatter(activeTimeZone);
@@ -252,8 +250,11 @@
     return ["connection_timeout", "connection_failed", "weather_timeout", "weather_unavailable", "service_unavailable"].includes(error?.code);
   }
 
-  async function fetchJson(url, timeoutMs = REQUEST_TIMEOUT_MS) {
+  async function fetchJson(url, timeoutMs = REQUEST_TIMEOUT_MS, signal) {
     const controller = new AbortController();
+    const cancel = () => controller.abort();
+    if (signal?.aborted) { const error = new Error('Cancelled'); error.name = 'AbortError'; throw error; }
+    signal?.addEventListener('abort', cancel, { once: true });
     const timeout = window.setTimeout(() => controller.abort(), timeoutMs);
     try {
       const response = await fetch(url, {
@@ -278,10 +279,11 @@
       throw error?.code ? error : weatherError("connection_failed");
     } finally {
       window.clearTimeout(timeout);
+      signal?.removeEventListener('abort', cancel);
     }
   }
 
-  async function loadWeather(card) {
+  async function loadWeather(card, signal) {
     try {
       const cached = readCachedWeather();
       if (cached) {
@@ -293,20 +295,22 @@
       clearCachedWeather();
     }
 
+    if (signal?.aborted) return;
     for (let attempt = 0; attempt < 2; attempt += 1) {
       try {
-        const payload = await fetchJson(VISITOR_WEATHER_URL);
+        const payload = await fetchJson(VISITOR_WEATHER_URL, REQUEST_TIMEOUT_MS, signal);
         if (!isValidWeather(payload)) throw weatherError("invalid_response");
+        if (signal?.aborted || !card.isConnected) return;
         cacheWeather(payload);
         renderWeather(card, payload, "vercel");
         return;
       } catch (error) {
-        if (!card?.isConnected) return;
+        if (signal?.aborted || !card?.isConnected) return;
         if (attempt === 0 && canRetry(error)) {
           card.querySelector(".cyber-condition").textContent = `${errorMessage(error)}，正在重试…`;
           card.querySelector('[data-weather="status"]').textContent = "LOCATION LINK / RETRY 1/1";
-          await new Promise(resolve => window.setTimeout(resolve, RETRY_DELAY_MS));
-          if (!card.isConnected) return;
+          await (window.AdenSite?.delay(RETRY_DELAY_MS, signal) || new Promise(resolve => window.setTimeout(resolve, RETRY_DELAY_MS)));
+          if (signal?.aborted || !card.isConnected) return;
           continue;
         }
         applyLocation(card, getDeviceLocation());
@@ -326,12 +330,7 @@
     }
   }
 
-  function mountWeatherCard() {
-    if (clockTimer) {
-      window.clearInterval(clockTimer);
-      clockTimer = null;
-    }
-
+  function mountWeatherCard(_root, scope) {
     const homeContent = document.querySelector(".home-content-container");
     if (!homeContent) return;
 
@@ -346,29 +345,11 @@
       label: "定位中",
     });
     updateClock(card);
-    clockTimer = window.setInterval(() => updateClock(card), 1000);
-    loadWeather(card);
+    scope.clock(() => updateClock(card));
+    const cached = readCachedWeather();
+    if (cached) { try { renderWeather(card, cached, "cache"); } catch { clearCachedWeather(); } }
+    scope.afterPaint(() => loadWeather(card, scope.signal));
   }
 
-  function bindSwup(swup) {
-    if (swupBound || !swup?.hooks) return;
-    swupBound = true;
-    swup.hooks.on("page:view", mountWeatherCard);
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", mountWeatherCard, { once: true });
-  } else {
-    mountWeatherCard();
-  }
-
-  if (window.swup?.hooks) {
-    bindSwup(window.swup);
-  } else {
-    window.addEventListener(
-      "redefine:swup:ready",
-      (event) => bindSwup(event.detail?.swup || window.swup),
-      { once: true }
-    );
-  }
+  window.AdenSite?.register('weather', '.home-content-container', mountWeatherCard);
 })();
