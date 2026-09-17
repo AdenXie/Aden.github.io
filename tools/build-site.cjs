@@ -17,6 +17,8 @@ async function main() {
   run([path.join(__dirname, 'build-bilingual.cjs')]);
   await optimize();
   // Scheduled workflows must exist on GitHub's default (generated main) branch.
+  // Initialize/update this workflow on main through an authorized GitHub user
+  // before deployment: the CI token can preserve it but cannot create workflows.
   const fs = require('node:fs');
   const workflows = path.join(ROOT, 'public/.github/workflows');
   fs.mkdirSync(workflows, { recursive: true });

@@ -17,5 +17,6 @@
 2. 检查数据分支中 `fetchedAt` 是否更新，再请求 `/api/aud-cny?v=4`，核对 `stale` 与中行发布时间。
 3. 如果采集失败，检查该工作流日志；如果副本存在而接口仍失败，检查 Vercel 的 `[aud-cny]` 日志。
 4. `npm test` 覆盖官方备用域名、正文超时、副本新旧状态、无效时间、冷启动失败和客户端缓存恢复。
+5. 首次安装或修改采集工作流时，先通过有工作流写入权限的 GitHub 连接把同一文件放到 main 的 `.github/workflows/exchange-rates.yml`；日常构建令牌只能保留已有工作流，不能新增或修改。不要为此扩大日常令牌权限。
 
 Vercel 数据分支隔离配置依据：https://vercel.com/docs/project-configuration/git-configuration#gitdeploymentenabled
