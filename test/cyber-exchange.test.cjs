@@ -52,7 +52,7 @@ test('valid three-hour browser cache avoids requests', async () => {
 
 test('network failure retries once and can recover', async () => {
   const h = harness({ responses: [new Error('network'), quote()] }); await h.run();
-  assert.deepEqual(h.calls, ['/api/aud-cny?v=2', '/api/aud-cny?v=2']);
+  assert.deepEqual(h.calls, ['/api/aud-cny?v=3', '/api/aud-cny?v=3']);
   assert.deepEqual(h.timers, [15000, 1500, 15000]);
   assert.ok(h.classes.has('is-online'));
 });
@@ -83,6 +83,16 @@ test('expired-but-usable quote retains prices, original publication time and fai
 test('server stale quote includes its source failure reason', async () => {
   const h = harness({ responses: [{ ...quote(), stale: true, fetchError: 'source_timeout' }] });
   await h.run(); assert.match(h.text('status'), /中行牌价源响应超时.*显示缓存牌价/);
+});
+
+test('recently saved stale quote does not suppress recovery requests', async () => {
+  const h = harness({ cached: JSON.stringify({ savedAt: Date.now(), payload: { ...quote(), stale: true } }) });
+  await h.run(); assert.equal(h.calls.length, 1); assert.ok(h.classes.has('is-online'));
+});
+
+test('stale server fallback is retried on the next mount rather than cached as fresh', async () => {
+  const h = harness({ responses: [{ ...quote(), stale: true }, quote()] });
+  await h.run(); await h.run(); assert.equal(h.calls.length, 2); assert.ok(h.classes.has('is-online'));
 });
 
 test('invalid quote produces a data error without retrying', async () => {

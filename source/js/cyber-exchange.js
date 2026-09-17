@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const QUOTE_URL = "/api/aud-cny?v=2";
+  const QUOTE_URL = "/api/aud-cny?v=3";
   const CACHE_KEY = "aden-aud-cny-v2";
   const CACHE_TTL = 3 * 60 * 60 * 1000;
   const FALLBACK_TTL = 30 * 24 * 60 * 60 * 1000;
@@ -96,6 +96,7 @@
     try {
       const cached = JSON.parse(localStorage.getItem(CACHE_KEY));
       if (!cached || !isValidQuote(cached.payload)) return null;
+      if (!allowExpired && cached.payload.stale) return null;
       const age = Date.now() - Number(cached.savedAt || 0);
       const limit = allowExpired ? FALLBACK_TTL : CACHE_TTL;
       return age >= 0 && age < limit ? cached.payload : null;
@@ -171,7 +172,8 @@
       try {
         const payload = await fetchQuote(signal);
         if (signal?.aborted || !card.isConnected) return;
-        cacheQuote(payload);
+        // Stale server fallbacks must not restart the browser's freshness clock.
+        if (!payload.stale) cacheQuote(payload);
         renderQuote(card, payload, payload.stale ? "stale" : "live");
         return;
       } catch (error) {

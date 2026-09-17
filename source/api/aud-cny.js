@@ -1,9 +1,10 @@
 "use strict";
 
 const BOC_RATES_URL = "https://www.bankofchina.com/sourcedb/whpj/";
+const BOC_RATES_URLS = [BOC_RATES_URL, "https://www.boc.cn/sourcedb/whpj/"];
 const CACHE_SECONDS = 3 * 60 * 60;
 const STALE_SECONDS = 7 * 24 * 60 * 60;
-const REQUEST_TIMEOUT_MS = 7000;
+const REQUEST_TIMEOUT_MS = 12000;
 
 let lastSuccessfulQuote = null;
 
@@ -88,26 +89,33 @@ function parseAustralianDollarQuote(html) {
   };
 }
 
-async function fetchOfficialRatesPage(url) {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
-  try {
-    const response = await fetch(url, {
-      signal: controller.signal,
-      headers: {
-        Accept: "text/html,application/xhtml+xml",
-        "User-Agent": "Aden-Space-Exchange-Card/1.0 (+https://blog.adenxie.com.cn/)"
-      }
-    });
-    if (!response.ok) throw new Error(`Bank of China returned ${response.status}`);
-    return await response.text();
-  } finally {
-    clearTimeout(timeout);
-  }
+async function fetchOfficialRatesPage(url, signal) {
+  const response = await fetch(url, {
+    signal,
+    headers: {
+      Accept: "text/html,application/xhtml+xml",
+      "User-Agent": "Aden-Space-Exchange-Card/1.0 (+https://blog.adenxie.com.cn/)"
+    }
+  });
+  if (!response.ok) throw new Error(`Bank of China returned ${response.status}`);
+  // A successful HTTP response is not sufficient: validate before accepting a source.
+  return parseAustralianDollarQuote(await response.text());
 }
 
 async function fetchOfficialRates() {
-  return fetchOfficialRatesPage(BOC_RATES_URL);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  try {
+    // Both are official BOC hosts. One stalled route must not prevent the other
+    // from serving the same per-100-AUD quote within the client's 15s budget.
+    return await Promise.any(BOC_RATES_URLS.map(url => fetchOfficialRatesPage(url, controller.signal)));
+  } catch (error) {
+    if (controller.signal.aborted) throw Object.assign(new Error("Source timeout"), { name: "AbortError" });
+    throw error;
+  } finally {
+    clearTimeout(timeout);
+    controller.abort();
+  }
 }
 
 module.exports = async function audCnyQuote(request, response) {
@@ -118,26 +126,28 @@ module.exports = async function audCnyQuote(request, response) {
   }
 
   try {
-    const quote = parseAustralianDollarQuote(await fetchOfficialRates());
+    const quote = await fetchOfficialRates();
     lastSuccessfulQuote = quote;
     sendJson(response, 200, quote, true);
   } catch (error) {
-    if (lastSuccessfulQuote) {
+    const code = error?.name === "AbortError" ? "source_timeout" : "source_unavailable";
+    console.warn("[aud-cny] Official sources failed", { code });
+    if (lastSuccessfulQuote && Date.now() - Date.parse(lastSuccessfulQuote.fetchedAt) < STALE_SECONDS * 1000) {
       sendJson(
         response,
         200,
         {
           ...lastSuccessfulQuote,
           stale: true,
-          fetchError: error?.name === "AbortError" ? "source_timeout" : "source_unavailable"
+          fetchError: code
         },
-        true
+        false
       );
       return;
     }
 
     sendJson(response, 502, {
-      error: error?.name === "AbortError" ? "source_timeout" : "source_unavailable"
+      error: code
     });
   }
 };
