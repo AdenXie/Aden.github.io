@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const QUOTE_URL = "/api/aud-cny?v=3";
+  const QUOTE_URL = "/api/aud-cny?v=4";
   const CACHE_KEY = "aden-aud-cny-v2";
   const CACHE_TTL = 3 * 60 * 60 * 1000;
   const FALLBACK_TTL = 30 * 24 * 60 * 60 * 1000;
@@ -97,6 +97,7 @@
       const cached = JSON.parse(localStorage.getItem(CACHE_KEY));
       if (!cached || !isValidQuote(cached.payload)) return null;
       if (!allowExpired && cached.payload.stale) return null;
+      if (!allowExpired && cached.payload.fetchedAt && Date.now() - Date.parse(cached.payload.fetchedAt) >= CACHE_TTL) return null;
       const age = Date.now() - Number(cached.savedAt || 0);
       const limit = allowExpired ? FALLBACK_TTL : CACHE_TTL;
       return age >= 0 && age < limit ? cached.payload : null;
@@ -150,6 +151,7 @@
         throw quoteError(statusCode || sourceCode || "service_unavailable");
       }
       if (!isValidQuote(payload)) throw quoteError("invalid_response");
+      if (payload.fetchedAt && Date.now() - Date.parse(payload.fetchedAt) >= CACHE_TTL) payload.stale = true;
       return payload;
     } catch (error) {
       if (controller.signal.aborted || error?.name === "AbortError") throw quoteError("connection_timeout");

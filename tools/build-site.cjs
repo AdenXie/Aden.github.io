@@ -16,6 +16,12 @@ async function main() {
   run([hexo, 'generate', '--config', '_config.yml,_config.english.yml', '--force']);
   run([path.join(__dirname, 'build-bilingual.cjs')]);
   await optimize();
+  // Scheduled workflows must exist on GitHub's default (generated main) branch.
+  const fs = require('node:fs');
+  const workflows = path.join(ROOT, 'public/.github/workflows');
+  fs.mkdirSync(workflows, { recursive: true });
+  fs.copyFileSync(path.join(ROOT, 'lib/workflows/exchange-rates.yml'), path.join(workflows, 'exchange-rates.yml'));
+  fs.writeFileSync(path.join(ROOT, 'public/vercel.json'), JSON.stringify({ git: { deploymentEnabled: { 'exchange-rates': false } } }, null, 2));
   require('./check-output.cjs').checkOutput();
 }
 main().catch(e => { console.error(e); process.exitCode = 1; });

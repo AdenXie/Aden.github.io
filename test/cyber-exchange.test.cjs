@@ -52,7 +52,7 @@ test('valid three-hour browser cache avoids requests', async () => {
 
 test('network failure retries once and can recover', async () => {
   const h = harness({ responses: [new Error('network'), quote()] }); await h.run();
-  assert.deepEqual(h.calls, ['/api/aud-cny?v=3', '/api/aud-cny?v=3']);
+  assert.deepEqual(h.calls, ['/api/aud-cny?v=4', '/api/aud-cny?v=4']);
   assert.deepEqual(h.timers, [15000, 1500, 15000]);
   assert.ok(h.classes.has('is-online'));
 });
