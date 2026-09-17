@@ -1,0 +1,73 @@
+/* Page-scoped; loaded only by /world-time/. Uses the site's existing fonts/colors. */
+#world-time {
+  color: var(--default-text-color);
+  font-family: var(--aden-body-font);
+  line-height: 1.5;
+}
+#world-time .wt-intro { margin: 0 0 1.5rem; color: var(--second-text-color); font-size: .95rem; }
+#world-time .wt-map-frame {
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--background-color);
+}
+#world-time .wt-map-caption {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .9rem 1.1rem;
+  color: var(--third-text-color);
+  font: 500 .65rem var(--aden-mono-font);
+  letter-spacing: .08em;
+}
+#world-time .wt-map { display: block; width: 100%; height: auto; overflow: hidden; }
+#world-time .wt-land { fill: var(--third-background-color); stroke: var(--third-text-color); stroke-opacity: .32; stroke-width: .6; }
+#world-time .wt-equator { fill: none; stroke: var(--third-text-color); stroke-opacity: .14; stroke-width: .5; stroke-dasharray: 3 7; }
+#world-time .wt-marker { cursor: pointer; outline: none; }
+#world-time .wt-leader { fill: none; stroke: var(--third-text-color); stroke-opacity: .45; stroke-width: .7; pointer-events: none; }
+#world-time .wt-hit { fill: transparent; }
+#world-time .wt-dot { fill: var(--aden-cyan); stroke: var(--background-color); stroke-width: 1.3; pointer-events: none; }
+#world-time .wt-marker text { fill: var(--second-text-color); font: 12px var(--aden-body-font); paint-order: stroke; stroke: var(--background-color); stroke-width: 3px; stroke-linejoin: round; }
+#world-time .wt-marker[aria-pressed="true"] .wt-dot { fill: var(--aden-signal); stroke: var(--aden-signal); stroke-width: 5px; }
+#world-time .wt-marker[aria-pressed="true"] text { fill: var(--aden-signal); font-weight: 700; }
+#world-time .wt-marker:focus-visible .wt-hit { stroke: var(--aden-signal); stroke-width: 2; stroke-dasharray: 2 2; }
+#world-time .wt-comparison { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); margin-top: 1.4rem; }
+#world-time .wt-clock-panel { display: flex; flex-direction: column; min-width: 0; padding: .3rem 1.4rem 1.1rem; }
+#world-time .wt-clock-panel:first-child { padding-left: 0; border-right: 1px solid var(--border-color); }
+#world-time .wt-clock-panel:last-child { padding-right: 0; }
+#world-time .wt-eyebrow { color: var(--third-text-color); font: .64rem var(--aden-mono-font); letter-spacing: .12em; }
+#world-time h2 { padding: 0; margin: .5rem 0 .7rem; border: 0; font: 550 1.2rem var(--aden-display-font); color: var(--first-text-color); }
+#world-time h2::before, #world-time h2::after { display: none; }
+#world-time .wt-time { color: var(--first-text-color); font: 500 clamp(1.7rem,4vw,3.2rem)/1.1 var(--aden-mono-font); font-variant-numeric: tabular-nums; letter-spacing: -.055em; }
+#world-time .wt-remote .wt-time { color: var(--aden-signal); }
+#world-time .wt-date { margin-top: .75rem; color: var(--second-text-color); font-size: .8rem; }
+#world-time .wt-zone { margin-top: .35rem; color: var(--third-text-color); font: .65rem/1.6 var(--aden-mono-font); overflow-wrap: anywhere; }
+#world-time .wt-difference { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .35rem 1rem; padding: .8rem 0; margin-bottom: .8rem; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
+#world-time [data-wt="difference"] { color: var(--aden-signal); font-size: .9rem; font-weight: 600; }
+#world-time [data-wt="day-difference"] { color: var(--third-text-color); font-size: .75rem; }
+#world-time .wt-city-group { display: flex; gap: .8rem; margin-top: .55rem; align-items: flex-start; }
+#world-time .wt-group-label { flex: 0 0 3rem; padding-top: .65rem; color: var(--third-text-color); font-size: .72rem; }
+#world-time .wt-city-buttons { display: flex; flex-wrap: wrap; gap: .35rem; }
+#world-time button { min-height: 40px; padding: .45rem .8rem; margin: 0; border: 1px solid transparent; border-radius: 6px; background: transparent; color: var(--second-text-color); font: .8rem var(--aden-body-font); cursor: pointer; }
+#world-time button:hover { background: var(--second-background-color); }
+#world-time button[aria-pressed="true"] { color: var(--aden-signal); border-color: var(--aden-signal); background: var(--second-background-color); }
+#world-time button:focus-visible { outline: 2px solid var(--aden-signal); outline-offset: 2px; }
+#world-time .wt-note, #world-time .wt-credit { color: var(--third-text-color); font-size: .7rem; line-height: 1.7; margin: 1.3rem 0 0; }
+#world-time .wt-credit { margin-top: .25rem; font-size: .65rem; }
+#world-time .wt-credit a { color: inherit; text-decoration: underline; text-underline-offset: .2em; }
+@media (max-width: 640px) {
+  #world-time .wt-intro { font-size: .85rem; margin-bottom: 1rem; }
+  #world-time .wt-map-caption { padding: .7rem; font-size: .54rem; letter-spacing: .02em; }
+  #world-time .wt-marker text, #world-time .wt-leader { display: none; }
+  #world-time .wt-dot { r: 4; }
+  #world-time .wt-comparison { margin-top: 1.1rem; }
+  #world-time .wt-clock-panel { padding: .2rem .6rem .8rem; }
+  #world-time h2 { font-size: 1rem; }
+  #world-time .wt-time { font-size: clamp(1.1rem,5.4vw,2rem); }
+  #world-time .wt-date { font-size: .7rem; }
+  #world-time .wt-zone { font-size: .58rem; }
+  #world-time .wt-eyebrow { font-size: .52rem; letter-spacing: .04em; }
+  #world-time .wt-city-group { gap: .3rem; }
+  #world-time .wt-group-label { flex-basis: 2.5rem; }
+  #world-time button { min-height: 44px; padding: .45rem .65rem; }
+}
