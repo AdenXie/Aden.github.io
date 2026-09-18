@@ -12,6 +12,8 @@
     connection_failed: "无法连接汇率服务，请检查网络",
     source_timeout: "中行牌价源响应超时",
     source_unavailable: "中行牌价源读取失败",
+    snapshot_unavailable: "汇率快照暂时无法读取",
+    snapshot_stale: "汇率快照暂未更新",
     invalid_response: "汇率服务返回的数据异常",
     not_found: "汇率接口不存在（404）",
     access_denied: "汇率请求被拒绝",
@@ -124,7 +126,7 @@
   }
 
   function canRetry(error) {
-    return ["connection_timeout", "connection_failed", "source_timeout", "source_unavailable", "service_unavailable"].includes(error?.code);
+    return ["connection_timeout", "connection_failed", "source_timeout", "source_unavailable", "snapshot_unavailable", "service_unavailable"].includes(error?.code);
   }
 
   async function fetchQuote(signal) {
@@ -147,7 +149,7 @@
       }
       if (!response.ok) {
         const statusCode = { 404: "not_found", 401: "access_denied", 403: "access_denied", 429: "rate_limited" }[response.status];
-        const sourceCode = ["source_timeout", "source_unavailable"].includes(payload?.error) ? payload.error : null;
+        const sourceCode = ["source_timeout", "source_unavailable", "snapshot_unavailable"].includes(payload?.error) ? payload.error : null;
         throw quoteError(statusCode || sourceCode || "service_unavailable");
       }
       if (!isValidQuote(payload)) throw quoteError("invalid_response");

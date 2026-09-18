@@ -60,6 +60,7 @@ test('network failure retries once and can recover', async () => {
 for (const [code, status, message, attempts] of [
   ['source_timeout', 502, '中行牌价源响应超时', 2],
   ['source_unavailable', 502, '中行牌价源读取失败', 2],
+  ['snapshot_unavailable', 502, '汇率快照暂时无法读取', 2],
   [null, 404, '汇率接口不存在（404）', 1],
   [null, 403, '汇率请求被拒绝', 1],
   [null, 429, '汇率请求过于频繁', 1]

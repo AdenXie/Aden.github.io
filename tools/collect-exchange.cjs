@@ -1,6 +1,6 @@
 'use strict';
 const fs = require('node:fs/promises');
-const { fetchOfficialRates } = require('../source/api/aud-cny.js');
+const { fetchOfficialRates } = require('./lib/boc-rates.cjs');
 async function main() {
   const quote = await fetchOfficialRates();
   await fs.writeFile(process.argv[2], JSON.stringify(quote, null, 2) + '\n');

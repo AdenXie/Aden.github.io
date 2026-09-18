@@ -5,10 +5,10 @@
 ## 获取与缓存
 
 - `lib/workflows/exchange-rates.yml` 在构建后复制到默认分支 main 的 `.github/workflows`，每小时第 7、37 分钟由 GitHub Actions 直接读取中行官方页面。平台调度可能延迟。
-- `tools/collect-exchange.cjs` 使用与接口相同的官方解析器，不安装依赖；失败不写入数据，保留上次成功记录。
+- `tools/collect-exchange.cjs` 使用 `tools/lib/boc-rates.cjs` 中的官方采集与解析逻辑，不安装依赖；失败不写入数据，保留上次成功记录。该代码仅供 GitHub Actions 使用，不部署到 Vercel。
 - 成功结果保存在独立 `exchange-rates` 分支的 `aud-cny.json`，不触发博客重建。生成的 `vercel.json` 禁止这个数据分支触发 Vercel 部署。
-- `/api/aud-cny` 优先读取三小时内的官方采集副本；副本不可用或过期时再尝试中行两个官方域名。数据源仍是中国银行现汇牌价，不混用市场中间价。
-- 七天内的旧副本仅在直连失败时作为明确标识的旧数据展示；返回 `no-store`，不重新授予 CDN 缓存有效期。浏览器也不会将旧数据重新缓存为新数据。
+- `/api/aud-cny` 只读取 GitHub Actions 生成的快照，单次请求上限两秒，不再直连中行。数据源仍是中国银行现汇牌价，不混用市场中间价。
+- 三小时至七天内的旧快照明确标识为未更新，返回 `no-store`，不重新授予 CDN 缓存有效期。GitHub 无法读取时，可显示函数内上次验证通过且未超过七天的快照；冷启动无可用快照则返回 502 `snapshot_unavailable`。浏览器也不会将旧数据重新缓存为新数据。
 - `publishedAt` 是中行发布时间，`fetchedAt` 是真实采集时间，转发不修改这两个时间。页面保留原有三小时缓存策略。
 
 ## 核验与维护
