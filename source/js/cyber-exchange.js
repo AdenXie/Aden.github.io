@@ -86,12 +86,13 @@
 
     const updated = formatPublishedAt(payload.publishedAt);
     const status = card.querySelector('[data-exchange="status"]');
-    if (state === "stale" || payload.stale) status.textContent = `${errorMessage(error || { code: payload.fetchError || "source_unavailable" })} · 显示缓存牌价 · 中行更新 ${updated}`;
+    if (state === "syncing") status.textContent = `正在同步最新快照 · 暂显示缓存牌价 · 中行更新 ${updated}`;
+    else if (state === "stale" || payload.stale) status.textContent = `${errorMessage(error || { code: payload.fetchError || "source_unavailable" })} · 显示缓存牌价 · 中行更新 ${updated}`;
     else if (state === "cache") status.textContent = `缓存牌价 · 中行更新 ${updated}`;
     else status.textContent = `中行更新 ${updated} · 三小时缓存`;
 
     card.classList.remove("is-loading", "is-offline", "is-stale", "is-online");
-    card.classList.add(state === "stale" || payload.stale ? "is-stale" : "is-online");
+    card.classList.add(state === "syncing" ? "is-loading" : state === "stale" || payload.stale ? "is-stale" : "is-online");
   }
 
   function readCachedQuote(allowExpired = false) {
@@ -170,6 +171,8 @@
       renderQuote(card, fresh, "cache");
       return;
     }
+    const previous = readCachedQuote(true);
+    if (previous) renderQuote(card, previous, "syncing");
 
     if (signal?.aborted) return;
     for (let attempt = 0; attempt < 2; attempt += 1) {
@@ -188,7 +191,6 @@
           if (signal?.aborted || !card.isConnected) return;
           continue;
         }
-        const previous = readCachedQuote(true);
         if (previous) {
           renderQuote(card, previous, "stale", error);
         } else {
@@ -214,7 +216,7 @@
     }
     const fresh = readCachedQuote(false);
     const cached = fresh || readCachedQuote(true);
-    if (cached) renderQuote(card, cached, fresh ? "cache" : "stale");
+    if (cached) renderQuote(card, cached, fresh ? "cache" : "syncing");
     scope.afterPaint(() => loadQuote(card, scope.signal));
   }
 

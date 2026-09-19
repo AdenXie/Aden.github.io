@@ -5,6 +5,7 @@ const assert = require('node:assert/strict');
 const cheerio = require('cheerio');
 function checkOutput(directory = 'public') {
   const root = path.resolve(directory);
+  assert(fs.existsSync(path.join(root, 'README.md')), 'Missing generated main-branch README');
   const files = dir => fs.readdirSync(dir, { withFileTypes: true }).flatMap(e => e.isDirectory() ? files(path.join(dir, e.name)) : [path.join(dir, e.name)]);
   const exists = url => {
     if (!url?.startsWith('/') || url.startsWith('//')) return;

@@ -1,6 +1,7 @@
 'use strict';
 const { spawnSync } = require('node:child_process');
 const path = require('node:path');
+const fs = require('node:fs');
 const { prepare } = require('./prepare-site.cjs');
 const { optimize } = require('./optimize-site.cjs');
 const ROOT = path.resolve(__dirname, '..');
@@ -16,10 +17,10 @@ async function main() {
   run([hexo, 'generate', '--config', '_config.yml,_config.english.yml', '--force']);
   run([path.join(__dirname, 'build-bilingual.cjs')]);
   await optimize();
+  fs.copyFileSync(path.join(ROOT, 'lib/README.main.md'), path.join(ROOT, 'public/README.md'));
   // Scheduled workflows must exist on GitHub's default (generated main) branch.
   // Initialize/update this workflow on main through an authorized GitHub user
   // before deployment: the CI token can preserve it but cannot create workflows.
-  const fs = require('node:fs');
   const workflows = path.join(ROOT, 'public/.github/workflows');
   fs.mkdirSync(workflows, { recursive: true });
   fs.copyFileSync(path.join(ROOT, 'lib/workflows/exchange-rates.yml'), path.join(workflows, 'exchange-rates.yml'));

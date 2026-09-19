@@ -4,7 +4,7 @@
 
 ## 获取与缓存
 
-- `lib/workflows/exchange-rates.yml` 在构建后复制到默认分支 main 的 `.github/workflows`，每小时第 7、37 分钟由 GitHub Actions 直接读取中行官方页面。平台调度可能延迟。
+- `lib/workflows/exchange-rates.yml` 在构建后复制到默认分支 main 的 `.github/workflows`，北京时间周一至周五每小时第 7、37 分钟触发；周六、周日不创建定时任务。手动运行始终允许采集。平台调度可能延迟。
 - `tools/collect-exchange.cjs` 使用 `tools/lib/boc-rates.cjs` 中的官方采集与解析逻辑，不安装依赖；失败不写入数据，保留上次成功记录。该代码仅供 GitHub Actions 使用，不部署到 Vercel。
 - 成功结果保存在独立 `exchange-rates` 分支的 `aud-cny.json`，不触发博客重建。生成的 `vercel.json` 禁止这个数据分支触发 Vercel 部署。
 - `/api/aud-cny` 只读取 GitHub Actions 生成的快照，单次请求上限两秒，不再直连中行。数据源仍是中国银行现汇牌价，不混用市场中间价。

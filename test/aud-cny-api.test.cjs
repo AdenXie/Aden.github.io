@@ -19,7 +19,7 @@ function setup(fetch) {
   return { calls, timers, async request(method = 'GET') {
     const response = { headers: {}, setHeader(k, v) { this.headers[k] = v; }, end(body) { this.body = JSON.parse(body); } };
     await context.module.exports({ method }, response);
-    assert(calls.every(url => url === 'https://raw.githubusercontent.com/AdenXie/Aden.github.io/exchange-rates/aud-cny.json'),
+    assert(calls.every(url => /^https:\/\/raw\.githubusercontent\.com\/AdenXie\/Aden\.github\.io\/exchange-rates\/aud-cny\.json\?t=\d+$/.test(url)),
       'Vercel must never contact a bank host');
     return response;
   } };

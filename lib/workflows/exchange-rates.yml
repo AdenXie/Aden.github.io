@@ -1,7 +1,9 @@
 name: Refresh official BOC exchange quote
 on:
   schedule:
-    - cron: '7,37 * * * *'
+    # Monday-Friday in Asia/Shanghai (GitHub cron is UTC).
+    - cron: '7,37 16-23 * * 0-4'
+    - cron: '7,37 0-15 * * 1-5'
   workflow_dispatch:
 permissions:
   contents: write

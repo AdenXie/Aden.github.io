@@ -21,7 +21,9 @@ async function fetchSnapshot() {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 2000);
   try {
-    const response = await fetch(SNAPSHOT_URL, { signal: controller.signal });
+    // GitHub Raw may retain an older branch response for several minutes after
+    // Actions writes a new snapshot. Each origin fetch should revalidate it.
+    const response = await fetch(`${SNAPSHOT_URL}?t=${Date.now()}`, { signal: controller.signal });
     if (!response.ok) return null;
     const quote = await response.json();
     return validSnapshot(quote) ? quote : null;

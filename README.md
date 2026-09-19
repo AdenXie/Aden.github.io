@@ -35,6 +35,7 @@ git push origin source
 ## 维护位置
 
 - `source/_posts`：文章；`source/api`：天气及汇率接口，接口约定未变。
+- `lib/README.main.md`：成品分支首页说明；生产构建会把它复制为 `main` 分支的 `README.md`，不要直接修改生成文件。
 - `lib/styles/base.css`：颜色、字体、导航和首页基础外观；`home-cards.css`：天气及汇率卡片；`pages.css`：正文样式及最后生效的响应式规则。三份样式按此顺序合并，保留原有优先级。不要在生成的 `public/css` 中改样式。
 - `source/js/site-runtime.js`：组件挂载、销毁、可见时钟、可取消延迟及评论按需加载。各组件保留自己的数据校验、缓存期限和错误文案。
 - `tools/prepare-site.cjs`、`lib/theme`：针对 Redefine 2.9.0 的小范围适配。上游安装包不修改，生成的 `themes/redefine` 不入库。升级主题需先审阅差异、调整适配代码及 `lib/theme-adapter-checksums.json`，再测试；校验失败不能直接绕过。

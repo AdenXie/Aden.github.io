@@ -81,6 +81,21 @@ test('expired-but-usable quote retains prices, original publication time and fai
   assert.ok(h.classes.has('is-stale'));
 });
 
+test('expired cache is presented as syncing until the live request finishes', async () => {
+  let resolveResponse;
+  const response = new Promise(resolve => { resolveResponse = resolve; });
+  const h = harness({ cached: JSON.stringify({ savedAt: Date.now() - 4 * 3600000, payload: quote() }),
+    responses: [() => response] });
+  const pending = h.run();
+  await Promise.resolve();
+  assert.match(h.text('status'), /正在同步最新快照.*暂显示缓存牌价/);
+  assert.ok(h.classes.has('is-loading'));
+  resolveResponse({ ok: true, json: async () => quote() });
+  await pending;
+  assert.match(h.text('status'), /三小时缓存/);
+  assert.ok(h.classes.has('is-online'));
+});
+
 test('server stale quote includes its source failure reason', async () => {
   const h = harness({ responses: [{ ...quote(), stale: true, fetchError: 'source_timeout' }] });
   await h.run(); assert.match(h.text('status'), /中行牌价源响应超时.*显示缓存牌价/);
