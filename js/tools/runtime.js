@@ -13,6 +13,7 @@ const footerRuntime = () => {
 
   window.setTimeout(footerRuntime, 1000);
 
+  if (document.hidden) return;
   const startDate = new Date(startTime);
   const nowDate = new Date();
   const diff = nowDate.getTime() - startDate.getTime();

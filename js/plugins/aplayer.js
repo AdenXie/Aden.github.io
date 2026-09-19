@@ -19,15 +19,17 @@
     new APlayer({
       container: document.getElementById("aplayer"),
       mini: true,
+      preload: "none",
       audio: audioList,
     });
   } else if (isFixed) {
     const player = new APlayer({
       container: document.getElementById("aplayer"),
       fixed: true,
-      lrcType: 3,
+      preload: "none",
+      lrcType: audioList.some(audio => audio.lrc) ? 3 : 0,
       audio: audioList,
     });
-    document.querySelector(".aplayer-icon-lrc").click();
+    document.querySelector(".aplayer-icon-lrc")?.click();
   }
 })();

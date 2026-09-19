@@ -1,4 +1,5 @@
 let isFetched = false;
+let pendingFetch = null;
 let cachedData = [];
 let cachedPath = null;
 let isXml = true;
@@ -40,14 +41,18 @@ const normalizeData = (rawData) => {
 };
 
 const fetchData = () => {
-  if (isFetched || !cachedPath) {
+  if (isFetched || pendingFetch || !cachedPath) {
     return;
   }
 
-  fetch(config.root + cachedPath)
-    .then((response) => response.text())
+  const status = document.querySelector('#no-result');
+  if (status) status.textContent = document.documentElement.lang.startsWith('en') ? 'Loading search…' : '正在加载搜索…';
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 15000);
+  pendingFetch = fetch(config.root + cachedPath, { signal: controller.signal })
+    .then((response) => { if (!response.ok) throw new Error("Search unavailable"); return response.text(); })
     .then((res) => {
-      isFetched = true;
+      // Mark ready only after parsing succeeds.
       cachedData = isXml
         ? [
             ...new DOMParser()
@@ -63,15 +68,18 @@ const fetchData = () => {
         : JSON.parse(res);
 
       cachedData = normalizeData(cachedData);
+      isFetched = true;
       const noResultDom = document.querySelector("#no-result");
       if (noResultDom) {
         noResultDom.innerHTML =
           '<i class="fa-solid fa-magnifying-glass fa-5x"></i>';
       }
+      renderSearchResult(document.querySelector(".search-input"));
     })
     .catch((error) => {
       console.error("Failed to load search data:", error);
-    });
+      if (status) status.textContent = document.documentElement.lang.startsWith('en') ? 'Search unavailable. Close and reopen to retry.' : '搜索暂不可用，请关闭后重新打开重试。';
+    }).finally(() => { clearTimeout(timeout); pendingFetch = null; });
 };
 
 const getSearchDom = () => ({

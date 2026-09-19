@@ -73,6 +73,7 @@ export const config = {
 };
 
 export default function initTyped(id) {
+  if (!document.getElementById(id)) return;
   const currentToken = (initTokens.get(id) || 0) + 1;
   initTokens.set(id, currentToken);
 
@@ -102,7 +103,10 @@ export default function initTyped(id) {
       return;
     }
 
-    fetch(usrHitokotoAPI)
+    createTyped(id, normalizeSubtitleText(subtitleConfig.text), options);
+    const quoteRequest = new AbortController();
+    const quoteTimeout = setTimeout(() => quoteRequest.abort(), 8000);
+    fetch(usrHitokotoAPI, { signal: quoteRequest.signal })
       .then((response) => response.json())
       .then((data) => {
         if (initTokens.get(id) !== currentToken) {
@@ -124,7 +128,7 @@ export default function initTyped(id) {
       })
       .catch((error) => {
         console.error("Failed to fetch hitokoto:", error);
-      });
+      }).finally(() => clearTimeout(quoteTimeout));
 
     return;
   }
