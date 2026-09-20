@@ -8,6 +8,7 @@ tags:
   - Jev
   - 软件工程
 description: 从一封重复扣款的投诉说起，讲清 Jev 的工作方式、它和聊天式 AI 的区别，以及快、便宜和可靠背后的条件。
+cover: https://framerusercontent.com/images/z4Uu1YpJeEZPBSMTCMI0CN2PX0.png
 ---
 
 ![TypeSafe AI 官方评测图：Jev 与其他模型在工作流准确率和成本上的对比](https://framerusercontent.com/images/z4Uu1YpJeEZPBSMTCMI0CN2PX0.png)
