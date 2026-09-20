@@ -7,6 +7,7 @@ function checkOutput(directory = 'public') {
   const root = path.resolve(directory);
   assert(fs.existsSync(path.join(root, 'README.md')), 'Missing generated main-branch README');
   const files = dir => fs.readdirSync(dir, { withFileTypes: true }).flatMap(e => e.isDirectory() ? files(path.join(dir, e.name)) : [path.join(dir, e.name)]);
+  assert.equal(files(root).filter(file => file.endsWith('.map')).length, 0, 'Production output contains source maps');
   const exists = url => {
     if (!url?.startsWith('/') || url.startsWith('//')) return;
     const filename = path.join(root, decodeURI(url.split(/[?#]/)[0]));

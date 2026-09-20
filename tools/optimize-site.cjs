@@ -14,6 +14,9 @@ function localize(url) {
 }
 async function optimize(directory = 'public') {
   const out = path.resolve(ROOT, directory);
+  for (const file of walk(out)) {
+    if (file.endsWith('.map')) fs.rmSync(file);
+  }
   const assetPath = url => path.join(out, decodeURI(url.split(/[?#]/)[0]));
   const version = url => {
     if (!url.startsWith('/') || url.startsWith('//')) return url;
