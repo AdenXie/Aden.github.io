@@ -10,9 +10,9 @@ tags:
 description: 从一封重复扣款的投诉说起，讲清 Jev 的工作方式、它和聊天式 AI 的区别，以及快、便宜和可靠背后的条件。
 ---
 
-![TypeSafe AI 发布 Jev 时使用的配图](https://framerusercontent.com/images/GJQ5GxP1M9gB8CwqrvtTA9fAMA.png?height=1008&width=1230)
+![TypeSafe AI 官方评测图：Jev 与其他模型在工作流准确率和成本上的对比](https://framerusercontent.com/images/z4Uu1YpJeEZPBSMTCMI0CN2PX0.png)
 
-*头图来源：[TypeSafe AI 的 Jev 发布文章](https://typesafe.ai/blog/introducing-system-one-models-and-jev)。*
+*图源：[TypeSafe AI 的 Jev 发布文章](https://typesafe.ai/blog/introducing-system-one-models-and-jev)。这是公司自己的工作流评测图，具体比较条件和限制见下文。*
 
 一封邮件来了：“你们扣了我两次钱。如果今天不处理，我就去投诉。”客服系统接下来要做的事并不神秘：识别这是账单问题，判断是否紧急，找到订单，再决定交给谁。过去，我们可能把邮件交给聊天模型，请它写一段分析，或让它按指定格式吐出一段 JSON。现在有家公司提出另一个问题：**如果软件只需要几个判断，为什么非要让模型先写一篇答案？**
 
