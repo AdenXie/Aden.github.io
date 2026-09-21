@@ -79,6 +79,16 @@ test('timeout cancels upstream and returns a bounded error', async () => {
   const res = await harness((url,{signal})=>new Promise((resolve,reject)=>signal.addEventListener('abort',()=>reject(new Error('aborted')))),undefined,true)();
   assert.equal(res.statusCode,504); assert.equal(JSON.parse(res.output).error,'timeout');
 });
+test('connection timeout before headers is not reported as an interrupted answer', async () => {
+  const res = await harness(async () => { throw Object.assign(new TypeError('fetch failed'), { cause: { code: 'UND_ERR_CONNECT_TIMEOUT' } }); })();
+  assert.equal(res.statusCode, 502);
+  assert.equal(JSON.parse(res.output).error, 'provider_connect_timeout');
+  assert.doesNotMatch(res.output, /test-only-secret|UND_ERR/);
+});
+test('other connection failures remain distinct from failures during streaming', async () => {
+  const res = await harness(async () => { throw new TypeError('fetch failed'); })();
+  assert.equal(JSON.parse(res.output).error, 'provider_unavailable');
+});
 test('rate limit blocks sixth request for the same source on an instance', async () => {
   let calls = 0;
   const call = harness(async()=>{calls++;return new Response('',{status:429});});
