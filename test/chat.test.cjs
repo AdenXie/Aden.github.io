@@ -8,7 +8,7 @@ const handler = require('../source/api/chat.js');
 const prompt = { messages: [{ role: 'user', content: '你好' }] };
 let ip = 0;
 function harness(fetcher, env = { AI_API_KEY: 'test-only-secret', AI_MODEL: 'Qwen3.8-27B', NODE_ENV: 'production' }, immediateTimeout = false) {
-  const context = { require, module: { exports: {} }, process: { env }, Buffer, TextDecoder, AbortController,
+  const context = { require, console: { warn() {} }, module: { exports: {} }, process: { env }, Buffer, TextDecoder, AbortController,
     fetch: fetcher, setTimeout: immediateTimeout ? fn => setTimeout(fn, 1) : setTimeout, clearTimeout };
   vm.runInNewContext(fs.readFileSync('source/api/chat.js', 'utf8'), context);
   return async (options = {}) => {

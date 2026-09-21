@@ -121,9 +121,14 @@ async function handler(req, res) {
     }
     if (!finished) throw new Error('interrupted');
     res.end();
-  } catch {
+  } catch (cause) {
     if (res.destroyed || res.writableEnded) return;
-    const error = timedOut ? 'timeout' : 'interrupted';
+    const code = cause?.cause?.code || cause?.code;
+    const connectionTimeout = code === 'UND_ERR_CONNECT_TIMEOUT';
+    // Log only an allowlisted failure code; never prompts, credentials or bodies.
+    const safeCode = ['UND_ERR_CONNECT_TIMEOUT', 'ENOTFOUND', 'EAI_AGAIN', 'ECONNRESET', 'ECONNREFUSED', 'CERT_HAS_EXPIRED', 'UNABLE_TO_VERIFY_LEAF_SIGNATURE'].includes(code) ? code : 'UNKNOWN';
+    console.warn(JSON.stringify({ event: 'chat_upstream_failure', phase: res.headersSent ? 'stream' : 'connect', code: safeCode }));
+    const error = timedOut ? 'timeout' : res.headersSent ? 'interrupted' : connectionTimeout ? 'provider_connect_timeout' : 'provider_unavailable';
     if (res.headersSent) { emit({ error }); res.end(); }
     else json(res, timedOut ? 504 : 502, { error });
   } finally {

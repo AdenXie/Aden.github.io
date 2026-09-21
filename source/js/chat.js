@@ -13,6 +13,7 @@
       rate_limited: t('请求较多，请稍等一分钟再发送。', 'Too many requests. Wait a minute before sending again.'),
       provider_auth: t('聊天服务配置异常，请稍后再试。', 'Chat configuration needs attention. Please try again later.'),
       provider_unavailable: t('模型暂时无法响应，请稍后再试。', 'The model is unavailable. Please try again later.'),
+      provider_connect_timeout: t('网站暂时无法连接模型服务，请稍后再试。', 'The site could not connect to the model service. Please try again later.'),
       timeout: t('等待超时，请稍后重试。', 'The request timed out. Please try again later.'),
       interrupted: t('连接中断，已收到的内容保留在下方。可重新发送问题。', 'Connection interrupted. Received text is kept below. You can send your question again.'),
       invalid_request: t('对话过长或消息格式有误，请清空后重新开始。', 'The conversation is too long or invalid. Clear it to start again.')
@@ -93,7 +94,7 @@
         const response = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: [...history, { role: 'user', content: prompt }] }), signal: controller.signal, cache: 'no-store' });
         if (!response.ok) {
           const data = await response.json().catch(() => ({}));
-          throw new Error(data.error || (response.status === 429 ? 'rate_limited' : 'provider_unavailable'));
+          throw new Error(response.status === 429 ? 'rate_limited' : typeof data.error === 'string' ? data.error : 'provider_unavailable');
         }
         if (!response.body || !response.headers.get('content-type')?.includes('text/event-stream')) throw new Error('provider_unavailable');
         reader = response.body.getReader();
