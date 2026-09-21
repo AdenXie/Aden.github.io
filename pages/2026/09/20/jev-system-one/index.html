@@ -696,12 +696,12 @@ mjx-container[display="true"] + br {
     
     
         <span class="article-wordcount article-meta-item">
-            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>3.1k Words</span>
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>4.4k Words</span>
         </span>
     
     
         <span class="article-min2read article-meta-item">
-            <i class="fa-regular fa-clock"></i>&nbsp;<span>10 Mins</span>
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>15 Mins</span>
         </span>
     
     
@@ -784,6 +784,46 @@ mjx-container[display="true"] + br {
 </tr>
 </tbody></table>
 <p>This is to correct a common misconception: today's generative models already support structured output, tool calls, and formatting constraints, rather than just outputting a paragraph of prose. The difference between the two lies not in "the former absolutely cannot be left to the program, only the latter can," but in their main design goals, the way they generate answers, and the cost and speed trade-offs between multiple small judgments. Complex cases may not be suitable for breaking down all judgments into independent multiple-choice questions.<a class="link" target="_blank" rel="noopener" href="https://docs.typesafe.ai/primitives">TypeSafe documentation<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>It is recommended to break down questions that require multi-step analysis and then combine the answers with a program.</p>
+<h2 id="现在已经有人拿-Jev-做什么"><a href="#现在已经有人拿-Jev-做什么" class="headerlink" title="What are people doing with Jev now?"></a>What are people doing with Jev now?</h2><p>Jev has only been released for a short time, and the following are mainly open-source projects publicly available in the community. They are not official products of TypeSafe, and the demonstration results in the project README should not be taken as general conclusions for the production environment. However, they are well suited to explaining the location of the Jev: the Jev is responsible for making a clearly defined judgment, and the actual clicks, deletions, diversions, or orders are still done by other programs.</p>
+<ul>
+<li><strong><a class="link" target="_blank" rel="noopener" href="https://github.com/browser-use/jev-ultrafast">Jev Ultrafast<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></strong>: A browser proxy. It organizes the controls on the webpage into numbered action spaces, allowing the Jev to choose "which button to click, which option to select, whether to scroll," etc. Only when you really need to input free text do you hand it over to a small language model to generate text. The Google Flights example in the project also independently examines the final page, demonstrating that it is searching for Flights, not paying for and booking tickets for users.</li>
+<li><strong><a class="link" target="_blank" rel="noopener" href="https://github.com/devagrawal09/jev-review">Jev Review<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></strong>: A phased code review tool. It first assesses the risk, then selects the file type, evidence, and possible problem mechanisms, then gives a severity score and decides whether it needs to be forwarded to a specific reviewer, and finally displays the report on the local page. It itself notes that the report is a review tip, not a conclusion that a defect has been proven.</li>
+<li><strong><a class="link" target="_blank" rel="noopener" href="https://github.com/tamaratran/fast-jev-compaction">fast-jev-compaction<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></strong>: A context cleaning plug-in for Claude Code. Instead of letting another chat model regenerate the entire history, it lets Jev determine which tool calls and results are still worth keeping and which can be deleted or shortened; The original text that has been retained continues to be retained as is. This is a very intuitive example of Jev making "trade-offs" rather than writing answers.</li>
+<li><strong><a class="link" target="_blank" rel="noopener" href="https://github.com/awlevin/typesafe-computer-use">typesafe-computer-use<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></strong>A macOS computer operation experiment. The program reads the screen using OCR and the accessibility tree, and then lets Jev choose the next step from a limited number of actions; The writing model is called only when you want to enter a piece of free text. It demonstrates breaking down the "operating computer" into many cheap little options, but still requiring permissions, deterministic screen reading, and safe stop conditions.</li>
+<li><strong><a class="link" target="_blank" rel="noopener" href="https://github.com/jarrodwatts/jev-trader">jev-trader<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></strong>: A trading experiment connecting the Kuru MON-USDC order book on Monad. For each block, it asks Jev whether to buy or sell, then places a corresponding price limit order and pushes the decision and transaction results to the dashboard. By default, the project can only run simulations; Even so, this experiment should not be considered a guarantee of returns or investment advice; it is more suitable for observing the role of JEVs in low-latency decision-making.</li>
+</ul>
+<p>These projects show that Jev is currently most often placed "before action": browsers prepare clicks, code reviewers prepare reports, proxies prepare context compression, and trading programs prepare orders. It's not as simple as replacing one large model with another; rather, it reduces the steps that originally required generating long answers to a few small judgments that the program can repeatedly call.</p>
+<h2 id="对非软件工程师，它能做什么"><a href="#对非软件工程师，它能做什么" class="headerlink" title="What can it do for non-software engineers?"></a>What can it do for non-software engineers?</h2><p>If you're not a developer, the most common misconception is that Jev seems to be just another AI tool that requires you to open a chat window and learn prompts. In fact, ordinary users are more likely to use it indirectly in software that already has Jev integrated, rather than talking directly to Jev.</p>
+<table>
+<thead>
+<tr>
+<th>Everyday scene</th>
+<th>What can Jev judge in the background?</th>
+<th>The final result you see</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Numerous emails and customer service messages</td>
+<td>Is this a billing, after-sales, or technical issue? Is it urgent? Is a refund explicitly requested?</td>
+<td>Emails are automatically placed in the appropriate queue, and ambiguous or high-risk emails are handed over to manual labor.</td>
+</tr>
+<tr>
+<td>Invoices, reimbursements and application materials</td>
+<td>Are the materials complete? Do you want to trigger a rule? Is additional proof required?</td>
+<td>First, screen out any missing materials or items that need to be reviewed to reduce manual review of each item.</td>
+</tr>
+<tr>
+<td>The information and notifications are too mixed.</td>
+<td>Is this news important? Is it a reminder, bill, advertisement, or to-do list?</td>
+<td>Automatically categorize, remind, or silently process instead of pushing everything to you</td>
+</tr>
+<tr>
+<td>Other AI agents are performing tasks.</td>
+<td>Should we continue next, which tool should we call, or should we stop and ask people?</td>
+<td>Fewer unnecessary model calls and fewer uncertain automated actions.</td>
+</tr>
+</tbody></table>
+<p>These things are not done by Jev alone. When it's actually implemented, someone still needs to design the problems, options, thresholds, and follow-up actions. The software is also responsible for reading real data, recording results, and handling exceptions. For non-developers, the value of Jev is not that it allows you to learn another API, but that it makes it faster and cheaper for the customer service, office, browser, or automation tools you are using to make a lot of repetitive judgments, and it is also easier to set the boundary of "leave it to someone else if you are unsure".</p>
 <h2 id="为什么概率比一个斩钉截铁的答案有用"><a href="#为什么概率比一个斩钉截铁的答案有用" class="headerlink" title="Why probability is more useful than a definitive answer"></a>Why probability is more useful than a definitive answer</h2><p>Return to the duplicate deduction email. If the system only receives "yes" or "no" when determining whether a refund is explicitly requested, it is easy to take excessive actions when encountering vague wording. If you can see the weight the model assigns to "yes," the program can set rules: clearly proceed to subsequent verification; If the information is vague, please ask the customer for additional information; The key steps involving genuine refunds are still checked and executed within the company's authority.</p>
 <p>There are two easily confused numbers here. For right and wrong questions, Noul gives the probability of "yes". For multiple-choice and scoring questions, Jev provides a probability distribution for each option or level, and also offers a probability distribution calculated from the degree of distribution concentration. <code>confidence</code>。 **This confidence is not "the probability of this answer being correct". **If the weights of the three departments are 90%, 7%, and 3% respectively, it indicates that the model's judgments are very concentrated; As for whether the judgment of focusing on the "billing department" is correct, real cases are still needed to test it.<a class="link" target="_blank" rel="noopener" href="https://docs.typesafe.ai/confidence">Official explanation of confidence<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>It also clearly distinguishes between it and probability, and suggests setting different thresholds based on business risks.</p>
 <p>There is also a word called "calibration". In layman's terms, if the model answers "yes" about 80% of a large number of verifiable similar questions, the proportion of those that actually answer "yes" should also be close to 80%. Such numbers make it easier to design the boundaries between automated processing and manual review. TypeSafe calls its training method <strong>RLCD</strong>This means that reinforcement learning is performed on calibrated decisions. It hopes that in addition to providing answers, the model can also express uncertainty more honestly.<a class="link" target="_blank" rel="noopener" href="https://typesafe.ai/blog/introducing-system-one-models-and-jev">Release Notes<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>This goal was explained; However, publicly available information is insufficient for the outside world to independently reconstruct the training details, nor can it be concluded that all scenarios are well-calibrated based solely on product introductions.</p>
@@ -797,6 +837,7 @@ mjx-container[display="true"] + br {
 <p>I prefer to think of it as a new tool next to the chat model. Writing reassuring emails, explaining complex policies, and studying an unprecedented dispute still requires models and people who can organize language and conduct analysis. A lot of repetitive classification, scoring, routing, and verification might be more suitable for an interface like Jev. Actual systems can also combine the two: one is responsible for drafting, the other is responsible for determining whether it should be transferred to manual labor, and finally the program executes clear rules.</p>
 <p>Perhaps what really deserves attention is how the software is written. In the past, programmers had to force many edge situations into <code>if</code>； Later, they tried to let the chat model handle the entire process. Jev demonstrates a middle ground: **Let the model answer small, well-defined questions, leaving actions, permissions, and safeguards in the code. Whether it can become a general practice depends on accuracy, how probability performs in real business, long-term prices, and whether developers can break down complex problems just right.</p>
 <p>If you want to judge whether Jev is useful, you don't need to ask first whether it is "the next ChatGPT". Take out a judgment in your software that is repeated thousands of times a day, requires some comprehension, but has a limited range of answers: Who should the complaint be distributed to? Is the invoice missing any materials? Which work orders should be reviewed by someone first? Compare accuracy, latency, total cost, and misjudgment costs using a batch of old cases with artificial conclusions. The answer will be closer to what you really need to know than any "two hundred times faster" sentence.</p>
+<h2 id="最后，用大白话说"><a href="#最后，用大白话说" class="headerlink" title="Finally, in layman's terms"></a>Finally, in layman's terms</h2><p>Jev can be understood as a very fast AI sorter or referee: you give it a situation and a few limited options, and it doesn't write a long answer. It only tells you "which one to choose, how many points to give, and whether it is true or not," and then the software continues to execute according to the results. Traditional generative AI is mainly responsible for writing out text, while Jev is mainly responsible for providing small judgments that the software can be used directly. The former is better suited to interpreting, creating, and dealing with open-ended questions, while the latter is better suited to hiding in the background and dealing with decisions with a lot of repetition and a clear range of answers.</p>
 <p><em>Written on September 20, 2026. The figures regarding price, speed, and performance in this article are all from publicly available materials from TypeSafe at the time; Customer service emails and forms are illustrative examples of the principles and are not independent tests.</em></p>
 
 		</div>
@@ -856,12 +897,12 @@ mjx-container[display="true"] + br {
     <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/08/28/2026-08-28-econ3124-behavioural-economics-review/" title="ECON3124 What I Learned in Behavioral Economics: Complete Notes from Core Theories to Final Review" rel="bookmark">
   <img src="https://images.pexels.com/photos/5386425/pexels-photo-5386425.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600" alt="ECON3124 What I Learned in Behavioral Economics: Complete Notes from Core Theories to Final Review" class="!max-w-none">
   <span class="title">ECON3124 What I Learned in Behavioral Economics: Complete Notes from Core Theories to Final Review</span>
-</a><a class="recommended-article-item" href="/2024/07/16/%E5%B0%8F%E7%B1%B313Ultra%E5%8D%8A%E5%B9%B4%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A/" title="Xiaomi 13 Ultra Half-Year Usage Report - Xiaomi 13 Ultra Demystification" rel="bookmark">
-  <img src="https://cdn.cnbj1.fds.api.mi-img.com/product-images/xiaomi-13-ultraeyyn4y/index/3.png?x-fds-process=image/resize,q_90" alt="Xiaomi 13 Ultra Half-Year Usage Report - Xiaomi 13 Ultra Demystification" class="!max-w-none">
-  <span class="title">Xiaomi 13 Ultra Half-Year Usage Report - Xiaomi 13 Ultra Demystification</span>
 </a><a class="recommended-article-item" href="/2022/07/23/%E6%96%B0%E5%AD%A6%E6%9C%9F%E9%80%89%E8%B4%AD%E5%B9%B3%E6%9D%BF%E7%94%B5%E8%84%91%E6%8C%87%E5%8D%97/" title="Guide to Buying a Tablet for the New Semester" rel="bookmark">
   <img src="https://th.bing.com/th/id/OIP.0LikbI9N3Pzmv2Fxmiz-SQHaEo?pid=ImgDet&amp;rs=1" alt="Guide to Buying a Tablet for the New Semester" class="!max-w-none">
   <span class="title">Guide to Buying a Tablet for the New Semester</span>
+</a><a class="recommended-article-item" href="/2024/07/16/%E5%B0%8F%E7%B1%B313Ultra%E5%8D%8A%E5%B9%B4%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A/" title="Xiaomi 13 Ultra Half-Year Usage Report - Xiaomi 13 Ultra Demystification" rel="bookmark">
+  <img src="https://cdn.cnbj1.fds.api.mi-img.com/product-images/xiaomi-13-ultraeyyn4y/index/3.png?x-fds-process=image/resize,q_90" alt="Xiaomi 13 Ultra Half-Year Usage Report - Xiaomi 13 Ultra Demystification" class="!max-w-none">
+  <span class="title">Xiaomi 13 Ultra Half-Year Usage Report - Xiaomi 13 Ultra Demystification</span>
 </a></div>
    </div>
    <div class="recommended-mobile">
@@ -871,9 +912,9 @@ mjx-container[display="true"] + br {
    <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/08/28/2026-08-28-econ3124-behavioural-economics-review/" title="ECON3124 What I Learned in Behavioral Economics: Complete Notes from Core Theories to Final Review" rel="bookmark">
   <img src="https://images.pexels.com/photos/5386425/pexels-photo-5386425.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600" alt="ECON3124 What I Learned in Behavioral Economics: Complete Notes from Core Theories to Final Review" class="!max-w-none">
   <span class="title">ECON3124 What I Learned in Behavioral Economics: Complete Notes from Core Theories to Final Review</span>
-</a><a class="recommended-article-item" href="/2024/07/16/%E5%B0%8F%E7%B1%B313Ultra%E5%8D%8A%E5%B9%B4%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A/" title="Xiaomi 13 Ultra Half-Year Usage Report - Xiaomi 13 Ultra Demystification" rel="bookmark">
-  <img src="https://cdn.cnbj1.fds.api.mi-img.com/product-images/xiaomi-13-ultraeyyn4y/index/3.png?x-fds-process=image/resize,q_90" alt="Xiaomi 13 Ultra Half-Year Usage Report - Xiaomi 13 Ultra Demystification" class="!max-w-none">
-  <span class="title">Xiaomi 13 Ultra Half-Year Usage Report - Xiaomi 13 Ultra Demystification</span>
+</a><a class="recommended-article-item" href="/2022/07/23/%E6%96%B0%E5%AD%A6%E6%9C%9F%E9%80%89%E8%B4%AD%E5%B9%B3%E6%9D%BF%E7%94%B5%E8%84%91%E6%8C%87%E5%8D%97/" title="Guide to Buying a Tablet for the New Semester" rel="bookmark">
+  <img src="https://th.bing.com/th/id/OIP.0LikbI9N3Pzmv2Fxmiz-SQHaEo?pid=ImgDet&amp;rs=1" alt="Guide to Buying a Tablet for the New Semester" class="!max-w-none">
+  <span class="title">Guide to Buying a Tablet for the New Semester</span>
 </a></div>
    </div>
   </div>
@@ -929,7 +970,7 @@ mjx-container[display="true"] + br {
 	<div class="post-toc">
 		<div class="toc-title">On this page</div>
 		<div class="page-title">Why Jev became popular: When AI stopped writing answers and instead made judgments for the software.</div>
-		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%88%E6%8A%8A%E5%AE%83%E6%94%BE%E8%BF%9B%E4%B8%80%E4%B8%AA%E7%9C%9F%E5%AE%9E%E6%B5%81%E7%A8%8B"><span class="nav-text">Let's put it into a real process first.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%92%8C-ChatGPT-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%8C%E5%88%B0%E5%BA%95%E5%9C%A8%E5%93%AA%E9%87%8C%EF%BC%9F"><span class="nav-text">What exactly is the difference between it and ChatGPT?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%A6%82%E7%8E%87%E6%AF%94%E4%B8%80%E4%B8%AA%E6%96%A9%E9%92%89%E6%88%AA%E9%93%81%E7%9A%84%E7%AD%94%E6%A1%88%E6%9C%89%E7%94%A8"><span class="nav-text">Why probability is more useful than a definitive answer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BF%AB%E5%92%8C%E4%BE%BF%E5%AE%9C%EF%BC%8C%E7%A9%B6%E7%AB%9F%E4%BB%8E%E5%93%AA%E5%84%BF%E6%9D%A5"><span class="nav-text">Where do speed and cheapness come from?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%80%9C%E4%B8%8D%E4%BC%9A%E8%83%A1%E8%AF%B4%E2%80%9D%E4%B9%9F%E8%A6%81%E6%8B%86%E5%BC%80%E7%90%86%E8%A7%A3"><span class="nav-text">Even if you don't talk nonsense, you need to break it down and understand it.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%AB-System-One%EF%BC%8C%E5%AE%83%E4%BC%9A%E5%8F%96%E4%BB%A3%E8%81%8A%E5%A4%A9%E6%A8%A1%E5%9E%8B%E5%90%97"><span class="nav-text">Why is it called System One? Will it replace the chat model?</span></a></li></ol>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%88%E6%8A%8A%E5%AE%83%E6%94%BE%E8%BF%9B%E4%B8%80%E4%B8%AA%E7%9C%9F%E5%AE%9E%E6%B5%81%E7%A8%8B"><span class="nav-text">Let's put it into a real process first.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%92%8C-ChatGPT-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%8C%E5%88%B0%E5%BA%95%E5%9C%A8%E5%93%AA%E9%87%8C%EF%BC%9F"><span class="nav-text">What exactly is the difference between it and ChatGPT?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%B0%E5%9C%A8%E5%B7%B2%E7%BB%8F%E6%9C%89%E4%BA%BA%E6%8B%BF-Jev-%E5%81%9A%E4%BB%80%E4%B9%88"><span class="nav-text">What are people doing with Jev now?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E9%9D%9E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E5%B8%88%EF%BC%8C%E5%AE%83%E8%83%BD%E5%81%9A%E4%BB%80%E4%B9%88"><span class="nav-text">What can it do for non-software engineers?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%A6%82%E7%8E%87%E6%AF%94%E4%B8%80%E4%B8%AA%E6%96%A9%E9%92%89%E6%88%AA%E9%93%81%E7%9A%84%E7%AD%94%E6%A1%88%E6%9C%89%E7%94%A8"><span class="nav-text">Why probability is more useful than a definitive answer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BF%AB%E5%92%8C%E4%BE%BF%E5%AE%9C%EF%BC%8C%E7%A9%B6%E7%AB%9F%E4%BB%8E%E5%93%AA%E5%84%BF%E6%9D%A5"><span class="nav-text">Where do speed and cheapness come from?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%80%9C%E4%B8%8D%E4%BC%9A%E8%83%A1%E8%AF%B4%E2%80%9D%E4%B9%9F%E8%A6%81%E6%8B%86%E5%BC%80%E7%90%86%E8%A7%A3"><span class="nav-text">Even if you don't talk nonsense, you need to break it down and understand it.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%AB-System-One%EF%BC%8C%E5%AE%83%E4%BC%9A%E5%8F%96%E4%BB%A3%E8%81%8A%E5%A4%A9%E6%A8%A1%E5%9E%8B%E5%90%97"><span class="nav-text">Why is it called System One? Will it replace the chat model?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%90%8E%EF%BC%8C%E7%94%A8%E5%A4%A7%E7%99%BD%E8%AF%9D%E8%AF%B4"><span class="nav-text">Finally, in layman's terms</span></a></li></ol>
 
 	</div>
 </div>
@@ -963,7 +1004,7 @@ mjx-container[display="true"] + br {
                     </span>
                     
                         <span>
-                            101.5k words in total
+                            102.8k words in total
                         </span>
                     
                 </p>
