@@ -7,7 +7,7 @@
     const find = name => root.querySelector(`[data-chat="${name}"]`);
     const input = find('input'), form = find('form'), send = find('send'), stop = find('stop');
     const transcript = find('messages'), empty = find('empty'), status = find('status');
-    let history = [], active = null, available = false;
+    let history = [], active = null, available = false, assistantLabel = 'AI ASSISTANT';
     const errors = {
       not_configured: t('聊天暂未开放，请稍后再来。', 'Chat is not available yet. Please check back later.'),
       rate_limited: t('请求较多，请稍等一分钟再发送。', 'Too many requests. Wait a minute before sending again.'),
@@ -63,7 +63,7 @@
       empty.hidden = true;
       const article = document.createElement('div'); article.className = 'chat-message'; article.dataset.role = role;
       const label = document.createElement('span'); label.className = 'chat-message-label';
-      label.textContent = role === 'user' ? t('你', 'YOU') : 'AI ASSISTANT';
+      label.textContent = role === 'user' ? t('你', 'YOU') : assistantLabel;
       const body = document.createElement('div'); body.className = 'chat-message-body'; body.textContent = text;
       article.append(label, body); transcript.append(article);
       return { article, body };
@@ -169,6 +169,8 @@
       if (!response.ok) throw new Error('unavailable');
       const data = await response.json();
       if (scope.signal.aborted) return;
+      const configuredModel = typeof data.model === 'string' ? data.model.trim() : '';
+      if (configuredModel) assistantLabel = configuredModel;
       available = data.available === true; controls();
       setStatus(available ? t('对话仅在当前页面保留。', 'This conversation stays only on this page.') : errors.not_configured);
     }).catch(() => {

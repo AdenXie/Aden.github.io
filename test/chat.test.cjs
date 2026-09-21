@@ -32,9 +32,15 @@ test('validation rejects injected roles, oversize contexts and malformed sequenc
 test('missing key and off switch fail closed without calling provider', async () => {
   for (const env of [{}, { AI_API_KEY:'x', AI_MODEL:'Qwen3.8-27B', CHAT_ENABLED:'false' }]) {
     const call = harness(() => assert.fail('must not fetch'), env);
-    assert.deepEqual(JSON.parse((await call({method:'GET'})).output), {available:false});
+    assert.deepEqual(JSON.parse((await call({method:'GET'})).output), {available:false, model:null});
     const res = await call(); assert.equal(res.statusCode,503); assert.equal(res.headers['cache-control'],'no-store');
   }
+});
+test('health check exposes the configured model without exposing the API key', async () => {
+  const call = harness(() => assert.fail('must not fetch'));
+  const res = await call({method:'GET'});
+  assert.deepEqual(JSON.parse(res.output), {available:true, model:'Qwen3.8-27B'});
+  assert.doesNotMatch(res.output,/test-only-secret/);
 });
 test('rejects methods, cross-origin, content type and oversized bodies before fetch', async () => {
   const call = harness(() => assert.fail('must not fetch'));

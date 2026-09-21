@@ -52,7 +52,7 @@ async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
   res.setHeader('X-Content-Type-Options', 'nosniff');
   const configured = Boolean(apiKey() && model()) && process.env.CHAT_ENABLED !== 'false';
-  if (req.method === 'GET') return json(res, 200, { available: configured });
+  if (req.method === 'GET') return json(res, 200, { available: configured, model: configured ? model() : null });
   if (req.method !== 'POST') { res.setHeader('Allow', 'GET, POST'); return json(res, 405, { error: 'method_not_allowed' }); }
   const host = req.headers.host;
   if (req.headers.origin && req.headers.origin !== `https://${host}` && !(process.env.NODE_ENV !== 'production' && req.headers.origin === `http://${host}`)) return json(res, 403, { error: 'forbidden' });
