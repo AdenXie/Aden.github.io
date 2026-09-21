@@ -33,4 +33,17 @@
 
 源码固定 API 地址：`https://developer.amd.com.cn/radeon/api/v1/chat/completions`
 
+## 部署地区与连接排查
+
+`tools/build-site.cjs` 为聊天函数单独生成 `regions: ['iad1']`（美国华盛顿地区）；其他接口保留项目默认地区。请在这里修改配置，勿直接修改生成分支的 `vercel.json`。
+
+2026-09-21 排查确认：香港 `hkg1` 与新加坡 `sin1` 的真实请求在约 10 秒后触发 `UND_ERR_CONNECT_TIMEOUT`，还未收到 AMD 的响应头；同一模型和密钥改由 `iad1` 请求后成功，首次简短对话约 3.2 秒完成。生产网页也通过了两轮真实对话检查（记住数字并追问），无页面脚本错误、手机宽度无横向溢出。此结果证明当时的地区连通性差异，不保证第三方服务长期可用。
+
+- `provider_connect_timeout`：部署节点未能连接 AMD，先检查 Vercel 请求详情中的实际执行地区与出站网络；调整页面流式解析或延长生成超时不能解决这一阶段的问题。
+- `provider_unavailable`：收到流式响应前失败；结合状态码和服务端诊断检查。
+- `interrupted`：流式响应开始后未正常结束；已收到的回答保留。
+- HTTP 429：显示限流提示，兼容 Vercel Firewall 的嵌套错误对象，避免误报连接中断。
+
+服务端仅记录 `chat_upstream_failure` 的阶段、受限错误码和连接超时中的目标 IPv4 地址，用于排查网络；不记录原始异常、请求内容或密钥。先运行 `npm test` 和 `node tools/verify-chat.cjs`，再在已部署环境验证真实回答，不能以模拟测试通过替代上游连通性验证。
+
 AMD 文档：[API overview](https://amd-aim.github.io/radeon-cloud-docs/api/overview/)、[Chat completions](https://amd-aim.github.io/radeon-cloud-docs/api/chat-completions/)、[Qwen3.8-27B](https://amd-aim.github.io/radeon-cloud-docs/models/qwen3-8-27b/)。

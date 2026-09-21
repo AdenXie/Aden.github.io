@@ -21,7 +21,7 @@ async function main() {
         if (new URL(url).pathname !== '/api/chat') return route.continue();
         if (req.method() === 'GET') return route.fulfill({json:{available:mode!=='missing'}});
         posted.push(req.postDataJSON());
-        if (mode === 'quota') return route.fulfill({status:429,json:{error:'rate_limited'}});
+        if (mode === 'quota') return route.fulfill({status:429,json:{error:{code:'TOO_MANY_REQUESTS',message:'Rate limit exceeded'}}});
         if (mode === 'slow') { await new Promise(r=>setTimeout(r,500)); return route.abort().catch(()=>{}); }
         const text = '**Hello 世界**\n- item\n```html\n<script>alert(1)</script>\n```\n<img src=x onerror=alert(1)>';
         const body = `data: ${JSON.stringify({text})}\n\n` + (mode === 'broken' ? '' : 'data: {"done":true}\n\n');
