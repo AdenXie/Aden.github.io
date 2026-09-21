@@ -63,7 +63,7 @@
       empty.hidden = true;
       const article = document.createElement('div'); article.className = 'chat-message'; article.dataset.role = role;
       const label = document.createElement('span'); label.className = 'chat-message-label';
-      label.textContent = role === 'user' ? t('你', 'YOU') : 'GLM-4.7-FLASH';
+      label.textContent = role === 'user' ? t('你', 'YOU') : 'AI ASSISTANT';
       const body = document.createElement('div'); body.className = 'chat-message-body'; body.textContent = text;
       article.append(label, body); transcript.append(article);
       return { article, body };

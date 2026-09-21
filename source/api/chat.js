@@ -1,7 +1,9 @@
 'use strict';
 const { createHash } = require('node:crypto');
-const ENDPOINT = 'https://open.bigmodel.cn/api/paas/v4/chat/completions';
+const ENDPOINT = 'https://developer.amd.com.cn/radeon/api/v1/chat/completions';
 const MAX_BODY = 96000, MAX_CONTEXT = 24000;
+const apiKey = () => process.env.AI_API_KEY?.trim() || process.env.BIGMODEL_API_KEY?.trim();
+const model = () => process.env.AI_MODEL?.trim();
 // Best-effort per-instance protection; WAF is the cross-instance rate limiter.
 // Only short-lived hashed IP counters are kept, never message content.
 const buckets = new Map();
@@ -49,7 +51,7 @@ async function bodyOf(req) {
 async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
   res.setHeader('X-Content-Type-Options', 'nosniff');
-  const configured = Boolean(process.env.BIGMODEL_API_KEY?.trim()) && process.env.CHAT_ENABLED !== 'false';
+  const configured = Boolean(apiKey() && model()) && process.env.CHAT_ENABLED !== 'false';
   if (req.method === 'GET') return json(res, 200, { available: configured });
   if (req.method !== 'POST') { res.setHeader('Allow', 'GET, POST'); return json(res, 405, { error: 'method_not_allowed' }); }
   const host = req.headers.host;
@@ -71,10 +73,12 @@ async function handler(req, res) {
   try {
     const upstream = await fetch(ENDPOINT, {
       method: 'POST', signal: controller.signal,
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.BIGMODEL_API_KEY.trim()}` },
-      body: JSON.stringify({ model: 'glm-4.7-flash', messages: [{ role: 'system', content: 'You are a helpful assistant on Aden’s Space. Reply in the user’s language. You have no browsing tools or access to site articles. Be concise and honest about uncertainty.' }, ...messages], stream: true, thinking: { type: 'disabled' }, max_tokens: 2048, temperature: 0.7 })
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey()}` },
+      body: JSON.stringify({ model: model(), messages: [{ role: 'system', content: 'You are a helpful assistant on Aden’s Space. Reply in the user’s language. You have no browsing tools or access to site articles. Be concise and honest about uncertainty.' }, ...messages], stream: true, reasoning_effort: 'low', max_tokens: 2048, temperature: 0.7 })
     });
     if (!upstream.ok) {
+      const retryAfter = upstream.headers.get('retry-after');
+      if (retryAfter) res.setHeader('Retry-After', retryAfter);
       await upstream.body?.cancel();
       return json(res, upstream.status === 429 ? 429 : 502, { error: upstream.status === 429 ? 'rate_limited' : [401,403].includes(upstream.status) ? 'provider_auth' : 'provider_unavailable' });
     }

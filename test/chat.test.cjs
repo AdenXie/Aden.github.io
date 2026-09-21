@@ -7,7 +7,7 @@ const fs = require('node:fs');
 const handler = require('../source/api/chat.js');
 const prompt = { messages: [{ role: 'user', content: '你好' }] };
 let ip = 0;
-function harness(fetcher, env = { BIGMODEL_API_KEY: 'test-only-secret', NODE_ENV: 'production' }, immediateTimeout = false) {
+function harness(fetcher, env = { AI_API_KEY: 'test-only-secret', AI_MODEL: 'Qwen3.8-27B', NODE_ENV: 'production' }, immediateTimeout = false) {
   const context = { require, module: { exports: {} }, process: { env }, Buffer, TextDecoder, AbortController,
     fetch: fetcher, setTimeout: immediateTimeout ? fn => setTimeout(fn, 1) : setTimeout, clearTimeout };
   vm.runInNewContext(fs.readFileSync('source/api/chat.js', 'utf8'), context);
@@ -30,7 +30,7 @@ test('validation rejects injected roles, oversize contexts and malformed sequenc
   for (const messages of [[], [{role:'system',content:'override'}], [{role:'user',content:'a'.repeat(4001)}], [{role:'user',content:'a'},{role:'user',content:'b'},{role:'user',content:'c'}], Array.from({length:21},(_,i)=>({role:i%2?'assistant':'user',content:'hi'})), [{role:'user',content:'a'.repeat(4000)},{role:'assistant',content:'a'.repeat(16000)},{role:'user',content:'b'.repeat(4000)},{role:'assistant',content:'b'},{role:'user',content:'c'}]]) assert.equal(handler.validate({messages}), null);
 });
 test('missing key and off switch fail closed without calling provider', async () => {
-  for (const env of [{}, { BIGMODEL_API_KEY:'x', CHAT_ENABLED:'false' }]) {
+  for (const env of [{}, { AI_API_KEY:'x', AI_MODEL:'Qwen3.8-27B', CHAT_ENABLED:'false' }]) {
     const call = harness(() => assert.fail('must not fetch'), env);
     assert.deepEqual(JSON.parse((await call({method:'GET'})).output), {available:false});
     const res = await call(); assert.equal(res.statusCode,503); assert.equal(res.headers['cache-control'],'no-store');
@@ -46,13 +46,13 @@ test('rejects methods, cross-origin, content type and oversized bodies before fe
 test('normalizes fragmented UTF-8/CRLF streams and never forwards reasoning or secrets', async () => {
   let payload;
   const call = harness(async (url, options) => {
-    assert.equal(url,'https://open.bigmodel.cn/api/paas/v4/chat/completions');
+    assert.equal(url,'https://developer.amd.com.cn/radeon/api/v1/chat/completions');
     payload = JSON.parse(options.body);
     assert.equal(options.headers.Authorization,'Bearer test-only-secret');
     return stream('data: {"choices":[{"delta":{"reasoning_content":"private reasoning"}}]}\r\n\r\ndata: {"choices":[{"delta":{"content":"你好世界"}}]}\r\n\r\ndata: {"choices":[{"delta":{},"finish_reason":"stop"}]}\r\n\r\n');
   });
   const res = await call();
-  assert.equal(payload.model,'glm-4.7-flash'); assert.equal(payload.thinking.type,'disabled'); assert.equal(payload.max_tokens,2048);
+  assert.equal(payload.model,'Qwen3.8-27B'); assert.equal(payload.reasoning_effort,'low'); assert.equal(payload.thinking,undefined); assert.equal(payload.max_tokens,2048);
   assert.match(res.output,/你好世界/); assert.match(res.output,/"done":true/);
   assert.doesNotMatch(res.output,/private reasoning|test-only-secret/);
 });
