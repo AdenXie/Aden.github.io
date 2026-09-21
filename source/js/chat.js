@@ -80,9 +80,13 @@
       const controller = new AbortController(); active = controller;
       const timeout = setTimeout(() => { controller.timedOut = true; controller.abort(); }, 70000);
       message('user', prompt); const reply = message('assistant', '');
+      const progress = document.createElement('div'); progress.className = 'chat-message-progress';
+      progress.setAttribute('role', 'status');
+      progress.textContent = t('正在等待模型思考并回答…', 'Waiting for the model to think and respond…');
+      reply.article.insertBefore(progress, reply.body);
       input.value = ''; controls(); scroll();
       setStatus(t('正在连接模型…', 'Connecting to the model…'));
-      let answer = '', complete = false, reader, frame = null;
+      let answer = '', complete = false, truncated = false, reader, frame = null;
       const update = () => {
         frame = null;
         if (active !== controller || scope.signal.aborted) return;
@@ -114,23 +118,30 @@
             if (typeof data.text === 'string') {
               answer += data.text;
               if (answer.length > 16000) throw new Error('interrupted');
-              setStatus(t('正在生成…', 'Writing…'));
+              if (answer.trim()) progress.textContent = t('正在生成回答…', 'Writing the answer…');
+              setStatus(progress.textContent);
               if (frame === null) frame = requestAnimationFrame(update);
             }
             if (data.done) {
               complete = true;
+              truncated = Boolean(data.truncated);
               setStatus(data.truncated ? t('回答达到长度上限，可以继续追问。', 'Response length limit reached. You can ask a follow-up.') : t('可以继续追问，或清空开始新的对话。', 'Ask a follow-up, or clear this chat to start again.'));
               break;
             }
           }
         }
         if (!complete || !answer.trim()) throw new Error('interrupted');
+        progress.textContent = truncated ? t('已达到回答长度上限', 'Response length limit reached') : t('回答已完成', 'Answer complete');
+        reply.article.append(progress);
         history.push({ role: 'user', content: prompt }, { role: 'assistant', content: answer });
       } catch (error) {
         if (active !== controller || scope.signal.aborted) return;
         const stopped = controller.signal.aborted && !controller.timedOut;
         const text = stopped ? t('已停止。可重新发送问题。', 'Stopped. You can send your question again.') : errors[controller.timedOut ? 'timeout' : error.message] || errors.interrupted;
         setStatus(text, !stopped);
+        progress.textContent = stopped ? t('已停止生成', 'Generation stopped') : text;
+        progress.dataset.error = String(!stopped);
+        reply.article.append(progress);
         input.value = prompt;
         if (!answer) reply.body.textContent = text;
       } finally {

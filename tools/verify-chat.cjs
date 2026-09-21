@@ -36,6 +36,7 @@ async function main() {
         await input.fill('private-test-marker'); await send.click();
         await page.waitForFunction(()=>document.querySelectorAll('.chat-message button').length===1);
         assert.equal(await page.locator('.chat-message-body strong').innerText(),'Hello 世界');
+        assert.match(await page.locator('.chat-message-progress').last().innerText(),/回答已完成|Answer complete/);
         assert.equal(await page.locator('.chat-message-body script,.chat-message-body img').count(),0);
         assert.equal(await page.locator('.chat-message-body li').count(),1);
         await input.fill('follow-up'); await send.click();
@@ -52,9 +53,13 @@ async function main() {
         assert.match(await status.innerText(),/一分钟|minute/);
         mode='broken'; await input.fill('broken'); await send.click();
         await page.waitForFunction(()=>document.querySelector('[data-chat="status"]').textContent.includes('中断')||document.querySelector('[data-chat="status"]').textContent.includes('interrupted'));
-        mode='slow'; await input.fill('stop-me'); await send.click(); await page.locator('[data-chat="stop"]').click();
+        assert.match(await page.locator('.chat-message-progress').last().innerText(),/中断|interrupted/);
+        mode='slow'; await input.fill('stop-me'); await send.click();
+        assert.match(await page.locator('.chat-message-progress').last().innerText(),/正在等待模型|Waiting for the model/);
+        await page.locator('[data-chat="stop"]').click();
         await page.waitForFunction(()=>document.querySelector('[data-chat="stop"]').hidden);
         assert.match(await status.innerText(),/停止|Stopped/);
+        assert.match(await page.locator('.chat-message-progress').last().innerText(),/已停止生成|Generation stopped/);
         await input.fill('clear-during-request'); await send.click(); await page.locator('[data-chat="clear"]').click();
         assert.equal(await page.locator('.chat-message').count(),0);
         mode='ok'; await page.reload(); await page.waitForFunction(()=>!document.querySelector('#chat-input').disabled);
