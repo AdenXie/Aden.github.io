@@ -114,6 +114,11 @@ async function main() {
     const nativeFile = path.join(ENGLISH_THEME, path.relative(PUBLIC, file));
     // Fail safely instead of quietly falling back to machine-translated chrome.
     const $ = cheerio.load(fs.readFileSync(nativeFile, 'utf8'));
+    // Hexo may reuse already-rendered tag content across the two language builds.
+    if ($('#aden-chat').length) {
+      const chat = cheerio.load(require('../lib/chat-page.cjs')(true));
+      $('#aden-chat').replaceWith(chat('#aden-chat'));
+    }
     return { file, html, $, slots: slots($), url: urlFor(file) };
   });
   const scripts = ['cyber-weather.js', 'cyber-exchange.js', 'world-time.js'].map(name => {

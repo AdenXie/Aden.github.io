@@ -24,7 +24,7 @@ async function main() {
   const workflows = path.join(ROOT, 'public/.github/workflows');
   fs.mkdirSync(workflows, { recursive: true });
   fs.copyFileSync(path.join(ROOT, 'lib/workflows/exchange-rates.yml'), path.join(workflows, 'exchange-rates.yml'));
-  fs.writeFileSync(path.join(ROOT, 'public/vercel.json'), JSON.stringify({ git: { deploymentEnabled: { source: false, 'exchange-rates': false } } }, null, 2));
+  fs.writeFileSync(path.join(ROOT, 'public/vercel.json'), JSON.stringify({ git: { deploymentEnabled: { source: false, 'exchange-rates': false } }, functions: { 'api/chat.js': { maxDuration: 65 } } }, null, 2));
   require('./check-output.cjs').checkOutput();
 }
 main().catch(e => { console.error(e); process.exitCode = 1; });

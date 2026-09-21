@@ -29,12 +29,14 @@ async function optimize(directory = 'public') {
   for (const width of [640, 960, 1280, 1920]) await sharp(original).rotate().resize({ width, withoutEnlargement: true }).webp({ quality: 80 }).toFile(path.join(out, `images/hero-${width}.webp`));
   fs.mkdirSync(path.join(out, 'vendor/twikoo'), { recursive: true });
   for (const name of ['twikoo.all.min.js', 'twikoo.all.min.js.LICENSE.txt']) fs.copyFileSync(path.join(ROOT, 'node_modules/twikoo/dist', name), path.join(out, 'vendor/twikoo', name));
-  for (const file of walk(out).filter(f => /[\\/]js[\\/](?:en[\\/])?(?:site-runtime|cyber-weather|cyber-exchange|world-time|theme-default)\.js$/.test(f))) {
+  for (const file of walk(out).filter(f => /[\\/]js[\\/](?:en[\\/])?(?:site-runtime|cyber-weather|cyber-exchange|world-time|theme-default|chat)\.js$/.test(f))) {
     let text = fs.readFileSync(file, 'utf8');
     text = text.replace("'/vendor/twikoo/twikoo.all.min.js'", JSON.stringify(version('/vendor/twikoo/twikoo.all.min.js')));
     fs.writeFileSync(file, (await transform(text, { minify: true, target: 'es2020', legalComments: 'inline' })).code);
   }
   const iconRange = await require('./subset-icons.cjs').subsetIcons(out, walk(out));
+  const chatCSS = path.join(out, 'css/chat.css');
+  if (fs.existsSync(chatCSS)) fs.writeFileSync(chatCSS, new CleanCSS({ level: 1, rebase: false }).minify(fs.readFileSync(chatCSS, 'utf8')).styles);
   const bundles = new Map();
   for (const file of walk(out).filter(f => f.endsWith('.html'))) {
     const $ = cheerio.load(fs.readFileSync(file, 'utf8'));

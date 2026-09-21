@@ -21,6 +21,8 @@ function checkOutput(directory = 'public') {
     assert.equal($('script[src*="/js/site-runtime.js"]').length, 1, file);
     assert(!/"preload":true/.test($.html()), `Eager search in ${file}`);
     if (!$('#world-time').length) assert.equal($('script[src*="/world-time.js"]').length, 0);
+    if (!$('#aden-chat').length) assert.equal($('script[src*="/js/chat.js"],link[href*="/css/chat.css"]').length, 0);
+    else assert.match($('#aden-chat h2').text(), $('html').attr('lang')?.startsWith('en') ? /What/ : /想聊/);
     if (!$('.home-content-container').length) assert.equal($('script[src*="cyber-weather.js"],script[src*="cyber-exchange.js"]').length, 0);
     assert.equal($('script[src*="cdnjs.cloudflare.com/ajax/libs/twikoo"]').length, 0);
     if ($('.home-banner-background').length) assert.equal($('link[data-aden-hero]').length, 1);
