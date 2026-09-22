@@ -9,8 +9,64 @@ const { transform } = require('esbuild');
 const ROOT = path.resolve(__dirname, '..');
 const walk = dir => fs.readdirSync(dir, { withFileTypes: true }).flatMap(e => e.isDirectory() ? walk(path.join(dir, e.name)) : [path.join(dir, e.name)]);
 const digest = bytes => crypto.createHash('sha256').update(bytes).digest('hex').slice(0, 12);
+const sizeOf = target => {
+  if (!fs.existsSync(target)) return 0;
+  const stat = fs.statSync(target);
+  return stat.isDirectory() ? walk(target).reduce((sum, file) => sum + fs.statSync(file).size, 0) : stat.size;
+};
+const remove = target => {
+  const bytes = sizeOf(target);
+  if (bytes) fs.rmSync(target, { recursive: true, force: true });
+  return bytes;
+};
 function localize(url) {
   return url.replace(/^https?:\/\/[^/]+\/projects\/hexo-theme-redefine@2\.9\.0\/source\//, '/');
+}
+function pruneOutput(out) {
+  const files = walk(out);
+  const pagesAndScripts = files
+    .filter(file => /\.(?:html|js)$/.test(file))
+    .map(file => fs.readFileSync(file, 'utf8'))
+    .join('\n');
+  const references = pathname => pagesAndScripts.includes(pathname);
+  let bytes = 0;
+
+  // Hexo copies both the theme sources and its browser bundles. Production pages
+  // use only the bundles, so retaining the sources doubles most JavaScript.
+  for (const directory of ['libs', 'app', 'layouts', 'plugins', 'state', 'tools', 'utils']) {
+    bytes += remove(path.join(out, 'js', directory));
+  }
+  for (const file of ['main.js', 'build.js']) bytes += remove(path.join(out, 'js', file));
+
+  // These large optional libraries are copied into the bundle directory but are
+  // not referenced by any generated page or production script.
+  for (const file of ['exif-reader.js', 'mermaid.min.js', 'moment-with-locales.min.js', 'moment.min.js', 'waline.js']) {
+    const pathname = `/js/build/libs/${file}`;
+    if (!references(pathname)) bytes += remove(path.join(out, pathname));
+  }
+
+  // Stylesheets have already been folded into content-addressed site bundles.
+  // Keep the few page-specific sheets that are still linked directly.
+  for (const file of fs.readdirSync(path.join(out, 'css'))) {
+    if (!file.endsWith('.css') || /^site-[a-f0-9]+\.css$/.test(file)) continue;
+    const pathname = `/css/${file}`;
+    if (!references(pathname)) bytes += remove(path.join(out, pathname));
+  }
+  if (!references('/fontawesome/')) bytes += remove(path.join(out, 'fontawesome'));
+
+  // Only the solid, regular and brand icon styles occur in generated HTML/JS.
+  // If a future page uses another style, keep all fonts so that build remains safe.
+  const usesOptionalIconStyle = /(?:^|[\s"'`])(?:fad|fal|fat|fass|fa-duotone|fa-light|fa-thin|fa-sharp(?:-solid)?)(?=$|[\s"'`])/m.test(pagesAndScripts);
+  if (!usesOptionalIconStyle) {
+    for (const prefix of ['fa-duotone-900', 'fa-light-300', 'fa-sharp-solid-900', 'fa-thin-100', 'fa-v4compatibility']) {
+      for (const file of fs.readdirSync(path.join(out, 'webfonts')).filter(name => name.startsWith(prefix))) {
+        bytes += remove(path.join(out, 'webfonts', file));
+      }
+    }
+  }
+
+  if (!references('/images/home-hero.jpg')) bytes += remove(path.join(out, 'images', 'home-hero.jpg'));
+  return bytes;
 }
 async function optimize(directory = 'public') {
   const out = path.resolve(ROOT, directory);
@@ -114,7 +170,8 @@ async function optimize(directory = 'public') {
     $('script[src],link[href],img[src]').each((_, el) => { const attr = el.tagName === 'link' ? 'href' : 'src'; $(el).attr(attr, version($(el).attr(attr))); });
     fs.writeFileSync(file, $.html());
   }
-  console.log(`Optimized ${directory}: ${bundles.size} stylesheet bundles; responsive hero and versioned local assets.`);
+  const prunedBytes = pruneOutput(out);
+  console.log(`Optimized ${directory}: ${bundles.size} stylesheet bundles; responsive hero and versioned local assets; pruned ${(prunedBytes / 1024 / 1024).toFixed(2)} MiB.`);
 }
-module.exports = { optimize, localize };
+module.exports = { optimize, localize, pruneOutput };
 if (require.main === module) optimize(process.argv[2]).catch(e => { console.error(e); process.exitCode = 1; });
