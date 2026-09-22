@@ -55,12 +55,23 @@ test('normalizes fragmented UTF-8/CRLF streams and never forwards reasoning or s
     assert.equal(url,'https://developer.amd.com.cn/radeon/api/v1/chat/completions');
     payload = JSON.parse(options.body);
     assert.equal(options.headers.Authorization,'Bearer test-only-secret');
-    return stream('data: {"choices":[{"delta":{"reasoning_content":"private reasoning"}}]}\r\n\r\ndata: {"choices":[{"delta":{"content":"你好世界"}}]}\r\n\r\ndata: {"choices":[{"delta":{},"finish_reason":"stop"}]}\r\n\r\n');
+    return stream('data: {"choices":[{"delta":{"reasoning":"private reasoning","reasoning_content":"also private"}}]}\r\n\r\ndata: {"choices":[{"delta":{"content":"你好世界"}}]}\r\n\r\ndata: {"choices":[{"delta":{},"finish_reason":"stop"}]}\r\n\r\n');
   });
   const res = await call();
   assert.equal(payload.model,'Qwen3.8-27B'); assert.equal(payload.reasoning_effort,'low'); assert.equal(payload.thinking,undefined); assert.equal(payload.max_tokens,2048);
   assert.match(res.output,/你好世界/); assert.match(res.output,/"done":true/);
-  assert.doesNotMatch(res.output,/private reasoning|test-only-secret/);
+  assert.doesNotMatch(res.output,/private reasoning|also private|test-only-secret/);
+});
+test('reasoning selector forwards only AMD-supported tiers', async () => {
+  for (const effort of ['low', 'medium', 'xhigh']) {
+    let payload;
+    const call = harness(async (url, options) => { payload = JSON.parse(options.body); return stream('data: {"choices":[{"delta":{"content":"ok"},"finish_reason":"stop"}]}\n\n'); });
+    await call({ body: { ...prompt, reasoningEffort: effort } });
+    assert.equal(payload.reasoning_effort, effort);
+    assert.equal(payload.reasoningEffort, undefined);
+  }
+  const invalid = await harness(() => assert.fail('must not fetch'))({ body: { ...prompt, reasoningEffort: 'none' } });
+  assert.equal(invalid.statusCode, 400);
 });
 test('maps authentication, quota and upstream errors without exposing provider bodies', async () => {
   for (const [code, expected] of [[401,'provider_auth'],[429,'rate_limited'],[500,'provider_unavailable']]) {

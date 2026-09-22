@@ -2,6 +2,7 @@
 const { createHash } = require('node:crypto');
 const ENDPOINT = 'https://developer.amd.com.cn/radeon/api/v1/chat/completions';
 const MAX_BODY = 96000, MAX_CONTEXT = 24000;
+const REASONING_EFFORTS = new Set(['low', 'medium', 'xhigh']);
 const apiKey = () => process.env.AI_API_KEY?.trim() || process.env.BIGMODEL_API_KEY?.trim();
 const model = () => process.env.AI_MODEL?.trim();
 // Best-effort per-instance protection; WAF is the cross-instance rate limiter.
@@ -58,8 +59,13 @@ async function handler(req, res) {
   if (req.headers.origin && req.headers.origin !== `https://${host}` && !(process.env.NODE_ENV !== 'production' && req.headers.origin === `http://${host}`)) return json(res, 403, { error: 'forbidden' });
   if (!/^application\/json(?:;|$)/i.test(req.headers['content-type'] || '')) return json(res, 415, { error: 'invalid_request' });
   if (!configured) return json(res, 503, { error: 'not_configured' });
-  let messages;
-  try { messages = validate(await bodyOf(req)); } catch { return json(res, 400, { error: 'invalid_request' }); }
+  let messages, reasoningEffort = 'low';
+  try {
+    const body = await bodyOf(req);
+    messages = validate(body);
+    if (body?.reasoningEffort !== undefined && !REASONING_EFFORTS.has(body.reasoningEffort)) return json(res, 400, { error: 'invalid_request' });
+    reasoningEffort = body?.reasoningEffort || 'low';
+  } catch { return json(res, 400, { error: 'invalid_request' }); }
   if (!messages) return json(res, 400, { error: 'invalid_request' });
   const ip = String(req.headers['x-vercel-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
   if (!allowed(ip)) { res.setHeader('Retry-After', '60'); return json(res, 429, { error: 'rate_limited' }); }
@@ -74,7 +80,7 @@ async function handler(req, res) {
     const upstream = await fetch(ENDPOINT, {
       method: 'POST', signal: controller.signal,
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey()}` },
-      body: JSON.stringify({ model: model(), messages: [{ role: 'system', content: 'You are a helpful assistant on Aden’s Space. Reply in the user’s language. You have no browsing tools or access to site articles. Be concise and honest about uncertainty.' }, ...messages], stream: true, reasoning_effort: 'low', max_tokens: 2048, temperature: 0.7 })
+      body: JSON.stringify({ model: model(), messages: [{ role: 'system', content: 'You are a helpful assistant on Aden’s Space. Reply in the user’s language. You have no browsing tools or access to site articles. Be concise and honest about uncertainty.' }, ...messages], stream: true, reasoning_effort: reasoningEffort, max_tokens: 2048, temperature: 0.7 })
     });
     if (!upstream.ok) {
       const retryAfter = upstream.headers.get('retry-after');

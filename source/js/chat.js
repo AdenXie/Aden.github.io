@@ -5,9 +5,9 @@
     const en = document.documentElement.lang.startsWith('en');
     const t = (zh, english) => en ? english : zh;
     const find = name => root.querySelector(`[data-chat="${name}"]`);
-    const input = find('input'), form = find('form'), send = find('send'), stop = find('stop');
+    const input = find('input'), form = find('form'), send = find('send'), stop = find('stop'), reasoning = find('reasoning');
     const transcript = find('messages'), empty = find('empty'), status = find('status');
-    let history = [], active = null, available = false, assistantLabel = 'AI ASSISTANT';
+    let history = [], active = null, available = false, reasoningEffort = 'low', assistantLabel = 'AI ASSISTANT';
     const errors = {
       not_configured: t('聊天暂未开放，请稍后再来。', 'Chat is not available yet. Please check back later.'),
       rate_limited: t('请求较多，请稍等一分钟再发送。', 'Too many requests. Wait a minute before sending again.'),
@@ -24,7 +24,13 @@
       input.disabled = !available;
       stop.hidden = !active;
       input.readOnly = !!active;
+      reasoning.querySelectorAll('button').forEach(button => { button.disabled = !available || !!active; });
       transcript.setAttribute('aria-busy', String(!!active));
+    }
+    function setReasoning(value) {
+      if (!['low', 'medium', 'xhigh'].includes(value)) return;
+      reasoningEffort = value;
+      reasoning.querySelectorAll('[data-reasoning]').forEach(button => { button.setAttribute('aria-checked', String(button.dataset.reasoning === value)); });
     }
     function inline(node, text) {
       // A small safe subset: model HTML is always rendered as text.
@@ -82,20 +88,29 @@
       message('user', prompt); const reply = message('assistant', '');
       const progress = document.createElement('div'); progress.className = 'chat-message-progress';
       progress.setAttribute('role', 'status');
-      progress.textContent = t('正在等待模型思考并回答…', 'Waiting for the model to think and respond…');
+      const requestReasoning = reasoningEffort;
+      progress.textContent = requestReasoning === 'low' ? t('正在等待模型回答…', 'Waiting for the model…') : requestReasoning === 'medium' ? t('正在深入思考…', 'Thinking more deeply…') : t('正在进行最深入思考…', 'Using maximum reasoning…');
       reply.article.insertBefore(progress, reply.body);
       input.value = ''; controls(); scroll();
       setStatus(t('正在连接模型…', 'Connecting to the model…'));
-      let answer = '', complete = false, truncated = false, reader, frame = null;
+      let answer = '', shown = 0, complete = false, truncated = false, reader, frame = null, drained = null;
       const update = () => {
         frame = null;
-        if (active !== controller || scope.signal.aborted) return;
+        if (active !== controller || scope.signal.aborted || controller.signal.aborted) { drained?.(); drained = null; return; }
         const atBottom = transcript.scrollHeight - transcript.scrollTop - transcript.clientHeight < 100;
-        reply.body.textContent = answer;
+        const remaining = answer.length - shown;
+        if (remaining > 0) {
+          shown = matchMedia('(prefers-reduced-motion: reduce)').matches ? answer.length : Math.min(answer.length, shown + (remaining > 180 ? Math.ceil(remaining / 60) : 2));
+          reply.body.textContent = answer.slice(0, shown);
+        }
         if (atBottom) scroll();
+        if (shown < answer.length) frame = requestAnimationFrame(update);
+        else { drained?.(); drained = null; }
       };
+      const schedule = () => { if (frame === null) frame = requestAnimationFrame(update); };
+      const finishTyping = () => shown >= answer.length ? Promise.resolve() : new Promise(resolve => { drained = resolve; schedule(); });
       try {
-        const response = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: [...history, { role: 'user', content: prompt }] }), signal: controller.signal, cache: 'no-store' });
+        const response = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: [...history, { role: 'user', content: prompt }], reasoningEffort: requestReasoning }), signal: controller.signal, cache: 'no-store' });
         if (!response.ok) {
           const data = await response.json().catch(() => ({}));
           throw new Error(response.status === 429 ? 'rate_limited' : typeof data.error === 'string' ? data.error : 'provider_unavailable');
@@ -120,7 +135,7 @@
               if (answer.length > 16000) throw new Error('interrupted');
               if (answer.trim()) progress.textContent = t('正在生成回答…', 'Writing the answer…');
               setStatus(progress.textContent);
-              if (frame === null) frame = requestAnimationFrame(update);
+              schedule();
             }
             if (data.done) {
               complete = true;
@@ -131,6 +146,8 @@
           }
         }
         if (!complete || !answer.trim()) throw new Error('interrupted');
+        await finishTyping();
+        if (controller.signal.aborted) throw new Error('interrupted');
         progress.textContent = truncated ? t('已达到回答长度上限', 'Response length limit reached') : t('回答已完成', 'Answer complete');
         reply.article.append(progress);
         history.push({ role: 'user', content: prompt }, { role: 'assistant', content: answer });
@@ -169,11 +186,13 @@
     }
     form.addEventListener('submit', submit, { signal: scope.signal });
     input.addEventListener('input', controls, { signal: scope.signal });
+    reasoning.addEventListener('click', event => { const button = event.target.closest('[data-reasoning]'); if (button) setReasoning(button.dataset.reasoning); }, { signal: scope.signal });
     input.addEventListener('keydown', event => {
       if (event.key === 'Enter' && !event.shiftKey && !event.isComposing && !matchMedia('(pointer: coarse)').matches) { event.preventDefault(); form.requestSubmit(); }
     }, { signal: scope.signal });
     stop.addEventListener('click', () => active?.abort(), { signal: scope.signal });
     find('clear').addEventListener('click', () => { reset(); input.focus(); }, { signal: scope.signal });
+    setReasoning('low');
     const check = new AbortController();
     const checkTimeout = setTimeout(() => check.abort(), 10000);
     scope.signal.addEventListener('abort', () => check.abort(), { once: true });
