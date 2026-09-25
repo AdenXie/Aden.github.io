@@ -1,0 +1,1340 @@
+<!DOCTYPE html><html lang="zh-CN"><head><script src="/js/site-runtime.js?v=5bdc09f6c064" defer=""></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/2026/09/20/jev-system-one/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jev 为什么火了：当 AI 不再写答案，而是替软件做判断">
+<meta property="og:url" content="https://blog.adenxie.com.cn/2026/09/20/jev-system-one/index.html">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-09-20T13:00:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="Jev">
+<meta property="article:tag" content="软件工程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png?v=fa6db12e9674" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Jev 为什么火了：当 AI 不再写答案，而是替软件做判断 | Aden's Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/css/site-dd94fc660a2e.css?v=dd94fc660a2e">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js?v=258b1afa4680"></script>
+                
+    
+            
+                
+                    
+                
+    
+
+    
+
+
+
+    
+        
+
+
+    
+
+    
+
+
+    
+
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"zh-CN","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"17px","line_height":1.85,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"all_rights_reserved"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"static","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["科技、体验与个人判断","写下真实体验，也保留观点的棱角"],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"世界时间":{"path":"/world-time/","icon":"fa-regular fa-clock"},"AI 聊天":{"path":"/chat/","icon":"fa-regular fa-comment"},"关于":{"path":"/about/","icon":"fa-regular fa-user"},"友链":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":true,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.i18n = {"search":"站内搜索您需要的内容...","toc":"目录","prev":"上一页","next":"下一页","prev_posts":"上一篇","next_posts":"下一篇","page":"第 %d 页","recent_posts":"最新文章","share":"分享","powered_by":"由 %s 驱动","theme":"主题","rss_feed":"RSS Feed","category":"分类","categories":"分类","tag":"标签","tags":"标签","post":"文章","posts":"文章","tagcloud":"标签云","comment":"评论","comments":"评论","top":"置顶","sticky":"置顶","go-back-home":"回到首页","masonry_loading":"照片加载中...","image_viewer":"图片查看器","close":"关闭","exif":{"title":"EXIF","cards":{"camera":"相机","lens":"镜头","exposure":"曝光","other":"其他"},"fields":{"make":"品牌","model":"机型","date_taken":"拍摄时间","lens_model":"镜头","focal_length":"焦距","focus_mode":"对焦模式","shutter":"快门","aperture":"光圈","iso":"感光度","exposure_program":"曝光程序","exposure_compensation":"曝光补偿","metering_mode":"测光模式","flash":"闪光灯","white_balance":"白平衡","latitude":"纬度","longitude":"经度","altitude":"海拔"},"status":{"loading":"加载中...","no_exif":"无 EXIF 信息","library_missing":"EXIF 库未加载","image_source_missing":"图片地址不可用","unavailable":"EXIF 不可用（可能被 CORS 阻止或缺少元数据）","flag_unavailable":"EXIF 不可用"}},"home":"首页","archive":"归档","archives":"归档","about":"关于","links":"链接","link":"链接","friends":"友情链接","friend":"友情链接","timeline":"时间轴","shuoshuo":"说说","bookmarks":"书签","site_uv":"访问人数","site_pv":"总访问量","read_more":"阅读全文","wordcount":"字","min2read":"分钟","changelog":"更新日志","status":"状态","runtime":"博客已运行","days":"天","hours":"小时","minutes":"分钟","seconds":"秒","optimized_by":"并由 Evan 进行优化","rights":"版权所有","site_posts":"共撰写了 %s 篇文章","site_wordcount":"共 %s 字","copyright":{"title":"标题","author":"作者","link":"链接","create_time":"创建于","update_time":"更新于","license_title":"版权声明","license_content":"本文章采用 %s 进行许可。","all_rights_reserved":"版权所有 &#169 %s，禁止转载。","public_domain":"本文为公有领域作品，可自由转载、引用。"},"ago":{"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"},"create_time":"创建","update_time":"更新","expired":"这篇文章最后更新于 %s 天前，内容可能已经过时。"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" hreflang="zh-CN" href="https://blog.adenxie.com.cn/2026/09/20/jev-system-one/"><link rel="alternate" hreflang="en" href="https://blog.adenxie.com.cn/en/2026/09/20/jev-system-one/"></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/" data-no-swup="">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/" data-no-swup="">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/archives/" data-no-swup="">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    归档
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/tags/" data-no-swup="">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    标签
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/world-time/" data-no-swup="">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    世界时间
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/chat/" data-no-swup="">
+                                    <i class="fa-regular fa-comment fa-fw"></i>
+                                    AI 聊天
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/about/" data-no-swup="">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/link/" data-no-swup="">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    友链
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    <nav class="aden-language-switch" aria-label="Language"><a lang="zh-CN" href="/2026/09/20/jev-system-one/" aria-current="page" data-no-swup="">中文</a><span> / </span><a lang="en" href="/en/2026/09/20/jev-system-one/" aria-current="false" data-no-swup="">English</a></nav></div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/" data-no-swup="">
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/archives/" data-no-swup="">
+                            <span>
+                                归档
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/tags/" data-no-swup="">
+                            <span>
+                                标签
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/world-time/" data-no-swup="">
+                            <span>
+                                世界时间
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/chat/" data-no-swup="">
+                            <span>
+                                AI 聊天
+                            </span>
+                            
+                                <i class="fa-regular fa-comment fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/about/" data-no-swup="">
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/link/" data-no-swup="">
+                            <span>
+                                友链
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/archives/" data-no-swup="">
+                            <span>文章归档</span>
+                            <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/tags/" data-no-swup="">
+                            <span>主题标签</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/about/" data-no-swup="">
+                            <span>关于 Aden</span>
+                            <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags" data-no-swup="">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">17</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories" data-no-swup="">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">4</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives" data-no-swup="">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">52</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://framerusercontent.com/images/z4Uu1YpJeEZPBSMTCMI0CN2PX0.png" alt="Jev 为什么火了：当 AI 不再写答案，而是替软件做判断" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" decoding="async">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">Jev 为什么火了：当 AI 不再写答案，而是替软件做判断</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg?v=93ba7ebfa2ff" decoding="async" width="460" height="460">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-09-20 21:00</span>
+        <span class="mobile">2026-09-20 21:00</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E7%A7%91%E6%8A%80%E8%A7%82%E5%AF%9F/" data-no-swup="">科技观察</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/AI/" data-no-swup="">AI</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/Jev/" data-no-swup="">Jev</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" data-no-swup="">软件工程</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>4.4k 字</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>15 分钟</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://framerusercontent.com/images/z4Uu1YpJeEZPBSMTCMI0CN2PX0.png" alt="TypeSafe AI 官方评测图：Jev 与其他模型在工作流准确率和成本上的对比" decoding="async" loading="lazy" width="1000" height="500"><figcaption>TypeSafe AI 官方评测图：Jev 与其他模型在工作流准确率和成本上的对比</figcaption></figure><p></p>
+<p><em>图源：<a class="link" target="_blank" rel="noopener" href="https://typesafe.ai/blog/introducing-system-one-models-and-jev" data-no-swup="">TypeSafe AI 的 Jev 发布文章<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。这是公司自己的工作流评测图，具体比较条件和限制见下文。</em></p>
+<p>一封邮件来了：“你们扣了我两次钱。如果今天不处理，我就去投诉。”客服系统接下来要做的事并不神秘：识别这是账单问题，判断是否紧急，找到订单，再决定交给谁。过去，我们可能把邮件交给聊天模型，请它写一段分析，或让它按指定格式吐出一段 JSON。现在有家公司提出另一个问题：<strong>如果软件只需要几个判断，为什么非要让模型先写一篇答案？</strong></p>
+<p>这家公司是 TypeSafe AI。它在 2026 年 9 月 15 日推出的 Jev，面向的正是这种藏在软件流程里的小判断。它接收一段情况说明和预先设好的问题，返回程序能直接读取的选项、分数或概率。比如：这封邮件属于“账单”还是“技术支持”？客户有没有明确要求退款？情绪有多激动？这些答案再交给普通程序处理。<a class="link" target="_blank" rel="noopener" href="https://typesafe.ai/blog/introducing-system-one-models-and-jev" data-no-swup="">TypeSafe 的发布说明<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>和<a class="link" target="_blank" rel="noopener" href="https://docs.typesafe.ai/introduction" data-no-swup="">产品文档<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>都把它描述为一种给软件调用的决策模型。</p>
+<p>这个思路值得认真看，但也容易被讲过头。Jev 不是一台会自动处理所有投诉的机器；它回答问题，公司的程序和员工仍要负责核实扣款、执行退款、处理例外。</p>
+<h2 id="先把它放进一个真实流程"><a href="#先把它放进一个真实流程" class="headerlink" title="先把它放进一个真实流程" data-no-swup=""></a>先把它放进一个真实流程</h2><p>假设系统已经拿到客户邮件、订单记录和退款规则。传统的聊天模型也能看懂这些材料。你可以请它说：“总结情况，给出优先级、处理部门和退款建议。”它可能写出一段很像人类客服主管的话，也可以按要求返回 JSON。开发者随后把结果读进程序，检查字段是否齐全、值是否合法，再决定下一步。</p>
+<p>Jev 的用法更像把几个选择题一起交给它：</p>
+<table>
+<thead>
+<tr>
+<th>提给模型的问题</th>
+<th>可能返回什么</th>
+<th>软件怎样使用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>这封邮件该送到哪个部门？</td>
+<td>账单、售后、技术支持等选项及各自的权重</td>
+<td>转给相应队列</td>
+</tr>
+<tr>
+<td>客户是否要求退款？</td>
+<td>“是”的概率</td>
+<td>决定是否启动退款核查</td>
+</tr>
+<tr>
+<td>客户的情绪有多急迫？</td>
+<td>在预设等级上的评分</td>
+<td>决定处理顺序</td>
+</tr>
+</tbody></table>
+<p>表中的答案只是说明格式的<strong>假想例子</strong>，不是我实际调用 Jev 得到的结果。真正部署时，还要给问题写清楚判定标准，并允许“其他”或“无法判断”之类的出口。客户说“扣了两次钱”也不等于财务系统真的发生了两笔有效扣款；核对交易记录这一步不能靠语气判断代替。</p>
+<p>Jev 的厉害之处，就在这一步的接口。开发者先规定可回答的范围，模型在范围内给出判断，后面的程序可以据此分流。它把原来藏在一大段文字里的信息，变成软件流程中可直接使用的值。<a class="link" target="_blank" rel="noopener" href="https://docs.typesafe.ai/primitives" data-no-swup="">官方文档对三种问题的定义<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>是：Choice 从给定选项中选一个；Score 在给定等级上评分；Noul 回答一个是非问题，并给出“是”的概率。后一种没有单独的 <code>confidence</code> 字段。</p>
+<h2 id="和-ChatGPT-的区别，到底在哪里？"><a href="#和-ChatGPT-的区别，到底在哪里？" class="headerlink" title="和 ChatGPT 的区别，到底在哪里？" data-no-swup=""></a>和 ChatGPT 的区别，到底在哪里？</h2><p>聊天模型的强项是灵活。让它解释一份合同、写一封回信、改一段代码，答案往往没有固定形状。它通常逐步生成文字；即使最终只要一个部门名称，仍是在完成一次文本生成任务。Jev 则把可选答案和问题类型提前定好，并在一次请求中并行处理多个彼此独立的问题。它不负责写那封安抚客户的邮件。</p>
+<table>
+<thead>
+<tr>
+<th>你需要什么</th>
+<th>聊天式 AI 更顺手</th>
+<th>Jev 更合适的场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>写一封有分寸的回复</td>
+<td>可以直接起草和修改</td>
+<td>不生成回复正文</td>
+</tr>
+<tr>
+<td>在固定部门中选择去向</td>
+<td>能做，通常需约束和检查输出</td>
+<td>可直接返回预设选项</td>
+</tr>
+<tr>
+<td>同时判断十几个独立的小问题</td>
+<td>可以按指定格式作答</td>
+<td>设计目标就是并行给出这些判断</td>
+</tr>
+<tr>
+<td>处理没有预设答案的新问题</td>
+<td>灵活探索和解释</td>
+<td>要先设计问题及答案范围</td>
+</tr>
+</tbody></table>
+<p>这里要纠正一种常见误会：如今的生成式模型已经支持结构化输出、工具调用和格式约束，并非只能输出一段散文。两者的差异，不在于“前者绝对不能交给程序，后者才可以”，而在于各自的主要设计目标、产生答案的方式，以及对多次小判断的成本和速度取舍。复杂案件也未必适合把所有判断拆成彼此独立的选择题。<a class="link" target="_blank" rel="noopener" href="https://docs.typesafe.ai/primitives" data-no-swup="">TypeSafe 文档<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>本身就建议把需要多步分析的问题拆开，再由程序组合答案。</p>
+<h2 id="现在已经有人拿-Jev-做什么"><a href="#现在已经有人拿-Jev-做什么" class="headerlink" title="现在已经有人拿 Jev 做什么" data-no-swup=""></a>现在已经有人拿 Jev 做什么</h2><p>Jev 发布时间还很短，下面这些主要是社区公开的开源项目，不是 TypeSafe 的官方产品，也不能把项目 README 里的演示结果当成生产环境的普遍结论。不过，它们很适合说明 Jev 的位置：Jev 负责做一个边界清楚的判断，真正的点击、删改、分流或下单仍由其他程序完成。</p>
+<ul>
+<li><strong><a class="link" target="_blank" rel="noopener" href="https://github.com/browser-use/jev-ultrafast" data-no-swup="">Jev Ultrafast<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></strong>：一个浏览器代理。它把网页上的控件整理成带编号的动作空间，让 Jev 选择“点击哪个按钮、选择哪个选项、是否滚动”等；只有确实需要输入自由文本时，才交给一个小型语言模型生成文字。项目中的 Google Flights 示例还会独立检查最终页面，演示的是找航班，不是替用户付款订票。</li>
+<li><strong><a class="link" target="_blank" rel="noopener" href="https://github.com/devagrawal09/jev-review" data-no-swup="">Jev Review<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></strong>：一个分阶段的代码审查工具。它先判断风险，再选择文件类型、证据和可能的问题机制，随后给严重程度评分并决定是否需要转给特定审查者，最后在本地页面展示报告。它自己也注明，报告是审查提示，不是某个缺陷已经被证明的结论。</li>
+<li><strong><a class="link" target="_blank" rel="noopener" href="https://github.com/tamaratran/fast-jev-compaction" data-no-swup="">fast-jev-compaction<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></strong>：一个用于 Claude Code 的上下文整理插件。它不让另一个聊天模型重新概括整段历史，而是让 Jev 判断哪些工具调用和结果还值得保留、哪些可以删除或缩短；被保留的原文继续原样保留。这是 Jev 做“取舍判断”而不是写答案的一个很直观的例子。</li>
+<li><strong><a class="link" target="_blank" rel="noopener" href="https://github.com/awlevin/typesafe-computer-use" data-no-swup="">typesafe-computer-use<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></strong>：一个 macOS 电脑操作实验。程序用 OCR 和辅助功能树读取屏幕，再让 Jev 从有限动作中选下一步；只有要输入一段自由文本时才调用写作模型。它展示的是把“操作电脑”拆成很多个便宜的小选择，但仍然需要权限、确定性的屏幕读取和安全停止条件。</li>
+<li><strong><a class="link" target="_blank" rel="noopener" href="https://github.com/jarrodwatts/jev-trader" data-no-swup="">jev-trader<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></strong>：一个连接 Monad 上 Kuru MON-USDC 订单簿的交易实验。它每个区块询问 Jev 应该买入还是卖出，再挂出相应的限价单，并把决策和成交情况推送到仪表盘。项目默认可以只做模拟运行；即使如此，这种实验也不能当成收益保证或投资建议，它更适合用来观察 Jev 在低延迟决策环节中的作用。</li>
+</ul>
+<p>从这些项目可以看出，大家目前最常把 Jev 放在“动作之前”：浏览器准备点击，代码审查准备报告，代理准备压缩上下文，交易程序准备下单。它不是把一个大模型换成另一个大模型那么简单，而是把原本需要生成长答案的环节，缩成程序可以反复调用的几个小判断。</p>
+<h2 id="对非软件工程师，它能做什么"><a href="#对非软件工程师，它能做什么" class="headerlink" title="对非软件工程师，它能做什么" data-no-swup=""></a>对非软件工程师，它能做什么</h2><p>如果你不是开发者，最容易产生的误解是：Jev 似乎又是一个需要打开聊天窗口、学习提示词的 AI 工具。实际上，普通用户更可能在某个已经集成 Jev 的软件里间接使用它，而不是直接和 Jev 对话。</p>
+<table>
+<thead>
+<tr>
+<th>日常场景</th>
+<th>Jev 在后台可以判断什么</th>
+<th>你最终看到的结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>邮件、客服留言很多</td>
+<td>这是账单、售后还是技术问题？是否紧急？是否明确要求退款？</td>
+<td>邮件自动进入合适的队列，含糊或高风险的交给人工</td>
+</tr>
+<tr>
+<td>发票、报销和申请材料</td>
+<td>材料是否齐全？是否触发某条规则？是否需要补充证明？</td>
+<td>先筛出缺材料或需要复核的项目，减少人工逐份查看</td>
+</tr>
+<tr>
+<td>信息和通知太杂</td>
+<td>这条消息是否重要？属于提醒、账单、广告还是待办？</td>
+<td>自动分类、提醒或静默处理，而不是把所有内容都推给你</td>
+</tr>
+<tr>
+<td>其他 AI 代理在执行任务</td>
+<td>下一步该继续、调用哪个工具，还是先停下来问人？</td>
+<td>少一些不必要的模型调用，也少一些没有把握的自动动作</td>
+</tr>
+</tbody></table>
+<p>这些事情不是 Jev 单独完成的。真正落地时，仍要有人把问题、选项、阈值和后续动作设计好，软件还要负责读取真实数据、记录结果和处理例外。对非开发者来说，Jev 的价值不是让你多学一种 API，而是让你正在使用的客服、办公、浏览器或自动化工具，在大量重复判断上更快、更便宜，也更容易设置“拿不准就交给人”的边界。</p>
+<h2 id="为什么概率比一个斩钉截铁的答案有用"><a href="#为什么概率比一个斩钉截铁的答案有用" class="headerlink" title="为什么概率比一个斩钉截铁的答案有用" data-no-swup=""></a>为什么概率比一个斩钉截铁的答案有用</h2><p>回到重复扣款的邮件。假如系统要判断“是否明确要求退款”，只得到“是”或“否”，遇到含糊措辞就很容易做出过头的动作。如果能看到模型给“是”的权重，程序就可以设定规则：很明确的进入后续核查；模糊的请客户补充信息；涉及真正退款的关键步骤仍检查账目并按公司的权限执行。</p>
+<p>这里有两个容易混淆的数字。对于是非问题，Noul 给出“是”的概率。对于选择题和评分题，Jev 会给出各选项或等级的概率分布，还提供一个从分布集中程度计算出的 <code>confidence</code>。**这个 confidence 不是“这次答案正确的概率”。**如果三个部门的权重分别为 90%、7%、3%，它说明模型的判断很集中；至于集中在“账单部”是不是判断正确，还需要真实案例来检验。<a class="link" target="_blank" rel="noopener" href="https://docs.typesafe.ai/confidence" data-no-swup="">官方对 confidence 的解释<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>也明确区分了它与概率，并建议按业务风险设置不同门槛。</p>
+<p>还有一个词叫“校准”。通俗说，如果模型在一大批可核实的同类问题中都报出大约 80% 的“是”，其中最终真的为“是”的比例也应接近 80%。这样的数字才便于拿来设计自动处理与人工复核的边界。TypeSafe 把自己的训练方法称为 <strong>RLCD</strong>，意思是针对校准后的决策进行强化学习。它希望模型除了给答案，也能较诚实地表达不确定。<a class="link" target="_blank" rel="noopener" href="https://typesafe.ai/blog/introducing-system-one-models-and-jev" data-no-swup="">发布说明<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>解释了这个目标；但公开资料还不足以让外界独立复原训练细节，也不能仅凭产品介绍就断定所有场景都校准良好。</p>
+<h2 id="快和便宜，究竟从哪儿来"><a href="#快和便宜，究竟从哪儿来" class="headerlink" title="快和便宜，究竟从哪儿来" data-no-swup=""></a>快和便宜，究竟从哪儿来</h2><p>你只问保安“这人能不能进”，他却先写一页报告，报告质量再好，也不是最省事的工作方式。这是 Jev 想抓住的机会：放弃写长段文字，让模型一次返回多个已经定义好形状的判断。官方称，多个问题可以在同一次请求中并行处理；它公布的服务响应时间约为 <strong>70—500 毫秒</strong>。<a class="link" target="_blank" rel="noopener" href="https://docs.typesafe.ai/introduction" data-no-swup="">产品文档<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>说明了并行提问的方式，<a class="link" target="_blank" rel="noopener" href="https://typesafe.ai/blog/introducing-system-one-models-and-jev" data-no-swup="">发布说明<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>给出了速度区间。</p>
+<p>TypeSafe 发布时标出的价格是每百万输入 token <strong>0.042 美元</strong>，输出不另按 token 收费。这里的 token 可以简单理解为计费时把输入内容切分后的单位。价格和延迟都会随服务及使用条件变化，更不能拿 Jev 的一次分类费用，直接去和聊天模型写一篇长文的费用比较；两者做的活不同。</p>
+<p>官方展示了最高约 <strong>193.6 倍更快、444.6 倍更便宜</strong>的工作流对比，同时坦言这些数值可能位于实际收益的高端。它的评测用多个复杂工作流，并以另外两个大型模型的平均回答作参考，而非对所有问题都有独立人工核实的标准答案；测试流程由本公司设计。<a class="link" target="_blank" rel="noopener" href="https://evals.typesafe.ai/" data-no-swup="">评测方法<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>和<a class="link" target="_blank" rel="noopener" href="https://typesafe.ai/blog/introducing-system-one-models-and-jev" data-no-swup="">公司对限制的说明<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>值得连着看。因此，更稳妥的结论是：<strong>在适合拆成大量小判断的任务中，这种接口展示了明显的效率潜力；具体能省多少，要用自己的业务数据测。</strong></p>
+<h2 id="“不会胡说”也要拆开理解"><a href="#“不会胡说”也要拆开理解" class="headerlink" title="“不会胡说”也要拆开理解" data-no-swup=""></a>“不会胡说”也要拆开理解</h2><p>TypeSafe 宣称 Jev 不会产生类型错误。对开发者而言，这意味着如果预先限定答案只能是“账单、售后、技术支持”，模型不会突然返回一个程序不认识的部门名称。这能减少格式检查和重试，确实有价值。</p>
+<p>但<strong>格式一定正确，不代表内容一定正确</strong>。如果客户实际遇到的是银行卡预授权，模型仍可能把它判成重复扣款。它还可能因为输入缺少交易状态而过度自信。官方在谈“不会幻觉”时，主要强调受限输出和不会生成范围外的值；读者不该把它读成“不会误判”。<a class="link" target="_blank" rel="noopener" href="https://typesafe.ai/blog/introducing-system-one-models-and-jev" data-no-swup="">官方说明中的类型保证与评测备注<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>也需要这样分开理解。</p>
+<p>真正可靠的客服流程应该有明确分工：模型判断来信意图和紧急程度；程序核验订单与规则；有疑点时交给人；退款执行保留授权和记录。这样即使模型有一次看错，也不会直接变成一次错误打款。</p>
+<h2 id="为什么叫-System-One，它会取代聊天模型吗"><a href="#为什么叫-System-One，它会取代聊天模型吗" class="headerlink" title="为什么叫 System One，它会取代聊天模型吗" data-no-swup=""></a>为什么叫 System One，它会取代聊天模型吗</h2><p>“System One”借用了心理学中“快速、直觉式判断”和“慢速、审慎思考”的对照。TypeSafe 用它给自己的模型类别命名；Jev 则取名于经济学家 William Stanley Jevons，公司借此表达一种预期：智能判断变便宜之后，人们可能会在更多地方使用它。<a class="link" target="_blank" rel="noopener" href="https://typesafe.ai/blog/introducing-system-one-models-and-jev" data-no-swup="">命名来历见发布说明末尾<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。这是一种产品定位与类比，并不意味着 Jev 的内部机制等于人的直觉。</p>
+<p>我更愿意把它看作聊天模型旁边的一件新工具。写安抚邮件、解释复杂政策、研究一件前所未见的纠纷，仍需要能组织语言、展开分析的模型和人。大量重复的分类、评分、路由和核查，则可能更适合 Jev 这样的接口。实际系统也可以把两者放在一起：一个负责起草，另一个负责判断是否该转人工，最后由程序执行明确的规则。</p>
+<p>真正值得关注的也许是软件的写法。过去程序员要把很多边缘情况硬写进 <code>if</code>；后来又尝试让聊天模型包办整段流程。Jev 展示了中间的一条路：**让模型回答边界清楚的小问题，把动作、权限和兜底措施留在代码里。**它能否成为通用做法，取决于准确率、概率在真实业务中的表现、长期价格，以及开发者能否把复杂问题拆得恰到好处。</p>
+<p>如果你想判断 Jev 有没有用，不必先问它是不是“下一个 ChatGPT”。拿出自己软件里一个每天重复上千次、需要一点理解能力、但答案范围有限的判断：投诉该分给谁？发票是否缺材料？哪些工单该先由人看？用一批有人工结论的旧案例比较正确率、延迟、总成本和误判代价。答案会比任何一句“快两百倍”更接近你真正需要知道的事。</p>
+<h2 id="最后，用大白话说"><a href="#最后，用大白话说" class="headerlink" title="最后，用大白话说" data-no-swup=""></a>最后，用大白话说</h2><p>Jev 可以理解成一个很快的 AI 分诊员或裁判：你把一段情况和几个有限选项交给它，它不写长篇回答，只告诉你“选哪个、打几分、是不是”，再由软件照着结果继续执行。传统生成式 AI 主要负责把文字写出来，Jev 主要负责给出软件能直接使用的小判断；前者适合解释、创作和处理开放问题，后者适合藏在后台处理大量重复、答案范围明确的决定。</p>
+<p><em>写于 2026 年 9 月 20 日。文中涉及价格、速度及性能的数字均来自 TypeSafe 当时公开材料；客服邮件与表格是解释原理的示例，并非独立实测。</em></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> Jev 为什么火了：当 AI 不再写答案，而是替软件做判断</li>
+        <li><strong>作者:</strong> AdenXie</li>
+        <li><strong>创建于
+                :</strong> 2026-09-20 21:00:00</li>
+        
+        <li>
+            <strong>链接:</strong> https://blog.adenxie.com.cn/2026/09/20/jev-system-one/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                版权所有 © AdenXie，禁止转载。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/AI/" data-no-swup="">#AI</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/Jev/" data-no-swup="">#Jev</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B/" data-no-swup="">#软件工程</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/08/28/2026-08-28-econ3124-behavioural-economics-review/" title="ECON3124 行为经济学学了什么：从核心理论到期末复习的完整笔记" rel="bookmark" data-no-swup="">
+  <img src="https://images.pexels.com/photos/5386425/pexels-photo-5386425.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600" alt="ECON3124 行为经济学学了什么：从核心理论到期末复习的完整笔记" class="!max-w-none" decoding="async">
+  <span class="title">ECON3124 行为经济学学了什么：从核心理论到期末复习的完整笔记</span>
+</a><a class="recommended-article-item" href="/2022/07/23/%E6%96%B0%E5%AD%A6%E6%9C%9F%E9%80%89%E8%B4%AD%E5%B9%B3%E6%9D%BF%E7%94%B5%E8%84%91%E6%8C%87%E5%8D%97/" title="新学期选购平板电脑指南" rel="bookmark" data-no-swup="">
+  <img src="https://th.bing.com/th/id/OIP.0LikbI9N3Pzmv2Fxmiz-SQHaEo?pid=ImgDet&amp;rs=1" alt="新学期选购平板电脑指南" class="!max-w-none" decoding="async">
+  <span class="title">新学期选购平板电脑指南</span>
+</a><a class="recommended-article-item" href="/2024/07/16/%E5%B0%8F%E7%B1%B313Ultra%E5%8D%8A%E5%B9%B4%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A/" title="小米13Ultra半年使用报告-小米13Ultra祛魅篇" rel="bookmark" data-no-swup="">
+  <img src="https://cdn.cnbj1.fds.api.mi-img.com/product-images/xiaomi-13-ultraeyyn4y/index/3.png?x-fds-process=image/resize,q_90" alt="小米13Ultra半年使用报告-小米13Ultra祛魅篇" class="!max-w-none" decoding="async">
+  <span class="title">小米13Ultra半年使用报告-小米13Ultra祛魅篇</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/08/28/2026-08-28-econ3124-behavioural-economics-review/" title="ECON3124 行为经济学学了什么：从核心理论到期末复习的完整笔记" rel="bookmark" data-no-swup="">
+  <img src="https://images.pexels.com/photos/5386425/pexels-photo-5386425.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600" alt="ECON3124 行为经济学学了什么：从核心理论到期末复习的完整笔记" class="!max-w-none" decoding="async">
+  <span class="title">ECON3124 行为经济学学了什么：从核心理论到期末复习的完整笔记</span>
+</a><a class="recommended-article-item" href="/2022/07/23/%E6%96%B0%E5%AD%A6%E6%9C%9F%E9%80%89%E8%B4%AD%E5%B9%B3%E6%9D%BF%E7%94%B5%E8%84%91%E6%8C%87%E5%8D%97/" title="新学期选购平板电脑指南" rel="bookmark" data-no-swup="">
+  <img src="https://th.bing.com/th/id/OIP.0LikbI9N3Pzmv2Fxmiz-SQHaEo?pid=ImgDet&amp;rs=1" alt="新学期选购平板电脑指南" class="!max-w-none" decoding="async">
+  <span class="title">新学期选购平板电脑指南</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2026/09/21/2026-09-21-daily-brief/" data-no-swup="">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">每日简报｜2026-09-21：全球再紧缩叠加能源风险，中美转向危机管控</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/09/20/2026-09-20-daily-brief/" data-no-swup="">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">每日简报｜2026-09-20：沙特遇袭与中美会谈牵动能源和科技预期</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">Jev 为什么火了：当 AI 不再写答案，而是替软件做判断</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%88%E6%8A%8A%E5%AE%83%E6%94%BE%E8%BF%9B%E4%B8%80%E4%B8%AA%E7%9C%9F%E5%AE%9E%E6%B5%81%E7%A8%8B" data-no-swup=""><span class="nav-text">先把它放进一个真实流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%92%8C-ChatGPT-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%8C%E5%88%B0%E5%BA%95%E5%9C%A8%E5%93%AA%E9%87%8C%EF%BC%9F" data-no-swup=""><span class="nav-text">和 ChatGPT 的区别，到底在哪里？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%B0%E5%9C%A8%E5%B7%B2%E7%BB%8F%E6%9C%89%E4%BA%BA%E6%8B%BF-Jev-%E5%81%9A%E4%BB%80%E4%B9%88" data-no-swup=""><span class="nav-text">现在已经有人拿 Jev 做什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E9%9D%9E%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E5%B8%88%EF%BC%8C%E5%AE%83%E8%83%BD%E5%81%9A%E4%BB%80%E4%B9%88" data-no-swup=""><span class="nav-text">对非软件工程师，它能做什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%A6%82%E7%8E%87%E6%AF%94%E4%B8%80%E4%B8%AA%E6%96%A9%E9%92%89%E6%88%AA%E9%93%81%E7%9A%84%E7%AD%94%E6%A1%88%E6%9C%89%E7%94%A8" data-no-swup=""><span class="nav-text">为什么概率比一个斩钉截铁的答案有用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BF%AB%E5%92%8C%E4%BE%BF%E5%AE%9C%EF%BC%8C%E7%A9%B6%E7%AB%9F%E4%BB%8E%E5%93%AA%E5%84%BF%E6%9D%A5" data-no-swup=""><span class="nav-text">快和便宜，究竟从哪儿来</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%80%9C%E4%B8%8D%E4%BC%9A%E8%83%A1%E8%AF%B4%E2%80%9D%E4%B9%9F%E8%A6%81%E6%8B%86%E5%BC%80%E7%90%86%E8%A7%A3" data-no-swup=""><span class="nav-text">“不会胡说”也要拆开理解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%AB-System-One%EF%BC%8C%E5%AE%83%E4%BC%9A%E5%8F%96%E4%BB%A3%E8%81%8A%E5%A4%A9%E6%A8%A1%E5%9E%8B%E5%90%97" data-no-swup=""><span class="nav-text">为什么叫 System One，它会取代聊天模型吗</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%90%8E%EF%BC%8C%E7%94%A8%E5%A4%A7%E7%99%BD%E8%AF%9D%E8%AF%B4" data-no-swup=""><span class="nav-text">最后，用大白话说</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">写下真实体验，也保留观点的棱角。</div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/" data-no-swup="">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 52 篇文章
+                    </span>
+                    
+                        <span>
+                            共 114.2k 字
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js" async=""></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io" data-no-swup="">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine" data-no-swup="">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days"></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="图片查看器">
+	<button class="image-viewer-close" type="button" aria-label="关闭">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="上一页">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="" decoding="async">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="关闭">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="下一页">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="站内搜索您需要的内容..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js?v=509b91971bf2"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js?v=969d65618587"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js?v=193270b6fdb0"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js?v=647d2af612df"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js?v=c9d014a814b8"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js?v=792db0224d6b"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js?v=d253ad251100" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js?v=03c1e188b884"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css?v=77a3a9d5a3d0">
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js?v=e98ec22436a5"></script>
+
+
+<script src="/js/build/plugins/aplayer.js?v=d6d3c64af35f"></script>
+
+
+	
+
+
+</body></html>
