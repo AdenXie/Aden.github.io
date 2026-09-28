@@ -115,6 +115,19 @@ async function optimize(directory = 'public') {
     }
     $('script[src*="/js/site-runtime.js"]').remove();
     $('head').prepend('<script src="/js/site-runtime.js" defer></script>');
+    // Web Analytics is enabled on Vercel. Load it only on the public blog domain
+    // so local previews and alternate deployment URLs do not count as visitors.
+    $('script[data-aden-analytics]').remove();
+    $('head').append(`<script data-aden-analytics>
+      if (location.hostname === 'blog.adenxie.com.cn' && !window.__adenAnalyticsLoaded) {
+        window.__adenAnalyticsLoaded = true;
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        const script = document.createElement('script');
+        script.defer = true;
+        script.src = '/_vercel/insights/script.js';
+        document.head.append(script);
+      }
+    </script>`);
     if (!$('.home-content-container').length) $('script[src*="cyber-weather.js"],script[src*="cyber-exchange.js"]').remove();
     if (!$('.essay-date').length) $('script[src*="moment-with-locales.min.js"]').remove();
     if (!$('#subtitle').length) $('script[src*="Typed.min.js"]').remove();
