@@ -132,6 +132,12 @@ async function optimize(directory = 'public') {
     if (!$('.essay-date').length) $('script[src*="moment-with-locales.min.js"]').remove();
     if (!$('#subtitle').length) $('script[src*="Typed.min.js"]').remove();
     $('script[src*="vercount"]').attr('async', '');
+    const scrollButton = $('.home-banner-container [onclick="scrollToMain()"]');
+    if (scrollButton.length && !$('.home-banner-actions').length) {
+      scrollButton.parent().addClass('home-banner-footer');
+      scrollButton.wrap('<div class="home-banner-actions flex items-center gap-3"></div>');
+      scrollButton.parent().append(fs.readFileSync(path.join(ROOT, 'lib/theme/home-project-links.ejs'), 'utf8'));
+    }
     const backgrounds = $('.home-banner-background img');
     backgrounds.each((_, el) => {
       $(el).attr({ src: '/images/hero-1280.webp', srcset: [640, 960, 1280, 1920].map(w => `${version(`/images/hero-${w}.webp`)} ${w}w`).join(', '), sizes: '(max-aspect-ratio: 3/4) 83vh, 125vw', width: String(metadata.width), height: String(metadata.height), fetchpriority: 'high', decoding: 'async', loading: 'eager' });

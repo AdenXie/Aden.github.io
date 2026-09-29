@@ -26,7 +26,14 @@ function checkOutput(directory = 'public') {
     else assert.match($('#aden-chat h2').text(), $('html').attr('lang')?.startsWith('en') ? /What/ : /想聊/);
     if (!$('.home-content-container').length) assert.equal($('script[src*="cyber-weather.js"],script[src*="cyber-exchange.js"]').length, 0);
     assert.equal($('script[src*="cdnjs.cloudflare.com/ajax/libs/twikoo"]').length, 0);
-    if ($('.home-banner-background').length) assert.equal($('link[data-aden-hero]').length, 1);
+    if ($('.home-banner-background').length) {
+      assert.equal($('link[data-aden-hero]').length, 1);
+      assert.equal($('.home-banner-actions .home-project-link').length, 2, file);
+      assert.deepEqual($('.home-banner-actions .home-project-link').map((_, el) => $(el).attr('href')).get(), [
+        'https://jobs.adenxie.com.cn/',
+        'https://econ.adenxie.com.cn/',
+      ], file);
+    }
   }
   for (const file of files(path.join(root, 'css')).filter(f => /site-.*\.css$/.test(f))) {
     for (const match of fs.readFileSync(file, 'utf8').matchAll(/url\(["']?(\/[^)'"\s]+)/g)) exists(match[1]);
