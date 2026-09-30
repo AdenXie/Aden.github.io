@@ -104,6 +104,40 @@ html body {
   color: var(--aden-signal) !important;
 }
 
+/* Redefine collapses the menu only at 768px, but logo + menu + language switch need
+   ~1070px in Chinese and ~1170px in English (content is capped at 1080px). Labels never
+   wrap; mid widths drop the menu icons, and narrower windows use the theme's drawer. */
+html .navbar-container .left {
+  flex-shrink: 0;
+}
+
+html .navbar-container .logo-title,
+html .navbar-container .right .desktop .navbar-item > a {
+  white-space: nowrap;
+}
+
+@media (max-width: 1279px) {
+  html .navbar-container .right .desktop .navbar-list {
+    gap: 16px;
+  }
+
+  html .navbar-container .right .desktop .navbar-item > a > i.fa-fw {
+    display: none;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1023px) {
+  html .navbar-container .right .desktop .navbar-list {
+    display: none;
+  }
+
+  html .navbar-container .right .mobile .icon-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
 .home-banner-background::after {
   position: absolute;
   inset: 0;
