@@ -53,7 +53,7 @@ for script in (output / "js").rglob("*.js"):
     if "libs" not in script.parts:
         points.update(ord(c) for c in script.read_text(encoding="utf-8") if ord(c) >= 0x2E80)
 
-for filename in ("plus-jakarta-sans-latin.woff2", "newsreader-latin.woff2"):
+for filename in ("plus-jakarta-sans-latin.woff2", "newsreader-latin.woff2", "newsreader-italic-latin.woff2"):
     shutil.copyfile(sources / filename, destination / filename)
 for license_file in sources.glob("OFL-*.txt"):
     shutil.copyfile(license_file, destination / license_file.name)

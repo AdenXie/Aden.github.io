@@ -41,7 +41,7 @@ function checkOutput(directory = 'public') {
   }
   // Reading fonts: generated subsets only, versioned for the immutable cache rule in vercel.json.
   const fontDir = path.join(root, 'fonts/reading');
-  const fontFiles = ['plus-jakarta-sans-latin.woff2', 'newsreader-latin.woff2', 'aden-han-sans.woff2', 'aden-han-serif.woff2'];
+  const fontFiles = ['plus-jakarta-sans-latin.woff2', 'newsreader-latin.woff2', 'newsreader-italic-latin.woff2', 'aden-han-sans.woff2', 'aden-han-serif.woff2'];
   for (const name of fontFiles) {
     assert(fs.existsSync(path.join(fontDir, name)), `Missing reading font: ${name}`);
     if (name.startsWith('aden-han-')) assert(fs.statSync(path.join(fontDir, name)).size < 3 * 1024 * 1024, `${name} looks like an unsubset font`);
