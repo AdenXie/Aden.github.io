@@ -46,6 +46,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Set up font tooling
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install font tooling
+        run: python -m pip install -r tools/font-requirements.txt
+
       - name: Restore persistent translations
         run: |
           if git ls-remote --exit-code --heads origin translations; then
