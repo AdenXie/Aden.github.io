@@ -9,6 +9,10 @@ from fontTools import subset
 from fontTools.ttLib import TTFont
 
 
+# Chinese pages draw these with the Han fonts (see lib/styles/fonts.css).
+CJK_PUNCTUATION = {0x2014, 0x201C, 0x201D, 0x2026}
+
+
 class PageText(HTMLParser):
     def __init__(self):
         super().__init__()
@@ -18,6 +22,10 @@ class PageText(HTMLParser):
     def handle_starttag(self, tag, attrs):
         if tag in {"script", "style"}:
             self.skip = True
+        # Placeholders are drawn with the page font, unlike title tooltips.
+        for name, value in attrs:
+            if name == "placeholder" and value:
+                self.points.update(ord(c) for c in value if ord(c) >= 0x2E80)
 
     def handle_endtag(self, tag):
         if tag in {"script", "style"}:
@@ -33,7 +41,7 @@ output = Path(sys.argv[1]).resolve()
 sources = root / "lib" / "fonts"
 destination = output / "fonts" / "reading"
 destination.mkdir(parents=True, exist_ok=True)
-points = set(range(0x3000, 0x3040))
+points = set(range(0x3000, 0x3040)) | CJK_PUNCTUATION
 
 for page in output.rglob("*.html"):
     parser = PageText()
@@ -53,6 +61,9 @@ for license_file in sources.glob("OFL-*.txt"):
 for kind in ("sans", "serif"):
     font = TTFont(sources / f"source-han-{kind}-cn-vf.otf.woff2")
     needed = points.intersection(font.getBestCmap())
+    uncovered = sorted(p for p in points - needed if 0x3400 <= p <= 0x9FFF or 0x20000 <= p <= 0x2FA1F)
+    if uncovered:
+        print(f"Reading font: {kind}, {len(uncovered)} Han characters use system fallback: U+{', U+'.join(f'{p:04X}' for p in uncovered[:20])}")
     options = subset.Options()
     options.name_IDs = ["*"]
     options.name_languages = ["*"]

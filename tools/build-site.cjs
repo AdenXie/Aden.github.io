@@ -24,7 +24,10 @@ async function main() {
   const workflows = path.join(ROOT, 'public/.github/workflows');
   fs.mkdirSync(workflows, { recursive: true });
   fs.copyFileSync(path.join(ROOT, 'lib/workflows/exchange-rates.yml'), path.join(workflows, 'exchange-rates.yml'));
-  fs.writeFileSync(path.join(ROOT, 'public/vercel.json'), JSON.stringify({ git: { deploymentEnabled: { source: false, 'exchange-rates': false } }, functions: { 'api/chat.js': { maxDuration: 65 } } }, null, 2));
+  // Stylesheets request reading fonts with a ?v= content hash, so those responses never
+  // change. Without this Vercel serves max-age=0 and every page view revalidates ~1 MB of fonts.
+  const immutableFonts = { source: '/fonts/reading/(.*)', has: [{ type: 'query', key: 'v' }], headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }] };
+  fs.writeFileSync(path.join(ROOT, 'public/vercel.json'), JSON.stringify({ git: { deploymentEnabled: { source: false, 'exchange-rates': false } }, functions: { 'api/chat.js': { maxDuration: 65 } }, headers: [immutableFonts] }, null, 2));
   require('./check-output.cjs').checkOutput();
 }
 main().catch(e => { console.error(e); process.exitCode = 1; });

@@ -35,10 +35,21 @@ function checkOutput(directory = 'public') {
       ], file);
     }
   }
-  for (const file of files(path.join(root, 'css')).filter(f => /site-.*\.css$/.test(f))) {
+  const siteCSS = files(path.join(root, 'css')).filter(f => /site-.*\.css$/.test(f));
+  for (const file of siteCSS) {
     for (const match of fs.readFileSync(file, 'utf8').matchAll(/url\(["']?(\/[^)'"\s]+)/g)) exists(match[1]);
   }
-  console.log(`Verified ${pages} pages: local asset paths, scoped scripts, lazy search and comment wiring.`);
+  // Reading fonts: generated subsets only, versioned for the immutable cache rule in vercel.json.
+  const fontDir = path.join(root, 'fonts/reading');
+  const fontFiles = ['plus-jakarta-sans-latin.woff2', 'newsreader-latin.woff2', 'aden-han-sans.woff2', 'aden-han-serif.woff2'];
+  for (const name of fontFiles) {
+    assert(fs.existsSync(path.join(fontDir, name)), `Missing reading font: ${name}`);
+    if (name.startsWith('aden-han-')) assert(fs.statSync(path.join(fontDir, name)).size < 3 * 1024 * 1024, `${name} looks like an unsubset font`);
+    assert(siteCSS.some(file => new RegExp(`/fonts/reading/${name.replace(/\./g, '\\.')}\\?v=[a-f0-9]{12}`).test(fs.readFileSync(file, 'utf8'))), `Stylesheets do not load a versioned ${name}`);
+  }
+  assert.equal(fs.readdirSync(fontDir).filter(name => name.startsWith('source-han-')).length, 0, 'Full Source Han fonts copied to output');
+  assert.equal(fs.readdirSync(fontDir).filter(name => name.startsWith('OFL-')).length, 4, 'Missing font licence files');
+  console.log(`Verified ${pages} pages: local asset paths, scoped scripts, lazy search, comment wiring and reading fonts.`);
   return pages;
 }
 module.exports = { checkOutput };

@@ -42,7 +42,7 @@ git push origin source
 - `tools/prepare-site.cjs`、`lib/theme`：针对 Redefine 2.9.0 的小范围适配。上游安装包不修改，生成的 `themes/redefine` 不入库。升级主题需先审阅差异、调整适配代码及 `lib/theme-adapter-checksums.json`，再测试；校验失败不能直接绕过。
 - `lib/images/home-hero-original.jpg`：当前首页原图，构建产生 640、960、1280、1920 像素宽的 WebP。来源是原有图床地址；`source/images/home-hero.jpg` 是另一张旧照片，不作为新背景输入。
 - `tools/optimize-site.cjs`：双语生成后的统一资源处理；`tools/subset-icons.cjs`：从 HTML 和脚本收集常用图标，生成小字体，完整字体继续保留作其他图标的回退。
-- `lib/fonts`：从 `AdenXie/everyday-economics` 沿用的字体原文件和 SIL OFL 1.1 许可证。标题与界面用 Plus Jakarta Sans／思源黑体，正文用 Newsreader／思源宋体；首页与顶部品牌字保留 Chillax。`tools/subset-fonts.py` 在每次构建中收集生成页面和组件脚本的字符，裁切中文可变字体，完整字库不会复制到 `main`。裁切后的字体内部名称为 Aden Han Sans／Serif，以遵守 Adobe 的保留字体名称约定。字体工具使用 `python`，也可通过 `FONTTOOLS_PYTHON` 指定已安装依赖的 Python 路径。
+- `lib/fonts`：从 `AdenXie/everyday-economics` 沿用的字体原文件和 SIL OFL 1.1 许可证。标题与界面用 Plus Jakarta Sans／思源黑体，正文用 Newsreader／思源宋体；首页与顶部品牌字保留 Chillax。`tools/subset-fonts.py` 在每次构建中收集生成页面和组件脚本的字符，裁切中文可变字体，完整字库不会复制到 `main`。裁切后的字体内部名称为 Aden Han Sans／Serif，以遵守 Adobe 的保留字体名称约定。字体工具使用 `python`，也可通过 `FONTTOOLS_PYTHON` 指定已安装依赖的 Python 路径。中文页面的 “”、——、…… 由思源字体绘制为全角（`fonts.css` 的 Punctuation 字族，与 `subset-fonts.py` 的 `CJK_PUNCTUATION` 同步维护），英文页面仍用拉丁字形。带 `?v=` 的字体请求由 `build-site.cjs` 生成的 `vercel.json` 设为一年 immutable 缓存；新文章带来新汉字时哈希变化，回访者才会重新下载。字库外的汉字会在构建日志中列出，使用系统字体回退。
 
 搜索首次打开才取索引，评论接近屏幕才初始化，播放器保持原界面且点击后才下载音频。主题与评论客户端脚本、字体和背景从同域加载；评论数据、音乐、统计和一言仍使用原服务。首页缩略图接近屏幕再加载，并保留无 JavaScript 的图片回退。
 
