@@ -1,0 +1,30 @@
+{
+  "git": {
+    "deploymentEnabled": {
+      "source": false,
+      "exchange-rates": false
+    }
+  },
+  "functions": {
+    "api/chat.js": {
+      "maxDuration": 65
+    }
+  },
+  "headers": [
+    {
+      "source": "/fonts/reading/(.*)",
+      "has": [
+        {
+          "type": "query",
+          "key": "v"
+        }
+      ],
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ]
+}

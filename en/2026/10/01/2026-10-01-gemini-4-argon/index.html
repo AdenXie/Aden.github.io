@@ -1,0 +1,1349 @@
+<!DOCTYPE html><html lang="en"><head><script src="/js/site-runtime.js?v=5bdc09f6c064" defer=""></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/en/2026/10/01/2026-10-01-gemini-4-argon/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gemini 4 Argon: The reasons I like Gemini are all written in Argon this time.">
+<meta property="og:url" content="https://blog.adenxie.com.cn/en/2026/10/01/2026-10-01-gemini-4-argon/">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-10-01T06:44:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="Gemini">
+<meta property="article:tag" content="Google DeepMind">
+<meta property="article:tag" content="大模型">
+<meta property="article:tag" content="AI Agent">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png?v=fa6db12e9674" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Gemini 4 Argon: The reasons I love Gemini are all written in Argon this time | Aden's Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/css/site-bd0d63bc1761.css?v=bd0d63bc1761">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js?v=258b1afa4680"></script>
+                
+    
+            
+                
+                    
+                
+    
+
+    
+
+
+
+    
+        
+
+
+    
+
+    
+
+
+    
+
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"en","path":"en/search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"17px","line_height":1.85,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"all_rights_reserved"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"static","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["Technology, experience and independent thinking","Real experiences. A personal perspective."],"hitokoto":{"enable":false,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"archives":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"World Time":{"path":"/world-time/","icon":"fa-regular fa-clock"},"AI Chat":{"path":"/chat/","icon":"fa-regular fa-comment"},"about":{"path":"/about/","icon":"fa-regular fa-user"},"links":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":true,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.i18n = {"search":"Search...","toc":"On this page","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"POWERED BY %s","theme":"THEME","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","post":"Post","posts":"Posts","tagcloud":"Tag Cloud","comment":"Comment","comments":"Comments","home":"Home","archive":"Archive","archives":"Archives","top":"TOP","sticky":"Sticky","go-back-home":"Go Back Home","masonry_loading":"Loading photos...","image_viewer":"Image viewer","close":"Close","exif":{"title":"EXIF","cards":{"camera":"Camera","lens":"Lens","exposure":"Exposure","other":"Other"},"fields":{"make":"Brand","model":"Model","date_taken":"Date taken","lens_model":"Lens","focal_length":"Focal length","focus_mode":"Focus mode","shutter":"Shutter","aperture":"Aperture","iso":"ISO","exposure_program":"Exposure program","exposure_compensation":"Exposure compensation","metering_mode":"Metering mode","flash":"Flash","white_balance":"White balance","latitude":"Latitude","longitude":"Longitude","altitude":"Altitude"},"status":{"loading":"Loading...","no_exif":"No EXIF available","library_missing":"EXIF library not loaded","image_source_missing":"Image source unavailable","unavailable":"EXIF unavailable (blocked by CORS or missing metadata)","flag_unavailable":"EXIF unavailable"}},"about":"About","changelog":"Changelog","links":"Links","link":"Link","friends":"Friends","friend":"Friend","timeline":"Timeline","shuoshuo":"Shuoshuo","bookmarks":"Bookmarks","site_uv":"VISITOR COUNT","site_pv":"TOTAL PAGE VIEWS","read_more":"Read more","wordcount":"Words","min2read":"Mins","status":"Status","runtime":"Blog up for","days":"days","hours":"hrs","minutes":"Min","seconds":"Sec","optimized_by":"and Optimized by Evan","rights":"All Rights Reserved","site_posts":"%s posts in total","site_wordcount":"%s words in total","copyright":{"author":"Author","title":"Title","link":"Link","create_time":"Created at","update_time":"Updated at","license_title":"License","license_content":"This work is licensed under %s.","all_rights_reserved":"All Rights Reserved &#169; %s","public_domain":"This work is in the public domain."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"},"create_time":"Created","update_time":"Updated","expired":"This post is written %s days ago, and the content may not be up to date."};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" hreflang="zh-CN" href="https://blog.adenxie.com.cn/2026/10/01/2026-10-01-gemini-4-argon/"><link rel="alternate" hreflang="en" href="https://blog.adenxie.com.cn/en/2026/10/01/2026-10-01-gemini-4-argon/"><script data-aden-analytics="">
+      if (location.hostname === 'blog.adenxie.com.cn' && !window.__adenAnalyticsLoaded) {
+        window.__adenAnalyticsLoaded = true;
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        const script = document.createElement('script');
+        script.defer = true;
+        script.src = '/_vercel/insights/script.js';
+        document.head.append(script);
+      }
+    </script></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/en/" data-no-swup="">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/" data-no-swup="">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/archives/" data-no-swup="">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/tags/" data-no-swup="">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/world-time/" data-no-swup="">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    WORLD TIME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/chat/" data-no-swup="">
+                                    <i class="fa-regular fa-comment fa-fw"></i>
+                                    AI CHAT
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/about/" data-no-swup="">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/link/" data-no-swup="">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    <nav class="aden-language-switch" aria-label="Language"><a lang="zh-CN" href="/2026/10/01/2026-10-01-gemini-4-argon/" aria-current="false" data-no-swup="">中文</a><span> / </span><a lang="en" href="/en/2026/10/01/2026-10-01-gemini-4-argon/" aria-current="page" data-no-swup="">English</a></nav></div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/" data-no-swup="">
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/archives/" data-no-swup="">
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/tags/" data-no-swup="">
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/world-time/" data-no-swup="">
+                            <span>
+                                WORLD TIME
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/chat/" data-no-swup="">
+                            <span>
+                                AI CHAT
+                            </span>
+                            
+                                <i class="fa-regular fa-comment fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/about/" data-no-swup="">
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/link/" data-no-swup="">
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/en/archives/" data-no-swup="">
+                            <span>Article Archive</span>
+                            <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/en/tags/" data-no-swup="">
+                            <span>Topic Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/en/about/" data-no-swup="">
+                            <span>About Aden</span>
+                            <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/tags/" data-no-swup="">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">21</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/categories/" data-no-swup="">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">5</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/archives/" data-no-swup="">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">60</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/g4_30-09-26_key-art_blog.width-1600.format-webp.webp" alt="Gemini 4 Argon: The reasons I like Gemini are all written in Argon this time." class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" decoding="async">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">Gemini 4 Argon: The reasons I like Gemini are all written in Argon this time.</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg?v=93ba7ebfa2ff" decoding="async" width="460" height="460">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-10-01 14:44</span>
+        <span class="mobile">2026-10-01 14:44</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/en/categories/AI-%E4%B8%8E%E7%A7%91%E6%8A%80/" data-no-swup="">AI and Technology</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/en/tags/Gemini/" data-no-swup="">Gemini</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/Google-DeepMind/" data-no-swup="">Google DeepMind</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" data-no-swup="">large model</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/AI-Agent/" data-no-swup="">AI Agent</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>3k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>11 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8"><p class="aden-translation-notice">Machine-translated with NiuTrans. <a href="/2026/10/01/2026-10-01-gemini-4-argon/">Read the Chinese original</a>.</p>
+			<p>Yesterday, Google officially announced <strong>Gemini 4 Argon</strong>。</p>
+<p>Strictly speaking, this is not a regular release that "everyone can use it now". Argon is being handed over to a group of trusted cybersecurity defenders through the Fairwind Program, and Google is also participating in the US government's pre-release model access process. Paid API users and Google AI Ultra users will be next in line, but Google has not given a specific date.</p>
+<p>However, if we only understand it as a cautious grayscale launch, we would underestimate this update. From Google's announced design goals and internal use cases to the third-party testing that has already emerged, Argon is trying to answer a question more important than "Is chatting smarter?":</p>
+<p><strong>Can a cutting-edge model work continuously for tens of minutes, hours, or even longer, identifying problems, calling tools, reflecting, modifying, and actually getting things done?</strong></p>
+<p>This is exactly what I've always loved about Gemini. Rather than simply pursuing a sense of amazement in conversation, I prefer Google's direction of integrating multimodality, long context, tool calls, and real workflows into a complete system. Argon may not be number one in every test yet, but it is currently the next-generation Gemini that most closely resembles the final form of this approach.</p>
+<span id="more"></span>
+
+<h2 id="先看最夸张的变化：100-万-token-的输出上限"><a href="/en/2026/10/01/2026-10-01-gemini-4-argon/#%E5%85%88%E7%9C%8B%E6%9C%80%E5%A4%B8%E5%BC%A0%E7%9A%84%E5%8F%98%E5%8C%96%EF%BC%9A100-%E4%B8%87-token-%E7%9A%84%E8%BE%93%E5%87%BA%E4%B8%8A%E9%99%90" class="headerlink" title="Let's look at the most dramatic change first: the output limit of 1 million tokens." data-no-swup=""></a>Let's look at the most dramatic change first: the output limit of 1 million tokens.</h2><p>The most eye-catching parameter of the Gemini 4 Argon is Google's maximum...<strong>output</strong>It increased from the previous 64K tokens to... <strong>1M token</strong>。</p>
+<p>The word "output" must be emphasized here. It doesn't simply mean that the model can read a million tokens, but rather that the reasoning, tool calls, and generation trajectories of a long task can have much more space than in the past. Google's explanation is also very straightforward: when a model can continuously think and generate hundreds of thousands of tokens in a single trajectory, some complex tasks that used to have to be broken down into many rounds and continued manually can theoretically be completed in one go.</p>
+<p>This is certainly not necessary for regular chat, but it is important for code migration, in-depth research, financial due diligence, long video analytics, and Agent workflows.</p>
+<p>The prices are also very aggressive. Google Announces Argon's Initial API Price <strong>$2 / 1 million Input token, $10 / 1 million Output token</strong>Get an additional 95% discount on cached input; It will resume after the initial offer ends. <strong>$4 / $20</strong>。 According to <a class="link" target="_blank" rel="noopener" href="https://artificialanalysis.ai/articles/gemini-4-argon-google-top-three-labs" data-no-swup="">Artificial Analysis Calculation<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>At the current discounted price, Argon costs an average of about $1.99 to complete an Intelligence Index task, which is about 60% of GPT-6 Astra.</p>
+<p>However, there is a noteworthy detail about this price advantage: Argon does not save money by "thinking less". Artificial Analysis observed that, on average, each task generated approximately... <strong>62K Output token</strong>The Astra is approximately 27K. In other words, Argon is more like a model that is willing to spend a long time reasoning, except that Google has temporarily kept the token price low enough.</p>
+<h2 id="它到底有多强？答案是：很强，但不是“全榜单横扫”"><a href="/en/2026/10/01/2026-10-01-gemini-4-argon/#%E5%AE%83%E5%88%B0%E5%BA%95%E6%9C%89%E5%A4%9A%E5%BC%BA%EF%BC%9F%E7%AD%94%E6%A1%88%E6%98%AF%EF%BC%9A%E5%BE%88%E5%BC%BA%EF%BC%8C%E4%BD%86%E4%B8%8D%E6%98%AF%E2%80%9C%E5%85%A8%E6%A6%9C%E5%8D%95%E6%A8%AA%E6%89%AB%E2%80%9D" class="headerlink" title="Just how strong is it? The answer is: very strong, but not a &quot;sweep of the entire list&quot;." data-no-swup=""></a>Just how strong is it? The answer is: very strong, but not a "sweep of the entire list".</h2><p>Google's official website provides a very nice comparison table:</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://storage.googleapis.com/gweb-uniblog-publish-prod/original_images/gemini-4-argon_table_blog.gif" alt="Gemini 4 Argon Official benchmark Comparison" decoding="async" loading="lazy" width="1000" height="500"><figcaption>Gemini 4 Argon Official benchmark Comparison</figcaption></figure><p></p>
+<p><a class="link" target="_blank" rel="noopener" href="https://deepmind.google/models/evals-methodology/gemini-4-argon" data-no-swup="">Official evaluation method<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>There is a caveat that must be clarified first: most model scores other than Gemini come from publicly available or self-reported results, while some Argon scores are run by Google itself. Therefore, this is not a unified blind test of all models under the exact same harness.</p>
+<p>Even so, these sets of data are still very representative.</p>
+<table>
+<thead>
+<tr>
+<th>test</th>
+<th align="right">Gemini 4 Argon</th>
+<th align="right">Main competitors</th>
+<th>What do I think?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DeepSWE v1.1</td>
+<td align="right"><strong>77.9%</strong></td>
+<td align="right">Opus 5.5 74.2%，Astra 74.1%</td>
+<td>Long-term software engineering is very strong.</td>
+</tr>
+<tr>
+<td>Zapier AutomationBench</td>
+<td align="right"><strong>51.29%</strong></td>
+<td align="right">Sonnet 5.5 44.75%，Opus 5.5 42.47%，Astra 41.4%</td>
+<td>One of the most eye-catching real-world business Agent tests to date</td>
+</tr>
+<tr>
+<td>Artificial Analysis Intelligence Index</td>
+<td align="right"><strong>53</strong></td>
+<td align="right">Astra 53，Opus 5.5 58</td>
+<td>Comprehensive intelligence has entered the first tier, but not the first.</td>
+</tr>
+<tr>
+<td>Terminal-Bench 4.0</td>
+<td align="right"><strong>Approximately 57%</strong></td>
+<td align="right">Astra 59%，Opus 5.5 60%，Sonnet 5.5 64%</td>
+<td>Terminal-based coding agents still lagging behind</td>
+</tr>
+<tr>
+<td>Vals Finance Agent v2</td>
+<td align="right"><strong>65.40%</strong></td>
+<td align="right">Current ranking #1</td>
+<td>Multi-step research in finance is prominent.</td>
+</tr>
+<tr>
+<td>LVBench</td>
+<td align="right"><strong>91.7%</strong></td>
+<td align="right">Google calls it SOTA</td>
+<td>Long video understanding continues Gemini's traditional strengths.</td>
+</tr>
+</tbody></table>
+<p>What I value most is <a class="link" target="_blank" rel="noopener" href="https://zapier.com/benchmarks" data-no-swup="">Zapier AutomationBench<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。 Instead of asking the model a few math problems, it gives the Agent a simulated company: CRM, emails, forms, work orders, exchange rates, duplicate customer names, and rules hidden in old emails are all mixed together, and finally it directly checks whether the model has corrected the real state. Argon High <strong>51.29%</strong> This is significantly higher than Claude Opus 5.5's 42.47% and GPT-6 Astra's 41.4%.</p>
+<p>These types of tests are closer to the AI I want than single-round questions: not "answering as if you understand," but actually getting things done.</p>
+<p>But on the other side,<a class="link" target="_blank" rel="noopener" href="https://artificialanalysis.ai/models/gemini-4-argon" data-no-swup="">Artificial Analysis<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> The overall Intelligence Index for Argon is <strong>53</strong>This is roughly on par with GPT-6 Astra, but still lower than Claude Opus 5.5's 58. On Terminal-Bench 4, it also did not surpass the top models of Anthropic and OpenAI.</p>
+<p>Therefore, the most accurate description this time is not "Gemini wins the championship overall," but rather:<strong>Google has finally regained a flagship model that has no significant generational differences and has its own advantage range in long tasks and Agent workflows.</strong></p>
+<h2 id="我最喜欢的部分，其实不是-benchmark，而是-Google-已经拿它干了什么"><a href="/en/2026/10/01/2026-10-01-gemini-4-argon/#%E6%88%91%E6%9C%80%E5%96%9C%E6%AC%A2%E7%9A%84%E9%83%A8%E5%88%86%EF%BC%8C%E5%85%B6%E5%AE%9E%E4%B8%8D%E6%98%AF-benchmark%EF%BC%8C%E8%80%8C%E6%98%AF-Google-%E5%B7%B2%E7%BB%8F%E6%8B%BF%E5%AE%83%E5%B9%B2%E4%BA%86%E4%BB%80%E4%B9%88" class="headerlink" title="My favorite part isn't actually the benchmark, but rather what Google has done with it." data-no-swup=""></a>My favorite part isn't actually the benchmark, but rather what Google has done with it.</h2><p>Google's internal case study this time is more convincing than traditional benchmark scores.</p>
+<p>The first is quantum algorithm optimization. Google claims that Argon helps quantum computing teams optimize the spatiotemporal resources of subroutines that limit the performance of critical applications, that is, <strong>qubits × gates</strong>One of the cases improved performance within minutes. <strong>40%</strong>, exceeding published benchmarks.</p>
+<p>The second is data center memory. An Argon Agent team analyzed profiling telemetry across the entire Google cluster, automatically finding and applying memory optimizations. Google expects these changes to be released first after they are fully rolled out. <strong>300 TiB Above memory</strong>The total savings may reach <strong>500 TiB to 1 PiB</strong>。</p>
+<p>Third, and what I think is the most "Google-like" aspect, is the large-scale C/C++ → Rust migration.</p>
+<p>Argon Agent is involved in repositories ranging from tens of thousands of lines of code like re2 and libgav1 to... <strong>Fuchsia Zircon kernel 800,000+ lines of code</strong>The migration. Of course, these key systems will not be launched immediately after the model is written; Google has made it clear that they will still undergo automated and manual audits, simulation tests, and reviews.</p>
+<p>The example of libgav1 is particularly impressive: Argon, based on an existing Rust port, conducted multiple rounds of profile-guided experiments, analyzed the compiler output, and then... <strong>3.2 million lines of SIMD code</strong>Replace it with Rust, which is more secure and allows the compiler to vectorize automatically. The final version of the video output is completely consistent and performs faster than the original Rust port. <strong>2.7 times</strong>This further approaches the highly optimized C++ version.</p>
+<p>These examples all come from <a class="link" target="_blank" rel="noopener" href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-argon/" data-no-swup="">Google official release<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>This cannot currently be considered completely independent verification. But they at least illustrate one thing: Google is not treating Argon as a more chatty web model, but is actually using it to touch its own infrastructure, compiler, kernel, and research work.</p>
+<p>This is why I naturally prefer the Gemini route.</p>
+<h2 id="还有一个很有意思的变化：Argon-似乎更愿意承认“我不知道”"><a href="/en/2026/10/01/2026-10-01-gemini-4-argon/#%E8%BF%98%E6%9C%89%E4%B8%80%E4%B8%AA%E5%BE%88%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E5%8F%98%E5%8C%96%EF%BC%9AArgon-%E4%BC%BC%E4%B9%8E%E6%9B%B4%E6%84%BF%E6%84%8F%E6%89%BF%E8%AE%A4%E2%80%9C%E6%88%91%E4%B8%8D%E7%9F%A5%E9%81%93%E2%80%9D" class="headerlink" title="Another interesting change: Argon seems more willing to admit &quot;I don't know.&quot;" data-no-swup=""></a>Another interesting change: Argon seems more willing to admit "I don't know."</h2><p>In Artificial Analysis's AA-Omniscience test, Argon's hallucination rate was only... <strong>15%</strong>It is the lowest level among models with an Intelligence Index score of 45 or higher; GPT-6 Astra is 51%, and GPT-6.1 Sol is 54%.</p>
+<p>But this does not mean that Google has "solved the illusion".</p>
+<p>In the same test, Argon's accuracy was <strong>50%</strong>This is actually lower than Astra's 63%. A more accurate explanation is that Argon is more inclined to stop guessing when he doesn't know, rather than making up an answer.</p>
+<p>I actually really like this trade-off. For models that are actually intended for research, finance, law, or engineering work, "I'm not sure" is often more valuable than a smooth but incorrect answer.</p>
+<p>The discussion following the post on Reddit is also quite representative. On one hand, there is a lot of excitement about "Gemini is back"; On the other hand, the most common complaint is not performance, but rather:<strong>Such a good model, why don't most people use it yet?</strong> <a class="link" target="_blank" rel="noopener" href="https://www.reddit.com/r/GeminiAI/comments/1wufgo3/gemini_4_argon_our_next_era_of_frontier/" data-no-swup="">r/GeminiAI Release Discussion<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>and <a class="link" target="_blank" rel="noopener" href="https://www.reddit.com/r/singularity/comments/1wufeu8/introducing_gemini_4_argon/" data-no-swup="">Discussion of r/singularity<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>You can see this conflicting emotion of "the benchmark scores are very appealing, but let me use them first".</p>
+<p>This is actually Argon's biggest real-world problem right now.</p>
+<h2 id="它离“最强模型”还差在哪里？"><a href="/en/2026/10/01/2026-10-01-gemini-4-argon/#%E5%AE%83%E7%A6%BB%E2%80%9C%E6%9C%80%E5%BC%BA%E6%A8%A1%E5%9E%8B%E2%80%9D%E8%BF%98%E5%B7%AE%E5%9C%A8%E5%93%AA%E9%87%8C%EF%BC%9F" class="headerlink" title="Where does it fall short of the &quot;strongest model&quot;?" data-no-swup=""></a>Where does it fall short of the "strongest model"?</h2><p>First,<strong>You basically don't need it now.</strong></p>
+<p>Argon is the first trusted cybersecurity partner for Fairwind, and ordinary developers, businesses, and consumers are still waiting. For a flagship model, the lack of widespread real-world use means we still lack a large number of external samples from the codebase, production environment, and long everyday conversations. Google's "rolling out soon" sounds nice, but until the API is actually opened up, it still has a bit of a product launch feel to it.</p>
+<p>Second,<strong>Programming is not leading in every dimension.</strong></p>
+<p>In Google's own comparison, Argon looks great in DeepSWE, but it still loses to Astra or Opus in tests such as FrontierSWE v2, Terminal-Bench 4.0, PostTrainBench, Terminal-Bench Science, and OSWorld-2.0. In particular, Terminal-Bench, a powerful tool and strong execution coding agent scenario, is still a very stable area of advantage for Anthropic.</p>
+<p>Third,<strong>"Longer thinking" is also a cost and a delay.</strong></p>
+<p>Argon spits out significantly more tokens in Artificial Analysis's comprehensive testing. The introductory discount price makes this seem like a good deal right now, but the advantage will diminish once the standard price returns to $4/$20. The true cost of a business is not "how much per million tokens," but...<strong>How much does it actually cost to complete a task, how long does it take, and whether to rerun it after failure?</strong>。</p>
+<p>Fourth,<strong>It is not the absolute number one in the overall intelligence ranking.</strong></p>
+<p>A score of 53 in Artificial Analysis is enough to put Google back at the forefront, but Opus 5.5 currently still scores 58. In other words, if you just want to ask, "Who is at the top of a comprehensive intelligence list?", the answer is not Argon; If you ask, "Who deserves the most attention in complex business automation, long-trajectory tasks, and the multimodal scenarios that Google excels in," Argon becomes very competitive.</p>
+<h2 id="Gemini-回来了，但我更愿意说：Gemini-终于长成了自己想成为的样子"><a href="/en/2026/10/01/2026-10-01-gemini-4-argon/#Gemini-%E5%9B%9E%E6%9D%A5%E4%BA%86%EF%BC%8C%E4%BD%86%E6%88%91%E6%9B%B4%E6%84%BF%E6%84%8F%E8%AF%B4%EF%BC%9AGemini-%E7%BB%88%E4%BA%8E%E9%95%BF%E6%88%90%E4%BA%86%E8%87%AA%E5%B7%B1%E6%83%B3%E6%88%90%E4%B8%BA%E7%9A%84%E6%A0%B7%E5%AD%90" class="headerlink" title="Gemini is back, but I'd rather say: Gemini has finally grown into the person she wants to be." data-no-swup=""></a>Gemini is back, but I'd rather say: Gemini has finally grown into the person she wants to be.</h2><p>My preference for Gemini has never come entirely from the charts.</p>
+<p>From native multimodal and ultra-long contexts to Google Search, Workspace, Android, Cloud, and now the increasingly complete Agent toolchain, what attracts me most about Gemini has always been that Google rarely treats the model as just a chat box; it wants to be a general-purpose assistant that can see, understand, retrieve, execute, and participate in real work for a long time.</p>
+<p>Argon has pushed this approach to its most radical position to date.</p>
+<p>It has a maximum output of 1 million tokens, a very strong track record in long-term software engineering and enterprise automation, and has already been used by Google to optimize quantum algorithms, data center memory, and hundreds of thousands of lines of system code. At the same time, it still loses to competitors in hardcore execution tests such as Terminal-Bench and FrontierSWE, and third-party comprehensive rankings do not place it absolutely number one.</p>
+<p>I actually think it makes it more believable.</p>
+<p>If every image of a model is number one when it is first released, then I would first wonder how the images were chosen. Argon now looks more like a truly "capability-shaped" model: it has particularly strong points and clear weaknesses.</p>
+<p>For me, what I'm most excited about isn't how many SOTAs Google gets back, but that it has finally released another Gemini flagship that I'm willing to wait to use in person.</p>
+<p>Once Argon truly opens up its API and Ultra, the first thing I most want to do is not to run the benchmark again, but to give it a real project that is long enough, dirty enough, and requires repeated trial and error, and then see if it can go from start to finish.</p>
+<p>That's the real test of this generation of models.</p>
+<hr>
+<p><strong>Main references and further reading:</strong></p>
+<ul>
+<li><a class="link" target="_blank" rel="noopener" href="https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-argon/" data-no-swup="">Google: Gemini 4 Argon Official release<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://deepmind.google/models/evals-methodology/gemini-4-argon" data-no-swup="">Google DeepMind: Argon Evaluation Methodology and Results Description<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://artificialanalysis.ai/articles/gemini-4-argon-google-top-three-labs" data-no-swup="">Artificial Analysis: Gemini 4 Argon independent testing<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://artificialanalysis.ai/models/gemini-4-argon" data-no-swup="">Artificial Analysis: Argon model page<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://zapier.com/benchmarks" data-no-swup="">Zapier AutomationBench<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.vals.ai/models/google_gemini-4-argon" data-no-swup="">Vals AI：Gemini 4 Argon<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://x.com/Google/status/2105388143902175529" data-no-swup="">Google Official X Post<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.reuters.com/legal/litigation/google-announces-gemini-4-flagship-ai-model-after-months-delays-2026-09-30/" data-no-swup="">Reuters: Gemini 4 Argon Release and Limited Opening<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+</ul>
+<p>Cover image: Google official Gemini 4 Argon key art, from <a class="link" target="_blank" rel="noopener" href="https://x.com/Google/status/2105388143902175529" data-no-swup="">@Google's X post<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>, Images are hosted by Google official CDN.</p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> Gemini 4 Argon: The reasons I like Gemini are all written in Argon this time.</li>
+        <li><strong>Author:</strong> AdenXie</li>
+        <li><strong>Created at
+                :</strong> 2026-10-01 14:44:00</li>
+        
+        <li>
+            <strong>Link:</strong> https://blog.adenxie.com.cn/2026/10/01/2026-10-01-gemini-4-argon/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                All Rights Reserved © AdenXie
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/Gemini/" data-no-swup="">#Gemini</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/Google-DeepMind/" data-no-swup="">#Google DeepMind</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" data-no-swup="">#Large Model</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/AI-Agent/" data-no-swup="">#AI Agent</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/en/2026/10/01/2026-10-01-daily-brief/" title="Daily Briefing | October 1, 2026: Policy Divergence between China, Europe, and the United States and the Reassessment of Energy Interest Rates" rel="bookmark" data-no-swup="">
+  <img src="https://images.unsplash.com/photo-1777010557816-d7c9ac1fad2e?auto=format&amp;fit=crop&amp;q=80&amp;w=2400" alt="Daily Briefing | October 1, 2026: Policy Divergence between China, Europe, and the United States and the Reassessment of Energy Interest Rates" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | October 1, 2026: Policy Divergence between China, Europe, and the United States and the Reassessment of Energy Interest Rates</span>
+</a><a class="recommended-article-item" href="/en/2026/09/20/jev-system-one/" title="Why Jev became popular: When AI stopped writing answers and instead made judgments for the software." rel="bookmark" data-no-swup="">
+  <img src="https://framerusercontent.com/images/z4Uu1YpJeEZPBSMTCMI0CN2PX0.png" alt="Why Jev became popular: When AI stopped writing answers and instead made judgments for the software." class="!max-w-none" decoding="async">
+  <span class="title">Why Jev became popular: When AI stopped writing answers and instead made judgments for the software.</span>
+</a><a class="recommended-article-item" href="/en/2026/08/26/2026-08-26-daily-brief/" title="Daily Briefing | August 26, 2026: Economy Shows Resilience, AI Enters Professional Track" rel="bookmark" data-no-swup="">
+  <img src="https://images.unsplash.com/photo-1767424412548-1a1ac7f4b9bc?auto=format&amp;fit=crop&amp;w=2400&amp;q=85" alt="Daily Briefing | August 26, 2026: Economy Shows Resilience, AI Enters Professional Track" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | August 26, 2026: Economy Shows Resilience, AI Enters Professional Track</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/en/2026/10/01/2026-10-01-daily-brief/" title="Daily Briefing | October 1, 2026: Policy Divergence between China, Europe, and the United States and the Reassessment of Energy Interest Rates" rel="bookmark" data-no-swup="">
+  <img src="https://images.unsplash.com/photo-1777010557816-d7c9ac1fad2e?auto=format&amp;fit=crop&amp;q=80&amp;w=2400" alt="Daily Briefing | October 1, 2026: Policy Divergence between China, Europe, and the United States and the Reassessment of Energy Interest Rates" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | October 1, 2026: Policy Divergence between China, Europe, and the United States and the Reassessment of Energy Interest Rates</span>
+</a><a class="recommended-article-item" href="/en/2026/09/20/jev-system-one/" title="Why Jev became popular: When AI stopped writing answers and instead made judgments for the software." rel="bookmark" data-no-swup="">
+  <img src="https://framerusercontent.com/images/z4Uu1YpJeEZPBSMTCMI0CN2PX0.png" alt="Why Jev became popular: When AI stopped writing answers and instead made judgments for the software." class="!max-w-none" decoding="async">
+  <span class="title">Why Jev became popular: When AI stopped writing answers and instead made judgments for the software.</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/en/2026/10/02/2026-10-02-daily-brief/" data-no-swup="">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Daily Briefing | October 2, 2026: High Bond Market Pressure and Tightening Global Fuel Supply</span>
+						<span class="post-nav-item">Prev posts</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/en/2026/10/01/2026-10-01-daily-brief/" data-no-swup="">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Daily Briefing | October 1, 2026: Policy Divergence between China, Europe, and the United States and the Reassessment of Energy Interest Rates</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">Gemini 4 Argon: The reasons I like Gemini are all written in Argon this time.</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="/en/2026/10/01/2026-10-01-gemini-4-argon/#%E5%85%88%E7%9C%8B%E6%9C%80%E5%A4%B8%E5%BC%A0%E7%9A%84%E5%8F%98%E5%8C%96%EF%BC%9A100-%E4%B8%87-token-%E7%9A%84%E8%BE%93%E5%87%BA%E4%B8%8A%E9%99%90" data-no-swup=""><span class="nav-text">Let's look at the most dramatic change first: the output limit of 1 million tokens.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="/en/2026/10/01/2026-10-01-gemini-4-argon/#%E5%AE%83%E5%88%B0%E5%BA%95%E6%9C%89%E5%A4%9A%E5%BC%BA%EF%BC%9F%E7%AD%94%E6%A1%88%E6%98%AF%EF%BC%9A%E5%BE%88%E5%BC%BA%EF%BC%8C%E4%BD%86%E4%B8%8D%E6%98%AF%E2%80%9C%E5%85%A8%E6%A6%9C%E5%8D%95%E6%A8%AA%E6%89%AB%E2%80%9D" data-no-swup=""><span class="nav-text">Just how strong is it? The answer is: very strong, but not a "sweep of the entire list".</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="/en/2026/10/01/2026-10-01-gemini-4-argon/#%E6%88%91%E6%9C%80%E5%96%9C%E6%AC%A2%E7%9A%84%E9%83%A8%E5%88%86%EF%BC%8C%E5%85%B6%E5%AE%9E%E4%B8%8D%E6%98%AF-benchmark%EF%BC%8C%E8%80%8C%E6%98%AF-Google-%E5%B7%B2%E7%BB%8F%E6%8B%BF%E5%AE%83%E5%B9%B2%E4%BA%86%E4%BB%80%E4%B9%88" data-no-swup=""><span class="nav-text">My favorite part isn't actually the benchmark, but rather what Google has done with it.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="/en/2026/10/01/2026-10-01-gemini-4-argon/#%E8%BF%98%E6%9C%89%E4%B8%80%E4%B8%AA%E5%BE%88%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E5%8F%98%E5%8C%96%EF%BC%9AArgon-%E4%BC%BC%E4%B9%8E%E6%9B%B4%E6%84%BF%E6%84%8F%E6%89%BF%E8%AE%A4%E2%80%9C%E6%88%91%E4%B8%8D%E7%9F%A5%E9%81%93%E2%80%9D" data-no-swup=""><span class="nav-text">Another interesting change: Argon seems more willing to admit "I don't know."</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="/en/2026/10/01/2026-10-01-gemini-4-argon/#%E5%AE%83%E7%A6%BB%E2%80%9C%E6%9C%80%E5%BC%BA%E6%A8%A1%E5%9E%8B%E2%80%9D%E8%BF%98%E5%B7%AE%E5%9C%A8%E5%93%AA%E9%87%8C%EF%BC%9F" data-no-swup=""><span class="nav-text">Where does it fall short of the "strongest model"?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="/en/2026/10/01/2026-10-01-gemini-4-argon/#Gemini-%E5%9B%9E%E6%9D%A5%E4%BA%86%EF%BC%8C%E4%BD%86%E6%88%91%E6%9B%B4%E6%84%BF%E6%84%8F%E8%AF%B4%EF%BC%9AGemini-%E7%BB%88%E4%BA%8E%E9%95%BF%E6%88%90%E4%BA%86%E8%87%AA%E5%B7%B1%E6%83%B3%E6%88%90%E4%B8%BA%E7%9A%84%E6%A0%B7%E5%AD%90" data-no-swup=""><span class="nav-text">Gemini is back, but I'd rather say: Gemini has finally grown into the person she wants to be.</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">Write down your real experiences while retaining the edges of your viewpoints.</div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/en/" data-no-swup="">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        60 posts in total
+                    </span>
+                    
+                        <span>
+                            134.1k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js" async=""></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io" data-no-swup="">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine" data-no-swup="">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days"></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="Image viewer">
+	<button class="image-viewer-close" type="button" aria-label="Close">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="Prev">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="" decoding="async">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="Close">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="Next">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Search..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js?v=509b91971bf2"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js?v=969d65618587"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js?v=193270b6fdb0"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js?v=647d2af612df"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js?v=c9d014a814b8"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js?v=792db0224d6b"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js?v=d253ad251100" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js?v=03c1e188b884"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css?v=77a3a9d5a3d0">
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js?v=e98ec22436a5"></script>
+
+
+<script src="/js/build/plugins/aplayer.js?v=d6d3c64af35f"></script>
+
+
+	
+
+
+</body></html>
