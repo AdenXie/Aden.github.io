@@ -11,14 +11,13 @@
     panel.setAttribute('translate', 'no'); panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-labelledby', 'aden-chat-title');
     // Static interface text only; article titles and model output are added as text nodes.
     panel.innerHTML = `<header class="chat-heading"><div><span class="chat-label">ADEN'S SPACE / AI CHAT</span><h2 id="aden-chat-title">${t('想聊点什么？', 'What’s on your mind?')}</h2></div><div class="chat-heading-actions"><button type="button" data-chat="clear">${t('清空', 'Clear')}</button><button type="button" data-chat="close" aria-label="${t('关闭聊天', 'Close chat')}"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div></header>
-  <p class="chat-context" data-chat="context" hidden></p>
+  <label class="chat-context" data-chat="context" hidden><span data-chat="context-text"></span><input type="checkbox" data-chat="attach" checked></label>
   <div class="chat-transcript" data-chat="messages" role="region" aria-label="${t('对话内容', 'Conversation')}" tabindex="0">
     <div class="chat-empty" data-chat="empty"><span class="chat-spark" aria-hidden="true">✳</span><p>${t('从你的第一个问题开始', 'Start with your first question')}</p><span data-chat="hint"></span></div>
   </div>
   <form data-chat="form" class="chat-composer">
     <label for="chat-input" class="chat-input-label">${t('你的消息', 'Your message')}</label>
     <textarea id="chat-input" data-chat="input" rows="2" maxlength="4000" autocomplete="off" placeholder="${t('在这里输入问题…', 'Type your question here…')}"></textarea>
-    <div class="chat-reasoning-row"><span>${t('思考深度', 'Reasoning')}</span><div class="chat-reasoning" data-chat="reasoning" role="radiogroup" aria-label="${t('思考深度', 'Reasoning effort')}"><button type="button" role="radio" data-reasoning="low" aria-checked="true">Low</button><button type="button" role="radio" data-reasoning="medium" aria-checked="false">Medium</button><button type="button" role="radio" data-reasoning="xhigh" aria-checked="false">XHigh</button></div></div>
     <div class="chat-composer-footer"><span class="chat-key-hint">${t('Enter 发送 · Shift + Enter 换行', 'Enter to send · Shift + Enter for a new line')}</span><div><button type="button" data-chat="stop" hidden>${t('停止生成', 'Stop')}</button><button type="submit" data-chat="send" disabled>${t('发送', 'Send')} <span aria-hidden="true">↑</span></button></div></div>
   </form>
   <p data-chat="status" class="chat-status" role="status" aria-live="polite">${t('正在连接聊天服务…', 'Connecting to chat…')}</p>
@@ -35,16 +34,16 @@
   }
   window.AdenSite.register('chat', '#aden-chat', (root, scope) => {
     const find = name => root.querySelector(`[data-chat="${name}"]`);
-    const input = find('input'), form = find('form'), send = find('send'), stop = find('stop'), reasoning = find('reasoning');
+    const input = find('input'), form = find('form'), send = find('send'), stop = find('stop');
     const transcript = find('messages'), empty = find('empty'), status = find('status');
     const launcher = document.getElementById('aden-chat-launcher');
-    const page = readArticle();
+    const page = readArticle(), attach = find('attach');
     find('context').hidden = !page;
-    if (page) find('context').textContent = t('AI 可读取本文：', 'AI can read this article: ') + page.title;
+    if (page) find('context-text').textContent = t('AI 可读取本文：', 'AI can read this article: ') + page.title;
     find('hint').textContent = page
       ? t('可以直接问这篇文章的内容，也可以聊别的。刷新或离开页面后，对话即清空。', 'Ask about this article or anything else. Refreshing or leaving clears this chat.')
       : t('可以连续追问。刷新或离开页面后，对话即清空。', 'Ask follow-up questions. Refreshing or leaving clears this chat.');
-    let history = [], active = null, available = false, reasoningEffort = 'low', assistantLabel = 'AI ASSISTANT';
+    let history = [], active = null, available = false, assistantLabel = 'AI ASSISTANT';
     const errors = {
       not_configured: t('聊天暂未开放，请稍后再来。', 'Chat is not available yet. Please check back later.'),
       rate_limited: t('请求较多，请稍等一分钟再发送。', 'Too many requests. Wait a minute before sending again.'),
@@ -61,13 +60,7 @@
       input.disabled = !available;
       stop.hidden = !active;
       input.readOnly = !!active;
-      reasoning.querySelectorAll('button').forEach(button => { button.disabled = !available || !!active; });
       transcript.setAttribute('aria-busy', String(!!active));
-    }
-    function setReasoning(value) {
-      if (!['low', 'medium', 'xhigh'].includes(value)) return;
-      reasoningEffort = value;
-      reasoning.querySelectorAll('[data-reasoning]').forEach(button => { button.setAttribute('aria-checked', String(button.dataset.reasoning === value)); });
     }
     function inline(node, text) {
       // A small safe subset: model HTML is always rendered as text.
@@ -125,8 +118,7 @@
       message('user', prompt); const reply = message('assistant', '');
       const progress = document.createElement('div'); progress.className = 'chat-message-progress';
       progress.setAttribute('role', 'status');
-      const requestReasoning = reasoningEffort;
-      progress.textContent = requestReasoning === 'low' ? t('正在等待模型回答…', 'Waiting for the model…') : requestReasoning === 'medium' ? t('正在深入思考…', 'Thinking more deeply…') : t('正在进行最深入思考…', 'Using maximum reasoning…');
+      progress.textContent = t('正在等待模型回答…', 'Waiting for the model…');
       reply.article.insertBefore(progress, reply.body);
       input.value = ''; controls(); scroll();
       setStatus(t('正在连接模型…', 'Connecting to the model…'));
@@ -147,7 +139,7 @@
       const schedule = () => { if (frame === null) frame = requestAnimationFrame(update); };
       const finishTyping = () => shown >= answer.length ? Promise.resolve() : new Promise(resolve => { drained = resolve; schedule(); });
       try {
-        const response = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: [...history, { role: 'user', content: prompt }], reasoningEffort: requestReasoning, ...(page && { page }) }), signal: controller.signal, cache: 'no-store' });
+        const response = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: [...history, { role: 'user', content: prompt }], ...(page && attach.checked && { page }) }), signal: controller.signal, cache: 'no-store' });
         if (!response.ok) {
           const data = await response.json().catch(() => ({}));
           throw new Error(response.status === 429 ? 'rate_limited' : typeof data.error === 'string' ? data.error : 'provider_unavailable');
@@ -197,7 +189,6 @@
         progress.dataset.error = String(!stopped);
         reply.article.append(progress);
         input.value = prompt;
-        if (!answer) reply.body.textContent = text;
       } finally {
         clearTimeout(timeout); if (frame !== null) cancelAnimationFrame(frame);
         await reader?.cancel().catch(() => {});
@@ -239,13 +230,11 @@
     }
     form.addEventListener('submit', submit, { signal: scope.signal });
     input.addEventListener('input', controls, { signal: scope.signal });
-    reasoning.addEventListener('click', event => { const button = event.target.closest('[data-reasoning]'); if (button) setReasoning(button.dataset.reasoning); }, { signal: scope.signal });
     input.addEventListener('keydown', event => {
       if (event.key === 'Enter' && !event.shiftKey && !event.isComposing && !matchMedia('(pointer: coarse)').matches) { event.preventDefault(); form.requestSubmit(); }
     }, { signal: scope.signal });
     stop.addEventListener('click', () => active?.abort(), { signal: scope.signal });
     find('clear').addEventListener('click', () => { reset(); input.focus(); }, { signal: scope.signal });
-    setReasoning('low');
     const check = new AbortController();
     const checkTimeout = setTimeout(() => check.abort(), 10000);
     scope.signal.addEventListener('abort', () => check.abort(), { once: true });

@@ -38,7 +38,7 @@ async function main() {
         return route.fulfill({contentType:'text/event-stream',body});
       });
       const launcher = page.locator('#aden-chat-launcher'), panel = page.locator('#aden-chat');
-      const input = page.locator('#chat-input'), send = page.locator('[data-chat="send"]'), reasoning = page.locator('[data-chat="reasoning"]'), status = page.locator('[data-chat="status"]');
+      const input = page.locator('#chat-input'), send = page.locator('[data-chat="send"]'), status = page.locator('[data-chat="status"]');
       const open = async () => { await launcher.click(); await page.waitForFunction(()=>document.querySelector('#chat-input') && !document.querySelector('#chat-input').disabled); };
       const chatRequests = () => requests.filter(u=>/\/js\/chat\.js|\/css\/chat\.css|\/api\/chat/.test(u));
       for (const lang of ['', '/en']) {
@@ -59,11 +59,12 @@ async function main() {
         const box = await panel.boundingBox();
         if (width < 600) assert(box.x === 0 && box.width === width, 'phone panel is full width');
         else assert(box.width <= 400 && box.x + box.width <= width && box.y >= 70, 'desktop panel floats below the header');
-        assert.equal(await reasoning.locator('[data-reasoning="low"]').getAttribute('aria-checked'),'true');
+        assert.equal(await page.locator('[data-chat="reasoning"]').count(), 0);
+        assert(await page.locator('[data-chat="attach"]').isChecked());
         await input.fill('private-test-marker'); await send.click();
         await page.waitForFunction(()=>{const text=document.querySelector('.chat-message[data-role="assistant"] .chat-message-body')?.textContent||'';return text.length>0&&text.length<40;});
         await page.waitForFunction(()=>document.querySelectorAll('.chat-message button').length===1);
-        assert.equal(posted.at(-1).reasoningEffort,'low');
+        assert.equal(posted.at(-1).reasoningEffort, undefined);
         // The open article travels with the question, in the language the reader sees.
         assert.equal(posted.at(-1).page.title, title);
         assert.equal(posted.at(-1).page.url, new URL(page.url()).pathname);
@@ -73,13 +74,13 @@ async function main() {
         assert.match(await page.locator('.chat-message-progress').last().innerText(),/回答已完成|Answer complete/);
         assert.equal(await page.locator('.chat-message-body script,.chat-message-body img').count(),0);
         assert.equal(await page.locator('.chat-message-body li').count(),1);
-        await reasoning.locator('[data-reasoning="medium"]').click();
-        await reasoning.locator('[data-reasoning="xhigh"]').click();
-        assert.equal(await reasoning.locator('[data-reasoning="xhigh"]').getAttribute('aria-checked'),'true');
+        // Unticking the article box sends the follow-up without the article.
+        await page.locator('[data-chat="context"]').click();
+        assert.equal(await page.locator('[data-chat="attach"]').isChecked(), false);
         await input.fill('follow-up'); await send.click();
         await page.waitForFunction(()=>document.querySelectorAll('.chat-message button').length===2);
         assert.equal(posted.at(-1).messages.length,3);
-        assert.equal(posted.at(-1).reasoningEffort,'xhigh');
+        assert.equal(posted.at(-1).page, undefined);
         assert.equal(await page.evaluate(()=>JSON.stringify({...localStorage,...sessionStorage}).includes('private-test-marker')),false);
         assert(await page.evaluate(()=>document.documentElement.scrollWidth <= innerWidth+1));
         await page.screenshot({path:`.perf/chat-${width}-${lang?'en':'zh'}-dark.png`});
@@ -99,7 +100,7 @@ async function main() {
         await page.waitForFunction(()=>document.querySelector('[data-chat="status"]').textContent.includes('中断')||document.querySelector('[data-chat="status"]').textContent.includes('interrupted'));
         assert.match(await page.locator('.chat-message-progress').last().innerText(),/中断|interrupted/);
         mode='slow'; await input.fill('stop-me'); await send.click();
-        assert.match(await page.locator('.chat-message-progress').last().innerText(),/正在(?:等待模型|.*思考)|Waiting for the model|reasoning/);
+        assert.match(await page.locator('.chat-message-progress').last().innerText(),/正在等待模型|Waiting for the model/);
         await page.locator('[data-chat="stop"]').click();
         await page.waitForFunction(()=>document.querySelector('[data-chat="stop"]').hidden);
         assert.match(await status.innerText(),/停止|Stopped/);

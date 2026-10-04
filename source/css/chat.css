@@ -11,8 +11,10 @@
 #aden-chat button { border: 1px solid var(--border-color); border-radius: 9px; padding: .4rem .65rem; background: var(--background-color); color: var(--default-text-color); font: 500 .78rem var(--aden-body-font); cursor: pointer; white-space: nowrap; }
 #aden-chat button:hover:not(:disabled) { border-color: var(--aden-cyan); }
 #aden-chat button:disabled { opacity: .5; cursor: not-allowed; }
-#aden-chat :is(button,textarea,.chat-transcript):focus-visible { outline: 2px solid var(--aden-cyan); outline-offset: 2px; }
-#aden-chat .chat-context { margin: 0 0 .5rem; padding: .35rem .6rem; border-left: 2px solid var(--aden-signal); background: var(--third-background-color); color: var(--second-text-color); font-size: .74rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#aden-chat :is(button,textarea,input,.chat-transcript):focus-visible { outline: 2px solid var(--aden-cyan); outline-offset: 2px; }
+#aden-chat .chat-context { display: flex; align-items: center; gap: .6rem; margin: 0 0 .5rem; padding: .35rem .6rem; border-left: 2px solid var(--aden-signal); background: var(--third-background-color); color: var(--second-text-color); font-size: .74rem; cursor: pointer; }
+#aden-chat .chat-context span { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#aden-chat .chat-context input { flex: none; width: 15px; height: 15px; margin: 0; accent-color: var(--aden-signal); cursor: pointer; }
 #aden-chat .chat-transcript { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: .3rem .5rem .3rem 0; scrollbar-width: thin; }
 #aden-chat .chat-empty { min-height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: .6rem; box-sizing: border-box; }
 #aden-chat .chat-spark { color: var(--aden-cyan); font-size: 2.2rem; line-height: 1; }
@@ -29,21 +31,17 @@
 #aden-chat .chat-message-body pre { white-space: pre; overflow-x: auto; max-width: 100%; padding: .8rem; background: var(--third-background-color); border-radius: 8px; }
 #aden-chat .chat-message-body code { font-family: var(--aden-mono-font); font-size: .85em; }
 #aden-chat .chat-message button { margin-top: .5rem; padding: .2rem .5rem; font-size: .7rem; }
-#aden-chat .chat-composer { margin-top: .6rem; padding: .6rem .8rem; border: 1px solid var(--border-color); border-radius: 14px; background: var(--background-color); }
+#aden-chat .chat-composer { margin-top: .6rem; padding: .5rem .8rem; border: 1px solid var(--border-color); border-radius: 14px; background: var(--background-color); }
 #aden-chat .chat-input-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
-#aden-chat textarea { display: block; box-sizing: border-box; width: 100%; min-height: 52px; max-height: 140px; resize: vertical; border: 0; background: transparent; color: var(--first-text-color); font: 16px/1.5 var(--aden-body-font); padding: .2rem 0; }
+#aden-chat textarea { display: block; box-sizing: border-box; width: 100%; min-height: 44px; max-height: 140px; resize: vertical; border: 0; background: transparent; color: var(--first-text-color); font: 16px/1.5 var(--aden-body-font); padding: .2rem 0; }
 #aden-chat textarea::placeholder { color: var(--second-text-color); }
-#aden-chat .chat-reasoning-row { display: flex; align-items: center; justify-content: flex-end; gap: .55rem; color: var(--second-text-color); font-size: .68rem; }
-#aden-chat .chat-reasoning { display: inline-flex; padding: 2px; border: 1px solid var(--border-color); border-radius: 9px; background: var(--third-background-color); }
-#aden-chat .chat-reasoning button { border: 0; padding: .25rem .5rem; background: transparent; font: 600 .66rem var(--aden-mono-font); }
-#aden-chat .chat-reasoning button[aria-checked="true"] { background: var(--aden-cyan); color: var(--background-color); }
-#aden-chat .chat-composer-footer { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-top: .45rem; }
+#aden-chat .chat-composer-footer { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-top: .3rem; }
 #aden-chat .chat-composer-footer > div { display: flex; gap: .5rem; }
 #aden-chat .chat-key-hint { font-size: .62rem; color: var(--second-text-color); }
 #aden-chat [data-chat="send"] { background: var(--aden-cyan); border-color: var(--aden-cyan); color: var(--background-color); }
 #aden-chat .chat-status { min-height: 1.5em; margin: .5rem 0 .2rem; font-size: .76rem; color: var(--second-text-color); }
 #aden-chat .chat-status[data-error="true"] { color: var(--aden-signal); }
-#aden-chat .chat-privacy { margin: 0; font-size: .64rem; line-height: 1.45; color: var(--second-text-color); }
+#aden-chat .chat-privacy { margin: 0; font-size: .56rem; line-height: 1.45; color: var(--second-text-color); }
 @media (max-width: 640px) {
   /* Full screen above the site header; chat.js tracks the visual viewport so the keyboard cannot cover the composer. */
   #aden-chat { top: var(--chat-top, 0); right: 0; bottom: auto; left: 0; z-index: 1006; width: auto; height: var(--chat-height, 100dvh); border: 0; border-radius: 0; }
