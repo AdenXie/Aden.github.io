@@ -1,0 +1,1738 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/2026/10/05/2026-10-05-llama-cpp-qwen35-9b-8gb-laptop/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="With just 8GB of video memory, you can deploy a 30 tk/s multimodal AI in your laptop.">
+<meta property="og:url" content="https://blog.adenxie.com.cn/2026/10/05/2026-10-05-llama-cpp-qwen35-9b-8gb-laptop/index.html">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-10-05T04:00:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="教程">
+<meta property="article:tag" content="本地大模型">
+<meta property="article:tag" content="llama.cpp">
+<meta property="article:tag" content="Qwen">
+<meta property="article:tag" content="多模态">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            With just 8GB of video memory, you can deploy a 30 tk/s multimodal AI in your laptop | Aden's Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/site-runtime.js" defer=""></script>
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js"></script>
+                
+    
+            
+                
+                    <link rel="stylesheet" href="/css/custom.css">
+                
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"en","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"17px","line_height":1.85,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"all_rights_reserved"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"static","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["科技、体验与个人判断","写下真实体验，也保留观点的棱角"],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"archives":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"World Time":{"path":"/world-time/","icon":"fa-regular fa-clock"},"about":{"path":"/about/","icon":"fa-regular fa-user"},"links":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":true,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.i18n = {"search":"Search...","toc":"On this page","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"POWERED BY %s","theme":"THEME","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","post":"Post","posts":"Posts","tagcloud":"Tag Cloud","comment":"Comment","comments":"Comments","home":"Home","archive":"Archive","archives":"Archives","top":"TOP","sticky":"Sticky","go-back-home":"Go Back Home","masonry_loading":"Loading photos...","image_viewer":"Image viewer","close":"Close","exif":{"title":"EXIF","cards":{"camera":"Camera","lens":"Lens","exposure":"Exposure","other":"Other"},"fields":{"make":"Brand","model":"Model","date_taken":"Date taken","lens_model":"Lens","focal_length":"Focal length","focus_mode":"Focus mode","shutter":"Shutter","aperture":"Aperture","iso":"ISO","exposure_program":"Exposure program","exposure_compensation":"Exposure compensation","metering_mode":"Metering mode","flash":"Flash","white_balance":"White balance","latitude":"Latitude","longitude":"Longitude","altitude":"Altitude"},"status":{"loading":"Loading...","no_exif":"No EXIF available","library_missing":"EXIF library not loaded","image_source_missing":"Image source unavailable","unavailable":"EXIF unavailable (blocked by CORS or missing metadata)","flag_unavailable":"EXIF unavailable"}},"about":"About","changelog":"Changelog","links":"Links","link":"Link","friends":"Friends","friend":"Friend","timeline":"Timeline","shuoshuo":"Shuoshuo","bookmarks":"Bookmarks","site_uv":"VISITOR COUNT","site_pv":"TOTAL PAGE VIEWS","read_more":"Read more","wordcount":"Words","min2read":"Mins","status":"Status","runtime":"Blog up for","days":"days","hours":"hrs","minutes":"Min","seconds":"Sec","optimized_by":"and Optimized by Evan","rights":"All Rights Reserved","site_posts":"%s posts in total","site_wordcount":"%s words in total","copyright":{"author":"Author","title":"Title","link":"Link","create_time":"Created at","update_time":"Updated at","license_title":"License","license_content":"This work is licensed under %s.","all_rights_reserved":"All Rights Reserved &#169; %s","public_domain":"This work is in the public domain."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"},"create_time":"Created","update_time":"Updated","expired":"This post is written %s days ago, and the content may not be up to date."};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    WORLD TIME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/">
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/archives/">
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/tags/">
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/world-time/">
+                            <span>
+                                WORLD TIME
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/about/">
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/link/">
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/archives/">
+                            <span>Article Archive</span>
+                            <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/tags/">
+                            <span>Topic Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/about/">
+                            <span>About Aden</span>
+                            <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">25</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">5</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">62</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://qianwen-res.oss-accelerate.aliyuncs.com/logo_qwen3.5.png" alt="With just 8GB of video memory, you can deploy a 30 tk/s multimodal AI in your laptop." class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">With just 8GB of video memory, you can deploy a 30 tk/s multimodal AI in your laptop.</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-10-05 12:00</span>
+        <span class="mobile">2026-10-05 12:00</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/AI-%E4%B8%8E%E7%A7%91%E6%8A%80/">AI and Technology</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E6%95%99%E7%A8%8B/">tutorial</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E6%9C%AC%E5%9C%B0%E5%A4%A7%E6%A8%A1%E5%9E%8B/">Local large model</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/llama-cpp/">llama.cpp</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/Qwen/">Qwen</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E5%A4%9A%E6%A8%A1%E6%80%81/">multimodal</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>8.3k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>33 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<p>My Laptop is a very ordinary gaming Laptop: a Ryzen 7 8845H, 16GB of RAM, an RTX 4060 Laptop, and only 8GB of video memory. According to many people's impression, this configuration can only be used to "play around" with local large models.</p>
+<p>But now, when I double-click a startup file every day, the browser opens a chat page: I can view images, watch videos, switch the depth of my thinking, and call native tools. My text generation speed is approximately... <strong>31 tokens/s</strong>The entire process involves no internet connection and no API fees. The one running inside is <strong>Qwen3.5-9B</strong>The reasoning framework is <strong>llama.cpp</strong>。</p>
+<p>This article is divided into three parts: How I chose the framework and model; An installation tutorial for beginners, written for every command; And the pitfalls I've encountered and the corresponding solutions.</p>
+<span id="more"></span>
+
+<h2 id="先说结论：最终跑起来的是什么"><a href="#先说结论：最终跑起来的是什么" class="headerlink" title="First, let's talk about the conclusion: What ultimately gets started?"></a>First, let's talk about the conclusion: What ultimately gets started?</h2><table>
+<thead>
+<tr>
+<th>Project</th>
+<th>My Configuration</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Operating system</td>
+<td>Windows x64</td>
+</tr>
+<tr>
+<td>CPU</td>
+<td>AMD Ryzen 7 8845H</td>
+</tr>
+<tr>
+<td>graphics card</td>
+<td>NVIDIA GeForce RTX 4060 Laptop, 8GB Memory</td>
+</tr>
+<tr>
+<td>memory</td>
+<td>16GB</td>
+</tr>
+<tr>
+<td>reasoning procedure</td>
+<td>llama.cpp b10909, Windows CUDA 12.4 Precompiled Packages</td>
+</tr>
+<tr>
+<td>model</td>
+<td>Qwen3.5-9B, Q4_K_M quantization (ca. 5.75 GiB)</td>
+</tr>
+<tr>
+<td>multimodal assembly</td>
+<td>Compatible BF16 mmproj (approx. 0.86 GiB)</td>
+</tr>
+<tr>
+<td>context length</td>
+<td>4096 tokens</td>
+</tr>
+<tr>
+<td>Access method</td>
+<td>Browser opens <code>http://127.0.0.1:8080</code>, or OpenAI compatible interface</td>
+</tr>
+</tbody></table>
+<p>Actual measurement data (all records from my machine at the time, not lab benchmarks):</p>
+<table>
+<thead>
+<tr>
+<th>configuration</th>
+<th>generation speed</th>
+<th>Memory usage of the entire graphics card</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Qwen3.5-9B, Plain Text, 8K Context</td>
+<td>Approximately 31.3 tokens/s</td>
+<td>6429 MiB / 8188 MiB</td>
+</tr>
+<tr>
+<td>Qwen3.5-9B, Loading Multimodal Components, 4K Context</td>
+<td>The webpage displays approximately 34.6 tokens/s during short replies.</td>
+<td>7364 MiB / 8188 MiB</td>
+</tr>
+<tr>
+<td>Control: Gemma 4 E4B, Multimodal, 8K Context</td>
+<td>Approximately 51–54 tokens/s</td>
+<td>5209 MiB / 8188 MiB</td>
+</tr>
+</tbody></table>
+<p>Two points to clarify. First, the "30 tk/s" in the title comes from that test in plain text mode; In multimodal mode, the 34.6 generated only 5 word elements, which is too short and only means that "the speed is on the same order of magnitude" and cannot be considered a formal result. Second,<code>nvidia-smi</code> It shows the usage of the entire graphics card, including the desktop and browser, and is not equivalent to the model's exclusive memory.</p>
+<h2 id="为什么是-llama-cpp"><a href="#为什么是-llama-cpp" class="headerlink" title="Why llama.cpp"></a>Why llama.cpp</h2><p>There are many tools for running large models locally, but the one I ended up using was... <a class="link" target="_blank" rel="noopener" href="https://github.com/ggml-org/llama.cpp">llama.cpp<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>What I valued were these points:</p>
+<ul>
+<li><strong>There is no need to compile or install a Python environment.</strong> The official release page directly provides a pre-compiled compressed package for Windows + CUDA, which can be extracted and used. I didn't install the CUDA Toolkit or compile any C++ code throughout the process.</li>
+<li><strong>A program gets things done.</strong> <code>llama-server.exe</code> Once launched, it provides both a web chat interface and an OpenAI-compatible API, allowing other clients to connect directly.</li>
+<li><strong>The GGUF quantization model was used.</strong> After quantizing the 9B model to Q4_K_M, it is less than 6 GiB, and 8GB is enough to store it.</li>
+<li><strong>All the parameters are clearly displayed.</strong> The length of the context, the number of layers placed in the graphics card, and the precision of the cache are all command-line parameters, so you know which one to adjust when there is not enough graphics memory.</li>
+</ul>
+<p>The price is that it doesn't "click" like some graphical tools, requiring you to type several commands. That's why I wrote this tutorial.</p>
+<h2 id="为什么最后选了-Qwen3-5-9B"><a href="#为什么最后选了-Qwen3-5-9B" class="headerlink" title="Why was Qwen3.5-9B ultimately chosen?"></a>Why was Qwen3.5-9B ultimately chosen?</h2><p>I didn't choose the right one from the beginning; I changed it three times in between:</p>
+<ol>
+<li><strong>The first one downloaded was Qwen3-8B.</strong> Halfway through the download I changed my mind and stopped the download; it never started running from beginning to end.</li>
+<li><strong>The first one to actually run was Google's Gemma 4 E4B.</strong>(Official QAT Q4_0 quantified version). It's fast, with 51–54 tokens/s on my machine, only about 5.2GB of video memory, and it has multimodal and can even enable 8K contexts.</li>
+<li><strong>Finally, it was replaced with Qwen3.5-9B.</strong> The speed dropped to around 31 tokens/s, and the video memory was tighter, but I wanted the one with stronger overall capabilities.</li>
+</ol>
+<p>Before switching, I compared several models that could be considered with 8GB of video memory: Qwen3.5-4B, Gemma 4 E4B, Qwen3.5-9B, Gemma 4 12B, and gpt-oss-20b. To be honest, only the speed of the Gemma 4 E4B in that comparison chart was tested by me. The speed of other models was estimated based on hardware, and the capability score was also a reference value obtained by combining various publicly available benchmarks. The test conditions are not uniform. It helped me make trade-offs, but it wasn't a rigorous ranking.</p>
+<p>What really made me decide was the data in the official Qwen model card. The image below is from <a class="link" target="_blank" rel="noopener" href="https://huggingface.co/Qwen/Qwen3.5-9B">Official Model Card for Qwen3.5-9B<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>This is a comparison of the scores of the Qwen3.5 small-sized model with other models:</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://qianwen-res.oss-accelerate-overseas.aliyuncs.com/Qwen3.5/Figures/qwen3.5_small_size_score.png" alt="Benchmark comparison chart in the official Qwen model card: Scores of Qwen3.5 small-sized models compared to other models"><figcaption>Benchmark comparison chart in the official Qwen model card: Scores of Qwen3.5 small-sized models compared to other models</figcaption></figure><p></p>
+<p><em>Image source: Qwen official model card.</em></p>
+<p>The model card also contains a complete score table; I've selected a few representative lines. First, let's look at pure language capabilities. The comparison object is a model with a much larger number of parameters:</p>
+<table>
+<thead>
+<tr>
+<th>test</th>
+<th align="right">GPT-OSS-120B</th>
+<th align="right">GPT-OSS-20B</th>
+<th align="right">Qwen3-30B-A3B (Thinking)</th>
+<th align="right"><strong>Qwen3.5-9B</strong></th>
+<th align="right">Qwen3.5-4B</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MMLU-Pro (Knowledge)</td>
+<td align="right">80.8</td>
+<td align="right">74.8</td>
+<td align="right">80.9</td>
+<td align="right"><strong>82.5</strong></td>
+<td align="right">79.1</td>
+</tr>
+<tr>
+<td>C-Eval (Chinese knowledge)</td>
+<td align="right">76.2</td>
+<td align="right">71.4</td>
+<td align="right">87.4</td>
+<td align="right"><strong>88.2</strong></td>
+<td align="right">85.1</td>
+</tr>
+<tr>
+<td>GPQA Diamond（ Scientific reasoning)</td>
+<td align="right">80.1</td>
+<td align="right">71.5</td>
+<td align="right">73.4</td>
+<td align="right"><strong>81.7</strong></td>
+<td align="right">76.2</td>
+</tr>
+<tr>
+<td>IFEval (instruction followed)</td>
+<td align="right">88.9</td>
+<td align="right">88.2</td>
+<td align="right">88.9</td>
+<td align="right"><strong>91.5</strong></td>
+<td align="right">89.8</td>
+</tr>
+<tr>
+<td>LongBench v2 ( (Long text)</td>
+<td align="right">48.2</td>
+<td align="right">45.6</td>
+<td align="right">44.8</td>
+<td align="right"><strong>55.2</strong></td>
+<td align="right">50.0</td>
+</tr>
+<tr>
+<td>LiveCodeBench v6 ( programming)</td>
+<td align="right">82.7</td>
+<td align="right">74.6</td>
+<td align="right">66.0</td>
+<td align="right">65.6</td>
+<td align="right">55.8</td>
+</tr>
+</tbody></table>
+<p>Looking at visual understanding, the comparison objects are two lightweight cloud models and the visual model of the previous generation 30B:</p>
+<table>
+<thead>
+<tr>
+<th>test</th>
+<th align="right">GPT-5-Nano</th>
+<th align="right">Gemini-2.5-Flash-Lite</th>
+<th align="right">Qwen3-VL-30B-A3B</th>
+<th align="right"><strong>Qwen3.5-9B</strong></th>
+<th align="right">Qwen3.5-4B</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MMMU (Multidisciplinary Illustration and Text)</td>
+<td align="right">75.8</td>
+<td align="right">73.4</td>
+<td align="right">76.0</td>
+<td align="right"><strong>78.4</strong></td>
+<td align="right">77.6</td>
+</tr>
+<tr>
+<td>MathVision (doing math by looking at pictures)</td>
+<td align="right">62.2</td>
+<td align="right">52.1</td>
+<td align="right">65.7</td>
+<td align="right"><strong>78.9</strong></td>
+<td align="right">74.6</td>
+</tr>
+<tr>
+<td>OCRBench (character recognition)</td>
+<td align="right">75.3</td>
+<td align="right">82.5</td>
+<td align="right">83.9</td>
+<td align="right"><strong>89.2</strong></td>
+<td align="right">85.0</td>
+</tr>
+<tr>
+<td>RealWorldQA (Real-world Q&amp;A)</td>
+<td align="right">71.8</td>
+<td align="right">72.2</td>
+<td align="right">77.4</td>
+<td align="right"><strong>80.3</strong></td>
+<td align="right">79.5</td>
+</tr>
+<tr>
+<td>VideoMME (Video with subtitles)</td>
+<td align="right">71.7</td>
+<td align="right">74.6</td>
+<td align="right">79.9</td>
+<td align="right"><strong>84.5</strong></td>
+<td align="right">83.5</td>
+</tr>
+</tbody></table>
+<p>There are three things to keep in mind when reading these numbers:</p>
+<ul>
+<li>This is <strong>Qwen's official results</strong>It tests a model with complete accuracy. I'm running the Q4_K_M quantitative version locally, and the context is only 4096, which will reduce actual performance. I didn't retest these benchmarks on my own machine.</li>
+<li>It is not a comprehensive lead. In programming tests (LiveCodeBench, OJBench), the 9B is significantly inferior to the GPT-OSS-120B, which is clearly visible in the table.</li>
+<li>For me, the key points are two other things: a 9B model can match or even surpass the previous generation 30B model in terms of knowledge, instruction compliance, and long text; Moreover, it natively supports viewing images and videos, eliminating the need to find a separate visual model.</li>
+</ul>
+<p>To sum up my trade-offs in one sentence:<strong>The Gemma 4 E4B is faster and more memory-efficient, while the Qwen3.5-9B is more comprehensive.</strong> If you care more about speed, or if you only have 6GB of video memory, the former is a good choice; The following steps in this article also apply to replacing the model file.</p>
+<h2 id="开始之前：你需要准备什么"><a href="#开始之前：你需要准备什么" class="headerlink" title="Before you start: What you need to prepare"></a>Before you start: What you need to prepare</h2><ul>
+<li>One <strong>Windows 64-bit</strong> Computer, with <strong>NVIDIA graphics card, around 8GB of video memory</strong>And the graphics card driver has been installed.</li>
+<li>about <strong>8GB of free hard disk space</strong>(Program approx. 0.6GB, model approx. 6.6GB).</li>
+<li>Networks with access to GitHub and Hugging Face. The model file is over 6GB, so be patient if your internet speed is slow.</li>
+</ul>
+<p>All commands in this article are in <strong>PowerShell</strong> It runs inside. How to open: Press <code>Win</code> Keys, input <code>powershell</code>Press Enter. Simply copy the entire command and press Enter. Anti-quotation marks at the end of a command <code>`</code> This indicates that "this line is not over yet," and pasting the entire paragraph together will prevent errors.</p>
+<p>All files will be placed in the "Documents" folder. <code>llama.cpp</code> In the directory, the command will automatically find your own "document" path, without having to manually change the username.</p>
+<h2 id="第一步：确认硬件"><a href="#第一步：确认硬件" class="headerlink" title="Step 1: Confirm the hardware"></a>Step 1: Confirm the hardware</h2><p>First, check if the graphics card and memory meet the requirements:</p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">nvidia<span class="hljs-literal">-smi</span> <span class="hljs-literal">--query-gpu</span>=name,memory.total,driver_version <span class="hljs-literal">--format</span>=csv,noheader<br></code></pre></td></tr></tbody></table></figure></div>
+
+<p>Normally it will output a line similar to <code>NVIDIA GeForce RTX 4060 Laptop GPU, 8188 MiB, ...</code> The content. Let's take another look at the CPU and memory:</p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">Get-CimInstance</span> Win32_Processor |<br>    <span class="hljs-built_in">Select-Object</span> Name, NumberOfCores, NumberOfLogicalProcessors<br><br><span class="hljs-built_in">Get-CimInstance</span> Win32_ComputerSystem |<br>    <span class="hljs-built_in">Select-Object</span> <span class="hljs-selector-tag">@</span>{Name=<span class="hljs-string">'RAM_GiB'</span>;Expression={<br>        [<span class="hljs-type">math</span>]::Round(<span class="hljs-variable">$_</span>.TotalPhysicalMemory / <span class="hljs-number">1</span>GB, <span class="hljs-number">1</span>)<br>    }}<br></code></pre></td></tr></tbody></table></figure></div>
+
+<p><strong>Possible problems</strong></p>
+<ul>
+<li><strong>Cannot be found message <code>nvidia-smi</code></strong>This indicates that no NVIDIA drivers are installed, or that this computer does not have an NVIDIA graphics card. First, go to the NVIDIA official website to install the driver.</li>
+<li><strong>Video memory should be <code>nvidia-smi</code> According to</strong>。 Built-in Windows <code>Win32_VideoController.AdapterRAM</code> Large memory does not display correctly on some machines. In addition, it is also called RTX 4060, but the laptop version is different from the desktop version, and the 8GB version is different from other versions. Don't just look at the model name.</li>
+</ul>
+<h2 id="第二步：下载并解压-llama-cpp"><a href="#第二步：下载并解压-llama-cpp" class="headerlink" title="Step 2: Download and extract llama.cpp"></a>Step 2: Download and extract llama.cpp</h2><p>I use it regularly <strong>b10909</strong> This version, not the "latest version". The reason is simple: I verified every step in the tutorial on this version, and the "latest version" may look different in a few months.</p>
+<p>Download required<strong>Two</strong>Compressed files are indispensable: one is the llama.cpp program itself, and the other is the CUDA runtime it depends on. The following command will create the directory, download it, and extract it:</p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$ErrorActionPreference</span> = <span class="hljs-string">'Stop'</span><br><span class="hljs-variable">$llamaRoot</span> = <span class="hljs-built_in">Join-Path</span> ([<span class="hljs-type">Environment</span>]::GetFolderPath(<span class="hljs-string">'MyDocuments'</span>)) <span class="hljs-string">'llama.cpp'</span><br><span class="hljs-variable">$downloadDir</span> = <span class="hljs-built_in">Join-Path</span> <span class="hljs-variable">$llamaRoot</span> <span class="hljs-string">'downloads'</span><br><span class="hljs-variable">$modelDir</span> = <span class="hljs-built_in">Join-Path</span> <span class="hljs-variable">$llamaRoot</span> <span class="hljs-string">'models'</span><br><span class="hljs-variable">$binDir</span> = <span class="hljs-built_in">Join-Path</span> <span class="hljs-variable">$llamaRoot</span> <span class="hljs-string">'bin'</span><br><br><span class="hljs-built_in">New-Item</span> <span class="hljs-literal">-ItemType</span> Directory <span class="hljs-literal">-Force</span> <span class="hljs-literal">-Path</span> <span class="hljs-variable">$downloadDir</span>, <span class="hljs-variable">$modelDir</span>, <span class="hljs-variable">$binDir</span> | <span class="hljs-built_in">Out-Null</span><br><br>curl.exe <span class="hljs-literal">-L</span> <span class="hljs-literal">--fail</span> <span class="hljs-literal">--retry</span> <span class="hljs-number">3</span> <span class="hljs-literal">--progress-bar</span> `<br>    <span class="hljs-literal">-o</span> (<span class="hljs-built_in">Join-Path</span> <span class="hljs-variable">$downloadDir</span> <span class="hljs-string">'llama-b10909-bin-win-cuda-12.4-x64.zip'</span>) `<br>    <span class="hljs-string">'https://github.com/ggml-org/llama.cpp/releases/download/b10909/llama-b10909-bin-win-cuda-12.4-x64.zip'</span><br><span class="hljs-keyword">if</span> (<span class="hljs-variable">$LASTEXITCODE</span> <span class="hljs-operator">-ne</span> <span class="hljs-number">0</span>) { <span class="hljs-keyword">throw</span> <span class="hljs-string">'llama.cpp 下载失败'</span> }<br><br>curl.exe <span class="hljs-literal">-L</span> <span class="hljs-literal">--fail</span> <span class="hljs-literal">--retry</span> <span class="hljs-number">3</span> <span class="hljs-literal">--progress-bar</span> `<br>    <span class="hljs-literal">-o</span> (<span class="hljs-built_in">Join-Path</span> <span class="hljs-variable">$downloadDir</span> <span class="hljs-string">'cudart-llama-bin-win-cuda-12.4-x64.zip'</span>) `<br>    <span class="hljs-string">'https://github.com/ggml-org/llama.cpp/releases/download/b10909/cudart-llama-bin-win-cuda-12.4-x64.zip'</span><br><span class="hljs-keyword">if</span> (<span class="hljs-variable">$LASTEXITCODE</span> <span class="hljs-operator">-ne</span> <span class="hljs-number">0</span>) { <span class="hljs-keyword">throw</span> <span class="hljs-string">'CUDA 运行库下载失败'</span> }<br><br><span class="hljs-built_in">Expand-Archive</span> <span class="hljs-literal">-LiteralPath</span> (<span class="hljs-built_in">Join-Path</span> <span class="hljs-variable">$downloadDir</span> <span class="hljs-string">'llama-b10909-bin-win-cuda-12.4-x64.zip'</span>) `<br>    <span class="hljs-literal">-DestinationPath</span> <span class="hljs-variable">$binDir</span> <span class="hljs-literal">-Force</span><br><span class="hljs-built_in">Expand-Archive</span> <span class="hljs-literal">-LiteralPath</span> (<span class="hljs-built_in">Join-Path</span> <span class="hljs-variable">$downloadDir</span> <span class="hljs-string">'cudart-llama-bin-win-cuda-12.4-x64.zip'</span>) `<br>    <span class="hljs-literal">-DestinationPath</span> <span class="hljs-variable">$binDir</span> <span class="hljs-literal">-Force</span><br></code></pre></td></tr></tbody></table></figure></div>
+
+<p>The two compressed files are approximately 254MB and 391MB, respectively. After extraction, confirm that the program can recognize the graphics card:</p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">Set-Location</span> <span class="hljs-variable">$binDir</span><br>.\llama<span class="hljs-literal">-cli</span>.exe <span class="hljs-literal">--list-devices</span><br>.\llama<span class="hljs-literal">-server</span>.exe <span class="hljs-literal">--version</span><br></code></pre></td></tr></tbody></table></figure></div>
+
+<p>The first item should list your NVIDIA graphics card, and the second item should output information containing... <code>build 10909</code> The version number.</p>
+<p><strong>Possible problems</strong></p>
+<ul>
+<li><strong>Must write <code>curl.exe</code>Don't just write <code>curl</code></strong>。 In old versions of Windows PowerShell,<code>curl</code> It's an alias for another command with completely different parameters, and it will directly throw an error.</li>
+<li><strong>Only one compressed file was downloaded.</strong>The program will not be able to use the graphics card because the CUDA DLL is missing. Both packages need to be extracted to the same <code>bin</code> Catalogue.</li>
+<li><strong>Variables are lost when PowerShell is turned off</strong>。 If you close the window midway through, you need to reopen it with the above definitions first. <code>$llamaRoot</code>、<code>$downloadDir</code>、<code>$modelDir</code>、<code>$binDir</code> Run those lines again.</li>
+<li>The "CUDA 12.4" here is just the running environment that comes with this precompiled package.<strong>No need</strong>You install the CUDA Toolkit separately.</li>
+</ul>
+<h2 id="第三步：下载模型"><a href="#第三步：下载模型" class="headerlink" title="Step 3: Download the model"></a>Step 3: Download the model</h2><p>Two files are required, both from <a class="link" target="_blank" rel="noopener" href="https://huggingface.co/bartowski/Qwen_Qwen3.5-9B-GGUF">Bartowski's Qwen3.5-9B GGUF Repository<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>：</p>
+<table>
+<thead>
+<tr>
+<th>file</th>
+<th>effect</th>
+<th align="right">size</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Qwen_Qwen3.5-9B-Q4_K_M.gguf</code></td>
+<td>Main Model</td>
+<td align="right">About 5.75 GiB</td>
+</tr>
+<tr>
+<td><code>mmproj-Qwen_Qwen3.5-9B-bf16.gguf</code></td>
+<td>Multimodal components allow models to "see" images and videos.</td>
+<td align="right">About 0.86 GiB</td>
+</tr>
+</tbody></table>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$qwenModel</span> = <span class="hljs-built_in">Join-Path</span> <span class="hljs-variable">$modelDir</span> <span class="hljs-string">'Qwen_Qwen3.5-9B-Q4_K_M.gguf'</span><br><span class="hljs-variable">$qwenMmproj</span> = <span class="hljs-built_in">Join-Path</span> <span class="hljs-variable">$modelDir</span> <span class="hljs-string">'mmproj-Qwen_Qwen3.5-9B-bf16.gguf'</span><br><br>curl.exe <span class="hljs-literal">-L</span> <span class="hljs-literal">--fail</span> <span class="hljs-literal">--retry</span> <span class="hljs-number">5</span> <span class="hljs-literal">--continue-at</span> - <span class="hljs-literal">--progress-bar</span> `<br>    <span class="hljs-literal">-o</span> <span class="hljs-variable">$qwenModel</span> `<br>    <span class="hljs-string">'https://huggingface.co/bartowski/Qwen_Qwen3.5-9B-GGUF/resolve/main/Qwen_Qwen3.5-9B-Q4_K_M.gguf?download=true'</span><br><span class="hljs-keyword">if</span> (<span class="hljs-variable">$LASTEXITCODE</span> <span class="hljs-operator">-ne</span> <span class="hljs-number">0</span>) { <span class="hljs-keyword">throw</span> <span class="hljs-string">'Qwen 主模型下载失败'</span> }<br><br>curl.exe <span class="hljs-literal">-L</span> <span class="hljs-literal">--fail</span> <span class="hljs-literal">--retry</span> <span class="hljs-number">5</span> <span class="hljs-literal">--continue-at</span> - <span class="hljs-literal">--progress-bar</span> `<br>    <span class="hljs-literal">-o</span> <span class="hljs-variable">$qwenMmproj</span> `<br>    <span class="hljs-string">'https://huggingface.co/bartowski/Qwen_Qwen3.5-9B-GGUF/resolve/main/mmproj-Qwen_Qwen3.5-9B-bf16.gguf?download=true'</span><br><span class="hljs-keyword">if</span> (<span class="hljs-variable">$LASTEXITCODE</span> <span class="hljs-operator">-ne</span> <span class="hljs-number">0</span>) { <span class="hljs-keyword">throw</span> <span class="hljs-string">'Qwen 多模态组件下载失败'</span> }<br></code></pre></td></tr></tbody></table></figure></div>
+
+<p>In the order <code>--continue-at -</code> It's a break-point resumption: If the download breaks midway through, running the same command again will pick up the download from where it left off, without having to start over.</p>
+<h3 id="校验文件是否完整"><a href="#校验文件是否完整" class="headerlink" title="Check whether the file is complete"></a>Check whether the file is complete</h3><p>It's not uncommon for a 6GB file to download errors, and a corrupted model file can cause all sorts of inexplicable loading failures. Therefore, be sure to verify it once after downloading:</p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$expectedHashes</span> = <span class="hljs-selector-tag">@</span>{<br>    <span class="hljs-string">'Qwen_Qwen3.5-9B-Q4_K_M.gguf'</span> = <span class="hljs-string">'d784ce9eda1a5a7b51e8f705a9e6310844bf4f173654d115823c775fdea56d43'</span><br>    <span class="hljs-string">'mmproj-Qwen_Qwen3.5-9B-bf16.gguf'</span> = <span class="hljs-string">'d89c4bc142d02ed64aeed5c0a358bdead9109f21f4ada03a6b2df17a1aa94d9e'</span><br>}<br><br><span class="hljs-keyword">foreach</span> (<span class="hljs-variable">$modelName</span> <span class="hljs-keyword">in</span> <span class="hljs-variable">$expectedHashes</span>.Keys) {<br>    <span class="hljs-variable">$modelPath</span> = <span class="hljs-built_in">Join-Path</span> <span class="hljs-variable">$modelDir</span> <span class="hljs-variable">$modelName</span><br>    <span class="hljs-variable">$actualHash</span> = (<span class="hljs-built_in">Get-FileHash</span> <span class="hljs-literal">-LiteralPath</span> <span class="hljs-variable">$modelPath</span> <span class="hljs-literal">-Algorithm</span> SHA256).Hash.ToLowerInvariant()<br>    <span class="hljs-keyword">if</span> (<span class="hljs-variable">$actualHash</span> <span class="hljs-operator">-ne</span> <span class="hljs-variable">$expectedHashes</span>[<span class="hljs-variable">$modelName</span>]) {<br>        <span class="hljs-keyword">throw</span> <span class="hljs-string">"模型哈希不匹配：<span class="hljs-variable">$modelName</span>"</span><br>    }<br>    [<span class="hljs-type">pscustomobject</span>]<span class="hljs-selector-tag">@</span>{ File=<span class="hljs-variable">$modelName</span>; Verified=<span class="hljs-variable">$true</span>; SHA256=<span class="hljs-variable">$actualHash</span> }<br>}<br></code></pre></td></tr></tbody></table></figure></div>
+
+<p>Both files display <code>Verified = True</code> No problem. These two hash values are the values I validated when I downloaded them.</p>
+<p><strong>Possible problems</strong></p>
+<ul>
+<li><strong>Prompt "Model hash mismatch"</strong>There are two possibilities. First, if the file is not downloaded completely or is corrupted, run the download command again to continue the transfer and verify it again. Secondly, the repository author later updated the file (in the download link). <code>main</code> (This points to the latest status of the repository). In this case, you can go to the repository page to verify the SHA-256 of the file.</li>
+<li><strong>I don't want it after downloading half of it.</strong>Press directly <code>Ctrl+C</code> Interruption. The remaining half-file extension is... <code>.gguf</code>But it doesn't work. Don't use it to load; delete it or change the name (I changed it to...). <code>.partial</code>To avoid confusion later.</li>
+<li><strong>File size does not match</strong>In PowerShell <code>1GB</code> It is actually 1024³ bytes, so it calculates GiB. The GB listed on the webpage will be slightly different from it, which is normal.</li>
+</ul>
+<h2 id="第四步：第一次启动"><a href="#第四步：第一次启动" class="headerlink" title="Step 4: First Startup"></a>Step 4: First Startup</h2><p>First, start it directly from the command line to confirm that everything is working properly, and then double-click the file to start it.</p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">Set-Location</span> <span class="hljs-variable">$binDir</span><br>.\llama<span class="hljs-literal">-server</span>.exe <span class="hljs-literal">-m</span> <span class="hljs-variable">$qwenModel</span> <span class="hljs-literal">--mmproj</span> <span class="hljs-variable">$qwenMmproj</span> `<br>    <span class="hljs-literal">-ngl</span> <span class="hljs-number">99</span> <span class="hljs-literal">-c</span> <span class="hljs-number">4096</span> <span class="hljs-literal">-np</span> <span class="hljs-number">1</span> `<br>    <span class="hljs-literal">--cache-type-k</span> q8_0 <span class="hljs-literal">--cache-type-v</span> q8_0 `<br>    <span class="hljs-literal">--image-min-tokens</span> <span class="hljs-number">1024</span> `<br>    <span class="hljs-literal">--reasoning</span> off `<br>    <span class="hljs-literal">--host</span> <span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span> <span class="hljs-literal">--port</span> <span class="hljs-number">8080</span><br></code></pre></td></tr></tbody></table></figure></div>
+
+<p>A lot of loading information will scroll through the window. Once it has quieted down and the server has started listening, open it with your browser:</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">http://127.0.0.1:8080<br></code></pre></td></tr></tbody></table></figure></div>
+
+<p>You will see a chat page. Ask a random question, then try dragging a picture in to describe it. To stop the model, return to the PowerShell window and press <code>Ctrl+C</code>。</p>
+<p>What do these parameters mean respectively:</p>
+<table>
+<thead>
+<tr>
+<th>parameter</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-m</code></td>
+<td>Path to the main model file</td>
+</tr>
+<tr>
+<td><code>--mmproj</code></td>
+<td>The path of the multimodal component. You must use the one that matches the main model; you cannot mix it with other models.</td>
+</tr>
+<tr>
+<td><code>-ngl 99</code></td>
+<td>Put all the layers of the model into the graphics card as much as possible. It's not that the model has 99 layers.</td>
+</tr>
+<tr>
+<td><code>-c 4096</code></td>
+<td>The context length is the total amount that the model can "remember" in a single conversation. This is the runtime setting, not the upper limit of the model</td>
+</tr>
+<tr>
+<td><code>-np 1</code></td>
+<td>Only one request is processed at a time, saving resources.</td>
+</tr>
+<tr>
+<td><code>--cache-type-k/v q8_0</code></td>
+<td>Let the session cache use more memory-saving precision. It is different from the quantification of the model itself.</td>
+</tr>
+<tr>
+<td><code>--image-min-tokens 1024</code></td>
+<td>Minimum number of lexical elements used when processing images</td>
+</tr>
+<tr>
+<td><code>--reasoning off</code></td>
+<td>Thinking is turned off by default. We'll explain later how to change it to allow switching on the webpage.</td>
+</tr>
+<tr>
+<td><code>--host 127.0.0.1</code></td>
+<td>Allows local access only, not to local area networks or the Internet</td>
+</tr>
+<tr>
+<td><code>--port 8080</code></td>
+<td>Ports used by web pages and interfaces</td>
+</tr>
+</tbody></table>
+<p><strong>Possible problems</strong></p>
+<ul>
+<li><strong>Insufficient memory, loading failure, or exceptional lag</strong>After loading the multimodal components with 8GB of graphics memory, there is less than 1GB left (my entire graphics card occupies 7364 MiB). First, close programs that occupy video memory, such as games, other AI software, and browsers with many tabs open. If that doesn't work, then... <code>-c 4096</code> Smaller, or remove <code>--mmproj $qwenMmproj</code> This paragraph only contains text.</li>
+<li><strong>I only want to talk about words; I want a longer context.</strong>Remove <code>--mmproj</code> That part, put <code>-c</code> Change to <code>8192</code>。 The 31.3 tokens/s I measured is this configuration, and the video memory usage is 6429 MiB. Text and multimodal use the same model; the only difference is whether or not visual components are loaded.</li>
+<li><strong>The webpage cannot be opened</strong>The model will take some time to load. It will refresh after the loading information in the window stops. You can also run it in another PowerShell window <code>Invoke-RestMethod 'http://127.0.0.1:8080/health'</code> Check if the service is ready.</li>
+<li><strong>Prompt port is occupied</strong>This indicates that a program is already in use on the 8080, and it's very likely that the one you started earlier hasn't been closed yet. put <code>--port 8080</code> Change to another number, for example <code>8089</code>The website address was also changed accordingly.</li>
+<li><strong>Do not open two copies at the same time.</strong>The two model services use different ports and are also competing for memory from the same graphics card; 8GB is simply not enough.</li>
+<li><strong>"Multimodal" refers to pictures and videos</strong>。 In my configuration, the audio option in the interface is unavailable.</li>
+</ul>
+<h2 id="第五步：做一个双击就能启动的文件"><a href="#第五步：做一个双击就能启动的文件" class="headerlink" title="Step 5: Create a file that can be launched by double-clicking"></a>Step 5: Create a file that can be launched by double-clicking</h2><p>It's too much trouble to type such a long command every time. Just create a startup file and double-click it later.</p>
+<p>The following PowerShell command will be... <code>llama.cpp</code> Generate under directory <code>start-qwen.cmd</code>。 It's a simplified version of the launcher I use every day, removing the "custom web pages" and "Agent" options. Those two options will be discussed in the advanced section later.</p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$launcherPath</span> = <span class="hljs-built_in">Join-Path</span> <span class="hljs-variable">$llamaRoot</span> <span class="hljs-string">'start-qwen.cmd'</span><br><span class="hljs-variable">$launcherText</span> = <span class="hljs-string">@'</span><br><span class="hljs-string">@echo off</span><br><span class="hljs-string">setlocal</span><br><span class="hljs-string">title Qwen3.5 9B Multimodal - llama.cpp</span><br><span class="hljs-string"></span><br><span class="hljs-string">set "ROOT=%~dp0"</span><br><span class="hljs-string">set "BIN=%ROOT%bin"</span><br><span class="hljs-string">set "MODEL=%ROOT%models\Qwen_Qwen3.5-9B-Q4_K_M.gguf"</span><br><span class="hljs-string">set "MMPROJ=%ROOT%models\mmproj-Qwen_Qwen3.5-9B-bf16.gguf"</span><br><span class="hljs-string"></span><br><span class="hljs-string">if not exist "%BIN%\llama-server.exe" goto missing_files</span><br><span class="hljs-string">if not exist "%MODEL%" goto missing_files</span><br><span class="hljs-string">if not exist "%MMPROJ%" goto missing_files</span><br><span class="hljs-string"></span><br><span class="hljs-string">cd /d "%BIN%"</span><br><span class="hljs-string">echo Starting Qwen3.5 9B multimodal chat with NVIDIA GPU acceleration...</span><br><span class="hljs-string">echo The chat page will open at http://127.0.0.1:8080</span><br><span class="hljs-string">echo Close this window or press Ctrl+C to stop the model.</span><br><span class="hljs-string">echo.</span><br><span class="hljs-string"></span><br><span class="hljs-string">start "" powershell.exe -NoProfile -WindowStyle Hidden -Command "Start-Sleep -Seconds 6; Start-Process 'http://127.0.0.1:8080'"</span><br><span class="hljs-string">"%BIN%\llama-server.exe" -m "%MODEL%" --mmproj "%MMPROJ%" -ngl 99 -c 4096 -np 1 --cache-type-k q8_0 --cache-type-v q8_0 --image-min-tokens 1024 --reasoning off --host 127.0.0.1 --port 8080</span><br><span class="hljs-string"></span><br><span class="hljs-string">echo.</span><br><span class="hljs-string">echo Qwen3.5 has stopped. Press any key to close this window.</span><br><span class="hljs-string">pause &gt;nul</span><br><span class="hljs-string">exit /b</span><br><span class="hljs-string"></span><br><span class="hljs-string">:missing_files</span><br><span class="hljs-string">echo ERROR: One or more llama.cpp or model files are missing.</span><br><span class="hljs-string">echo Installation folder: %ROOT%</span><br><span class="hljs-string">echo.</span><br><span class="hljs-string">pause</span><br><span class="hljs-string">exit /b 1</span><br><span class="hljs-string">'@</span><br><br><span class="hljs-variable">$launcherText</span> = <span class="hljs-variable">$launcherText</span> <span class="hljs-operator">-replace</span> <span class="hljs-string">"`r?`n"</span>, <span class="hljs-string">"`r`n"</span><br>[<span class="hljs-type">IO.File</span>]::WriteAllText(<span class="hljs-variable">$launcherPath</span>, <span class="hljs-variable">$launcherText</span>, [<span class="hljs-type">Text.Encoding</span>]::ASCII)<br></code></pre></td></tr></tbody></table></figure></div>
+
+<p>Then double-click in the "Documents\llama.cpp" folder. <code>start-qwen.cmd</code>A black window will pop up to load the model, and the browser will automatically open after 6 seconds. Close that black window, and the model stops.</p>
+<p>This file does several things: first, it checks if the program and model files are there; if they are missing, it will stop and let you know. use <code>cd /d</code> Switch directories so that they can be used on other drive letters; The startup command is written as a whole line; Finally use <code>pause</code> Guarantee that the window does not flash when an error occurs.</p>
+<p><strong>Possible problems: The window flashes and disappears after double-clicking, or "no response".</strong></p>
+<p>This is the pit I've been in the longest. Nothing happens after double clicking on my first version of the startup file. Don't rely on guessing; first, catch the error message:</p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs powershell">cmd.exe /d /c <span class="hljs-string">"call `"<span class="hljs-variable">$launcherPath</span>`""</span><br></code></pre></td></tr></tbody></table></figure></div>
+
+<p>What I was seeing at the time was this output:</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">'NVIDIA' is not recognized as an internal or external command<br>'-NoProfile' is not recognized as an internal or external command<br>The system cannot find the path specified.<br></code></pre></td></tr></tbody></table></figure></div>
+
+<p>In other words, CMD splits up fragments that originally belonged to the same command and executes them as independent commands. This has nothing to do with the model or graphics card driver; the problem lies with the text of the batch file itself: encoding, line breaks, and usage. <code>^</code> How to write "continue". I didn't conduct control experiments on each item, so I can't say for sure which character caused it, but the following approach has not caused any problems since:</p>
+<ol>
+<li><strong>Document content is in English (ASCII) only.</strong> The Chinese instructions are written in another document. The filename can be in Chinese, but do not write Chinese characters in the file.</li>
+<li><strong>Line breaks use Windows' CRLF.</strong></li>
+<li><strong>The start command is written as a whole line</strong>, no need <code>^</code> Line break.</li>
+<li><strong>reserve <code>pause</code></strong>This way, you can see the error message when an error occurs.</li>
+</ol>
+<p>The last two lines of the command above that generates the startup file correspond to steps 1 and 2. If you edited it manually using Notepad, you can check and correct it using the following command:</p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$launcherText</span> = [<span class="hljs-type">IO.File</span>]::ReadAllText(<span class="hljs-variable">$launcherPath</span>)<br><span class="hljs-keyword">if</span> (<span class="hljs-variable">$launcherText</span> <span class="hljs-operator">-match</span> <span class="hljs-string">'[^\x00-\x7F]'</span>) {<br>    <span class="hljs-keyword">throw</span> <span class="hljs-string">'启动器里还有非英文字符，请先删掉'</span><br>}<br><span class="hljs-variable">$launcherText</span> = <span class="hljs-variable">$launcherText</span> <span class="hljs-operator">-replace</span> <span class="hljs-string">"`r?`n"</span>, <span class="hljs-string">"`r`n"</span><br>[<span class="hljs-type">IO.File</span>]::WriteAllText(<span class="hljs-variable">$launcherPath</span>, <span class="hljs-variable">$launcherText</span>, [<span class="hljs-type">Text.Encoding</span>]::ASCII)<br></code></pre></td></tr></tbody></table></figure></div>
+
+<p>There's another small detail: the browser automatically opens using a fixed 6-second delay, and it doesn't actually detect that the model has completed loading. If the page opens before the model is ready, just wait a few seconds to refresh.</p>
+<p>At this point, a local AI that can read images is ready for daily use. The following content is optional.</p>
+<h2 id="第六步：看看它到底有多快"><a href="#第六步：看看它到底有多快" class="headerlink" title="Step 6: See how fast it really is"></a>Step 6: See how fast it really is</h2><p>If you want to know the actual speed on your machine, you can have the server report the count automatically. While the model is running, open another PowerShell window:</p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$body</span> = <span class="hljs-selector-tag">@</span>{<br>    model = <span class="hljs-string">'qwen3.5-9b'</span><br>    messages = <span class="hljs-selector-tag">@</span>(<span class="hljs-selector-tag">@</span>{ role=<span class="hljs-string">'user'</span>; content=<span class="hljs-string">'请用中文列出五条提高专注力的建议，每条一句话，直接回答。'</span> })<br>    temperature = <span class="hljs-number">0.7</span><br>    top_p = <span class="hljs-number">0.8</span><br>    max_tokens = <span class="hljs-number">256</span><br>    stream = <span class="hljs-variable">$false</span><br>    chat_template_kwargs = <span class="hljs-selector-tag">@</span>{ enable_thinking=<span class="hljs-variable">$false</span> }<br>} | <span class="hljs-built_in">ConvertTo-Json</span> <span class="hljs-literal">-Depth</span> <span class="hljs-number">8</span><br><br><span class="hljs-variable">$resp</span> = <span class="hljs-built_in">Invoke-RestMethod</span> <span class="hljs-literal">-Uri</span> <span class="hljs-string">'http://127.0.0.1:8080/v1/chat/completions'</span> `<br>    <span class="hljs-literal">-Method</span> Post <span class="hljs-literal">-ContentType</span> <span class="hljs-string">'application/json; charset=utf-8'</span> `<br>    <span class="hljs-literal">-Body</span> ([<span class="hljs-type">Text.Encoding</span>]::UTF8.GetBytes(<span class="hljs-variable">$body</span>)) <span class="hljs-literal">-TimeoutSec</span> <span class="hljs-number">120</span><br><br>[<span class="hljs-type">pscustomobject</span>]<span class="hljs-selector-tag">@</span>{<br>    Reply = <span class="hljs-variable">$resp</span>.choices[<span class="hljs-number">0</span>].message.content<br>    CompletionTokens = <span class="hljs-variable">$resp</span>.usage.completion_tokens<br>    SpeedTokensPerSec = [<span class="hljs-type">math</span>]::Round(<span class="hljs-variable">$resp</span>.timings.predicted_per_second, <span class="hljs-number">1</span>)<br>} | <span class="hljs-built_in">Format-List</span><br><br>nvidia<span class="hljs-literal">-smi</span> <span class="hljs-literal">--query-gpu</span>=memory.used,memory.total,utilization.gpu <span class="hljs-literal">--format</span>=csv,noheader<br></code></pre></td></tr></tbody></table></figure></div>
+
+<p><code>SpeedTokensPerSec</code> It refers to the generation speed.</p>
+<p><strong>Precautions when reading</strong></p>
+<ul>
+<li><strong>Test answers that are too short do not count.</strong> The speed fluctuates greatly when generating only a few words; it should generate at least one or two hundred words.</li>
+<li><strong>Don't mistake "prompt word processing speed" for generation speed.</strong> Web pages sometimes display numbers of thousands of words per second; that's the speed at which the model reads your question, not the speed at which it writes the answer.</li>
+<li><strong>Speed is affected by many factors.</strong>Whether the laptop is plugged in, power mode, temperature, context length, and whether thinking is enabled. It's normal for the two tests to be different.</li>
+</ul>
+<h2 id="进阶一：让网页可以切换“思考模式”"><a href="#进阶一：让网页可以切换“思考模式”" class="headerlink" title="Advancement 1: Enabling web pages to switch between &quot;thinking modes&quot;"></a>Advancement 1: Enabling web pages to switch between "thinking modes"</h2><p>Qwen3.5 supports "thinking": reason a paragraph before answering, which is suitable for questions such as math and coding, but it will seem slow in everyday chat. The previous startup command was used <code>--reasoning off</code> It's turned off by default. Ideally, you can switch between them at any time within the webpage.</p>
+<p>The problem is, the webpage in version b10909 is...<strong>When only one model is loaded on the desktop</strong>The Reasoning submenu is omitted from the "+" menu. You need to distinguish between three things: whether the model supports switching thinking, whether the server is on or off by default, and whether the webpage gives you the toggle. The first two items are fine; the only thing missing is the menu on the webpage. This conclusion only applies to b10909 and does not mean that subsequent versions will have the same problem; The repair method referenced upstream... <a class="link" target="_blank" rel="noopener" href="https://github.com/ggml-org/llama.cpp/pull/27985">PR #27985<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>。</p>
+<p>First, confirm that the interface itself can indeed close thinking on request (executed in another window while the model is running):</p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$chatBody</span> = <span class="hljs-selector-tag">@</span>{<br>    model = <span class="hljs-string">'Qwen_Qwen3.5'</span><br>    messages = <span class="hljs-selector-tag">@</span>(<span class="hljs-selector-tag">@</span>{ role=<span class="hljs-string">'user'</span>; content=<span class="hljs-string">'Reply with OK only.'</span> })<br>    stream = <span class="hljs-variable">$false</span><br>    max_tokens = <span class="hljs-number">16</span><br>    reasoning_format = <span class="hljs-string">'auto'</span><br>    chat_template_kwargs = <span class="hljs-selector-tag">@</span>{ enable_thinking=<span class="hljs-variable">$false</span> }<br>} | <span class="hljs-built_in">ConvertTo-Json</span> <span class="hljs-literal">-Depth</span> <span class="hljs-number">8</span><br><br><span class="hljs-variable">$chatReply</span> = <span class="hljs-built_in">Invoke-RestMethod</span> `<br>    <span class="hljs-literal">-Method</span> Post <span class="hljs-literal">-Uri</span> <span class="hljs-string">'http://127.0.0.1:8080/v1/chat/completions'</span> `<br>    <span class="hljs-literal">-ContentType</span> <span class="hljs-string">'application/json; charset=utf-8'</span> `<br>    <span class="hljs-literal">-Body</span> ([<span class="hljs-type">Text.Encoding</span>]::UTF8.GetBytes(<span class="hljs-variable">$chatBody</span>)) <span class="hljs-literal">-TimeoutSec</span> <span class="hljs-number">60</span><br><br>[<span class="hljs-type">pscustomobject</span>]<span class="hljs-selector-tag">@</span>{<br>    Content = <span class="hljs-variable">$chatReply</span>.choices[<span class="hljs-number">0</span>].message.content<br>    Reasoning = <span class="hljs-variable">$chatReply</span>.choices[<span class="hljs-number">0</span>].message.reasoning_content<br>    Finish = <span class="hljs-variable">$chatReply</span>.choices[<span class="hljs-number">0</span>].finish_reason<br>}<br></code></pre></td></tr></tbody></table></figure></div>
+
+<p>What I get here is <code>Content = OK</code>，<code>Reasoning</code> It is empty. This means that as long as the webpage sends the selection to the server, that's fine.</p>
+<p>Next, you need to build your own webpage. This step requires installation first. <a class="link" target="_blank" rel="noopener" href="https://git-scm.com/">Git<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> and <a class="link" target="_blank" rel="noopener" href="https://nodejs.org/">Node.js<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>(I'm using Node v22.15.0, npm 10.9.2). Build only the web front-end, no C++ compilation required.</p>
+<p><strong>1. Download the corresponding version of source code</strong></p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$sourceRoot</span> = <span class="hljs-built_in">Join-Path</span> ([<span class="hljs-type">Environment</span>]::GetFolderPath(<span class="hljs-string">'MyDocuments'</span>)) <span class="hljs-string">'llama-source-b10909'</span><br><span class="hljs-keyword">if</span> (<span class="hljs-built_in">Test-Path</span> <span class="hljs-literal">-LiteralPath</span> <span class="hljs-variable">$sourceRoot</span>) { <span class="hljs-keyword">throw</span> <span class="hljs-string">'源码目录已存在，请换一个目录'</span> }<br>git clone <span class="hljs-literal">--depth</span> <span class="hljs-number">1</span> <span class="hljs-literal">--branch</span> b10909 https://github.com/ggml<span class="hljs-literal">-org</span>/llama.cpp.git <span class="hljs-variable">$sourceRoot</span><br></code></pre></td></tr></tbody></table></figure></div>
+
+<p><strong>2. Change a file</strong></p>
+<p>Open with any text editor:</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">tools/ui/src/lib/components/app/chat/ChatForm/ChatFormActions/ChatFormActionAdd/ChatFormActionAddDropdown.svelte<br></code></pre></td></tr></tbody></table></figure></div>
+
+<p>Change the import statement to introduce the thinking submenu component at the same time:</p>
+<div class="code-container" data-rel="Diff"><figure class="iseeu highlight diff"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs diff"><span class="hljs-deletion">- import { ChatFormActionAddToolsSubmenu, McpLogo } from '$lib/components/app';</span><br><span class="hljs-addition">+ import {</span><br><span class="hljs-addition">+   ChatFormActionAddReasoningSubmenu,</span><br><span class="hljs-addition">+   ChatFormActionAddToolsSubmenu,</span><br><span class="hljs-addition">+   McpLogo</span><br><span class="hljs-addition">+ } from '$lib/components/app';</span><br></code></pre></td></tr></tbody></table></figure></div>
+
+<p>Then render it in the additional menu on the desktop, adding a separator line:</p>
+<div class="code-container" data-rel="Plaintext"><figure class="iseeu highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs svelte">&lt;ChatFormActionAddReasoningSubmenu /&gt;<br>&lt;DropdownMenu.Separator /&gt;<br></code></pre></td></tr></tbody></table></figure></div>
+
+<p>This component is already in the source code, but this menu doesn't use it. So this is just taking back existing things, not inventing a new mechanism.</p>
+<p><strong>3. Install dependencies, check, and build.</strong></p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">Set-Location</span> (<span class="hljs-built_in">Join-Path</span> <span class="hljs-variable">$sourceRoot</span> <span class="hljs-string">'tools\ui'</span>)<br>npm ci<br>npm run check<br>npm run build<br></code></pre></td></tr></tbody></table></figure></div>
+
+<p><code>npm run check</code> The result should be 0 errors and 0 warnings. You may get a "File size exceeds warning threshold" message during build; that's just a warning, not an error.</p>
+<p><strong>4. Place the build results in the installation directory.</strong></p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$uiDist</span> = <span class="hljs-built_in">Join-Path</span> <span class="hljs-variable">$sourceRoot</span> <span class="hljs-string">'tools\ui\dist'</span><br><span class="hljs-variable">$webuiDir</span> = <span class="hljs-built_in">Join-Path</span> <span class="hljs-variable">$llamaRoot</span> <span class="hljs-string">'webui'</span><br><span class="hljs-built_in">New-Item</span> <span class="hljs-literal">-ItemType</span> Directory <span class="hljs-literal">-Force</span> <span class="hljs-literal">-Path</span> <span class="hljs-variable">$webuiDir</span> | <span class="hljs-built_in">Out-Null</span><br><span class="hljs-built_in">Get-ChildItem</span> <span class="hljs-literal">-LiteralPath</span> <span class="hljs-variable">$uiDist</span> <span class="hljs-literal">-Force</span> |<br>    <span class="hljs-built_in">Copy-Item</span> <span class="hljs-literal">-Destination</span> <span class="hljs-variable">$webuiDir</span> <span class="hljs-literal">-Recurse</span> <span class="hljs-literal">-Force</span><br></code></pre></td></tr></tbody></table></figure></div>
+
+<p><strong>5. Modify the startup command</strong></p>
+<p>Put the startup command <code>--reasoning off</code> Replace with:</p>
+<div class="code-container" data-rel="Text"><figure class="iseeu highlight text"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">--reasoning auto --path "%WEBUI%"<br></code></pre></td></tr></tbody></table></figure></div>
+
+<p>And add a line to the variable section before the startup file. <code>set "WEBUI=%ROOT%webui"</code>。 If you start it directly in PowerShell, write it as <code>--reasoning auto --path (Join-Path $llamaRoot 'webui')</code>。</p>
+<p>After restarting, click the "+" in the lower left corner of the input box to see the Reasoning menu, where you can switch between off, low, medium, high, and maximum.</p>
+<p><strong>Possible problems</strong></p>
+<ul>
+<li><strong><code>--path</code> You must add it.</strong> If you don't add it, the program will still open the same built-in webpage without a menu, and you might think that the changes haven't taken effect.</li>
+<li><strong>The webpage remains unchanged after modifications.</strong>This webpage will be cached by your browser. Press <code>Ctrl+F5</code> Force refresh; If the page prompts "Available updates", click "Refresh".</li>
+<li><strong>Used when copying files <code>Copy-Item -LiteralPath (Join-Path $uiDist '*')</code> Nothing was copied.</strong>：<code>-LiteralPath</code> It means "take the path literally" and will not expand. <code>*</code>。 You need to use it as above first. <code>Get-ChildItem</code> List them out before copying them.</li>
+<li><strong>The higher the level of thinking, the better.</strong> The thinking budgets for low, medium, and high are 512, 2048, and 8192 vocabulary elements, respectively. But my total context is only 4096, and the "high" 8192 can't fit at all. Select "Off" for regular chat, and "Medium" for math, coding, or complex reasoning.</li>
+</ul>
+<h2 id="进阶二：开启-Agent-工具"><a href="#进阶二：开启-Agent-工具" class="headerlink" title="Advanced 2: Open the Agent tool"></a>Advanced 2: Open the Agent tool</h2><p>This version of llama.cpp allows the model to call native tools. The approach is<strong>The original complete startup command</strong>Plus <code>--agent</code>It's not about starting another one that only brings... <code>--agent</code> The process:</p>
+<div class="code-container" data-rel="Diff"><figure class="iseeu highlight diff"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs diff"><span class="hljs-deletion">- --reasoning auto --path "%WEBUI%" --host 127.0.0.1 --port 8080</span><br><span class="hljs-addition">+ --reasoning auto --agent --path "%WEBUI%" --host 127.0.0.1 --port 8080</span><br></code></pre></td></tr></tbody></table></figure></div>
+
+<p>The parameters may differ between different versions. First, check if it's included in the help for your version:</p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell">&amp; (<span class="hljs-built_in">Join-Path</span> <span class="hljs-variable">$binDir</span> <span class="hljs-string">'llama-server.exe'</span>) <span class="hljs-literal">--help</span> <span class="hljs-number">2</span>&gt;&amp;<span class="hljs-number">1</span> |<br>    <span class="hljs-built_in">Select-String</span> <span class="hljs-literal">-Pattern</span> <span class="hljs-string">'^--agent|\s--agent|--tools'</span> <span class="hljs-literal">-Context</span> <span class="hljs-number">0</span>,<span class="hljs-number">3</span><br></code></pre></td></tr></tbody></table></figure></div>
+
+<p>After starting, you can check if the tool is ready:</p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$serverProps</span> = <span class="hljs-built_in">Invoke-RestMethod</span> <span class="hljs-string">'http://127.0.0.1:8080/props'</span><br><span class="hljs-variable">$serverTools</span> = <span class="hljs-built_in">Invoke-RestMethod</span> <span class="hljs-string">'http://127.0.0.1:8080/tools'</span><br>[<span class="hljs-type">pscustomobject</span>]<span class="hljs-selector-tag">@</span>{<br>    Vision = <span class="hljs-variable">$serverProps</span>.modalities.vision<br>    ToolCount = <span class="hljs-selector-tag">@</span>(<span class="hljs-variable">$serverTools</span>).Count<br>    Tools = (<span class="hljs-selector-tag">@</span>(<span class="hljs-variable">$serverTools</span>) | <span class="hljs-built_in">ForEach-Object</span> { <span class="hljs-variable">$_</span>.name }) <span class="hljs-operator">-join</span> <span class="hljs-string">', '</span><br>}<br></code></pre></td></tr></tbody></table></figure></div>
+
+<p>My server has seven tools: reading files, searching files, searching file contents, executing commands, writing files, editing files, and viewing runtime information. Two more browser-side tools will appear on the webpage, so the total number displayed on the interface is 9, which is not contradictory to the 7 returned by the interface.</p>
+<p><strong>Security issues must be addressed here.</strong> Once the Agent is enabled, the model can read and write files on your computer and execute commands; it is no longer just a chat window. So:</p>
+<ul>
+<li>keep <code>--host 127.0.0.1</code>，<strong>don't</strong>Change to <code>0.0.0.0</code>Do not expose it to local area networks or public networks.</li>
+<li>Monitoring only the local machine does not mean absolute security. When the model is asked to process a web page or document of unknown origin, it may contain text that tricks it into performing an action.</li>
+<li>Don't add tools when you don't need them. <code>--agent</code>。</li>
+</ul>
+<p>I only verified that the tool loaded properly and the menu displayed; I did not make the model execute write files or dangerous commands for testing purposes.</p>
+<h2 id="进阶三：把网页界面改成中文"><a href="#进阶三：把网页界面改成中文" class="headerlink" title="Step 3: Change the webpage interface to Chinese"></a>Step 3: Change the webpage interface to Chinese</h2><p>The b10909's web interface is in English, and much of the text is hard-coded into the source code, with no readily available "language" option to switch between. My approach is to translate at the source code level and then rebuild it, using the same process as fixing the thinking menu above.</p>
+<p>Specifically, I wrote a script that uses the Svelte compiler and TypeScript syntax analysis to read the source code, replaces the text on the interface with a Chinese-English bilingual dictionary, and then manually adds dynamic text that the script cannot handle (such as spelled-out sentences like "maximum 2,048 vocabulary"). The translation scope includes chat pages, sidebars, settings pages, think menus, tools menus, build progress, and statistics.</p>
+<p>There are hundreds of entries in the dictionary, but I won't post them here. I'll just share a few useful tips for those who want to do it themselves:</p>
+<ul>
+<li><strong>Translate only the interface text; do not modify the strings used within the program.</strong> Like thinking hierarchy <code>off</code>、<code>medium</code>The tool's function names and interface parameter names are agreed upon between programs, and translation will cause errors. I mistakenly translated an internal prefix string halfway through, and only discovered it during checking and changed it back.</li>
+<li><strong>You can't just rely on "search for English and then replace".</strong> Even if you use grammatical analysis, you still have to look at the semantics one by one.</li>
+<li><strong>Back up before translating.</strong> I keep a repaired English version of the thinking menu, which I can switch back to at any time.</li>
+<li><strong>After the revisions are completed, inspections and tests are required.</strong> All 674 unit tests included in the project passed after translation; After that, I added a few more words and redid the checking, building, and browser verification.</li>
+<li>The model's answers, your input, and the results returned by the tool will not be translated; only the interface will be translated into Chinese.</li>
+</ul>
+<p>The final result is that chat, settings, thinking patterns, tool menus, and generation progress are all in Chinese, while the model and startup parameters remain completely unchanged.</p>
+<h2 id="接入其他软件"><a href="#接入其他软件" class="headerlink" title="Access to other software"></a>Access to other software</h2><p><code>llama-server</code> It provides an OpenAI-compatible interface, so many clients that support custom interface addresses can connect directly:</p>
+<ul>
+<li>interface address (Base URL):<code>http://127.0.0.1:8080/v1</code></li>
+<li>Model name: Use the following command to check; don't guess based on the filename.</li>
+<li>API Key: The server has not set a Key. If the client requires it to be filled in, whether any placeholder value will work depends on the client.</li>
+</ul>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-built_in">Invoke-RestMethod</span> <span class="hljs-string">'http://127.0.0.1:8080/v1/models'</span><br><span class="hljs-built_in">Invoke-RestMethod</span> <span class="hljs-string">'http://127.0.0.1:8080/health'</span><br></code></pre></td></tr></tbody></table></figure></div>
+
+<p>Example of direct call using PowerShell (note that Chinese characters must be sent in UTF-8, otherwise the characters will be garbled):</p>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs powershell"><span class="hljs-variable">$modelList</span> = <span class="hljs-built_in">Invoke-RestMethod</span> <span class="hljs-string">'http://127.0.0.1:8080/v1/models'</span><br><span class="hljs-variable">$actualModelId</span> = <span class="hljs-variable">$modelList</span>.data[<span class="hljs-number">0</span>].id<br><span class="hljs-variable">$requestJson</span> = <span class="hljs-selector-tag">@</span>{<br>    model = <span class="hljs-variable">$actualModelId</span><br>    messages = <span class="hljs-selector-tag">@</span>(<span class="hljs-selector-tag">@</span>{ role=<span class="hljs-string">'user'</span>; content=<span class="hljs-string">'请用中文介绍一下你自己。'</span> })<br>    stream = <span class="hljs-variable">$false</span><br>    max_tokens = <span class="hljs-number">256</span><br>    chat_template_kwargs = <span class="hljs-selector-tag">@</span>{ enable_thinking=<span class="hljs-variable">$false</span> }<br>} | <span class="hljs-built_in">ConvertTo-Json</span> <span class="hljs-literal">-Depth</span> <span class="hljs-number">8</span><br><br><span class="hljs-built_in">Invoke-RestMethod</span> <span class="hljs-literal">-Method</span> Post `<br>    <span class="hljs-literal">-Uri</span> <span class="hljs-string">'http://127.0.0.1:8080/v1/chat/completions'</span> `<br>    <span class="hljs-literal">-ContentType</span> <span class="hljs-string">'application/json; charset=utf-8'</span> `<br>    <span class="hljs-literal">-Body</span> ([<span class="hljs-type">Text.Encoding</span>]::UTF8.GetBytes(<span class="hljs-variable">$requestJson</span>))<br></code></pre></td></tr></tbody></table></figure></div>
+
+<p>These commands will report connection errors when the model is not started, which is normal; they will not help you start the model.</p>
+<h2 id="以后想换别的模型"><a href="#以后想换别的模型" class="headerlink" title="I want to switch to another model in the future."></a>I want to switch to another model in the future.</h2><p>The process is the same:</p>
+<ol>
+<li>Verify that your llama.cpp version supports that model.</li>
+<li>Quantizes version and context length by memory size.</li>
+<li>Download and verify the complete GGUF file from a trusted repository.</li>
+<li>If it is a multimodal model, download<strong>Matching it</strong>mmproj; A plain text model is not required.</li>
+<li>First, stop the running model, then change the startup command. <code>-m</code> and <code>--mmproj</code>。 It is recommended to test run on a different port first, confirm that there are no problems, and then modify the startup files used daily.</li>
+</ol>
+<div class="code-container" data-rel="Powershell"><figure class="iseeu highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs powershell">&amp; (<span class="hljs-built_in">Join-Path</span> <span class="hljs-variable">$binDir</span> <span class="hljs-string">'llama-server.exe'</span>) `<br>    <span class="hljs-literal">-m</span> (<span class="hljs-built_in">Join-Path</span> <span class="hljs-variable">$modelDir</span> <span class="hljs-string">'YOUR-MODEL.gguf'</span>) `<br>    <span class="hljs-literal">-ngl</span> <span class="hljs-number">99</span> <span class="hljs-literal">-c</span> <span class="hljs-number">4096</span> <span class="hljs-literal">-np</span> <span class="hljs-number">1</span> `<br>    <span class="hljs-literal">--host</span> <span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span> <span class="hljs-literal">--port</span> <span class="hljs-number">8089</span><br></code></pre></td></tr></tbody></table></figure></div>
+
+<p><code>YOUR-MODEL.gguf</code> It's a placeholder name; you need to replace it with a real filename. In addition, the "Think Switch" is a feature supported by Qwen's chat templates, but not all models have it. You need to confirm again after changing models.</p>
+<h2 id="常见问题速查"><a href="#常见问题速查" class="headerlink" title="FAQ Quick Check"></a>FAQ Quick Check</h2><table>
+<thead>
+<tr>
+<th>phenomenon</th>
+<th>Causes and Treatment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Cannot be found message <code>nvidia-smi</code></td>
+<td>No NVIDIA driver installed, install the driver first.</td>
+</tr>
+<tr>
+<td><code>curl</code> Report parameter error</td>
+<td>Write <code>curl.exe</code></td>
+</tr>
+<tr>
+<td>The program does not require a graphics card and is extremely slow.</td>
+<td>Check if the compressed file in the CUDA runtime has been extracted. <code>bin</code>； use <code>llama-cli.exe --list-devices</code> Confirm that the graphics card can be</td>
+</tr>
+<tr>
+<td>Model loading failed</td>
+<td>Verify SHA-256 first to rule out file corruption</td>
+</tr>
+<tr>
+<td>Insufficient video memory</td>
+<td>Close other programs that occupy video memory; reduce <code>-c</code>； remove <code>--mmproj</code> Only run text</td>
+</tr>
+<tr>
+<td>Double-clicking the startup file flashes by.</td>
+<td>use <code>cmd.exe /d /c "call 文件路径"</code> Catch and report errors; The file content is written only in English, CRLF line breaks, and the startup command is written on one line.</td>
+</tr>
+<tr>
+<td>The browser opens blank or cannot connect.</td>
+<td>The model is still loading, please wait a few seconds to refresh; Or inquire <code>/health</code></td>
+</tr>
+<tr>
+<td>Port occupied</td>
+<td>The previous one wasn't closed, or you could switch to another one. <code>--port</code></td>
+</tr>
+<tr>
+<td>I always have to "think" for a long time before answering.</td>
+<td>Startup parameters <code>--reasoning off</code>Alternatively, select "Close" from the Think menu on the webpage.</td>
+</tr>
+<tr>
+<td>I changed the webpage but I don't see any changes.</td>
+<td>Confirm that the startup parameters <code>--path</code>； Press <code>Ctrl+F5</code> Force refresh</td>
+</tr>
+<tr>
+<td>When copying files <code>*</code> Not effective</td>
+<td><code>-LiteralPath</code> Instead of expanding wildcards, use <code>Get-ChildItem ... | Copy-Item</code></td>
+</tr>
+<tr>
+<td>I want to delete the old model</td>
+<td>Confirm that the new model has been downloaded, verified, and can be loaded before deleting. I'm using move to recycle bin instead of permanently deleting it directly.</td>
+</tr>
+</tbody></table>
+<h2 id="写在最后"><a href="#写在最后" class="headerlink" title="At the end"></a>At the end</h2><p>Looking back, this didn't require particularly powerful hardware or knowledge of deep learning. There are three areas where time is really spent: trading off between "fast" and "comprehensive" when choosing a model, getting stuck on the encoding problem of a batch file, and figuring out whether the "think switch is missing" is a problem with the model, the server, or the webpage. Explain these three points clearly, and the rest is just to type the commands in order.</p>
+<p>A few reminders:</p>
+<ul>
+<li>The speed and memory figures in this article are records of my machine at the time; they will be different with different computers and power modes.</li>
+<li>The model's benchmark score comes from Qwen official website and measures a model with complete accuracy; I'm running the quantified version locally; there are no retests.</li>
+<li>Local models can also make serious mistakes, and you have to verify important information yourself.</li>
+</ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="References"></a>References</h2><ul>
+<li><a class="link" target="_blank" rel="noopener" href="https://github.com/ggml-org/llama.cpp/releases/tag/b10909">call.cpp b10909 Release page<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://github.com/ggml-org/llama.cpp/blob/b10909/tools/server/README.md">llama.cpp b10909 Server Documentation<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://github.com/ggml-org/llama.cpp/tree/b10909/tools/ui">call.cpp b10909 web page source code<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://github.com/ggml-org/llama.cpp/pull/27985">Think menu fix: PR #27985<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> with <a class="link" target="_blank" rel="noopener" href="https://github.com/ggml-org/llama.cpp/issues/27981">issue #27981<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://huggingface.co/Qwen/Qwen3.5-9B">Qwen3.5-9B Official Model Card<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>(Source of benchmark data and comparison chart)</li>
+<li><a class="link" target="_blank" rel="noopener" href="https://huggingface.co/bartowski/Qwen_Qwen3.5-9B-GGUF">Qwen3.5-9B GGUF (Bartowski quantification)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://huggingface.co/google/gemma-4-E4B-it-qat-q4_0-gguf">Gemma 4 E4B Official QAT GGUF<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+</ul>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> With just 8GB of video memory, you can deploy a 30 tk/s multimodal AI in your laptop.</li>
+        <li><strong>Author:</strong> AdenXie</li>
+        <li><strong>Created at
+                :</strong> 2026-10-05 12:00:00</li>
+        
+        <li>
+            <strong>Link:</strong> https://blog.adenxie.com.cn/2026/10/05/2026-10-05-llama-cpp-qwen35-9b-8gb-laptop/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                All Rights Reserved © AdenXie
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E6%95%99%E7%A8%8B/">#Tutorial</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E6%9C%AC%E5%9C%B0%E5%A4%A7%E6%A8%A1%E5%9E%8B/">#Local Large Model</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/llama-cpp/">#llama.cpp</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/Qwen/">#Qwen</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%A4%9A%E6%A8%A1%E6%80%81/">#Multimodal</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/09/20/jev-system-one/" title="Why Jev became popular: When AI stopped writing answers and instead made judgments for the software." rel="bookmark">
+  <img src="https://framerusercontent.com/images/z4Uu1YpJeEZPBSMTCMI0CN2PX0.png" alt="Why Jev became popular: When AI stopped writing answers and instead made judgments for the software." class="!max-w-none">
+  <span class="title">Why Jev became popular: When AI stopped writing answers and instead made judgments for the software.</span>
+</a><a class="recommended-article-item" href="/2023/03/06/Windows11%E6%AD%A3%E5%BC%8F%E7%89%88%E4%BD%BF%E7%94%A8WSA%E6%96%B9%E6%B3%95/" title="Windows 11 official version uses WSA method" rel="bookmark">
+  <img src="https://th.bing.com/th/id/OIP.a2Lqu-6xruSIqultkPCUYwHaEs?pid=ImgDet&amp;rs=1" alt="Windows 11 official version uses WSA method" class="!max-w-none">
+  <span class="title">Windows 11 official version uses WSA method</span>
+</a><a class="recommended-article-item" href="/2026/10/01/2026-10-01-gemini-4-argon/" title="Gemini 4 Argon: The reasons I like Gemini are all written in Argon this time." rel="bookmark">
+  <img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/g4_30-09-26_key-art_blog.width-1600.format-webp.webp" alt="Gemini 4 Argon: The reasons I like Gemini are all written in Argon this time." class="!max-w-none">
+  <span class="title">Gemini 4 Argon: The reasons I like Gemini are all written in Argon this time.</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/09/20/jev-system-one/" title="Why Jev became popular: When AI stopped writing answers and instead made judgments for the software." rel="bookmark">
+  <img src="https://framerusercontent.com/images/z4Uu1YpJeEZPBSMTCMI0CN2PX0.png" alt="Why Jev became popular: When AI stopped writing answers and instead made judgments for the software." class="!max-w-none">
+  <span class="title">Why Jev became popular: When AI stopped writing answers and instead made judgments for the software.</span>
+</a><a class="recommended-article-item" href="/2023/03/06/Windows11%E6%AD%A3%E5%BC%8F%E7%89%88%E4%BD%BF%E7%94%A8WSA%E6%96%B9%E6%B3%95/" title="Windows 11 official version uses WSA method" rel="bookmark">
+  <img src="https://th.bing.com/th/id/OIP.a2Lqu-6xruSIqultkPCUYwHaEs?pid=ImgDet&amp;rs=1" alt="Windows 11 official version uses WSA method" class="!max-w-none">
+  <span class="title">Windows 11 official version uses WSA method</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/10/04/2026-10-04-daily-brief/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Daily Briefing | 2026-10-04: Security Anxiety Reshapes the Capital and Policy Agenda</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">With just 8GB of video memory, you can deploy a 30 tk/s multimodal AI in your laptop.</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%88%E8%AF%B4%E7%BB%93%E8%AE%BA%EF%BC%9A%E6%9C%80%E7%BB%88%E8%B7%91%E8%B5%B7%E6%9D%A5%E7%9A%84%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-text">First, let's talk about the conclusion: What ultimately gets started?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF-llama-cpp"><span class="nav-text">Why llama.cpp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%80%E5%90%8E%E9%80%89%E4%BA%86-Qwen3-5-9B"><span class="nav-text">Why was Qwen3.5-9B ultimately chosen?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B%E4%B9%8B%E5%89%8D%EF%BC%9A%E4%BD%A0%E9%9C%80%E8%A6%81%E5%87%86%E5%A4%87%E4%BB%80%E4%B9%88"><span class="nav-text">Before you start: What you need to prepare</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E7%A1%AE%E8%AE%A4%E7%A1%AC%E4%BB%B6"><span class="nav-text">Step 1: Confirm the hardware</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E4%B8%8B%E8%BD%BD%E5%B9%B6%E8%A7%A3%E5%8E%8B-llama-cpp"><span class="nav-text">Step 2: Download and extract llama.cpp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%9A%E4%B8%8B%E8%BD%BD%E6%A8%A1%E5%9E%8B"><span class="nav-text">Step 3: Download the model</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%A1%E9%AA%8C%E6%96%87%E4%BB%B6%E6%98%AF%E5%90%A6%E5%AE%8C%E6%95%B4"><span class="nav-text">Check whether the file is complete</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E6%AD%A5%EF%BC%9A%E7%AC%AC%E4%B8%80%E6%AC%A1%E5%90%AF%E5%8A%A8"><span class="nav-text">Step 4: First Startup</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E6%AD%A5%EF%BC%9A%E5%81%9A%E4%B8%80%E4%B8%AA%E5%8F%8C%E5%87%BB%E5%B0%B1%E8%83%BD%E5%90%AF%E5%8A%A8%E7%9A%84%E6%96%87%E4%BB%B6"><span class="nav-text">Step 5: Create a file that can be launched by double-clicking</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%85%AD%E6%AD%A5%EF%BC%9A%E7%9C%8B%E7%9C%8B%E5%AE%83%E5%88%B0%E5%BA%95%E6%9C%89%E5%A4%9A%E5%BF%AB"><span class="nav-text">Step 6: See how fast it really is</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E9%98%B6%E4%B8%80%EF%BC%9A%E8%AE%A9%E7%BD%91%E9%A1%B5%E5%8F%AF%E4%BB%A5%E5%88%87%E6%8D%A2%E2%80%9C%E6%80%9D%E8%80%83%E6%A8%A1%E5%BC%8F%E2%80%9D"><span class="nav-text">Advancement 1: Enabling web pages to switch between "thinking modes"</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E9%98%B6%E4%BA%8C%EF%BC%9A%E5%BC%80%E5%90%AF-Agent-%E5%B7%A5%E5%85%B7"><span class="nav-text">Advanced 2: Open the Agent tool</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E9%98%B6%E4%B8%89%EF%BC%9A%E6%8A%8A%E7%BD%91%E9%A1%B5%E7%95%8C%E9%9D%A2%E6%94%B9%E6%88%90%E4%B8%AD%E6%96%87"><span class="nav-text">Step 3: Change the webpage interface to Chinese</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A5%E5%85%A5%E5%85%B6%E4%BB%96%E8%BD%AF%E4%BB%B6"><span class="nav-text">Access to other software</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A5%E5%90%8E%E6%83%B3%E6%8D%A2%E5%88%AB%E7%9A%84%E6%A8%A1%E5%9E%8B"><span class="nav-text">I want to switch to another model in the future.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E9%80%9F%E6%9F%A5"><span class="nav-text">FAQ Quick Check</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E6%9C%80%E5%90%8E"><span class="nav-text">At the end</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-text">References</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">Write down your real experiences while retaining the edges of your viewpoints.</div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        62 posts in total
+                    </span>
+                    
+                        <span>
+                            144.7k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days"></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/cyber-weather.js" defer=""></script>
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/cyber-exchange.js" defer=""></script>
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="Image viewer">
+	<button class="image-viewer-close" type="button" aria-label="Close">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="Prev">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="Close">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="Next">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Search..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js"></script>
+
+
+<script src="/js/build/plugins/aplayer.js"></script>
+
+
+	
+
+
+</body></html>
