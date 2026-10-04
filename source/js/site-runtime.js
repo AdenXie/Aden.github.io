@@ -65,6 +65,18 @@
     scripts.set(url, pending);
     return pending;
   }
+  function loadStyle(url) {
+    if (scripts.has(url)) return scripts.get(url);
+    const pending = new Promise((resolve, reject) => {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet'; link.href = url;
+      link.onload = resolve;
+      link.onerror = () => { link.remove(); scripts.delete(url); reject(new Error('Style unavailable')); };
+      document.head.append(link);
+    });
+    scripts.set(url, pending);
+    return pending;
+  }
   window.AdenSite = { register, loadScript, delay };
   document.addEventListener('DOMContentLoaded', mountAll, { once: true });
   window.addEventListener('pageshow', mountAll);
@@ -78,6 +90,26 @@
   };
   bind(window.swup);
   window.addEventListener('redefine:swup:ready', event => bind(event.detail?.swup || window.swup));
+  // Every page carries only this button; the chat panel, its styles and the first
+  // /api/chat request load when a visitor opens it (or follows an old /chat/ link).
+  register('chat-launcher', '#aden-chat-launcher', (button, scope) => {
+    const label = button.getAttribute('aria-label');
+    let loading = false;
+    const toggle = async () => {
+      if (loading) return;
+      loading = true; button.setAttribute('aria-busy', 'true');
+      try {
+        await Promise.all([loadStyle(button.dataset.style), loadScript(button.dataset.script)]);
+        button.setAttribute('aria-label', label);
+        if (!scope.signal.aborted) document.dispatchEvent(new CustomEvent('aden-chat:toggle'));
+      } catch {
+        button.setAttribute('aria-label', document.documentElement.lang.startsWith('en') ? 'Chat failed to load. Click to retry.' : '聊天加载失败，点击重试');
+      } finally { loading = false; button.removeAttribute('aria-busy'); }
+    };
+    button.hidden = false;
+    button.addEventListener('click', toggle, { signal: scope.signal });
+    if (new URLSearchParams(location.search).get('chat') === 'open' && button.getAttribute('aria-expanded') !== 'true') toggle();
+  });
   register('comments', '#twikoo-comment', (root, scope) => {
     let started = false;
     const start = async () => {

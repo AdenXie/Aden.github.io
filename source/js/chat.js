@@ -1,12 +1,49 @@
-/* Temporary chat: page memory only. No browser storage, cookies or analytics. */
+/* Temporary chat panel, loaded on the first click of the launcher. Page memory only:
+   no browser storage, cookies or analytics. */
 (() => {
   'use strict';
+  const en = document.documentElement.lang.startsWith('en');
+  const t = (zh, english) => en ? english : zh;
+  const ARTICLE_LIMIT = 32000; // Keep in sync with MAX_ARTICLE in source/api/chat.js.
+  if (!document.getElementById('aden-chat')) {
+    const panel = document.createElement('section');
+    panel.id = 'aden-chat'; panel.hidden = true;
+    panel.setAttribute('translate', 'no'); panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-labelledby', 'aden-chat-title');
+    // Static interface text only; article titles and model output are added as text nodes.
+    panel.innerHTML = `<header class="chat-heading"><div><span class="chat-label">ADEN'S SPACE / AI CHAT</span><h2 id="aden-chat-title">${t('想聊点什么？', 'What’s on your mind?')}</h2></div><div class="chat-heading-actions"><button type="button" data-chat="clear">${t('清空', 'Clear')}</button><button type="button" data-chat="close" aria-label="${t('关闭聊天', 'Close chat')}"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div></header>
+  <p class="chat-context" data-chat="context" hidden></p>
+  <div class="chat-transcript" data-chat="messages" role="region" aria-label="${t('对话内容', 'Conversation')}" tabindex="0">
+    <div class="chat-empty" data-chat="empty"><span class="chat-spark" aria-hidden="true">✳</span><p>${t('从你的第一个问题开始', 'Start with your first question')}</p><span data-chat="hint"></span></div>
+  </div>
+  <form data-chat="form" class="chat-composer">
+    <label for="chat-input" class="chat-input-label">${t('你的消息', 'Your message')}</label>
+    <textarea id="chat-input" data-chat="input" rows="2" maxlength="4000" autocomplete="off" placeholder="${t('在这里输入问题…', 'Type your question here…')}"></textarea>
+    <div class="chat-reasoning-row"><span>${t('思考深度', 'Reasoning')}</span><div class="chat-reasoning" data-chat="reasoning" role="radiogroup" aria-label="${t('思考深度', 'Reasoning effort')}"><button type="button" role="radio" data-reasoning="low" aria-checked="true">Low</button><button type="button" role="radio" data-reasoning="medium" aria-checked="false">Medium</button><button type="button" role="radio" data-reasoning="xhigh" aria-checked="false">XHigh</button></div></div>
+    <div class="chat-composer-footer"><span class="chat-key-hint">${t('Enter 发送 · Shift + Enter 换行', 'Enter to send · Shift + Enter for a new line')}</span><div><button type="button" data-chat="stop" hidden>${t('停止生成', 'Stop')}</button><button type="submit" data-chat="send" disabled>${t('发送', 'Send')} <span aria-hidden="true">↑</span></button></div></div>
+  </form>
+  <p data-chat="status" class="chat-status" role="status" aria-live="polite">${t('正在连接聊天服务…', 'Connecting to chat…')}</p>
+  <p class="chat-privacy">${t('本站不保存对话。消息会发送至 AMD Radeon Cloud，数据处理以其政策为准。AI 回答可能有误，请核对重要信息。', 'This site does not save conversations. Messages are sent to AMD Radeon Cloud under its data policies. AI can make mistakes; check important information.')}</p>`;
+    document.body.append(panel);
+  }
+  // The open post as the reader sees it (the translated text on English pages).
+  function readArticle() {
+    const body = document.querySelector('.post-page-container .article-content');
+    const content = body?.innerText.replace(/\xa0/g, ' ').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+    if (!content) return null;
+    const title = (document.querySelector('.post-page-container .article-title')?.textContent || document.title).trim().slice(0, 300);
+    return { title, url: location.pathname.slice(0, 500), content: content.slice(0, ARTICLE_LIMIT), truncated: content.length > ARTICLE_LIMIT };
+  }
   window.AdenSite.register('chat', '#aden-chat', (root, scope) => {
-    const en = document.documentElement.lang.startsWith('en');
-    const t = (zh, english) => en ? english : zh;
     const find = name => root.querySelector(`[data-chat="${name}"]`);
     const input = find('input'), form = find('form'), send = find('send'), stop = find('stop'), reasoning = find('reasoning');
     const transcript = find('messages'), empty = find('empty'), status = find('status');
+    const launcher = document.getElementById('aden-chat-launcher');
+    const page = readArticle();
+    find('context').hidden = !page;
+    if (page) find('context').textContent = t('AI 可读取本文：', 'AI can read this article: ') + page.title;
+    find('hint').textContent = page
+      ? t('可以直接问这篇文章的内容，也可以聊别的。刷新或离开页面后，对话即清空。', 'Ask about this article or anything else. Refreshing or leaving clears this chat.')
+      : t('可以连续追问。刷新或离开页面后，对话即清空。', 'Ask follow-up questions. Refreshing or leaving clears this chat.');
     let history = [], active = null, available = false, reasoningEffort = 'low', assistantLabel = 'AI ASSISTANT';
     const errors = {
       not_configured: t('聊天暂未开放，请稍后再来。', 'Chat is not available yet. Please check back later.'),
@@ -110,7 +147,7 @@
       const schedule = () => { if (frame === null) frame = requestAnimationFrame(update); };
       const finishTyping = () => shown >= answer.length ? Promise.resolve() : new Promise(resolve => { drained = resolve; schedule(); });
       try {
-        const response = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: [...history, { role: 'user', content: prompt }], reasoningEffort: requestReasoning }), signal: controller.signal, cache: 'no-store' });
+        const response = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: [...history, { role: 'user', content: prompt }], reasoningEffort: requestReasoning, ...(page && { page }) }), signal: controller.signal, cache: 'no-store' });
         if (!response.ok) {
           const data = await response.json().catch(() => ({}));
           throw new Error(response.status === 429 ? 'rate_limited' : typeof data.error === 'string' ? data.error : 'provider_unavailable');
@@ -184,6 +221,22 @@
       empty.hidden = false; input.value = ''; controls();
       setStatus(available ? t('对话仅在当前页面保留。', 'This conversation stays only on this page.') : errors.not_configured);
     }
+    function setOpen(open) {
+      root.hidden = !open;
+      document.documentElement.classList.toggle('aden-chat-open', open);
+      launcher?.setAttribute('aria-expanded', String(open));
+      if (!open) launcher?.focus();
+      else { scroll(); if (!matchMedia('(pointer: coarse)').matches) input.focus(); }
+    }
+    document.addEventListener('aden-chat:toggle', () => setOpen(root.hidden), { signal: scope.signal });
+    find('close').addEventListener('click', () => setOpen(false), { signal: scope.signal });
+    root.addEventListener('keydown', event => { if (event.key === 'Escape') setOpen(false); }, { signal: scope.signal });
+    // Phones show the panel full screen; keep the composer above the on-screen keyboard.
+    const viewport = window.visualViewport;
+    if (viewport) {
+      const fit = () => { root.style.setProperty('--chat-height', `${viewport.height}px`); root.style.setProperty('--chat-top', `${viewport.offsetTop}px`); };
+      viewport.addEventListener('resize', fit, { signal: scope.signal }); viewport.addEventListener('scroll', fit, { signal: scope.signal }); fit();
+    }
     form.addEventListener('submit', submit, { signal: scope.signal });
     input.addEventListener('input', controls, { signal: scope.signal });
     reasoning.addEventListener('click', event => { const button = event.target.closest('[data-reasoning]'); if (button) setReasoning(button.dataset.reasoning); }, { signal: scope.signal });
@@ -203,6 +256,7 @@
       const configuredModel = typeof data.model === 'string' ? data.model.trim() : '';
       if (configuredModel) assistantLabel = configuredModel;
       available = data.available === true; controls();
+      if (available && !root.hidden && !matchMedia('(pointer: coarse)').matches) input.focus();
       setStatus(available ? t('对话仅在当前页面保留。', 'This conversation stays only on this page.') : errors.not_configured);
     }).catch(() => {
       if (!scope.signal.aborted) { available = true; controls(); setStatus(t('服务状态暂不可用，可以尝试发送。', 'Service status unavailable. You can try sending a message.')); }

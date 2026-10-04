@@ -123,6 +123,13 @@ async function optimize(directory = 'public') {
     const languageScript = $('<script src="/js/language-preference.js"></script>');
     if (fs.existsSync(path.join(out, 'en/index.html'))) languageScript.attr('data-english-home', '/en/');
     $('head').prepend(languageScript);
+    // Chat is a floating launcher on every page; its panel, script and styles load on first use.
+    // Added after translation, and cached English snapshots may still list the retired chat page.
+    $('.navbar-list a, .drawer-navbar-list a').filter((_, el) => /^\/(?:en\/)?chat\/$/.test($(el).attr('href') || '')).closest('li').remove();
+    $('#aden-chat-launcher').remove();
+    $('body').append($('<button type="button" id="aden-chat-launcher" class="aden-chat-launcher" aria-haspopup="dialog" aria-expanded="false" hidden><span aria-hidden="true">✳</span><span class="aden-chat-launcher-label"></span></button>')
+      .attr({ 'aria-label': $('html').attr('lang')?.startsWith('en') ? 'Open AI chat' : '打开 AI 聊天', 'data-script': version('/js/chat.js'), 'data-style': version('/css/chat.css') }));
+    $('#aden-chat-launcher .aden-chat-launcher-label').text($('html').attr('lang')?.startsWith('en') ? 'Ask AI' : '问 AI');
     // Web Analytics is enabled on Vercel. Load it only on the public blog domain
     // so local previews and alternate deployment URLs do not count as visitors.
     $('script[data-aden-analytics]').remove();

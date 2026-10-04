@@ -13,6 +13,7 @@ function checkOutput(directory = 'public') {
     const filename = path.join(root, decodeURI(url.split(/[?#]/)[0]));
     assert(fs.existsSync(filename), `Missing generated resource: ${url}`);
   };
+  assert(!fs.existsSync(path.join(root, 'chat')) && !fs.existsSync(path.join(root, 'en/chat')), 'Retired chat page was generated');
   let pages = 0;
   for (const file of files(root).filter(f => f.endsWith('.html'))) {
     const $ = cheerio.load(fs.readFileSync(file, 'utf8')); pages++;
@@ -23,8 +24,15 @@ function checkOutput(directory = 'public') {
     assert.equal($('script[data-aden-analytics]').length, 1, file);
     assert(!/"preload":true/.test($.html()), `Eager search in ${file}`);
     if (!$('#world-time').length) assert.equal($('script[src*="/world-time.js"]').length, 0);
-    if (!$('#aden-chat').length) assert.equal($('script[src*="/js/chat.js"],link[href*="/css/chat.css"]').length, 0);
-    else assert.match($('#aden-chat h2').text(), $('html').attr('lang')?.startsWith('en') ? /What/ : /想聊/);
+    // Chat: one launcher per page, assets deferred until it is used, no trace of the retired page.
+    assert.equal($('script[src*="/js/chat.js"],link[href*="/css/chat.css"],#aden-chat').length, 0, file);
+    assert.equal($('a[href$="/chat/"]').length, 0, file);
+    const launcher = $('body > #aden-chat-launcher[hidden]');
+    assert.equal(launcher.length, 1, file);
+    assert.equal(launcher.attr('aria-label'), $('html').attr('lang')?.startsWith('en') ? 'Open AI chat' : '打开 AI 聊天', file);
+    assert.match(launcher.attr('data-script'), /^\/js\/chat\.js\?v=[a-f0-9]{12}$/, file);
+    assert.match(launcher.attr('data-style'), /^\/css\/chat\.css\?v=[a-f0-9]{12}$/, file);
+    exists(launcher.attr('data-script')); exists(launcher.attr('data-style'));
     if (!$('.home-content-container').length) assert.equal($('script[src*="cyber-weather.js"],script[src*="cyber-exchange.js"]').length, 0);
     assert.equal($('script[src*="cdnjs.cloudflare.com/ajax/libs/twikoo"]').length, 0);
     if ($('.home-banner-background').length) {

@@ -138,6 +138,77 @@ html .navbar-container .right .desktop .navbar-item > a {
   }
 }
 
+/* AI chat launcher: one fixed pill in the bottom-right corner on every page (same pattern
+   as Everyday Economics). Redefine's tool column moves up to sit above it. */
+.aden-chat-launcher {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1000;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 48px;
+  padding: 0 1.15rem 0 1rem;
+  border: 1px solid var(--aden-signal);
+  border-radius: 999px;
+  background: var(--aden-signal);
+  box-shadow: 0 10px 28px rgb(0 0 0 / 30%);
+  color: var(--background-color);
+  font: 700 0.9rem var(--aden-interface-font);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.aden-chat-launcher[hidden] {
+  display: none;
+}
+
+.aden-chat-launcher:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 32px rgb(0 0 0 / 38%);
+}
+
+.aden-chat-launcher[aria-expanded="true"] {
+  background: var(--background-color);
+  color: var(--aden-signal);
+}
+
+.aden-chat-launcher[aria-busy="true"] {
+  opacity: 0.6;
+}
+
+html .page-container .right-side-tools-container {
+  bottom: 86px;
+}
+
+/* The theme hides its tools over the home banner, where phones show the social buttons. */
+body:has(.home-banner-container):has(.right-side-tools-container.hide) .aden-chat-launcher {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .aden-chat-launcher {
+    right: 12px;
+    bottom: 14px;
+    min-height: 44px;
+    padding: 0 0.95rem 0 0.85rem;
+  }
+
+  html .page-container .right-side-tools-container {
+    bottom: 68px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aden-chat-launcher {
+    transition: none;
+  }
+}
+
 .home-banner-background::after {
   position: absolute;
   inset: 0;
