@@ -141,10 +141,16 @@ async function optimize(directory = 'public') {
     if (!$('#subtitle').length) $('script[src*="Typed.min.js"]').remove();
     $('script[src*="vercount"]').attr('async', '');
     const scrollButton = $('.home-banner-container [onclick="scrollToMain()"]');
-    if (scrollButton.length && !$('.home-banner-actions').length) {
-      scrollButton.parent().addClass('home-banner-footer');
-      scrollButton.wrap('<div class="home-banner-actions flex items-center gap-3"></div>');
-      scrollButton.parent().append(fs.readFileSync(path.join(ROOT, 'lib/theme/home-project-links.ejs'), 'utf8'));
+    if (scrollButton.length) {
+      if (!$('.home-banner-actions').length) {
+        scrollButton.parent().addClass('home-banner-footer');
+        scrollButton.wrap('<div class="home-banner-actions flex items-center gap-3"></div>');
+      }
+      // Replace cached buttons too: these links are added after translation.
+      const actions = scrollButton.closest('.home-banner-actions');
+      actions.find('.home-project-link').remove();
+      const template = $('html').attr('lang')?.startsWith('en') ? 'home-project-links-en.ejs' : 'home-project-links.ejs';
+      actions.append(fs.readFileSync(path.join(ROOT, 'lib/theme', template), 'utf8'));
     }
     const backgrounds = $('.home-banner-background img');
     backgrounds.each((_, el) => {

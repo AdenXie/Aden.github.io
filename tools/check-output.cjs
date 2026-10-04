@@ -34,6 +34,11 @@ function checkOutput(directory = 'public') {
         'https://jobs.adenxie.com.cn/',
         'https://econ.adenxie.com.cn/',
       ], file);
+      const english = $('html').attr('lang')?.startsWith('en');
+      assert.deepEqual($('.home-banner-actions .home-project-link span').map((_, el) => $(el).html()).get(),
+        english ? ['Job<br>Repo', 'Everyday<br>Econ'] : ['秋招信库', '日常经济'], file);
+      assert.deepEqual($('.home-banner-actions .home-project-link').map((_, el) => $(el).attr('aria-label')).get(),
+        english ? ['Visit Job Repo', 'Visit Everyday Econ'] : ['访问秋招信库', '访问日常经济'], file);
     }
   }
   const siteCSS = files(path.join(root, 'css')).filter(f => /site-.*\.css$/.test(f));
