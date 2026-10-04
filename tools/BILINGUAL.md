@@ -21,6 +21,20 @@ English pages are separate static files under `/en/`. No visitor calls a
 translation API. Normal page navigation is used to isolate language-specific
 scripts and search configuration.
 
+## Visitor language preference
+
+`source/js/language-preference.js` runs early on generated pages. Only the entry
+homepage (`/` or `/index.html`) automatically chooses English when the browser's
+first preferred language is English. Chinese and other languages default to the
+Chinese homepage. A manual Chinese/English choice is saved as `aden-blog-language`
+in optional localStorage and takes priority over the browser language on
+subsequent entry-homepage visits.
+Explicit `/en/` and article URLs are never redirected. Language-switch links keep
+the current query and fragment; existing untranslated-page fallback is unchanged.
+If storage is blocked, the switch carries a `lang=zh/en` query preference so a
+manual Chinese selection does not immediately bounce back to English.
+An explicit valid `lang` query takes priority over saved preference as well.
+
 ## Credentials and limits
 
 GitHub Actions Secrets: `NIUTRANS_API_KEY`, `NIUTRANS_APP_ID`.

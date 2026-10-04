@@ -11,7 +11,7 @@ async function main() {
   const results = [];
   try {
     for (const viewport of [{ width: 390, height: 844 }, { width: 1440, height: 1000 }]) {
-      const context = await browser.newContext({ viewport, isMobile: viewport.width < 600 });
+      const context = await browser.newContext({ viewport, isMobile: viewport.width < 600, locale: 'zh-CN' });
       const page = await context.newPage();
       await page.addInitScript(() => {
         window.testAudio = [];
@@ -93,7 +93,7 @@ async function main() {
       results.push({ viewport, passed: true, externalServicesBlocked: true, externalSdkErrors: errors, requests: requests.length });
       await context.close();
     }
-    const retryContext = await browser.newContext();
+    const retryContext = await browser.newContext({ locale: 'zh-CN' });
     let attempts = 0;
     await retryContext.route('**/*', route => {
       const url = route.request().url();

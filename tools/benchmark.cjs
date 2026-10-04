@@ -11,7 +11,7 @@ async function main() {
   try {
     for (const profile of [{ name: 'normal', rate: -1, latency: 0, cpu: 1 }, { name: 'mobile', rate: 1600000 / 8, latency: 150, cpu: 4 }, { name: 'slow', rate: 400000 / 8, latency: 400, cpu: 6 }]) {
       for (let run = 1; run <= 3; run++) {
-        const context = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1, isMobile: true });
+        const context = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1, isMobile: true, locale: 'zh-CN' });
         const page = await context.newPage();
         const cdp = await context.newCDPSession(page);
         await cdp.send('Network.enable');

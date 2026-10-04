@@ -19,6 +19,7 @@ function checkOutput(directory = 'public') {
     $('script[src],link[rel="stylesheet"],img[src^="/"]').each((_, el) => exists($(el).attr(el.tagName === 'link' ? 'href' : 'src')));
     assert.equal($('script[src*="hexo-theme-redefine@"],link[href*="hexo-theme-redefine@"]').length, 0);
     assert.equal($('script[src*="/js/site-runtime.js"]').length, 1, file);
+    assert.equal($('script[src*="/js/language-preference.js"]').length, 1, file);
     assert.equal($('script[data-aden-analytics]').length, 1, file);
     assert(!/"preload":true/.test($.html()), `Eager search in ${file}`);
     if (!$('#world-time').length) assert.equal($('script[src*="/world-time.js"]').length, 0);

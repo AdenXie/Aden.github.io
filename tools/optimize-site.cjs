@@ -118,6 +118,11 @@ async function optimize(directory = 'public') {
     }
     $('script[src*="/js/site-runtime.js"]').remove();
     $('head').prepend('<script src="/js/site-runtime.js" defer></script>');
+    // Run before rendering; normalize cached English snapshots as well.
+    $('script[src*="/js/language-preference.js"]').remove();
+    const languageScript = $('<script src="/js/language-preference.js"></script>');
+    if (fs.existsSync(path.join(out, 'en/index.html'))) languageScript.attr('data-english-home', '/en/');
+    $('head').prepend(languageScript);
     // Web Analytics is enabled on Vercel. Load it only on the public blog domain
     // so local previews and alternate deployment URLs do not count as visitors.
     $('script[data-aden-analytics]').remove();
