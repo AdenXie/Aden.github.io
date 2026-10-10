@@ -1,0 +1,1198 @@
+<!DOCTYPE html><html lang="zh-CN"><head><script src="/js/language-preference.js?v=29a144036da1" data-english-home="/en/"></script><script src="/js/site-runtime.js?v=ac4bd9cd7294" defer=""></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/2026/10/05/2026-10-05-daily-brief/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="每日简报｜2026-10-05：降息预期回潮，安全成本继续抬升">
+<meta property="og:url" content="https://blog.adenxie.com.cn/2026/10/05/2026-10-05-daily-brief/index.html">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-10-05T04:53:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="新闻">
+<meta property="article:tag" content="市场观察">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png?v=fa6db12e9674" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <!--- Page Info-->
+    
+    <title>
+        
+            每日简报｜2026-10-05：降息预期回潮，安全成本继续抬升 | Aden's Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/css/site-edee0e3425c4.css?v=edee0e3425c4">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js?v=258b1afa4680"></script>
+                
+    
+            
+                
+                    
+                
+    
+
+    
+
+
+
+    
+        
+
+
+    
+
+    
+
+
+    
+
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"zh-CN","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"17px","line_height":1.85,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"all_rights_reserved"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"static","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["科技、体验与个人判断","写下真实体验，也保留观点的棱角"],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"世界时间":{"path":"/world-time/","icon":"fa-regular fa-clock"},"关于":{"path":"/about/","icon":"fa-regular fa-user"},"友链":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":true,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.i18n = {"search":"站内搜索您需要的内容...","toc":"目录","prev":"上一页","next":"下一页","prev_posts":"上一篇","next_posts":"下一篇","page":"第 %d 页","recent_posts":"最新文章","share":"分享","powered_by":"由 %s 驱动","theme":"主题","rss_feed":"RSS Feed","category":"分类","categories":"分类","tag":"标签","tags":"标签","post":"文章","posts":"文章","tagcloud":"标签云","comment":"评论","comments":"评论","top":"置顶","sticky":"置顶","go-back-home":"回到首页","masonry_loading":"照片加载中...","image_viewer":"图片查看器","close":"关闭","exif":{"title":"EXIF","cards":{"camera":"相机","lens":"镜头","exposure":"曝光","other":"其他"},"fields":{"make":"品牌","model":"机型","date_taken":"拍摄时间","lens_model":"镜头","focal_length":"焦距","focus_mode":"对焦模式","shutter":"快门","aperture":"光圈","iso":"感光度","exposure_program":"曝光程序","exposure_compensation":"曝光补偿","metering_mode":"测光模式","flash":"闪光灯","white_balance":"白平衡","latitude":"纬度","longitude":"经度","altitude":"海拔"},"status":{"loading":"加载中...","no_exif":"无 EXIF 信息","library_missing":"EXIF 库未加载","image_source_missing":"图片地址不可用","unavailable":"EXIF 不可用（可能被 CORS 阻止或缺少元数据）","flag_unavailable":"EXIF 不可用"}},"home":"首页","archive":"归档","archives":"归档","about":"关于","links":"链接","link":"链接","friends":"友情链接","friend":"友情链接","timeline":"时间轴","shuoshuo":"说说","bookmarks":"书签","site_uv":"访问人数","site_pv":"总访问量","read_more":"阅读全文","wordcount":"字","min2read":"分钟","changelog":"更新日志","status":"状态","runtime":"博客已运行","days":"天","hours":"小时","minutes":"分钟","seconds":"秒","optimized_by":"并由 Evan 进行优化","rights":"版权所有","site_posts":"共撰写了 %s 篇文章","site_wordcount":"共 %s 字","copyright":{"title":"标题","author":"作者","link":"链接","create_time":"创建于","update_time":"更新于","license_title":"版权声明","license_content":"本文章采用 %s 进行许可。","all_rights_reserved":"版权所有 &#169 %s，禁止转载。","public_domain":"本文为公有领域作品，可自由转载、引用。"},"ago":{"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"},"create_time":"创建","update_time":"更新","expired":"这篇文章最后更新于 %s 天前，内容可能已经过时。"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" hreflang="zh-CN" href="https://blog.adenxie.com.cn/2026/10/05/2026-10-05-daily-brief/"><link rel="alternate" hreflang="en" href="https://blog.adenxie.com.cn/en/2026/10/05/2026-10-05-daily-brief/"><script data-aden-analytics="">
+      if (location.hostname === 'blog.adenxie.com.cn' && !window.__adenAnalyticsLoaded) {
+        window.__adenAnalyticsLoaded = true;
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        const script = document.createElement('script');
+        script.defer = true;
+        script.src = '/_vercel/insights/script.js';
+        document.head.append(script);
+      }
+    </script></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/" data-no-swup="">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/" data-no-swup="">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/archives/" data-no-swup="">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    归档
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/tags/" data-no-swup="">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    标签
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/world-time/" data-no-swup="">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    世界时间
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/about/" data-no-swup="">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/link/" data-no-swup="">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    友链
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    <nav class="aden-language-switch" aria-label="Language"><a lang="zh-CN" href="/2026/10/05/2026-10-05-daily-brief/" aria-current="page" data-no-swup="">中文</a><span> / </span><a lang="en" href="/en/2026/10/05/2026-10-05-daily-brief/" aria-current="false" data-no-swup="">English</a></nav></div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/" data-no-swup="">
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/archives/" data-no-swup="">
+                            <span>
+                                归档
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/tags/" data-no-swup="">
+                            <span>
+                                标签
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/world-time/" data-no-swup="">
+                            <span>
+                                世界时间
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/about/" data-no-swup="">
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/link/" data-no-swup="">
+                            <span>
+                                友链
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/archives/" data-no-swup="">
+                            <span>文章归档</span>
+                            <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/tags/" data-no-swup="">
+                            <span>主题标签</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/about/" data-no-swup="">
+                            <span>关于 Aden</span>
+                            <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags" data-no-swup="">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">25</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories" data-no-swup="">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">5</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives" data-no-swup="">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">66</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://images.unsplash.com/photo-1775150858814-9e531746001f?auto=format&amp;fit=crop&amp;fm=jpg&amp;q=80&amp;w=2000" alt="每日简报｜2026-10-05：降息预期回潮，安全成本继续抬升" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" decoding="async">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">每日简报｜2026-10-05：降息预期回潮，安全成本继续抬升</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg?v=93ba7ebfa2ff" decoding="async" width="460" height="460">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-10-05 12:53</span>
+        <span class="mobile">2026-10-05 12:53</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E6%AF%8F%E6%97%A5%E7%AE%80%E6%8A%A5/" data-no-swup="">每日简报</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E6%96%B0%E9%97%BB/" data-no-swup="">新闻</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/" data-no-swup="">市场观察</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>2.3k 字</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>7 分钟</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h2 id="今日主线"><a href="#今日主线" class="headerlink" title="今日主线" data-no-swup=""></a>今日主线</h2><p>过去24小时，全球市场出现一组看似矛盾、实则相互关联的信号：美国就业降温让投资者迅速削减美联储继续加息的押注，美元和美债收益率随之回落，风险资产得到喘息；但能源运输、欧洲安全、AI治理和中国中小银行整合都在提醒市场，影响长期估值的“安全成本”仍在上升。霍尔木兹海峡船舶遇袭与俄乌基础设施战事，使能源和国防溢价难以快速消失；AI行业则从模型竞赛进一步进入公共监管与责任边界讨论。中国继续通过压缩高风险小银行数量处理金融体系薄弱环节。短期流动性环境趋于友好，与中长期结构性风险抬升，构成今天最值得观察的资产定价组合。</p>
+<span id="more"></span>
+
+<h2 id="五条重点新闻"><a href="#五条重点新闻" class="headerlink" title="五条重点新闻" data-no-swup=""></a>五条重点新闻</h2><h3 id="1-美国就业降温改写利率押注，10月加息概率骤降"><a href="#1-美国就业降温改写利率押注，10月加息概率骤降" class="headerlink" title="1. 美国就业降温改写利率押注，10月加息概率骤降" data-no-swup=""></a>1. 美国就业降温改写利率押注，10月加息概率骤降</h3><p>周一亚洲交易时段，全球股市走强、美元回落、美债止跌，核心催化来自上周公布的美国就业数据：9月新增就业弱于预期，前两个月数据又被明显下修，使市场重新评估此前激进的加息路径。根据CME FedWatch数据，交易员预计美联储10月继续加息的概率已从一周前约64%降至22%。基准10年期美债收益率回落至约5.26%，2年期约4.81%；欧元则从17个月低位反弹至约1.124美元。日本日经指数早盘上涨约2%，标普500和纳斯达克期货也走高。<a class="link" target="_blank" rel="noopener" href="https://www.reuters.com/world/china/global-markets-global-markets-2026-10-05/" data-no-swup="">Reuters<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>指出，政府融资压力、债券供给增加和高能源价格仍使主要经济体长债收益率处于多年高位，因此这并不等于全球紧缩周期已经结束。后续关键是美国通胀、工资和美联储官员表态：若就业继续降温而通胀同步缓和，美元与长端收益率可能进一步承压；若能源重新推高通胀，当前风险资产的宽松交易仍可能迅速逆转。</p>
+<h3 id="2-AI安全争议进入纽约立法听证，行业自律面临更强外部审视"><a href="#2-AI安全争议进入纽约立法听证，行业自律面临更强外部审视" class="headerlink" title="2. AI安全争议进入纽约立法听证，行业自律面临更强外部审视" data-no-swup=""></a>2. AI安全争议进入纽约立法听证，行业自律面临更强外部审视</h3><p>AI治理压力继续从企业内部争论转向地方立法。前Anthropic研究员Jacob Coxon将应纽约市议会议长Julie Menin邀请，在有关人工智能的听证会上作证；纽约市议员正在讨论一揽子旨在建立AI安全保障的法案。Coxon上月离开Anthropic时公开警告前沿AI可能带来严重社会风险，并批评包括Anthropic和OpenAI在内的实验室在安全问题上承担了过高风险。<a class="link" target="_blank" rel="noopener" href="https://www.reuters.com/business/former-anthropic-researcher-coxon-testify-new-york-city-ai-hearing-bloomberg-2026-10-04/" data-no-swup="">Reuters<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>称，其关于听证会安排的信息最初由Bloomberg报道，Reuters尚未独立核实全部细节。事件的重要性不只在个人指控，而在于美国AI监管正在形成联邦、州和城市多层并行的格局：当模型能力、代理自主性和基础设施接入不断扩大，企业仅靠内部安全框架越来越难满足公共问责。后续应关注听证会是否形成具体法案文本、第三方审计和事故披露义务，以及地方规则是否进一步增加AI公司的合规成本并影响模型发布节奏。</p>
+<h3 id="3-中国加速整合中小银行，金融体系从“扩数量”转向“减风险”"><a href="#3-中国加速整合中小银行，金融体系从“扩数量”转向“减风险”" class="headerlink" title="3. 中国加速整合中小银行，金融体系从“扩数量”转向“减风险”" data-no-swup=""></a>3. 中国加速整合中小银行，金融体系从“扩数量”转向“减风险”</h3><p>中国银行业的结构性整合正在显著提速。英国《金融时报》10月5日报道，中国过去四年持续关闭和合并银行机构，到2025年银行数量已减少约23%至3139家，仅去年就有超过670家银行退出，绝大多数为农村和地方小型机构。小银行虽然服务县域和中小企业，但长期面临资产质量偏弱、资本缓冲不足和治理能力有限等问题；在房地产调整、信贷需求疲弱和净息差收窄的环境下，这些风险更容易集中暴露。<a class="link" target="_blank" rel="noopener" href="https://www.ft.com/content/8a8f5c97-f1d3-4d3d-a3bc-d5a2e5539177" data-no-swup="">Financial Times<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>援引分析指出，整合的直接目标之一是降低小机构发生流动性事件的可能性。与此同时，中国近期还向部分大型银行和保险机构补充资本，显示政策思路并非简单压缩金融供给，而是把资本和风险承接能力向更强机构集中。对经济而言，短期整合可能削弱部分地区的信贷竞争，但若能改善治理和不良资产处置，将降低地方金融尾部风险。后续需观察兼并后的资产质量、地方政府支持力度，以及农村和小微企业融资是否出现新的缺口。</p>
+<h3 id="4-中东原油出口恢复至战前水平，但霍尔木兹航运风险同步上升"><a href="#4-中东原油出口恢复至战前水平，但霍尔木兹航运风险同步上升" class="headerlink" title="4. 中东原油出口恢复至战前水平，但霍尔木兹航运风险同步上升" data-no-swup=""></a>4. 中东原油出口恢复至战前水平，但霍尔木兹航运风险同步上升</h3><p>中东能源供应出现“数量恢复、运输风险上升”的新局面。Kpler船运数据显示，9月最后一周有四天中东原油出口超过战前水平，日出口一度达到1950万至2250万桶；截至10月1日的7日移动平均约1850万桶/日，高于美以与伊朗冲突前约1800万桶/日的平均水平。原油、成品油、化学品及其他非气体液体合计出口在截至9月30日的一周平均达到2240万桶/日，9月经霍尔木兹海峡出口的LNG也升至2月以来最高月度水平。<a class="link" target="_blank" rel="noopener" href="https://www.reuters.com/business/energy/middle-east-crude-oil-exports-exceed-pre-war-levels-tanker-attacks-increase-2026-10-05/" data-no-swup="">Reuters<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>同时指出，10月2日以来相关海域几乎每天都出现船舶遇袭事件，至少七起事故被报告。供应量回升暂时缓解实体短缺，却无法消除战争险、运费和绕航成本；布伦特原油仍在每桶102美元附近。后续最重要的变量是袭击是否开始系统性影响船东通行意愿、保险费率和装船计划，一旦物流受阻，油价对通胀和全球利率的二次冲击会重新放大。</p>
+<h3 id="5-德国在基辅追加军援与能源资金，俄乌竞争进一步转向工业能力"><a href="#5-德国在基辅追加军援与能源资金，俄乌竞争进一步转向工业能力" class="headerlink" title="5. 德国在基辅追加军援与能源资金，俄乌竞争进一步转向工业能力" data-no-swup=""></a>5. 德国在基辅追加军援与能源资金，俄乌竞争进一步转向工业能力</h3><p>德国总理Friedrich Merz访问基辅期间宣布再向乌克兰提供10亿欧元军事援助，并投入3.5亿欧元用于修复能源系统。访问期间，德国企业与乌克兰政府及企业签署14项协议，总额约66亿欧元，涵盖IRIS-T防空导弹、雷达设备和无人机拦截系统。与此同时，俄罗斯近期加大对乌克兰电力、通信和交通基础设施的无人机攻击，使冬季能源韧性重新成为欧洲安全议程核心。<a class="link" target="_blank" rel="noopener" href="https://www.reuters.com/world/europe/germanys-merz-arrives-kyiv-finalize-drone-deal-release-aid-2026-10-04/" data-no-swup="">Reuters<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>报道显示，德国把援助与本国企业订单、联合生产和技术合作更紧密地结合起来，意味着俄乌战争的竞争正在从单纯的库存消耗转向防空、无人机、电子设备和能源修复等持续工业能力。对欧洲财政而言，这会继续挤压其他预算空间，同时支撑国防产业资本开支。后续需关注协议交付速度、俄罗斯对乌能源设施的冬季打击强度，以及欧洲能否把临时军援转化为稳定的多年采购与产能扩张机制。</p>
+<h2 id="市场关联与今日观察"><a href="#市场关联与今日观察" class="headerlink" title="市场关联与今日观察" data-no-swup=""></a>市场关联与今日观察</h2><p>今天的资产定价核心，是“周期性宽松预期”与“结构性安全溢价”的拉扯。美国就业走弱使10月加息概率大幅下降，直接压低美元和短端利率预期，并给高估值科技股带来折现率层面的支持；但10年期美债仍在5%以上，说明财政供给、能源通胀和期限溢价没有消失。外汇方面，若美联储转向暂停而欧洲、日本仍保持偏紧倾向，美元短期上行动能会减弱，但美国增长优势仍限制其下跌空间。商品端更复杂：中东出口量已恢复甚至超过战前水平，本应压低油价风险溢价，可霍尔木兹连续船舶袭击又把物流尾部风险重新计入价格，布油维持100美元以上将继续约束全球通胀回落。AI板块一方面受利率预期改善支持，另一方面纽约听证显示监管、审计和安全投入可能成为新的固定成本，估值分化会更看重现金流与治理能力。中国方面，中小银行持续整合有助于降低金融尾部风险，却也要求政策在化险与维持县域、小微融资之间取得平衡。接下来应同时盯住美国通胀和Fed表态、霍尔木兹航运事故频率、欧洲军费与能源修复支出，以及中国假期后信贷和风险资产对金融整合消息的反应。</p>
+<p>封面图片：<a class="link" target="_blank" rel="noopener" href="https://unsplash.com/photos/city-skyline-with-modern-buildings-at-dusk-Qkux8ev3aho" data-no-swup="">carmen dominguez / Unsplash<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> 每日简报｜2026-10-05：降息预期回潮，安全成本继续抬升</li>
+        <li><strong>作者:</strong> AdenXie</li>
+        <li><strong>创建于
+                :</strong> 2026-10-05 12:53:00</li>
+        
+        <li>
+            <strong>链接:</strong> https://blog.adenxie.com.cn/2026/10/05/2026-10-05-daily-brief/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                版权所有 © AdenXie，禁止转载。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E6%96%B0%E9%97%BB/" data-no-swup="">#新闻</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/" data-no-swup="">#市场观察</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/10/04/2026-10-04-daily-brief/" title="每日简报｜2026-10-04：安全焦虑重塑资本与政策议程" rel="bookmark" data-no-swup="">
+  <img src="https://images.pexels.com/photos/28536837/pexels-photo-28536837.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600" alt="每日简报｜2026-10-04：安全焦虑重塑资本与政策议程" class="!max-w-none" decoding="async">
+  <span class="title">每日简报｜2026-10-04：安全焦虑重塑资本与政策议程</span>
+</a><a class="recommended-article-item" href="/2026/09/15/2026-09-15-daily-brief/" title="每日简报｜2026-09-15：油价高企逼近加息，AI估值骤然重估" rel="bookmark" data-no-swup="">
+  <img src="https://images.pexels.com/photos/34036455/pexels-photo-34036455/free-photo-of-skyline-of-modern-london-financial-district.jpeg?auto=compress&amp;dpr=1&amp;h=750&amp;w=1260" alt="每日简报｜2026-09-15：油价高企逼近加息，AI估值骤然重估" class="!max-w-none" decoding="async">
+  <span class="title">每日简报｜2026-09-15：油价高企逼近加息，AI估值骤然重估</span>
+</a><a class="recommended-article-item" href="/2026/09/21/2026-09-21-daily-brief/" title="每日简报｜2026-09-21：全球再紧缩叠加能源风险，中美转向危机管控" rel="bookmark" data-no-swup="">
+  <img src="https://images.unsplash.com/photo-1786361284635-e9053d2ac5b5?auto=format&amp;fit=crop&amp;fm=jpg&amp;ixlib=rb-4.1.0&amp;q=80&amp;w=2400" alt="每日简报｜2026-09-21：全球再紧缩叠加能源风险，中美转向危机管控" class="!max-w-none" decoding="async">
+  <span class="title">每日简报｜2026-09-21：全球再紧缩叠加能源风险，中美转向危机管控</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/10/04/2026-10-04-daily-brief/" title="每日简报｜2026-10-04：安全焦虑重塑资本与政策议程" rel="bookmark" data-no-swup="">
+  <img src="https://images.pexels.com/photos/28536837/pexels-photo-28536837.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600" alt="每日简报｜2026-10-04：安全焦虑重塑资本与政策议程" class="!max-w-none" decoding="async">
+  <span class="title">每日简报｜2026-10-04：安全焦虑重塑资本与政策议程</span>
+</a><a class="recommended-article-item" href="/2026/09/15/2026-09-15-daily-brief/" title="每日简报｜2026-09-15：油价高企逼近加息，AI估值骤然重估" rel="bookmark" data-no-swup="">
+  <img src="https://images.pexels.com/photos/34036455/pexels-photo-34036455/free-photo-of-skyline-of-modern-london-financial-district.jpeg?auto=compress&amp;dpr=1&amp;h=750&amp;w=1260" alt="每日简报｜2026-09-15：油价高企逼近加息，AI估值骤然重估" class="!max-w-none" decoding="async">
+  <span class="title">每日简报｜2026-09-15：油价高企逼近加息，AI估值骤然重估</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2026/10/09/2026-10-09-daily-brief/" data-no-swup="">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">每日简报｜2026-10-09：美联储紧缩与中东谈判牵动全球资产</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/10/05/2026-10-05-llama-cpp-qwen35-9b-8gb-laptop/" data-no-swup="">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">只需要 8G 显存，你就可以在笔记本部署一个 30 tk/s 速度的多模态 AI</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">每日简报｜2026-10-05：降息预期回潮，安全成本继续抬升</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8A%E6%97%A5%E4%B8%BB%E7%BA%BF" data-no-swup=""><span class="nav-text">今日主线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E6%9D%A1%E9%87%8D%E7%82%B9%E6%96%B0%E9%97%BB" data-no-swup=""><span class="nav-text">五条重点新闻</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%BE%8E%E5%9B%BD%E5%B0%B1%E4%B8%9A%E9%99%8D%E6%B8%A9%E6%94%B9%E5%86%99%E5%88%A9%E7%8E%87%E6%8A%BC%E6%B3%A8%EF%BC%8C10%E6%9C%88%E5%8A%A0%E6%81%AF%E6%A6%82%E7%8E%87%E9%AA%A4%E9%99%8D" data-no-swup=""><span class="nav-text">1. 美国就业降温改写利率押注，10月加息概率骤降</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-AI%E5%AE%89%E5%85%A8%E4%BA%89%E8%AE%AE%E8%BF%9B%E5%85%A5%E7%BA%BD%E7%BA%A6%E7%AB%8B%E6%B3%95%E5%90%AC%E8%AF%81%EF%BC%8C%E8%A1%8C%E4%B8%9A%E8%87%AA%E5%BE%8B%E9%9D%A2%E4%B8%B4%E6%9B%B4%E5%BC%BA%E5%A4%96%E9%83%A8%E5%AE%A1%E8%A7%86" data-no-swup=""><span class="nav-text">2. AI安全争议进入纽约立法听证，行业自律面临更强外部审视</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E4%B8%AD%E5%9B%BD%E5%8A%A0%E9%80%9F%E6%95%B4%E5%90%88%E4%B8%AD%E5%B0%8F%E9%93%B6%E8%A1%8C%EF%BC%8C%E9%87%91%E8%9E%8D%E4%BD%93%E7%B3%BB%E4%BB%8E%E2%80%9C%E6%89%A9%E6%95%B0%E9%87%8F%E2%80%9D%E8%BD%AC%E5%90%91%E2%80%9C%E5%87%8F%E9%A3%8E%E9%99%A9%E2%80%9D" data-no-swup=""><span class="nav-text">3. 中国加速整合中小银行，金融体系从“扩数量”转向“减风险”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E4%B8%AD%E4%B8%9C%E5%8E%9F%E6%B2%B9%E5%87%BA%E5%8F%A3%E6%81%A2%E5%A4%8D%E8%87%B3%E6%88%98%E5%89%8D%E6%B0%B4%E5%B9%B3%EF%BC%8C%E4%BD%86%E9%9C%8D%E5%B0%94%E6%9C%A8%E5%85%B9%E8%88%AA%E8%BF%90%E9%A3%8E%E9%99%A9%E5%90%8C%E6%AD%A5%E4%B8%8A%E5%8D%87" data-no-swup=""><span class="nav-text">4. 中东原油出口恢复至战前水平，但霍尔木兹航运风险同步上升</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E5%BE%B7%E5%9B%BD%E5%9C%A8%E5%9F%BA%E8%BE%85%E8%BF%BD%E5%8A%A0%E5%86%9B%E6%8F%B4%E4%B8%8E%E8%83%BD%E6%BA%90%E8%B5%84%E9%87%91%EF%BC%8C%E4%BF%84%E4%B9%8C%E7%AB%9E%E4%BA%89%E8%BF%9B%E4%B8%80%E6%AD%A5%E8%BD%AC%E5%90%91%E5%B7%A5%E4%B8%9A%E8%83%BD%E5%8A%9B" data-no-swup=""><span class="nav-text">5. 德国在基辅追加军援与能源资金，俄乌竞争进一步转向工业能力</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%82%E5%9C%BA%E5%85%B3%E8%81%94%E4%B8%8E%E4%BB%8A%E6%97%A5%E8%A7%82%E5%AF%9F" data-no-swup=""><span class="nav-text">市场关联与今日观察</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">写下真实体验，也保留观点的棱角。</div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/" data-no-swup="">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 66 篇文章
+                    </span>
+                    
+                        <span>
+                            共 153.9k 字
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js" async=""></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io" data-no-swup="">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine" data-no-swup="">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days"></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="图片查看器">
+	<button class="image-viewer-close" type="button" aria-label="关闭">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="上一页">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="" decoding="async">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="关闭">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="下一页">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="站内搜索您需要的内容..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js?v=509b91971bf2"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js?v=969d65618587"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js?v=193270b6fdb0"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js?v=647d2af612df"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js?v=c9d014a814b8"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js?v=792db0224d6b"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js?v=d253ad251100" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js?v=03c1e188b884"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css?v=77a3a9d5a3d0">
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js?v=e98ec22436a5"></script>
+
+
+<script src="/js/build/plugins/aplayer.js?v=d6d3c64af35f"></script>
+
+
+	
+
+
+<button type="button" id="aden-chat-launcher" class="aden-chat-launcher" aria-haspopup="dialog" aria-expanded="false" hidden="" aria-label="打开 AI 聊天" data-script="/js/chat.js?v=750a15ffa2e2" data-style="/css/chat.css?v=457495cae14d"><span aria-hidden="true">✳</span><span class="aden-chat-launcher-label">问 AI</span></button></body></html>
