@@ -1,6 +1,7 @@
 ---
 title: "谁更会“说人话”？Gemini 4 Argon 与 Claude Opus 5.5 写作实测"
 date: 2026-10-14 12:00:00
+sticky: 1
 categories:
   - AI 与科技
 tags:

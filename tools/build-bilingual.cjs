@@ -59,7 +59,10 @@ function decorate($, original, english, available) {
   const header = $('.navbar-content').first();
   if (header.length) header.append(nav); else $('body').prepend(nav);
   // Each language has its own script/config state. Use normal static navigation.
-  $('a[href]').attr('data-no-swup', '');
+  // Same-page anchors (table of contents, footnotes) stay with Swup: the theme's APlayer bundle
+  // hijacks "#..." links and cannot find headings whose ids are not ASCII, so without Swup
+  // the address bar changes but the page never scrolls.
+  $('a[href]').filter((_, el) => !/^#./.test($(el).attr('href'))).attr('data-no-swup', '');
   $('head').append('<link rel="stylesheet" href="/css/bilingual.css">');
   $('link[rel="alternate"][hreflang]').remove();
   if (available) $('head').append(`<link rel="alternate" hreflang="zh-CN" href="https://blog.adenxie.com.cn${original}"><link rel="alternate" hreflang="en" href="https://blog.adenxie.com.cn/en${original}">`);
@@ -191,6 +194,8 @@ async function main() {
       const en = cheerio.load(fs.readFileSync(snapshot, 'utf8'));
       en('a[href]').each((_, el) => {
         const href = en(el).attr('href');
+        // Same-page anchors must stay "#id": the theme's table of contents looks headings up by it.
+        if (href.startsWith('#')) return;
         try {
           const u = new URL(href, 'https://blog.adenxie.com.cn' + p.url);
           const pathname = decodeURI(u.pathname).replace(/index\.html$/, '');
