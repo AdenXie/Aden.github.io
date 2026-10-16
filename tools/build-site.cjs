@@ -4,6 +4,7 @@ const path = require('node:path');
 const fs = require('node:fs');
 const { prepare } = require('./prepare-site.cjs');
 const { optimize } = require('./optimize-site.cjs');
+const { buildLatestPosts } = require('./build-latest-posts.cjs');
 const ROOT = path.resolve(__dirname, '..');
 function run(args) {
   const result = spawnSync(process.execPath, args, { cwd: ROOT, env: { ...process.env, TZ: 'Asia/Shanghai' }, stdio: 'inherit' });
@@ -17,6 +18,7 @@ async function main() {
   run([hexo, 'generate', '--config', '_config.yml,_config.english.yml', '--force']);
   run([path.join(__dirname, 'build-bilingual.cjs')]);
   await optimize();
+  buildLatestPosts(path.join(ROOT, 'public'));
   fs.copyFileSync(path.join(ROOT, 'lib/README.main.md'), path.join(ROOT, 'public/README.md'));
   // Scheduled workflows must exist on GitHub's default (generated main) branch.
   // Initialize/update this workflow on main through an authorized GitHub user

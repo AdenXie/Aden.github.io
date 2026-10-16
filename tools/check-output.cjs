@@ -14,6 +14,10 @@ function checkOutput(directory = 'public') {
     assert(fs.existsSync(filename), `Missing generated resource: ${url}`);
   };
   assert(!fs.existsSync(path.join(root, 'chat')) && !fs.existsSync(path.join(root, 'en/chat')), 'Retired chat page was generated');
+  for (const dir of ['', 'en']) {
+    const feed = JSON.parse(fs.readFileSync(path.join(root, dir, 'latest-posts.json'), 'utf8'));
+    assert(feed.posts.length > 0 && feed.posts.every(p => p.title && p.date && p.url.startsWith('https://blog.adenxie.com.cn/')), `Invalid ${dir}/latest-posts.json`);
+  }
   let pages = 0;
   for (const file of files(root).filter(f => f.endsWith('.html'))) {
     const $ = cheerio.load(fs.readFileSync(file, 'utf8')); pages++;
