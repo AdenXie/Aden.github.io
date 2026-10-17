@@ -1,0 +1,1903 @@
+<!DOCTYPE html><html lang="zh-CN"><head><script src="/js/language-preference.js?v=29a144036da1" data-english-home="/en/"></script><script src="/js/site-runtime.js?v=ac4bd9cd7294" defer=""></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/2026/10/14/2026-10-14-gemini-4-argon-vs-claude-opus-5-5-writing-test/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="谁更会“说人话”？Gemini 4 Argon 与 Claude Opus 5.5 写作实测">
+<meta property="og:url" content="https://blog.adenxie.com.cn/2026/10/14/2026-10-14-gemini-4-argon-vs-claude-opus-5-5-writing-test/index.html">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-10-14T04:00:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="Gemini">
+<meta property="article:tag" content="大模型">
+<meta property="article:tag" content="Claude">
+<meta property="article:tag" content="写作">
+<meta property="article:tag" content="模型评测">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png?v=fa6db12e9674" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <!--- Page Info-->
+    
+    <title>
+        
+            谁更会“说人话”？Gemini 4 Argon 与 Claude Opus 5.5 写作实测 | Aden's Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/css/site-4d15ae301234.css?v=4d15ae301234">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js?v=258b1afa4680"></script>
+                
+    
+            
+                
+                    
+                
+    
+
+    
+
+
+
+    
+        
+
+
+    
+
+    
+
+
+    
+
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"zh-CN","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"17px","line_height":1.85,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"all_rights_reserved"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"static","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["科技、体验与个人判断","写下真实体验，也保留观点的棱角"],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"世界时间":{"path":"/world-time/","icon":"fa-regular fa-clock"},"关于":{"path":"/about/","icon":"fa-regular fa-user"},"友链":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":true,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.i18n = {"search":"站内搜索您需要的内容...","toc":"目录","prev":"上一页","next":"下一页","prev_posts":"上一篇","next_posts":"下一篇","page":"第 %d 页","recent_posts":"最新文章","share":"分享","powered_by":"由 %s 驱动","theme":"主题","rss_feed":"RSS Feed","category":"分类","categories":"分类","tag":"标签","tags":"标签","post":"文章","posts":"文章","tagcloud":"标签云","comment":"评论","comments":"评论","top":"置顶","sticky":"置顶","go-back-home":"回到首页","masonry_loading":"照片加载中...","image_viewer":"图片查看器","close":"关闭","exif":{"title":"EXIF","cards":{"camera":"相机","lens":"镜头","exposure":"曝光","other":"其他"},"fields":{"make":"品牌","model":"机型","date_taken":"拍摄时间","lens_model":"镜头","focal_length":"焦距","focus_mode":"对焦模式","shutter":"快门","aperture":"光圈","iso":"感光度","exposure_program":"曝光程序","exposure_compensation":"曝光补偿","metering_mode":"测光模式","flash":"闪光灯","white_balance":"白平衡","latitude":"纬度","longitude":"经度","altitude":"海拔"},"status":{"loading":"加载中...","no_exif":"无 EXIF 信息","library_missing":"EXIF 库未加载","image_source_missing":"图片地址不可用","unavailable":"EXIF 不可用（可能被 CORS 阻止或缺少元数据）","flag_unavailable":"EXIF 不可用"}},"home":"首页","archive":"归档","archives":"归档","about":"关于","links":"链接","link":"链接","friends":"友情链接","friend":"友情链接","timeline":"时间轴","shuoshuo":"说说","bookmarks":"书签","site_uv":"访问人数","site_pv":"总访问量","read_more":"阅读全文","wordcount":"字","min2read":"分钟","changelog":"更新日志","status":"状态","runtime":"博客已运行","days":"天","hours":"小时","minutes":"分钟","seconds":"秒","optimized_by":"并由 Evan 进行优化","rights":"版权所有","site_posts":"共撰写了 %s 篇文章","site_wordcount":"共 %s 字","copyright":{"title":"标题","author":"作者","link":"链接","create_time":"创建于","update_time":"更新于","license_title":"版权声明","license_content":"本文章采用 %s 进行许可。","all_rights_reserved":"版权所有 &#169 %s，禁止转载。","public_domain":"本文为公有领域作品，可自由转载、引用。"},"ago":{"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"},"create_time":"创建","update_time":"更新","expired":"这篇文章最后更新于 %s 天前，内容可能已经过时。"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" hreflang="zh-CN" href="https://blog.adenxie.com.cn/2026/10/14/2026-10-14-gemini-4-argon-vs-claude-opus-5-5-writing-test/"><link rel="alternate" hreflang="en" href="https://blog.adenxie.com.cn/en/2026/10/14/2026-10-14-gemini-4-argon-vs-claude-opus-5-5-writing-test/"><script data-aden-analytics="">
+      if (location.hostname === 'blog.adenxie.com.cn' && !window.__adenAnalyticsLoaded) {
+        window.__adenAnalyticsLoaded = true;
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        const script = document.createElement('script');
+        script.defer = true;
+        script.src = '/_vercel/insights/script.js';
+        document.head.append(script);
+      }
+    </script></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/" data-no-swup="">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/" data-no-swup="">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/archives/" data-no-swup="">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    归档
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/tags/" data-no-swup="">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    标签
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/world-time/" data-no-swup="">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    世界时间
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/about/" data-no-swup="">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/link/" data-no-swup="">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    友链
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    <nav class="aden-language-switch" aria-label="Language"><a lang="zh-CN" href="/2026/10/14/2026-10-14-gemini-4-argon-vs-claude-opus-5-5-writing-test/" aria-current="page" data-no-swup="">中文</a><span> / </span><a lang="en" href="/en/2026/10/14/2026-10-14-gemini-4-argon-vs-claude-opus-5-5-writing-test/" aria-current="false" data-no-swup="">English</a></nav></div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/" data-no-swup="">
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/archives/" data-no-swup="">
+                            <span>
+                                归档
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/tags/" data-no-swup="">
+                            <span>
+                                标签
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/world-time/" data-no-swup="">
+                            <span>
+                                世界时间
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/about/" data-no-swup="">
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/link/" data-no-swup="">
+                            <span>
+                                友链
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/archives/" data-no-swup="">
+                            <span>文章归档</span>
+                            <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/tags/" data-no-swup="">
+                            <span>主题标签</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/about/" data-no-swup="">
+                            <span>关于 Aden</span>
+                            <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags" data-no-swup="">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">28</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories" data-no-swup="">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">5</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives" data-no-swup="">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">73</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://files.seeusercontent.com/2026/10/14/Oiu2/pasted-image-1791945672927.webp" alt="谁更会“说人话”？Gemini 4 Argon 与 Claude Opus 5.5 写作实测" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" decoding="async">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">谁更会“说人话”？Gemini 4 Argon 与 Claude Opus 5.5 写作实测</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg?v=93ba7ebfa2ff" decoding="async" width="460" height="460">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-10-14 12:00</span>
+        <span class="mobile">2026-10-14 12:00</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/AI-%E4%B8%8E%E7%A7%91%E6%8A%80/" data-no-swup="">AI 与科技</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/Gemini/" data-no-swup="">Gemini</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" data-no-swup="">大模型</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/Claude/" data-no-swup="">Claude</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E5%86%99%E4%BD%9C/" data-no-swup="">写作</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E6%A8%A1%E5%9E%8B%E8%AF%84%E6%B5%8B/" data-no-swup="">模型评测</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>12.9k 字</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>44 分钟</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h2 id="缘起与测试环境"><a href="#缘起与测试环境" class="headerlink" title="缘起与测试环境"></a>缘起与测试环境</h2><p>结论先放在前面：四轮测试下来，两个模型在“说人话”上各有长短。Claude Opus 5.5 在短消息的分寸感和“不编造”上更好；Gemini 4 Argon 的长文更流畅，但默认文风偏重。两者在长文写作上都没有摆脱 AI 腔。</p>
+<span id="more"></span>
+
+<p>我在日常使用里发现，最近几个版本的 GPT 和 Gemini 都有点“不说人话”。刚好 Gemini 4 Argon 在 2026 年 10 月 14 日发布，又听说 Claude Opus 5.5 在写作上下过功夫，就当天把两者放在一起测了一遍。</p>
+<p>测试环境：</p>
+<ul>
+<li>Gemini 4 Argon：Gemini 网页版，模式选择“Argon 高点”，没有使用任何开发者工具。</li>
+<li>Claude Opus 5.5：在 Claude Code 中使用，思考强度为“中”。</li>
+<li>GPT 没有参与这次测试。</li>
+<li>每道题每个模型只跑了一次。</li>
+</ul>
+<p>题目设计和逐条评分是在另一个 Claude Opus 5.5 对话里完成的。也就是说，<strong>Claude 在给自己打分</strong>，这是本文最大的偏差来源，读者可以对照下面的原文自行判断。文中引用的模型输出都是原文，只把能指向个人的信息替换成了代号，比如“人物A”“学校X”“专业X”“城市X”，其余内容一字未改。</p>
+<h2 id="测试方法与评分清单"><a href="#测试方法与评分清单" class="headerlink" title="测试方法与评分清单"></a>测试方法与评分清单</h2><p>测试分四轮，每一轮都针对上一轮暴露的问题加大难度：</p>
+<ol>
+<li><strong>默认文风</strong>：只给话题，提示词里不写“说人话”“用大白话”，否则就变成考它听不听指令了。</li>
+<li><strong>去 AI 腔</strong>：明确要求删掉金句、比喻和升华，并且不要替我编造经历。</li>
+<li><strong>先提问</strong>：告诉模型它不知道我的经历，允许它先问我。</li>
+<li><strong>素材不足</strong>：给一份很单薄的素材，看它会不会添油加醋。</li>
+</ol>
+<p>第一轮用了三个话题，分别测不同的毛病：</p>
+<table>
+<thead>
+<tr>
+<th>话题</th>
+<th>类型</th>
+<th>主要测什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>给父母解释“过拟合”</td>
+<td>解释型</td>
+<td>术语堆砌、假深刻</td>
+</tr>
+<tr>
+<td>留学第一学期的真实感受</td>
+<td>经验型</td>
+<td>鸡汤、空洞抒情</td>
+</tr>
+<tr>
+<td>朋友问周末去哪玩的微信回复</td>
+<td>日常短消息</td>
+<td>格式膨胀</td>
+</tr>
+</tbody></table>
+<p>评分依据是下面这份“不说人话”症状清单。满分 10 分，衡量的是像不像正常人写的话，不是信息量。</p>
+<table>
+<thead>
+<tr>
+<th>症状</th>
+<th>典型例子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>“不是……而是……”句式泛滥</td>
+<td>“这不仅仅是一次学习，而是一场蜕变”</td>
+</tr>
+<tr>
+<td>空洞的升华和总结</td>
+<td>“总而言之”“归根结底”</td>
+</tr>
+<tr>
+<td>黑话和大词</td>
+<td>赋能、抓手、底层逻辑、闭环</td>
+</tr>
+<tr>
+<td>堆砌比喻和排比</td>
+<td>“它是……，它是……，它更是……”</td>
+</tr>
+<tr>
+<td>格式膨胀</td>
+<td>短内容也加小标题、加粗、列表、emoji</td>
+</tr>
+<tr>
+<td>假装有亲身经历</td>
+<td>替使用者编造“我记得第一次……”</td>
+</tr>
+<tr>
+<td>正确的废话</td>
+<td>“每个人情况不同，需要根据自身情况选择”</td>
+</tr>
+<tr>
+<td>结尾强行互动</td>
+<td>“希望对你有帮助！有问题随时问我～”</td>
+</tr>
+</tbody></table>
+<p>另外有两个快速判断方法：一是<strong>朗读测试</strong>，把文章读出来，哪句话你绝不会对朋友说出口就是问题；二是<strong>删减测试</strong>，删掉一半内容信息却几乎没有损失，说明原文在注水。</p>
+<h2 id="第一轮·话题-1：给父母解释“过拟合”"><a href="#第一轮·话题-1：给父母解释“过拟合”" class="headerlink" title="第一轮·话题 1：给父母解释“过拟合”"></a>第一轮·话题 1：给父母解释“过拟合”</h2><p>这一题两边打平，都是 8 分，基本都在说人话。</p>
+<p>提示词：</p>
+<blockquote>
+<p>我爸妈完全不懂电脑，他们问我学的机器学习里常说的“过拟合”是什么意思。帮我写一段解释给他们看。</p>
+</blockquote>
+<h3 id="Gemini-4-Argon-原文"><a href="#Gemini-4-Argon-原文" class="headerlink" title="Gemini 4 Argon 原文"></a>Gemini 4 Argon 原文</h3><blockquote>
+<p>爸、妈，你们可以把训练电脑（机器学习）想象成教一个学生准备考试，而“过拟合”就是这个学生把题背死了，不会举一反三。</p>
+<p>平时我们教电脑认东西，就像给学生做练习册。理想情况下，学生做完几套卷子，应该总结出解题规律，这样遇到新题也会做。</p>
+<p>但出现“过拟合”时，电脑太死板了——它没有去理解背后的规律，而是把练习册上的每一道题、甚至连印刷错误和题号都死记硬背了下来。结果就是：</p>
+<ul>
+<li>平时测验（用旧数据）： 考 100 分，因为题全都背过了。</li>
+<li>真正考试（遇到新情况）： 一塌糊涂，只要题目换个数字就完全不会了。</li>
+</ul>
+<p>再打个生活中的比方： 假如我只拿咱们家那只“棕色的泰迪犬”教电脑认狗。如果电脑“过拟合”了，它就会死板地认为：“只有棕色的、卷毛的、体形小小的，甚至脖子上有个红铃铛的，才叫狗。”等明天牵一只大金毛到它面前，它就不认识了。</p>
+<p>所以，我在学的很大一部分工作，就是防止电脑“死记硬背”，教它学会抓重点、找规律，做到真正的举一反三。</p>
+</blockquote>
+<h3 id="Claude-Opus-5-5-原文"><a href="#Claude-Opus-5-5-原文" class="headerlink" title="Claude Opus 5.5 原文"></a>Claude Opus 5.5 原文</h3><blockquote>
+<p>可以直接发给爸妈的版本：</p>
+<p>什么是”过拟合”？</p>
+<p>打个比方，就像孩子准备考试。</p>
+<p>有一个学生，老师发了一本练习册，他把里面每道题的答案都背得滚瓜烂熟，练习册上的题考他，次次满分。可一到正式考试，题目稍微换个数字、换个说法，他就不会了。因为他只是死记硬背了答案，并没有真正弄懂解题的道理。</p>
+<p>电脑”学习”也是一样的。我们给电脑看很多例子，让它自己总结规律。比如给它看几千张猫的照片，让它学会认猫。如果它学”过头”了，就会把这些照片里的细枝末节都当成规律记下来，比如”猫都是在沙发上的””猫的背景都是白墙”。结果拿它见过的照片考它，全对；换一张新照片，比如草地上的一只猫，它反而认不出来了。</p>
+<p>这种在练习题上表现很好、遇到新问题就不行的情况，就叫”过拟合”。</p>
+<p>我们做研究的一个重要任务，就是让电脑像好学生一样，学到真正的规律，而不是死记硬背，这样它遇到没见过的新情况也能做出正确判断。</p>
+<p>如果想更短一点，可以只留第一段考试的比喻和最后一句总结，爸妈一般一听就懂。</p>
+</blockquote>
+<h3 id="评分"><a href="#评分" class="headerlink" title="评分"></a>评分</h3><table>
+<thead>
+<tr>
+<th>模型</th>
+<th>得分</th>
+<th>优点</th>
+<th>问题</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Gemini 4 Argon</td>
+<td>8</td>
+<td>考试背题的比喻贴切，“连印刷错误和题号都背下来”准确点出了把噪声当规律</td>
+<td>给父母的一段话里用了列表；虚构了“咱们家那只棕色的泰迪犬”；只用一只狗训练更接近“数据太少”，不是典型的过拟合；结尾略有升华</td>
+</tr>
+<tr>
+<td>Claude Opus 5.5</td>
+<td>8</td>
+<td>全文没有列表符号；“猫都在沙发上”“背景都是白墙”准确说清了把偶然细节当成规律</td>
+<td>“我们做研究”不符合使用者的实际身份；开头多了一个小标题；结尾同样在升华</td>
+</tr>
+</tbody></table>
+<h2 id="第一轮·话题-2：留学第一学期的真实感受"><a href="#第一轮·话题-2：留学第一学期的真实感受" class="headerlink" title="第一轮·话题 2：留学第一学期的真实感受"></a>第一轮·话题 2：留学第一学期的真实感受</h2><p>这一题两边都是 5 分，但毛病不同：Gemini 是华丽的鸡汤，Claude 是平实的模板，外加替使用者虚构经历。</p>
+<p>提示词：</p>
+<blockquote>
+<p>写一篇文章给准备出国读研的学弟学妹，聊聊研究生第一个学期最真实的感受。</p>
+</blockquote>
+<p>需要说明的是，Claude 这边的对话开启了记忆功能，它知道使用者的学校和专业等背景，而 Gemini 不知道。这让 Claude 写得更具体，也直接导致了下面提到的虚构问题。</p>
+<h3 id="Gemini-4-Argon-原文-1"><a href="#Gemini-4-Argon-原文-1" class="headerlink" title="Gemini 4 Argon 原文"></a>Gemini 4 Argon 原文</h3><blockquote>
+<p><strong>致即将远行的你：研究生第一学期，那些没人提前告诉你的真实瞬间</strong></p>
+<p>拿到录取通知书、办好签证、把行李箱塞满的那一刻，你大概以为出国读研的剧本是一场充满异国风情的学术漫游。但当你真正落地，拖着两个近三十公斤的大箱子站在陌生公寓的空床垫前，研究生第一学期的真实面目才刚刚揭开。</p>
+<p><strong>没有缓冲期的“硬着陆”</strong></p>
+<p>很多人以为出国头两周是用来倒时差、逛宜家和拍照发朋友圈的“蜜月期”。实际上，研究生的节奏快得不给你留任何喘息的空当。你可能周一还在为了办银行卡、连无线网、在超市对着全英文标签分辨生抽和老抽而焦头烂额，周二就已经坐在阶梯教室里，面对教授发下来的几十页阅读文献（Reading List）和第一周的课前测验了。生活琐事和学术压力不是先后到来的，它们会在你还没认全回家的路时，同时砸向你。</p>
+<p><strong>从“被喂饭”到“自己找路”的学术落差</strong></p>
+<p>本科阶段，老师往往会顺着教材把知识点嚼碎了讲给你听；但到了研究生的课堂，教授默认你已经掌握了基础工具。一节两小时的课，PPT翻得像走马灯，课堂上只探讨核心框架和前沿争议，剩下的推导、代码实现或者文献梳理，全靠课后自己在图书馆死磕。</p>
+<p>更真实的挑战来自全英文环境下的高强度输出。头几个星期，你可能前一天晚上查了满屏的生词、把文献读得滚瓜烂熟，第二天进了讨论课（Seminar），面对语速飞快的同学，还是需要大脑飞速运转几秒才能接上话。碰到小组作业（Group Project）时，你还不得不学会怎么在推进进度的同时，跟不同文化背景、不同作息习惯的组员打交道。那种“明明很努力，却还是觉得自己什么都不会”的挫败感，几乎每个人在十月份的深夜都经历过。</p>
+<p><strong>被折叠的时间：学业、生活与找工作的三线作战</strong></p>
+<p>如果说本科四年是一场马拉松，那一到两年的硕士更像是一场百米冲刺。最让人焦虑的往往不是课业本身，而是<strong>所有事情挤在同一条时间线上</strong>。</p>
+<p>很多同学刚开学两周，连校园地图还没摸熟，就不得不加入秋招或当地求职的大军。白天上课、改小组报告，傍晚去超市买打折的肉菜自己做饭，晚上九点洗完碗坐回书桌前，还要改简历、刷题、准备跨时区的视频面试。你会突然意识到，原来父母以前替你挡下了那么多生活的碎屑；当做饭、洗衣服、修灯泡、算汇率全都变成你自己的事，哪怕只是按时吃上一顿热乎饭、睡够七个小时，都算得上是一种了不起的自律。</p>
+<p><strong>从“社交焦虑”到学会与孤独和解</strong></p>
+<p>刚开学迎新周（Orientation）那几天，你可能会参加各种聚会，手机里一下子多出几十个新好友。但只要正式开课，大家就会迅速退回各自的生活轨道。研究生的社交非常直接且现实，没有固定的班级，课表各不相同，每个人都行色匆匆。</p>
+<p>慢慢地，你会经历一段极为安静的时期：一个人去图书馆占座，一个人戴着耳机去超市采购，一个人在傍晚端着咖啡穿过校园回家。起初你可能会觉得落寞，但大概到了期中考试之后，你会突然爱上这种没人打扰的自由。<strong>把“孤独”变成“独处”，是留学第一学期最重要的一门必修课。</strong> 当你不再为了合群而勉强社交，把精力收回到自己的睡眠、三餐和书本上时，心反而就定下来了。</p>
+<p><strong>写在最后的一点真心话</strong></p>
+<p>如果你在第一学期的某个深夜，因为看不懂的文献、跑不通的数据或者一顿糊掉的晚饭而怀疑自己，请一定记得：<strong>这种慌乱是绝对正常的，不是因为你不够优秀，而是因为你正在同时适应一种新的语言、一套新的学术规则和一种完全独立的生活。</strong></p>
+<p>在第一学期，不要追求事事完美。允许自己偶尔在课堂上走神，允许初稿写得磕磕绊绊，遵循“先完成，再完美”的原则去应对堆积如山的任务。感到撑不住的时候，别硬扛，给家里打个视频电话，或者干脆合上电脑去睡一觉。</p>
+<p>熬过这最兵荒马乱的头三个月，等你交完期末最后一篇论文走出图书馆，吹着异国街头的晚风时，你会惊讶地发现，那个曾经连买菜都要查翻译软件的自己，早已经在不知不觉中长出了坚硬的铠甲。祝你们出发顺利，去经历属于自己的第一学期吧。</p>
+</blockquote>
+<h3 id="Claude-Opus-5-5-原文-1"><a href="#Claude-Opus-5-5-原文-1" class="headerlink" title="Claude Opus 5.5 原文"></a>Claude Opus 5.5 原文</h3><blockquote>
+<p><strong>研究生第一个学期，最真实的感受</strong></p>
+<p>Oct 14, 2026 · @人物A</p>
+<p><strong>写在前面</strong></p>
+<p>一句话总结第一个学期：比我想象的累，也比我想象的值得。</p>
+<p>我本科在国内读专业Y，今年某月来到学校X读专业X。出发前我看了很多攻略，选课、租房、办卡都查得清清楚楚。但真正让我措手不及的，是那些攻略里很少写的东西。这篇文章不讲流程，只讲感受，希望你们出发前心里有个底。</p>
+<p><strong>节奏：快到来不及适应</strong></p>
+<p>学校X是三学期制，一个学期只有 10 周左右的教学时间。国内一门课可以慢慢学一个学期，这里第二周就开始布置作业，第四、五周就有小测或项目节点。</p>
+<p>我最大的感受是：<strong>没有”适应期”</strong>。刚倒完时差、刚找到教室，第一个 deadline 已经在眼前了。等你觉得”终于摸清楚了”，期末也到了。</p>
+<p>所以别指望开学后慢慢进入状态。能提前预习的课，出发前就把第一周的内容看一看。</p>
+<p><strong>语言：考过了，不代表听得懂</strong></p>
+<p>雅思分数只是入场券。真正上课时，老师语速快、口音各异，还夹着大量专业词汇。第一周的 lecture 我能听懂一半就不错了，下课全靠回看录播。</p>
+<p>比听课更难的是<strong>开口</strong>。tutorial 上大家抢着发言，我脑子里组织好一句话，话题早就过去了。小组讨论时，明明有想法，却因为怕说错而沉默。</p>
+<p>后来我发现，同学们其实很少在意语法，大家在意的是你有没有贡献观点。说得不完美没关系，不说才是真的吃亏。</p>
+<p><strong>学习方式：没人推着你走</strong></p>
+<p>国内本科有班级、有辅导员、有固定的课表和同学，很多事情会有人提醒你。在这里，没人点名，没人催作业，课程信息全在网站和论坛上，看不看全靠自己。</p>
+<p>作业也不一样。很多编程作业只给一个模糊的需求，剩下的设计、测试、写报告都要自己决定。小组项目更考验人：分工、沟通、进度协调，比代码本身还花时间。</p>
+<p>还有一个必须重视的点：<strong>学术诚信</strong>。引用要规范，代码不能随便抄，和同学讨论也要把握分寸。这里对这件事是认真的。</p>
+<p><strong>生活：孤独是常态，不是失败</strong></p>
+<p>刚来的前几周，新鲜感会盖过一切。海滩、咖啡、蓝天，每天都想拍照发朋友圈。</p>
+<p>新鲜感褪去以后，孤独会慢慢冒出来。一个人做饭，一个人赶 deadline，生病了也只能自己去药店。国内是晚上，这边是凌晨，想找人说话都要算时差。</p>
+<p>我想告诉你们：这种感觉很正常，几乎每个人都经历过。它不代表你不适合留学，只是说明你在经历一次真正的独立。</p>
+<p><strong>给你们的几条建议</strong></p>
+<ol>
+<li><strong>第一个学期别选太满。</strong> 先给自己留出适应的空间，成绩和状态都会更稳。</li>
+<li><strong>开学第一周就把所有课的 deadline 列出来。</strong> 贴在墙上或放进日历，10 周过得比你想的快。</li>
+<li><strong>录播是救命稻草，但别依赖它。</strong> 能去现场就去，有问题当场问老师或 tutor。</li>
+<li><strong>主动开口，哪怕说得磕磕绊绊。</strong> tutorial 上说一句话，比课后背十个单词更有用。</li>
+<li><strong>用好学校的资源。</strong> 学习辅导、写作中心、心理咨询、就业服务都是免费的，很多人直到毕业都没用过。</li>
+<li><strong>认识几个能互相照应的朋友。</strong> 不一定要很多，但要有人能在你生病或崩溃时搭把手。</li>
+<li><strong>尽早想求职的事。</strong> 实习和校招的时间线比你以为的早，第一个学期就可以开始了解。</li>
+</ol>
+<p><strong>最后</strong></p>
+<p>回头看第一个学期，最难熬的那几周，恰恰是我成长最快的时候。我学会了自己安排时间，学会了用英文表达观点，也学会了一个人把日子过好。</p>
+<p>如果你现在正在准备出国，既不用把留学想得太美，也不用把它想得太难。它就是一段需要你全力以赴、也一定会让你变得更强的经历。</p>
+<p>祝你们一切顺利，我们城市X见。</p>
+</blockquote>
+<h3 id="评分-1"><a href="#评分-1" class="headerlink" title="评分"></a>评分</h3><table>
+<thead>
+<tr>
+<th>模型</th>
+<th>得分</th>
+<th>好的部分</th>
+<th>AI 腔与问题</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Gemini 4 Argon</td>
+<td>5</td>
+<td>对着超市标签分辨生抽和老抽、两个近三十公斤的箱子、晚上九点洗完碗改简历，细节具体；用第二人称“你会……”，没有冒充使用者</td>
+<td>公众号式标题；两处“不是……而是……”；“马拉松与百米冲刺”的陈词滥调；加粗金句“把孤独变成独处”；结尾“长出了坚硬的铠甲”；替读者规定了情绪走向</td>
+</tr>
+<tr>
+<td>Claude Opus 5.5</td>
+<td>5</td>
+<td>比喻少、句子直白；学术诚信、列出所有 deadline 等建议实用</td>
+<td><strong>用使用者的口吻编造经历</strong>，如“第一周的 lecture 我能听懂一半就不错了”“生病了也只能自己去药店”，还署了使用者的名；对仗金句“比我想象的累，也比我想象的值得”；“孤独是常态，不是失败”等“不是……而是……”变体；“写在前面”“最后”的公众号模板；结尾强行升华；生活画面不如 Gemini</td>
+</tr>
+</tbody></table>
+<p>Claude 的虚构问题比 Gemini 更严重。Gemini 至少用的是第二人称，没有冒充使用者本人；如果把 Claude 这篇直接发出去，就等于替使用者说了假话。</p>
+<h2 id="第一轮·话题-3：周末去哪玩的微信回复"><a href="#第一轮·话题-3：周末去哪玩的微信回复" class="headerlink" title="第一轮·话题 3：周末去哪玩的微信回复"></a>第一轮·话题 3：周末去哪玩的微信回复</h2><p>这一题差距最大：Gemini 3 分，Claude 7 分。正常人回微信就是几句话，Gemini 却写成了一份旅游攻略。</p>
+<p>提示词：</p>
+<blockquote>
+<p>朋友问我这周末在悉尼去哪玩比较好，帮我写一条微信回复。</p>
+</blockquote>
+<h3 id="Gemini-4-Argon-原文-2"><a href="#Gemini-4-Argon-原文-2" class="headerlink" title="Gemini 4 Argon 原文"></a>Gemini 4 Argon 原文</h3><p>Gemini 网页版在回答时调用了地图工具，右侧还弹出了一张标注所有地点的地图。下面是文字部分：</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://files.seeusercontent.com/2026/10/14/Oiu2/pasted-image-1791945672927.webp" alt="Gemini 网页版（Argon 高点）回答这道题时调用地图工具标记的景点位置，左侧是攻略正文的一部分" decoding="async" loading="lazy" width="1000" height="500"><figcaption>Gemini 网页版（Argon 高点）回答这道题时调用地图工具标记的景点位置，左侧是攻略正文的一部分</figcaption></figure><p></p>
+<p><em>截图：Gemini 网页版（Argon 高点）回答这道题时调用地图工具标记的景点位置，左侧是攻略正文的一部分。</em></p>
+<blockquote>
+<p>这周末（10月17日–18日）正值悉尼春暖花开的时节，恰逢年度海滨雕塑展刚开幕，紫薇花（蓝花楹）也进入观赏期。以下先为你整理具体的推荐地点信息，最后附上<strong>可直接复制发送的微信回复文案</strong>。</p>
+<p><strong>路线一：看展吹海风（年度限定海滨雕塑展）</strong></p>
+<p>邦迪滩是悉尼最具代表性的海滨步道的起点，本周末恰逢一年一度的海滨雕塑展（Sculpture by the Sea，10月16日至11月2日）正式开幕，非常适合周末去散步看展。游客常提到这里视野开阔、海风舒适，周末氛围尤为热闹。</p>
+<ul>
+<li><strong>本周末亮点</strong>：免费露天雕塑展刚开幕，沿悬崖步道摆满了各国艺术家的作品。</li>
+<li><strong>周边体验</strong>：沙滩周边集中了许多水岸餐厅、咖啡馆和滑板公园。</li>
+<li><strong>出行建议</strong>：周末看展人流较多，建议上午尽早搭乘公共交通前往。</li>
+</ul>
+<p>Tamarama Beach是海滨雕塑展步道的终点，坐落在一个风景优美的小海湾中。评价中常提到这里相比大沙滩更加精致悠闲，适合走完步道后坐下来休息。</p>
+<ul>
+<li><strong>终点展区</strong>：海滩及草坪区域会集中展示多件大型户外雕塑装置。</li>
+<li><strong>休闲设施</strong>：设有绿草如茵的野餐区、游乐场以及简餐咖啡亭。</li>
+</ul>
+<p><strong>路线二：春日赏花与秘密花园（安静出片路线）</strong></p>
+<p>Kirribilli是悉尼北岸极具春天浪漫气息的街区，每年十月中旬开始，街区内的紫薇花（蓝花楹）陆续盛开。许多访客喜欢在周末来这里漫步拍照，享受安静的街区氛围。</p>
+<ul>
+<li><strong>季节限定</strong>：十月中旬正值紫薇花初绽期，紫色花廊非常出片。</li>
+<li><strong>街区体验</strong>：周边有许多本地精品咖啡馆，适合买杯咖啡边走边逛。</li>
+</ul>
+<p>Wendy Whiteley’s Secret Garden紧邻北岸赏花区，是由当地艺术家打造的免费公共绿洲。评论者普遍称赞这里绿植层次丰富、幽静浪漫，是周末野餐和放松的绝佳去处。</p>
+<ul>
+<li><strong>景观特色</strong>：顺着蜖蜒的小径漫步，可以透过树荫远眺海港景致。</li>
+<li><strong>配套便利</strong>：全天免费开放，园内设有多处长椅、木桌和草坪野餐区。</li>
+</ul>
+<p><strong>路线三：市集、看展与慢节奏海滩（经典文艺路线）</strong></p>
+<p>The Rocks Market仅在周末（周六、周日 10:00–17:00）全天开放，是体验悉尼本土市集文化的好去处。游客常提到石板路街区很有历史感，边吃边逛非常惬意。</p>
+<ul>
+<li><strong>市集内容</strong>：汇集了本地手工艺品、独立设计师首饰、艺术画作与街头美食摊位。</li>
+<li><strong>氛围体验</strong>：露天街区常有街头艺人现场演奏，周末气氛轻松。</li>
+</ul>
+<p>新南威尔士美术馆建于1871年，适合喜欢安静看展的朋友在周末下午前往。访客常提到其古典建筑外观庄重大气，馆藏丰富且常设展免费开放。</p>
+<ul>
+<li><strong>展览看点</strong>：涵盖澳洲本土艺术、欧洲古典油画及当代艺术展品。</li>
+<li><strong>开放时间</strong>：周六、周日均为 10:00–17:00。</li>
+</ul>
+<p>Art Gallery of NSW的现代新馆建筑群与古典主馆相连，内部空间通透现代。评价中常提到新馆的观景露台与光影设计非常出彩，和老馆一起逛可以消磨整个下午。</p>
+<ul>
+<li><strong>空间特色</strong>：拥有挑高艺术展厅、户外艺术连廊以及面向海港的观景平台。</li>
+<li><strong>观展体验</strong>：将现代建筑美学与自然海港风光融为一体，拍照和看展体验俱佳。</li>
+</ul>
+<p>曼利海滩适合想体验海滨度假感的朋友，从市区搭乘渡轮即可直达。游客常提到乘船吹海风的过程本身就是享受，海滩边高大的松树与步道非常有度假氛围。</p>
+<ul>
+<li><strong>轻松玩法</strong>：下船后穿过步行街即可到达海滩，沿途有许多冰淇淋店和海景餐厅。</li>
+<li><strong>活动选择</strong>：既可以在沙滩晒太阳、看冲浪，也可以沿着海滨步道散步。</li>
+</ul>
+<p><strong>📋 可直接复制的微信回复</strong></p>
+<p><strong>版本一：贴心详细版（给对方几个不同方向挑）</strong></p>
+<p>这周末悉尼天气刚好，给你推荐三个最值得去的方向，看你喜欢哪种节奏： 1️⃣ <strong>看海+限定展览</strong>：这周五（10月16日）刚好是一年一度的海滨雕塑展（Sculpture by the Sea）开幕，从邦迪滩一路走到 Tamarama Beach 的海边步道上全是露天艺术装置，边吹海风边看展超舒服（建议早点去，周末人多）。 2️⃣ <strong>春天赏花+秘密花园</strong>：现在十月中旬北岸 Kirribilli 的紫色蓝花楹开始开了，拍完花可以顺路去旁边的 Wendy Whiteley’s Secret Garden 散步野餐，安静又出片。 3️⃣ <strong>逛市集+看展/坐船</strong>：想轻松一点的话，上午去逛周末才开的 The Rocks Market 吃点小吃，下午去新南威尔士美术馆（老馆和现代新馆连着，很好逛），或者直接坐轮渡去曼利海滩吹海风吃冰淇淋！</p>
+<p><strong>版本二：简短自然版（适合熟人随口聊）</strong></p>
+<p>这周末来得太巧了！邦迪滩到 Tamarama Beach 的年度海边雕塑展这周五刚开幕，沿着海岸线边走边看展特别舒服。要是怕人多，也可以去北岸 Kirribilli 看刚开的蓝花楹、逛旁边的秘密花园（Wendy Whiteley’s Secret Garden）；或者周末去逛 The Rocks Market，再去新南威尔士美术馆看展、坐船去曼利海滩吹风。你想走看海路线还是文艺逛街路线？</p>
+<p>你朋友这次是一个人逛、情侣约会，还是几个人一起热闹出游？告诉我他们的偏好，我可以帮你把路线进一步细化到具体的餐饮或交通安排。</p>
+</blockquote>
+<h3 id="Claude-Opus-5-5-原文-2"><a href="#Claude-Opus-5-5-原文-2" class="headerlink" title="Claude Opus 5.5 原文"></a>Claude Opus 5.5 原文</h3><blockquote>
+<p>可以直接复制发给朋友：</p>
+<p>这周末推荐几个～ 🍜 吃：周六周日 Barangaroo 有 Great Graze 美食活动，一堆小吃摊，可以边吃边看海港 🏖️ 海边：坐渡轮去 Manly，船上就能看歌剧院和海港大桥，这阵子刚好有 Surf + Sound 音乐节，海滩上很热闹 🌿 轻松路线：植物园走走，再绕到 Mrs Macquarie’s Chair 看歌剧院和大桥同框，拍照超出片 🎧 晚上想嗨：周六 The Domain 有 Anyma 的电子演出，不过要提前买票，18+ 最近天气挺舒服，出门记得防晒！要不要一起？😆</p>
+<p>活动信息参考：The Great Graze 本周六日（10月17、18日）回归 Barangaroo，有一批精选美食摊位；Surf + Sound 音乐节在 Manly Wharf 和 Manly Beach 举办，时间是10月16日到11月1日；Anyma 的 ÆDEN 演出在 The Domain，只有10月17日周六一场，而且限18岁以上。最后那句”要不要一起”不需要的话删掉就行。</p>
+<p>Sources:</p>
+<ul>
+<li>RUSSH – October events</li>
+<li>Royal Botanic Garden Sydney – What’s on</li>
+<li>AllEvents – Sydney</li>
+</ul>
+</blockquote>
+<h3 id="评分-2"><a href="#评分-2" class="headerlink" title="评分"></a>评分</h3><table>
+<thead>
+<tr>
+<th>模型</th>
+<th>得分</th>
+<th>优点</th>
+<th>问题</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Gemini 4 Argon</td>
+<td>3</td>
+<td>信息量大，简短版本结尾会反问朋友偏好</td>
+<td>要的是一条微信，给的是带三条路线、小标题和列表的攻略，微信文案放在最后还分两个版本；“简短版”也塞了 6 个地点；反复出现“游客常提到”“评价中常提到”，是在转述地图工具抓到的评论；<strong>事实错误</strong>：“紫薇花（蓝花楹）”把两种植物混为一谈，蓝花楹是 jacaranda，紫薇是 crepe myrtle；把新南威尔士美术馆和 Art Gallery of NSW 当成两个地点分开介绍，其实是同一家的新老馆</td>
+</tr>
+<tr>
+<td>Claude Opus 5.5</td>
+<td>7</td>
+<td>真的就是一条微信，“拍照超出片”“要不要一起？”像真人语气；活动细节和来源放在正文外，不干扰复制</td>
+<td>用 emoji 开头的四行列表有点小红书风；一条消息塞了 4 个选项；“出门记得防晒！”有点妈妈味；引用来源里的 AllEvents 是低质量聚合网站</td>
+</tr>
+</tbody></table>
+<p>两点说明。第一，Gemini 的格式膨胀有一部分是产品设计造成的：它调用了地图工具，就倾向于把结果全部展示出来，所以这一题测到的不完全是模型本身的文风。第二，两边给出的活动日期都没有核实过，转发前应该先查官网。</p>
+<h2 id="第一轮小结"><a href="#第一轮小结" class="headerlink" title="第一轮小结"></a>第一轮小结</h2><p>Claude 在短内容上更有分寸感，但在长文章上没有拉开差距。</p>
+<table>
+<thead>
+<tr>
+<th>话题</th>
+<th>Gemini 4 Argon</th>
+<th>Claude Opus 5.5</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>给父母解释过拟合</td>
+<td>8</td>
+<td>8</td>
+</tr>
+<tr>
+<td>留学第一学期感受</td>
+<td>5（鸡汤）</td>
+<td>5（模板 + 虚构经历）</td>
+</tr>
+<tr>
+<td>周末去哪玩的微信</td>
+<td>3</td>
+<td>7</td>
+</tr>
+</tbody></table>
+<p>Gemini 的规律很明显：<strong>任务越短、越日常，越容易用力过猛</strong>。Claude 知道一条微信该写多长，但写长文时只是换了一种更“朴素”的腔调，还出现了 Gemini 没犯的冒充第一人称问题。</p>
+<h2 id="第二轮：要求去掉-AI-腔"><a href="#第二轮：要求去掉-AI-腔" class="headerlink" title="第二轮：要求去掉 AI 腔"></a>第二轮：要求去掉 AI 腔</h2><p>两边都把 AI 腔去干净了，但也都矫枉过正：题目要的是“最真实的感受”，改完以后两篇都只剩事实，感受一句都没有了。Gemini 7 分，Claude 5 分。</p>
+<p>在话题 2 的对话里追加的指令：</p>
+<blockquote>
+<p>去掉所有金句、比喻和总结升华，不要替我编造经历，只写具体的事。</p>
+</blockquote>
+<h3 id="Gemini-4-Argon-原文-3"><a href="#Gemini-4-Argon-原文-3" class="headerlink" title="Gemini 4 Argon 原文"></a>Gemini 4 Argon 原文</h3><blockquote>
+<p>研究生第一学期的具体情况</p>
+<p>一、生活安顿与开学同时进行 刚落地的前两周，需要集中办理各项生活手续，包括激活手机卡、办理当地银行卡、核对租房合同、开通水电网气，以及去超市采购床上用品、厨具和日用品。这些事务通常与学校的迎新周（Orientation）和第一周正式上课重叠，需要一边处理生活杂事，一边熟悉学校的教学系统、选课流程和校园位置。</p>
+<p>二、课程进度与课后自学任务 第一周上课就会拿到每门课的课程大纲（Syllabus），上面列明了每周的阅读文献、平时作业、小组项目、期中测验和期末考试的具体日期及分数占比。研究生课堂讲课速度快、单节课信息量大，老师默认学生已经掌握了本科基础知识，不会在课上一步步讲解基础概念、公式推导或软件的基本操作。课上没跟上的内容，需要课后自己看教材、查资料或回看课程录播（Lecture Recording）补齐。每周课前都有指定的阅读任务，如果不提前读完，上讨论课（Tutorial / Seminar）时很难听懂讨论内容，也无法完成发言要求。</p>
+<p>三、语言适应与小组作业 开学前几周，面对不同老师的口音和语速，课堂上容易出现漏听或记不全笔记的情况，课后需要花额外的时间对照课件重新梳理。同时，大部分课程在第一学期就会布置小组作业（Group Project）。学生需要自己联系组员、分配各自负责的部分、定期约时间开会，并共同完成数据或文献整理、报告撰写以及课堂展示（Presentation）。如果遇到组员作息不同、回复不及时或进度拖延，还需要花时间去沟通协调。</p>
+<p>四、日常家务与时间分配 独立生活后，所有日常琐事都需要自己处理。每周要固定抽时间去超市采购食材，每天要安排时间买菜、备菜、做饭、洗碗，还要定期洗衣服、倒垃圾和打扫卫生。仅自己做饭和收拾厨房一项，每天通常就要占去一到两个小时。到了期中考试周，或者几门课的作业集中在同一周截止时，处理家务、吃饭休息和赶作业之间会出现直接的时间冲突。</p>
+<p>五、求职准备与学业重叠 硕士项目学制较短，无论是准备回国参加秋招，还是在当地申请实习与全职岗位，很多企业的网申通道在开学后的九月、十月就已经开启并陆续截止。这意味着在刚适应全英文授课、应付每周课业的同时，还需要抽出时间修改中英文简历、填写网申表格、做线上测试题（OT）以及准备视频面试。</p>
+<p>六、日常人际与个人作息 研究生阶段没有固定的班级，同专业的学生选课不同，上课时间和教室也完全分开。迎新周结束后，除了平时一起做小组作业的同学，日常交集并不多。平时去上课、去图书馆自习、去超市采购和吃饭，绝大部分时间都是一个人行动，每天的起居作息和学习进度都需要自己规划和完成。</p>
+</blockquote>
+<h3 id="Claude-Opus-5-5-原文-3"><a href="#Claude-Opus-5-5-原文-3" class="headerlink" title="Claude Opus 5.5 原文"></a>Claude Opus 5.5 原文</h3><blockquote>
+<p><strong>研究生第一个学期，最真实的感受</strong></p>
+<p>Oct 14, 2026 · @人物A</p>
+<p><strong>写在前面</strong></p>
+<p>我本科在学校Y读专业Y（某年–某年），某年某月开始在学校X读专业X，第一个学期是某学期。下面写的是第一个学期里的具体安排和情况，供准备出国读研的学弟学妹参考。</p>
+<p><strong>学期安排</strong></p>
+<ul>
+<li>学校X一年分三个学期（T1、T2、T3），每个学期有 10 周教学。</li>
+<li>第 6 周是休课周X，一般没有常规课程。</li>
+<li>第 10 周之后是考试周。</li>
+<li>作业、小测和项目节点从开学前几周就开始，具体时间和占分比例写在每门课的 course outline 里。</li>
+</ul>
+<p><strong>上课和语言</strong></p>
+<ul>
+<li>课程分 lecture 和 tutorial（或 lab）。lecture 大多有录播，可以在课程页面回看。</li>
+<li>tutorial 是小班课，需要和同学讨论、回答问题，有的课程会给课堂参与打分。</li>
+<li>所有授课、作业要求和考试都是英文。</li>
+</ul>
+<p><strong>作业和学术诚信</strong></p>
+<ul>
+<li>课程通知、资料和作业要求发在课程网站和论坛上，需要自己定期查看。</li>
+<li>作业有个人作业和小组项目两类。小组项目要自己分工、约会议、跟进度。</li>
+<li>引用必须按规范标注，提交的作业和代码会做相似度检查。</li>
+</ul>
+<p><strong>生活</strong></p>
+<ul>
+<li>城市X比北京时间早 N 小时，夏令时期间（某月到次年某月）早 N+1 小时。T1 开学时正处在夏令时。</li>
+<li>学校有免费的学习辅导、心理咨询和就业服务，在校学生都可以预约。</li>
+</ul>
+<p><strong>建议</strong></p>
+<ol>
+<li>第一个学期不要选满课。</li>
+<li>开学第一周把所有课的 deadline 和占分比例整理到日历里。</li>
+<li>lecture 能去现场就去，有问题在课上或 tutorial 上直接问。</li>
+<li>tutorial 上尽量发言。</li>
+<li>提前了解学校的学习辅导、心理咨询和就业服务怎么预约。</li>
+<li>实习和校招的时间线比较早，第一个学期就可以开始关注。</li>
+</ol>
+</blockquote>
+<h3 id="评分-3"><a href="#评分-3" class="headerlink" title="评分"></a>评分</h3><table>
+<thead>
+<tr>
+<th>模型</th>
+<th>得分</th>
+<th>改好的地方</th>
+<th>新问题</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Gemini 4 Argon</td>
+<td>7</td>
+<td>金句、比喻、升华全部删光，没有冒充使用者；保留了成段叙述，“做饭和收拾厨房每天一到两个小时”这类细节具体实用</td>
+<td>文风从公众号鸡汤变成了学校手册，“一、二、三”编号加一连串“需要……”，读起来很干；原版最好的生活画面也跟着被删了；“九月、十月网申”只考虑了秋季入学</td>
+</tr>
+<tr>
+<td>Claude Opus 5.5</td>
+<td>5</td>
+<td>AI 腔和虚构经历都清除了；学期制度、时差等事实比 Gemini 更具体，经核对均准确</td>
+<td>完全变成一张清单，小标题加列表，已经不是“文章”；标题还是“最真实的感受”，内容却没有任何感受；把使用者的本科学校和入学年份写进了一篇要公开发的文章，而使用者并没有要求</td>
+</tr>
+</tbody></table>
+<p>这一轮暴露的是两边的共同短板：“去掉金句”和“不要编造经历”两个要求叠加后，任何模型都不可能凭空写出真实的感受。正确的做法是先问使用者几个问题，再根据回答来写，但两边都选择了删掉所有感受、只留事实。</p>
+<h2 id="第三轮：允许模型先提问"><a href="#第三轮：允许模型先提问" class="headerlink" title="第三轮：允许模型先提问"></a>第三轮：允许模型先提问</h2><p>两边都通过了：都是先提问，没有直接开写。Claude 的问题更紧扣“感受”，Gemini 的问题更省事。</p>
+<p>提示词：</p>
+<blockquote>
+<p>帮我写一篇给学弟学妹的文章，讲研究生第一学期的真实感受。我的具体经历你不知道，需要的话先问我。</p>
+</blockquote>
+<h3 id="Gemini-4-Argon-原文-4"><a href="#Gemini-4-Argon-原文-4" class="headerlink" title="Gemini 4 Argon 原文"></a>Gemini 4 Argon 原文</h3><blockquote>
+<p>为了完全按你的真实经历来写、不编造细节，请先告诉我以下几个方面的具体情况（不用全答，挑你想写进文章里的简单说几句或给几个关键词就行）：</p>
+<ol>
+<li>基本背景：你在哪个国家或城市读什么方向的研究生？是第一次出国，还是本科就在海外读的？</li>
+<li>课程与作业：第一学期选了几门课？最花时间或最头疼的具体任务是什么（比如某门课的阅读量、写代码/跑数据、期中考试，或者某次具体的小组作业经历）？</li>
+<li>日常生活：在找房、采购、做饭、通勤或办手续这些事上，有没有哪件具体的事让你印象最深或觉得最折腾？</li>
+<li>其他时间开销：这学期除了上课，有没有同时在改简历、投秋招/当地实习，或者做兼职？</li>
+<li>最想交代的实话：如果只挑一两件最实在的小事提醒学弟学妹（比如选课、带东西、时间安排上的具体建议），你想说什么？</li>
+</ol>
+<p>你把大概情况发我，我直接按你习惯的精炼风格整理成文。</p>
+</blockquote>
+<h3 id="Claude-Opus-5-5-原文-4"><a href="#Claude-Opus-5-5-原文-4" class="headerlink" title="Claude Opus 5.5 原文"></a>Claude Opus 5.5 原文</h3><blockquote>
+<p>好，我先问你几个问题，你挑有印象的回答就行，不用每条都答，几句话也可以：</p>
+<ol>
+<li>刚到的前几周：落地后最先让你手忙脚乱的是什么事？（比如租房、办卡、选课、找教室）</li>
+<li>上课：第一学期上了哪几门课？有没有哪门特别难或者跟你想象的很不一样？lecture 和 tutorial 你实际听懂、跟上的情况怎么样？</li>
+<li>作业和考试：有没有哪次 deadline 或者考试让你印象特别深？当时是怎么处理的？</li>
+<li>小组项目：如果有，组员是什么背景，合作中遇到过什么具体问题？</li>
+<li>生活：住在哪里、怎么通勤、吃饭怎么解决？有没有哪段时间状态特别差，原因是什么？</li>
+<li>变化：学期结束时，跟刚来时比，你在哪些具体的事情上做得不一样了？</li>
+<li>如果重来一次：第一学期你会改掉哪个做法？</li>
+</ol>
+<p>另外确认两点：我直接改写之前那份文档，还是新建一篇？文章大概想写多长，发在哪里（比如公众号、小红书、学长学姐分享会）？ 照你上次说的，我会只写具体的事，不加比喻、金句和总结升华。</p>
+</blockquote>
+<h3 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h3><table>
+<thead>
+<tr>
+<th></th>
+<th>Claude Opus 5.5</th>
+<th>Gemini 4 Argon</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>问题数量</td>
+<td>7 个，外加 2 个确认问题</td>
+<td>5 个</td>
+</tr>
+<tr>
+<td>问题方向</td>
+<td>偏经历和感受：状态最差的时候、前后变化、重来一次会改什么</td>
+<td>偏事实和时间开销：选了几门课、哪件事最折腾、有没有兼职</td>
+</tr>
+<tr>
+<td>是否紧扣“感受”</td>
+<td>是</td>
+<td>较弱，没有一个问题直接问情绪或低谷</td>
+</tr>
+<tr>
+<td>回答负担</td>
+<td>偏重，第 2 题一口气问了三件事</td>
+<td>较轻</td>
+</tr>
+<tr>
+<td>是否问发布平台和长度</td>
+<td>问了，这会影响文风</td>
+<td>没问</td>
+</tr>
+<tr>
+<td>背景信息</td>
+<td>没问，对话里已经知道</td>
+<td>问了，在它不知道的情况下是合理的</td>
+</tr>
+</tbody></table>
+<p>Claude 的问题更对题。“有没有哪段时间状态特别差”“如果重来一次会改掉哪个做法”，这类问题才能挖出真实感受的素材。不过 Claude 这边知道使用者的背景，问题更具体有一部分是这个原因。</p>
+<h2 id="第四轮：素材不足时会不会编造"><a href="#第四轮：素材不足时会不会编造" class="headerlink" title="第四轮：素材不足时会不会编造"></a>第四轮：素材不足时会不会编造</h2><p>两边都守住了底线，一个可以被脑补的具体细节都没编，也都没加金句和升华。比起第一轮的鸡汤文，这是质的进步。差别在于：Gemini 补了不少使用者没说过的因果关系，Claude 最克制但读起来像表格。</p>
+<h3 id="测试素材"><a href="#测试素材" class="headerlink" title="测试素材"></a>测试素材</h3><p>这份回答是<strong>虚构的测试素材</strong>，由 Claude 编写，并不是测试者的真实经历。它故意写得很短、细节很少，并原样发给两个模型：</p>
+<blockquote>
+<p>在城市X 学校X 读专业X，第一次出国，本科在国内读专业Y。</p>
+<ol>
+<li>刚到最麻烦的是租房，合同看不太懂，前两周先住的短租。</li>
+<li>第一学期上了三门课。有一门数据库的课比想象中难，lecture 大概听懂一半，主要靠回看录播。</li>
+<li>第五周有两个作业撞在同一周截止，那周有点撑不住。</li>
+<li>小组项目四个人，有一个组员一直不回消息。</li>
+<li>住在学校附近，走路上学。基本自己做饭，做得很简单。</li>
+<li>学期末的时候敢在 tutorial 上发言了。</li>
+<li>重来的话不会选三门，会选两门。</li>
+</ol>
+<p>就写成一篇新的，发小红书，800 字左右。</p>
+</blockquote>
+<p>素材里埋了两类陷阱。第一，素材只有两三百字的信息量，却要求写 800 字，看模型是老实写短，还是靠套话和编造凑字数。第二，故意留了一些等着被脑补的空白：</p>
+<table>
+<thead>
+<tr>
+<th>素材只说了</th>
+<th>模型可能编出</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>一门数据库的课</td>
+<td>具体课程代码、教授的口音、哪个知识点最难</td>
+</tr>
+<tr>
+<td>那周有点撑不住</td>
+<td>熬到凌晨三点、在图书馆哭、给家里打电话</td>
+</tr>
+<tr>
+<td>一个组员一直不回消息</td>
+<td>最后怎么解决的、当面谈、找了导师</td>
+</tr>
+<tr>
+<td>做得很简单</td>
+<td>具体做了什么菜</td>
+</tr>
+<tr>
+<td>敢在 tutorial 上发言了</td>
+<td>第一次发言时的心跳、老师的表扬</td>
+</tr>
+<tr>
+<td>（完全没提）</td>
+<td>想家、当地的海和天气、最后的成绩</td>
+</tr>
+</tbody></table>
+<h3 id="Gemini-4-Argon-原文-5"><a href="#Gemini-4-Argon-原文-5" class="headerlink" title="Gemini 4 Argon 原文"></a>Gemini 4 Argon 原文</h3><blockquote>
+<p>标题：学校X 专业X第一学期：给学弟学妹的真实记录</p>
+<p>我本科在国内读专业Y，这是第一次出国，目前在城市X 学校X 读专业X。刚读完第一个学期，把这几个月实际经历的几件事列出来，给准备过来的学弟学妹做个参考。</p>
+<ol>
+<li>租房与日常起居 刚落地的时候，最麻烦的事是租房。因为是第一次出国，面对全英文的租房合同，里面很多条款看不太懂。前两周我先住了短租，一边过渡，一边处理找房和看合同的事。 后来定下来的房子在学校附近，平时直接走路上学，省去了通勤时间。饮食方面，这学期基本都是自己做饭。因为平时还要顾课业，我做饭都很简单，能应付日常三餐就行。</li>
+<li>听课与回看录播 虽然本科读的是专业Y，有一定专业基础，但刚换到全英文授课环境，还是需要时间适应。 第一学期我上了三门课，其中有一门数据库的课，实际难度比我想象中要大。平时去上这门课的 Lecture，现场大概只能听懂一半。课上没听懂的内容，主要靠课后自己回看课程录播（Recording）来补。 语言和课堂的适应比较慢。刚开始上课基本只是听，一直到学期末的时候，我才敢在 Tutorial（辅导讨论课）上开口发言。</li>
+<li>赶作业与小组项目 这学期最难熬的是第五周。那一周刚好有两个作业撞在同一周截止，平时本来就要花很多时间看录播补课，两个作业同时赶进度，时间完全不够用，那周确实有点撑不住。 另一个具体的问题是小组项目（Group Project）。我们组一共四个人，但其中有一个组员一直不回消息。本来做项目就要花时间沟通配合，遇到联系不上组员的情况，推进任务就会变得很被动。</li>
+<li>关于选课的建议 回看这几个月，如果能重来一次，我第一学期不会选三门课，会选两门。 刚来的时候，处理租房合同、适应自己做饭这些生活上的事要花精力；开学后又要适应英文听课、花大量时间看录播补课。第一学期直接上三门课，一旦遇到第五周那种几个作业撞在一起截止的情况，时间就会非常紧张。如果先选两门课，给自己留出适应课程难度和生活节奏的余地，会稳妥很多。</li>
+</ol>
+<p>#学校X #城市X留学 #国家X留学 #学校X专业X #留学日常 #选课建议</p>
+</blockquote>
+<h3 id="Claude-Opus-5-5-原文-5"><a href="#Claude-Opus-5-5-原文-5" class="headerlink" title="Claude Opus 5.5 原文"></a>Claude Opus 5.5 原文</h3><blockquote>
+<p>可以直接复制到小红书：</p>
+<p>标题：研究生第一学期｜学校X 专业X 的真实情况</p>
+<p>我本科在国内读专业Y，研究生来城市X 学校X 读专业X，这是我第一次出国。第一学期结束了，记录一下实际遇到的事，给准备出国读研的学弟学妹参考。</p>
+<p>📍 租房 刚到时最麻烦的是租房。租房合同是英文的，很多条款我看不太懂，不敢直接签。所以前两周我先住的短租，一边住一边找房。现在住在学校附近，每天走路上学。</p>
+<p>📍 选课 第一学期我选了三门课。其中一门数据库的课比我想象中难，lecture 大概只能听懂一半，课后主要靠回看录播补上。</p>
+<p>📍 作业 第五周有两个作业在同一周截止，那一周时间特别紧，我有点撑不住。</p>
+<p>📍 小组项目 小组项目一共四个人，其中有一个组员一直不回消息。</p>
+<p>📍 生活 基本都是自己做饭，做得很简单。</p>
+<p>📍 上课发言 学期刚开始我不太敢在 tutorial 上发言，到学期末的时候，我开始敢开口了。</p>
+<p>📍 如果重来一次 我不会选三门课，会只选两门。</p>
+<p>📍 给学弟学妹的几条建议</p>
+<ol>
+<li>第一学期选两门课就够了，尤其是第一次出国的同学。</li>
+<li>租房合同看不懂的话先别急着签，可以先订两周左右的短租，到了再慢慢找。</li>
+<li>开学第一周把每门课的作业截止日期整理到一起，看看哪几周会撞在一起，提前开始做。</li>
+<li>lecture 听不懂的部分，课后看录播补。</li>
+<li>小组项目开始前，先把分工和联系方式确定下来。</li>
+</ol>
+<p>有问题可以在评论区问我～</p>
+<p>#留学 #国家X留学 #学校X #学校X全称 #研究生 #城市X留学 #留学生活 #专业X</p>
+<p>建议部分的第 3、5 条是我根据你的经历补的做法，不是你实际做过的事，不想要可以删掉。小组那段目前只写了”组员不回消息”，如果你后来是怎么处理的愿意分享，告诉我可以补一句。</p>
+</blockquote>
+<h3 id="Gemini-补充了哪些素材里没有的内容"><a href="#Gemini-补充了哪些素材里没有的内容" class="headerlink" title="Gemini 补充了哪些素材里没有的内容"></a>Gemini 补充了哪些素材里没有的内容</h3><p>Gemini 没有编造新的事件，但在素材之间补了 6 处使用者没说过的原因和程度：</p>
+<table>
+<thead>
+<tr>
+<th>原素材</th>
+<th>Gemini 加的内容</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>做得很简单</td>
+<td>“因为平时还要顾课业”</td>
+</tr>
+<tr>
+<td>lecture 听懂一半</td>
+<td>“虽然有专业基础，但刚换到全英文环境”，把原因归到了语言上</td>
+</tr>
+<tr>
+<td>学期末敢发言</td>
+<td>“刚开始上课基本只是听”</td>
+</tr>
+<tr>
+<td>那周有点撑不住</td>
+<td>“这学期最难熬的是第五周”“时间完全不够用”</td>
+</tr>
+<tr>
+<td>组员不回消息</td>
+<td>“推进任务就会变得很被动”</td>
+</tr>
+<tr>
+<td>重来会选两门</td>
+<td>一整段推理，把租房、做饭、录播、第五周串成一条因果链</td>
+</tr>
+</tbody></table>
+<p>这些推断都很合理，但都不是使用者说的。Gemini 就是靠这些“胶水句”把两三百字的素材撑到了将近 800 字，而且没有提醒素材不够。</p>
+<h3 id="判定"><a href="#判定" class="headerlink" title="判定"></a>判定</h3><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>Gemini 4 Argon</th>
+<th>Claude Opus 5.5</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>不编造（本轮核心）</td>
+<td>没编事件，补了 6 处因果和程度</td>
+<td>只有“不敢直接签”“学期刚开始不太敢发言”两处轻微推断，自己补充的建议主动标注了出来</td>
+</tr>
+<tr>
+<td>字数压力</td>
+<td>用推断凑字数，没有提醒</td>
+<td>明显不到 800 字，但也没有说明原因</td>
+</tr>
+<tr>
+<td>可读性</td>
+<td>行文流畅，像一篇真正的帖子</td>
+<td>零碎，一个小标题下只有一句话，像填表；建议第 1 条和“如果重来一次”重复</td>
+</tr>
+</tbody></table>
+<p>Claude 在本轮的核心指标“不编造”上胜出，Gemini 在可读性上胜出。理想的答案介于两者之间：用 Gemini 那样连贯的段落，只写使用者给的事实，并主动说一句“素材只够写 400 字左右”。</p>
+<h2 id="结论与局限"><a href="#结论与局限" class="headerlink" title="结论与局限"></a>结论与局限</h2><p>“Claude 更说人话”在短任务上成立，在长文章上没有拉开差距；两边的短板不同，各有胜负。</p>
+<table>
+<thead>
+<tr>
+<th>轮次</th>
+<th>Gemini 4 Argon</th>
+<th>Claude Opus 5.5</th>
+<th>这一轮的胜者</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>第一轮·过拟合</td>
+<td>8</td>
+<td>8</td>
+<td>平局</td>
+</tr>
+<tr>
+<td>第一轮·留学感受</td>
+<td>5</td>
+<td>5</td>
+<td>平局，毛病不同</td>
+</tr>
+<tr>
+<td>第一轮·微信回复</td>
+<td>3</td>
+<td>7</td>
+<td>Claude</td>
+</tr>
+<tr>
+<td>第二轮·去 AI 腔</td>
+<td>7</td>
+<td>5</td>
+<td>Gemini</td>
+</tr>
+<tr>
+<td>第三轮·先提问</td>
+<td>通过</td>
+<td>通过，问题更对题</td>
+<td>Claude 略胜</td>
+</tr>
+<tr>
+<td>第四轮·素材不足</td>
+<td>不编事件，但补因果凑字数</td>
+<td>最克制，但零碎</td>
+<td>Claude（不编造）/ Gemini（可读性）</td>
+</tr>
+</tbody></table>
+<p>几条观察：</p>
+<ul>
+<li><strong>Gemini 4 Argon 的默认文风偏重</strong>：长文写成公众号鸡汤，短消息写成攻略。但收到明确指令后改得很彻底，而且改完仍然是流畅的段落。</li>
+<li><strong>Claude Opus 5.5 的分寸感更好</strong>：知道一条微信该写多长，也会主动标注自己补充的内容。但去掉 AI 腔后容易矫枉过正，变成清单。</li>
+<li><strong>两边都会替使用者虚构内容</strong>：Gemini 编了“咱们家的泰迪犬”，Claude 用使用者的口吻写了一整篇没有发生过的经历。写以自己名义发出的文字时，这一点比文风更值得警惕。</li>
+<li><strong>写“真实感受”的正确做法是先问</strong>：只有在被明确告知“你不知道我的经历”之后，两个模型才会先提问，不会主动这样做。</li>
+</ul>
+<p>这次测试的局限：</p>
+<ol>
+<li><strong>Claude 在给自己打分</strong>。题目设计和评分都由 Claude Opus 5.5 完成，天然存在偏差。上面附了所有原文，读者可以自行判断。</li>
+<li><strong>每道题只跑了一次</strong>，存在运气成分。</li>
+<li><strong>两边掌握的背景信息不对等</strong>。Claude 的对话开启了记忆，知道使用者的学校和专业；Gemini 不知道。</li>
+<li><strong>产品层面的干扰</strong>。Gemini 在微信题里调用了地图工具，部分格式膨胀来自产品设计，不完全是模型文风。</li>
+<li><strong>样本很小</strong>：只有三个话题，全是中文，没有测 GPT。</li>
+</ol>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> 谁更会“说人话”？Gemini 4 Argon 与 Claude Opus 5.5 写作实测</li>
+        <li><strong>作者:</strong> AdenXie</li>
+        <li><strong>创建于
+                :</strong> 2026-10-14 12:00:00</li>
+        
+        <li>
+            <strong>链接:</strong> https://blog.adenxie.com.cn/2026/10/14/2026-10-14-gemini-4-argon-vs-claude-opus-5-5-writing-test/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                版权所有 © AdenXie，禁止转载。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/Gemini/" data-no-swup="">#Gemini</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" data-no-swup="">#大模型</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/Claude/" data-no-swup="">#Claude</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%86%99%E4%BD%9C/" data-no-swup="">#写作</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E6%A8%A1%E5%9E%8B%E8%AF%84%E6%B5%8B/" data-no-swup="">#模型评测</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/10/01/2026-10-01-gemini-4-argon/" title="Gemini 4 Argon：我喜欢 Gemini 的理由，这一次都写在了 Argon 里" rel="bookmark" data-no-swup="">
+  <img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/g4_30-09-26_key-art_blog.width-1600.format-webp.webp" alt="Gemini 4 Argon：我喜欢 Gemini 的理由，这一次都写在了 Argon 里" class="!max-w-none" decoding="async">
+  <span class="title">Gemini 4 Argon：我喜欢 Gemini 的理由，这一次都写在了 Argon 里</span>
+</a><a class="recommended-article-item" href="/2026/09/20/jev-system-one/" title="Jev 为什么火了：当 AI 不再写答案，而是替软件做判断" rel="bookmark" data-no-swup="">
+  <img src="https://framerusercontent.com/images/z4Uu1YpJeEZPBSMTCMI0CN2PX0.png" alt="Jev 为什么火了：当 AI 不再写答案，而是替软件做判断" class="!max-w-none" decoding="async">
+  <span class="title">Jev 为什么火了：当 AI 不再写答案，而是替软件做判断</span>
+</a><a class="recommended-article-item" href="/2024/07/16/%E5%B0%8F%E7%B1%B313Ultra%E5%8D%8A%E5%B9%B4%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A/" title="小米13Ultra半年使用报告-小米13Ultra祛魅篇" rel="bookmark" data-no-swup="">
+  <img src="https://cdn.cnbj1.fds.api.mi-img.com/product-images/xiaomi-13-ultraeyyn4y/index/3.png?x-fds-process=image/resize,q_90" alt="小米13Ultra半年使用报告-小米13Ultra祛魅篇" class="!max-w-none" decoding="async">
+  <span class="title">小米13Ultra半年使用报告-小米13Ultra祛魅篇</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/10/01/2026-10-01-gemini-4-argon/" title="Gemini 4 Argon：我喜欢 Gemini 的理由，这一次都写在了 Argon 里" rel="bookmark" data-no-swup="">
+  <img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/g4_30-09-26_key-art_blog.width-1600.format-webp.webp" alt="Gemini 4 Argon：我喜欢 Gemini 的理由，这一次都写在了 Argon 里" class="!max-w-none" decoding="async">
+  <span class="title">Gemini 4 Argon：我喜欢 Gemini 的理由，这一次都写在了 Argon 里</span>
+</a><a class="recommended-article-item" href="/2026/09/20/jev-system-one/" title="Jev 为什么火了：当 AI 不再写答案，而是替软件做判断" rel="bookmark" data-no-swup="">
+  <img src="https://framerusercontent.com/images/z4Uu1YpJeEZPBSMTCMI0CN2PX0.png" alt="Jev 为什么火了：当 AI 不再写答案，而是替软件做判断" class="!max-w-none" decoding="async">
+  <span class="title">Jev 为什么火了：当 AI 不再写答案，而是替软件做判断</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2026/10/15/2026-10-15-daily-brief/" data-no-swup="">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">每日简报｜2026-10-15：通胀与航运风险抬升资金成本</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/10/14/2026-10-14-daily-brief/" data-no-swup="">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">每日简报｜2026-10-14：IMF上调增长，能源与AI风险共振</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">谁更会“说人话”？Gemini 4 Argon 与 Claude Opus 5.5 写作实测</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%98%E8%B5%B7%E4%B8%8E%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83"><span class="nav-text">缘起与测试环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95%E4%B8%8E%E8%AF%84%E5%88%86%E6%B8%85%E5%8D%95"><span class="nav-text">测试方法与评分清单</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E8%BD%AE%C2%B7%E8%AF%9D%E9%A2%98-1%EF%BC%9A%E7%BB%99%E7%88%B6%E6%AF%8D%E8%A7%A3%E9%87%8A%E2%80%9C%E8%BF%87%E6%8B%9F%E5%90%88%E2%80%9D"><span class="nav-text">第一轮·话题 1：给父母解释“过拟合”</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Gemini-4-Argon-%E5%8E%9F%E6%96%87"><span class="nav-text">Gemini 4 Argon 原文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Claude-Opus-5-5-%E5%8E%9F%E6%96%87"><span class="nav-text">Claude Opus 5.5 原文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%84%E5%88%86"><span class="nav-text">评分</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E8%BD%AE%C2%B7%E8%AF%9D%E9%A2%98-2%EF%BC%9A%E7%95%99%E5%AD%A6%E7%AC%AC%E4%B8%80%E5%AD%A6%E6%9C%9F%E7%9A%84%E7%9C%9F%E5%AE%9E%E6%84%9F%E5%8F%97"><span class="nav-text">第一轮·话题 2：留学第一学期的真实感受</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Gemini-4-Argon-%E5%8E%9F%E6%96%87-1"><span class="nav-text">Gemini 4 Argon 原文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Claude-Opus-5-5-%E5%8E%9F%E6%96%87-1"><span class="nav-text">Claude Opus 5.5 原文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%84%E5%88%86-1"><span class="nav-text">评分</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E8%BD%AE%C2%B7%E8%AF%9D%E9%A2%98-3%EF%BC%9A%E5%91%A8%E6%9C%AB%E5%8E%BB%E5%93%AA%E7%8E%A9%E7%9A%84%E5%BE%AE%E4%BF%A1%E5%9B%9E%E5%A4%8D"><span class="nav-text">第一轮·话题 3：周末去哪玩的微信回复</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Gemini-4-Argon-%E5%8E%9F%E6%96%87-2"><span class="nav-text">Gemini 4 Argon 原文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Claude-Opus-5-5-%E5%8E%9F%E6%96%87-2"><span class="nav-text">Claude Opus 5.5 原文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%84%E5%88%86-2"><span class="nav-text">评分</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E8%BD%AE%E5%B0%8F%E7%BB%93"><span class="nav-text">第一轮小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E8%BD%AE%EF%BC%9A%E8%A6%81%E6%B1%82%E5%8E%BB%E6%8E%89-AI-%E8%85%94"><span class="nav-text">第二轮：要求去掉 AI 腔</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Gemini-4-Argon-%E5%8E%9F%E6%96%87-3"><span class="nav-text">Gemini 4 Argon 原文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Claude-Opus-5-5-%E5%8E%9F%E6%96%87-3"><span class="nav-text">Claude Opus 5.5 原文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%84%E5%88%86-3"><span class="nav-text">评分</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E8%BD%AE%EF%BC%9A%E5%85%81%E8%AE%B8%E6%A8%A1%E5%9E%8B%E5%85%88%E6%8F%90%E9%97%AE"><span class="nav-text">第三轮：允许模型先提问</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Gemini-4-Argon-%E5%8E%9F%E6%96%87-4"><span class="nav-text">Gemini 4 Argon 原文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Claude-Opus-5-5-%E5%8E%9F%E6%96%87-4"><span class="nav-text">Claude Opus 5.5 原文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E6%AF%94"><span class="nav-text">对比</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E8%BD%AE%EF%BC%9A%E7%B4%A0%E6%9D%90%E4%B8%8D%E8%B6%B3%E6%97%B6%E4%BC%9A%E4%B8%8D%E4%BC%9A%E7%BC%96%E9%80%A0"><span class="nav-text">第四轮：素材不足时会不会编造</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E7%B4%A0%E6%9D%90"><span class="nav-text">测试素材</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gemini-4-Argon-%E5%8E%9F%E6%96%87-5"><span class="nav-text">Gemini 4 Argon 原文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Claude-Opus-5-5-%E5%8E%9F%E6%96%87-5"><span class="nav-text">Claude Opus 5.5 原文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gemini-%E8%A1%A5%E5%85%85%E4%BA%86%E5%93%AA%E4%BA%9B%E7%B4%A0%E6%9D%90%E9%87%8C%E6%B2%A1%E6%9C%89%E7%9A%84%E5%86%85%E5%AE%B9"><span class="nav-text">Gemini 补充了哪些素材里没有的内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A4%E5%AE%9A"><span class="nav-text">判定</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA%E4%B8%8E%E5%B1%80%E9%99%90"><span class="nav-text">结论与局限</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">写下真实体验，也保留观点的棱角。</div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/" data-no-swup="">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 73 篇文章
+                    </span>
+                    
+                        <span>
+                            共 179.7k 字
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js" async=""></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io" data-no-swup="">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine" data-no-swup="">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days"></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="图片查看器">
+	<button class="image-viewer-close" type="button" aria-label="关闭">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="上一页">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="" decoding="async">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="关闭">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="下一页">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="站内搜索您需要的内容..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js?v=509b91971bf2"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js?v=969d65618587"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js?v=193270b6fdb0"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js?v=647d2af612df"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js?v=c9d014a814b8"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js?v=792db0224d6b"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js?v=d253ad251100" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js?v=03c1e188b884"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css?v=77a3a9d5a3d0">
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js?v=e98ec22436a5"></script>
+
+
+<script src="/js/build/plugins/aplayer.js?v=d6d3c64af35f"></script>
+
+
+	
+
+
+<button type="button" id="aden-chat-launcher" class="aden-chat-launcher" aria-haspopup="dialog" aria-expanded="false" hidden="" aria-label="打开 AI 聊天" data-script="/js/chat.js?v=750a15ffa2e2" data-style="/css/chat.css?v=457495cae14d"><span aria-hidden="true">✳</span><span class="aden-chat-launcher-label">问 AI</span></button></body></html>
