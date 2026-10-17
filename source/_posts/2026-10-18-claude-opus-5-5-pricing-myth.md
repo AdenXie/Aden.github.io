@@ -1,6 +1,6 @@
 ---
 title: "Claude Opus 5.5 的降价神话：工程进步，还是 IPO 前的价格战？"
-date: 2026-10-18T04:32:46+11:00
+date: 2026-10-18 01:32:46
 cover: https://files.seeusercontent.com/2026/10/17/tAr9/pasted-image-1792257149897.webp
 description: 从 Token 消耗、缓存降本、SpaceX 算力合作和服务故障，质疑 Anthropic 在 IPO 前的降价叙事。
 categories:
