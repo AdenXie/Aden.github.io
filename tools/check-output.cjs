@@ -41,16 +41,14 @@ function checkOutput(directory = 'public') {
     assert.equal($('script[src*="cdnjs.cloudflare.com/ajax/libs/twikoo"]').length, 0);
     if ($('.home-banner-background').length) {
       assert.equal($('link[data-aden-hero]').length, 1);
-      assert.equal($('.home-banner-actions .home-project-link').length, 2, file);
-      assert.deepEqual($('.home-banner-actions .home-project-link').map((_, el) => $(el).attr('href')).get(), [
-        'https://jobs.adenxie.com.cn/',
-        'https://econ.adenxie.com.cn/',
-      ], file);
       const english = $('html').attr('lang')?.startsWith('en');
+      assert.equal($('.home-banner-actions .home-project-link').length, 1, file);
+      assert.deepEqual($('.home-banner-actions .home-project-link').map((_, el) => $(el).attr('href')).get(),
+        [english ? 'https://adenxie.com.cn/en/' : 'https://adenxie.com.cn/'], file);
       assert.deepEqual($('.home-banner-actions .home-project-link span').map((_, el) => $(el).html()).get(),
-        english ? ['Job<br>Repo', 'Everyday<br>Econ'] : ['秋招信库', '日常经济'], file);
+        [english ? 'My homepage' : '我的主页'], file);
       assert.deepEqual($('.home-banner-actions .home-project-link').map((_, el) => $(el).attr('aria-label')).get(),
-        english ? ['Visit Job Repo', 'Visit Everyday Econ'] : ['访问秋招信库', '访问日常经济'], file);
+        [english ? 'Visit my homepage' : '访问我的主页'], file);
     }
   }
   const siteCSS = files(path.join(root, 'css')).filter(f => /site-.*\.css$/.test(f));
