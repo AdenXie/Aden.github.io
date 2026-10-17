@@ -1,0 +1,1250 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/2026/10/18/2026-10-18-claude-opus-5-5-pricing-myth/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Claude Opus 5.5 and the Myth of Cheaper AI: Engineering Progress or a Pre-IPO Price War?">
+<meta property="og:url" content="https://blog.adenxie.com.cn/2026/10/18/2026-10-18-claude-opus-5-5-pricing-myth/index.html">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-10-17T17:32:46.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="大模型">
+<meta property="article:tag" content="Claude">
+<meta property="article:tag" content="Anthropic">
+<meta property="article:tag" content="Codex">
+<meta property="article:tag" content="成本分析">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Claude Opus 5.5 and the Myth of Cheaper AI: Engineering Progress or a Pre-IPO Price War? | Aden's Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/site-runtime.js" defer=""></script>
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js"></script>
+                
+    
+            
+                
+                    <link rel="stylesheet" href="/css/custom.css">
+                
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"en","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"17px","line_height":1.85,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"all_rights_reserved"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"static","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["科技、体验与个人判断","写下真实体验，也保留观点的棱角"],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"archives":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"World Time":{"path":"/world-time/","icon":"fa-regular fa-clock"},"about":{"path":"/about/","icon":"fa-regular fa-user"},"links":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":true,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.i18n = {"search":"Search...","toc":"On this page","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"POWERED BY %s","theme":"THEME","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","post":"Post","posts":"Posts","tagcloud":"Tag Cloud","comment":"Comment","comments":"Comments","home":"Home","archive":"Archive","archives":"Archives","top":"TOP","sticky":"Sticky","go-back-home":"Go Back Home","masonry_loading":"Loading photos...","image_viewer":"Image viewer","close":"Close","exif":{"title":"EXIF","cards":{"camera":"Camera","lens":"Lens","exposure":"Exposure","other":"Other"},"fields":{"make":"Brand","model":"Model","date_taken":"Date taken","lens_model":"Lens","focal_length":"Focal length","focus_mode":"Focus mode","shutter":"Shutter","aperture":"Aperture","iso":"ISO","exposure_program":"Exposure program","exposure_compensation":"Exposure compensation","metering_mode":"Metering mode","flash":"Flash","white_balance":"White balance","latitude":"Latitude","longitude":"Longitude","altitude":"Altitude"},"status":{"loading":"Loading...","no_exif":"No EXIF available","library_missing":"EXIF library not loaded","image_source_missing":"Image source unavailable","unavailable":"EXIF unavailable (blocked by CORS or missing metadata)","flag_unavailable":"EXIF unavailable"}},"about":"About","changelog":"Changelog","links":"Links","link":"Link","friends":"Friends","friend":"Friend","timeline":"Timeline","shuoshuo":"Shuoshuo","bookmarks":"Bookmarks","site_uv":"VISITOR COUNT","site_pv":"TOTAL PAGE VIEWS","read_more":"Read more","wordcount":"Words","min2read":"Mins","status":"Status","runtime":"Blog up for","days":"days","hours":"hrs","minutes":"Min","seconds":"Sec","optimized_by":"and Optimized by Evan","rights":"All Rights Reserved","site_posts":"%s posts in total","site_wordcount":"%s words in total","copyright":{"author":"Author","title":"Title","link":"Link","create_time":"Created at","update_time":"Updated at","license_title":"License","license_content":"This work is licensed under %s.","all_rights_reserved":"All Rights Reserved &#169; %s","public_domain":"This work is in the public domain."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"},"create_time":"Created","update_time":"Updated","expired":"This post is written %s days ago, and the content may not be up to date."};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    WORLD TIME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/">
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/archives/">
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/tags/">
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/world-time/">
+                            <span>
+                                WORLD TIME
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/about/">
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/link/">
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/archives/">
+                            <span>Article Archive</span>
+                            <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/tags/">
+                            <span>Topic Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/about/">
+                            <span>About Aden</span>
+                            <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">31</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">5</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">74</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://files.seeusercontent.com/2026/10/17/tAr9/pasted-image-1792257149897.webp" alt="Claude Opus 5.5 and the Myth of Cheaper AI: Engineering Progress or a Pre-IPO Price War?" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">Claude Opus 5.5 and the Myth of Cheaper AI: Engineering Progress or a Pre-IPO Price War?</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-10-18 01:32:46</span>
+        <span class="mobile">2026-10-18 01:32:46</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/AI-%E4%B8%8E%E7%A7%91%E6%8A%80/">AI and Technology</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">large model</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/Claude/">Claude</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/Anthropic/">Anthropic</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/Codex/">Codex</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E6%88%90%E6%9C%AC%E5%88%86%E6%9E%90/">Cost Analysis</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>4.4k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>15 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<p>I liked Opus 5.5 at first. A stronger model at a lower price was welcome news. I subscribe to both Claude Pro and ChatGPT Plus and use Claude Code and Codex, so I had reason to hope that competition would eventually benefit users.</p>
+<p>But after looking at my own usage records and AA's tests, then reading Fuli Luo's post on inference cost reductions alongside Anthropic's capacity expansion and incident reports, I have become increasingly unwilling to take the "stronger and cheaper" story at face value.</p>
+<p>I am now more inclined to see this as price competition ahead of an IPO: cutting prices to win users and demonstrate growth while still dealing with expensive compute capacity and service delivery problems. That is my interpretation; I do not have access to Anthropic's internal decision-making documents. I want to know how much of the engineering economics behind these cuts has been explained, and how much of the growth investors welcome will translate into benefits for users.</p>
+<span id="more"></span>
+
+<h2 id="“便宜-40-”到底在和谁比？"><a href="#“便宜-40-”到底在和谁比？" class="headerlink" title="Cheaper by 40% compared with what?"></a>Cheaper by 40% compared with what?</h2><p>In its September 22, 2026 announcement, Anthropic presented Opus 5.5 as a more capable model with lower operating costs. Its claim of a 40% cost reduction on typical workloads compares it with <strong>Opus 5</strong>, under the default settings in Anthropic's tests. It does not mean the model is 40% cheaper than every competitor.<a class="link" target="_blank" rel="noopener" href="https://www.anthropic.com/claude-opus-5-5">Launch announcement<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>The official documentation confirms that standard input pricing fell from $5 to $4 per million tokens and output pricing from $25 to $20, both reductions of 20%. Cache reads fell from $0.50 to $0.20, a 60% reduction. For Opus 5.5, cache writes cost $5 per million tokens with a five-minute TTL and $8 with a one-hour TTL.<a class="link" target="_blank" rel="noopener" href="https://platform.claude.com/docs/en/models/opus-5-5/whats-new-opus-5-5">Pricing and migration documentation<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>The 40% figure is therefore not a uniform discount visible on a price list. It combines lower prices for different token categories with changes in consumption on particular tasks. Change the cache mix, reasoning effort, or task, and that percentage can change too.</p>
+<p>The announcement does state its comparison baseline and test conditions. My criticism concerns the appeal of the product narrative: the previous generation supplies the price baseline, favourable tasks supply the capability baseline, and together they make "stronger and cheaper" an easy reason to buy. That still does not tell me whether Opus 5.5 is worth its price alongside the alternatives available today.</p>
+<h2 id="我的统计里，最容易被忽略的是缓存"><a href="#我的统计里，最容易被忽略的是缓存" class="headerlink" title="The overlooked part of my usage figures: caching"></a>The overlooked part of my usage figures: caching</h2><p>I pay for Claude Pro and ChatGPT Plus. The CC Switch amounts below are API-equivalent cost estimates used to examine the usage mix, not additional bills I paid.</p>
+<p>Over the past 30 days, claude-opus-5-5 in Claude Code accounted for 1,264 requests, approximately 360 million tokens, and an estimated API-equivalent cost of $118.58. Codex, using several GPT models, accounted for 4,612 requests, approximately 623 million tokens, and $168.75. Looking only at the totals, I would have thought I was using Codex far more. Dividing by the request count changes the picture.</p>
+<p>My usual settings also matter: I mainly use Opus 5.5 at Medium effort, occasionally High; for GPT-6.1 Sol, I mainly use High and sometimes Medium. The Codex totals include other GPT models, so the table does not represent GPT-6.1 Sol alone. Effort settings with the same name across providers do not imply the same compute budget.</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://files.seeusercontent.com/2026/10/17/t6Aa/pasted-image-1792256435566.webp" alt="Claude usage in CC Switch over the past 30 days"><figcaption>Claude usage in CC Switch over the past 30 days</figcaption></figure><p></p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://files.seeusercontent.com/2026/10/17/b5Os/pasted-image-1792256422914.webp" alt="Codex usage in CC Switch over the past 30 days"><figcaption>Codex usage in CC Switch over the past 30 days</figcaption></figure><p></p>
+<p>Claude averaged approximately $0.0938 per request, compared with $0.0366 for Codex: about 2.56 times as much. Average total token counts were approximately 284,800 and 135,100 per request, respectively, a ratio of about 2.11.</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://files.seeusercontent.com/2026/10/17/tAr9/pasted-image-1792257149897.webp" alt="Average API-equivalent cost per request"><figcaption>Average API-equivalent cost per request</figcaption></figure><p></p>
+<p>A request is not a task, however. A tool call can generate requests, and a single piece of work can involve many requests. Claude Code and Codex use different tool orchestration and context management, and my Codex usage spans several models. These figures describe my two usage setups; they do not show that Claude costs 2.56 times as much to complete the same task.</p>
+<p>My personal records do not hold tasks, acceptance criteria, or time spent on rework constant. They do show how my usage setups consume resources, which gives me reason to investigate further. Consumers are entitled to judge a product against their own work rather than remain confined to the success stories a vendor selects.</p>
+<h2 id="命中缓存-98-8-，为什么还有这么多费用？"><a href="#命中缓存-98-8-，为什么还有这么多费用？" class="headerlink" title="A 98.8% cache hit rate, yet substantial costs"></a>A 98.8% cache hit rate, yet substantial costs</h2><p>The Claude statistics show a cache hit rate of 98.8%, approximately 355 million cache-read tokens, 4.46 million cache-write tokens, and 1.27 million output tokens. Newly added standard input is shown as just 2,682 tokens; the reason for this anomaly remains unconfirmed.</p>
+<p>Using the verified prices and assuming all cache writes use the five-minute rate gives approximately $71 for cache reads, $25.40 for output, $22.30 for cache writes, and $0.01 for standard input: about $118.71 in total. That differs by roughly $0.13 from the $118.58 reported by the software. Rounded usage figures could contribute to the difference; details such as the cache-write TTL would require the underlying logs to confirm.</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://files.seeusercontent.com/2026/10/17/v9Xp/pasted-image-1792257170784.webp" alt="Claude's estimated cost breakdown, recalculated at the five-minute cache-write rate"><figcaption>Claude's estimated cost breakdown, recalculated at the five-minute cache-write rate</figcaption></figure><p></p>
+<p>The 355 million cache-read tokens account for about 98.6% of the displayed total token count, but still about 59.8% of the recalculated cost. The first percentage comes from dividing the displayed aggregate figures; it should not be confused with the software's reported 98.8% cache hit rate.</p>
+<p>A cache hit reuses content that has already been processed, usually avoiding some of the overhead of processing it again. It receives a discount and is still billed. Even a very low cache-read price can become a major cost when multiplied by enough repeated usage.</p>
+<p>Holding this usage mix fixed and applying the old Opus 5 rates produces an estimated cost of $237.14. At Opus 5.5 rates, it is approximately $118.71, nearly half as much. Lower cache-read pricing alone accounts for about $106.50 of savings, roughly 90% of the total savings in this fixed-usage calculation.</p>
+<p>For a setup as cache-heavy as mine, that is a meaningful price cut. It also shows where the savings come from: most are due to a lower charge for repeatedly reading context. This calculation holds token usage constant; it does not measure how much each model generation consumes to complete the same task. My records therefore neither verify nor disprove Anthropic's claimed 40% reduction on typical workloads. The savings achieved here and the cost relative to competitors are separate questions.</p>
+<p>The difference between my two tool setups is concentrated here too. Claude reads approximately 280,900 cached tokens per request, compared with about 130,100 for Codex; output averages approximately 1,005 and 449 tokens, respectively. The context repeatedly carried forward is far larger than the final output. Discussing agent costs only in terms of how much text appears in the answer misses a great deal of repeatedly read history.</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://files.seeusercontent.com/2026/10/17/1oSu/pasted-image-1792257192011.webp" alt="Average cache-read and output tokens per request, shown in separate panels"><figcaption>Average cache-read and output tokens per request, shown in separate panels</figcaption></figure><p></p>
+<p>A high cache hit rate alone does not establish that the entire workflow is efficient. Whether these costs are worthwhile depends on which history must be retained, which calls are useful, and how much acceptable work is ultimately delivered.</p>
+<p>For subscribers, I also lack a publicly available fixed conversion table that would let me reconcile API-equivalent costs with plan allowances item by item. The $118.58 figure cannot tell me directly how quickly I would hit a usage limit. I want to know whether the same subscription tier can reliably support more work, or whether I need to pause, wait, or buy additional usage. These records do not capture those outcomes. They provide leads to investigate, rather than a controlled comparison of subscription value.</p>
+<h2 id="AA-的领先，也带着成本标签"><a href="#AA-的领先，也带着成本标签" class="headerlink" title="AA's lead comes with a cost"></a>AA's lead comes with a cost</h2><p>Artificial Analysis offers another perspective. When checked on October 18, Opus 5.5 in its "max with fallback" configuration had an Intelligence Index score of 58 and a cost of $5.98 per Intelligence Index task. GPT-6 Astra at max scored 53 and cost $3.26 per task. Opus scored higher and cost approximately 1.83 times as much.<a class="link" target="_blank" rel="noopener" href="https://artificialanalysis.ai/models/claude-opus-5-5">Opus model page<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://artificialanalysis.ai/models/gpt-6-astra">Astra model page<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>Between these two configurations, Opus achieves a higher score at a higher test cost. Whether the capability gain is worth the difference depends on the problem it solves. An index score of 58 rather than 53 does not mean a productivity gain of about 9%; dividing scores cannot reveal the benefit to my work.</p>
+<p>AA tests the Max configurations, which differ from my everyday settings. The Opus entry also includes fallback. Those conditions belong alongside the figures.</p>
+<p>AA's methodology states that its Intelligence Index cost calculations prioritise token counts reported by each provider's API. This differs from its speed tests, which use a common tokenizer. Costs also reflect benchmark weights and cache measurements. A "max" label does not establish an equal compute budget across models.<a class="link" target="_blank" rel="noopener" href="https://artificialanalysis.ai/methodology/intelligence-benchmarking">AA methodology<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>AA's output-token chart makes the consumption more visible. Opus 5.5 Max with fallback uses a weighted average of approximately 119K total output tokens per task, including about 84K reasoning tokens. The chart labels GPT-6 Astra Max at approximately 27K total output tokens and GPT-6 Sol Max at approximately 38K. The 119K figure already includes reasoning; another 84K must not be added to it.</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://files.seeusercontent.com/2026/10/17/hD3q/Output-Tokens-per-Intelligence-I.png" alt="Artificial Analysis output tokens per task; total output includes reasoning tokens"><figcaption>Artificial Analysis output tokens per task; total output includes reasoning tokens</figcaption></figure><p></p>
+<p>Using the totals labelled in the screenshot, Opus consumes about 4.4 times as many tokens as Astra and 3.1 times as many as Sol. Some component labels do not quite sum to the displayed totals, possibly because they were rounded separately. They should not be used to infer exact underlying values. The screenshot also lacks a capture date and index version, so it should not be combined with a live page as though both formed one precisely documented historical test.</p>
+<p>These ratios describe the billed token consumption in the chart, not compute usage or the amount wasted. But when lower unit prices are presented as an advantage, higher consumption belongs in the discussion too. What useful results required those additional tokens? If the extra capability does not benefit my tasks, a leaderboard lead cannot offset my usage costs.</p>
+<p>There is also evidence pointing in the other direction. In the same launch announcement, Anthropic claims that Opus 5.5 at the default Medium effort setting beats GPT-6 Astra's highest FrontierCode score at roughly one-fifth of its cost per task. This is a different test from AA's Max composite index, with different benchmarks, effort settings, and workflows. Cost advantages can reverse across tasks and configurations, and selecting one favourable chart can tell a very different product story. I want to know where my typical work falls.</p>
+<h2 id="罗福莉这段话，让我更想追问-Anthropic-的工程账"><a href="#罗福莉这段话，让我更想追问-Anthropic-的工程账" class="headerlink" title="Fuli Luo's post makes me question Anthropic's engineering economics"></a>Fuli Luo's post makes me question Anthropic's engineering economics</h2><p>Fuli Luo's post about MiMo API price cuts is a piece of evidence I did not want to leave out. The Chinese X translation shown below matches the corresponding English archive. She attributes the largest cut, up to 99%, to cached input, saying that hierarchical KV-cache optimisation in the inference framework increased cache capacity roughly fivefold, equivalent to an approximately 80% reduction in caching costs. She also refers to roughly "2–3 times" of profit headroom in the original pricing and says the new prices can broadly break even when the system runs near full capacity.<a class="link" target="_blank" rel="noopener" href="https://ww.twstalker.com/_LuoFuli/status/2059618247553745204">English archive<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://x.com/_LuoFuli/status/2059618247553745204">Original post<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://files.seeusercontent.com/2026/10/17/jo8X/pasted-image-1792256748914.webp" alt="Fuli Luo's X post on MiMo API price cuts, shown in a Chinese translation from English"><figcaption>Fuli Luo's X post on MiMo API price cuts, shown in a Chinese translation from English</figcaption></figure><p></p>
+<p>The value of this explanation is that it connects engineering with commercial pricing: how caching became cheaper, how much headroom the original prices left, and why the company is now willing to pass it on. These remain the team leader's own claims, not audited findings, but they at least identify mechanisms that can be examined.</p>
+<p>Xiaomi's technical article explains further that Hybrid SWA can reduce KVCache storage to about one-seventh of a full-attention architecture. Cache management, prefix matching, and scheduling must be adapted together to realise those architectural gains. DeepSeek's earlier V3/R1 system overview also discusses prefill/decode disaggregation, expert parallelism, and load balancing. Gains in individual components do not equal a reduction in the cost of the whole service, but they give the discussion something concrete to examine.<a class="link" target="_blank" rel="noopener" href="https://mimo.xiaomi.com/zh/blog/mimo-v2-5-inference">Xiaomi technical article<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://github.com/deepseek-ai/open-infra-index/blob/main/202502OpenSourceWeek/day_6_one_more_thing_deepseekV3R1_inference_system_overview.md">DeepSeek system overview<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>For Anthropic, a 60% cut in the cache-read price is not evidence that KVCache resource costs also fell by 60%. The Opus 5.5 launch and migration documents I read state that the model requires less compute to serve, but do not provide a before-and-after engineering breakdown sufficient for me to verify the change in unit caching costs. That gap does not establish that no optimisation took place. Nor does a lower selling price, by itself, establish an engineering breakthrough.</p>
+<p>I am not bringing in Fuli Luo to promote another company. I want to ask Anthropic how much of this price cut comes from engineering savings already achieved, and how much comes from giving up pricing headroom to win market share. The latter is a normal commercial choice too. Consumers need not automatically treat it as a technological dividend, or place their trust in a new price list.</p>
+<h2 id="算力可以向马斯克买，稳定交付不能靠发布会代替"><a href="#算力可以向马斯克买，稳定交付不能靠发布会代替" class="headerlink" title="Compute can be bought from Musk; press conferences cannot deliver a reliable service"></a>Compute can be bought from Musk; press conferences cannot deliver a reliable service</h2><p>The phrase "borrowing compute from Musk" is more accurately described as a commercial capacity agreement. On May 6, Anthropic announced that it would use all the compute capacity at SpaceX's Colossus 1, gaining access to more than 300 megawatts and over 220,000 NVIDIA GPUs. It linked that expansion directly to higher Claude usage limits. Its partner issued a corresponding announcement.<a class="link" target="_blank" rel="noopener" href="https://www.anthropic.com/news/higher-limits-spacex">Anthropic announcement<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://x.ai/news/anthropic-compute-partnership">Partner announcement<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>There is nothing shameful about buying external compute capacity. It does show that the capacity available to users remains closely tied to external supply. Buying more compute and using each unit more efficiently are different things. An expansion announcement cannot substitute for evidence of efficiency.</p>
+<p>I do not rate Anthropic's service engineering as highly as its model capabilities. Using the UTC dates on its official status page, elevated errors on September 29 affected the website, Claude Code, Cowork, and the API. Opus 5.5 experienced elevated errors again on October 6. On October 7, some organisations were incorrectly paused for reaching their spending limits, causing requests to the API and other products to be refused. Users bear the consequences of these delivery failures.<a class="link" target="_blank" rel="noopener" href="https://status.claude.com/incidents/4xvtc2gnq73l">September 29 incident<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://status.claude.com/incidents/ch27pb90bn85">October 6 incident<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://status.claude.com/incidents/vmys9qn874h4">October 7 incident<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://files.seeusercontent.com/2026/10/17/z1dY/pasted-image-1792257963326.webp" alt="Claude's official 90-day status snapshot: 99.59% API uptime, with the service Operational when captured"><figcaption>Claude's official 90-day status snapshot: 99.59% API uptime, with the service Operational when captured</figcaption></figure><p></p>
+<p>This official status-page snapshot also records service incidents across several products and shows 99.59% API uptime over the past 90 days. It is not an industry-wide comparison, and it does not establish that every incident resulted from insufficient compute. Console reporting failures should not all be counted as inference API outages either. These delivery records are nevertheless enough for me to withhold a high rating for the company's engineering based on model scores alone.<a class="link" target="_blank" rel="noopener" href="https://status.claude.com/">Official status page<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>Solving difficult benchmark problems and reliably meeting demand for a paid service are different capabilities. A company can promote the first while being held to account for the second. Slightly cheaper tokens do not compensate for the time lost when errors and interruptions break up a piece of work.</p>
+<h2 id="IPO-前的降价，我更愿意按价格战理解"><a href="#IPO-前的降价，我更愿意按价格战理解" class="headerlink" title="I see the pre-IPO cuts as price competition"></a>I see the pre-IPO cuts as price competition</h2><p>This commercial context is another reason I am wary of the "stronger and cheaper" story. Reuters, reporting on a prospectus it had reviewed, said Anthropic recorded nearly $4.6 billion in revenue and more than $8 billion in operating losses in 2025, alongside substantial compute commitments. Its report also placed the Opus 5.5 launch in the context of competition with GPT-6 Astra and the expected IPO.<a class="link" target="_blank" rel="noopener" href="https://www.marketscreener.com/news/anthropic-s-ipo-prospectus-shows-sweeping-ai-vision-surging-costs-ce785addd98afe2c">Reuters report<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>In October, Reuters cited participants at an investor event as saying that third-quarter revenue reached $16.8 billion and that Anthropic told investors it was profitable for the quarter on an adjusted basis. The previous year's losses, adjusted profitability, and future spending commitments should be read separately.<a class="link" target="_blank" rel="noopener" href="https://uk.marketscreener.com/news/anthropic-s-q3-revenue-surges-45-to-nearly-17-billion-ce785dd2d08cf221">October 14 report<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>In this window, I am more inclined to interpret the price cuts as a commercial move to win market share and sustain growth expectations. Lower prices may attract more requests and customers, making the story of strong demand, expanding scale, and improving efficiency easier to sell to investors. There are commercial reasons for such a cut even without first establishing a comprehensive infrastructure breakthrough.</p>
+<p>That is my criticism: why should users automatically turn a company's price competition into a technological victory, then count economies of scale that have not yet materialised as benefits already received? I have no evidence that Anthropic is dumping services below cost or deliberately deceiving customers, or that it will necessarily cut allowances later. I can still refuse to let this growth narrative serve as an endorsement of its service and pricing.</p>
+<p>Opus 5.5's unit prices have fallen, and my usage mix is cheaper at the new rates. But the comparison baseline is Anthropic's own old pricing. Competitors' token consumption, users' task costs, and actual service reliability still need to be accounted for.</p>
+<p>I still recognise Claude's model capabilities and am willing to pay for a useful product. My response to this price cut is simply not to declare a win for users too soon. The company needs to compete on price and sell a convincing IPO story; I need a tool that reliably finishes the work. There is no reason to assume those interests are the same.</p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> Claude Opus 5.5 and the Myth of Cheaper AI: Engineering Progress or a Pre-IPO Price War?</li>
+        <li><strong>Author:</strong> AdenXie</li>
+        <li><strong>Created at
+                :</strong> 2026-10-18 01:32:46</li>
+        
+        <li>
+            <strong>Link:</strong> https://blog.adenxie.com.cn/2026/10/18/2026-10-18-claude-opus-5-5-pricing-myth/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                All Rights Reserved © AdenXie
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">#Large Model</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/Claude/">#Claude</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/Anthropic/">#Anthropic</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/Codex/">#Codex</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E6%88%90%E6%9C%AC%E5%88%86%E6%9E%90/">#Cost Analysis</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/10/01/2026-10-01-gemini-4-argon/" title="Gemini 4 Argon: The reasons I like Gemini are all written in Argon this time." rel="bookmark">
+  <img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/g4_30-09-26_key-art_blog.width-1600.format-webp.webp" alt="Gemini 4 Argon: The reasons I like Gemini are all written in Argon this time." class="!max-w-none">
+  <span class="title">Gemini 4 Argon: The reasons I like Gemini are all written in Argon this time.</span>
+</a><a class="recommended-article-item" href="/2026/10/14/2026-10-14-gemini-4-argon-vs-claude-opus-5-5-writing-test/" title="Who is better at &quot;speaking human language&quot;? Gemini 4 Argon and Claude Opus 5.5 Writing Test" rel="bookmark">
+  <img src="https://files.seeusercontent.com/2026/10/14/Oiu2/pasted-image-1791945672927.webp" alt="Who is better at &quot;speaking human language&quot;? Gemini 4 Argon and Claude Opus 5.5 Writing Test" class="!max-w-none">
+  <span class="title">Who is better at "speaking human language"? Gemini 4 Argon and Claude Opus 5.5 Writing Test</span>
+</a><a class="recommended-article-item" href="/2026/09/20/jev-system-one/" title="Why Jev became popular: When AI stopped writing answers and instead made judgments for the software." rel="bookmark">
+  <img src="https://framerusercontent.com/images/z4Uu1YpJeEZPBSMTCMI0CN2PX0.png" alt="Why Jev became popular: When AI stopped writing answers and instead made judgments for the software." class="!max-w-none">
+  <span class="title">Why Jev became popular: When AI stopped writing answers and instead made judgments for the software.</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/10/01/2026-10-01-gemini-4-argon/" title="Gemini 4 Argon: The reasons I like Gemini are all written in Argon this time." rel="bookmark">
+  <img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/g4_30-09-26_key-art_blog.width-1600.format-webp.webp" alt="Gemini 4 Argon: The reasons I like Gemini are all written in Argon this time." class="!max-w-none">
+  <span class="title">Gemini 4 Argon: The reasons I like Gemini are all written in Argon this time.</span>
+</a><a class="recommended-article-item" href="/2026/10/14/2026-10-14-gemini-4-argon-vs-claude-opus-5-5-writing-test/" title="Who is better at &quot;speaking human language&quot;? Gemini 4 Argon and Claude Opus 5.5 Writing Test" rel="bookmark">
+  <img src="https://files.seeusercontent.com/2026/10/14/Oiu2/pasted-image-1791945672927.webp" alt="Who is better at &quot;speaking human language&quot;? Gemini 4 Argon and Claude Opus 5.5 Writing Test" class="!max-w-none">
+  <span class="title">Who is better at "speaking human language"? Gemini 4 Argon and Claude Opus 5.5 Writing Test</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/10/17/2026-10-17-daily-brief/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Daily Briefing | October 17, 2026: Bond market tightening, AI investment, and geopolitical risks intertwine</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">Claude Opus 5.5 and the Myth of Cheaper AI: Engineering Progress or a Pre-IPO Price War?</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%80%9C%E4%BE%BF%E5%AE%9C-40-%E2%80%9D%E5%88%B0%E5%BA%95%E5%9C%A8%E5%92%8C%E8%B0%81%E6%AF%94%EF%BC%9F"><span class="nav-text">Cheaper by 40% compared with what?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%91%E7%9A%84%E7%BB%9F%E8%AE%A1%E9%87%8C%EF%BC%8C%E6%9C%80%E5%AE%B9%E6%98%93%E8%A2%AB%E5%BF%BD%E7%95%A5%E7%9A%84%E6%98%AF%E7%BC%93%E5%AD%98"><span class="nav-text">The overlooked part of my usage figures: caching</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%91%BD%E4%B8%AD%E7%BC%93%E5%AD%98-98-8-%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%98%E6%9C%89%E8%BF%99%E4%B9%88%E5%A4%9A%E8%B4%B9%E7%94%A8%EF%BC%9F"><span class="nav-text">A 98.8% cache hit rate, yet substantial costs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AA-%E7%9A%84%E9%A2%86%E5%85%88%EF%BC%8C%E4%B9%9F%E5%B8%A6%E7%9D%80%E6%88%90%E6%9C%AC%E6%A0%87%E7%AD%BE"><span class="nav-text">AA's lead comes with a cost</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%97%E7%A6%8F%E8%8E%89%E8%BF%99%E6%AE%B5%E8%AF%9D%EF%BC%8C%E8%AE%A9%E6%88%91%E6%9B%B4%E6%83%B3%E8%BF%BD%E9%97%AE-Anthropic-%E7%9A%84%E5%B7%A5%E7%A8%8B%E8%B4%A6"><span class="nav-text">Fuli Luo's post makes me question Anthropic's engineering economics</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%97%E5%8A%9B%E5%8F%AF%E4%BB%A5%E5%90%91%E9%A9%AC%E6%96%AF%E5%85%8B%E4%B9%B0%EF%BC%8C%E7%A8%B3%E5%AE%9A%E4%BA%A4%E4%BB%98%E4%B8%8D%E8%83%BD%E9%9D%A0%E5%8F%91%E5%B8%83%E4%BC%9A%E4%BB%A3%E6%9B%BF"><span class="nav-text">Compute can be bought from Musk; press conferences cannot deliver a reliable service</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IPO-%E5%89%8D%E7%9A%84%E9%99%8D%E4%BB%B7%EF%BC%8C%E6%88%91%E6%9B%B4%E6%84%BF%E6%84%8F%E6%8C%89%E4%BB%B7%E6%A0%BC%E6%88%98%E7%90%86%E8%A7%A3"><span class="nav-text">I see the pre-IPO cuts as price competition</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">Write down your real experiences while retaining the edges of your viewpoints.</div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        74 posts in total
+                    </span>
+                    
+                        <span>
+                            184.1k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days"></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/cyber-weather.js" defer=""></script>
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/cyber-exchange.js" defer=""></script>
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="Image viewer">
+	<button class="image-viewer-close" type="button" aria-label="Close">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="Prev">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="Close">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="Next">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Search..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js"></script>
+
+
+<script src="/js/build/plugins/aplayer.js"></script>
+
+
+	
+
+
+</body></html>
