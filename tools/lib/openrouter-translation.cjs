@@ -43,6 +43,15 @@ async function translate(items, apiKey, fetchImpl = fetch) {
   });
   if (!response.ok) throw new Error(`OpenRouter HTTP ${response.status}`);
   const data = await response.json();
+  if (data?.error) {
+    let detail = '';
+    try {
+      const upstream = JSON.parse(data.error.metadata?.raw || '{}');
+      detail = upstream.error?.message || upstream.message || '';
+    } catch { /* Provider diagnostics are optional; never log the raw payload. */ }
+    const message = [data.error.message, detail].filter(value => typeof value === 'string').join(': ').split(apiKey).join('[redacted]').slice(0, 500);
+    throw new Error(`OpenRouter API ${data.error.code || 'error'}: ${message}`);
+  }
   const choice = data?.choices?.[0];
   if (choice?.finish_reason === 'length') throw new Error('OpenRouter response was truncated');
   if (choice?.finish_reason !== 'stop') throw new Error(`OpenRouter returned unsupported finish reason: ${choice?.finish_reason || 'missing'}`);

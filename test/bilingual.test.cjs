@@ -62,6 +62,13 @@ test('OpenRouter rejects changed URLs and numeric anchors', () => {
   assert.throws(() => parseOutput('{"translations":[{"id":0,"text":"Read https://wrong.example"}]}', [{ text: '访问 https://example.org' }]));
 });
 
+test('OpenRouter reports HTTP-200 provider errors without exposing the API key or raw payload', async () => {
+  await assert.rejects(translate([{ text: '示例' }], 'test-secret', async () => ({
+    ok: true,
+    json: async () => ({ error: { code: 400, message: 'Provider returned error', metadata: { raw: JSON.stringify({ error: { message: 'Rejected test-secret parameter' }, headers: 'do not log this' }) } } }),
+  })), error => error.message.includes('API 400') && error.message.includes('Rejected [redacted] parameter') && !error.message.includes('test-secret') && !error.message.includes('do not log this'));
+});
+
 test('OpenRouter reuses historical segment entries without copying them into its namespace', () => {
   const text = '已发布旧文';
   const digest = require('node:crypto').createHash('sha256').update('niutrans-en-v1' + text).digest('hex');
