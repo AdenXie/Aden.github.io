@@ -5,7 +5,6 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 const cheerio = require('cheerio');
 const acorn = require('acorn');
-const terms = require('../lib/bilingual-terms.json');
 const openrouter = require('./lib/openrouter-translation.cjs');
 const ROOT = path.resolve(process.env.BILINGUAL_ROOT || path.join(__dirname, '..'));
 const PUBLIC = path.resolve(process.env.BILINGUAL_PUBLIC || path.join(ROOT, 'public'));
@@ -14,8 +13,7 @@ const CACHE = path.resolve(process.env.BILINGUAL_CACHE || path.join(ROOT, '.tran
 const VERSION = 'openrouter-nemotron-en-v1';
 const hasChinese = text => /[\u3400-\u9fff]/u.test(text);
 const hash = text => crypto.createHash('sha256').update(VERSION + text).digest('hex');
-const legacyHash = text => crypto.createHash('sha256').update('niutrans-en-v1' + text).digest('hex');
-const cached = (cache, text) => cache[hash(text)] || cache[legacyHash(text)];
+const cached = (cache, text) => cache[hash(text)];
 const protectedSelector = 'script,style,pre,code,math,mjx-container,.MathJax,.MathJax_Display,.katex,textarea,[translate="no"]';
 function scriptSegments(source) {
   const result = [];
@@ -23,7 +21,7 @@ function scriptSegments(source) {
     if (!node || typeof node !== 'object') return;
     if ((node.type === 'Literal' && typeof node.value === 'string') || node.type === 'TemplateElement') {
       const value = node.type === 'Literal' ? node.value : node.value.raw;
-      const texts = [...new Set(value.match(/[\u3400-\u9fff][\u3400-\u9fff，。；：、（） ·…/-]*/gu) || [])];
+      const texts = [...new Set(value.match(/[\u3400-\u9fff][\u3400-\u9fff\d，。；：、（） ·…/-]*/gu) || [])];
       if (texts.length || value === 'zh-CN') result.push({ node, value, texts });
       return;
     }
@@ -131,7 +129,6 @@ async function main() {
   fs.mkdirSync(CACHE, { recursive: true });
   const cacheFile = path.join(CACHE, 'segments.json');
   const cache = fs.existsSync(cacheFile) ? JSON.parse(fs.readFileSync(cacheFile, 'utf8')) : {};
-  for (const [text, translated] of Object.entries(terms)) cache[hash(text)] = translated;
   const pages = files(PUBLIC).filter(f => f.endsWith('.html')).map(file => {
     const zhHtml = fs.readFileSync(file, 'utf8');
     const nativeFile = path.join(ENGLISH_THEME, path.relative(PUBLIC, file));
@@ -188,9 +185,8 @@ async function main() {
   for (const script of scripts) {
     let source = script.source;
     for (const { node, value, texts } of [...script.segments].sort((a,b) => b.node.start - a.node.start)) {
-      let translated = value === 'zh-CN' ? 'en-GB' : (terms[value] ?? value);
-      for (const [text, target] of Object.entries(terms).filter(([text]) => text.includes('100'))) translated = translated.replaceAll(text, target);
-      if (!(value in terms)) for (const text of texts.sort((a,b) => b.length-a.length)) translated = translated.replaceAll(text, cached(cache, text) ?? text);
+      let translated = value === 'zh-CN' ? 'en-GB' : value;
+      for (const text of texts.sort((a,b) => b.length-a.length)) translated = translated.replaceAll(text, cached(cache, text) ?? text);
       const encoded = node.type === 'Literal' ? JSON.stringify(translated) : translated.replace(/`/g, '\\`').replace(/\$\{/g, '\\${');
       source = source.slice(0, node.start) + encoded + source.slice(node.end);
     }

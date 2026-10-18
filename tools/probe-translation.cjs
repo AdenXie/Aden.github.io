@@ -3,8 +3,8 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
-const terms = require('../lib/bilingual-terms.json');
 const { MODEL, translate, hasSameAnchors } = require('./lib/openrouter-translation.cjs');
+const CACHE_VERSION = 'openrouter-nemotron-en-v1';
 
 const samples = [
   { text: '我最初是喜欢 Opus 5.5 的。模型更强，价格又降了，这当然值得高兴。我同时订阅着 Claude Pro 和 ChatGPT Plus，也实际使用 Claude Code 和 Codex，有理由期待竞争最后能给用户带来实惠。', context: '公开文章开头，涉及模型、产品和作者态度。' },
@@ -13,12 +13,11 @@ const samples = [
 ];
 
 function existingTranslation(text, cacheDir) {
-  if (terms[text]) return { source: 'Curated term', text: terms[text] };
   const file = path.join(cacheDir || '', 'segments.json');
   if (!cacheDir || !fs.existsSync(file)) return null;
-  const key = crypto.createHash('sha256').update('niutrans-en-v1' + text).digest('hex');
+  const key = crypto.createHash('sha256').update(CACHE_VERSION + text).digest('hex');
   const cache = JSON.parse(fs.readFileSync(file, 'utf8'));
-  return cache[key] ? { source: 'Historical translation cache', text: cache[key] } : null;
+  return cache[key] ? { source: 'Historical cached translation', text: cache[key] } : null;
 }
 
 async function main() {
@@ -31,7 +30,7 @@ async function main() {
     console.log(`Source: ${samples[i].text}`);
     console.log(`OpenRouter: ${outputs[i]}`);
     console.log(`Integrity: ${hasSameAnchors(samples[i].text, outputs[i]) ? 'PASS' : 'FAIL'}`);
-    console.log(old ? `${old.source}: ${old.text}` : 'Existing translation: none');
+    console.log(old ? `${old.source}: ${old.text}` : 'Historical cached translation: none');
   }
 }
 

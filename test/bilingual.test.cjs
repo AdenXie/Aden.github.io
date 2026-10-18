@@ -27,6 +27,11 @@ test('script parsing translates strings rather than identifiers, regex or expres
   const nodes = scriptSegments('const x = "天气"; const y = `温度 ${value} °C`; const z = /中文/;');
   assert.deepEqual(nodes.flatMap(n => n.texts), ['天气','温度 ']);
 });
+test('script translation segments retain numbers in Chinese currency phrases and disclaimers', () => {
+  const nodes = scriptSegments('const unit = "人民币 / 100澳元"; const disclaimer = "仅供个人展示，汇率单位为每100澳元"; const x = `${amount} 100`;');
+  assert.deepEqual(nodes.flatMap(n => n.texts), ['人民币 / 100澳元', '仅供个人展示，汇率单位为每100澳元']);
+  assert.equal(nodes.some(n => n.texts.includes('100')), false);
+});
 
 test('OpenRouter sends the selected free model and accepts reordered JSON IDs', async () => {
   let request;
@@ -69,12 +74,12 @@ test('OpenRouter reports HTTP-200 provider errors without exposing the API key o
   })), error => error.message.includes('API 400') && error.message.includes('Rejected [redacted] parameter') && !error.message.includes('test-secret') && !error.message.includes('do not log this'));
 });
 
-test('OpenRouter reuses historical segment entries without copying them into its namespace', () => {
+test('OpenRouter reads only translations in its current cache namespace', () => {
+  const crypto = require('node:crypto');
   const text = '已发布旧文';
-  const digest = require('node:crypto').createHash('sha256').update('niutrans-en-v1' + text).digest('hex');
-  const cache = { [digest]: 'Previously published translation' };
-  assert.equal(cached(cache, text), 'Previously published translation');
-  assert.equal(Object.keys(cache).length, 1);
+  const current = crypto.createHash('sha256').update('openrouter-nemotron-en-v1' + text).digest('hex');
+  assert.equal(cached({ [current]: 'Cached translation' }, text), 'Cached translation');
+  assert.equal(cached({ unrelated: 'Unrelated cache entry' }, text), undefined);
 });
 
 test('authored article content and list cards update inside old translated snapshots', () => {
