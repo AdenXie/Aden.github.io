@@ -6,6 +6,7 @@ on:
       - source
     paths:
       - source/**
+      - translations/en/**
       - tools/**
       - scripts/**
       - lib/**
@@ -17,18 +18,56 @@ on:
       - package-lock.json
       - .github/workflows/deploy.yml
   workflow_dispatch:
+    inputs:
+      translation_probe:
+        description: Run a small OpenRouter translation probe without building or deploying
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: write
 
-concurrency:
-  group: hexo-production-deploy
-  cancel-in-progress: true
-
 jobs:
+  translation-probe:
+    if: github.event_name == 'workflow_dispatch' && inputs.translation_probe == true
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: hexo-translation-probe
+      cancel-in-progress: false
+    steps:
+      - name: Check out source branch
+        uses: actions/checkout@v4
+        with:
+          ref: source
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Read translation cache for comparison
+        run: |
+          if git ls-remote --exit-code --heads origin translations; then
+            git clone --depth 1 --branch translations https://github.com/AdenXie/Aden.github.io.git .translation-cache
+          else
+            mkdir .translation-cache
+          fi
+      - name: Run three-sample OpenRouter probe
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          TRANSLATION_CACHE_DIR: .translation-cache
+        run: node tools/probe-translation.cjs
+
   deploy:
+    if: github.event_name != 'workflow_dispatch' || inputs.translation_probe != true
     runs-on: ubuntu-latest
     timeout-minutes: 90
+    concurrency:
+      group: hexo-production-deploy
+      cancel-in-progress: true
 
     steps:
       - name: Check out source branch
@@ -71,8 +110,7 @@ jobs:
 
       - name: Build bilingual production site
         env:
-          NIUTRANS_API_KEY: ${{ secrets.NIUTRANS_API_KEY }}
-          NIUTRANS_APP_ID: ${{ secrets.NIUTRANS_APP_ID }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           TRANSLATION_CHAR_LIMIT: '160000'
         run: npm run build:site
 

@@ -1,79 +1,41 @@
-# Bilingual static publishing
+# Bilingual publishing
 
-Production entry point: `npm run build:site`. It runs both native renders and
-this translation stage, then optimizes resources and validates all output paths.
-The optimizer also normalizes asset wiring in older cached English snapshots;
-do not run another Hexo generation after it or the optimized output is replaced.
-Site-runtime is shared across languages and chooses its small status messages
-from the document language; weather, exchange, and world-time scripts retain
-their separate generated English variants.
+Production entry point: `npm run build:site`. It renders the Chinese site, then a native Redefine English shell into ignored `.english-theme`, translates remaining Chinese text, optimizes assets, builds latest-post feeds, and validates output. Do not run Hexo generation after optimization.
 
-Chinese source remains authoritative. `deploy.yml` builds Chinese Hexo, then
-renders a native English theme shell with
-`npm run build:english` (using the same Asia/Shanghai build timezone as Chinese).
-The shell lives in ignored `.english-theme`; Redefine's `languages/en.yml`
-supplies theme UI and dynamic localization. Site menu keys are mapped in
-`scripts/english-theme.js`. Only remaining Chinese content in that shell is
-machine-translated. The workflow restores the
-`translations` branch into ignored `.translation-cache`, runs
-`node tools/build-bilingual.cjs`, persists that cache, and deploys `public`.
-English pages are separate static files under `/en/`. No visitor calls a
-translation API. Normal page navigation is used to isolate language-specific
-scripts and search configuration.
+Chinese source in `source/_posts/` remains authoritative. English pages are static files under `/en/`; visitors never call a translation API. The English shell uses `scripts/english-theme.js` to map navigation labels. Translation works on rendered HTML text and selected attributes, excluding scripts, styles, code, SVG math and MathJax. Existing page snapshots are used when a translation request cannot complete, while changed authored English content is merged over those snapshots.
 
 ## Visitor language preference
 
-`source/js/language-preference.js` runs early on generated pages. Only the entry
-homepage (`/` or `/index.html`) automatically chooses English when the browser's
-first preferred language is English. Chinese and other languages default to the
-Chinese homepage. A manual Chinese/English choice is saved as `aden-blog-language`
-in optional localStorage and takes priority over the browser language on
-subsequent entry-homepage visits.
-Explicit `/en/` and article URLs are never redirected. Language-switch links keep
-the current query and fragment; existing untranslated-page fallback is unchanged.
-If storage is blocked, the switch carries a `lang=zh/en` query preference so a
-manual Chinese selection does not immediately bounce back to English.
-An explicit valid `lang` query takes priority over saved preference as well.
+`source/js/language-preference.js` only selects a language automatically on `/` or `/index.html`. A valid `?lang=zh/en` takes priority, followed by the saved `aden-blog-language` preference and then the browser's preferred language. English browsers enter `/en/`; Chinese and other browsers enter the Chinese homepage. Explicit English, article and archive URLs are never redirected. Language links keep the current query and fragment. If localStorage is blocked, the language query carries the choice.
 
-## Credentials and limits
+## OpenRouter setup and limits
 
-GitHub Actions Secrets: `NIUTRANS_API_KEY`, `NIUTRANS_APP_ID`.
-Never put credentials into source, cache, logs, generated pages or Vercel's
-public environment. NiuTrans's HTTPS v2 text endpoint is used, with signed
-requests. Requests are sequential, spaced, and short texts are joined by
-newlines. A batch is accepted only when its output line count matches; otherwise
-individual requests are used.
+The only live translation provider is OpenRouter's chat completions API, using `nvidia/nemotron-3-ultra-550b-a55b:free`. GitHub Actions reads the repository secret `OPENROUTER_API_KEY`. There is no paid-model fallback or alternate provider. Missing credentials, provider errors, rate limits, malformed output or truncation leave Chinese publishing intact and use existing English page snapshots where available. Free-model availability and limits can change; the build does not promise unlimited availability.
 
-The daily safety ceiling is 160,000 attempted source characters (Shanghai
-calendar day), persisted in `usage.json`. This is a local safety ceiling, not
-an authoritative reading of the provider's account balance. Other applications
-using the same account can consume its free credits. Do not enable paid top-ups
-without the owner's approval.
+Requests include nearby text as context and require JSON rows with stable IDs. The build validates row count/order mapping, nonempty text, completion status, and preservation of URLs, numbers, acronyms and link-like tokens. It does not send `response_format`, which this model does not support. Requests bound output with `max_tokens` and disable reasoning. A per-day local safety ceiling of 160,000 source characters is recorded in `usage.json` using the Shanghai calendar day; this is not a provider quota reading.
 
-## Cache and failure behavior
+## English translations
 
-`segments.json`: translations keyed by SHA-256 of the source text and translation
-rule version. `pages/`: last completely translated page, before language link
-decoration. Only a fully translated page replaces the previous snapshot. If
-translation fails, old English pages remain with a stale notice; new pages with
-missing translations are omitted, and Chinese publishing continues. A language
-switch is not shown until an English destination exists.
+Important posts can have an independently edited English Markdown copy at `translations/en/<Chinese source filename>.md`. For example, `source/_posts/2026-10-18-device-note.md` maps to `translations/en/2026-10-18-device-note.md`. Start from `translations/en/TEMPLATE.md`. The English file requires `title`, `description`, and `source_hash` front matter. Set `source_hash` to the SHA-256 of the complete Chinese Markdown file after normalizing line endings to LF, so Windows and Linux builds agree. On PowerShell:
 
-Re-run the existing GitHub workflow to fill missing translations. Do not delete
-the cache to retry a network failure. Unchanged builds should request zero new
-translations. Changing the `VERSION` deliberately invalidates segment keys and
-can retranslate the whole site; avoid doing so for cosmetic changes.
+```powershell
+$p = 'source/_posts/<source filename>.md'
+$s = [IO.File]::ReadAllText($p) -replace "`r`n?", "`n"
+[Convert]::ToHexString([Security.Cryptography.SHA256]::HashData([Text.Encoding]::UTF8.GetBytes($s))).ToLowerInvariant()
+```
 
-Translation operates on parsed rendered HTML text and selected attributes,
-excluding scripts, styles, code, SVG math and MathJax. Custom widget English
-copies are generated by parsing JS string literals/template pieces; expressions,
-API URLs, regex and calculations stay unchanged. The original Chinese assets
-are untouched. Machine translation should be reviewed for specialist terms.
+The English copy supplies the article title, description, body and table of contents. The generated archive cards, search entry and latest-post feed use those current English fields too. If the Chinese source hash changes, the English article displays a review notice. Old page snapshots cannot replace an authored article or its matching listing card. Do not copy or modify published articles as examples.
+
+## Cache and failures
+
+`segments.json` stores translations by a provider/version salt plus source text. The build reads entries under the previous `niutrans-en-v1` salt only to preserve translations already saved in the persistent `translations` branch. This historical-key compatibility does not call NiuTrans. New missing segments are sent only to OpenRouter and saved under the OpenRouter cache version. Never clear the cache to retry a failure or change the version casually, since doing so can cause a broad retranslation.
+
+`pages/` stores the last fully translated page before language-link decoration. A snapshot is replaced only when the current page's machine-translated segments are complete. Failed requests retain the old translated page; new pages without a full translation are omitted except pages with a current authored English copy. English failure must not prevent Chinese output.
+
+## Probe mode
+
+The manual `workflow_dispatch` option `translation_probe` runs three short public Chinese samples through the same OpenRouter client and reports translations, validation results, and matching historical cache or curated-term text when available. It performs no site build, deploy or cache writes. It never prints credentials or authorization headers. Use the probe to compare phrasing; it is not evidence by itself that one provider is more accurate.
 
 ## Verification
 
-Run `node --test test/bilingual.test.cjs test/world-time.test.cjs`.
-After the cloud build, check `/en/`, a news post, a formula post, `/en/world-time/`,
-and `/en/search.xml`. Compare the count/content of `mjx-container` and `pre`
-between original and English pages. Verify mobile navigation and language links.
-Check Actions output for English page count, new segment count and errors.
+Run `npm test`, `npm run build:site`, and `git diff --check`. After a cloud build, check `/en/`, an article, a formula article, `/en/world-time/`, `/en/search.xml` and both latest-post feeds. Compare `mjx-container` and `pre` between Chinese and English pages. Check that authored titles, summaries, body, table of contents, search entries and feeds agree, and verify mobile navigation and language links.
