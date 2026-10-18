@@ -71,7 +71,7 @@ test('Hexo authored translation overrides old snapshots and stays aligned across
   const testKey = 'fixture-key-must-not-appear-in-logs';
   const env = { ...process.env, BILINGUAL_ROOT: root, BILINGUAL_PUBLIC: path.join(root, 'public'), BILINGUAL_ENGLISH_THEME: path.join(root, '.english-theme'), BILINGUAL_CACHE: cache, OPENROUTER_API_KEY: testKey };
   const builder = JSON.stringify(path.join(REPO, 'tools/build-bilingual.cjs'));
-  const bilingual = spawnSync(process.execPath, ['-e', `global.fetch = async () => ({ ok: false, status: 429 }); require(${builder}).main()`], { cwd: root, env, encoding: 'utf8' });
+  const bilingual = spawnSync(process.execPath, ['-e', `global.fetch = async url => String(url).startsWith('https://translate.googleapis.com/') ? ({ ok: false, status: 503 }) : ({ ok: false, status: 429 }); require(${builder}).main()`], { cwd: root, env, encoding: 'utf8' });
   assert.equal(bilingual.status, 0, `${bilingual.stdout}\n${bilingual.stderr}`);
   assert.match(`${bilingual.stdout}\n${bilingual.stderr}`, /OpenRouter HTTP 429/);
   assert.doesNotMatch(`${bilingual.stdout}\n${bilingual.stderr}`, new RegExp(testKey));
@@ -120,10 +120,32 @@ test('Hexo authored translation overrides old snapshots and stays aligned across
   for (const slot of slots(currentHome)) segmentCache[hash(slot.text)] = 'Current translated UI';
   fs.writeFileSync(nativeHomePath, currentHome.html());
   fs.writeFileSync(path.join(cache, 'segments.json'), JSON.stringify(segmentCache));
-  const refreshed = spawnSync(process.execPath, ['-e', `global.fetch = async () => ({ ok: false, status: 429 }); require(${builder}).main()`], { cwd: root, env, encoding: 'utf8' });
+  const refreshed = spawnSync(process.execPath, ['-e', `global.fetch = async url => String(url).startsWith('https://translate.googleapis.com/') ? ({ ok: false, status: 503 }) : ({ ok: false, status: 429 }); require(${builder}).main()`], { cwd: root, env, encoding: 'utf8' });
   assert.equal(refreshed.status, 0, `${refreshed.stdout}\n${refreshed.stderr}`);
   const refreshedHome = cheerio.load(fs.readFileSync(path.join(root, 'public/en/index.html'), 'utf8'));
   assert.equal(refreshedHome('[data-new-home-content]').text(), 'New unrelated homepage content');
   assert.match(refreshedHome('.home-article-item').text(), /Current English title/);
   assert.match(fs.readFileSync(path.join(cache, 'pages/index.html'), 'utf8'), /New unrelated homepage content/);
+
+  // Successful Google translations populate the existing string cache plus provider metadata.
+  fs.writeFileSync(path.join(cache, 'segments.json'), '{}');
+  fs.writeFileSync(path.join(cache, 'sources.json'), '{}');
+  const noKeyEnv = { ...env };
+  delete noKeyEnv.OPENROUTER_API_KEY;
+  const googleRun = spawnSync(process.execPath, ['-e', `global.fetch = async url => { if (!String(url).startsWith('https://translate.googleapis.com/')) throw new Error('unexpected primary request'); const q = new URL(url).searchParams.get('q'); return { ok: true, json: async () => [[['English ' + q, q]], null] }; }; require(${builder}).main()`], { cwd: root, env: noKeyEnv, encoding: 'utf8' });
+  assert.equal(googleRun.status, 0, `${googleRun.stdout}\n${googleRun.stderr}`);
+  const savedSegments = JSON.parse(fs.readFileSync(path.join(cache, 'segments.json'), 'utf8'));
+  const savedSources = JSON.parse(fs.readFileSync(path.join(cache, 'sources.json'), 'utf8'));
+  const firstId = Object.keys(savedSegments)[0];
+  assert.ok(firstId);
+  assert.equal(typeof savedSegments[firstId], 'string');
+  assert.match(savedSegments[firstId], /^English /);
+  assert.equal(savedSources[firstId].provider, 'google');
+  assert.equal(savedSources[firstId].model, 'google-translate-gtx');
+  assert.ok(Number.isFinite(Date.parse(savedSources[firstId].translated_at)));
+  const googleArticle = cheerio.load(fs.readFileSync(englishArticlePath, 'utf8'));
+  assert.match(googleArticle('.article-content').text(), /Current English body/);
+  assert.match(googleArticle('.article-content').text(), /引用原文/);
+  const cacheHit = spawnSync(process.execPath, ['-e', `let calls = 0; global.fetch = async () => { calls++; throw new Error('unexpected API call for cached segments'); }; require(${builder}).main().then(() => { if (calls) process.exitCode = 1; });`], { cwd: root, env, encoding: 'utf8' });
+  assert.equal(cacheHit.status, 0, `${cacheHit.stdout}\n${cacheHit.stderr}`);
 });

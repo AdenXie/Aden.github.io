@@ -20,7 +20,12 @@ on:
   workflow_dispatch:
     inputs:
       translation_probe:
-        description: Run a small OpenRouter translation probe without building or deploying
+        description: Run a small OpenRouter and Google translation probe without building or deploying
+        type: boolean
+        required: false
+        default: false
+      translation_force_google_fallback:
+        description: Simulate an OpenRouter 503 and verify the real Google fallback
         type: boolean
         required: false
         default: false
@@ -30,7 +35,7 @@ permissions:
 
 jobs:
   translation-probe:
-    if: github.event_name == 'workflow_dispatch' && inputs.translation_probe == true
+    if: github.event_name == 'workflow_dispatch' && (inputs.translation_probe == true || inputs.translation_force_google_fallback == true)
     runs-on: ubuntu-latest
     timeout-minutes: 10
     concurrency:
@@ -55,14 +60,15 @@ jobs:
           else
             mkdir .translation-cache
           fi
-      - name: Run three-sample OpenRouter probe
+      - name: Run three-sample translation probe
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           TRANSLATION_CACHE_DIR: .translation-cache
+          TRANSLATION_FORCE_GOOGLE_FALLBACK: ${{ inputs.translation_force_google_fallback }}
         run: node tools/probe-translation.cjs
 
   deploy:
-    if: github.event_name != 'workflow_dispatch' || inputs.translation_probe != true
+    if: github.event_name != 'workflow_dispatch' || (inputs.translation_probe != true && inputs.translation_force_google_fallback != true)
     runs-on: ubuntu-latest
     timeout-minutes: 90
     concurrency:

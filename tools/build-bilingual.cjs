@@ -6,6 +6,7 @@ const crypto = require('node:crypto');
 const cheerio = require('cheerio');
 const acorn = require('acorn');
 const openrouter = require('./lib/openrouter-translation.cjs');
+const google = require('./lib/google-translation.cjs');
 const ROOT = path.resolve(process.env.BILINGUAL_ROOT || path.join(__dirname, '..'));
 const PUBLIC = path.resolve(process.env.BILINGUAL_PUBLIC || path.join(ROOT, 'public'));
 const ENGLISH_THEME = path.resolve(process.env.BILINGUAL_ENGLISH_THEME || path.join(ROOT, '.english-theme'));
@@ -14,6 +15,30 @@ const VERSION = 'openrouter-nemotron-en-v1';
 const hasChinese = text => /[\u3400-\u9fff]/u.test(text);
 const hash = text => crypto.createHash('sha256').update(VERSION + text).digest('hex');
 const cached = (cache, text) => cache[hash(text)];
+const retryableOpenRouter = error => error instanceof TypeError || error.name === 'AbortError' || error.name === 'TimeoutError' || /OpenRouter (?:HTTP|API) (429|5\d\d)|fetch failed|network|timed? ?out|timeout/iu.test(error.message);
+async function translateBatch(items, key, fetchImpl = fetch, googleTranslate = google.translate) {
+  if (key) {
+    try {
+      let outputs;
+      for (let attempt = 0; ; attempt++) {
+        try { outputs = await openrouter.translate(items, key, fetchImpl); break; }
+        catch (error) {
+          if (attempt === 0 && retryableOpenRouter(error)) continue;
+          throw error;
+        }
+      }
+      return { outputs, provider: 'openrouter', model: openrouter.MODEL };
+    } catch (error) {
+      logAuthFailure(error);
+      console.warn(`OpenRouter failed; trying Google Translate: ${error.message}`);
+    }
+  }
+  const outputs = await googleTranslate(items, fetchImpl);
+  return { outputs, provider: 'google', model: 'google-translate-gtx' };
+}
+function logAuthFailure(error) {
+  if (/OpenRouter HTTP (401|403)|API (401|403)/u.test(error.message)) console.warn(`OpenRouter credentials rejected (HTTP ${error.message.match(/(?:HTTP |API )(401|403)/u)?.[1] || '401/403'}); using Google Translate fallback`);
+}
 const protectedSelector = 'script,style,pre,code,math,mjx-container,.MathJax,.MathJax_Display,.katex,textarea,[translate="no"]';
 function scriptSegments(source) {
   const result = [];
@@ -129,6 +154,8 @@ async function main() {
   fs.mkdirSync(CACHE, { recursive: true });
   const cacheFile = path.join(CACHE, 'segments.json');
   const cache = fs.existsSync(cacheFile) ? JSON.parse(fs.readFileSync(cacheFile, 'utf8')) : {};
+  const sourcesFile = path.join(CACHE, 'sources.json');
+  const sources = fs.existsSync(sourcesFile) ? JSON.parse(fs.readFileSync(sourcesFile, 'utf8')) : {};
   const pages = files(PUBLIC).filter(f => f.endsWith('.html')).map(file => {
     const zhHtml = fs.readFileSync(file, 'utf8');
     const nativeFile = path.join(ENGLISH_THEME, path.relative(PUBLIC, file));
@@ -157,11 +184,11 @@ async function main() {
   const usageFile = path.join(CACHE, 'usage.json');
   const previous = fs.existsSync(usageFile) ? JSON.parse(fs.readFileSync(usageFile, 'utf8')) : {};
   let used = previous.day === day ? previous.used : 0, translated = 0, failed = 0;
-  const save = () => { fs.writeFileSync(cacheFile, JSON.stringify(cache)); fs.writeFileSync(usageFile, JSON.stringify({ day, used })); };
-  console.log(`Translation: ${pages.length} pages, ${pending.length} uncached segments; provider OpenRouter; API key ${key ? 'present' : 'absent'}`);
+  const save = () => { fs.writeFileSync(cacheFile, JSON.stringify(cache)); fs.writeFileSync(sourcesFile, JSON.stringify(sources)); fs.writeFileSync(usageFile, JSON.stringify({ day, used })); };
+  console.log(`Translation: ${pages.length} pages, ${pending.length} uncached segments; primary OpenRouter, fallback Google Translate; API key ${key ? 'present' : 'absent'}`);
   let next = 0;
   async function worker() {
-    while (key && next < pending.length && failed < 3) {
+    while (next < pending.length && failed < 3) {
     const batch = [pending[next++]];
     let length = batch[0].text.length;
     while (next < pending.length && batch.length < 4 && length + pending[next].text.length + 1 < 6000) {
@@ -171,11 +198,14 @@ async function main() {
     // Count before attempting: uncertain network outcomes must not bypass the cap.
     used += length; save();
     try {
-      let outputs;
-      outputs = await openrouter.translate(batch, key);
-      batch.forEach((item,i) => { cache[hash(item.text)] = outputs[i]; });
+      const { outputs, provider, model } = await translateBatch(batch, key, fetch);
+      batch.forEach((item,i) => {
+        const id = hash(item.text);
+        cache[id] = outputs[i];
+        sources[id] = { provider, model, translated_at: new Date().toISOString() };
+      });
       translated += batch.length; save();
-      console.log(`Translated ${translated}/${pending.length} segments`);
+      console.log(`Translated ${translated}/${pending.length} segments (${provider})`);
     } catch (e) { console.warn(e.message); failed++; }
     }
   }
@@ -247,5 +277,5 @@ async function main() {
   console.log(`Bilingual build: ${ready.size}/${pages.length} English pages; ${translated} new segments; ${used} characters attempted today.`);
   save();
 }
-module.exports = { slots, hash, decorate, scriptSegments, cached, mergeAuthoredContent, main };
+module.exports = { slots, hash, decorate, scriptSegments, cached, mergeAuthoredContent, translateBatch, main };
 if (require.main === module) main().catch(e => { console.error(e.message); process.exitCode = 1; });

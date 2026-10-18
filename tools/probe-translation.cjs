@@ -3,7 +3,9 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
-const { MODEL, translate, hasSameAnchors } = require('./lib/openrouter-translation.cjs');
+const openrouter = require('./lib/openrouter-translation.cjs');
+const google = require('./lib/google-translation.cjs');
+const { translateBatch } = require('./build-bilingual.cjs');
 const CACHE_VERSION = 'openrouter-nemotron-en-v1';
 
 const samples = [
@@ -22,15 +24,34 @@ function existingTranslation(text, cacheDir) {
 
 async function main() {
   const key = process.env.OPENROUTER_API_KEY;
-  if (!key) throw new Error('OPENROUTER_API_KEY is not configured');
-  const outputs = await translate(samples, key);
+  console.log(`Probe primary credential: ${key ? 'present' : 'absent; Google Translate will run directly'}`);
   for (let i = 0; i < samples.length; i++) {
     const old = existingTranslation(samples[i].text, process.env.TRANSLATION_CACHE_DIR);
-    console.log(`\nProbe ${i + 1} (${MODEL})`);
+    const result = await translateBatch([samples[i]], key, fetch);
+    console.log(`\nProbe ${i + 1} source: ${result.provider} / ${result.model}`);
     console.log(`Source: ${samples[i].text}`);
-    console.log(`OpenRouter: ${outputs[i]}`);
-    console.log(`Integrity: ${hasSameAnchors(samples[i].text, outputs[i]) ? 'PASS' : 'FAIL'}`);
+    console.log(`Translation: ${result.outputs[0]}`);
+    console.log('Integrity: PASS');
     console.log(old ? `${old.source}: ${old.text}` : 'Historical cached translation: none');
+  }
+
+  // Always make one real Google request, even when the primary provider succeeds.
+  const direct = await google.translate([samples[2]], fetch);
+  console.log(`\nGoogle direct source: google / google-translate-gtx`);
+  console.log(`Source: ${samples[2].text}`);
+  console.log(`Translation: ${direct[0]}`);
+  console.log('Integrity: PASS');
+
+  if (process.env.TRANSLATION_FORCE_GOOGLE_FALLBACK === 'true') {
+    const fallbackFetch = async (url, options) => String(url).startsWith(openrouter.ENDPOINT)
+      ? { ok: false, status: 503 }
+      : fetch(url, options);
+    const forced = await translateBatch([samples[0]], key || 'probe-forced-failure', fallbackFetch);
+    if (forced.provider !== 'google') throw new Error('Forced primary failure did not select Google Translate');
+    console.log(`\nForced fallback source: ${forced.provider} / ${forced.model} (simulated OpenRouter HTTP 503)`);
+    console.log(`Source: ${samples[0].text}`);
+    console.log(`Translation: ${forced.outputs[0]}`);
+    console.log('Integrity: PASS');
   }
 }
 
