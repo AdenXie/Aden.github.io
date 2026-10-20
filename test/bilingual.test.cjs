@@ -86,6 +86,12 @@ test('anchors accept English month names and thousands separators but still reje
   assert.equal(hasSameAnchors('下降 20%', 'down 20 percent'), true);
   assert.equal(hasSameAnchors('下降 20%', 'down 20 %'), true);
   assert.equal(hasSameAnchors('下降 20%', 'down 25 per cent'), false);
+  assert.equal(hasSameAnchors('美联储于 2026-09-17 加息', 'The Fed raised rates on 17 September 2026'), true);
+  assert.equal(hasSameAnchors('2026-09-17 加息后区间', 'Range after the 17 October 2026 hike'), false);
+  assert.equal(hasSameAnchors('1 年期 LPR 维持在 3.00%', 'The one-year LPR held at 3.00%'), true);
+  assert.equal(hasSameAnchors('共有 9 台设备', 'There are nine devices'), true);
+  assert.equal(hasSameAnchors('共有 9 台设备', 'There are ten devices'), false);
+  assert.equal(hasSameAnchors('增长 12 项', 'twelve items grew'), false);
   assert.equal(hasSameAnchors('9 月加息 25bp', 'October hike of 25bp'), false);
   assert.equal(hasSameAnchors('共有 9 台设备', 'There are September devices'), false);
   assert.equal(hasSameAnchors('共有 12 台设备', 'There are 13 devices'), false);

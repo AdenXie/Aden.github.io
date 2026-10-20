@@ -179,9 +179,10 @@ async function main() {
     // Count before attempting: uncertain network outcomes must not bypass the cap.
     used += length; save();
     try {
-      const { outputs, provider, model } = await translateBatch(batch, key, fetch);
+      const rejectedText = {};
+      const { outputs, provider, model } = await translateBatch(batch, key, fetch, { onRejected: (i, text) => { rejectedText[i] = text; } });
       batch.forEach((item,i) => {
-        if (outputs[i] === null) { rejected++; console.warn(`DeepL translation failed integrity checks; skipped: ${item.text.slice(0, 40)}`); return; }
+        if (outputs[i] === null) { rejected++; console.warn(`DeepL translation failed integrity checks; skipped: ${item.text.slice(0, 60)} => ${(rejectedText[i] || '').slice(0, 160)}`); return; }
         const id = hash(item.text);
         cache[id] = outputs[i];
         sources[id] = { provider, model, translated_at: new Date().toISOString() };
