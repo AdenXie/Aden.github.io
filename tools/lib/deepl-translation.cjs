@@ -1,7 +1,5 @@
 'use strict';
 
-const { hasSameAnchors } = require('./translation-anchors.cjs');
-
 const MODEL = 'deepl-api-v2';
 const FREE_ENDPOINT = 'https://api-free.deepl.com/v2/translate';
 const PRO_ENDPOINT = 'https://api.deepl.com/v2/translate';
@@ -23,16 +21,12 @@ function retryDelay(response, attempt, delays) {
   return Number.isFinite(header) && header > 0 ? Math.min(header * 1000, 30000) : delays[attempt];
 }
 
-function parseOutput(data, items, onRejected) {
+// Only structural checks: DeepL maps each input to one output, so content is trusted.
+function parseOutput(data, items) {
   const rows = data?.translations;
   if (!Array.isArray(rows) || rows.length !== items.length) throw providerError('DeepL returned the wrong number of translations', false);
-  // A rejected item is skipped (null) so one odd segment does not discard the batch.
-  return rows.map((row, i) => {
-    const text = typeof row?.text === 'string' ? row.text.trim() : '';
-    if (text && hasSameAnchors(items[i].text, text)) return text;
-    onRejected?.(i, text);
-    return null;
-  });
+  // An empty item is skipped (null) so one odd segment does not discard the batch.
+  return rows.map(row => (typeof row?.text === 'string' && row.text.trim() ? row.text.trim() : null));
 }
 
 async function translate(items, apiKey, fetchImpl = fetch, options = {}) {
@@ -60,7 +54,7 @@ async function translate(items, apiKey, fetchImpl = fetch, options = {}) {
     if (response.status === 456) throw providerError('DeepL HTTP 456: character quota exceeded', true);
     if (response.status === 401 || response.status === 403) throw providerError(`DeepL HTTP ${response.status}: API key rejected`, true);
     if (!response.ok) throw providerError(`DeepL HTTP ${response.status}`, false);
-    return parseOutput(await response.json(), items, options.onRejected);
+    return parseOutput(await response.json(), items);
   }
 }
 

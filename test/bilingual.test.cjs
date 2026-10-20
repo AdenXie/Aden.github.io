@@ -113,13 +113,11 @@ test('DeepL picks the free or pro host and sends Chinese-to-British-English requ
   assert.deepEqual(result, { outputs: ['Weather 42', 'Visit https://example.org'], provider: 'deepl', model: deepl.MODEL });
 });
 
-test('DeepL rejects only the items that fail integrity checks', async () => {
-  const rejected = [];
-  const outputs = await deepl.translate([{ text: '共有 12 台设备' }, { text: '天气' }, { text: '访问 https://example.org' }], 'key', async () => ({
-    ok: true, status: 200, json: async () => ({ translations: [{ text: 'There are 13 devices' }, { text: 'Weather' }, { text: 'Visit https://wrong.example' }] }),
-  }), { onRejected: (i, text) => rejected.push([i, text]) });
-  assert.deepEqual(rejected, [[0, 'There are 13 devices'], [2, 'Visit https://wrong.example']]);
-  assert.deepEqual(outputs, [null, 'Weather', null]);
+test('DeepL output is accepted as written; only empty items and count mismatches are rejected', async () => {
+  const outputs = await deepl.translate([{ text: '2026-09-17 加息' }, { text: '天气' }, { text: '1 年期' }], 'key', async () => ({
+    ok: true, status: 200, json: async () => ({ translations: [{ text: 'Hike on 17 September 2026' }, { text: '  ' }, { text: 'one-year' }] }),
+  }));
+  assert.deepEqual(outputs, ['Hike on 17 September 2026', null, 'one-year']);
   await assert.rejects(deepl.translate([{ text: '天气' }], 'key', async () => ({ ok: true, status: 200, json: async () => ({ translations: [] }) })), error => /wrong number/.test(error.message) && !error.fatal);
 });
 
