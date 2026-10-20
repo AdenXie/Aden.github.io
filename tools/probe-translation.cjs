@@ -26,10 +26,11 @@ async function main() {
   console.log('Probe credential: present (DeepL)');
   for (let i = 0; i < samples.length; i++) {
     const old = existingTranslation(samples[i].text, process.env.TRANSLATION_CACHE_DIR);
-    const result = await translateBatch([samples[i]], key, fetch);
+    let rejectedText = '';
+    const result = await translateBatch([samples[i]], key, fetch, { onRejected: (_, text) => { rejectedText = text; } });
     console.log(`\nProbe ${i + 1} source: ${result.provider} / ${result.model}`);
     console.log(`Source: ${samples[i].text}`);
-    console.log(`Translation: ${result.outputs[0] ?? '(rejected by integrity checks)'}`);
+    console.log(`Translation: ${result.outputs[0] ?? `(rejected by integrity checks) ${rejectedText}`}`);
     console.log(`Integrity: ${result.outputs[0] === null ? 'FAIL' : 'PASS'}`);
     console.log(old ? `${old.source}: ${old.text}` : 'Historical cached translation: none');
   }

@@ -23,13 +23,15 @@ function retryDelay(response, attempt, delays) {
   return Number.isFinite(header) && header > 0 ? Math.min(header * 1000, 30000) : delays[attempt];
 }
 
-function parseOutput(data, items) {
+function parseOutput(data, items, onRejected) {
   const rows = data?.translations;
   if (!Array.isArray(rows) || rows.length !== items.length) throw providerError('DeepL returned the wrong number of translations', false);
   // A rejected item is skipped (null) so one odd segment does not discard the batch.
   return rows.map((row, i) => {
     const text = typeof row?.text === 'string' ? row.text.trim() : '';
-    return text && hasSameAnchors(items[i].text, text) ? text : null;
+    if (text && hasSameAnchors(items[i].text, text)) return text;
+    onRejected?.(i, text);
+    return null;
   });
 }
 
@@ -58,7 +60,7 @@ async function translate(items, apiKey, fetchImpl = fetch, options = {}) {
     if (response.status === 456) throw providerError('DeepL HTTP 456: character quota exceeded', true);
     if (response.status === 401 || response.status === 403) throw providerError(`DeepL HTTP ${response.status}: API key rejected`, true);
     if (!response.ok) throw providerError(`DeepL HTTP ${response.status}`, false);
-    return parseOutput(await response.json(), items);
+    return parseOutput(await response.json(), items, options.onRejected);
   }
 }
 

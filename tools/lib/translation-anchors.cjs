@@ -3,8 +3,12 @@
 const MONTHS = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
 const ABBREVIATIONS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sept?', 'oct', 'nov', 'dec'];
 
-// English translations add thousands separators ("160000" -> "160,000").
-const normalize = text => text.replace(/(\d),(?=\d{3}\b)/gu, '$1');
+// English output adds thousands separators ("160000" -> "160,000") and,
+// in British English, may write "40 per cent" or "40 %" for "40%".
+const normalize = text => text
+  .replace(/(\d),(?=\d{3}\b)/gu, '$1')
+  .replace(/(\d)\s*(?:per\s?cent|percent)\b/giu, '$1%')
+  .replace(/(\d)\s+%/gu, '$1%');
 const anchors = text => normalize(text).match(/https?:\/\/[^\s<>()]+|\b\d+(?:[.,]\d+)*%?|\b[A-Z]{2,}\b|\b\w+\.\w{2,}\b/gu) || [];
 
 // "9 月" is correctly rendered as "September", which drops the digit.

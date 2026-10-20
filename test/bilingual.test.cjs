@@ -82,6 +82,10 @@ test('anchors accept English month names and thousands separators but still reje
   assert.equal(hasSameAnchors('重点关注 10 月底 CPI、12 月 RBA 决议', 'Watch end-October CPI and the December RBA decision'), true);
   assert.equal(hasSameAnchors('09 月数据', 'Sept. data'), true);
   assert.equal(hasSameAnchors('上限 160000 字符', 'a limit of 160,000 characters'), true);
+  assert.equal(hasSameAnchors('所以，40% 不是统一折扣', 'So the 40 per cent is not a uniform discount'), true);
+  assert.equal(hasSameAnchors('下降 20%', 'down 20 percent'), true);
+  assert.equal(hasSameAnchors('下降 20%', 'down 20 %'), true);
+  assert.equal(hasSameAnchors('下降 20%', 'down 25 per cent'), false);
   assert.equal(hasSameAnchors('9 月加息 25bp', 'October hike of 25bp'), false);
   assert.equal(hasSameAnchors('共有 9 台设备', 'There are September devices'), false);
   assert.equal(hasSameAnchors('共有 12 台设备', 'There are 13 devices'), false);
@@ -104,9 +108,11 @@ test('DeepL picks the free or pro host and sends Chinese-to-British-English requ
 });
 
 test('DeepL rejects only the items that fail integrity checks', async () => {
+  const rejected = [];
   const outputs = await deepl.translate([{ text: '共有 12 台设备' }, { text: '天气' }, { text: '访问 https://example.org' }], 'key', async () => ({
     ok: true, status: 200, json: async () => ({ translations: [{ text: 'There are 13 devices' }, { text: 'Weather' }, { text: 'Visit https://wrong.example' }] }),
-  }));
+  }), { onRejected: (i, text) => rejected.push([i, text]) });
+  assert.deepEqual(rejected, [[0, 'There are 13 devices'], [2, 'Visit https://wrong.example']]);
   assert.deepEqual(outputs, [null, 'Weather', null]);
   await assert.rejects(deepl.translate([{ text: '天气' }], 'key', async () => ({ ok: true, status: 200, json: async () => ({ translations: [] }) })), error => /wrong number/.test(error.message) && !error.fatal);
 });
