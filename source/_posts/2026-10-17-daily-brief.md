@@ -6,6 +6,7 @@ categories:
 tags:
   - 新闻
   - 市场观察
+cover: "https://images.unsplash.com/photo-1773266110858-acb9b6c43b15?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=80&w=2400"
 ---
 
 ## 今日主线
@@ -57,3 +58,5 @@ Anthropic联合创始人Jack Clark在10月17日的国际经济会议上表示，
 **能源与地缘风险：** 俄乌潜在会谈尚未获确认，能源市场风险溢价不应因单方面意向而被视为已经消退。继续观察实际谈判进展和能源基础设施安全。
 
 *说明：本文依据截至悉尼时间2026年10月18日凌晨可核实的公开报道编写，新闻发生时间主要为10月17日，部分为10月16日；市场观察是基于报道的分析，并非实时行情或投资建议。*
+
+封面图片：[Daniel Brzdęk / Unsplash](https://unsplash.com/photos/financial-stock-market-data-displayed-on-a-screen-EuIqk6LpUU0)

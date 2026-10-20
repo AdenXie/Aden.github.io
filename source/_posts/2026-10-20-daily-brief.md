@@ -6,6 +6,7 @@ categories:
 tags:
   - 新闻
   - 市场观察
+cover: "https://images.unsplash.com/photo-1506399558188-acca6f8cbf41?auto=format&fit=crop&w=1600&q=85"
 ---
 
 ## 今日主线
@@ -63,3 +64,4 @@ TechCrunch报道，英伟达10月19日发布新的开放权重模型，包括面
 - **能源与风险偏好：** 俄乌局势和中东供应风险可能继续为油价带来地缘溢价。若风险升级，能源成本和通胀预期可能压缩央行降息空间；若外交出现可信进展，风险溢价则可能回落。
 - **今日观察清单：** 中国新增政策的落地细节、亚马逊与英伟达产品的独立性能数据、美国对俄能源措施的正式范围，以及油价对地缘消息的反应。
 
+封面图片：[imgix / Unsplash](https://unsplash.com/photos/server-racks-in-data-center-klWUhr-wPJ8)
