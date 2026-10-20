@@ -1,14 +1,9 @@
 'use strict';
+// Disabled since 2026-10-21: build-bilingual.cjs uses DeepL only. Kept for re-enabling later.
 
 const MODEL = 'nvidia/nemotron-3-ultra-550b-a55b:free';
 const ENDPOINT = 'https://openrouter.ai/api/v1/chat/completions';
-
-function hasSameAnchors(source, translated) {
-  const matches = text => text.match(/https?:\/\/[^\s<>()]+|\b\d+(?:[.,]\d+)*%?|\b[A-Z]{2,}\b|\b\w+\.\w{2,}\b/gu) || [];
-  const expected = matches(source);
-  const actual = matches(translated);
-  return expected.every(item => actual.includes(item));
-}
+const { hasSameAnchors } = require('./translation-anchors.cjs');
 
 function parseOutput(content, items) {
   if (typeof content !== 'string' || content.length > 200000) throw new Error('OpenRouter returned invalid or oversized content');

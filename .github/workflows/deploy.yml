@@ -20,12 +20,7 @@ on:
   workflow_dispatch:
     inputs:
       translation_probe:
-        description: Run a small OpenRouter and Google translation probe without building or deploying
-        type: boolean
-        required: false
-        default: false
-      translation_force_google_fallback:
-        description: Simulate an OpenRouter 503 and verify the real Google fallback
+        description: Run a small DeepL translation probe without building or deploying
         type: boolean
         required: false
         default: false
@@ -35,7 +30,7 @@ permissions:
 
 jobs:
   translation-probe:
-    if: github.event_name == 'workflow_dispatch' && (inputs.translation_probe == true || inputs.translation_force_google_fallback == true)
+    if: github.event_name == 'workflow_dispatch' && inputs.translation_probe == true
     runs-on: ubuntu-latest
     timeout-minutes: 10
     concurrency:
@@ -62,13 +57,12 @@ jobs:
           fi
       - name: Run three-sample translation probe
         env:
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          DEEPL_API_KEY: ${{ secrets.DEEPL_API_KEY }}
           TRANSLATION_CACHE_DIR: .translation-cache
-          TRANSLATION_FORCE_GOOGLE_FALLBACK: ${{ inputs.translation_force_google_fallback }}
         run: node tools/probe-translation.cjs
 
   deploy:
-    if: github.event_name != 'workflow_dispatch' || (inputs.translation_probe != true && inputs.translation_force_google_fallback != true)
+    if: github.event_name != 'workflow_dispatch' || inputs.translation_probe != true
     runs-on: ubuntu-latest
     timeout-minutes: 90
     concurrency:
@@ -116,7 +110,7 @@ jobs:
 
       - name: Build bilingual production site
         env:
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          DEEPL_API_KEY: ${{ secrets.DEEPL_API_KEY }}
           TRANSLATION_CHAR_LIMIT: '160000'
         run: npm run build:site
 

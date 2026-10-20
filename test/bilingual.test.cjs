@@ -3,7 +3,8 @@ const assert = require('node:assert/strict');
 const cheerio = require('cheerio');
 const { slots, decorate, scriptSegments, cached, mergeAuthoredContent } = require('../tools/build-bilingual.cjs');
 const { MODEL, ENDPOINT, translate, parseOutput } = require('../tools/lib/openrouter-translation.cjs');
-const google = require('../tools/lib/google-translation.cjs');
+const deepl = require('../tools/lib/deepl-translation.cjs');
+const { hasSameAnchors } = require('../tools/lib/translation-anchors.cjs');
 const { translateBatch } = require('../tools/build-bilingual.cjs');
 
 test('translation leaves formulas, code, URLs and markup intact', () => {
@@ -76,142 +77,66 @@ test('OpenRouter reports HTTP-200 provider errors without exposing the API key o
   })), error => error.message.includes('API 400') && error.message.includes('Rejected [redacted] parameter') && !error.message.includes('test-secret') && !error.message.includes('do not log this'));
 });
 
-test('Google joins every translated response segment and preserves anchored tokens', async () => {
-  let requestUrl;
-  const result = await google.translateText('天气 42 https://example.org', async url => {
-    requestUrl = new URL(url);
-    return { ok: true, headers: { get: () => 'application/json; charset=utf-8' }, json: async () => [[['Weather ', '天气'], ['42 ', '42']], 'zh-CN'] };
+test('anchors accept English month names and thousands separators but still reject changed numbers', () => {
+  assert.equal(hasSameAnchors('根据 2026 年 9 月 29 日董事会决议', 'According to the board decision of 29 September 2026'), true);
+  assert.equal(hasSameAnchors('重点关注 10 月底 CPI、12 月 RBA 决议', 'Watch end-October CPI and the December RBA decision'), true);
+  assert.equal(hasSameAnchors('09 月数据', 'Sept. data'), true);
+  assert.equal(hasSameAnchors('上限 160000 字符', 'a limit of 160,000 characters'), true);
+  assert.equal(hasSameAnchors('9 月加息 25bp', 'October hike of 25bp'), false);
+  assert.equal(hasSameAnchors('共有 9 台设备', 'There are September devices'), false);
+  assert.equal(hasSameAnchors('共有 12 台设备', 'There are 13 devices'), false);
+});
+
+test('DeepL picks the free or pro host and sends Chinese-to-British-English requests', async () => {
+  assert.equal(deepl.endpointFor('abc:fx'), deepl.FREE_ENDPOINT);
+  assert.equal(deepl.endpointFor('abc'), deepl.PRO_ENDPOINT);
+  let request;
+  const result = await translateBatch([{ text: '天气 42' }, { text: '访问 https://example.org' }], 'key:fx', async (url, options) => {
+    request = { url, options, body: JSON.parse(options.body) };
+    return { ok: true, status: 200, json: async () => ({ translations: [{ text: 'Weather 42' }, { text: 'Visit https://example.org' }] }) };
   });
-  assert.equal(requestUrl.origin + requestUrl.pathname, google.ENDPOINT);
-  assert.equal(requestUrl.searchParams.get('client'), 'gtx');
-  assert.equal(requestUrl.searchParams.get('dt'), 't');
-  assert.equal(requestUrl.searchParams.get('sl'), 'zh-CN');
-  assert.equal(requestUrl.searchParams.get('tl'), 'en');
-  assert.equal(result, 'Weather 42 https://example.org');
+  assert.equal(request.url, deepl.FREE_ENDPOINT);
+  assert.equal(request.options.headers.Authorization, 'DeepL-Auth-Key key:fx');
+  assert.deepEqual(request.body.text, ['天气 42', '访问 https://example.org']);
+  assert.equal(request.body.source_lang, 'ZH');
+  assert.equal(request.body.target_lang, 'EN-GB');
+  assert.deepEqual(result, { outputs: ['Weather 42', 'Visit https://example.org'], provider: 'deepl', model: deepl.MODEL });
 });
 
-test('Google splits long requests by encoded URL length without losing source characters', async () => {
-  const source = `${'天气，'.repeat(1200)}结束`;
-  const chunks = google.chunksFor(source, 1200);
-  assert.ok(chunks.length > 1);
-  assert.equal(chunks.map(chunk => chunk.text).join(''), source);
-  const observed = [];
-  let englishIndex = 0;
-  const result = await google.translateText(source, async url => {
-    const parsed = new URL(url);
-    observed.push(parsed.searchParams.get('q'));
-    return { ok: true, json: async () => [[[`English block ${englishIndex++}`, '']], 'zh-CN'] };
-  }, { maxUrlLength: 1200 });
-  assert.deepEqual(observed, chunks.filter(chunk => !chunk.protected).map(chunk => chunk.text));
-  assert.equal(result, Array(chunks.length).fill(0).map((_, index) => `English block ${index}`).join(' '));
-  assert.equal(google.joinChunks(['First sentence.', 'Second sentence.']), 'First sentence. Second sentence.');
-  assert.ok(observed.every(chunk => new URL(`${google.ENDPOINT}?${new URLSearchParams({ client: 'gtx', dt: 't', sl: 'zh-CN', tl: 'en', q: chunk })}`).href.length <= 1200));
+test('DeepL rejects only the items that fail integrity checks', async () => {
+  const outputs = await deepl.translate([{ text: '共有 12 台设备' }, { text: '天气' }, { text: '访问 https://example.org' }], 'key', async () => ({
+    ok: true, status: 200, json: async () => ({ translations: [{ text: 'There are 13 devices' }, { text: 'Weather' }, { text: 'Visit https://wrong.example' }] }),
+  }));
+  assert.deepEqual(outputs, [null, 'Weather', null]);
+  await assert.rejects(deepl.translate([{ text: '天气' }], 'key', async () => ({ ok: true, status: 200, json: async () => ({ translations: [] }) })), error => /wrong number/.test(error.message) && !error.fatal);
 });
 
-test('Google keeps long URLs and numeric anchors intact while splitting nearby text', async () => {
-  const url = `https://example.org/${'longpath'.repeat(300)}`;
-  const source = `开始 1,234.56% ${url} 结束`;
-  const parts = google.chunksFor(source, 1200);
-  const urlPart = parts.find(part => part.protected);
-  assert.equal(urlPart.text, url);
-  assert.ok(parts.some(part => part.text.includes('1,234.56%')));
-  assert.ok(parts.filter(part => !part.protected).every(part => new URL(`${google.ENDPOINT}?${new URLSearchParams({ client: 'gtx', dt: 't', sl: 'zh-CN', tl: 'en', q: part.text })}`).href.length <= 1200));
-  const requested = [];
-  const output = await google.translateText(source, async requestUrl => {
-    const q = new URL(requestUrl).searchParams.get('q');
-    requested.push(q);
-    return { ok: true, json: async () => [[[/结束/u.test(q) ? ' finish' : 'Start 1,234.56% ', q]], 'zh-CN'] };
-  }, { maxUrlLength: 1200 });
-  assert.equal(requested.some(q => q.includes(url)), false);
-  assert.equal(output, `Start 1,234.56% ${url} finish`);
-});
-
-test('Google preserves whitespace around URLs without translating blank or English-only chunks', async () => {
+test('DeepL backs off on 429/5xx, honours Retry-After and stops the run when limits persist', async () => {
+  const waits = [];
   let calls = 0;
-  const result = await google.translateText('天气 https://one.example/ https://two.example/ 42 CPU', async url => {
+  const output = await deepl.translate([{ text: '天气' }], 'key', async () => {
     calls++;
-    assert.equal(new URL(url).searchParams.get('q'), '天气 ');
-    return { ok: true, json: async () => [[['Weather', '天气 ']]] };
-  });
-  assert.equal(calls, 1);
-  assert.equal(result, 'Weather https://one.example/ https://two.example/ 42 CPU');
-  const suffix = await google.translateText('https://example.org/ 结束', async () => ({ ok: true, json: async () => [[['Finish', '结束']]] }));
-  assert.equal(suffix, 'https://example.org/ Finish');
+    if (calls === 1) return { ok: false, status: 429, headers: { get: name => (name === 'retry-after' ? '3' : null) } };
+    if (calls === 2) return { ok: false, status: 503, headers: { get: () => null } };
+    return { ok: true, status: 200, json: async () => ({ translations: [{ text: 'Weather' }] }) };
+  }, { sleep: async ms => waits.push(ms) });
+  assert.deepEqual(output, ['Weather']);
+  assert.deepEqual(waits, [3000, 6000]);
+  calls = 0;
+  await assert.rejects(deepl.translate([{ text: '天气' }], 'key', async () => { calls++; return { ok: false, status: 429 }; }, { sleep: async () => {} }), error => error.fatal && /HTTP 429/.test(error.message));
+  assert.equal(calls, 3);
 });
 
-test('Google rejects HTML, error objects, empty results and changed URL anchors', async () => {
-  await assert.rejects(google.translateText('天气', async () => ({ ok: true, headers: { get: () => 'text/html' } })), /non-JSON/);
-  await assert.rejects(google.translateText('天气', async () => ({ ok: true, json: async () => ({ error: 'blocked' }) })), /invalid response/);
-  await assert.rejects(google.translateText('天气', async () => ({ ok: true, json: async () => [[], null] })), /invalid response/);
-  assert.throws(() => google.parseResponse([[['Weather', '天气'], null]]), /malformed translation segment/);
-  await assert.rejects(google.translateText('设备 42', async () => ({ ok: true, json: async () => [[['Devices 43', '']], null] })), /integrity checks/);
-});
-
-test('Google retries a temporary failure once and does not expose its request URL', async () => {
-  let calls = 0;
-  const output = await google.translateText('天气', async url => {
-    calls++;
-    assert.equal(String(url).startsWith(google.ENDPOINT), true);
-    if (calls === 1) return { ok: false, status: 503 };
-    return { ok: true, json: async () => [[['Weather', '天气']], null] };
-  });
-  assert.equal(calls, 2);
-  assert.equal(output, 'Weather');
-});
-
-test('OpenRouter retries one temporary failure, then falls back to Google; missing key uses Google', async () => {
-  for (const status of [429, 503]) {
-    let openCalls = 0;
-    let googleCalls = 0;
-    const fetchMock = async url => {
-      if (String(url).startsWith(ENDPOINT)) {
-        openCalls++;
-        return { ok: false, status };
-      }
-      googleCalls++;
-      return { ok: true, json: async () => [[['Weather 42', '天气 42']], null] };
-    };
-    const fallback = await translateBatch([{ text: '天气 42' }], 'test-key', fetchMock);
-    assert.deepEqual(fallback, { outputs: ['Weather 42'], provider: 'google', model: 'google-translate-gtx' });
-    assert.equal(openCalls, 2);
-    assert.equal(googleCalls, 1);
-    openCalls = 0;
-    const noKey = await translateBatch([{ text: '天气 42' }], '', fetchMock);
-    assert.equal(noKey.provider, 'google');
-    assert.equal(openCalls, 0);
-    assert.equal(googleCalls, 2);
+test('DeepL quota, credential and missing-key failures are fatal and never expose the key', async () => {
+  for (const [status, pattern] of [[456, /quota/], [403, /key rejected/], [401, /key rejected/]]) {
+    await assert.rejects(deepl.translate([{ text: '天气' }], 'secret-key', async () => ({ ok: false, status })), error => error.fatal && pattern.test(error.message) && !error.message.includes('secret-key'));
   }
+  let calls = 0;
+  await assert.rejects(deepl.translate([{ text: '天气' }], '', async () => { calls++; }), error => error.fatal && /missing/.test(error.message));
+  assert.equal(calls, 0);
 });
 
-test('OpenRouter validation failures fall back to Google without a model retry', async () => {
-  let openCalls = 0;
-  const result = await translateBatch([{ text: '天气 42' }], 'key', async url => {
-    if (String(url).startsWith(ENDPOINT)) {
-      openCalls++;
-      return { ok: true, json: async () => ({ choices: [{ finish_reason: 'stop', message: { content: '{"translations":[]}' } }] }) };
-    }
-    return { ok: true, json: async () => [[['Weather 42', '天气 42']], null] };
-  });
-  assert.equal(openCalls, 1);
-  assert.equal(result.provider, 'google');
-  assert.equal(result.outputs[0], 'Weather 42');
-});
-
-test('OpenRouter retries a provider-reported HTTP-200 503 before Google fallback', async () => {
-  let openCalls = 0;
-  const result = await translateBatch([{ text: '天气 42' }], 'key', async url => {
-    if (String(url).startsWith(ENDPOINT)) {
-      openCalls++;
-      return { ok: true, json: async () => ({ error: { code: 503, message: 'provider unavailable' } }) };
-    }
-    return { ok: true, json: async () => [[['Weather 42', '天气 42']]] };
-  });
-  assert.equal(openCalls, 2);
-  assert.equal(result.provider, 'google');
-  assert.equal(result.outputs[0], 'Weather 42');
-});
-
-test('OpenRouter reads only translations in its current cache namespace', () => {
+test('cache lookups keep the existing translation namespace', () => {
   const crypto = require('node:crypto');
   const text = '已发布旧文';
   const current = crypto.createHash('sha256').update('openrouter-nemotron-en-v1' + text).digest('hex');

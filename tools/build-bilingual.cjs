@@ -5,39 +5,19 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 const cheerio = require('cheerio');
 const acorn = require('acorn');
-const openrouter = require('./lib/openrouter-translation.cjs');
-const google = require('./lib/google-translation.cjs');
+const deepl = require('./lib/deepl-translation.cjs');
 const ROOT = path.resolve(process.env.BILINGUAL_ROOT || path.join(__dirname, '..'));
 const PUBLIC = path.resolve(process.env.BILINGUAL_PUBLIC || path.join(ROOT, 'public'));
 const ENGLISH_THEME = path.resolve(process.env.BILINGUAL_ENGLISH_THEME || path.join(ROOT, '.english-theme'));
 const CACHE = path.resolve(process.env.BILINGUAL_CACHE || path.join(ROOT, '.translation-cache'));
+// Cache namespace only; unchanged so existing translations stay valid after the DeepL switch.
 const VERSION = 'openrouter-nemotron-en-v1';
 const hasChinese = text => /[\u3400-\u9fff]/u.test(text);
 const hash = text => crypto.createHash('sha256').update(VERSION + text).digest('hex');
 const cached = (cache, text) => cache[hash(text)];
-const retryableOpenRouter = error => error instanceof TypeError || error.name === 'AbortError' || error.name === 'TimeoutError' || /OpenRouter (?:HTTP|API) (429|5\d\d)|fetch failed|network|timed? ?out|timeout/iu.test(error.message);
-async function translateBatch(items, key, fetchImpl = fetch, googleTranslate = google.translate) {
-  if (key) {
-    try {
-      let outputs;
-      for (let attempt = 0; ; attempt++) {
-        try { outputs = await openrouter.translate(items, key, fetchImpl); break; }
-        catch (error) {
-          if (attempt === 0 && retryableOpenRouter(error)) continue;
-          throw error;
-        }
-      }
-      return { outputs, provider: 'openrouter', model: openrouter.MODEL };
-    } catch (error) {
-      logAuthFailure(error);
-      console.warn(`OpenRouter failed; trying Google Translate: ${error.message}`);
-    }
-  }
-  const outputs = await googleTranslate(items, fetchImpl);
-  return { outputs, provider: 'google', model: 'google-translate-gtx' };
-}
-function logAuthFailure(error) {
-  if (/OpenRouter HTTP (401|403)|API (401|403)/u.test(error.message)) console.warn(`OpenRouter credentials rejected (HTTP ${error.message.match(/(?:HTTP |API )(401|403)/u)?.[1] || '401/403'}); using Google Translate fallback`);
+async function translateBatch(items, key, fetchImpl = fetch, options = {}) {
+  const outputs = await deepl.translate(items, key, fetchImpl, options);
+  return { outputs, provider: 'deepl', model: deepl.MODEL };
 }
 const protectedSelector = 'script,style,pre,code,math,mjx-container,.MathJax,.MathJax_Display,.katex,textarea,[translate="no"]';
 function scriptSegments(source) {
@@ -178,20 +158,21 @@ async function main() {
   });
   const allSegments = [...scripts.flatMap(s => s.segments.flatMap(n => n.texts.map(text => [text, { text, context: '' }]))), ...pages.flatMap(p => p.slots.map(s => [s.text, s]))];
   const pending = [...new Map(allSegments).values()].filter(item => !cached(cache, item.text));
-  const key = process.env.OPENROUTER_API_KEY;
+  const key = process.env.DEEPL_API_KEY;
   const budget = Number(process.env.TRANSLATION_CHAR_LIMIT || 160000);
   const day = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Shanghai' });
   const usageFile = path.join(CACHE, 'usage.json');
   const previous = fs.existsSync(usageFile) ? JSON.parse(fs.readFileSync(usageFile, 'utf8')) : {};
-  let used = previous.day === day ? previous.used : 0, translated = 0, failed = 0;
+  let used = previous.day === day ? previous.used : 0, translated = 0, rejected = 0, stopped = !key;
   const save = () => { fs.writeFileSync(cacheFile, JSON.stringify(cache)); fs.writeFileSync(sourcesFile, JSON.stringify(sources)); fs.writeFileSync(usageFile, JSON.stringify({ day, used })); };
-  console.log(`Translation: ${pages.length} pages, ${pending.length} uncached segments; primary OpenRouter, fallback Google Translate; API key ${key ? 'present' : 'absent'}`);
+  console.log(`Translation: ${pages.length} pages, ${pending.length} uncached segments; DeepL API key ${key ? 'present' : 'absent'}`);
+  if (!key && pending.length) console.warn('DEEPL_API_KEY is not set; keeping cached and previous English pages.');
   let next = 0;
   async function worker() {
-    while (next < pending.length && failed < 3) {
+    while (next < pending.length && !stopped) {
     const batch = [pending[next++]];
     let length = batch[0].text.length;
-    while (next < pending.length && batch.length < 4 && length + pending[next].text.length + 1 < 6000) {
+    while (next < pending.length && batch.length < 20 && length + pending[next].text.length + 1 < 20000) {
       length += pending[next].text.length + 1; batch.push(pending[next++]);
     }
     if (used + length > budget) return;
@@ -200,13 +181,19 @@ async function main() {
     try {
       const { outputs, provider, model } = await translateBatch(batch, key, fetch);
       batch.forEach((item,i) => {
+        if (outputs[i] === null) { rejected++; console.warn(`DeepL translation failed integrity checks; skipped: ${item.text.slice(0, 40)}`); return; }
         const id = hash(item.text);
         cache[id] = outputs[i];
         sources[id] = { provider, model, translated_at: new Date().toISOString() };
+        translated++;
       });
-      translated += batch.length; save();
+      save();
       console.log(`Translated ${translated}/${pending.length} segments (${provider})`);
-    } catch (e) { console.warn(e.message); failed++; }
+    } catch (e) {
+      console.warn(e.message);
+      if (e.fatal) stopped = true;
+      else rejected += batch.length;
+    }
     }
   }
   await worker();
@@ -274,7 +261,7 @@ async function main() {
   }
   fs.mkdirSync(path.join(PUBLIC, 'en'), { recursive: true });
   fs.writeFileSync(path.join(PUBLIC, 'en/search.xml'), xml.xml());
-  console.log(`Bilingual build: ${ready.size}/${pages.length} English pages; ${translated} new segments; ${used} characters attempted today.`);
+  console.log(`Bilingual build: ${ready.size}/${pages.length} English pages; ${translated} new segments; ${rejected} skipped; ${used} characters attempted today.`);
   save();
 }
 module.exports = { slots, hash, decorate, scriptSegments, cached, mergeAuthoredContent, translateBatch, main };

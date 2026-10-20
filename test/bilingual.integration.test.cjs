@@ -69,11 +69,11 @@ test('Hexo authored translation overrides old snapshots and stays aligned across
   fs.writeFileSync(path.join(cache, 'pages', '2026/10/18/authored-fixture/index.html'), '<html><head><title>Stale title</title><meta name="description" content="Stale summary"></head><body><header>Translated header</header><h1 class="article-title-cover">Stale title</h1><div class="article-content">Stale body</div><nav class="toc-content-container">Stale TOC</nav></body></html>');
 
   const testKey = 'fixture-key-must-not-appear-in-logs';
-  const env = { ...process.env, BILINGUAL_ROOT: root, BILINGUAL_PUBLIC: path.join(root, 'public'), BILINGUAL_ENGLISH_THEME: path.join(root, '.english-theme'), BILINGUAL_CACHE: cache, OPENROUTER_API_KEY: testKey };
+  const env = { ...process.env, BILINGUAL_ROOT: root, BILINGUAL_PUBLIC: path.join(root, 'public'), BILINGUAL_ENGLISH_THEME: path.join(root, '.english-theme'), BILINGUAL_CACHE: cache, DEEPL_API_KEY: testKey };
   const builder = JSON.stringify(path.join(REPO, 'tools/build-bilingual.cjs'));
-  const bilingual = spawnSync(process.execPath, ['-e', `global.fetch = async url => String(url).startsWith('https://translate.googleapis.com/') ? ({ ok: false, status: 503 }) : ({ ok: false, status: 429 }); require(${builder}).main()`], { cwd: root, env, encoding: 'utf8' });
+  const bilingual = spawnSync(process.execPath, ['-e', `global.fetch = async () => ({ ok: false, status: 456 }); require(${builder}).main()`], { cwd: root, env, encoding: 'utf8' });
   assert.equal(bilingual.status, 0, `${bilingual.stdout}\n${bilingual.stderr}`);
-  assert.match(`${bilingual.stdout}\n${bilingual.stderr}`, /OpenRouter HTTP 429/);
+  assert.match(`${bilingual.stdout}\n${bilingual.stderr}`, /DeepL HTTP 456/);
   assert.doesNotMatch(`${bilingual.stdout}\n${bilingual.stderr}`, new RegExp(testKey));
 
   const englishArticlePath = path.join(root, 'public/en/2026/10/18/authored-fixture/index.html');
@@ -120,32 +120,37 @@ test('Hexo authored translation overrides old snapshots and stays aligned across
   for (const slot of slots(currentHome)) segmentCache[hash(slot.text)] = 'Current translated UI';
   fs.writeFileSync(nativeHomePath, currentHome.html());
   fs.writeFileSync(path.join(cache, 'segments.json'), JSON.stringify(segmentCache));
-  const refreshed = spawnSync(process.execPath, ['-e', `global.fetch = async url => String(url).startsWith('https://translate.googleapis.com/') ? ({ ok: false, status: 503 }) : ({ ok: false, status: 429 }); require(${builder}).main()`], { cwd: root, env, encoding: 'utf8' });
+  const refreshed = spawnSync(process.execPath, ['-e', `global.fetch = async () => ({ ok: false, status: 456 }); require(${builder}).main()`], { cwd: root, env, encoding: 'utf8' });
   assert.equal(refreshed.status, 0, `${refreshed.stdout}\n${refreshed.stderr}`);
   const refreshedHome = cheerio.load(fs.readFileSync(path.join(root, 'public/en/index.html'), 'utf8'));
   assert.equal(refreshedHome('[data-new-home-content]').text(), 'New unrelated homepage content');
   assert.match(refreshedHome('.home-article-item').text(), /Current English title/);
   assert.match(fs.readFileSync(path.join(cache, 'pages/index.html'), 'utf8'), /New unrelated homepage content/);
 
-  // Successful Google translations populate the existing string cache plus provider metadata.
+  // Without a key nothing is requested and existing English pages are kept.
+  const noKeyEnv = { ...env };
+  delete noKeyEnv.DEEPL_API_KEY;
+  const noKeyRun = spawnSync(process.execPath, ['-e', `global.fetch = async () => { throw new Error('unexpected request without a key'); }; require(${builder}).main()`], { cwd: root, env: noKeyEnv, encoding: 'utf8' });
+  assert.equal(noKeyRun.status, 0, `${noKeyRun.stdout}\n${noKeyRun.stderr}`);
+  assert.match(noKeyRun.stderr, /DEEPL_API_KEY is not set/);
+
+  // Successful DeepL translations populate the existing string cache plus provider metadata.
   fs.writeFileSync(path.join(cache, 'segments.json'), '{}');
   fs.writeFileSync(path.join(cache, 'sources.json'), '{}');
-  const noKeyEnv = { ...env };
-  delete noKeyEnv.OPENROUTER_API_KEY;
-  const googleRun = spawnSync(process.execPath, ['-e', `global.fetch = async url => { if (!String(url).startsWith('https://translate.googleapis.com/')) throw new Error('unexpected primary request'); const q = new URL(url).searchParams.get('q'); return { ok: true, json: async () => [[['English ' + q, q]], null] }; }; require(${builder}).main()`], { cwd: root, env: noKeyEnv, encoding: 'utf8' });
-  assert.equal(googleRun.status, 0, `${googleRun.stdout}\n${googleRun.stderr}`);
+  const deeplRun = spawnSync(process.execPath, ['-e', `global.fetch = async (url, options) => { if (!String(url).startsWith('https://api.deepl.com/')) throw new Error('unexpected request'); const { text } = JSON.parse(options.body); return { ok: true, status: 200, json: async () => ({ translations: text.map(q => ({ text: 'English ' + q })) }) }; }; require(${builder}).main()`], { cwd: root, env, encoding: 'utf8' });
+  assert.equal(deeplRun.status, 0, `${deeplRun.stdout}\n${deeplRun.stderr}`);
   const savedSegments = JSON.parse(fs.readFileSync(path.join(cache, 'segments.json'), 'utf8'));
   const savedSources = JSON.parse(fs.readFileSync(path.join(cache, 'sources.json'), 'utf8'));
   const firstId = Object.keys(savedSegments)[0];
   assert.ok(firstId);
   assert.equal(typeof savedSegments[firstId], 'string');
   assert.match(savedSegments[firstId], /^English /);
-  assert.equal(savedSources[firstId].provider, 'google');
-  assert.equal(savedSources[firstId].model, 'google-translate-gtx');
+  assert.equal(savedSources[firstId].provider, 'deepl');
+  assert.equal(savedSources[firstId].model, 'deepl-api-v2');
   assert.ok(Number.isFinite(Date.parse(savedSources[firstId].translated_at)));
-  const googleArticle = cheerio.load(fs.readFileSync(englishArticlePath, 'utf8'));
-  assert.match(googleArticle('.article-content').text(), /Current English body/);
-  assert.match(googleArticle('.article-content').text(), /引用原文/);
+  const deeplArticle = cheerio.load(fs.readFileSync(englishArticlePath, 'utf8'));
+  assert.match(deeplArticle('.article-content').text(), /Current English body/);
+  assert.match(deeplArticle('.article-content').text(), /引用原文/);
   const cacheHit = spawnSync(process.execPath, ['-e', `let calls = 0; global.fetch = async () => { calls++; throw new Error('unexpected API call for cached segments'); }; require(${builder}).main().then(() => { if (calls) process.exitCode = 1; });`], { cwd: root, env, encoding: 'utf8' });
   assert.equal(cacheHit.status, 0, `${cacheHit.stdout}\n${cacheHit.stderr}`);
 });
