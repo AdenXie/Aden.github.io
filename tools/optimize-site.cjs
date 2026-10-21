@@ -146,6 +146,8 @@ async function optimize(directory = 'public') {
     if (!$('.home-content-container').length) $('script[src*="cyber-weather.js"],script[src*="cyber-exchange.js"]').remove();
     if (!$('.essay-date').length) $('script[src*="moment-with-locales.min.js"]').remove();
     if (!$('#subtitle').length) $('script[src*="Typed.min.js"]').remove();
+    // Wide article tables scroll inside their own frame instead of overflowing the article panel.
+    $('.markdown-body > table:not(.not-markdown)').wrap('<div class="aden-table-scroll"></div>');
     $('script[src*="vercount"]').attr('async', '');
     const scrollButton = $('.home-banner-container [onclick="scrollToMain()"]');
     if (scrollButton.length) {

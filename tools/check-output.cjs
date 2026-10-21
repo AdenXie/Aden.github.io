@@ -40,6 +40,7 @@ function checkOutput(directory = 'public') {
     if (!$('.home-content-container').length) assert.equal($('script[src*="cyber-weather.js"],script[src*="cyber-exchange.js"]').length, 0);
     assert.equal($('script[src*="cdnjs.cloudflare.com/ajax/libs/twikoo"]').length, 0);
     if ($('.home-banner-background').length) assert.equal($('link[data-aden-hero]').length, 1, file);
+    assert.equal($('.markdown-body > table:not(.not-markdown)').length, 0, `${file}: article table without scroll frame`);
     // Later home pages keep only the blurred fixed background, without the banner itself.
     if ($('.home-banner-container').length) {
       const english = $('html').attr('lang')?.startsWith('en');

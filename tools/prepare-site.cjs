@@ -49,6 +49,8 @@ async function prepare() {
   replace('source/js/plugins/typed.js', 'console.error("Failed to fetch hitokoto:", error);\n      });', 'console.error("Failed to fetch hitokoto:", error);\n      }).finally(() => clearTimeout(quoteTimeout));');
   replace('source/js/plugins/typed.js', 'export default function initTyped(id) {', 'export default function initTyped(id) {\n  if (!document.getElementById(id)) return;');
   replace('source/js/tools/runtime.js', '  const startDate = new Date(startTime);', '  if (document.hidden) return;\n  const startDate = new Date(startTime);');
+  // optimize-site.cjs wraps article tables in a scroll frame; keep the theme's table styles on them.
+  replace('source/css/common/markdown.styl', '  & > table:not(.not-markdown),\n', '  & > table:not(.not-markdown),\n  & > .aden-table-scroll > table:not(.not-markdown),\n');
   // The fixed home banner blurs on scroll only at config.root; the English homepage lives at /en/.
   replace('source/js/utils/scroll.js', 'location.pathname === config.root', 'ctx.homeBanner_dom');
   fs.copyFileSync(path.join(ROOT, 'lib/theme/twikoo.ejs'), path.join(target, 'layout/components/comments/twikoo.ejs'));

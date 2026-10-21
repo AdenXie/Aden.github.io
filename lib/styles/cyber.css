@@ -1,43 +1,11 @@
 /* Cyberpunk accents. Each block is independent and can be removed on its own. */
 
-/* 1. HUD corner brackets inside post cards and the article panel. */
-.home-content-container .home-article-list .home-article-item::after,
-.article-content-container::after {
-  --aden-hud-a: rgb(242 233 78 / 70%);
-  --aden-hud-b: rgb(24 213 232 / 60%);
-  --aden-hud-len: 14px;
-  position: absolute;
-  inset: 8px;
-  z-index: 4;
-  content: "";
-  pointer-events: none;
-  background:
-    linear-gradient(var(--aden-hud-a), var(--aden-hud-a)) left top / var(--aden-hud-len) 1px no-repeat,
-    linear-gradient(var(--aden-hud-a), var(--aden-hud-a)) left top / 1px var(--aden-hud-len) no-repeat,
-    linear-gradient(var(--aden-hud-b), var(--aden-hud-b)) right top / var(--aden-hud-len) 1px no-repeat,
-    linear-gradient(var(--aden-hud-b), var(--aden-hud-b)) right top / 1px var(--aden-hud-len) no-repeat,
-    linear-gradient(var(--aden-hud-b), var(--aden-hud-b)) left bottom / var(--aden-hud-len) 1px no-repeat,
-    linear-gradient(var(--aden-hud-b), var(--aden-hud-b)) left bottom / 1px var(--aden-hud-len) no-repeat,
-    linear-gradient(var(--aden-hud-a), var(--aden-hud-a)) right bottom / var(--aden-hud-len) 1px no-repeat,
-    linear-gradient(var(--aden-hud-a), var(--aden-hud-a)) right bottom / 1px var(--aden-hud-len) no-repeat;
-}
-
-html.light .home-content-container .home-article-list .home-article-item::after,
-html.light .article-content-container::after {
-  --aden-hud-a: rgb(117 104 0 / 70%);
-  --aden-hud-b: rgb(12 102 114 / 60%);
-}
-
-.article-content-container {
-  position: relative;
-}
-
-/* 2. Brief RGB-split glitch when a post title is hovered; static otherwise. */
+/* 1. Brief RGB-split glitch when a post title is hovered; static otherwise. */
 @keyframes aden-glitch {
   0%, 100% { text-shadow: none; }
-  20% { text-shadow: -2px 0 rgb(255 59 92 / 85%), 2px 0 rgb(24 213 232 / 85%); }
-  40% { text-shadow: 2px 0 rgb(255 59 92 / 85%), -2px 0 rgb(24 213 232 / 85%); }
-  60% { text-shadow: -1px 1px rgb(255 59 92 / 70%), 1px -1px rgb(24 213 232 / 70%); }
+  20% { text-shadow: -2px 0 color-mix(in srgb, var(--aden-alert) 85%, transparent), 2px 0 rgb(24 213 232 / 85%); }
+  40% { text-shadow: 2px 0 color-mix(in srgb, var(--aden-alert) 85%, transparent), -2px 0 rgb(24 213 232 / 85%); }
+  60% { text-shadow: -1px 1px color-mix(in srgb, var(--aden-alert) 70%, transparent), 1px -1px rgb(24 213 232 / 70%); }
   80% { text-shadow: 1px 0 rgb(242 233 78 / 70%); }
 }
 
@@ -48,12 +16,12 @@ html.light .article-content-container::after {
   }
 }
 
-/* 3. Hero title decode: site-runtime.js scrambles the text node, this keeps its width steady. */
+/* 2. Hero title decode: site-runtime.js scrambles the text node while this class is set. */
 .home-banner-container .description.is-decoding {
   font-variant-numeric: tabular-nums;
 }
 
-/* 4. Page change "signal refresh": one scan band sweeps down while Swup swaps the page. */
+/* 3. Page change "signal refresh": one scan band sweeps down while Swup swaps the page. */
 @keyframes aden-signal-sweep {
   from { transform: translateY(-32vh); }
   to { transform: translateY(105vh); }
@@ -73,30 +41,75 @@ html.is-changing::after {
   will-change: transform;
 }
 
-/* 5. Article meta as terminal-style data labels. */
-.article-header .meta-info .article-meta-info {
-  font-family: var(--aden-mono-font);
-  font-size: 0.78rem;
+/* Sections 4-6 restyle theme components. The theme stylesheet loads after this one,
+   so they re-point the theme's own colour variables locally or set properties the
+   theme leaves alone, instead of out-ranking its selectors. */
+
+/* 4. Data tables: scroll inside their own frame (wrapper added by optimize-site.cjs),
+   signal-coloured header rule and tabular numbers. */
+.aden-table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  /* Room for the table's 1px edge ring at the sides of the scroll frame. */
+  padding: 0 1px;
+}
+
+.aden-table-scroll thead {
+  --shadow-color-1: color-mix(in srgb, var(--aden-signal) 70%, transparent);
+}
+
+.aden-table-scroll table {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Keep text columns readable on phones; the frame scrolls instead of squeezing them. */
+.aden-table-scroll td {
+  min-width: 6em;
+}
+
+.aden-table-scroll th {
+  color: var(--first-text-color);
+  font-family: var(--aden-interface-font);
+  font-size: 0.86em;
   letter-spacing: 0.04em;
+  white-space: nowrap;
 }
 
-.article-header .meta-info .article-meta-info::before {
-  display: block;
-  margin-bottom: 0.2rem;
+/* 5. Code blocks as terminal windows: mono uppercase language tag in signal yellow
+   (copy and fold icons follow), cyan left edge, cyan inline code. */
+.code-container {
+  --default-text-color: var(--aden-signal);
+  --redefine-box-shadow-flat: inset 2px 0 0 color-mix(in srgb, var(--aden-cyan) 70%, transparent), var(--shadow-color-2) 0 1px 4px 0, var(--shadow-color-1) 0 0 0 1px;
+}
+
+.code-container::before {
+  font-family: var(--aden-mono-font);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* The theme sets these on body.dark-mode; defining them on the article body wins by inheritance. */
+html.dark .markdown-body {
+  --inline-code-foreground: #7fe9f4;
+  --inline-code-background: rgb(24 213 232 / 10%);
+}
+
+html.light .markdown-body {
+  --inline-code-foreground: #0c6672;
+  --inline-code-background: rgb(12 102 114 / 9%);
+}
+
+/* 6. Archive timeline as data nodes: signal year, cyan mono dates and markers. */
+.archive-list-container .archive-year {
   color: var(--aden-signal);
-  font-size: 0.62rem;
-  font-weight: 650;
-  letter-spacing: 0.22em;
-  content: "LOG // ENTRY";
+  font-family: var(--aden-display-font);
 }
 
-.article-header .meta-info .article-meta-info .article-meta-item > i {
-  color: var(--aden-cyan);
+.archive-list-container .article-item {
+  --third-text-color: var(--aden-cyan);
 }
 
-.article-header .meta-info .article-meta-info .article-meta-item + .article-meta-item::before {
-  margin-right: 0.45rem;
-  color: var(--third-text-color);
-  opacity: 0.6;
-  content: "/";
+.archive-list-container .article-item::before {
+  font-family: var(--aden-mono-font);
+  letter-spacing: 0.08em;
 }
