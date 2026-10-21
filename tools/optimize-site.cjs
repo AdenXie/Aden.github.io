@@ -146,6 +146,8 @@ async function optimize(directory = 'public') {
     if (!$('.home-content-container').length) $('script[src*="cyber-weather.js"],script[src*="cyber-exchange.js"]').remove();
     if (!$('.essay-date').length) $('script[src*="moment-with-locales.min.js"]').remove();
     if (!$('#subtitle').length) $('script[src*="Typed.min.js"]').remove();
+    // 404 "signal lost" screen (lib/styles/cyber.css) shows just the code.
+    $('.nf-text h1').text('404');
     // Wide article tables scroll inside their own frame instead of overflowing the article panel.
     $('.markdown-body > table:not(.not-markdown)').wrap('<div class="aden-table-scroll"></div>');
     $('script[src*="vercount"]').attr('async', '');
