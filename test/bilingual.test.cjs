@@ -26,6 +26,18 @@ test('English has matching original link, canonical URL and isolated widget scri
   assert.equal($('.aden-language-switch [lang="zh-CN"]').attr('href'), '/world-time/');
   assert.equal($('script').attr('src'), '/en/js/world-time.js');
 });
+test('Swup handles same-language page links; other languages and resources reload fully', () => {
+  const html = '<html><head></head><body><div class="navbar-content"></div><a href="/2026/10/21/post/">post</a><a href="/en/2026/10/21/post/">en post</a><a href="/en/">en home</a><a href="/archives/?q=1#top">archives</a><a href="/atom.xml">feed</a><a href="/api/chat">api</a><a href="#section">toc</a><a href="https://example.org/">ext</a></body></html>';
+  const reloads = $ => $('body > a[data-no-swup]').map((_, el) => $(el).attr('href')).get();
+  const zh = cheerio.load(html);
+  decorate(zh, '/2026/10/21/post/', false, true);
+  assert.deepEqual(reloads(zh), ['/en/2026/10/21/post/', '/en/', '/atom.xml', '/api/chat']);
+  assert.equal(zh('.aden-language-switch a[lang="en"]').attr('data-no-swup'), '');
+  const en = cheerio.load(html);
+  decorate(en, '/2026/10/21/post/', true, true);
+  assert.deepEqual(reloads(en), ['/2026/10/21/post/', '/archives/?q=1#top', '/atom.xml', '/api/chat']);
+  assert.equal(en('.aden-language-switch a[lang="zh-CN"]').attr('data-no-swup'), '');
+});
 test('script parsing translates strings rather than identifiers, regex or expressions', () => {
   const nodes = scriptSegments('const x = "天气"; const y = `温度 ${value} °C`; const z = /中文/;');
   assert.deepEqual(nodes.flatMap(n => n.texts), ['天气','温度 ']);

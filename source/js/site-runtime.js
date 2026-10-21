@@ -77,6 +77,12 @@
     scripts.set(url, pending);
     return pending;
   }
+  // Fade in lazy images when their real source arrives; placeholders and cached
+  // images that load before this listener simply show as before.
+  document.addEventListener('load', event => {
+    const img = event.target;
+    if (img instanceof HTMLImageElement && img.dataset.src && img.src === new URL(img.dataset.src, location.href).href) img.classList.add('aden-image-in');
+  }, true);
   window.AdenSite = { register, loadScript, delay };
   document.addEventListener('DOMContentLoaded', mountAll, { once: true });
   window.addEventListener('pageshow', mountAll);
@@ -92,6 +98,25 @@
   window.addEventListener('redefine:swup:ready', event => bind(event.detail?.swup || window.swup));
   // Every page carries only this button; the chat panel, its styles and the first
   // /api/chat request load when a visitor opens it (or follows an old /chat/ link).
+  // Home hero title "decodes" from noise once per visit to the homepage.
+  register('hero-decode', '.home-banner-container .description', (root, scope) => {
+    const node = [...root.childNodes].find(n => n.nodeType === Node.TEXT_NODE && n.data.trim());
+    if (!node || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const original = node.data, glyphs = '01<>/\\[]{}#*+=_-?';
+    const order = [...original].map((ch, i) => (ch.trim() ? 160 + i * 55 + Math.random() * 120 : 0));
+    const start = performance.now();
+    root.classList.add('is-decoding');
+    let frame;
+    const restore = () => { cancelAnimationFrame(frame); node.data = original; root.classList.remove('is-decoding'); };
+    const tick = now => {
+      const t = now - start;
+      node.data = [...original].map((ch, i) => (t >= order[i] ? ch : glyphs[Math.floor(Math.random() * glyphs.length)])).join('');
+      if (t < Math.max(...order)) frame = requestAnimationFrame(tick); else restore();
+    };
+    frame = requestAnimationFrame(tick);
+    scope.signal.addEventListener('abort', restore, { once: true });
+    return restore;
+  });
   register('chat-launcher', '#aden-chat-launcher', (button, scope) => {
     const label = button.getAttribute('aria-label');
     let loading = false;

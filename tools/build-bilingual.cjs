@@ -56,6 +56,12 @@ function slots($) {
   return result;
 }
 function urlFor(file) { return '/' + path.relative(PUBLIC, file).replaceAll('\\', '/').replace(/index\.html$/, ''); }
+function needsFullNavigation(href, english) {
+  if (!href.startsWith('/') || href.startsWith('//')) return false;
+  const pathname = href.split(/[?#]/)[0];
+  if (pathname.startsWith('/api/') || /\.(?!html?$)[a-z0-9]+$/i.test(pathname)) return true;
+  return (pathname === '/en' || pathname.startsWith('/en/')) !== english;
+}
 function decorate($, original, english, available) {
   $('.aden-language-switch').remove();
   $('.aden-translation-notice').remove();
@@ -65,11 +71,11 @@ function decorate($, original, english, available) {
   if (!available && !english) nav.find('[lang="en"]').attr('title', '本页译文暂未生成，查看英文首页');
   const header = $('.navbar-content').first();
   if (header.length) header.append(nav); else $('body').prepend(nav);
-  // Each language has its own script/config state. Use normal static navigation.
-  // Same-page anchors (table of contents, footnotes) stay with Swup: the theme's APlayer bundle
-  // hijacks "#..." links and cannot find headings whose ids are not ASCII, so without Swup
-  // the address bar changes but the page never scrolls.
-  $('a[href]').filter((_, el) => !/^#./.test($(el).attr('href'))).attr('data-no-swup', '');
+  // Each language has its own script/config state, so links that cross languages (and
+  // non-page resources) use normal navigation. Same-language pages keep Swup transitions;
+  // same-page anchors must stay with Swup too, because the theme's APlayer bundle hijacks
+  // "#..." links and cannot find headings whose ids are not ASCII.
+  $('a[href]').filter((_, el) => needsFullNavigation($(el).attr('href'), english)).attr('data-no-swup', '');
   $('head').append('<link rel="stylesheet" href="/css/bilingual.css">');
   $('link[rel="alternate"][hreflang]').remove();
   if (available) $('head').append(`<link rel="alternate" hreflang="zh-CN" href="https://blog.adenxie.com.cn${original}"><link rel="alternate" hreflang="en" href="https://blog.adenxie.com.cn/en${original}">`);

@@ -49,12 +49,14 @@ async function prepare() {
   replace('source/js/plugins/typed.js', 'console.error("Failed to fetch hitokoto:", error);\n      });', 'console.error("Failed to fetch hitokoto:", error);\n      }).finally(() => clearTimeout(quoteTimeout));');
   replace('source/js/plugins/typed.js', 'export default function initTyped(id) {', 'export default function initTyped(id) {\n  if (!document.getElementById(id)) return;');
   replace('source/js/tools/runtime.js', '  const startDate = new Date(startTime);', '  if (document.hidden) return;\n  const startDate = new Date(startTime);');
+  // The fixed home banner blurs on scroll only at config.root; the English homepage lives at /en/.
+  replace('source/js/utils/scroll.js', 'location.pathname === config.root', 'ctx.homeBanner_dom');
   fs.copyFileSync(path.join(ROOT, 'lib/theme/twikoo.ejs'), path.join(target, 'layout/components/comments/twikoo.ejs'));
   // Keep the complete upstream source in the generated theme; bundle only its entry graph.
   await build({ entryPoints: [path.join(target, 'source/js/main.js')], outfile: path.join(target, 'source/js/build/main.js'), bundle: true, minify: true, format: 'esm', target: 'es2020' });
   await build({ entryPoints: [path.join(target, 'source/js/plugins/aplayer.js')], outfile: path.join(target, 'source/js/build/plugins/aplayer.js'), minify: true, target: 'es2020' });
   const css = require('clean-css');
-  const parts = ['fonts', 'base', 'home-cards', 'pages'];
+  const parts = ['fonts', 'base', 'home-cards', 'pages', 'cyber'];
   const result = new css({ level: 1 }).minify(parts.map(name => fs.readFileSync(path.join(ROOT, `lib/styles/${name}.css`), 'utf8')).join('\n'));
   if (result.errors.length) throw new Error(result.errors.join('\n'));
   fs.mkdirSync(path.join(target, 'source/css'), { recursive: true });

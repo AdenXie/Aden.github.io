@@ -39,8 +39,9 @@ function checkOutput(directory = 'public') {
     exists(launcher.attr('data-script')); exists(launcher.attr('data-style'));
     if (!$('.home-content-container').length) assert.equal($('script[src*="cyber-weather.js"],script[src*="cyber-exchange.js"]').length, 0);
     assert.equal($('script[src*="cdnjs.cloudflare.com/ajax/libs/twikoo"]').length, 0);
-    if ($('.home-banner-background').length) {
-      assert.equal($('link[data-aden-hero]').length, 1);
+    if ($('.home-banner-background').length) assert.equal($('link[data-aden-hero]').length, 1, file);
+    // Later home pages keep only the blurred fixed background, without the banner itself.
+    if ($('.home-banner-container').length) {
       const english = $('html').attr('lang')?.startsWith('en');
       assert.equal($('.home-banner-actions .home-project-link').length, 1, file);
       assert.deepEqual($('.home-banner-actions .home-project-link').map((_, el) => $(el).attr('href')).get(),
