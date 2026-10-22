@@ -34,7 +34,11 @@ async function main() {
   // The chat page became a floating panel; old links open it on the matching home page.
   const chatRedirects = ['', '/en'].flatMap(prefix => [`${prefix}/chat`, `${prefix}/chat/`].map(source => ({ source, destination: `${prefix}/?chat=open`, permanent: false })));
   // Daily briefs moved from their category page (first /categories/每日简报/, briefly /categories/daily/) to /daily/.
-  const briefRedirects = ['', '/en'].flatMap(prefix => ['daily', '%E6%AF%8F%E6%97%A5%E7%AE%80%E6%8A%A5'].map(slug => ({ source: `${prefix}/categories/${slug}/:rest*`, destination: `${prefix}/daily/`, permanent: true })));
+  // ":rest*" does not match a trailing slash, so each slug gets a bare and a "/(.*)" form;
+  // the old Chinese slug is matched in its percent-encoded form.
+  const briefRedirects = ['', '/en'].flatMap(prefix => ['daily', '%E6%AF%8F%E6%97%A5%E7%AE%80%E6%8A%A5']
+    .flatMap(slug => [`${prefix}/categories/${slug}`, `${prefix}/categories/${slug}/(.*)`])
+    .map(source => ({ source, destination: `${prefix}/daily/`, permanent: true })));
   fs.writeFileSync(path.join(ROOT, 'public/vercel.json'), JSON.stringify({ git: { deploymentEnabled: { source: false, 'exchange-rates': false } }, functions: { 'api/chat.js': { maxDuration: 65 } }, headers: [immutableFonts], redirects: [...chatRedirects, ...briefRedirects] }, null, 2));
   require('./check-output.cjs').checkOutput();
 }

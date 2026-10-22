@@ -52,5 +52,6 @@ test('briefs leave the article feed and the home list, and get their own strip',
   assert.match(html, /共 4 期 · 近 30 天 4 期/);
   assert.ok(html.indexOf('aden-brief-strip') < html.indexOf('home-article-list'));
   assert.equal(headline('Daily Brief | 2026-10-22: Talks resume'), 'Talks resume');
+  assert.equal(headline('Daily Briefing | 22 October 2026: Talks resume'), 'Talks resume');
   assert.equal(recent(['2026-10-22T01:00:00.000Z', '2026-10-21T01:00:00.000Z', '2026-09-23T01:00:00.000Z', '2026-09-22T01:00:00.000Z']), 3);
 });

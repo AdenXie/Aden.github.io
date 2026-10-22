@@ -21,8 +21,8 @@ function recent(dates, span = 30) {
   return new Set(dates.map(day).filter(d => last - Date.parse(d) < span * 86400000)).size;
 }
 
-// "每日简报｜2026-10-22：主线" / "Daily Brief | 2026-10-22: Headline" -> headline only.
-const headline = title => title.replace(/^(?:每日简报|Daily Brief(?:ing)?)\s*[|｜]\s*\d{4}-\d{2}-\d{2}\s*[：:]\s*/i, '');
+// "每日简报｜2026-10-22：主线" / "Daily Briefing | 22 October 2026: Headline" -> headline only.
+const headline = title => title.replace(/^(?:每日简报|Daily Brief(?:ing)?)\s*[|｜][^:：]*[：:]\s*/i, '');
 
 function stripHtml(briefs, lang, prefix) {
   const text = TEXT[lang], latest = briefs[0];
