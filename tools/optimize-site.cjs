@@ -143,7 +143,10 @@ async function optimize(directory = 'public') {
         document.head.append(script);
       }
     </script>`);
-    if (!$('.home-content-container').length) $('script[src*="cyber-weather.js"],script[src*="cyber-exchange.js"]').remove();
+    // Weather and exchange widgets live on the home page only; /daily/ reuses its card list.
+    if (!$('.home-content-container').not('.aden-daily .home-content-container').length) $('script[src*="cyber-weather.js"],script[src*="cyber-exchange.js"]').remove();
+    // Brief category links go straight to the /daily/ section (the category pages redirect there).
+    $('a[href$="/categories/daily/"]').each((_, el) => { $(el).attr('href', $(el).attr('href').replace(/categories\/daily\/$/, 'daily/')); });
     if (!$('.essay-date').length) $('script[src*="moment-with-locales.min.js"]').remove();
     if (!$('#subtitle').length) $('script[src*="Typed.min.js"]').remove();
     // 404 "signal lost" screen (lib/styles/cyber.css) shows just the code.

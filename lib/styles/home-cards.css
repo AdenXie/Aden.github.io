@@ -467,3 +467,176 @@ html.light .cyber-exchange-card {
   line-height: 1.55;
 }
 
+
+/* Latest daily brief, above the article list (tools/lib/brief-strip.cjs).
+   Home pages keep the theme's rounded corners. */
+.aden-brief-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.9rem;
+  margin-bottom: 1.15rem;
+  padding: 0.7rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--aden-cyan) 35%, var(--border-color));
+  border-left: 3px solid var(--aden-cyan);
+  border-radius: 12px;
+  background: linear-gradient(100deg, color-mix(in srgb, var(--aden-cyan) 9%, var(--second-background-color)), var(--second-background-color) 55%);
+  color: var(--second-text-color);
+  font-size: 0.86rem;
+}
+
+.aden-brief-tag {
+  color: var(--aden-cyan);
+  font: 600 0.62rem var(--aden-mono-font);
+  letter-spacing: 0.18em;
+}
+
+.aden-brief-latest {
+  display: flex;
+  flex: 1 1 16rem;
+  gap: 0.6rem;
+  min-width: 0;
+  color: var(--first-text-color);
+}
+
+.aden-brief-latest time {
+  flex: none;
+  color: var(--aden-cyan);
+  font-family: var(--aden-mono-font);
+}
+
+.aden-brief-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.aden-brief-latest:hover .aden-brief-title {
+  color: var(--aden-cyan);
+}
+
+.aden-brief-stats {
+  color: var(--third-text-color);
+  font: 0.72rem var(--aden-mono-font);
+}
+
+.aden-brief-all {
+  color: var(--aden-cyan);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* Daily brief section (scripts/brief-split.js, lib/views/daily.ejs): /daily/ reuses
+   the home card list, /daily/list/ the archive timeline. */
+.aden-daily-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.8rem 1.5rem;
+  margin-bottom: 1.4rem;
+}
+
+.aden-daily-title {
+  margin: 0;
+  color: var(--first-text-color);
+  font: 700 2rem/1.2 var(--aden-display-font);
+}
+
+.aden-daily-meta {
+  margin: 0.45rem 0 0;
+  color: var(--third-text-color);
+  font: 0.75rem var(--aden-mono-font);
+  letter-spacing: 0.04em;
+}
+
+.aden-daily-note {
+  margin: 0.35rem 0 0;
+  color: var(--third-text-color);
+  font-size: 0.78rem;
+}
+
+.aden-daily-note span {
+  margin-right: 0.5rem;
+  color: var(--aden-cyan);
+  font: 600 0.62rem var(--aden-mono-font);
+  letter-spacing: 0.16em;
+}
+
+.aden-daily-views {
+  display: inline-flex;
+  gap: 3px;
+  padding: 3px;
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  background: var(--second-background-color);
+}
+
+.aden-daily-views a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 7px;
+  color: var(--third-text-color);
+  font-size: 0.85rem;
+}
+
+.aden-daily-views a:hover {
+  color: var(--first-text-color);
+}
+
+.aden-daily-views a.active {
+  background: var(--aden-cyan);
+  color: var(--aden-on-signal);
+  font-weight: 600;
+}
+
+/* All briefs fit on one page; the theme still prints a lone "1" pager. */
+.aden-daily .home-paginator {
+  display: none;
+}
+
+/* No sidebar here, so drop the gap the theme keeps for it. */
+.aden-daily .home-content-container {
+  margin: 0;
+}
+
+/* Every brief opens with a "今日主线" heading; the card shows only its paragraph. */
+.aden-daily .home-article-content h2 {
+  display: none;
+}
+
+.aden-daily .home-article-content p {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+}
+
+/* One card per row, cover and text side by side, alternating sides; phones keep
+   the home layout (cover on top). Redefine has no such option, so it lives here. */
+@media (min-width: 768px) {
+  .aden-daily--cards .home-article-item {
+    display: flex;
+    align-items: stretch;
+  }
+
+  .aden-daily--cards .home-article-item:nth-child(even) {
+    flex-direction: row-reverse;
+  }
+
+  /* base.css fixes the home cover at 190px with !important; here it fills the card height. */
+  .aden-daily--cards .home-article-thumbnail {
+    flex: 0 0 38%;
+    height: auto !important;
+    min-height: 210px;
+    border-radius: 0;
+  }
+
+  .aden-daily--cards .home-article-thumbnail + div {
+    flex: 1;
+    min-width: 0;
+    justify-content: center;
+  }
+}

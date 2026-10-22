@@ -332,7 +332,9 @@
 
   function mountWeatherCard(_root, scope) {
     const homeContent = document.querySelector(".home-content-container");
-    if (!homeContent) return;
+    // /daily/ reuses the home card list; after a Swup visit from home this script is
+    // still loaded there, so skip that page.
+    if (!homeContent || homeContent.closest(".aden-daily")) return;
 
     let card = document.getElementById("visitor-status-hud");
     if (!card) {

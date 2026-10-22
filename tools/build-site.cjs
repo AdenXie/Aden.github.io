@@ -5,6 +5,7 @@ const fs = require('node:fs');
 const { prepare } = require('./prepare-site.cjs');
 const { optimize } = require('./optimize-site.cjs');
 const { buildLatestPosts } = require('./build-latest-posts.cjs');
+const { injectBriefStrip } = require('./lib/brief-strip.cjs');
 const ROOT = path.resolve(__dirname, '..');
 function run(args) {
   const result = spawnSync(process.execPath, args, { cwd: ROOT, env: { ...process.env, TZ: 'Asia/Shanghai' }, stdio: 'inherit' });
@@ -18,6 +19,7 @@ async function main() {
   run([hexo, 'generate', '--config', '_config.yml,_config.english.yml', '--force']);
   run([path.join(__dirname, 'build-bilingual.cjs')]);
   await optimize();
+  injectBriefStrip(path.join(ROOT, 'public'));
   buildLatestPosts(path.join(ROOT, 'public'));
   fs.copyFileSync(path.join(ROOT, 'lib/README.main.md'), path.join(ROOT, 'public/README.md'));
   // Scheduled workflows must exist on GitHub's default (generated main) branch.
@@ -31,7 +33,9 @@ async function main() {
   const immutableFonts = { source: '/fonts/reading/(.*)', has: [{ type: 'query', key: 'v' }], headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }] };
   // The chat page became a floating panel; old links open it on the matching home page.
   const chatRedirects = ['', '/en'].flatMap(prefix => [`${prefix}/chat`, `${prefix}/chat/`].map(source => ({ source, destination: `${prefix}/?chat=open`, permanent: false })));
-  fs.writeFileSync(path.join(ROOT, 'public/vercel.json'), JSON.stringify({ git: { deploymentEnabled: { source: false, 'exchange-rates': false } }, functions: { 'api/chat.js': { maxDuration: 65 } }, headers: [immutableFonts], redirects: chatRedirects }, null, 2));
+  // Daily briefs moved from their category page (first /categories/每日简报/, briefly /categories/daily/) to /daily/.
+  const briefRedirects = ['', '/en'].flatMap(prefix => ['daily', '%E6%AF%8F%E6%97%A5%E7%AE%80%E6%8A%A5'].map(slug => ({ source: `${prefix}/categories/${slug}/:rest*`, destination: `${prefix}/daily/`, permanent: true })));
+  fs.writeFileSync(path.join(ROOT, 'public/vercel.json'), JSON.stringify({ git: { deploymentEnabled: { source: false, 'exchange-rates': false } }, functions: { 'api/chat.js': { maxDuration: 65 } }, headers: [immutableFonts], redirects: [...chatRedirects, ...briefRedirects] }, null, 2));
   require('./check-output.cjs').checkOutput();
 }
 main().catch(e => { console.error(e); process.exitCode = 1; });

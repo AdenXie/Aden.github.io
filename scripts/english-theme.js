@@ -41,7 +41,7 @@ hexo.extend.filter.register('before_generate', async function () {
       await post.save();
     }
   }
-  const keys = { '首页': 'home', '归档': 'archives', '标签': 'tags', '关于': 'about', '友链': 'links', '世界时间': 'World Time' };
+  const keys = { '首页': 'home', '归档': 'archives', '标签': 'tags', '关于': 'about', '友链': 'links', '世界时间': 'World Time', '每日简报': 'Daily Brief', '分类': 'Categories' };
   const links = this.theme.config.navbar.links;
   this.theme.config.navbar.links = Object.fromEntries(Object.entries(links).map(([name, value]) => [keys[name] || name, value]));
 }, 5);

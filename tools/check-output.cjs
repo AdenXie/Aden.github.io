@@ -3,6 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const assert = require('node:assert/strict');
 const cheerio = require('cheerio');
+const { readPosts } = require('./build-latest-posts.cjs');
 function checkOutput(directory = 'public') {
   const root = path.resolve(directory);
   assert(fs.existsSync(path.join(root, 'README.md')), 'Missing generated main-branch README');
@@ -17,7 +18,15 @@ function checkOutput(directory = 'public') {
   for (const dir of ['', 'en']) {
     const feed = JSON.parse(fs.readFileSync(path.join(root, dir, 'latest-posts.json'), 'utf8'));
     assert(feed.posts.length > 0 && feed.posts.every(p => p.title && p.date && p.url.startsWith('https://blog.adenxie.com.cn/')), `Invalid ${dir}/latest-posts.json`);
+    assert(feed.latestBrief?.url?.startsWith('https://blog.adenxie.com.cn/'), `${dir}/latest-posts.json lacks the latest brief`);
+    // Home page 1 carries the brief strip; the article list itself has no briefs.
+    const $home = cheerio.load(fs.readFileSync(path.join(root, dir, 'index.html'), 'utf8'));
+    assert.equal($home('.aden-brief-strip').length, 1, `${dir}/index.html brief strip`);
+    exists($home('.aden-brief-strip a.aden-brief-latest').attr('href'));
   }
+  // Daily briefs, found from their own pages, must not appear in the home article list.
+  const briefPaths = new Set([['', ''], ['en', '/en']].flatMap(([dir, prefix]) => readPosts(path.join(root, dir), prefix).filter(p => p.brief).map(p => new URL(p.url).pathname)));
+  assert(briefPaths.size > 0, 'No daily briefs found');
   let pages = 0;
   for (const file of files(root).filter(f => f.endsWith('.html'))) {
     const $ = cheerio.load(fs.readFileSync(file, 'utf8')); pages++;
@@ -37,9 +46,14 @@ function checkOutput(directory = 'public') {
     assert.match(launcher.attr('data-script'), /^\/js\/chat\.js\?v=[a-f0-9]{12}$/, file);
     assert.match(launcher.attr('data-style'), /^\/css\/chat\.css\?v=[a-f0-9]{12}$/, file);
     exists(launcher.attr('data-script')); exists(launcher.attr('data-style'));
-    if (!$('.home-content-container').length) assert.equal($('script[src*="cyber-weather.js"],script[src*="cyber-exchange.js"]').length, 0);
+    const home = $('.home-content-container').not('.aden-daily .home-content-container');
+    if (!home.length) assert.equal($('script[src*="cyber-weather.js"],script[src*="cyber-exchange.js"]').length, 0);
     assert.equal($('script[src*="cdnjs.cloudflare.com/ajax/libs/twikoo"]').length, 0);
     if ($('.home-banner-background').length) assert.equal($('link[data-aden-hero]').length, 1, file);
+    // Chinese only: when translation is unavailable an English page keeps its previous
+    // snapshot, which must not block the Chinese release.
+    if (!$('html').attr('lang')?.startsWith('en')) home.find('.home-article-title a').each((_, el) => assert(!briefPaths.has($(el).attr('href')), `${file}: daily brief in the home list`));
+    assert.equal($('a[href$="/categories/daily/"]').length, 0, `${file}: link to the redirected brief category`);
     assert.equal($('.markdown-body > table:not(.not-markdown)').length, 0, `${file}: article table without scroll frame`);
     // Later home pages keep only the blurred fixed background, without the banner itself.
     if ($('.home-banner-container').length) {
