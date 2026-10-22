@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const zlib = require('node:zlib');
-const { snapshot, offsetLabel, compare } = require('../source/js/world-time.js');
+const { snapshot, offsetLabel, compare, subsolar, altitude, shade, phase } = require('../source/js/world-time.js');
 const cities = require('../lib/world-time-cities.json');
 const map = require('../lib/world-time-map.json');
 const at = (date, zone) => snapshot(new Date(date), zone);
@@ -78,7 +78,8 @@ test('tag renders accessible markers and buttons; assets are scoped to the page'
   });
   const html = render();
   assert.equal((html.match(/class="wt-marker"/g) || []).length, 20);
-  assert.equal((html.match(/<button type="button"/g) || []).length, 20);
+  assert.equal((html.match(/<button type="button" data-city=/g) || []).length, 20);
+  assert.equal((html.match(/data-view="(?:globe|flat)"/g) || []).length, 2);
   assert.ok(html.includes('WORLD TIME / 20 CITIES'));
   assert.ok(!html.includes('圣路易斯'));
   assert.ok(html.includes('data-swup-reload-script'));
@@ -88,8 +89,8 @@ test('tag renders accessible markers and buttons; assets are scoped to the page'
   assert.doesNotMatch(runtime, /\bfetch\(|XMLHttpRequest|geolocation|localStorage/);
   const css = fs.readFileSync(path.join(__dirname, '../source/css/world-time.css'), 'utf8');
   const total = Buffer.byteLength(html + runtime + css);
-  assert.ok(total < 60000, `uncompressed page feature size: ${total}`);
-  assert.ok(zlib.gzipSync(html + runtime + css).length < 20000);
+  assert.ok(total < 80000, `uncompressed page feature size: ${total}`);
+  assert.ok(zlib.gzipSync(html + runtime + css).length < 26000);
   const config = fs.readFileSync(path.join(__dirname, '../_config.redefine.yml'), 'utf8');
   assert.ok(!config.includes('/js/world-time.js') && !config.includes('/css/world-time.css'));
   assert.ok(map.path.length < 25000);
@@ -109,4 +110,21 @@ test('global search keeps the world-time summary without map or code; other arti
   assert.ok(result.data.includes(untouched));
   assert.ok(result.data.includes('多伦多') && result.data.includes('霍巴特'));
   assert.ok(!result.data.includes('large map') && !result.data.includes('/css/world-time') && !result.data.includes('/js/world-time'));
+});
+
+test('sun position: solstice declination, noon over Greenwich, local day and night', () => {
+  const june = subsolar(new Date('2026-06-21T12:00:00Z'));
+  assert.ok(Math.abs(june.lat - 23.44) < 0.05, `declination ${june.lat}`);
+  assert.ok(Math.abs(june.lon) < 1.5, `subsolar longitude ${june.lon}`);
+  assert.ok(Math.abs(subsolar(new Date('2026-12-21T12:00:00Z')).lat + 23.44) < 0.05);
+  assert.equal(phase(altitude(subsolar(new Date('2026-06-21T02:00:00Z')), -33.87, 151.21)), 'day');
+  assert.equal(phase(altitude(subsolar(new Date('2026-06-21T21:00:00Z')), 51.51, -0.13)), 'twilight');
+  assert.equal(phase(altitude(subsolar(new Date('2026-06-21T00:00:00Z')), 51.51, -0.13)), 'night');
+  assert.equal(phase(altitude(subsolar(new Date('2026-01-15T00:00:00Z')), 51.51, -0.13)), 'night');
+});
+test('night shading has one edge point per 2° of longitude and closes past the dark pole', () => {
+  const june = shade(subsolar(new Date('2026-06-21T12:00:00Z')), 0);
+  assert.equal(june.line.split('L').length, 181);
+  assert.ok(june.fill.endsWith('L1000,600L0,600Z'));
+  assert.ok(shade(subsolar(new Date('2026-12-21T12:00:00Z')), 0).fill.endsWith('L1000,-140L0,-140Z'));
 });

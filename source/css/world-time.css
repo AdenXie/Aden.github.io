@@ -20,7 +20,27 @@
   font: 500 .65rem var(--aden-mono-font);
   letter-spacing: .08em;
 }
+#world-time .wt-map-caption { align-items: center; }
 #world-time .wt-map { display: block; width: 100%; height: auto; overflow: hidden; }
+#world-time .wt-globe { display: none; width: 100%; aspect-ratio: 1 / .62; cursor: grab; touch-action: pan-y; }
+#world-time .wt-zoom { display: none; align-items: center; gap: .7rem; padding: .2rem 1.1rem .9rem; color: var(--third-text-color); font: 500 .65rem var(--aden-mono-font); letter-spacing: .08em; }
+#world-time.wt-globe-on .wt-zoom { display: flex; }
+#world-time .wt-zoom input { flex: 1; max-width: 260px; height: 24px; margin: 0; accent-color: var(--aden-cyan); cursor: pointer; }
+#world-time .wt-globe:active { cursor: grabbing; }
+#world-time.wt-globe-on .wt-globe { display: block; }
+#world-time.wt-globe-on .wt-map { display: none; }
+#world-time .wt-views { display: inline-flex; gap: .2rem; }
+#world-time .wt-views button { min-height: 26px; padding: .15rem .6rem; font: 500 .65rem var(--aden-mono-font); letter-spacing: .08em; }
+#world-time .wt-subsolar { color: var(--aden-signal); opacity: .85; }
+/* Day and night, recomputed each minute by world-time.js. */
+#world-time .wt-grid { fill: none; stroke: var(--third-text-color); stroke-opacity: .1; stroke-width: .5; }
+#world-time .wt-night { fill: rgb(2 6 20); fill-opacity: .13; pointer-events: none; }
+#world-time .wt-terminator { fill: none; stroke: var(--aden-signal); stroke-opacity: .75; stroke-width: 1.2; pointer-events: none; }
+#world-time .wt-sun-halo { fill: var(--aden-signal); fill-opacity: .25; }
+#world-time .wt-sun-core { fill: var(--aden-signal); }
+#world-time .wt-daylight { pointer-events: none; }
+#world-time .wt-marker[data-phase="night"] .wt-dot { fill: var(--background-color); stroke: var(--aden-cyan); }
+#world-time .wt-phase { margin-top: .35rem; color: var(--second-text-color); font-size: .72rem; }
 #world-time .wt-land { fill: var(--third-background-color); stroke: var(--third-text-color); stroke-opacity: .32; stroke-width: .6; }
 #world-time .wt-equator { fill: none; stroke: var(--third-text-color); stroke-opacity: .14; stroke-width: .5; stroke-dasharray: 3 7; }
 #world-time .wt-marker { cursor: pointer; outline: none; }
@@ -58,6 +78,7 @@
 @media (max-width: 640px) {
   #world-time .wt-intro { font-size: .85rem; margin-bottom: 1rem; }
   #world-time .wt-map-caption { padding: .7rem; font-size: .54rem; letter-spacing: .02em; }
+  #world-time .wt-subsolar { display: none; }
   #world-time .wt-marker text, #world-time .wt-leader { display: none; }
   #world-time .wt-dot { r: 4; }
   #world-time .wt-comparison { margin-top: 1.1rem; }
