@@ -463,7 +463,7 @@
     const nights = root.querySelectorAll('.wt-night');
     const terminator = root.querySelector('.wt-terminator');
     const sunMark = root.querySelector('#wt-sun');
-    const phaseText = { day: '☀ 当地白天', twilight: '◐ 当地晨昏', night: '☾ 当地夜晚' };
+    const phaseText = { day: '☀ 白天', twilight: '◐ 晨昏', night: '☾ 夜晚' };
     let sun = null, minute = -1;
     const globe = createGlobe(root, markers, id => select(id), listeners.signal);
     function setView(name) {
