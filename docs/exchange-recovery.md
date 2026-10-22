@@ -4,7 +4,7 @@
 
 ## 获取与缓存
 
-- 采集工作流在 `source` 的 `.github/workflows/exchange-rates.yml`（10-22 起默认分支为 source，定时任务从这里触发），北京时间周一至周五每小时第 7、37 分钟触发；周六、周日不创建定时任务。手动运行始终允许采集。平台调度可能延迟。
+- `lib/workflows/exchange-rates.yml` 在构建后复制到默认分支 main 的 `.github/workflows`，北京时间周一至周五每小时第 7、37 分钟触发；周六、周日不创建定时任务。手动运行始终允许采集。平台调度可能延迟。
 - `tools/collect-exchange.cjs` 使用 `tools/lib/boc-rates.cjs` 中的官方采集与解析逻辑，不安装依赖；失败不写入数据，保留上次成功记录。该代码仅供 GitHub Actions 使用，不部署到 Vercel。
 - 成功结果保存在独立 `exchange-rates` 分支的 `aud-cny.json`，不触发博客重建。生成的 `vercel.json` 禁止这个数据分支触发 Vercel 部署。
 - `/api/aud-cny` 只读取 GitHub Actions 生成的快照，单次请求上限两秒，不再直连中行。数据源仍是中国银行现汇牌价，不混用市场中间价。
@@ -17,6 +17,6 @@
 2. 检查数据分支中 `fetchedAt` 是否更新，再请求 `/api/aud-cny?v=4`，核对 `stale` 与中行发布时间。
 3. 如果采集失败，检查该工作流日志；如果副本存在而接口仍失败，检查 Vercel 的 `[aud-cny]` 日志。
 4. `npm test` 覆盖官方备用域名、正文超时、副本新旧状态、无效时间、冷启动失败和客户端缓存恢复。
-5. 构建时会把同一文件原样复制到 main 的 `.github/workflows/exchange-rates.yml`，只为让部署推送不改动 main 上的工作流（日常构建令牌不能新增、修改或删除工作流）。修改采集工作流时，先通过有工作流写入权限的 GitHub 连接把新内容同步到 main 的这个文件，再发布；不要为此扩大日常令牌权限。
+5. 首次安装或修改采集工作流时，先通过有工作流写入权限的 GitHub 连接把同一文件放到 main 的 `.github/workflows/exchange-rates.yml`；日常构建令牌只能保留已有工作流，不能新增或修改。不要为此扩大日常令牌权限。
 
 Vercel 数据分支隔离配置依据：https://vercel.com/docs/project-configuration/git-configuration#gitdeploymentenabled

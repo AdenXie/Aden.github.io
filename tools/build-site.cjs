@@ -20,12 +20,12 @@ async function main() {
   await optimize();
   buildLatestPosts(path.join(ROOT, 'public'));
   fs.copyFileSync(path.join(ROOT, 'lib/README.main.md'), path.join(ROOT, 'public/README.md'));
-  // The exchange workflow is scheduled from the default branch (source since 10-22).
-  // main keeps an identical copy only because the CI token cannot remove or change
-  // workflow files there; dropping it would make the deploy push fail.
+  // Scheduled workflows must exist on GitHub's default (generated main) branch.
+  // Initialize/update this workflow on main through an authorized GitHub user
+  // before deployment: the CI token can preserve it but cannot create workflows.
   const workflows = path.join(ROOT, 'public/.github/workflows');
   fs.mkdirSync(workflows, { recursive: true });
-  fs.copyFileSync(path.join(ROOT, '.github/workflows/exchange-rates.yml'), path.join(workflows, 'exchange-rates.yml'));
+  fs.copyFileSync(path.join(ROOT, 'lib/workflows/exchange-rates.yml'), path.join(workflows, 'exchange-rates.yml'));
   // Stylesheets request reading fonts with a ?v= content hash, so those responses never
   // change. Without this Vercel serves max-age=0 and every page view revalidates ~1 MB of fonts.
   const immutableFonts = { source: '/fonts/reading/(.*)', has: [{ type: 'query', key: 'v' }], headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }] };
