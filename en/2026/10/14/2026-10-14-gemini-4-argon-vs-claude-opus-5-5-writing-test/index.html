@@ -1,0 +1,1969 @@
+<!DOCTYPE html><html lang="en"><head><script src="/js/language-preference.js?v=29a144036da1" data-english-home="/en/"></script><script src="/js/site-runtime.js?v=0711b6201338" defer=""></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/en/2026/10/14/2026-10-14-gemini-4-argon-vs-claude-opus-5-5-writing-test/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Who is better at &quot;speaking human language&quot;? Gemini 4 Argon and Claude Opus 5.5 Writing Test">
+<meta property="og:url" content="https://blog.adenxie.com.cn/en/2026/10/14/2026-10-14-gemini-4-argon-vs-claude-opus-5-5-writing-test/">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-10-14T04:00:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="Gemini">
+<meta property="article:tag" content="大模型">
+<meta property="article:tag" content="Claude">
+<meta property="article:tag" content="写作">
+<meta property="article:tag" content="模型评测">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png?v=fa6db12e9674" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Who is better at "speaking human language"? Gemini 4 Argon and Claude Opus 5.5 Writing Test | Aden's Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/css/site-5a4bbfac1125.css?v=5a4bbfac1125">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js?v=258b1afa4680"></script>
+                
+    
+            
+                
+                    
+                
+    
+
+    
+
+
+
+    
+        
+
+
+    
+
+    
+
+
+    
+
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"en","path":"en/search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"17px","line_height":1.85,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"all_rights_reserved"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["Technology, experience and independent thinking","Real experiences. A personal perspective."],"hitokoto":{"enable":false,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Daily Brief":{"path":"/daily/","icon":"fa-regular fa-newspaper"},"archives":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"},"tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"World Time":{"path":"/world-time/","icon":"fa-regular fa-clock"},"about":{"path":"/about/","icon":"fa-regular fa-user"},"links":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":true,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.i18n = {"search":"Search...","toc":"On this page","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"POWERED BY %s","theme":"THEME","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","post":"Post","posts":"Posts","tagcloud":"Tag Cloud","comment":"Comment","comments":"Comments","home":"Home","archive":"Archive","archives":"Archives","top":"TOP","sticky":"Sticky","go-back-home":"Go Back Home","masonry_loading":"Loading photos...","image_viewer":"Image viewer","close":"Close","exif":{"title":"EXIF","cards":{"camera":"Camera","lens":"Lens","exposure":"Exposure","other":"Other"},"fields":{"make":"Brand","model":"Model","date_taken":"Date taken","lens_model":"Lens","focal_length":"Focal length","focus_mode":"Focus mode","shutter":"Shutter","aperture":"Aperture","iso":"ISO","exposure_program":"Exposure program","exposure_compensation":"Exposure compensation","metering_mode":"Metering mode","flash":"Flash","white_balance":"White balance","latitude":"Latitude","longitude":"Longitude","altitude":"Altitude"},"status":{"loading":"Loading...","no_exif":"No EXIF available","library_missing":"EXIF library not loaded","image_source_missing":"Image source unavailable","unavailable":"EXIF unavailable (blocked by CORS or missing metadata)","flag_unavailable":"EXIF unavailable"}},"about":"About","changelog":"Changelog","links":"Links","link":"Link","friends":"Friends","friend":"Friend","timeline":"Timeline","shuoshuo":"Shuoshuo","bookmarks":"Bookmarks","site_uv":"VISITOR COUNT","site_pv":"TOTAL PAGE VIEWS","read_more":"Read more","wordcount":"Words","min2read":"Mins","status":"Status","runtime":"Blog up for","days":"days","hours":"hrs","minutes":"Min","seconds":"Sec","optimized_by":"and Optimized by Evan","rights":"All Rights Reserved","site_posts":"%s posts in total","site_wordcount":"%s words in total","copyright":{"author":"Author","title":"Title","link":"Link","create_time":"Created at","update_time":"Updated at","license_title":"License","license_content":"This work is licensed under %s.","all_rights_reserved":"All Rights Reserved &#169; %s","public_domain":"This work is in the public domain."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"},"create_time":"Created","update_time":"Updated","expired":"This post is written %s days ago, and the content may not be up to date."};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" hreflang="zh-CN" href="https://blog.adenxie.com.cn/2026/10/14/2026-10-14-gemini-4-argon-vs-claude-opus-5-5-writing-test/"><link rel="alternate" hreflang="en" href="https://blog.adenxie.com.cn/en/2026/10/14/2026-10-14-gemini-4-argon-vs-claude-opus-5-5-writing-test/"><script data-aden-analytics="">
+      if (location.hostname === 'blog.adenxie.com.cn' && !window.__adenAnalyticsLoaded) {
+        window.__adenAnalyticsLoaded = true;
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        const script = document.createElement('script');
+        script.defer = true;
+        script.src = '/_vercel/insights/script.js';
+        document.head.append(script);
+      }
+    </script></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/en/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/daily/">
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    DAILY BRIEF
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/categories/">
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    CATEGORIES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    WORLD TIME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    <nav class="aden-language-switch" aria-label="Language"><a lang="zh-CN" href="/2026/10/14/2026-10-14-gemini-4-argon-vs-claude-opus-5-5-writing-test/" aria-current="false" data-no-swup="">中文</a><span> / </span><a lang="en" href="/en/2026/10/14/2026-10-14-gemini-4-argon-vs-claude-opus-5-5-writing-test/" aria-current="page" data-no-swup="">English</a></nav></div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/">
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/daily/">
+                            <span>
+                                DAILY BRIEF
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/archives/">
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/categories/">
+                            <span>
+                                CATEGORIES
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/tags/">
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/world-time/">
+                            <span>
+                                WORLD TIME
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/about/">
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/link/">
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/en/archives/">
+                            <span>Article Archive</span>
+                            <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/en/tags/">
+                            <span>Topic Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/en/about/">
+                            <span>About Aden</span>
+                            <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/tags/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">52</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/categories/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">8</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/archives/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">86</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://files.seeusercontent.com/2026/10/14/Oiu2/pasted-image-1791945672927.webp" alt="Who is better at &quot;speaking human language&quot;? Gemini 4 Argon and Claude Opus 5.5 Writing Test" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" decoding="async">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">Who is better at "speaking human language"? Gemini 4 Argon and Claude Opus 5.5 Writing Test</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg?v=93ba7ebfa2ff" decoding="async" width="460" height="460">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-10-14 12:00</span>
+        <span class="mobile">2026-10-14 12:00</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/en/categories/AI-%E4%B8%8E%E7%A7%91%E6%8A%80/">AI and Technology</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/en/tags/Gemini/">Gemini</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">large model</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/Claude/">Claude</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/%E5%86%99%E4%BD%9C/">Writing</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/%E6%A8%A1%E5%9E%8B%E8%AF%84%E6%B5%8B/">model evaluation</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>12.9k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>44 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8"><p class="aden-translation-notice">Automatically translated. <a href="/2026/10/14/2026-10-14-gemini-4-argon-vs-claude-opus-5-5-writing-test/">Read the Chinese original</a>.</p>
+			<h2 id="缘起与测试环境"><a href="#缘起与测试环境" class="headerlink" title="Origin and test environment"></a>Origin and test environment</h2><p>The conclusion is first: after four rounds of testing, both models have their strengths and weaknesses in "speaking human language". Claude Opus 5.5 is better in terms of sense of proportion and "non-fabrication" of SMS messages; Longer articles in Gemini 4 Argon are smoother, but the default writing style is heavy. Neither of them escaped the AI-driven tone when it came to writing long articles.</p>
+<span id="more"></span>
+
+<p>In my daily use, I've noticed that recent versions of GPT and Gemini are somewhat "non-human". Coincidentally, Gemini 4 Argon was released on October 14, 2026, and I heard that Claude Opus 5.5 had put some effort into writing it, so I tested the two together on the same day.</p>
+<p>Test Environment:</p>
+<ul>
+<li>Gemini 4 Argon: Gemini web version, mode selection "Argon High Point", no developer tools used.</li>
+<li>Claude Opus 5.5: Used in Claude Code, with a thinking intensity of "medium".</li>
+<li>GPT did not participate in this test.</li>
+<li>Each problem and each model was run only once.</li>
+</ul>
+<p>Question design and item-by-item scoring were done in another Claude Opus 5.5 dialogue. In other words,<strong>Claude is rating himself.</strong>This is the biggest source of deviation in this article, and readers can make their own judgments by referring to the original text below. The model output cited in this article is the original text, with only information that can point to individuals replaced with code names, such as "Person A", "School X", "Major X", and "City X". The rest of the content remains unchanged.</p>
+<h2 id="测试方法与评分清单"><a href="#测试方法与评分清单" class="headerlink" title="Test methods and scoring checklist"></a>Test methods and scoring checklist</h2><p>The test consists of four rounds, each increasing the difficulty of the problems exposed in the previous round:</p>
+<ol>
+<li><strong>Default writing style</strong>Only give the topic, and do not write "speak in plain language" or "use plain language" in the prompts, otherwise it will become a test of whether it will obey instructions.</li>
+<li><strong>Go to AI cavity</strong>I explicitly request that memorable quotes, metaphors, and sublimations be removed, and that I not fabricate my experiences.</li>
+<li><strong>Ask a question first</strong>Tell the model it doesn't know my experience and allow it to ask me first.</li>
+<li><strong>Insufficient materials</strong>Give me a very thin piece of material and see if it will be embellished.</li>
+</ol>
+<p>The first round used three topics to test different problems:</p>
+<div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Type</th>
+<th>What are the main tests?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Explain "overfitting" to parents</td>
+<td>explanatory type</td>
+<td>Terminology piling up, false profound</td>
+</tr>
+<tr>
+<td>My true feelings about the first semester of studying abroad</td>
+<td>empirical</td>
+<td>Chicken soup, empty lyricism</td>
+</tr>
+<tr>
+<td>A friend's WeChat reply asking where to go for the weekend</td>
+<td>daily short message</td>
+<td>format expansion</td>
+</tr>
+</tbody></table></div>
+<p>The score is based on the following list of symptoms of "not speaking human language". Out of 10 points, the measure is whether it sounds like a normal person's writing, not the amount of information.</p>
+<div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th>Symptoms</th>
+<th>typical example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>"No... but..." The sentence structure is rampant.</td>
+<td>"This is not just a learning experience, but a transformation."</td>
+</tr>
+<tr>
+<td>Empty sublimation and summary</td>
+<td>In short, ultimately.</td>
+</tr>
+<tr>
+<td>Slang and big words</td>
+<td>Empowerment, tools, underlying logic, closed loop</td>
+</tr>
+<tr>
+<td>Stacking metaphors and parallels</td>
+<td>"It is…, it is…, it is even more…”</td>
+</tr>
+<tr>
+<td>format expansion</td>
+<td>Short content can also be subtitled, bolded, listed, or emoji.</td>
+</tr>
+<tr>
+<td>Pretending to have personal experience</td>
+<td>Fabricate "I remember the first time..." for the user.</td>
+</tr>
+<tr>
+<td>Correct nonsense</td>
+<td>"Everyone's situation is different, and you need to choose according to your own circumstances."</td>
+</tr>
+<tr>
+<td>Forced interaction at the end</td>
+<td>"I hope this helps! Feel free to ask me anytime if you have any questions~”</td>
+</tr>
+</tbody></table></div>
+<p>There are two other quick judgment methods: one is<strong>Reading test</strong>Read the article aloud, and the question is which sentence you would never say to a friend. Second<strong>deletion test</strong>The fact that half of the content was deleted but almost no information was lost indicates that the original text was inflated.</p>
+<h2 id="第一轮·话题-1：给父母解释“过拟合”"><a href="#第一轮·话题-1：给父母解释“过拟合”" class="headerlink" title="Round 1, Topic 1: Explaining &quot;overfitting&quot; to parents"></a>Round 1, Topic 1: Explaining "overfitting" to parents</h2><p>This question is tied on both sides, both scoring 8 points, and most of the questions are in plain language.</p>
+<p>Hint words:</p>
+<blockquote>
+<p>My parents didn't know anything about computers, and they asked me what "overfitting" meant in the machine learning I was learning. Help me write an explanation for them.</p>
+</blockquote>
+<h3 id="Gemini-4-Argon-原文"><a href="#Gemini-4-Argon-原文" class="headerlink" title="Gemini 4 Argon Original text"></a>Gemini 4 Argon Original text</h3><blockquote>
+<p>Mom and Dad, you can think of training computers (machine learning) as teaching a student to prepare for an exam, while "overfitting" means that the student has memorized the questions and won't be able to apply them to other situations.</p>
+<p>When we teach computers to recognize objects, it's like giving students a workbook. Ideally, after completing several sets of tests, students should summarize the problem-solving patterns so that they can do the same when they encounter new problems.</p>
+<p>But when "overfitting" occurs, the computer is too rigid—it doesn't understand the underlying patterns, but instead memorizes every question in the workbook, even the typos and question numbers. And the result is:</p>
+<ul>
+<li>Regular test (using old data): 100 points because I memorized all the questions.</li>
+<li>Real exam (encountering new situations): It's a complete mess; you just need to change the numbers on the question and you won't know anything at all.</li>
+</ul>
+<p>To give another real-life example: Let's say I only use our "brown teddy dog" to teach the computer to recognize dogs. If the computer "overfits," it will rigidly believe that "only dogs are brown, curly-haired, small, or even have a red bell around their necks." When a large golden retriever is brought to it tomorrow, it won't recognize it.</p>
+<p>Therefore, a large part of my work is to prevent computers from "rote memorization," to teach them to grasp key points, find patterns, and truly apply what they have learned to other situations.</p>
+</blockquote>
+<h3 id="Claude-Opus-5-5-原文"><a href="#Claude-Opus-5-5-原文" class="headerlink" title="Claude Opus 5.5 Original text"></a>Claude Opus 5.5 Original text</h3><blockquote>
+<p>The version that can be sent directly to parents:</p>
+<p>What is "overfitting"?</p>
+<p>For example, it's like a child preparing for an exam.</p>
+<p>There was a student whose teacher gave him a workbook. He memorized the answers to every question in it by heart. He was tested on the questions in the workbook and got perfect marks every time. But when it comes to the official exam, if the question is slightly different in number or wording, he won't know how. Because he only memorized the answers and didn't truly understand the principles behind solving the problems.</p>
+<p>The same applies to computer "learning". We show the computer many examples and let it summarize the patterns on its own. For example, show it thousands of photos of cats to help it learn to recognize cats. If it "overlearns," it will write down the details in these photos as patterns, such as "cats are all on the sofa" or "cats have white walls in the background." As a result, we tested it with photos it had seen, and they were all correct; If you take a new photo, such as a cat on the grass, it won't recognize it.</p>
+<p>This situation where someone performs well on practice questions but fails when faced with new problems is called "overfitting".</p>
+<p>One of the important tasks of our research is to make computers learn real patterns like good students, rather than rote memorization, so that they can make correct judgments even when they encounter new situations they have never seen before.</p>
+<p>If you want it to be shorter, you can just keep the first paragraph of the exam metaphor and the last sentence of the summary. Parents usually understand it immediately.</p>
+</blockquote>
+<h3 id="评分"><a href="#评分" class="headerlink" title="rating"></a>rating</h3><div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th>model</th>
+<th>score</th>
+<th>advantage</th>
+<th>Problem</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Gemini 4 Argon</td>
+<td>8</td>
+<td>The metaphor for memorizing exam questions is apt; "memorizing even printing errors and question numbers" accurately highlights the tendency to treat noise as a pattern.</td>
+<td>A list was used in a passage addressed to parents; They fictionalized "our brown Teddy dog"; Training with only one dog is closer to "too little data" and is not a typical overfit; The ending is slightly sublimated.</td>
+</tr>
+<tr>
+<td>Claude Opus 5.5</td>
+<td>8</td>
+<td>There are no list symbols throughout the text; "The cats are all on the sofa" and "The background is all white walls" accurately explain how random details are treated as patterns.</td>
+<td>"We do research" does not correspond to the user's actual identity; An additional subheading was added at the beginning; The ending is also sublimated.</td>
+</tr>
+</tbody></table></div>
+<h2 id="第一轮·话题-2：留学第一学期的真实感受"><a href="#第一轮·话题-2：留学第一学期的真实感受" class="headerlink" title="Round 1, Topic 2: Real Feelings of the First Semester of Studying Abroad"></a>Round 1, Topic 2: Real Feelings of the First Semester of Studying Abroad</h2><p>This question is worth 5 points on both sides, but the problems are different: Gemini is a fancy motivational quote, while Claude is a plain template that fabricates experiences for the user.</p>
+<p>Hint words:</p>
+<blockquote>
+<p>I'm writing an article for my juniors who are preparing to pursue graduate studies abroad, sharing their most authentic feelings about the first semester of graduate school.</p>
+</blockquote>
+<p>It should be noted that Claude's conversations have a memory function enabled, so it knows the user's school and major background, while Gemini does not. This allowed Claude to write more specifically, which directly led to the fiction problem mentioned below.</p>
+<h3 id="Gemini-4-Argon-原文-1"><a href="#Gemini-4-Argon-原文-1" class="headerlink" title="Gemini 4 Argon Original text"></a>Gemini 4 Argon Original text</h3><blockquote>
+<p><strong>To you about to embark on a long journey: The first semester of graduate school, those real moments no one told you in advance</strong></p>
+<p>The moment you receive your acceptance letter, apply for your visa, and fill your suitcase, you probably think that the script for pursuing a master's degree abroad is an academic journey full of exotic flavor. But when you actually land, dragging two large suitcases weighing nearly 30 kilograms in front of an empty mattress in an unfamiliar apartment, the true face of the first semester of graduate school is just beginning to be revealed.</p>
+<p><strong>"Hard landing" without buffer period</strong></p>
+<p>Many people think that the first two weeks abroad are a "honeymoon period" for adjusting to the time difference, shopping at IKEA, and taking photos to post on social media. In fact, the pace of graduate school is so fast that it doesn't give you any breathing room. You might be struggling on Monday to get a bank card, connect to Wi-Fi, or distinguish between light and dark soy sauce from all-English labels at the supermarket, but on Tuesday you were already sitting in the lecture hall facing dozens of pages of Reading material handed out by the professor and the first week's pre-class quiz. Life's trivialities and academic pressures don't come one after the other; they hit you simultaneously before you've even figured out your way home.</p>
+<p><strong>The academic gap from "being fed" to "finding one's own way"</strong></p>
+<p>During undergraduate studies, teachers often break down the knowledge points from the textbook and explain them to you. But in the graduate classroom, the professor assumes that you have mastered the basic tools. In a two-hour class, the PowerPoint presentations were flipped through like a revolving lantern. The class only discussed the core framework and cutting-edge controversies. The rest of the derivation, code implementation, or literature review was all done by myself in the library after class.</p>
+<p>A more real challenge comes from high-intensity output in an all-English environment. In the first few weeks, you might have looked up a screen full of new words the night before and read the literature thoroughly. The next day, when you go to a Seminar, you still need to race your brain for a few seconds before you can get through to a classmate who speaks at such a fast pace. When it comes to Group projects, you also have to learn how to deal with team members from different cultural backgrounds and routines while advancing the progress. Almost everyone has experienced that frustrating feeling of "trying so hard, but still feeling like you know nothing" late at night in October.</p>
+<p><strong>Folded Time: A Three-Front Battle Between Study, Life, and Job Search</strong></p>
+<p>If a four-year undergraduate degree is a marathon, then a one- to two-year master's degree is more like a 100-meter sprint. What causes the most anxiety is often not the coursework itself, but rather...<strong>Everything is crammed into the same timeline.</strong>。</p>
+<p>Many students have only been in school for two weeks and haven't even familiarized themselves with the campus map before having to join the ranks of those seeking jobs in the fall recruitment or local areas. During the day, I attend classes and revise group reports. In the evening, I go to the supermarket to buy discounted meat and vegetables to cook for myself. After washing the dishes and sitting back at my desk at 9 p.m., I also have to revise my resume, do practice questions, and prepare for video interviews across time zones. You will suddenly realize that your parents used to shield you from so many fragments of life; When cooking, washing clothes, fixing light bulbs, and calculating exchange rates all become your own business, even just getting a hot meal on time and seven hours of sleep can be considered a remarkable form of self-discipline.</p>
+<p><strong>From "social anxiety" to learning to reconcile with loneliness</strong></p>
+<p>During the first few days of Orientation, you might attend various gatherings and suddenly have dozens of new friends on your phone. But as soon as classes officially start, everyone will quickly return to their respective lives. Graduate students' social interactions are very direct and realistic. There are no fixed classes, class schedules vary, and everyone is in a hurry.</p>
+<p>Gradually, you will go through a period of extreme quiet: going to the library alone to reserve a seat, going to the supermarket alone with headphones on, and walking home alone with coffee in the evening. You may feel lonely at first, but perhaps after the midterm exams, you will suddenly fall in love with this undisturbed freedom.<strong>Transforming "loneliness" into "solitude" is the most important compulsory course in the first semester of studying abroad.</strong> When you stop forcing yourself to socialize in order to fit in, and focus your energy on your sleep, meals, and books, your mind will actually calm down.</p>
+<p><strong>A final piece of truth</strong></p>
+<p>If you doubt yourself late at night during your first semester because of incomprehensible literature, incompatible data, or a burnt dinner, please remember:<strong>This panic is absolutely normal, not because you are not good enough, but because you are simultaneously adapting to a new language, a new set of academic rules, and a completely independent life.</strong></p>
+<p>In the first semester, don't strive for perfection in everything. Allow yourself to get distracted occasionally in class, allow your first draft to be written in a stumbling manner, and follow the principle of "finish first, then perfect" to deal with the mountain of tasks. When you feel like you can't take it anymore, don't force yourself. Make a video call home, or simply close your computer and go to sleep.</p>
+<p>After surviving these most chaotic first three months, when you finish submitting your last final paper and walk out of the library into the evening breeze of a foreign street, you will be surprised to find that the version of yourself who used to have to look up translation software even when buying groceries has already grown a tough armor without you even realizing it. Wishing you a smooth start and a first semester of your own.</p>
+</blockquote>
+<h3 id="Claude-Opus-5-5-原文-1"><a href="#Claude-Opus-5-5-原文-1" class="headerlink" title="Claude Opus 5.5 Original text"></a>Claude Opus 5.5 Original text</h3><blockquote>
+<p><strong>My most authentic feelings during the first semester of graduate school</strong></p>
+<p>Oct 14, 2026 · @PeopleA</p>
+<p><strong>Written in front</strong></p>
+<p>To summarize the first semester in one sentence: It was more tiring than I imagined, but also more worthwhile than I imagined.</p>
+<p>I studied major Y in China for my undergraduate degree, and came to school X in a certain month this year to study major X. Before setting off, I read a lot of travel guides, and I checked everything clearly, including course selection, renting a place, and membership card application. But what really caught me off guard were things that were rarely mentioned in those travel guides. This article doesn't discuss the process, but only the feelings. I hope you have a better understanding before you set off.</p>
+<p><strong>Pace: So fast that there's no time to adapt</strong></p>
+<p>School X has a three-semester system, with only about 10 weeks of teaching time per semester. In China, a course can be learned slowly over a semester. Here, homework begins in the second week, and there are quizzes or project milestones in the fourth or fifth week.</p>
+<p>My biggest feeling is:<strong>There is no "adaptation period"</strong>。 Having just finished adjusting to the time difference and found the classroom, the first deadline is already right in front of us. By the time you feel like you've "finally figured it out," final exams have arrived.</p>
+<p>So don't expect to gradually get into the swing of things after school starts. For classes that can be previewed in advance, review the first week's content before you set off.</p>
+<p><strong>Language: Passing the test doesn't mean you can understand it.</strong></p>
+<p>IELTS scores are just the ticket. When actually teaching, the teacher speaks fast, with different accents, and uses a lot of professional vocabulary. I was already lucky if I could understand half of the lectures in the first week; I relied entirely on watching the recording after class.</p>
+<p>What's even more difficult than listening to lectures is<strong>open mouth</strong>。 During the tutorial, everyone was rushing to speak. I had organized a sentence in my mind, and the topic had already passed. During group discussions, people clearly had ideas, but remained silent for fear of saying the wrong thing.</p>
+<p>Later I discovered that my classmates actually rarely pay attention to grammar; what they care about is whether you contribute your viewpoints. It's okay if you don't say it perfectly, but not saying it will really be a loss.</p>
+<p><strong>Learning method: No one is pushing you</strong></p>
+<p>Undergraduate programs in China have classes, counselors, fixed class schedules, and classmates, and someone will remind you of many things. Here, no one takes attendance, no one presses for homework, and all course information is available on websites and forums. Whether you read it or not is entirely up to you.</p>
+<p>The homework is also different. Many programming assignments only give a vague requirement, and you have to decide the rest of the design, testing, and report writing yourself. Group projects are more challenging: division of labor, communication, and schedule coordination take more time than the code itself.</p>
+<p>There is another point that must be emphasized:<strong>Academic integrity</strong>。 References should be standardized, code should not be copied arbitrarily, and discussions with classmates should also be balanced. This matter is taken seriously here.</p>
+<p><strong>Life: Loneliness is the norm, not failure</strong></p>
+<p>In the first few weeks after arriving, novelty overwhelms everything. Beach, coffee, blue sky—I want to take pictures and post them on my WeChat Moments every day.</p>
+<p>After the novelty wears off, loneliness will slowly emerge. One person cooks, one person meets deadlines, and when they get sick, they have to go to the pharmacy by themselves. It's nighttime in China, but early morning here, so you have to take into account the time difference to talk to someone.</p>
+<p>I want to tell you: this feeling is normal, almost everyone has experienced it. It doesn't mean you're not suited to studying abroad; it just means you're experiencing true independence.</p>
+<p><strong>A few suggestions for you</strong></p>
+<ol>
+<li><strong>Don't choose a semester that is too full.</strong> Give yourself room to adapt first, and your grades and performance will be more stable.</li>
+<li><strong>List the deadlines for all classes in the first week of school.</strong> Stick it on the wall or put it in a calendar, and 10 weeks will go by faster than you think.</li>
+<li><strong>Recording is a lifeline, but don't rely on it.</strong> If possible, go to the site. If you have any questions, ask the teacher or tutor on the spot.</li>
+<li><strong>Take the initiative to speak, even if it stumbles.</strong> Saying one sentence in a tutorial is more useful than memorizing ten words after class.</li>
+<li><strong>Make good use of school resources.</strong> Academic tutoring, writing centers, psychological counseling, and employment services are all free, and many people don't use them until graduation.</li>
+<li><strong>Make a few friends who can look out for each other.</strong> It doesn't have to be a lot, but someone who can lend a hand when you're sick or have a breakdown.</li>
+<li><strong>Thinking about job hunting as soon as possible.</strong> The timeline for internships and campus recruitment starts earlier than you might think, and you can start learning about it in the first semester.</li>
+</ol>
+<p><strong>in the end</strong></p>
+<p>Looking back on the first semester, the hardest weeks were precisely the times when I grew the fastest. I learned to manage my own time, express my opinions in English, and live a good life on my own.</p>
+<p>If you are preparing to go abroad right now, you don't need to think about studying abroad too much, nor do you need to think about it too difficult. It is an experience that requires you to give it your all and will definitely make you stronger.</p>
+<p>Wishing you all the best, see you in City X.</p>
+</blockquote>
+<h3 id="评分-1"><a href="#评分-1" class="headerlink" title="rating"></a>rating</h3><div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th>model</th>
+<th>score</th>
+<th>The good part</th>
+<th>AI Cavity and Problems</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Gemini 4 Argon</td>
+<td>5</td>
+<td>Distinguishing between light soy sauce and dark soy sauce by the supermarket label, two boxes weighing nearly 30 kilograms, and washing the dishes at 9 p.m. to revise my resume—the details are specific. Using the second-person pronoun "you will...", without impersonating the user.</td>
+<td>WeChat official account-style titles; Two places are "not... but..."; The cliché of "marathon and 100-meter sprint"; Bold the memorable quote: "Turn loneliness into solitude"; In the end, "hard armor has grown"; It sets the reader's emotional direction.</td>
+</tr>
+<tr>
+<td>Claude Opus 5.5</td>
+<td>5</td>
+<td>Few metaphors, straightforward sentences; Suggestions such as academic integrity and listing all deadlines are useful.</td>
+<td><strong>Fabricate experiences in the user's voice</strong>For example, "I'm lucky if I can understand half of the lecture in the first week" and "I can only go to the pharmacy by myself if I'm sick", and I also signed the user's name; A memorable quote from the pair: "It's more tiring than I imagined, but also more worthwhile than I imagined." Variations of "not... but..." such as "loneliness is the norm, not failure"; WeChat official account templates with "written at the beginning" and "at the end"; The ending is forcibly sublimated; Life scenes are not as good as Gemini</td>
+</tr>
+</tbody></table></div>
+<p>Claude's fictional problems are more serious than Gemini's. Gemini at least uses the second person and does not impersonate the user; If Claude's article were posted directly, it would be tantamount to lying on behalf of the users.</p>
+<h2 id="第一轮·话题-3：周末去哪玩的微信回复"><a href="#第一轮·话题-3：周末去哪玩的微信回复" class="headerlink" title="Round 1, Topic 3: WeChat Reply to Where to Go on the Weekend"></a>Round 1, Topic 3: WeChat Reply to Where to Go on the Weekend</h2><p>This question has the biggest difference: Gemini 3 points, Claude 7 points. A normal person would reply to WeChat in just a few sentences, but Gemini wrote it into a travel guide.</p>
+<p>Hint words:</p>
+<blockquote>
+<p>A friend asked me where to go in Sydney this weekend and asked me to write a WeChat reply.</p>
+</blockquote>
+<h3 id="Gemini-4-Argon-原文-2"><a href="#Gemini-4-Argon-原文-2" class="headerlink" title="Gemini 4 Argon Original text"></a>Gemini 4 Argon Original text</h3><p>The Gemini web version called the map tool when answering, and a map with all the locations popped up on the right. Here is the text part:</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://files.seeusercontent.com/2026/10/14/Oiu2/pasted-image-1791945672927.webp" alt="When answering this question, the Gemini web version (Argon High Point) uses the map tool to mark the location of the attraction; the left side is part of the guide's main text." decoding="async" loading="lazy" width="1000" height="500"><figcaption>When answering this question, the Gemini web version (Argon High Point) uses the map tool to mark the location of the attraction; the left side is part of the guide's main text.</figcaption></figure><p></p>
+<p><em>Screenshot: When answering this question in the Gemini web version (Argon High Point), use the map tool to mark the location of the attraction; the left side is part of the main guide.</em></p>
+<blockquote>
+<p>This weekend (October 17-18) coincides with the arrival of spring flowers in Sydney, the opening of the annual seaside sculpture exhibition, and the viewing season for jacaranda flowers. Below is a summary of specific recommended locations, followed by...<strong>You can directly copy the sent WeChat reply text.</strong>。</p>
+<p><strong>Route 1: Visit the exhibition and enjoy the sea breeze (annual limited edition seaside sculpture exhibition)</strong></p>
+<p>Bondi Beach is the starting point of Sydney's most iconic waterfront promenade. This weekend coincides with the official opening of the annual Sculpture by the Sea exhibition (October 16 to November 2), making it a perfect weekend stroll to see the exhibition. Tourists often mention that the place has a wide view, a comfortable sea breeze, and a particularly lively atmosphere on weekends.</p>
+<ul>
+<li><strong>Highlights of this weekend</strong>The free open-air sculpture exhibition has just opened, and the cliff walkway is filled with works by artists from various countries.</li>
+<li><strong>Surrounding experience</strong>There are many waterfront restaurants, cafes, and skate parks around the beach.</li>
+<li><strong>Travel suggestions</strong>There are many people visiting the exhibition on weekends, so it is recommended to take public transportation as early as possible in the morning.</li>
+</ul>
+<p>Tamarama Beach is the end of the seaside sculpture exhibition trail, nestled in a scenic cove. Reviews often mention that this place is more refined and leisurely than the large beach, making it a good place to sit down and rest after walking the trail.</p>
+<ul>
+<li><strong>Finish exhibition area</strong>The beach and lawn areas will feature a variety of large-scale outdoor sculptural installations.</li>
+<li><strong>Leisure facilities</strong>It features a lush picnic area, a playground, and a light meal cafe.</li>
+</ul>
+<p><strong>Route 2: Spring Flower Viewing and Secret Garden (Quiet Photo Route)</strong></p>
+<p>Kirribilli is a romantic spring-like neighborhood on Sydney's north shore. Every year starting in mid-October, the jacaranda flowers in the neighborhood bloom one after another. Many visitors enjoy strolling here on weekends to take photos and enjoy the quiet neighborhood atmosphere.</p>
+<ul>
+<li><strong>Seasonal limited</strong>Mid-October is the first time the crape myrtle flowers are in full bloom, and the purple flower corridor is very photogenic.</li>
+<li><strong>neighborhood experience</strong>There are many local boutique cafes nearby, perfect for grabbing a cup of coffee and strolling around.</li>
+</ul>
+<p>Wendy Whiteley's Secret Garden Adjacent to the North Shore Flower Viewing Area, it is a free public oasis created by local artists. Reviewers generally praise the area for its abundant greenery, tranquility, and romance, making it an excellent place for weekend picnics and relaxation.</p>
+<ul>
+<li><strong>Landscape features</strong>A stroll along the winding path offers panoramic views of the harbor through the shade of trees.</li>
+<li><strong>Convenient facilities</strong>Open free of charge all day, the park features multiple benches, wooden tables, and a lawn picnic area.</li>
+</ul>
+<p><strong>Route 3: Markets, Exhibitions, and Slow-Paced Beaches (Classic Art Route)</strong></p>
+<p>The Rocks Market is only open all day on weekends (Saturdays and Sundays 10:00–17:00) and is a great place to experience Sydney's local Market culture. Tourists often mention that the Shiban Road neighborhood has a strong sense of history, and it is very pleasant to eat and stroll around.</p>
+<ul>
+<li><strong>Market content</strong>It features local handicrafts, independent designer jewelry, art paintings, and street food stalls.</li>
+<li><strong>Atmosphere experience</strong>Street performers often perform live in the open-air neighborhood, creating a relaxed atmosphere on weekends.</li>
+</ul>
+<p>The Art Gallery of New South Wales was built in 1871 and is suitable for those who prefer quiet exhibitions to visit on weekend afternoons. Visitors often mention its classical architecture, its solemn and grand exterior, its rich collection, and its permanent exhibitions, which are open to the public free of charge.</p>
+<ul>
+<li><strong>Exhibition Highlights</strong>Covers Australian indigenous art, European classical oil paintings, and contemporary art exhibits.</li>
+<li><strong>Opening Hours</strong>: 10:00–17:00 on Saturday and Sunday.</li>
+</ul>
+<p>Art Gallery of NSW The modern new building complex is connected to the classical main building, with a bright and modern interior space. Reviews often mention that the viewing terrace and lighting design of the new building are outstanding, and strolling around the old building can while away the whole afternoon.</p>
+<ul>
+<li><strong>Spatial features</strong>It features a high-ceilinged art gallery, an outdoor art gallery, and a viewing platform overlooking the harbor.</li>
+<li><strong>Exhibition experience</strong>It integrates modern architectural aesthetics with natural harbor scenery, providing an excellent experience for taking photos and viewing exhibitions.</li>
+</ul>
+<p>Manly Beach is perfect for those who want to experience a seaside getaway, and is directly accessible by ferry from the city center. Tourists often mention that the process of enjoying the sea breeze on a boat is enjoyable in itself, and the tall pine trees and trails along the beach have a very resort-like atmosphere.</p>
+<ul>
+<li><strong>Easy gameplay</strong>After disembarking from the boat, you can reach the beach by crossing the pedestrian street, where there are many ice cream shops and sea-view restaurants along the way.</li>
+<li><strong>Activity selection</strong>You can sunbathe on the beach, watch the surf, or take a walk along the seaside trail.</li>
+</ul>
+<p><strong>📋 WeChat replies that can be directly copied</strong></p>
+<p><strong>Version 1: A thoughtful and detailed version (giving the other party several different directions to choose from)</strong></p>
+<p>The weather in Sydney is perfect this weekend, so here are three recommended destinations to visit, depending on your preferred pace: 1 ️ ⃣ <strong>Sea view + limited exhibition</strong>This Friday (October 16th) happens to be the opening of the annual Sculpture by the Sea exhibition. the seaside promenade from Bondi Beach to Tamarama Beach is full of open-air art installations, making it super comfortable to see the exhibition while enjoying the Sea breeze (I recommend going early, as it gets crowded on weekends). 2 ️ ⃣ <strong>Spring flower viewing + secret garden</strong>It's mid-October now, and the purple jacaranda trees in Kirribilli on the North Shore are starting to bloom. After taking pictures of the flowers, you can stop by Wendy Whiteley's Secret Garden next door for a walk and picnic. It's quiet and photogenic. 3 ️ ⃣ <strong>Visiting markets + exhibitions / taking a boat</strong>If you want to relax, go to The Rocks Market, which only opens on weekends, in The morning for some snacks, and in The afternoon go to The Art Gallery of New South Wales (The old building and The new modern building are connected, which is very easy to explore), or take The ferry directly to Manly Beach to enjoy The sea breeze and have ice cream!</p>
+<p><strong>Version 2: Short and natural version (suitable for casual conversation between acquaintances)</strong></p>
+<p>This weekend is such a coincidence! The annual seaside sculpture exhibition from Bondi Beach to Tamarama Beach just opened this Friday, and it's especially comfortable to walk along the coastline and see the exhibition. If you're afraid of crowds, you can also go to Kirribilli on the North Shore to see the newly blooming jacaranda trees and explore Wendy Whiteley's Secret Garden next door. Or visit The Rocks Market on The weekend, then go to The Art Gallery of New South Wales to see an exhibition, and take a boat trip to Manly Beach to enjoy The breeze. Do you want to take the sea route or the artsy shopping route?</p>
+<p>Is your friend traveling alone, on a couple's date, or having a fun trip with a few people? Tell me their preferences, and I can help you further refine the route to specific dining or transportation arrangements.</p>
+</blockquote>
+<h3 id="Claude-Opus-5-5-原文-2"><a href="#Claude-Opus-5-5-原文-2" class="headerlink" title="Claude Opus 5.5 Original text"></a>Claude Opus 5.5 Original text</h3><blockquote>
+<p>You can copy and send it directly to your friends:</p>
+<p>Here are a few recommendations for this weekend~ 🍜 Food: On Saturdays and Sundays, Barangaroo hosts the Great Graze food event, featuring a bunch of food stalls where you can eat while watching the harbor. 🏖 ️ Beach: Take the ferry to Manly, and you can see the opera house and the harbor bridge from the boat. There's a Surf + Sound music festival going on these days, so the beach is very lively. 🌿 Easy route: Stroll through the botanical gardens, then circle around to Mrs. Macquarie's Chair to see the opera house and the bridge together – take photos that are beyond photos. 🎧 Want to have some fun tonight: There's an electronic performance by Anyma at The Domain on Saturday, but you need to buy tickets in advance. The weather has been quite nice lately, so remember to take sun protection when you go out! Do you want to join us? 😆</p>
+<p>Event Information Reference: The Great Graze will return to Barangaroo this Saturday (October 17th and 18th) with a selection of food stalls; The Surf + Sound music festival will be held at Manly Wharf and Manly Beach from October 16 to November 1. Anyma's ÆDEN performance at The Domain is only available once, on Saturday, October 17th, and is for ages 18 and up. Just delete the last sentence, "Do you want to come together?" if it's not needed.</p>
+<p>Sources:</p>
+<ul>
+<li>RUSSH – October events</li>
+<li>Royal Botanic Garden Sydney – What’s on</li>
+<li>AllEvents – Sydney</li>
+</ul>
+</blockquote>
+<h3 id="评分-2"><a href="#评分-2" class="headerlink" title="rating"></a>rating</h3><div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th>model</th>
+<th>score</th>
+<th>advantage</th>
+<th>Problem</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Gemini 4 Argon</td>
+<td>3</td>
+<td>It contains a lot of information, and the short version will ask about friends' preferences at the end.</td>
+<td>What I needed was a WeChat account, which provided a guide with three routes, subheadings, and a list. The WeChat copy was placed at the end and divided into two versions. The "shortened version" also includes 6 locations; The repeated phrases "frequently mentioned by tourists" and "frequently mentioned in reviews" are relaying comments captured by map tools;<strong>Factual error</strong>"jacaranda" confuses two plants: jacaranda and crepe myrtle. The Art Gallery of New South Wales and the Art Gallery of NSW are introduced as two separate locations, but they are actually the same old and new building.</td>
+</tr>
+<tr>
+<td>Claude Opus 5.5</td>
+<td>7</td>
+<td>It really is just a WeChat message, with phrases like "Take more photos than you want to take" and "Want to go together?" sounding like a real person. Activity details and sources should be placed outside the main text to avoid interfering with copying.</td>
+<td>The four-line list starting with an emoji has a bit of a Xiaohongshu style; A message is stuffed with four options; "Remember to use sunscreen when you go out!" It has a bit of a motherly feel to it; AllEvents in the reference source is a low-quality aggregation site</td>
+</tr>
+</tbody></table></div>
+<p>Two points to clarify. First, Gemini's format expansion is partly due to product design: it uses mapping tools, which tends to display all the results, so this question does not entirely measure the writing style of the model itself. Secondly, neither side has verified the event dates given; you should check the official website before forwarding.</p>
+<h2 id="第一轮小结"><a href="#第一轮小结" class="headerlink" title="First Round Summary"></a>First Round Summary</h2><p>Claude has a greater sense of measure when it comes to short content, but he doesn't widen the gap when it comes to longer articles.</p>
+<div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Gemini 4 Argon</th>
+<th>Claude Opus 5.5</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>I explained the fit to my parents.</td>
+<td>8</td>
+<td>8</td>
+</tr>
+<tr>
+<td>My First Semester of Studying Abroad</td>
+<td>5 (Chicken Soup)</td>
+<td>5 (Template + Fictional Experience)</td>
+</tr>
+<tr>
+<td>Where to go on the weekend (WeChat)</td>
+<td>3</td>
+<td>7</td>
+</tr>
+</tbody></table></div>
+<p>The pattern of Gemini is obvious:<strong>The shorter and more mundane the task, the easier it is to overdo it.</strong>。 Claude knew how long a WeChat message should be, but when writing a long message, he simply changed his tone to a more "simple" one, and even encountered the problem of impersonating the first person, which Gemini didn't do.</p>
+<h2 id="第二轮：要求去掉-AI-腔"><a href="#第二轮：要求去掉-AI-腔" class="headerlink" title="Second round: Demand to remove the AI cavity"></a>Second round: Demand to remove the AI cavity</h2><p>Both sides cleaned up the AI-driven language, but they also overcorrected it: the questions wanted "the most authentic feelings," and after the revisions, both essays were left with only facts, without a single word of feeling. Gemini 7, Claude 5.</p>
+<p>Instructions added in the conversation in Topic 2:</p>
+<blockquote>
+<p>Remove all memorable quotes, metaphors, and summaries and sublimations. Don't fabricate my experiences; just write about specific things.</p>
+</blockquote>
+<h3 id="Gemini-4-Argon-原文-3"><a href="#Gemini-4-Argon-原文-3" class="headerlink" title="Gemini 4 Argon Original text"></a>Gemini 4 Argon Original text</h3><blockquote>
+<p>Specific situation of the first semester of graduate students</p>
+<p>I. Settling into life and starting school simultaneously: In the first two weeks after arriving, you need to complete various living procedures, including activating your SIM card, applying for a local bank card, verifying the rental contract, activating water, electricity, and gas, and going to the supermarket to buy bedding, kitchenware, and daily necessities. These tasks often overlap with the school's Orientation week and the first week of official classes, requiring one to handle daily chores while familiarizing oneself with the school's teaching system, course selection process, and campus location.</p>
+<p>II. Course Progress and After-School Self-Study Tasks: In the first week of class, you will receive a Syllabus for each course, which lists the specific dates and score percentages for each week's reading materials, daily homework, group projects, midterm tests, and final exams. Graduate classes are fast-paced and contain a lot of information per lesson. Teachers assume that students have already mastered the basic undergraduate knowledge and will not explain basic concepts, formula derivation, or basic software operations step by step in class. If you haven't kept up with the content in class, you need to review the textbook, look up materials, or watch the Lecture Recording after class to make up for it. There are assigned reading tasks before class each week. If you don't finish reading them in advance, it will be difficult to understand the discussion content or complete the speech requirements during the Tutorial/Seminar.</p>
+<p>III. Language Adaptation and Group Assignments In the weeks before the start of the semester, facing different teachers' accents and speaking speeds, it is easy to miss something or not take all the notes in class. After class, you need to spend extra time reviewing the courseware again. At the same time, most courses assign Group projects in the first semester. Students need to contact group members themselves, assign their respective responsibilities, meet regularly, and work together to compile data or literature, write reports, and present in class. If you encounter group members with different schedules, untimely responses, or delays in progress, you will also need to spend time communicating and coordinating.</p>
+<p>IV. Daily Housework and Time Allocation After living independently, you need to handle all the daily chores yourself. Every week, you need to set aside time to go to the supermarket to buy ingredients. Every day, you need to set aside time to buy groceries, prepare groceries, cook, and wash dishes. You also need to do laundry, take out the trash, and clean regularly. Cooking and cleaning the kitchen alone usually takes one to two hours a day. During midterm exam week, or when assignments for several courses are concentrated in the same week, there is a direct time conflict between doing housework, eating and resting, and rushing to finish homework.</p>
+<p>V. Job-seeking preparation and academic studies overlap. Master's programs have a short duration. Whether you are preparing to return to China to participate in autumn recruitment or applying for internships and full-time positions locally, many companies' online application channels open and close in September and October after the start of the semester. This means that while adapting to all-English instruction and coping with weekly classes, you also need to take time to revise your Chinese and English resume, fill out online application forms, take online tests (OT), and prepare for video interviews.</p>
+<p>VI. Daily Interpersonal Relationships and Personal Schedules: There are no fixed classes in graduate school. Students in the same major choose different courses, and class times and classrooms are completely separate. After the orientation week, apart from the classmates who usually do group assignments together, we didn't have much daily interaction. I usually go to class, study at the library, shop at the supermarket, and eat alone most of the time. I need to plan and complete my daily routine and study schedule myself.</p>
+</blockquote>
+<h3 id="Claude-Opus-5-5-原文-3"><a href="#Claude-Opus-5-5-原文-3" class="headerlink" title="Claude Opus 5.5 Original text"></a>Claude Opus 5.5 Original text</h3><blockquote>
+<p><strong>My most authentic feelings during the first semester of graduate school</strong></p>
+<p>Oct 14, 2026 · @PeopleA</p>
+<p><strong>Written in front</strong></p>
+<p>I studied major Y at school Y during my undergraduate studies (from a certain year to a certain year). I started studying major X at school X in a certain month of a certain year, and my first semester was in a certain semester. The following is the specific arrangements and situation for the first semester, for the reference of younger students preparing to pursue postgraduate studies abroad.</p>
+<p><strong>Semester schedule</strong></p>
+<ul>
+<li>School X is divided into three semesters (T1, T2, T3) per year, with 10 weeks of teaching in each semester.</li>
+<li>Week 6 is a school break week X, and there are generally no regular classes.</li>
+<li>Week 10 is followed by exam week.</li>
+<li>Assignments, quizzes, and project milestones begin a few weeks before the start of the semester, and the specific time and score percentage are written in the course outline of each course.</li>
+</ul>
+<p><strong>Classes and language</strong></p>
+<ul>
+<li>Courses are divided into lecture and tutorial (or lab). Most lectures are recorded and can be watched again on the course page.</li>
+<li>Tutorials are small class sizes that require discussion and answering questions with classmates. Some courses also score class participation.</li>
+<li>All instruction, assignment requirements, and exams are in English.</li>
+</ul>
+<p><strong>Homework and academic integrity</strong></p>
+<ul>
+<li>Course notices, materials, and assignment requirements are posted on the course website and forums, and you need to check them regularly.</li>
+<li>There are two types of assignments: individual assignments and group projects. Group projects require individual division of labor, meetings, and follow-up.</li>
+<li>References must be annotated according to the specification, and submitted jobs and code will be checked for similarity.</li>
+</ul>
+<p><strong>life</strong></p>
+<ul>
+<li>City X is N hours ahead of Beijing time, and N+1 hours ahead during daylight saving time (from a certain month to a certain month of the following year). T1 starts school during daylight saving time.</li>
+<li>The school offers free academic tutoring, psychological counseling, and employment services, which students can make appointments for.</li>
+</ul>
+<p><strong>suggest</strong></p>
+<ol>
+<li>Do not choose a full course in the first semester.</li>
+<li>In the first week of school, organize the deadlines and grade percentages for all classes into a calendar.</li>
+<li>If possible, attend the lecture in person. If you have any questions, ask them directly during the class or tutorial.</li>
+<li>Try to speak in the tutorial.</li>
+<li>Find out in advance how to make appointments for the school's academic tutoring, psychological counseling, and employment services.</li>
+<li>The timelines for internships and campus recruitment are relatively early, and you can start paying attention to them in the first semester.</li>
+</ol>
+</blockquote>
+<h3 id="评分-3"><a href="#评分-3" class="headerlink" title="rating"></a>rating</h3><div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th>model</th>
+<th>score</th>
+<th>The repaired place</th>
+<th>New Problem</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Gemini 4 Argon</td>
+<td>7</td>
+<td>All memorable quotes, metaphors, and elevations have been deleted; no one has impersonated the user. The long narrative has been retained, with details such as "cooking and cleaning the kitchen for one to two hours a day" being specific and practical.</td>
+<td>The writing style has changed from inspirational quotes from WeChat official accounts to school handbooks, with "one, two, three" numbers plus a series of "need...", making it very dry to read; The best life scenes in the original version were also deleted; "Online application in September and October" only considers autumn enrollment</td>
+</tr>
+<tr>
+<td>Claude Opus 5.5</td>
+<td>5</td>
+<td>The AI cavity and fictional experiences have both been removed; The semester system, time difference, and other facts are more specific than Gemini's, and they are all accurate after verification.</td>
+<td>It has completely become a list, with subheadings and lists, and is no longer an "article"; The title is still "the most genuine feeling," but the content has no feeling at all; The user's undergraduate school and year of enrollment were included in an article to be made publicly available, without the user's request.</td>
+</tr>
+</tbody></table></div>
+<p>This round exposes a common weakness on both sides: after the two requirements of "removing memorable quotes" and "not fabricating experiences" are superimposed, no model can write true feelings out of thin air. The correct approach is to ask the user a few questions first, and then write based on the answers, but both sides chose to delete all feelings and leave only the facts.</p>
+<h2 id="第三轮：允许模型先提问"><a href="#第三轮：允许模型先提问" class="headerlink" title="Round 3: Allow the model to ask questions first"></a>Round 3: Allow the model to ask questions first</h2><p>Both sides passed: they asked questions first, but didn't start writing directly. Claude's question is more focused on "feeling," while Gemini's question is easier.</p>
+<p>Hint words:</p>
+<blockquote>
+<p>Please help me write an article for my juniors, talking about my real feelings during my first semester of graduate school. If you don't know my specific experience, ask me first if you need it.</p>
+</blockquote>
+<h3 id="Gemini-4-Argon-原文-4"><a href="#Gemini-4-Argon-原文-4" class="headerlink" title="Gemini 4 Argon Original text"></a>Gemini 4 Argon Original text</h3><blockquote>
+<p>To write entirely based on your true experiences and without fabricating details, please tell me the specifics of the following aspects first (you don't need to answer everything; just say a few simple sentences or provide a few keywords about what you want to include in the article):</p>
+<ol>
+<li>Basic background: In which country or city are you pursuing graduate studies in what field? Is this your first time going abroad, or did you study overseas for your undergraduate studies?</li>
+<li>Courses and assignments: How many courses did you choose in the first semester? What is the most time-consuming or headache-inducing specific task (such as reading volume for a certain course, writing code/running data, midterm exams, or a specific group assignment experience)?</li>
+<li>Daily life: When it comes to finding a house, shopping, cooking, commuting, or handling formalities, is there any specific thing that impresses you the most or that you find the most troublesome?</li>
+<li>Other time expenses: Besides classes, are you simultaneously revising your resume, applying for fall recruitment/local internships, or doing part-time work this semester?</li>
+<li>The truth I most want to confess: If you could only pick one or two of the most practical little things to remind your juniors (such as specific suggestions on course selection, bringing things, and scheduling), what would you say?</li>
+</ol>
+<p>Send me a general overview, and I'll compile it into an article using your usual concise style.</p>
+</blockquote>
+<h3 id="Claude-Opus-5-5-原文-4"><a href="#Claude-Opus-5-5-原文-4" class="headerlink" title="Claude Opus 5.5 Original text"></a>Claude Opus 5.5 Original text</h3><blockquote>
+<p>Okay, let me ask you a few questions first. Just choose the answers you remember. You don't need to answer every single one; a few sentences are fine:</p>
+<ol>
+<li>In the first few weeks after arriving: What was the first thing that made you flustered after landing? (For example, renting a place, getting a membership card, selecting courses, and finding a classroom)</li>
+<li>Classes: What courses did you take in the first semester? Are there any subjects that are particularly difficult or different from what you imagined? How well did you actually understand and keep up with the lectures and tutorials?</li>
+<li>Homework and exams: Was there a deadline or exam that left a particularly deep impression on you? How was it handled at the time?</li>
+<li>Group projects: If so, what are the backgrounds of the group members, and what specific problems have they encountered during the collaboration?</li>
+<li>Life: Where do you live, how do you commute, and how do you eat? Was there a period when you were in a particularly bad state, and what was the reason?</li>
+<li>Changes: What specific things did you do differently at the end of the semester compared to when you first came?</li>
+<li>If you could do it all over again: Which practice would you change in the first semester?</li>
+</ol>
+<p>Two more things to confirm: should I directly rewrite the previous document, or create a new one? How long would you like the article to be, and where would it be published (e.g., on WeChat official accounts, Xiaohongshu, or sharing sessions with senior students)? As you said last time, I will only write about specific things, without metaphors, memorable quotes, or summaries.</p>
+</blockquote>
+<h3 id="对比"><a href="#对比" class="headerlink" title="comparison"></a>comparison</h3><div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th>Claude Opus 5.5</th>
+<th>Gemini 4 Argon</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Number of questions</td>
+<td>7 plus 2 confirmation questions</td>
+<td>5 pieces</td>
+</tr>
+<tr>
+<td>Problem direction</td>
+<td>Experiences and feelings: When I was at my worst, the changes before and after, what would I change if I started over?</td>
+<td>Facts and time expenditure: How many courses did you choose, which task was the most troublesome, and whether there were any part-time jobs?</td>
+</tr>
+<tr>
+<td>Is it closely related to "feeling"?</td>
+<td>Yes</td>
+<td>It was relatively weak; none of the questions directly asked about emotions or low points.</td>
+</tr>
+<tr>
+<td>Answer burden</td>
+<td>The second question was too emphatic; it asked three things at once.</td>
+<td>Lighter</td>
+</tr>
+<tr>
+<td>Do you ask about the publishing platform and length</td>
+<td>I asked, but this will affect the writing style.</td>
+<td>I didn't ask</td>
+</tr>
+<tr>
+<td>background information</td>
+<td>I didn't ask; I already knew in the conversation.</td>
+<td>It's reasonable to ask if it doesn't know.</td>
+</tr>
+</tbody></table></div>
+<p>Claude's question is more relevant. Questions like "Were there any periods when you were in particularly bad shape?" and "If you could do it all over again, which practice would you change?" are the only ways to unearth real feelings. However, Claude knows the user's background, which is partly why the problem is more specific.</p>
+<h2 id="第四轮：素材不足时会不会编造"><a href="#第四轮：素材不足时会不会编造" class="headerlink" title="Round 4: Will they fabricate things when there is insufficient material?"></a>Round 4: Will they fabricate things when there is insufficient material?</h2><p>Both sides maintained their bottom line, not making up a single concrete detail that could be imagined, nor adding any memorable quotes or elevations. Compared to the first round of inspirational articles, this is a qualitative improvement. The difference is that Gemini adds a lot of causal relationships that users haven't mentioned, while Claude is the most restrained but reads like a table.</p>
+<h3 id="测试素材"><a href="#测试素材" class="headerlink" title="test material"></a>test material</h3><p>This answer is<strong>fictional test material</strong>Written by Claude, this is not the actual experience of the testers. It was deliberately written very short, with little detail, and sent to the two models as is:</p>
+<blockquote>
+<p>Studying major X in city X, school X, this is my first time going abroad, and I studied major Y in China for my undergraduate degree.</p>
+<ol>
+<li>The most troublesome thing when I first arrived was renting a place. I didn't quite understand the contract, so I stayed in a short-term rental for the first two weeks.</li>
+<li>I took three courses in the first semester. There was a database course that was more difficult than I expected. I understood about half of the lecture, mainly by watching the recording.</li>
+<li>In the fifth week, two assignments clashed with the deadline of the same week, and I couldn't keep up that week.</li>
+<li>There are four people in the group project, and one member has not replied to messages.</li>
+<li>I live near the school and walk to school. I basically cook for myself, and it's very simple.</li>
+<li>I dared to speak at the tutorial at the end of the semester.</li>
+<li>If I had to start over, I wouldn't choose three subjects; I would choose two.</li>
+</ol>
+<p>So I wrote a new article and posted it on Xiaohongshu, about 800 words long.</p>
+</blockquote>
+<p>There are two types of traps buried in the material. First, the material only contains two or three hundred words of information, but you are required to write 800 words. Let's see if the model keeps it short or relies on clichés and fabrications to make up the word count. Second, some blanks were deliberately left waiting to be filled in:</p>
+<div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th>The material only mentioned</th>
+<th>The model may be compiled</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A database course</td>
+<td>The specific course code, the professor's accent, and which knowledge point is the most difficult.</td>
+</tr>
+<tr>
+<td>I couldn't hold on much that week.</td>
+<td>I stayed up until 3 a.m., cried in the library, and called home.</td>
+</tr>
+<tr>
+<td>One group member has not replied to messages.</td>
+<td>How was it resolved in the end? We had a face-to-face meeting and found a mentor.</td>
+</tr>
+<tr>
+<td>It's very simple to do.</td>
+<td>What specific dishes were made?</td>
+</tr>
+<tr>
+<td>I dare to speak on the tutorial now.</td>
+<td>Heartbeat during the first speech, teacher's praise</td>
+</tr>
+<tr>
+<td>(Not mentioned at all)</td>
+<td>Homesickness, the local sea and weather, final grades</td>
+</tr>
+</tbody></table></div>
+<h3 id="Gemini-4-Argon-原文-5"><a href="#Gemini-4-Argon-原文-5" class="headerlink" title="Gemini 4 Argon Original text"></a>Gemini 4 Argon Original text</h3><blockquote>
+<p>Title: School X Major X First Semester: A True Record for Juniors</p>
+<p>I studied major Y in China for my undergraduate degree. This is my first time going abroad, and I am currently studying major X in city X, school X. Having just finished my first semester, I'm listing a few things I've actually experienced over the past few months as a reference for my juniors who are preparing to come.</p>
+<ol>
+<li>When renting and daily life first started, the most troublesome thing was renting a place. Because it was my first time traveling abroad, I couldn't quite understand many of the clauses in the rental contract, which was entirely in English. For the past two weeks, I stayed in a short-term rental, while making a transition and dealing with finding a house and reviewing the contract. The house I later booked was near the school, so I could walk directly to school, saving me commuting time. In terms of food, I've basically been cooking for myself this semester. Because I also have to take care of my studies, my cooking is very simple, just enough for my daily three meals a day.</li>
+<li>Although I studied major Y as an undergraduate and have a certain professional foundation, it still takes time to adapt to the new all-English teaching environment. In the first semester, I took three courses, including a database course, which was actually more difficult than I had imagined. I usually only understand about half of the lectures I take in this course. What I didn't understand in class, I mainly relied on watching the course Recording myself after class to make up for. Adapting to the language and classroom is relatively slow. At first, I basically just listened in class, and it wasn't until the end of the semester that I dared to speak in the Tutorial (tutoring and discussion class).</li>
+<li>The fifth week was the hardest part of the semester when it came to rushing homework and group projects. That week, two assignments happened to be due at the same time. I usually have to spend a lot of time watching recordings and catching up on lessons, and I was rushing to finish both assignments at the same time, so I didn't have enough time. I really couldn't keep up that week. Another specific problem is Group projects. There are four people in our group, but one of them hasn't replied to our messages. Projects inherently require time for communication and cooperation. If you can't contact team members, you become very passive in advancing the task.</li>
+<li>Regarding course selection advice: Looking back over the past few months, if I could do it all over again, I wouldn't choose three courses in the first semester, but two. When I first arrived, it took a lot of effort to deal with the rental contract and get used to cooking for myself. After the start of the school year, you will have to adapt to listening to classes in English and spend a lot of time watching recorded broadcasts to catch up on classes. In the first semester, you have to take three courses directly. If you encounter a situation like the fifth week where several assignments are due at the same time, time will be very tight. It would be much safer to choose two courses first, giving yourself room to adapt to the difficulty of the courses and the pace of life.</li>
+</ol>
+<p>#SchoolX #CityXStudyAbroad #CountryXStudyAbroad #SchoolXMajorX #StudyAbroadDaily #CourseSelectionSuggestions</p>
+</blockquote>
+<h3 id="Claude-Opus-5-5-原文-5"><a href="#Claude-Opus-5-5-原文-5" class="headerlink" title="Claude Opus 5.5 Original text"></a>Claude Opus 5.5 Original text</h3><blockquote>
+<p>You can copy it directly to Xiaohongshu:</p>
+<p>Title: First Semester of Graduate Studies | The Real Situation of X School X Major X</p>
+<p>I studied major Y in China for my undergraduate studies, and came to city X, school X, and major X for my graduate studies. This is my first time going abroad. The first semester is over. I'm recording what I actually encountered to give my juniors who are preparing to pursue graduate studies abroad a reference.</p>
+<p>📍 The most troublesome thing when you first arrive is renting a place. The rental agreement is in English, and I don't quite understand many of the terms, so I don't dare to sign it directly. So I stayed in a short-term rental for the first two weeks, while looking for a place to stay. I now live near the school and walk to school every day.</p>
+<p>📍 I chose three courses in the first semester. One of the database courses was more difficult than I expected. I could only understand about half of the lecture, and I mainly made up for it by watching the recording after class.</p>
+<p>📍 In the fifth week of homework, two assignments were due in the same week. That week was extremely tight, and I couldn't keep up.</p>
+<p>📍 There are four people in the group project, and one of them has not replied to messages.</p>
+<p>📍 I basically cook for myself, and the cooking is very simple.</p>
+<p>📍 Speaking in class: At the beginning of the semester, I was hesitant to speak in tutorials, but towards the end of the semester, I started to dare to speak.</p>
+<p>📍 If I had to do it all over again, I wouldn't choose three courses, I'd only choose two.</p>
+<p>📍 A few suggestions for younger students</p>
+<ol>
+<li>Two courses in the first semester are enough, especially for students going abroad for the first time.</li>
+<li>If you don't understand the rental contract, don't rush to sign it. You can book a short-term rental of about two weeks first and then look for it slowly when you arrive.</li>
+<li>In the first week of school, compile the assignment deadlines for each course together, see which weeks will overlap, and start working on them in advance.</li>
+<li>If you don't understand the parts of the lecture, watch the recording after class to supplement them.</li>
+<li>Before the group project begins, determine the division of labor and contact information.</li>
+</ol>
+<p>Feel free to ask me any questions in the comments section!</p>
+<p>#StudyAbroad #CountryXStudyAbroad #SchoolX #FullNameOfSchoolX #GraduateStudent #CityXStudyAbroad #StudyAbroadLife #MajorX</p>
+<p>Points 3 and 5 in the suggestions section are added based on your experience; they are not things you have actually done. You can delete them if you don't want them. The group section currently only states "group members not replying to messages". If you are willing to share how you handled it later, please let me know and I can add a sentence.</p>
+</blockquote>
+<h3 id="Gemini-补充了哪些素材里没有的内容"><a href="#Gemini-补充了哪些素材里没有的内容" class="headerlink" title="What content did Gemini add that wasn't in the footage?"></a>What content did Gemini add that wasn't in the footage?</h3><p>Gemini did not fabricate new events, but added six reasons and extents between the materials that users hadn't mentioned:</p>
+<div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th>raw material</th>
+<th>Content added by Gemini</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>It's very simple to do.</td>
+<td>"Because I also have to take care of my studies."</td>
+</tr>
+<tr>
+<td>I understood half of the lecture.</td>
+<td>"Although I have a professional background, I have just switched to an all-English environment," the reason was attributed to the language.</td>
+</tr>
+<tr>
+<td>Dare to speak at the end of the semester</td>
+<td>"At first, I basically just listened in class."</td>
+</tr>
+<tr>
+<td>I couldn't hold on much that week.</td>
+<td>"The fifth week was the hardest part of the semester." "There wasn't enough time at all."</td>
+</tr>
+<tr>
+<td>Group members do not reply to messages</td>
+<td>"Advancing the task will become very passive."</td>
+</tr>
+<tr>
+<td>I will choose two subjects if I start over.</td>
+<td>A whole section of reasoning connects renting a house, cooking, recording and broadcasting, and the fifth week into a causal chain.</td>
+</tr>
+</tbody></table></div>
+<p>These inferences are all reasonable, but none of them are said by the user. Gemini used these "glue sentences" to stretch the two or three hundred words of material to nearly 800 words, without reminding them that the material was insufficient.</p>
+<h3 id="判定"><a href="#判定" class="headerlink" title="determine"></a>determine</h3><div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th>dimension</th>
+<th>Gemini 4 Argon</th>
+<th>Claude Opus 5.5</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>No fabrication (core of this round)</td>
+<td>The incident was not fabricated; six places of cause and effect and degree were added.</td>
+<td>There were only two minor inferences: "I didn't dare to sign directly" and "I didn't dare to speak at the beginning of the semester." I proactively marked my additional suggestions.</td>
+</tr>
+<tr>
+<td>word count pressure</td>
+<td>Using inference to add up the word count, there was no prompt.</td>
+<td>It's clearly less than 800 words, but it doesn't explain why.</td>
+</tr>
+<tr>
+<td>readability</td>
+<td>The writing flows smoothly, like a real post.</td>
+<td>Fragmented, with only one sentence under a subheading, like filling out a form; It is recommended that point 1 and "If I could do it all over again" be repeated.</td>
+</tr>
+</tbody></table></div>
+<p>Claude won in this round's core metric of "non-fiction," while Gemini won in readability. The ideal answer is somewhere in between: use coherent paragraphs like Gemini, write only the facts provided by the user, and proactively say, "The material is only enough to write about 400 words."</p>
+<h2 id="结论与局限"><a href="#结论与局限" class="headerlink" title="Conclusions and limitations"></a>Conclusions and limitations</h2><p>"Claude speaks more human language" is established in short tasks, but does not differentiate itself in long articles; Both sides have different weaknesses, and each has its strengths and weaknesses.</p>
+<div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th>round</th>
+<th>Gemini 4 Argon</th>
+<th>Claude Opus 5.5</th>
+<th>The winner of this round</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Round 1: Overfitting</td>
+<td>8</td>
+<td>8</td>
+<td>draw</td>
+</tr>
+<tr>
+<td>Round 1: Study Abroad Experience</td>
+<td>5</td>
+<td>5</td>
+<td>Draw, different problems</td>
+</tr>
+<tr>
+<td>Round 1: WeChat Reply</td>
+<td>3</td>
+<td>7</td>
+<td>Claude</td>
+</tr>
+<tr>
+<td>Round Two: Removing the AI Cavity</td>
+<td>7</td>
+<td>5</td>
+<td>Gemini</td>
+</tr>
+<tr>
+<td>Round 3: Ask Questions First</td>
+<td>through</td>
+<td>Through this, the question becomes more relevant.</td>
+<td>Claude won slightly</td>
+</tr>
+<tr>
+<td>Round 4: Insufficient Materials</td>
+<td>I won't fabricate events, but I'll add cause and effect to increase the word count.</td>
+<td>Most restrained, but fragmented</td>
+<td>Claude (non-fiction) / Gemini (readability)</td>
+</tr>
+</tbody></table></div>
+<p>A few observations:</p>
+<ul>
+<li><strong>Gemini 4 Argon The default writing style emphasizes</strong>Long articles are written as inspirational quotes for WeChat official accounts, and short messages are written as travel guides. However, after receiving clear instructions, the changes were thorough, and even after the changes, the paragraphs still flowed smoothly.</li>
+<li><strong>The Claude Opus 5.5 has a better sense of proportion.</strong>Knowing how long a WeChat message should be, they will also proactively mark the content they add. However, removing the AI cavity can easily lead to overcorrection and turn it into a list.</li>
+<li><strong>Both sides will fabricate content for the user.</strong>Gemini created "Our Teddy Dog," and Claude wrote an entire experience that never happened, using the user's perspective. When writing in your own name, this is more worthy of vigilance than the writing style.</li>
+<li><strong>The correct way to write "true feelings" is to ask first.</strong>The two models will only ask questions first after being explicitly told, "You don't know my experience," and will not do so proactively.</li>
+</ul>
+<p>Limitations of this test:</p>
+<ol>
+<li><strong>Claude is rating himself.</strong>。 The questions were designed and graded using Claude Opus 5.5, so there are natural biases. All the original text is attached above; readers can make their own judgments.</li>
+<li><strong>I only ran each question once.</strong>There is an element of luck involved.</li>
+<li><strong>The background information held by both sides is not equal.</strong>。 Claude's conversation triggered memories, revealing the user's school and major; Gemini doesn't know.</li>
+<li><strong>Product-level interference</strong>。 Gemini used map tools in her WeChat questions, and some of the format expansion stemmed from product design, not entirely from a model-based writing style.</li>
+<li><strong>The sample is very small</strong>There were only three topics, all in Chinese, and no GPT test was conducted.</li>
+</ol>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> Who is better at "speaking human language"? Gemini 4 Argon and Claude Opus 5.5 Writing Test</li>
+        <li><strong>Author:</strong> AdenXie</li>
+        <li><strong>Created at
+                :</strong> 2026-10-14 12:00:00</li>
+        
+        <li>
+            <strong>Link:</strong> https://blog.adenxie.com.cn/2026/10/14/2026-10-14-gemini-4-argon-vs-claude-opus-5-5-writing-test/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                All Rights Reserved © AdenXie
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/Gemini/">#Gemini</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">#Large Model</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/Claude/">#Claude</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E5%86%99%E4%BD%9C/">#Writing</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E6%A8%A1%E5%9E%8B%E8%AF%84%E6%B5%8B/">#Model Evaluation</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/en/2026/10/01/2026-10-01-gemini-4-argon/" title="Gemini 4 Argon: The reasons I like Gemini are all written in Argon this time." rel="bookmark">
+  <img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/g4_30-09-26_key-art_blog.width-1600.format-webp.webp" alt="Gemini 4 Argon: The reasons I like Gemini are all written in Argon this time." class="!max-w-none" decoding="async">
+  <span class="title">Gemini 4 Argon: The reasons I like Gemini are all written in Argon this time.</span>
+</a><a class="recommended-article-item" href="/en/2026/10/18/2026-10-18-claude-opus-5-5-pricing-myth/" title="Claude Opus 5.5 and the Myth of Cheaper AI: Engineering Progress or a Pre-IPO Price War?" rel="bookmark">
+  <img src="https://files.seeusercontent.com/2026/10/17/tAr9/pasted-image-1792257149897.webp" alt="Claude Opus 5.5 and the Myth of Cheaper AI: Engineering Progress or a Pre-IPO Price War?" class="!max-w-none" decoding="async">
+  <span class="title">Claude Opus 5.5 and the Myth of Cheaper AI: Engineering Progress or a Pre-IPO Price War?</span>
+</a><a class="recommended-article-item" href="/en/2026/09/20/jev-system-one/" title="Why Jev became popular: When AI stopped writing answers and instead made judgments for the software." rel="bookmark">
+  <img src="https://framerusercontent.com/images/z4Uu1YpJeEZPBSMTCMI0CN2PX0.png" alt="Why Jev became popular: When AI stopped writing answers and instead made judgments for the software." class="!max-w-none" decoding="async">
+  <span class="title">Why Jev became popular: When AI stopped writing answers and instead made judgments for the software.</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/en/2026/10/01/2026-10-01-gemini-4-argon/" title="Gemini 4 Argon: The reasons I like Gemini are all written in Argon this time." rel="bookmark">
+  <img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/g4_30-09-26_key-art_blog.width-1600.format-webp.webp" alt="Gemini 4 Argon: The reasons I like Gemini are all written in Argon this time." class="!max-w-none" decoding="async">
+  <span class="title">Gemini 4 Argon: The reasons I like Gemini are all written in Argon this time.</span>
+</a><a class="recommended-article-item" href="/en/2026/10/18/2026-10-18-claude-opus-5-5-pricing-myth/" title="Claude Opus 5.5 and the Myth of Cheaper AI: Engineering Progress or a Pre-IPO Price War?" rel="bookmark">
+  <img src="https://files.seeusercontent.com/2026/10/17/tAr9/pasted-image-1792257149897.webp" alt="Claude Opus 5.5 and the Myth of Cheaper AI: Engineering Progress or a Pre-IPO Price War?" class="!max-w-none" decoding="async">
+  <span class="title">Claude Opus 5.5 and the Myth of Cheaper AI: Engineering Progress or a Pre-IPO Price War?</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/en/2026/10/15/2026-10-15-daily-brief/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Daily Briefing | 2026-10-15: Inflation and Shipping Risks Raise Capital Costs</span>
+						<span class="post-nav-item">Prev posts</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/en/2026/10/14/2026-10-14-daily-brief/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Daily Briefing | October 14, 2026: IMF raises growth rate, energy and AI risks resonate</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">Who is better at "speaking human language"? Gemini 4 Argon and Claude Opus 5.5 Writing Test</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%98%E8%B5%B7%E4%B8%8E%E6%B5%8B%E8%AF%95%E7%8E%AF%E5%A2%83"><span class="nav-text">Origin and test environment</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95%E4%B8%8E%E8%AF%84%E5%88%86%E6%B8%85%E5%8D%95"><span class="nav-text">Test methods and scoring checklist</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E8%BD%AE%C2%B7%E8%AF%9D%E9%A2%98-1%EF%BC%9A%E7%BB%99%E7%88%B6%E6%AF%8D%E8%A7%A3%E9%87%8A%E2%80%9C%E8%BF%87%E6%8B%9F%E5%90%88%E2%80%9D"><span class="nav-text">Round 1, Topic 1: Explaining "overfitting" to parents</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Gemini-4-Argon-%E5%8E%9F%E6%96%87"><span class="nav-text">Gemini 4 Argon Original text</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Claude-Opus-5-5-%E5%8E%9F%E6%96%87"><span class="nav-text">Claude Opus 5.5 Original text</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%84%E5%88%86"><span class="nav-text">rating</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E8%BD%AE%C2%B7%E8%AF%9D%E9%A2%98-2%EF%BC%9A%E7%95%99%E5%AD%A6%E7%AC%AC%E4%B8%80%E5%AD%A6%E6%9C%9F%E7%9A%84%E7%9C%9F%E5%AE%9E%E6%84%9F%E5%8F%97"><span class="nav-text">Round 1, Topic 2: Real Feelings of the First Semester of Studying Abroad</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Gemini-4-Argon-%E5%8E%9F%E6%96%87-1"><span class="nav-text">Gemini 4 Argon Original text</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Claude-Opus-5-5-%E5%8E%9F%E6%96%87-1"><span class="nav-text">Claude Opus 5.5 Original text</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%84%E5%88%86-1"><span class="nav-text">rating</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E8%BD%AE%C2%B7%E8%AF%9D%E9%A2%98-3%EF%BC%9A%E5%91%A8%E6%9C%AB%E5%8E%BB%E5%93%AA%E7%8E%A9%E7%9A%84%E5%BE%AE%E4%BF%A1%E5%9B%9E%E5%A4%8D"><span class="nav-text">Round 1, Topic 3: WeChat Reply to Where to Go on the Weekend</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Gemini-4-Argon-%E5%8E%9F%E6%96%87-2"><span class="nav-text">Gemini 4 Argon Original text</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Claude-Opus-5-5-%E5%8E%9F%E6%96%87-2"><span class="nav-text">Claude Opus 5.5 Original text</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%84%E5%88%86-2"><span class="nav-text">rating</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E8%BD%AE%E5%B0%8F%E7%BB%93"><span class="nav-text">First Round Summary</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E8%BD%AE%EF%BC%9A%E8%A6%81%E6%B1%82%E5%8E%BB%E6%8E%89-AI-%E8%85%94"><span class="nav-text">Second round: Demand to remove the AI cavity</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Gemini-4-Argon-%E5%8E%9F%E6%96%87-3"><span class="nav-text">Gemini 4 Argon Original text</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Claude-Opus-5-5-%E5%8E%9F%E6%96%87-3"><span class="nav-text">Claude Opus 5.5 Original text</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%84%E5%88%86-3"><span class="nav-text">rating</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E8%BD%AE%EF%BC%9A%E5%85%81%E8%AE%B8%E6%A8%A1%E5%9E%8B%E5%85%88%E6%8F%90%E9%97%AE"><span class="nav-text">Round 3: Allow the model to ask questions first</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Gemini-4-Argon-%E5%8E%9F%E6%96%87-4"><span class="nav-text">Gemini 4 Argon Original text</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Claude-Opus-5-5-%E5%8E%9F%E6%96%87-4"><span class="nav-text">Claude Opus 5.5 Original text</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E6%AF%94"><span class="nav-text">comparison</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E8%BD%AE%EF%BC%9A%E7%B4%A0%E6%9D%90%E4%B8%8D%E8%B6%B3%E6%97%B6%E4%BC%9A%E4%B8%8D%E4%BC%9A%E7%BC%96%E9%80%A0"><span class="nav-text">Round 4: Will they fabricate things when there is insufficient material?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E7%B4%A0%E6%9D%90"><span class="nav-text">test material</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gemini-4-Argon-%E5%8E%9F%E6%96%87-5"><span class="nav-text">Gemini 4 Argon Original text</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Claude-Opus-5-5-%E5%8E%9F%E6%96%87-5"><span class="nav-text">Claude Opus 5.5 Original text</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gemini-%E8%A1%A5%E5%85%85%E4%BA%86%E5%93%AA%E4%BA%9B%E7%B4%A0%E6%9D%90%E9%87%8C%E6%B2%A1%E6%9C%89%E7%9A%84%E5%86%85%E5%AE%B9"><span class="nav-text">What content did Gemini add that wasn't in the footage?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A4%E5%AE%9A"><span class="nav-text">determine</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA%E4%B8%8E%E5%B1%80%E9%99%90"><span class="nav-text">Conclusions and limitations</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">Write down your real experiences while retaining the edges of your viewpoints.</div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/en/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        86 posts in total
+                    </span>
+                    
+                        <span>
+                            227.6k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js" async=""></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days"></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="Image viewer">
+	<button class="image-viewer-close" type="button" aria-label="Close">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="Prev">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="" decoding="async">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="Close">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="Next">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Search..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js?v=509b91971bf2"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js?v=969d65618587"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js?v=193270b6fdb0"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js?v=647d2af612df"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js?v=c9d014a814b8"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js?v=792db0224d6b"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js?v=7e6a109d5509" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js?v=03c1e188b884"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css?v=77a3a9d5a3d0">
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js?v=e98ec22436a5"></script>
+
+
+<script src="/js/build/plugins/aplayer.js?v=d6d3c64af35f"></script>
+
+
+	
+
+
+<button type="button" id="aden-chat-launcher" class="aden-chat-launcher" aria-haspopup="dialog" aria-expanded="false" hidden="" aria-label="Open AI chat" data-script="/js/chat.js?v=750a15ffa2e2" data-style="/css/chat.css?v=286cbaf4025c"><span aria-hidden="true">✳</span><span class="aden-chat-launcher-label">Ask AI</span></button></body></html>

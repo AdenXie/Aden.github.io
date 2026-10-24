@@ -1,0 +1,1622 @@
+<!DOCTYPE html><html lang="zh-CN"><head><script src="/js/language-preference.js?v=29a144036da1" data-english-home="/en/"></script><script src="/js/site-runtime.js?v=0711b6201338" defer=""></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/2026/10/21/2026-10-21-rba-rate-hikes-aud-cny/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="澳大利亚加息与澳元人民币汇率：RBA 2026 紧缩周期与 AUD/CNY 情景分析">
+<meta property="og:url" content="https://blog.adenxie.com.cn/2026/10/21/2026-10-21-rba-rate-hikes-aud-cny/index.html">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-10-21T04:00:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="汇率">
+<meta property="article:tag" content="RBA">
+<meta property="article:tag" content="澳元">
+<meta property="article:tag" content="货币政策">
+<meta property="article:tag" content="澳大利亚">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png?v=fa6db12e9674" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <!--- Page Info-->
+    
+    <title>
+        
+            澳大利亚加息与澳元人民币汇率：RBA 2026 紧缩周期与 AUD/CNY 情景分析 | Aden's Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/css/site-5a4bbfac1125.css?v=5a4bbfac1125">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js?v=258b1afa4680"></script>
+                
+    
+            
+                
+                    
+                
+    
+
+    
+
+
+
+    
+        
+
+
+    
+
+    
+
+
+    
+
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"zh-CN","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"17px","line_height":1.85,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"all_rights_reserved"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["科技、体验与个人判断","写下真实体验，也保留观点的棱角"],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"每日简报":{"path":"/daily/","icon":"fa-regular fa-newspaper"},"归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"分类":{"path":"/categories/","icon":"fa-regular fa-folder"},"标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"世界时间":{"path":"/world-time/","icon":"fa-regular fa-clock"},"关于":{"path":"/about/","icon":"fa-regular fa-user"},"友链":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":true,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.i18n = {"search":"站内搜索您需要的内容...","toc":"目录","prev":"上一页","next":"下一页","prev_posts":"上一篇","next_posts":"下一篇","page":"第 %d 页","recent_posts":"最新文章","share":"分享","powered_by":"由 %s 驱动","theme":"主题","rss_feed":"RSS Feed","category":"分类","categories":"分类","tag":"标签","tags":"标签","post":"文章","posts":"文章","tagcloud":"标签云","comment":"评论","comments":"评论","top":"置顶","sticky":"置顶","go-back-home":"回到首页","masonry_loading":"照片加载中...","image_viewer":"图片查看器","close":"关闭","exif":{"title":"EXIF","cards":{"camera":"相机","lens":"镜头","exposure":"曝光","other":"其他"},"fields":{"make":"品牌","model":"机型","date_taken":"拍摄时间","lens_model":"镜头","focal_length":"焦距","focus_mode":"对焦模式","shutter":"快门","aperture":"光圈","iso":"感光度","exposure_program":"曝光程序","exposure_compensation":"曝光补偿","metering_mode":"测光模式","flash":"闪光灯","white_balance":"白平衡","latitude":"纬度","longitude":"经度","altitude":"海拔"},"status":{"loading":"加载中...","no_exif":"无 EXIF 信息","library_missing":"EXIF 库未加载","image_source_missing":"图片地址不可用","unavailable":"EXIF 不可用（可能被 CORS 阻止或缺少元数据）","flag_unavailable":"EXIF 不可用"}},"home":"首页","archive":"归档","archives":"归档","about":"关于","links":"链接","link":"链接","friends":"友情链接","friend":"友情链接","timeline":"时间轴","shuoshuo":"说说","bookmarks":"书签","site_uv":"访问人数","site_pv":"总访问量","read_more":"阅读全文","wordcount":"字","min2read":"分钟","changelog":"更新日志","status":"状态","runtime":"博客已运行","days":"天","hours":"小时","minutes":"分钟","seconds":"秒","optimized_by":"并由 Evan 进行优化","rights":"版权所有","site_posts":"共撰写了 %s 篇文章","site_wordcount":"共 %s 字","copyright":{"title":"标题","author":"作者","link":"链接","create_time":"创建于","update_time":"更新于","license_title":"版权声明","license_content":"本文章采用 %s 进行许可。","all_rights_reserved":"版权所有 &#169 %s，禁止转载。","public_domain":"本文为公有领域作品，可自由转载、引用。"},"ago":{"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"},"create_time":"创建","update_time":"更新","expired":"这篇文章最后更新于 %s 天前，内容可能已经过时。"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" hreflang="zh-CN" href="https://blog.adenxie.com.cn/2026/10/21/2026-10-21-rba-rate-hikes-aud-cny/"><link rel="alternate" hreflang="en" href="https://blog.adenxie.com.cn/en/2026/10/21/2026-10-21-rba-rate-hikes-aud-cny/"><script data-aden-analytics="">
+      if (location.hostname === 'blog.adenxie.com.cn' && !window.__adenAnalyticsLoaded) {
+        window.__adenAnalyticsLoaded = true;
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        const script = document.createElement('script');
+        script.defer = true;
+        script.src = '/_vercel/insights/script.js';
+        document.head.append(script);
+      }
+    </script></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/daily/">
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    每日简报
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    归档
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/categories/">
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    分类
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    标签
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    世界时间
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    友链
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    <nav class="aden-language-switch" aria-label="Language"><a lang="zh-CN" href="/2026/10/21/2026-10-21-rba-rate-hikes-aud-cny/" aria-current="page">中文</a><span> / </span><a lang="en" href="/en/2026/10/21/2026-10-21-rba-rate-hikes-aud-cny/" aria-current="false" data-no-swup="">English</a></nav></div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/">
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/daily/">
+                            <span>
+                                每日简报
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/archives/">
+                            <span>
+                                归档
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/categories/">
+                            <span>
+                                分类
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/tags/">
+                            <span>
+                                标签
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/world-time/">
+                            <span>
+                                世界时间
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/about/">
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/link/">
+                            <span>
+                                友链
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/archives/">
+                            <span>文章归档</span>
+                            <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/tags/">
+                            <span>主题标签</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/about/">
+                            <span>关于 Aden</span>
+                            <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">52</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">8</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">86</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://images.pexels.com/photos/4359064/pexels-photo-4359064.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="澳大利亚加息与澳元人民币汇率：RBA 2026 紧缩周期与 AUD/CNY 情景分析" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" decoding="async">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">澳大利亚加息与澳元人民币汇率：RBA 2026 紧缩周期与 AUD/CNY 情景分析</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg?v=93ba7ebfa2ff" decoding="async" width="460" height="460">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-10-21 12:00</span>
+        <span class="mobile">2026-10-21 12:00</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E7%BB%8F%E6%B5%8E%E8%A7%82%E5%AF%9F/">经济观察</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E6%B1%87%E7%8E%87/">汇率</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/RBA/">RBA</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E6%BE%B3%E5%85%83/">澳元</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E8%B4%A7%E5%B8%81%E6%94%BF%E7%AD%96/">货币政策</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E6%BE%B3%E5%A4%A7%E5%88%A9%E4%BA%9A/">澳大利亚</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>4.8k 字</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>17 分钟</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<p>澳洲联储（RBA）在 2026 年把现金利率从 3.60% 一路加到 4.60%，回到 2011 年以来的最高水平。这一轮紧缩会如何影响澳洲的家庭、企业和租客？中澳利差已经拉到 3.6 个百分点，澳元兑人民币又会往哪里走？本文把 RBA 加息周期、宏观与社会影响、全球利差和 AUD/CNY 多情景分析放在一起梳理，最后给出换汇时可以参考的窗口和需要盯住的指标。</p>
+<span id="more"></span>
+
+<div class="aden-alert" role="note"><svg class="aden-alert-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2 21h20Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"></path><path d="M12 10v5m0 2.5v.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg><div class="aden-alert-frame"><p>本文为个人研究整理，数据截至 2026 年 10 月 20 日；情景概率为主观判断，不构成任何投资或换汇建议。</p>
+</div><span class="aden-alert-meta" aria-hidden="true">NOTES</span></div>
+<h2 id="核心结论"><a href="#核心结论" class="headerlink" title="核心结论"></a>核心结论</h2><ol>
+<li><strong>加息周期性质：</strong> RBA 于 2026 年内累计加息 100bp（现金利率从 3.60% 升至 4.60%，最新一次为 2026-09-30），此轮加息核心在于“压通胀”而非“防过热”。RBA 维持鹰派立场，市场已定价年底前再加约 15bp、2027 年上半年再加约 30bp。</li>
+<li><strong>经济与社会分化：</strong><ul>
+<li><strong>经济面呈现罕见“剪刀差”：</strong> 家庭还贷占可支配收入约 10%，消费渐缓，房价自 3 月峰值下跌 1.6%（投资者贷款领跌）；但企业端受 AI 与数据中心建设拉动，私人投资逆势增长超 10%。</li>
+<li><strong>社会承压高度不均：</strong> 压力集中在<strong>高杠杆新借款人</strong>与<strong>低收入租客</strong>；失业率从 3.5% 升至 4.6%（五年高位，含统计口径调整影响）。</li>
+</ul>
+</li>
+<li><strong>全球利率与利差格局：</strong><ul>
+<li>美联储于 2026-09-17 同样转为加息 25bp 至 3.75%–4.00%，“RBA 独自鹰派”的假设被推翻。</li>
+<li>10 年期长端利差极宽：澳债 10Y（5.23%–5.26%）显著高于中债 10Y（1.64%），中澳利差约 <strong>+3.6pp</strong>；中美 10Y 利差约 <strong>+3.5pp</strong>（美债 10Y 5.11%–5.12%）。</li>
+<li>政策利率端：RBA 4.60% vs 中国 1 年期 LPR 3.0%（利差 +1.6pp）。长端利差支撑澳元，但已被当前汇率充分定价。</li>
+</ul>
+</li>
+<li><strong>AUD/CNY 情景判断：</strong><ul>
+<li>AUD/CNY 现值约 4.6647（2026-10-20 RBA 官方），受中澳利差、人民币对美元温和升值（USD/CNY 6.6861）及铁矿石逆势下跌共同约束。</li>
+<li><strong>短期（3–6 个月）基准区间 4.50–4.75（概率 52%），震荡略偏弱；</strong> 走弱概率 28%，走强概率 20%。</li>
+<li><strong>中期（1–2 年）基准区间 4.40–4.80（概率 50%），震荡偏弱；</strong> 核心转折点在于 2027 年 RBA 利率见顶转向。</li>
+</ul>
+</li>
+<li><strong>换汇参考：</strong> 当前没有明显单边趋势。买入澳元（留学、租房、生活支出）的窗口在逐步改善，汇回人民币短期相对有利；重点关注 10 月底 CPI、12 月 RBA 决议及铁矿石走势。</li>
+</ol>
+<h2 id="数据来源与置信度"><a href="#数据来源与置信度" class="headerlink" title="数据来源与置信度"></a>数据来源与置信度</h2><p>本文尽量区分官方一手数据、衍生计算和二手聚合数据。部分机构网站因网络环境或动态渲染无法直接获取，各项数据的来源与置信度如下：</p>
+<div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th align="left">数据类别</th>
+<th align="left">指标与取值</th>
+<th align="left">采集日期</th>
+<th align="left">来源与方式</th>
+<th align="center">置信度</th>
+<th align="left">局限与替代</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>澳方官方基线</strong></td>
+<td align="left">现金利率 4.60%、商品价格指数（+15.5%）、AUD/CNY（4.6647）</td>
+<td align="left">2026-09~10</td>
+<td align="left">RBA 官网（决议声明、货币政策声明 SMP、每日汇率）</td>
+<td align="center"><strong>高</strong></td>
+<td align="left">官方一手数据，交叉比对无误</td>
+</tr>
+<tr>
+<td align="left"><strong>美方官方基线</strong></td>
+<td align="left">联邦基金利率（3.75%–4.00%）、USD/CNY（6.6861）、广义美元指数（121.40）</td>
+<td align="left">2026-10-19</td>
+<td align="left">美联储 OMO 页面、H.10 统计公报</td>
+<td align="center"><strong>高</strong></td>
+<td align="left">官方统计，交叉验证吻合</td>
+</tr>
+<tr>
+<td align="left"><strong>美 / 澳 10Y 国债</strong></td>
+<td align="left">美债 10Y（5.11%–5.12%）、澳债 10Y（5.23%–5.26%）</td>
+<td align="left">2026-10-20</td>
+<td align="left">TradingEconomics + CountryEconomy 双源比对，FRED OECD 9 月月值（5.283%）验证</td>
+<td align="center"><strong>高</strong></td>
+<td align="left">多源相互印证</td>
+</tr>
+<tr>
+<td align="left"><strong>中国 10Y 国债</strong></td>
+<td align="left">1.64%（10-15 报道载 1.67%）</td>
+<td align="left">2026-10-20</td>
+<td align="left">TradingEconomics 银行间报价（聚合源）</td>
+<td align="center"><strong>中</strong></td>
+<td align="left">中债官网动态加载无法抓取，FRED/OECD 无该序列；经 TE 报道的中美利差 352bp 交叉验证</td>
+</tr>
+<tr>
+<td align="left"><strong>中国政策利率</strong></td>
+<td align="left">1 年期 LPR 3.0%（连续 17 个月未变）</td>
+<td align="left">2026-10</td>
+<td align="left">第三方财经汇总 / 历史序列</td>
+<td align="center"><strong>中</strong></td>
+<td align="left">人行官网与 CFETS 无法直接获取，基于既往稳定序列</td>
+</tr>
+<tr>
+<td align="left"><strong>铁矿石</strong></td>
+<td align="left">价格“逆势下行”</td>
+<td align="left">2026-10-01</td>
+<td align="left">RBA 商品价格指数报告定性表述</td>
+<td align="center"><strong>中</strong></td>
+<td align="left">普氏 62%、大商所及 SGX 掉期具体点位未取得，采用 RBA 定性结论</td>
+</tr>
+<tr>
+<td align="left"><strong>美元指数</strong></td>
+<td align="left">走平略弱</td>
+<td align="left">2026-10-16</td>
+<td align="left">美联储广义美元指数（Broad Dollar Index）</td>
+<td align="center"><strong>中</strong></td>
+<td align="left">以美联储官方指数替代 DXY</td>
+</tr>
+</tbody></table></div>
+<h2 id="一、RBA-2026-年加息周期回顾"><a href="#一、RBA-2026-年加息周期回顾" class="headerlink" title="一、RBA 2026 年加息周期回顾"></a>一、RBA 2026 年加息周期回顾</h2><h3 id="1-1-现金利率上行路径"><a href="#1-1-现金利率上行路径" class="headerlink" title="1.1 现金利率上行路径"></a>1.1 现金利率上行路径</h3><p>2026 年，RBA 逆转了 2025 年的降息周期（2025 年三次累计降息 75bp 至 3.60%），年内累计加息 <strong>100bp</strong>，现金利率突破上一轮紧缩周期峰值（2023 年 11 月至 2024 年的 4.35%），达到 2011 年以来最高水平。</p>
+<p><strong>2026 年 RBA 现金利率变动</strong>（来源：<a class="link" target="_blank" rel="noopener" href="https://www.rba.gov.au/statistics/cash-rate/">RBA 官方利率记录<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>）：</p>
+<div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th align="left">决议生效日期</th>
+<th align="center">变动幅度</th>
+<th align="center">变动后利率</th>
+<th align="center">表决结果</th>
+<th align="left">政策基调</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">2026-02-04</td>
+<td align="center">+25bp</td>
+<td align="center">3.85%</td>
+<td align="center">一致通过</td>
+<td align="left">重启紧缩，应对劳动力市场韧性与物价反弹</td>
+</tr>
+<tr>
+<td align="left">2026-03-18</td>
+<td align="center">+25bp</td>
+<td align="center">4.10%</td>
+<td align="center">一致通过</td>
+<td align="left">抑制核心通胀黏性</td>
+</tr>
+<tr>
+<td align="left">2026-05-06</td>
+<td align="center">+25bp</td>
+<td align="center">4.35%</td>
+<td align="center">一致通过</td>
+<td align="left">追平前期高点，强化金融条件收紧</td>
+</tr>
+<tr>
+<td align="left">2026-06-17</td>
+<td align="center">不变</td>
+<td align="center">4.35%</td>
+<td align="center">一致通过</td>
+<td align="left">观察紧缩滞后效应</td>
+</tr>
+<tr>
+<td align="left">2026-08-12</td>
+<td align="center">不变</td>
+<td align="center">4.35%</td>
+<td align="center">一致通过</td>
+<td align="left">发布 8 月 SMP，提示通胀上行风险</td>
+</tr>
+<tr>
+<td align="left">2026-09-30</td>
+<td align="center">+25bp</td>
+<td align="center"><strong>4.60%</strong></td>
+<td align="center">一致通过</td>
+<td align="left">突破前期高点，表示“必要时进一步加息”</td>
+</tr>
+</tbody></table></div>
+<h3 id="1-2-政策逻辑：压通胀，而非防过热"><a href="#1-2-政策逻辑：压通胀，而非防过热" class="headerlink" title="1.2 政策逻辑：压通胀，而非防过热"></a>1.2 政策逻辑：压通胀，而非防过热</h3><p>根据 2026 年 9 月 29 日董事会决议公告（<a class="link" target="_blank" rel="noopener" href="https://www.rba.gov.au/media-releases/2026/mr-26-27.html">MR-26-27<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>），这轮紧缩由外部供给冲击和国内结构性刚性共同驱动：</p>
+<ul>
+<li><strong>外部输入性通胀：</strong> 中东地缘冲突持续扩大，全球能源及海运价格明显高于 RBA 此前预测。</li>
+<li><strong>科技需求推升成本：</strong> 全球 AI 算力与基础设施建设推高了科技硬件、电力基础设施及专业设备价格。</li>
+<li><strong>国内产能瓶颈：</strong> 劳动力供给与建筑产能长期处于紧平衡。</li>
+<li><strong>官方表态：</strong> 尽管前几次加息已使经济活动明显放缓，截尾均值通胀仍远高于 2%–3% 目标区间，董事会认为“不采取行动的风险远高于收紧的风险”。</li>
+</ul>
+<h3 id="1-3-宏观预期与市场定价"><a href="#1-3-宏观预期与市场定价" class="headerlink" title="1.3 宏观预期与市场定价"></a>1.3 宏观预期与市场定价</h3><p>依据 RBA 8 月货币政策声明（SMP）与 <a class="link" target="_blank" rel="noopener" href="https://www.rba.gov.au/monetary-policy/rba-board-minutes/2026/2026-09-29.html">9 月 29 日董事会纪要<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>：</p>
+<ul>
+<li><strong>通胀：</strong> 2026 年 6 月季度总体 CPI 同比 <strong>3.9%</strong>，截尾均值（Trimmed Mean）CPI 同比 <strong>3.6%</strong>。RBA 预测通胀要到 <strong>2028 年初</strong> 才会回到 2.5% 中枢。</li>
+<li><strong>增长与就业：</strong> GDP 增速预计在 2026 年底放缓至 <strong>1.4%</strong>；失业率预计 2028 年升至 <strong>4.8%</strong>。</li>
+<li><strong>市场定价：</strong> 截至 2026 年 10 月，利率衍生品已消化 9 月加息，并定价 <strong>2026 年底前再加约 15bp</strong>、<strong>2027 年上半年累计再加约 30bp</strong>。</li>
+</ul>
+<h2 id="二、加息对澳大利亚经济的影响"><a href="#二、加息对澳大利亚经济的影响" class="headerlink" title="二、加息对澳大利亚经济的影响"></a>二、加息对澳大利亚经济的影响</h2><p>加息的传导呈现“家庭受抑、企业坚韧、外需分化”的多轨特征。</p>
+<h3 id="2-1-家庭财务：偿债负担逼近峰值"><a href="#2-1-家庭财务：偿债负担逼近峰值" class="headerlink" title="2.1 家庭财务：偿债负担逼近峰值"></a>2.1 家庭财务：偿债负担逼近峰值</h3><ul>
+<li><strong>偿债比率高企：</strong> 计划还本付息总额已升至家庭可支配收入的约 <strong>10%</strong>，逼近 2024 年以来的峰值。</li>
+<li><strong>消费放缓但有韧性：</strong> 零售销售增长持续趋缓。不过 2024 年初以来实际人均可支配收入温和修复，早期购房的业主也在低息期积累了大量还贷缓冲（Offset / Redraw 账户），整体消费弱于往年，却好于信心指标所暗示的水平。</li>
+</ul>
+<h3 id="2-2-房地产：需求受压，供给刚性仍在"><a href="#2-2-房地产：需求受压，供给刚性仍在" class="headerlink" title="2.2 房地产：需求受压，供给刚性仍在"></a>2.2 房地产：需求受压，供给刚性仍在</h3><ul>
+<li><strong>价格回调：</strong> 全澳房屋价值指数自 2026 年 3 月峰值累计下跌 <strong>1.6%</strong>，略超 RBA 早期测算。</li>
+<li><strong>信贷收缩：</strong> 借贷能力下降导致新增住房信贷明显缩量，其中<strong>投资者贷款领跌</strong>，也叠加了市场对负扣税（Negative Gearing）与资本利得税（CGT）调整的政策预期。</li>
+<li><strong>供求缺口未消失：</strong> RBA 多次强调，人口净流入与规划限制仍在支撑住房需求，加息主要压制了购买力和交易量，并没有消除供求缺口。</li>
+</ul>
+<h3 id="2-3-企业部门：AI-投资带来的“剪刀差”"><a href="#2-3-企业部门：AI-投资带来的“剪刀差”" class="headerlink" title="2.3 企业部门：AI 投资带来的“剪刀差”"></a>2.3 企业部门：AI 投资带来的“剪刀差”</h3><ul>
+<li>与家庭部门相反，澳洲私人非金融企业投资同比逆势增长<strong>超过 10%</strong>。</li>
+<li>主要动力来自<strong>大型数据中心、AI 算力枢纽及配套可再生能源电网建设</strong>。企业资本开支的繁荣在很大程度上对冲了消费收缩对 GDP 的拖累。</li>
+</ul>
+<h3 id="2-4-贸易与汇率传导"><a href="#2-4-贸易与汇率传导" class="headerlink" title="2.4 贸易与汇率传导"></a>2.4 贸易与汇率传导</h3><ul>
+<li><strong>汇率升值：</strong> 澳元贸易加权指数（TWI）年内升值约 <strong>5%</strong>（最新 64.7），帮助分担了部分输入性通胀。</li>
+<li><strong>商品分化：</strong> RBA 10 月 1 日商品价格指数同比上涨 <strong>15.5%</strong>（SDR 计价），但内部分化明显：<strong>铁矿石、氧化铝和铜矿石逆势下跌，其他商品普遍上涨</strong>。对华出口权重最大的铁矿石走弱，是压制澳洲贸易条件的结构性隐患。</li>
+</ul>
+<h3 id="2-5-金融体系韧性"><a href="#2-5-金融体系韧性" class="headerlink" title="2.5 金融体系韧性"></a>2.5 金融体系韧性</h3><p>依据 RBA 2026 年 10 月金融稳定评估（FSR，<a class="link" target="_blank" rel="noopener" href="https://www.rba.gov.au/media-releases/2026/mr-26-28.html">MR-26-28<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>）：</p>
+<ul>
+<li>银行体系资本充足率与流动性缓冲处于审慎高位。</li>
+<li>房贷拖欠率可控，自住业主中现金流出现缺口的比例<strong>低于 2%</strong>，负资产贷款比例很低，暂无系统性按揭违约风险。</li>
+</ul>
+<h2 id="三、加息带来的社会分化"><a href="#三、加息带来的社会分化" class="headerlink" title="三、加息带来的社会分化"></a>三、加息带来的社会分化</h2><p>这轮紧缩的成本并没有在社会中平均分摊，而是表现出明显的结构不对称。</p>
+<h3 id="3-1-老业主与新借款人"><a href="#3-1-老业主与新借款人" class="headerlink" title="3.1 老业主与新借款人"></a>3.1 老业主与新借款人</h3><ul>
+<li><strong>老业主（抗风险能力强）：</strong> 在 2020–2022 年低利率时期买房或积累了高额 Offset 余额的家庭，受加息的净冲击较小，部分家庭甚至因存款利率升至 4%–5% 而获得净利息收益。</li>
+<li><strong>新借款人（高脆弱性）：</strong> 过去 1–3 年高位入市、负债收入比（DTI）偏高、储蓄缓冲薄的年轻家庭承受了主要冲击。不过 RBA 抽样显示，即便在收入最低的五分之一借款人中，储蓄中位数仍可覆盖近一年的还款。</li>
+</ul>
+<h3 id="3-2-低收入租客：高通胀与高租金的双重压力"><a href="#3-2-低收入租客：高通胀与高租金的双重压力" class="headerlink" title="3.2 低收入租客：高通胀与高租金的双重压力"></a>3.2 低收入租客：高通胀与高租金的双重压力</h3><ul>
+<li>RBA 9 月纪要明确指出，<strong>低收入租户</strong>是本轮通胀与紧缩周期中最脆弱的群体。</li>
+<li>他们既没有房产对冲通胀，也拿不到多少高息存款收益；住房供应不足又让房东持续转嫁持有成本，租金涨幅明显快于工资。RBA 行长 Bullock 的说法是：高通胀本质上是一种累退税，中东动荡让全澳变穷，而弱势群体首当其冲。</li>
+</ul>
+<h3 id="3-3-劳动力市场：失业率回升与统计口径扰动"><a href="#3-3-劳动力市场：失业率回升与统计口径扰动" class="headerlink" title="3.3 劳动力市场：失业率回升与统计口径扰动"></a>3.3 劳动力市场：失业率回升与统计口径扰动</h3><ul>
+<li>失业率由本轮周期起点的 <strong>3.5%</strong> 升至 <strong>4.6%</strong>（8 月公布值）。</li>
+<li><em>口径说明：</em> RBA 指出，失业率从 6 月的 4.4% 跳升至 4.6%，部分源于澳大利亚统计局（ABS）劳动力调查（LFS）样本轮换与方法调整带来的技术性抬升，需要审慎解读；但就业市场边际转松的趋势已经确认。</li>
+</ul>
+<h2 id="四、全球利率环境与中澳-中美利差"><a href="#四、全球利率环境与中澳-中美利差" class="headerlink" title="四、全球利率环境与中澳 / 中美利差"></a>四、全球利率环境与中澳 / 中美利差</h2><p>利差是判断非美货币中期定价的重要锚点。以下数据截至 2026 年 10 月 20 日。</p>
+<h3 id="4-1-10-年期国债收益率"><a href="#4-1-10-年期国债收益率" class="headerlink" title="4.1 10 年期国债收益率"></a>4.1 10 年期国债收益率</h3><ul>
+<li><strong>澳大利亚 10Y：</strong> <strong>5.23%</strong>（TradingEconomics）/ <strong>5.26%</strong>（CountryEconomy）；FRED OECD 9 月月值为 5.283%。（置信度：高）</li>
+<li><strong>美国 10Y：</strong> <strong>5.11%</strong>（TradingEconomics）/ <strong>5.12%</strong>（CountryEconomy）；DGS10 在 5.10% 上方。（置信度：高）</li>
+<li><strong>中国 10Y：</strong> <strong>1.64%</strong>（TradingEconomics 银行间报价；其 10 月 15 日报道载 1.67%）。（置信度：中）</li>
+</ul>
+<h3 id="4-2-利差结构"><a href="#4-2-利差结构" class="headerlink" title="4.2 利差结构"></a>4.2 利差结构</h3><div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th align="left">比较维度</th>
+<th align="center">美 / 澳利率</th>
+<th align="center">中国利率</th>
+<th align="center">利差</th>
+<th align="left">口径与来源</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>中澳长端（10Y 国债）</strong></td>
+<td align="center">澳债 10Y：5.23%–5.26%</td>
+<td align="center">中债 10Y：1.64%</td>
+<td align="center"><strong>+3.6pp</strong></td>
+<td align="left">2026-10-20，双源验证</td>
+</tr>
+<tr>
+<td align="left"><strong>中美长端（10Y 国债）</strong></td>
+<td align="center">美债 10Y：5.11%–5.12%</td>
+<td align="center">中债 10Y：1.64%</td>
+<td align="center"><strong>+3.5pp</strong></td>
+<td align="left">与 TE 报道的 352bp 吻合</td>
+</tr>
+<tr>
+<td align="left"><strong>中澳政策利率</strong></td>
+<td align="center">RBA 现金利率：4.60%</td>
+<td align="center">1 年期 LPR：3.00%</td>
+<td align="center"><strong>+1.6pp</strong></td>
+<td align="left">官方决议 vs 连续 17 个月持平的 LPR</td>
+</tr>
+<tr>
+<td align="left"><strong>中美政策利率</strong></td>
+<td align="center">联邦基金利率：3.75%–4.00%</td>
+<td align="center">1 年期 LPR：3.00%</td>
+<td align="center"><strong>+0.75~1.0pp</strong></td>
+<td align="left">2026-09-17 加息后区间</td>
+</tr>
+</tbody></table></div>
+<ol>
+<li><strong>中澳长端利差约 +3.6 个百分点：</strong> 中国 10Y 国债在宽松的货币环境下维持历史低位（1.64%），澳债则在 RBA 加息和通胀溢价推动下升至 5.23% 以上。约 360bp 的息差构成了澳元的底层支撑。</li>
+<li><strong>中美长端利差约 +3.5 个百分点：</strong> 美债 10Y（5.11%）与中债 10Y 的利差，与 TradingEconomics 10 月 15 日报道的 352bp 一致，交叉验证了长端数据的可靠性。</li>
+<li><strong>政策利率端：</strong> RBA 4.60% 对 LPR 3.0%，息差 +1.6pp；美联储 3.75%–4.00% 对 LPR，息差 +0.75pp 至 +1.0pp。</li>
+</ol>
+<h3 id="4-3-美联储转向加息的外溢"><a href="#4-3-美联储转向加息的外溢" class="headerlink" title="4.3 美联储转向加息的外溢"></a>4.3 美联储转向加息的外溢</h3><ul>
+<li><strong>关键假设被推翻：</strong> 美联储于 <strong>2026-09-17</strong> 加息 25bp 至 <strong>3.75%–4.00%</strong>（来源：<a class="link" target="_blank" rel="noopener" href="https://www.federalreserve.gov/monetarypolicy/openmarket.htm">Fed OMO<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>），终结了 2025 年的降息通道。</li>
+<li><strong>对交叉盘的含义：</strong> “RBA 独自鹰派”的叙事不再成立，全球回到美澳同步紧缩的环境。美联储转鹰支撑了美元（广义美元指数企稳于 121.40 附近），压制澳元兑美元的上行空间；但美元偏强同样施压人民币，两者在 AUD/CNY 上部分对冲。</li>
+</ul>
+<h3 id="4-4-利差对汇率的边际影响"><a href="#4-4-利差对汇率的边际影响" class="headerlink" title="4.4 利差对汇率的边际影响"></a>4.4 利差对汇率的边际影响</h3><p>中澳利差是支撑澳元、压制人民币的长期结构性因素。但长端息差走阔已持续数月，这一因素<strong>已被当前 4.6647 左右的汇率充分消化</strong>。利差更像是防止澳元大幅下跌的“安全网”，而不是推动汇率继续单边上涨的新催化剂。</p>
+<h2 id="五、AUD-CNY-走势与多情景分析"><a href="#五、AUD-CNY-走势与多情景分析" class="headerlink" title="五、AUD/CNY 走势与多情景分析"></a>五、AUD/CNY 走势与多情景分析</h2><h3 id="5-1-汇率现值与交叉验证"><a href="#5-1-汇率现值与交叉验证" class="headerlink" title="5.1 汇率现值与交叉验证"></a>5.1 汇率现值与交叉验证</h3><ul>
+<li><strong>即期汇率（2026-10-20 RBA 官方公布值）：</strong><ul>
+<li><strong>AUD/CNY = 4.6647</strong>（近三日 4.6469 → 4.6607 → 4.6647，小幅反弹）</li>
+<li>AUD/USD = 0.6984，澳元 TWI = 64.7</li>
+</ul>
+</li>
+<li><strong>交叉盘验证：</strong> 美联储 H.10 同期公布 <strong>USD/CNY = 6.6861</strong>。</li>
+</ul>
+<p><mjx-container class="MathJax" jax="SVG" overflow="overflow" display="true"><svg style="vertical-align: -0.566ex;" xmlns="http://www.w3.org/2000/svg" width="66.485ex" height="2.262ex" role="img" focusable="false" viewBox="0 -750 29386.6 1000"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math" data-latex="\text{AUD/CNY} = \text{AUD/USD} \times \text{USD/CNY} = 0.6984 \times 6.6861 \approx 4.6696"><g data-mml-node="mtext" data-latex="\text{AUD/CNY}"><path data-c="41" d="M583 3L717 0L717 39L695 39C670 39 653 40 646 42C631 47 621 58 615 75L401 694C397 707 390 716 375 716C362 716 353 709 348 694L143 102C129 61 92 39 32 38L32 0L137 3L254 0L254 39C205 39 180 54 180 85C180 92 181 96 182 98L227 225L465 225L516 77C518 71 519 67 519 64C519 47 492 39 437 39L437 0C479 3 528 4 583 3M345 569L451 264L240 264Z"></path><path data-c="55" d="M716 644L716 683L596 680L474 683L474 644C523 644 553 636 564 619C572 606 576 592 576 575L576 232C576 175 560 125 527 84C492 39 446 17 390 17C359 17 327 28 294 51C252 81 231 139 231 225L231 602C231 620 235 631 242 636C249 641 270 644 305 644L332 644L332 683C307 681 257 680 183 680C109 680 59 681 33 683L33 644L61 644C96 644 117 641 124 636C131 631 135 620 135 602L135 229C135 159 160 100 209 51C258 2 318-22 388-22C508-22 595 77 611 186C613 199 614 222 614 255L614 571C614 631 639 644 716 644Z" transform="translate(750,0)"></path><path data-c="44" d="M401 0C490 0 563 34 622 103C679 168 707 246 707 336C707 428 679 508 624 575C565 647 490 683 401 683L35 683L35 644L63 644C98 644 119 641 126 636C133 631 137 620 137 602L137 81C137 63 133 51 126 46C119 41 98 39 63 39L35 39L35 0M374 39L274 39C235 39 230 38 230 74L230 609C230 645 235 644 274 644L373 644C447 644 506 614 550 554C583 507 600 435 600 336C600 161 534 39 374 39Z" transform="translate(1500,0)"></path><path data-c="2F" d="M444 718C445 720 445 723 445 726C445 742 437 750 421 750C410 750 403 745 399 734L57-218C56-220 56-223 56-226C56-242 64-250 80-250C91-250 98-245 102-234Z" transform="translate(2264,0)"></path><path data-c="43" d="M665 443L665 677C665 696 660 705 650 705C643 705 637 700 631 691L584 622C554 653 522 675 487 689C461 700 433 705 403 705C306 705 223 670 156 598C89 526 56 441 56 342C56 243 89 158 155 87C222 14 305-22 403-22C474-22 536 3 588 53C640 103 665 163 665 234C665 248 659 255 648 255C638 255 633 251 633 242C633 241 633 239 632 236C626 116 540 17 415 17C378 17 341 27 302 47C210 97 166 193 166 341C166 481 215 589 302 636C341 656 378 666 414 666C538 666 609 553 626 435C627 422 634 415 645 415C665 415 665 423 665 443Z" transform="translate(2764,0)"></path><path data-c="4E" d="M576 15C585.6 1 589 0 596 0C613 0 614 7 614 30L614 575C614 592 618 606 626 619C637 636 667 644 716 644L716 683L596 680L477 683L477 644C526 644 556 636 567 619C575 606 579 592 579 575L579 166L237 668C230 678 220 683 205 683L33 683L33 644L66 644C106 644 128 642 133 638C134 637 135 632 135 624L135 108C135 91 131 77 123 64C112 47 82 39 33 39L33 0L152 3L272 0L272 39C223 39 193 47 182 64C174 77 170 91 170 108L170 611Z" transform="translate(3486,0)"></path><path data-c="59" d="M576 610C576 601 573 592 566 582L407 323L231 609C227 616 225 621 225 624C225 637 248 644 294 644L294 683C251 680 201 679 144 680L11 683L11 644L33 644C81 644 101 640 120 610L328 273L328 81C328 63 324 51 316 46C308 41 288 39 253 39L226 39L226 0C252 2 301 3 374 3C447 3 496 2 522 0L522 39L496 39C461 39 440 41 432 46C424 51 420 64 420 83L420 273L611 582C636 623 679 644 738 644L738 683C695 680 662 679 637 680L519 683L519 644C552 644 576 637 576 610Z" transform="translate(4236,0)"></path></g><g data-mml-node="mo" data-latex="=" transform="translate(5263.8,0)"><path data-c="3D" d="M698 367L80 367C64 367 56 359 56 344C56 329 64 321 80 321L698 321C714 321 722 329 722 344C722 356 711 367 698 367M698 179L80 179C64 179 56 171 56 156C56 141 64 133 80 133L698 133C714 133 722 141 722 156C722 169 711 179 698 179Z"></path></g><g data-mml-node="mtext" data-latex="\text{AUD/USD}" transform="translate(6319.6,0)"><path data-c="41" d="M583 3L717 0L717 39L695 39C670 39 653 40 646 42C631 47 621 58 615 75L401 694C397 707 390 716 375 716C362 716 353 709 348 694L143 102C129 61 92 39 32 38L32 0L137 3L254 0L254 39C205 39 180 54 180 85C180 92 181 96 182 98L227 225L465 225L516 77C518 71 519 67 519 64C519 47 492 39 437 39L437 0C479 3 528 4 583 3M345 569L451 264L240 264Z"></path><path data-c="55" d="M716 644L716 683L596 680L474 683L474 644C523 644 553 636 564 619C572 606 576 592 576 575L576 232C576 175 560 125 527 84C492 39 446 17 390 17C359 17 327 28 294 51C252 81 231 139 231 225L231 602C231 620 235 631 242 636C249 641 270 644 305 644L332 644L332 683C307 681 257 680 183 680C109 680 59 681 33 683L33 644L61 644C96 644 117 641 124 636C131 631 135 620 135 602L135 229C135 159 160 100 209 51C258 2 318-22 388-22C508-22 595 77 611 186C613 199 614 222 614 255L614 571C614 631 639 644 716 644Z" transform="translate(750,0)"></path><path data-c="44" d="M401 0C490 0 563 34 622 103C679 168 707 246 707 336C707 428 679 508 624 575C565 647 490 683 401 683L35 683L35 644L63 644C98 644 119 641 126 636C133 631 137 620 137 602L137 81C137 63 133 51 126 46C119 41 98 39 63 39L35 39L35 0M374 39L274 39C235 39 230 38 230 74L230 609C230 645 235 644 274 644L373 644C447 644 506 614 550 554C583 507 600 435 600 336C600 161 534 39 374 39Z" transform="translate(1500,0)"></path><path data-c="2F" d="M444 718C445 720 445 723 445 726C445 742 437 750 421 750C410 750 403 745 399 734L57-218C56-220 56-223 56-226C56-242 64-250 80-250C91-250 98-245 102-234Z" transform="translate(2264,0)"></path><path data-c="55" d="M716 644L716 683L596 680L474 683L474 644C523 644 553 636 564 619C572 606 576 592 576 575L576 232C576 175 560 125 527 84C492 39 446 17 390 17C359 17 327 28 294 51C252 81 231 139 231 225L231 602C231 620 235 631 242 636C249 641 270 644 305 644L332 644L332 683C307 681 257 680 183 680C109 680 59 681 33 683L33 644L61 644C96 644 117 641 124 636C131 631 135 620 135 602L135 229C135 159 160 100 209 51C258 2 318-22 388-22C508-22 595 77 611 186C613 199 614 222 614 255L614 571C614 631 639 644 716 644Z" transform="translate(2764,0)"></path><path data-c="53" d="M252 669C359 669 422 601 440 466C441 456 447 451 456 451C467 451 472 460 472 478L472 677C472 696 467 705 458 705C452 705 446 700 440 690L408 638C364 680 324 705 251 705C142 705 56 617 56 509C56 417 116 349 187 324L317 292C384 275 428 229 428 154C428 79 376 17 301 17C170 17 93 91 88 218C88 227 83 232 73 232C62 232 56 223 56 204L56 6C56-13 61-22 71-22C77-22 83-17 89-7L121 45C164 0 224-22 302-22C359-22 407-1 444 40C481 81 499 130 499 188C499 235 485 278 458 317C431 356 394 380 349 391L223 422C170 434 127 481 127 544C127 614 182 669 252 669Z" transform="translate(3514,0)"></path><path data-c="44" d="M401 0C490 0 563 34 622 103C679 168 707 246 707 336C707 428 679 508 624 575C565 647 490 683 401 683L35 683L35 644L63 644C98 644 119 641 126 636C133 631 137 620 137 602L137 81C137 63 133 51 126 46C119 41 98 39 63 39L35 39L35 0M374 39L274 39C235 39 230 38 230 74L230 609C230 645 235 644 274 644L373 644C447 644 506 614 550 554C583 507 600 435 600 336C600 161 534 39 374 39Z" transform="translate(4070,0)"></path></g><g data-mml-node="mo" data-latex="\times" transform="translate(11375.8,0)"><path data-c="D7" d="M630 32C630 39 628 44 623 49L422 250L623 451C628 456 630 461 630 468C630 481 620 491 607 491C600 491 595 489 590 484L389 283L188 484C183 489 178 491 171 491C158 491 148 481 148 468C148 461 150 456 155 451L356 250L155 49C150 44 148 39 148 32C148 19 158 9 171 9C178 9 183 11 188 16L389 217L590 16C595 11 600 9 607 9C620 9 630 19 630 32Z"></path></g><g data-mml-node="mtext" data-latex="\text{USD/CNY}" transform="translate(12376,0)"><path data-c="55" d="M716 644L716 683L596 680L474 683L474 644C523 644 553 636 564 619C572 606 576 592 576 575L576 232C576 175 560 125 527 84C492 39 446 17 390 17C359 17 327 28 294 51C252 81 231 139 231 225L231 602C231 620 235 631 242 636C249 641 270 644 305 644L332 644L332 683C307 681 257 680 183 680C109 680 59 681 33 683L33 644L61 644C96 644 117 641 124 636C131 631 135 620 135 602L135 229C135 159 160 100 209 51C258 2 318-22 388-22C508-22 595 77 611 186C613 199 614 222 614 255L614 571C614 631 639 644 716 644Z"></path><path data-c="53" d="M252 669C359 669 422 601 440 466C441 456 447 451 456 451C467 451 472 460 472 478L472 677C472 696 467 705 458 705C452 705 446 700 440 690L408 638C364 680 324 705 251 705C142 705 56 617 56 509C56 417 116 349 187 324L317 292C384 275 428 229 428 154C428 79 376 17 301 17C170 17 93 91 88 218C88 227 83 232 73 232C62 232 56 223 56 204L56 6C56-13 61-22 71-22C77-22 83-17 89-7L121 45C164 0 224-22 302-22C359-22 407-1 444 40C481 81 499 130 499 188C499 235 485 278 458 317C431 356 394 380 349 391L223 422C170 434 127 481 127 544C127 614 182 669 252 669Z" transform="translate(750,0)"></path><path data-c="44" d="M401 0C490 0 563 34 622 103C679 168 707 246 707 336C707 428 679 508 624 575C565 647 490 683 401 683L35 683L35 644L63 644C98 644 119 641 126 636C133 631 137 620 137 602L137 81C137 63 133 51 126 46C119 41 98 39 63 39L35 39L35 0M374 39L274 39C235 39 230 38 230 74L230 609C230 645 235 644 274 644L373 644C447 644 506 614 550 554C583 507 600 435 600 336C600 161 534 39 374 39Z" transform="translate(1306,0)"></path><path data-c="2F" d="M444 718C445 720 445 723 445 726C445 742 437 750 421 750C410 750 403 745 399 734L57-218C56-220 56-223 56-226C56-242 64-250 80-250C91-250 98-245 102-234Z" transform="translate(2070,0)"></path><path data-c="43" d="M665 443L665 677C665 696 660 705 650 705C643 705 637 700 631 691L584 622C554 653 522 675 487 689C461 700 433 705 403 705C306 705 223 670 156 598C89 526 56 441 56 342C56 243 89 158 155 87C222 14 305-22 403-22C474-22 536 3 588 53C640 103 665 163 665 234C665 248 659 255 648 255C638 255 633 251 633 242C633 241 633 239 632 236C626 116 540 17 415 17C378 17 341 27 302 47C210 97 166 193 166 341C166 481 215 589 302 636C341 656 378 666 414 666C538 666 609 553 626 435C627 422 634 415 645 415C665 415 665 423 665 443Z" transform="translate(2570,0)"></path><path data-c="4E" d="M576 15C585.6 1 589 0 596 0C613 0 614 7 614 30L614 575C614 592 618 606 626 619C637 636 667 644 716 644L716 683L596 680L477 683L477 644C526 644 556 636 567 619C575 606 579 592 579 575L579 166L237 668C230 678 220 683 205 683L33 683L33 644L66 644C106 644 128 642 133 638C134 637 135 632 135 624L135 108C135 91 131 77 123 64C112 47 82 39 33 39L33 0L152 3L272 0L272 39C223 39 193 47 182 64C174 77 170 91 170 108L170 611Z" transform="translate(3292,0)"></path><path data-c="59" d="M576 610C576 601 573 592 566 582L407 323L231 609C227 616 225 621 225 624C225 637 248 644 294 644L294 683C251 680 201 679 144 680L11 683L11 644L33 644C81 644 101 640 120 610L328 273L328 81C328 63 324 51 316 46C308 41 288 39 253 39L226 39L226 0C252 2 301 3 374 3C447 3 496 2 522 0L522 39L496 39C461 39 440 41 432 46C424 51 420 64 420 83L420 273L611 582C636 623 679 644 738 644L738 683C695 680 662 679 637 680L519 683L519 644C552 644 576 637 576 610Z" transform="translate(4042,0)"></path></g><g data-mml-node="mo" data-latex="=" transform="translate(17445.8,0)"><path data-c="3D" d="M698 367L80 367C64 367 56 359 56 344C56 329 64 321 80 321L698 321C714 321 722 329 722 344C722 356 711 367 698 367M698 179L80 179C64 179 56 171 56 156C56 141 64 133 80 133L698 133C714 133 722 141 722 156C722 169 711 179 698 179Z"></path></g><g data-mml-node="mn" data-latex="0.6984" transform="translate(18501.6,0)"><path data-c="30" d="M249-22C390-22 460 92 460 320C460 473 428 575 365 625C330 652 291 666 250 666C109 666 39 551 39 320C39 136 88-22 249-22M361 524C368 489 371 425 371 332C371 240 367 172 360 128C347 48 310 8 249 8C226 8 203 17 182 34C155 57 139 104 132 176C129 201 128 253 128 332C128 419 131 480 136 513C145 568 163 603 191 618C213 630 232 636 249 636C314 636 350 583 361 524Z"></path><path data-c="2E" d="M192 53C192 82 168 106 139 106C110 106 86 82 86 53C86 24 110 0 139 0C168 0 192 24 192 53Z" transform="translate(500,0)"></path><path data-c="36" d="M383 504C416 504 432 521 432 555C432 627 378 666 304 666C221 666 155 627 106 548C63 480 42 403 42 316C42 189 65 100 112 47C152 1 198-22 251-22C312-22 362 1 401 47C438 91 457 144 457 205C457 266 439 318 403 361C365 407 316 431 257 431C205 431 165 402 138 346L138 352C138 465 166 561 226 605C252 624 279 633 306 633C342 633 368 623 385 602C351 602 334 583 334 553C334 525 355 504 383 504M344 340C355 317 361 272 361 206C361 141 356 98 345 76C325 35 294 14 251 14C222 14 200 24 184 44C171 60 162 74 158 85C146 116 140 163 140 227C140 255 144 282 151 308C164 355 201 399 256 399C295 399 325 379 344 340Z" transform="translate(778,0)"></path><path data-c="39" d="M116 140C83 140 67 123 67 89C67 14 128-22 207-22C287-22 351 18 398 99C437 166 457 243 457 329C457 456 434 546 388 599C349 644 304 666 253 666C194 666 145 645 106 602C63 557 42 503 42 440C42 379 60 327 96 284C134 238 183 215 242 215C294 215 334 243 361 299L361 286C361 177 342 103 303 63C272 30 239 14 206 14C166 14 137 23 118 42C149 42 165 60 165 91C165 119 144 140 116 140M243 246C204 246 175 266 155 306C144 329 138 374 138 439C138 504 145 548 158 573C180 613 212 633 253 633C294 633 324 608 343 558C354 531 361 485 361 420C361 333 322 246 243 246Z" transform="translate(1278,0)"></path><path data-c="38" d="M250 666C201 666 158 650 122 618C86 586 68 546 68 497C68 456 83 419 113 386C120 378 142 361 179 335C88 288 42 227 42 153C42 100 64 57 107 24C147-7 194-22 249-22C305-22 354-4 395 32C436 68 457 115 457 170C457 216 441 257 408 294C396 307 365 330 316 361C393 402 431 454 431 515C431 606 344 666 250 666M379 515C379 463 348 418 286 381L167 459C136 479 120 505 120 536C120 596 185 633 249 633C318 633 379 584 379 515M250 14C168 14 99 73 99 153C99 220 136 274 210 315L328 240C376 209 400 174 400 134C400 62 325 14 250 14Z" transform="translate(1778,0)"></path><path data-c="34" d="M353 677C344 677 336 672 330 663L28 199L28 163L289 163L289 81C289 63 285 51 278 46C271 41 252 39 219 39L194 39L194 0C223 2 269 3 331 3C393 3 439 2 468 0L468 39L443 39C410 39 391 41 384 46C377 51 373 63 373 81L373 163L471 163L471 202L373 202L373 660C373 670 366 677 353 677M295 553L295 202L67 202Z" transform="translate(2278,0)"></path></g><g data-mml-node="mo" data-latex="\times" transform="translate(21501.8,0)"><path data-c="D7" d="M630 32C630 39 628 44 623 49L422 250L623 451C628 456 630 461 630 468C630 481 620 491 607 491C600 491 595 489 590 484L389 283L188 484C183 489 178 491 171 491C158 491 148 481 148 468C148 461 150 456 155 451L356 250L155 49C150 44 148 39 148 32C148 19 158 9 171 9C178 9 183 11 188 16L389 217L590 16C595 11 600 9 607 9C620 9 630 19 630 32Z"></path></g><g data-mml-node="mn" data-latex="6.6861" transform="translate(22502,0)"><path data-c="36" d="M383 504C416 504 432 521 432 555C432 627 378 666 304 666C221 666 155 627 106 548C63 480 42 403 42 316C42 189 65 100 112 47C152 1 198-22 251-22C312-22 362 1 401 47C438 91 457 144 457 205C457 266 439 318 403 361C365 407 316 431 257 431C205 431 165 402 138 346L138 352C138 465 166 561 226 605C252 624 279 633 306 633C342 633 368 623 385 602C351 602 334 583 334 553C334 525 355 504 383 504M344 340C355 317 361 272 361 206C361 141 356 98 345 76C325 35 294 14 251 14C222 14 200 24 184 44C171 60 162 74 158 85C146 116 140 163 140 227C140 255 144 282 151 308C164 355 201 399 256 399C295 399 325 379 344 340Z"></path><path data-c="2E" d="M192 53C192 82 168 106 139 106C110 106 86 82 86 53C86 24 110 0 139 0C168 0 192 24 192 53Z" transform="translate(500,0)"></path><path data-c="36" d="M383 504C416 504 432 521 432 555C432 627 378 666 304 666C221 666 155 627 106 548C63 480 42 403 42 316C42 189 65 100 112 47C152 1 198-22 251-22C312-22 362 1 401 47C438 91 457 144 457 205C457 266 439 318 403 361C365 407 316 431 257 431C205 431 165 402 138 346L138 352C138 465 166 561 226 605C252 624 279 633 306 633C342 633 368 623 385 602C351 602 334 583 334 553C334 525 355 504 383 504M344 340C355 317 361 272 361 206C361 141 356 98 345 76C325 35 294 14 251 14C222 14 200 24 184 44C171 60 162 74 158 85C146 116 140 163 140 227C140 255 144 282 151 308C164 355 201 399 256 399C295 399 325 379 344 340Z" transform="translate(778,0)"></path><path data-c="38" d="M250 666C201 666 158 650 122 618C86 586 68 546 68 497C68 456 83 419 113 386C120 378 142 361 179 335C88 288 42 227 42 153C42 100 64 57 107 24C147-7 194-22 249-22C305-22 354-4 395 32C436 68 457 115 457 170C457 216 441 257 408 294C396 307 365 330 316 361C393 402 431 454 431 515C431 606 344 666 250 666M379 515C379 463 348 418 286 381L167 459C136 479 120 505 120 536C120 596 185 633 249 633C318 633 379 584 379 515M250 14C168 14 99 73 99 153C99 220 136 274 210 315L328 240C376 209 400 174 400 134C400 62 325 14 250 14Z" transform="translate(1278,0)"></path><path data-c="36" d="M383 504C416 504 432 521 432 555C432 627 378 666 304 666C221 666 155 627 106 548C63 480 42 403 42 316C42 189 65 100 112 47C152 1 198-22 251-22C312-22 362 1 401 47C438 91 457 144 457 205C457 266 439 318 403 361C365 407 316 431 257 431C205 431 165 402 138 346L138 352C138 465 166 561 226 605C252 624 279 633 306 633C342 633 368 623 385 602C351 602 334 583 334 553C334 525 355 504 383 504M344 340C355 317 361 272 361 206C361 141 356 98 345 76C325 35 294 14 251 14C222 14 200 24 184 44C171 60 162 74 158 85C146 116 140 163 140 227C140 255 144 282 151 308C164 355 201 399 256 399C295 399 325 379 344 340Z" transform="translate(1778,0)"></path><path data-c="31" d="M269 666C228 624 168 603 89 603L89 564C141 564 184 572 217 588L217 82C217 64 213 52 204 47C195 42 170 39 130 39L95 39L95 0C120 2 174 3 257 3C340 3 394 2 419 0L419 39L384 39C343 39 318 42 310 47C302 52 297 64 297 82L297 636C297 660 295 666 269 666Z" transform="translate(2278,0)"></path></g><g data-mml-node="mo" data-latex="\approx" transform="translate(25557.8,0)"><path data-c="2248" d="M717 432L717 434C717 445 712 450 701 450C694 450 689 446 686 439C679 404 665 377 645 360C612 331 577 317 539 317C510 317 480 328 449 349C392 390 358 413 347 420C304 445 266 457 232 457C125 457 77 382 56 284L56 281C56 271 61 266 72 266C81 266 86 270 88 278C95 313 108 339 128 356C161 385 196 399 235 399C264 399 293 388 324 366C381 326 415 303 426 296C469 271 507 259 541 259C648 259 696 334 717 432M717 216L717 219C717 229 712 234 701 234C694 234 689 230 686 223C679 188 665 162 645 144C612 115 577 101 539 101C510 101 480 112 449 134C392 174 358 197 347 204C304 229 266 241 232 241C125 241 77 166 56 68L56 66C56 55 61 50 72 50C81 50 86 54 88 62C95 97 108 123 128 140C161 169 196 183 235 183C264 183 293 172 324 151C381 110 415 87 426 80C469 55 507 43 541 43C648 43 696 118 717 216Z"></path></g><g data-mml-node="mn" data-latex="4.6696" transform="translate(26608.6,0)"><path data-c="34" d="M353 677C344 677 336 672 330 663L28 199L28 163L289 163L289 81C289 63 285 51 278 46C271 41 252 39 219 39L194 39L194 0C223 2 269 3 331 3C393 3 439 2 468 0L468 39L443 39C410 39 391 41 384 46C377 51 373 63 373 81L373 163L471 163L471 202L373 202L373 660C373 670 366 677 353 677M295 553L295 202L67 202Z"></path><path data-c="2E" d="M192 53C192 82 168 106 139 106C110 106 86 82 86 53C86 24 110 0 139 0C168 0 192 24 192 53Z" transform="translate(500,0)"></path><path data-c="36" d="M383 504C416 504 432 521 432 555C432 627 378 666 304 666C221 666 155 627 106 548C63 480 42 403 42 316C42 189 65 100 112 47C152 1 198-22 251-22C312-22 362 1 401 47C438 91 457 144 457 205C457 266 439 318 403 361C365 407 316 431 257 431C205 431 165 402 138 346L138 352C138 465 166 561 226 605C252 624 279 633 306 633C342 633 368 623 385 602C351 602 334 583 334 553C334 525 355 504 383 504M344 340C355 317 361 272 361 206C361 141 356 98 345 76C325 35 294 14 251 14C222 14 200 24 184 44C171 60 162 74 158 85C146 116 140 163 140 227C140 255 144 282 151 308C164 355 201 399 256 399C295 399 325 379 344 340Z" transform="translate(778,0)"></path><path data-c="36" d="M383 504C416 504 432 521 432 555C432 627 378 666 304 666C221 666 155 627 106 548C63 480 42 403 42 316C42 189 65 100 112 47C152 1 198-22 251-22C312-22 362 1 401 47C438 91 457 144 457 205C457 266 439 318 403 361C365 407 316 431 257 431C205 431 165 402 138 346L138 352C138 465 166 561 226 605C252 624 279 633 306 633C342 633 368 623 385 602C351 602 334 583 334 553C334 525 355 504 383 504M344 340C355 317 361 272 361 206C361 141 356 98 345 76C325 35 294 14 251 14C222 14 200 24 184 44C171 60 162 74 158 85C146 116 140 163 140 227C140 255 144 282 151 308C164 355 201 399 256 399C295 399 325 379 344 340Z" transform="translate(1278,0)"></path><path data-c="39" d="M116 140C83 140 67 123 67 89C67 14 128-22 207-22C287-22 351 18 398 99C437 166 457 243 457 329C457 456 434 546 388 599C349 644 304 666 253 666C194 666 145 645 106 602C63 557 42 503 42 440C42 379 60 327 96 284C134 238 183 215 242 215C294 215 334 243 361 299L361 286C361 177 342 103 303 63C272 30 239 14 206 14C166 14 137 23 118 42C149 42 165 60 165 91C165 119 144 140 116 140M243 246C204 246 175 266 155 306C144 329 138 374 138 439C138 504 145 548 158 573C180 613 212 633 253 633C294 633 324 608 343 558C354 531 361 485 361 420C361 333 322 246 243 246Z" transform="translate(1778,0)"></path><path data-c="36" d="M383 504C416 504 432 521 432 555C432 627 378 666 304 666C221 666 155 627 106 548C63 480 42 403 42 316C42 189 65 100 112 47C152 1 198-22 251-22C312-22 362 1 401 47C438 91 457 144 457 205C457 266 439 318 403 361C365 407 316 431 257 431C205 431 165 402 138 346L138 352C138 465 166 561 226 605C252 624 279 633 306 633C342 633 368 623 385 602C351 602 334 583 334 553C334 525 355 504 383 504M344 340C355 317 361 272 361 206C361 141 356 98 345 76C325 35 294 14 251 14C222 14 200 24 184 44C171 60 162 74 158 85C146 116 140 163 140 227C140 255 144 282 151 308C164 355 201 399 256 399C295 399 325 379 344 340Z" transform="translate(2278,0)"></path></g></g></g></svg></mjx-container></p>
+<p>理论值与 RBA 公布的 4.6647 相差约 0.1%，数据基础可靠。</p>
+<h3 id="5-2-核心驱动变量"><a href="#5-2-核心驱动变量" class="headerlink" title="5.2 核心驱动变量"></a>5.2 核心驱动变量</h3><ol>
+<li><strong>中澳利差（利多 AUD/CNY，但已钝化）：</strong> +3.6pp 的长端利差限制了下行空间，但边际拉动在减弱。</li>
+<li><strong>大宗商品（偏空）：</strong> 铁矿石逆势下行。它是中国需求与澳洲出口收入之间的核心纽带，走弱直接压制澳元。</li>
+<li><strong>人民币汇率（偏空 AUD/CNY）：</strong> 美联储 H.10 显示，USD/CNY 从 10 月 13 日的 6.6937 回落至 16 日的 6.6861，人民币对美元稳步走强，压缩了 AUD/CNY 的上行空间。</li>
+<li><strong>风险溢价（偏空）：</strong> 中东战事蔓延推升避险需求，澳元作为风险敏感货币，容易在资金回流美元时承压。</li>
+</ol>
+<h3 id="5-3-短期情景（3–6-个月，至-2027-年-4-月）"><a href="#5-3-短期情景（3–6-个月，至-2027-年-4-月）" class="headerlink" title="5.3 短期情景（3–6 个月，至 2027 年 4 月）"></a>5.3 短期情景（3–6 个月，至 2027 年 4 月）</h3><div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th align="left">情景</th>
+<th align="center">AUD/CNY 区间</th>
+<th align="center">主观概率</th>
+<th align="left">触发条件与演化路径</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>基准：震荡略偏弱</strong></td>
+<td align="center"><strong>4.50–4.75</strong></td>
+<td align="center"><strong>52%</strong></td>
+<td align="left">RBA 在 12 月或 2027 年初再加息 15–25bp；<br>美联储维持 3.75%–4.00% 观望；<br>铁矿石温和走弱但未崩跌；<br>中东局势相持，未引发全面避险；<br>人民币在 6.65–6.70 区间运行</td>
+</tr>
+<tr>
+<td align="left"><strong>下行：澳元走弱</strong></td>
+<td align="center"><strong>4.30–4.50</strong></td>
+<td align="center"><strong>28%</strong></td>
+<td align="left">中国需求疲软拖累铁矿石加速破位；<br>中东冲突急剧升级，全球爆发 Risk-off；<br>美联储加息超预期；<br>澳洲失业率突破 4.8%，提前终结 RBA 紧缩</td>
+</tr>
+<tr>
+<td align="left"><strong>上行：澳元走强</strong></td>
+<td align="center"><strong>4.75–4.90</strong></td>
+<td align="center"><strong>20%</strong></td>
+<td align="left">澳洲三季度 CPI 显著超预期，RBA 连续加息突破 5.0%；<br>中东达成停火，风险偏好强烈反弹；<br>中国推出超预期刺激，带动黑色系大幅反弹</td>
+</tr>
+</tbody></table></div>
+<p><em>注：在人民币对美元升值与美联储加息的双重压制下，AUD/CNY 突破 4.90 的极端走强情景概率很低。</em></p>
+<h3 id="5-4-中期情景（1–2-年，2027–2028）"><a href="#5-4-中期情景（1–2-年，2027–2028）" class="headerlink" title="5.4 中期情景（1–2 年，2027–2028）"></a>5.4 中期情景（1–2 年，2027–2028）</h3><p>中期的主线是：<strong>利差优势随周期演进逐步收窄，政策拐点推动均值回归。</strong></p>
+<div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th align="left">情景</th>
+<th align="center">AUD/CNY 区间</th>
+<th align="center">主观概率</th>
+<th align="left">演化逻辑</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>基准：震荡偏弱</strong></td>
+<td align="center"><strong>4.40–4.80</strong></td>
+<td align="center"><strong>50%</strong></td>
+<td align="left">RBA 于 2027 年上半年加息见顶（约 4.90%–5.00%），随后转入观察与降息；<br>失业率升向 4.8%、GDP 放缓至 1.4%，紧缩滞后效应显现；<br>RBA 转向后利差优势收窄，人民币温和走强，汇率重心或回落至 4.50 附近</td>
+</tr>
+<tr>
+<td align="left"><strong>澳元走强：高位维持</strong></td>
+<td align="center"><strong>4.80–5.00</strong></td>
+<td align="center"><strong>25%</strong></td>
+<td align="left">澳洲通胀黏性超预期，RBA 高利率维持更久；<br>外部环境改善叠加政策支持，大宗商品阶段性回暖；<br>上方仍受 5.00 整数关口压制</td>
+</tr>
+<tr>
+<td align="left"><strong>澳元走弱：深度回调</strong></td>
+<td align="center"><strong>4.00–4.40</strong></td>
+<td align="center"><strong>25%</strong></td>
+<td align="left">全球经济显著放缓；<br>澳洲房地产与高负债群体压力加大，RBA 被迫快速降息；<br>铁矿石长期深幅承压</td>
+</tr>
+</tbody></table></div>
+<h2 id="六、换汇参考与关键跟踪指标"><a href="#六、换汇参考与关键跟踪指标" class="headerlink" title="六、换汇参考与关键跟踪指标"></a>六、换汇参考与关键跟踪指标</h2><h3 id="6-1-换汇参考"><a href="#6-1-换汇参考" class="headerlink" title="6.1 换汇参考"></a>6.1 换汇参考</h3><ul>
+<li><strong>需要买入澳元（学费、房租、生活费、赴澳刚需）：</strong> 不必追高。中澳利差已被充分定价，人民币对美元温和走强，短期 4.66 上方空间有限。若地缘冲击导致澳元回调至 <strong>4.50–4.55</strong>，可以考虑按需分批购汇。中期看，2027 年 RBA 政策转向可能带来更低的换汇成本。</li>
+<li><strong>需要结汇人民币（澳洲收入汇回、贸易结汇）：</strong> 目前处于利差高位保护期，<strong>4.65–4.75 区间是相对舒适的结汇窗口</strong>。考虑到 2027 年利差优势可能逐步弱化，不宜按单边升值预期配置澳元资产。</li>
+</ul>
+<h3 id="6-2-关键指标跟踪清单"><a href="#6-2-关键指标跟踪清单" class="headerlink" title="6.2 关键指标跟踪清单"></a>6.2 关键指标跟踪清单</h3><ol>
+<li><strong>RBA 利率决议与纪要：</strong> 重点关注 2026 年 12 月 1–2 日决议的措辞，包括对 2027 年加息幅度的前瞻指引，以及是否出现鹰转鸽的信号。</li>
+<li><strong>通胀数据：</strong> 10 月底公布的 2026 年三季度 CPI，尤其是<strong>截尾均值 CPI</strong> 能否从 3.6% 明确回落至 3.0% 方向。这是 RBA 12 月是否第五次加息的决定性变量。</li>
+<li><strong>中国长端利率与政策：</strong> 中债 10Y 估值及 1 年期 / 5 年期 LPR 是否变动（后续可在中债官网核实更精确的估值）。</li>
+<li><strong>大宗商品：</strong> 新加坡交易所（SGX）铁矿石掉期主力合约及普氏 62% 指数，观察铁矿石是否止跌企稳。</li>
+<li><strong>澳洲劳动力市场：</strong> ABS 月度劳动力报告中的失业率，警戒线 4.8%，观察上升是否加速。</li>
+</ol>
+<hr>
+<p>封面图片：<a class="link" target="_blank" rel="noopener" href="https://www.pexels.com/photo/banknotes-with-a-portrait-of-a-lady-printed-4359064/">David Peterson / Pexels<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> 澳大利亚加息与澳元人民币汇率：RBA 2026 紧缩周期与 AUD/CNY 情景分析</li>
+        <li><strong>作者:</strong> AdenXie</li>
+        <li><strong>创建于
+                :</strong> 2026-10-21 12:00:00</li>
+        
+        <li>
+            <strong>链接:</strong> https://blog.adenxie.com.cn/2026/10/21/2026-10-21-rba-rate-hikes-aud-cny/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                版权所有 © AdenXie，禁止转载。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E6%B1%87%E7%8E%87/">#汇率</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/RBA/">#RBA</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E6%BE%B3%E5%85%83/">#澳元</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E8%B4%A7%E5%B8%81%E6%94%BF%E7%AD%96/">#货币政策</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E6%BE%B3%E5%A4%A7%E5%88%A9%E4%BA%9A/">#澳大利亚</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/10/21/2026-10-21-fed-rate-hike-oil-stagflation/" title="美联储加息与油价：为什么这次“滞胀”让美联储骑虎难下" rel="bookmark">
+  <img src="https://images.pexels.com/photos/16862261/pexels-photo-16862261.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="美联储加息与油价：为什么这次“滞胀”让美联储骑虎难下" class="!max-w-none" decoding="async">
+  <span class="title">美联储加息与油价：为什么这次“滞胀”让美联储骑虎难下</span>
+</a><a class="recommended-article-item" href="/2026/10/21/2026-10-21-europe-protest-wave-cost-of-living/" title="欧洲抗议潮的同步性：利率周期与生活成本挤压如何制造跨国抗议波" rel="bookmark">
+  <img src="https://images.pexels.com/photos/4646818/pexels-photo-4646818.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="欧洲抗议潮的同步性：利率周期与生活成本挤压如何制造跨国抗议波" class="!max-w-none" decoding="async">
+  <span class="title">欧洲抗议潮的同步性：利率周期与生活成本挤压如何制造跨国抗议波</span>
+</a><a class="recommended-article-item" href="/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/" title="消费已经不是美国经济的故事了：AI 资本开支如何成为美国 GDP 的“承重柱”" rel="bookmark">
+  <img src="https://images.pexels.com/photos/5480781/pexels-photo-5480781.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="消费已经不是美国经济的故事了：AI 资本开支如何成为美国 GDP 的“承重柱”" class="!max-w-none" decoding="async">
+  <span class="title">消费已经不是美国经济的故事了：AI 资本开支如何成为美国 GDP 的“承重柱”</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/10/21/2026-10-21-fed-rate-hike-oil-stagflation/" title="美联储加息与油价：为什么这次“滞胀”让美联储骑虎难下" rel="bookmark">
+  <img src="https://images.pexels.com/photos/16862261/pexels-photo-16862261.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="美联储加息与油价：为什么这次“滞胀”让美联储骑虎难下" class="!max-w-none" decoding="async">
+  <span class="title">美联储加息与油价：为什么这次“滞胀”让美联储骑虎难下</span>
+</a><a class="recommended-article-item" href="/2026/10/21/2026-10-21-europe-protest-wave-cost-of-living/" title="欧洲抗议潮的同步性：利率周期与生活成本挤压如何制造跨国抗议波" rel="bookmark">
+  <img src="https://images.pexels.com/photos/4646818/pexels-photo-4646818.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="欧洲抗议潮的同步性：利率周期与生活成本挤压如何制造跨国抗议波" class="!max-w-none" decoding="async">
+  <span class="title">欧洲抗议潮的同步性：利率周期与生活成本挤压如何制造跨国抗议波</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2026/10/22/2026-10-22-daily-brief/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">每日简报｜2026-10-22：俄乌三方会谈重启在望，沙特安全告急与AI资本开支再加码</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/10/21/2026-10-21-daily-brief/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">每日简报｜2026-10-21：黑海航运受袭、俄乌新方案与AI向产业纵深推进</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">澳大利亚加息与澳元人民币汇率：RBA 2026 紧缩周期与 AUD/CNY 情景分析</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E7%BB%93%E8%AE%BA"><span class="nav-text">核心结论</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%9D%A5%E6%BA%90%E4%B8%8E%E7%BD%AE%E4%BF%A1%E5%BA%A6"><span class="nav-text">数据来源与置信度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81RBA-2026-%E5%B9%B4%E5%8A%A0%E6%81%AF%E5%91%A8%E6%9C%9F%E5%9B%9E%E9%A1%BE"><span class="nav-text">一、RBA 2026 年加息周期回顾</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E7%8E%B0%E9%87%91%E5%88%A9%E7%8E%87%E4%B8%8A%E8%A1%8C%E8%B7%AF%E5%BE%84"><span class="nav-text">1.1 现金利率上行路径</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E6%94%BF%E7%AD%96%E9%80%BB%E8%BE%91%EF%BC%9A%E5%8E%8B%E9%80%9A%E8%83%80%EF%BC%8C%E8%80%8C%E9%9D%9E%E9%98%B2%E8%BF%87%E7%83%AD"><span class="nav-text">1.2 政策逻辑：压通胀，而非防过热</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E5%AE%8F%E8%A7%82%E9%A2%84%E6%9C%9F%E4%B8%8E%E5%B8%82%E5%9C%BA%E5%AE%9A%E4%BB%B7"><span class="nav-text">1.3 宏观预期与市场定价</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%8A%A0%E6%81%AF%E5%AF%B9%E6%BE%B3%E5%A4%A7%E5%88%A9%E4%BA%9A%E7%BB%8F%E6%B5%8E%E7%9A%84%E5%BD%B1%E5%93%8D"><span class="nav-text">二、加息对澳大利亚经济的影响</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%AE%B6%E5%BA%AD%E8%B4%A2%E5%8A%A1%EF%BC%9A%E5%81%BF%E5%80%BA%E8%B4%9F%E6%8B%85%E9%80%BC%E8%BF%91%E5%B3%B0%E5%80%BC"><span class="nav-text">2.1 家庭财务：偿债负担逼近峰值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E6%88%BF%E5%9C%B0%E4%BA%A7%EF%BC%9A%E9%9C%80%E6%B1%82%E5%8F%97%E5%8E%8B%EF%BC%8C%E4%BE%9B%E7%BB%99%E5%88%9A%E6%80%A7%E4%BB%8D%E5%9C%A8"><span class="nav-text">2.2 房地产：需求受压，供给刚性仍在</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E4%BC%81%E4%B8%9A%E9%83%A8%E9%97%A8%EF%BC%9AAI-%E6%8A%95%E8%B5%84%E5%B8%A6%E6%9D%A5%E7%9A%84%E2%80%9C%E5%89%AA%E5%88%80%E5%B7%AE%E2%80%9D"><span class="nav-text">2.3 企业部门：AI 投资带来的“剪刀差”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-%E8%B4%B8%E6%98%93%E4%B8%8E%E6%B1%87%E7%8E%87%E4%BC%A0%E5%AF%BC"><span class="nav-text">2.4 贸易与汇率传导</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-%E9%87%91%E8%9E%8D%E4%BD%93%E7%B3%BB%E9%9F%A7%E6%80%A7"><span class="nav-text">2.5 金融体系韧性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%8A%A0%E6%81%AF%E5%B8%A6%E6%9D%A5%E7%9A%84%E7%A4%BE%E4%BC%9A%E5%88%86%E5%8C%96"><span class="nav-text">三、加息带来的社会分化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E8%80%81%E4%B8%9A%E4%B8%BB%E4%B8%8E%E6%96%B0%E5%80%9F%E6%AC%BE%E4%BA%BA"><span class="nav-text">3.1 老业主与新借款人</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-%E4%BD%8E%E6%94%B6%E5%85%A5%E7%A7%9F%E5%AE%A2%EF%BC%9A%E9%AB%98%E9%80%9A%E8%83%80%E4%B8%8E%E9%AB%98%E7%A7%9F%E9%87%91%E7%9A%84%E5%8F%8C%E9%87%8D%E5%8E%8B%E5%8A%9B"><span class="nav-text">3.2 低收入租客：高通胀与高租金的双重压力</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E5%8A%B3%E5%8A%A8%E5%8A%9B%E5%B8%82%E5%9C%BA%EF%BC%9A%E5%A4%B1%E4%B8%9A%E7%8E%87%E5%9B%9E%E5%8D%87%E4%B8%8E%E7%BB%9F%E8%AE%A1%E5%8F%A3%E5%BE%84%E6%89%B0%E5%8A%A8"><span class="nav-text">3.3 劳动力市场：失业率回升与统计口径扰动</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%85%A8%E7%90%83%E5%88%A9%E7%8E%87%E7%8E%AF%E5%A2%83%E4%B8%8E%E4%B8%AD%E6%BE%B3-%E4%B8%AD%E7%BE%8E%E5%88%A9%E5%B7%AE"><span class="nav-text">四、全球利率环境与中澳 / 中美利差</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-10-%E5%B9%B4%E6%9C%9F%E5%9B%BD%E5%80%BA%E6%94%B6%E7%9B%8A%E7%8E%87"><span class="nav-text">4.1 10 年期国债收益率</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-%E5%88%A9%E5%B7%AE%E7%BB%93%E6%9E%84"><span class="nav-text">4.2 利差结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-%E7%BE%8E%E8%81%94%E5%82%A8%E8%BD%AC%E5%90%91%E5%8A%A0%E6%81%AF%E7%9A%84%E5%A4%96%E6%BA%A2"><span class="nav-text">4.3 美联储转向加息的外溢</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-%E5%88%A9%E5%B7%AE%E5%AF%B9%E6%B1%87%E7%8E%87%E7%9A%84%E8%BE%B9%E9%99%85%E5%BD%B1%E5%93%8D"><span class="nav-text">4.4 利差对汇率的边际影响</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81AUD-CNY-%E8%B5%B0%E5%8A%BF%E4%B8%8E%E5%A4%9A%E6%83%85%E6%99%AF%E5%88%86%E6%9E%90"><span class="nav-text">五、AUD/CNY 走势与多情景分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-%E6%B1%87%E7%8E%87%E7%8E%B0%E5%80%BC%E4%B8%8E%E4%BA%A4%E5%8F%89%E9%AA%8C%E8%AF%81"><span class="nav-text">5.1 汇率现值与交叉验证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-%E6%A0%B8%E5%BF%83%E9%A9%B1%E5%8A%A8%E5%8F%98%E9%87%8F"><span class="nav-text">5.2 核心驱动变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-%E7%9F%AD%E6%9C%9F%E6%83%85%E6%99%AF%EF%BC%883%E2%80%936-%E4%B8%AA%E6%9C%88%EF%BC%8C%E8%87%B3-2027-%E5%B9%B4-4-%E6%9C%88%EF%BC%89"><span class="nav-text">5.3 短期情景（3–6 个月，至 2027 年 4 月）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-%E4%B8%AD%E6%9C%9F%E6%83%85%E6%99%AF%EF%BC%881%E2%80%932-%E5%B9%B4%EF%BC%8C2027%E2%80%932028%EF%BC%89"><span class="nav-text">5.4 中期情景（1–2 年，2027–2028）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E6%8D%A2%E6%B1%87%E5%8F%82%E8%80%83%E4%B8%8E%E5%85%B3%E9%94%AE%E8%B7%9F%E8%B8%AA%E6%8C%87%E6%A0%87"><span class="nav-text">六、换汇参考与关键跟踪指标</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#6-1-%E6%8D%A2%E6%B1%87%E5%8F%82%E8%80%83"><span class="nav-text">6.1 换汇参考</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-2-%E5%85%B3%E9%94%AE%E6%8C%87%E6%A0%87%E8%B7%9F%E8%B8%AA%E6%B8%85%E5%8D%95"><span class="nav-text">6.2 关键指标跟踪清单</span></a></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">写下真实体验，也保留观点的棱角。</div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 86 篇文章
+                    </span>
+                    
+                        <span>
+                            共 227.6k 字
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js" async=""></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days"></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="图片查看器">
+	<button class="image-viewer-close" type="button" aria-label="关闭">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="上一页">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="" decoding="async">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="关闭">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="下一页">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="站内搜索您需要的内容..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js?v=509b91971bf2"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js?v=969d65618587"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js?v=193270b6fdb0"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js?v=647d2af612df"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js?v=c9d014a814b8"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js?v=792db0224d6b"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js?v=7e6a109d5509" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js?v=03c1e188b884"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css?v=77a3a9d5a3d0">
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js?v=e98ec22436a5"></script>
+
+
+<script src="/js/build/plugins/aplayer.js?v=d6d3c64af35f"></script>
+
+
+	
+
+
+<button type="button" id="aden-chat-launcher" class="aden-chat-launcher" aria-haspopup="dialog" aria-expanded="false" hidden="" aria-label="打开 AI 聊天" data-script="/js/chat.js?v=750a15ffa2e2" data-style="/css/chat.css?v=286cbaf4025c"><span aria-hidden="true">✳</span><span class="aden-chat-launcher-label">问 AI</span></button></body></html>

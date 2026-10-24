@@ -1,0 +1,1450 @@
+<!DOCTYPE html><html lang="en"><head><script src="/js/language-preference.js?v=29a144036da1" data-english-home="/en/"></script><script src="/js/site-runtime.js?v=0711b6201338" defer=""></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/en/2026/10/24/2026-10-24-openai-vs-anthropic-ipo-race/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenAI vs Anthropic: Why is the larger of the two giants going public later?">
+<meta property="og:url" content="https://blog.adenxie.com.cn/en/2026/10/24/2026-10-24-openai-vs-anthropic-ipo-race/">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-10-24T10:30:00.000Z">
+<meta property="article:modified_time" content="2026-10-24T10:30:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="Anthropic">
+<meta property="article:tag" content="IPO">
+<meta property="article:tag" content="人工智能">
+<meta property="article:tag" content="OpenAI">
+<meta property="article:tag" content="科技金融">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png?v=fa6db12e9674" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <!--- Page Info-->
+    
+    <title>
+        
+            OpenAI vs Anthropic: Why is the larger behemoth actually going public later? | Aden’s Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/css/site-5a4bbfac1125.css?v=5a4bbfac1125">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js?v=258b1afa4680"></script>
+                
+    
+            
+                
+                    
+                
+    
+
+    
+
+
+
+    
+        
+
+
+    
+
+    
+
+
+    
+
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"en","path":"en/search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"17px","line_height":1.85,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"all_rights_reserved"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["Technology, experience and independent thinking","Real experiences. A personal perspective."],"hitokoto":{"enable":false,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Daily Brief":{"path":"/daily/","icon":"fa-regular fa-newspaper"},"archives":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"},"tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"World Time":{"path":"/world-time/","icon":"fa-regular fa-clock"},"about":{"path":"/about/","icon":"fa-regular fa-user"},"links":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":true,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.i18n = {"search":"Search...","toc":"On this page","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"POWERED BY %s","theme":"THEME","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","post":"Post","posts":"Posts","tagcloud":"Tag Cloud","comment":"Comment","comments":"Comments","home":"Home","archive":"Archive","archives":"Archives","top":"TOP","sticky":"Sticky","go-back-home":"Go Back Home","masonry_loading":"Loading photos...","image_viewer":"Image viewer","close":"Close","exif":{"title":"EXIF","cards":{"camera":"Camera","lens":"Lens","exposure":"Exposure","other":"Other"},"fields":{"make":"Brand","model":"Model","date_taken":"Date taken","lens_model":"Lens","focal_length":"Focal length","focus_mode":"Focus mode","shutter":"Shutter","aperture":"Aperture","iso":"ISO","exposure_program":"Exposure program","exposure_compensation":"Exposure compensation","metering_mode":"Metering mode","flash":"Flash","white_balance":"White balance","latitude":"Latitude","longitude":"Longitude","altitude":"Altitude"},"status":{"loading":"Loading...","no_exif":"No EXIF available","library_missing":"EXIF library not loaded","image_source_missing":"Image source unavailable","unavailable":"EXIF unavailable (blocked by CORS or missing metadata)","flag_unavailable":"EXIF unavailable"}},"about":"About","changelog":"Changelog","links":"Links","link":"Link","friends":"Friends","friend":"Friend","timeline":"Timeline","shuoshuo":"Shuoshuo","bookmarks":"Bookmarks","site_uv":"VISITOR COUNT","site_pv":"TOTAL PAGE VIEWS","read_more":"Read more","wordcount":"Words","min2read":"Mins","status":"Status","runtime":"Blog up for","days":"days","hours":"hrs","minutes":"Min","seconds":"Sec","optimized_by":"and Optimized by Evan","rights":"All Rights Reserved","site_posts":"%s posts in total","site_wordcount":"%s words in total","copyright":{"author":"Author","title":"Title","link":"Link","create_time":"Created at","update_time":"Updated at","license_title":"License","license_content":"This work is licensed under %s.","all_rights_reserved":"All Rights Reserved &#169; %s","public_domain":"This work is in the public domain."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"},"create_time":"Created","update_time":"Updated","expired":"This post is written %s days ago, and the content may not be up to date."};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" hreflang="zh-CN" href="https://blog.adenxie.com.cn/2026/10/24/2026-10-24-openai-vs-anthropic-ipo-race/"><link rel="alternate" hreflang="en" href="https://blog.adenxie.com.cn/en/2026/10/24/2026-10-24-openai-vs-anthropic-ipo-race/"><script data-aden-analytics="">
+      if (location.hostname === 'blog.adenxie.com.cn' && !window.__adenAnalyticsLoaded) {
+        window.__adenAnalyticsLoaded = true;
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        const script = document.createElement('script');
+        script.defer = true;
+        script.src = '/_vercel/insights/script.js';
+        document.head.append(script);
+      }
+    </script></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/en/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/daily/">
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    DAILY BRIEF
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/categories/">
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    CATEGORIES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    WORLD TIME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    <nav class="aden-language-switch" aria-label="Language"><a lang="zh-CN" href="/2026/10/24/2026-10-24-openai-vs-anthropic-ipo-race/" aria-current="false" data-no-swup="">中文</a><span> / </span><a lang="en" href="/en/2026/10/24/2026-10-24-openai-vs-anthropic-ipo-race/" aria-current="page" data-no-swup="">English</a></nav></div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/">
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/daily/">
+                            <span>
+                                DAILY BRIEF
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/archives/">
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/categories/">
+                            <span>
+                                CATEGORIES
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/tags/">
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/world-time/">
+                            <span>
+                                WORLD TIME
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/about/">
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/link/">
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/en/archives/">
+                            <span>Article Archive</span>
+                            <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/en/tags/">
+                            <span>Topic Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/en/about/">
+                            <span>About Aden</span>
+                            <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/tags/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">52</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/categories/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">8</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/archives/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">86</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://images.pexels.com/photos/3905827/pexels-photo-3905827.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="OpenAI vs Anthropic: Why is the larger of the two giants going public later?" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" decoding="async">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">OpenAI vs Anthropic: Why is the larger of the two giants going public later?</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg?v=93ba7ebfa2ff" decoding="async" width="460" height="460">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-10-24 18:30</span>
+        <span class="mobile">2026-10-24 18:30</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-10-24 18:30</span>
+            <span class="mobile">2026-10-24 18:30</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/en/categories/%E5%95%86%E4%B8%9A%E6%B7%B1%E5%BA%A6/">Business Insights</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/en/tags/Anthropic/">Anthropic</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/IPO/">IPO</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">Artificial Intelligence</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/OpenAI/">OpenAI</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/%E7%A7%91%E6%8A%80%E9%87%91%E8%9E%8D/">Fintech</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>5k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>18 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8"><p class="aden-translation-notice">Automatically translated. <a href="/2026/10/24/2026-10-24-openai-vs-anthropic-ipo-race/">Read the Chinese original</a>.</p>
+			<blockquote>
+<p><strong>Introduction</strong>: In<a href="/en/2026/10/23/2026-10-23-anthropic-loss-ipo/">Previous article</a>In this article, we have conducted an in-depth analysis of the accounting paradox and the turning point in Anthropic’s ability to generate cash flow, as revealed in its draft prospectus, which highlights a ‘huge book loss of 80.7 billion’. However, the emergence of this draft has brought to light an even more staggering capital drama—<strong>The rivalry between the two giants in the global AI sector is set to witness an extremely dramatic race to the IPO finish line</strong>. In terms of user recognition and scale, OpenAI—with 900 million weekly active users and 50 million subscribers—is undoubtedly the undisputed market leader; yet on the road to the Nasdaq, this colossus—valued at over 850 billion—has postponed its listing until 2027, allowing the smaller Anthropic to beat it to the punch and ring the bell this November. Why is the larger company trailing behind? What financial calculations and practical challenges lie behind this trillion-dollar IPO race?</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="引子：反常识的排位赛"><a href="#引子：反常识的排位赛" class="headerlink" title="Prologue: A Qualifying Session Defying Conventional Wisdom"></a>Prologue: A Qualifying Session Defying Conventional Wisdom</h2><p>If you had asked tech analysts on Wall Street six months ago, ‘Who will be the first AI company to go public with the largest IPO in history?’, the vast majority would undoubtedly have answered: Sam Altman and his OpenAI.</p>
+<p>After all, by any publicly available measure, OpenAI is the undisputed leader in the world of large language models:</p>
+<ul>
+<li><strong>User base</strong>: Global weekly active users (WAU) officially surpassed the mark as early as the beginning of the year <strong>900 million (900M+)</strong>, and is set to reach the 1 billion mark by the summer;</li>
+<li><strong>Paid chassis</strong>: With over <strong>50 million</strong> There are over 7 million individual paid subscribers and corporate accounts;</li>
+<li><strong>Commercialisation and profit-making</strong>: In the third quarter of 2026, net annualised recurring revenue (ARR) exceeded <strong>US$50 billion</strong> A major milestone.</li>
+</ul>
+<p>By comparison, Anthropic—founded by the Amodei siblings, who left OpenAI—has always been regarded as a challenger, both in terms of user recognition and team size.</p>
+<p>However, in the autumn of 2026, the capital markets presented a truly baffling scenario:<br><strong>Anthropic, a smaller player, is pressing ahead with its underwriter roadshow at a remarkable pace and is expected to officially list on the Nasdaq in mid- to late November; meanwhile, OpenAI—with a valuation of US$852 billion and having secured the largest private funding round in history—has publicly announced that it is postponing its IPO until 2027.</strong></p>
+<p>Why is it that the even larger behemoths are reluctant to go public first?</p>
+<p>To understand this scene, we must see through Wall Street’s fundamental mindset in the current cycle of high interest rates:<strong>Anthropic sells its corporate clients a solid ‘profit and loss account’, whilst OpenAI sells its global users a grand ‘super traffic gateway’—and in the current public market, the exacting mutual funds are, at this stage, only willing to pay for the former.</strong></p>
+<h2 id="一、一场行业乌龙：S-1-秘密递交的时间密码"><a href="#一、一场行业乌龙：S-1-秘密递交的时间密码" class="headerlink" title="I. An Industry Blunder: The Timing of the Secret S-1 Filing"></a>I. An Industry Blunder: The Timing of the Secret S-1 Filing</h2><p>Before we analyse this race, we need to first set the record straight regarding a ‘blunder’ that has been widely circulated in financial media circles.</p>
+<p>Earlier this year, Bloomberg, Fortune and Axios reported in succession that ‘OpenAI had secretly filed an S-1 registration statement with the SEC on 22 May’, sending shockwaves through the global technology sector. However, subsequent official verification confirmed that:<strong>The so-called submission on 22 May was merely a misreport by the media to build anticipation; the actual date of the confidential submission is 8 June 2026.</strong></p>
+<p>This date is extremely delicate:<br><strong>Anthropic filed its confidential S-1 on 1 June 2026, a full week ahead of OpenAI.</strong></p>
+<p>On 8 June, the very day OpenAI formally filed its prospectus, a seismic event took place across the Atlantic at Apple’s Worldwide Developers Conference (WWDC): Apple announced a major partnership with Google, under which Siri would be integrated with the Gemini engine by default. OpenAI, which had previously been viewed by the outside world as deeply tied to Apple, effectively lost one of the most crucial distribution channels in the mobile ecosystem on the very day it filed its prospectus.</p>
+<p>With this one-week time lag, Anthropic’s valuation in the private market has even overtaken that of its peers (its post-Series H valuation on 28 May reached <strong>US$965 billion</strong>, Weisuo’s OpenAI Series C round in March’s <strong>US$852 billion</strong>). From that moment on, the ‘right of primogeniture’ in the AI capital markets quietly changed hands.</p>
+<h2 id="二、OpenAI-的两难账本：同款会计放大器与真实的烧钱黑洞"><a href="#二、OpenAI-的两难账本：同款会计放大器与真实的烧钱黑洞" class="headerlink" title="II. OpenAI’s Dilemma: An Accounting Amplifier and a Genuine Money-Sucking Black Hole"></a>II. OpenAI’s Dilemma: An Accounting Amplifier and a Genuine Money-Sucking Black Hole</h2><p>As we noted in our previous analysis of Anthropic’s 80.7 billion loss, according to leaked audited financial statements disclosed by the UK’s *Financial Times* (FT) and *Fortune* magazine,<strong>OpenAI also has an extremely alarming ‘book loss amplifier’</strong>。</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://files.seeusercontent.com/2026/10/24/nl6G/fig-openai-2025-loss-breakdown.png" alt="fig-openai-2025-loss-breakdown" decoding="async" loading="lazy" width="1000" height="500"><figcaption>fig-openai-2025-loss-breakdown</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 1</span><span class="aden-caption-text">Breakdown of OpenAI’s 2025 financial structure: booked revenue of $13.07B, actual operating loss of -$20.92B; Due to the revaluation of financial instruments associated with the transition to a Profit-Making Public Benefit Company (PBC), the accounts included a one-off non-cash entry of up to $41.55B, ultimately resulting in a net loss of -$38.5B on the balance sheet. (Data: Leaked audited financial statements from the Financial Times (FT) and Fortune)</span></p>
+<h3 id="1-2025-真实账本：每赚-1-美元，依然亏掉-1-60-美元"><a href="#1-2025-真实账本：每赚-1-美元，依然亏掉-1-60-美元" class="headerlink" title="1. 2025 Real Ledger: For every dollar earned, I’m still losing 1.60 dollars"></a>1. 2025 Real Ledger: For every dollar earned, I’m still losing 1.60 dollars</h3><p>Judging by the audited financial statements, OpenAI’s 2025 presents a starkly polarised picture:</p>
+<ul>
+<li><strong>Revenue side</strong>: Booked revenue for the full year stood at <strong>US$13.07 billion</strong>, demonstrating the exceptional monetisation potential of consumer-grade products;</li>
+<li><strong>Cost side</strong>: Research and development (R&amp;D) expenditure amounted to <strong>US$19.18 billion</strong>, selling and administrative expenses of US$5.73 billion, and cost of sales of US$7.50 billion;</li>
+<li><strong>Operating loss</strong>: The actual operating loss amounted to <strong>-US$20.92 billion</strong>. This means that in 2025,<strong>For every dollar of revenue OpenAI generates, the business itself still incurs a net loss of 1.60 dollars.</strong>(Although there has been a marked improvement compared with the 2024 figure of a loss of $2.37 for every $1 earned, there is still no sign of a return to operating profitability.)</li>
+</ul>
+<p>And the staggering figures in the report <strong>- a net loss of US$38.5 billion</strong> Among these, there are more than <strong>US$41.55 billion</strong> This relates to the revaluation of the fair value of equity and derivative financial instruments arising from the reorganisation into a Public Benefit Company (PBC). This mechanism is an accounting construct that stems entirely from the same source as Anthropic’s revaluation of 72 billion in debt.</p>
+<h3 id="2-现金流鸿沟：造血转正-vs-持续失血"><a href="#2-现金流鸿沟：造血转正-vs-持续失血" class="headerlink" title="2. The cash flow gap: moving into the black vs continuing to bleed cash"></a>2. The cash flow gap: moving into the black vs continuing to bleed cash</h3><p>However, the financial trajectories of the two companies took completely opposite turns as they entered 2026:</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://sweetvaluelab.com/blog/img/d76f438b304af35e.svg" alt="Anthropic’s quarterly revenue trends" decoding="async" loading="lazy" width="1000" height="500"><figcaption>Anthropic’s quarterly revenue trends</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 2</span><span class="aden-caption-text">Anthropic’s quarterly revenue trend: Q1 $4.7B ➔ Q2 $11.6B ➔ Q3 $16.8B. Not only did it generate 3.7 times the full-year revenue for 2025 in Q3 alone, but it also achieved consecutive quarters of positive adjusted operating profit in Q2 and Q3 (Q3 operating profit margin: 11 per cent). (Data: Reuters / S-1 draft; Chart: SweetValueLab)</span></p>
+<p>Whilst Anthropic has been the first to cross the adjusted operating profit threshold by selling coding tools to businesses (generating $1.70 in revenue for every $1 of computing power), OpenAI’s rate of cash burn is heading towards an even greater unknown:</p>
+<ul>
+<li><strong>The single-supplier black hole</strong>: In 2025 alone, OpenAI’s spending went to a single supplier<strong>Microsoft Azure’s cloud computing bill amounted to as much as US$17.2 billion</strong>… which directly exceeded its total annual revenue!</li>
+<li><strong>Projected long-term blood loss</strong>: According to investor presentation materials for sovereign wealth funds, as reported by the FT, OpenAI predicts <strong>Cumulative free cash flow (FCF) for the period 2026 to 2030 is set to reach a staggering -$278 billion (–$278B)</strong>；</li>
+<li>The Wall Street Journal (WSJ), citing model estimates, reports that by 2028, OpenAI’s annual cash burn rate will soar to <strong>US$85 billion</strong>. Even the massive $122 billion funding round, which was only finalised in March this year, is expected to, given the frenetic pace of computing infrastructure development, <strong>The trough will be reached by the end of 2028</strong>。</li>
+</ul>
+<h2 id="三、8520-亿回购停滞：市场用真金白银投出的怀疑票"><a href="#三、8520-亿回购停滞：市场用真金白银投出的怀疑票" class="headerlink" title="III. 852 billion buyback programme stalls: the market casts a vote of no confidence with hard cash"></a>III. 852 billion buyback programme stalls: the market casts a vote of no confidence with hard cash</h2><p>On 31 March this year, OpenAI officially announced the completion of the largest single private funding round in the history of commercial enterprise—<strong>A total of US$122 billion ($122B)</strong>, with the post-investment valuation set at <strong>US$852 billion ($852B)</strong>。</p>
+<p>The line-up of investors in this funding round is nothing short of stellar:</p>
+<ul>
+<li><strong>Amazon</strong> an investment of US$50 billion;</li>
+<li><strong>Nvidia</strong> An investment of US$30 billion;</li>
+<li><strong>SoftBank</strong> An investment of US$30 billion (to be paid in instalments, representing a stake of approximately 13 per cent);</li>
+<li>approximately US$12 billion from traditional top-tier institutions;</li>
+<li>It even took the unprecedented step of opening up more than US$3 billion in investment quotas to high-net-worth retail investors via wealth management channels.</li>
+</ul>
+<p>Yet behind all this revelry lies a little-known, strict clause:<br><strong>Of the US$50 billion invested by Amazon, a full US$35 billion constitutes ‘contingent capital’— —the contract explicitly stipulates that this sum will only actually be transferred once OpenAI has successfully completed an IPO by the end of 2028, or once an independent committee has determined that it has achieved a milestone in the development of artificial general intelligence (AGI).</strong></p>
+<p>A scene of even greater symbolic significance took place on 10 August 2026:<br>OpenAI has approved a funding round totalling <strong>US$7 billion ($7B)</strong> the employee shareholding tender offer. At the time, the latest market data showed that OpenAI’s annualised revenue had surged from US$25 billion in February to US$40 billion in August,<strong>Business volume surged by 60 per cent within five months</strong>。</p>
+<p>According to standard valuation principles, this buyback should command a premium of at least 30 per cent to 50 per cent.<br>However, the revelations by Bloomberg and CNBC took everyone by surprise:<br><strong>This US$7 billion share buyback was priced strictly at the original price of US$8,520 per share, without the slightest deviation.</strong></p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://valueaddvc.com/charts/openai-revenue-2026-20b-arr-4b-month-path-to-profitability-1-b4a1c21df3.png" alt="OpenAI’s ARR Trends for 2023–2026 and Breakthroughs During the Plateau Phase" decoding="async" loading="lazy" width="1000" height="500"><figcaption>OpenAI’s ARR Trends for 2023–2026 and Breakthroughs During the Plateau Phase</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 3</span><span class="aden-caption-text">OpenAI’s annual recurring revenue (ARR) growth trajectory for 2023–2026: after a five-month plateau at the $25 billion mark, growth has accelerated again to the $40 billion–$50 billion range, though valuation multiples have not expanded proportionally during this period. (Data: Bloomberg / FT / CNBC; Chart: ValueAddVC)</span></p>
+<p>This harsh commercial reality sends an extremely clear signal:<strong>Even the long-standing institutional shareholders participating in the buyback refused to pay even a single cent’s premium on top of the 852 billion figure.</strong></p>
+<p>Sam Altman has repeatedly emphasised that OpenAI must, once it has reached <strong>1 trillion dollars ($1T)</strong> only after reaching its valuation benchmark should a company consider entering the public market. If a company’s revenue has risen by 60 per cent but its valuation has remained stagnant, forcing it onto the US public market at this stage would almost certainly result in a valuation correction—with the share price falling below the issue price—immediately upon listing.</p>
+<h2 id="四、资本结构对决：轻装上阵-vs-历史遗留重担"><a href="#四、资本结构对决：轻装上阵-vs-历史遗留重担" class="headerlink" title="IV. The Capital Structure Showdown: A Light-Footed Approach vs the Burden of the Past"></a>IV. The Capital Structure Showdown: A Light-Footed Approach vs the Burden of the Past</h2><p>Why has Anthropic been able to ‘move quickly in small steps’ towards a Nasdaq listing, whilst OpenAI has hit a snag?<br>If we lay out and compare the shareholdings and governance structures of the two companies, the answer becomes immediately clear:</p>
+<div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th align="left">Key Governance and Capital Dimensions</th>
+<th align="left">Anthropic (Light and Swift)</th>
+<th align="left">OpenAI (burdened with a heavy load)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Top-level legal framework</strong></td>
+<td align="left">Public Benefit Company (PBC) + 5-tier equity isolation</td>
+<td align="left">Public Benefit Company (PBC) + Non-profit Foundation Dual-tier Holding Structure</td>
+</tr>
+<tr>
+<td align="left"><strong>Founder control over voting rights</strong></td>
+<td align="left"><strong>Extremely tight and secure</strong>: Upon the establishment of Founder LLC, the seven founders held only approximately 14 per cent of the economic shares, but through Class F shares<strong>Hold a firm grip on 50.1 per cent of the absolute voting rights</strong>, supplemented by the LTBT Long-Term Trust Framework</td>
+<td align="left"><strong>A stalemate between multiple interests</strong>: The non-profit foundation retains approximately 26 per cent of the economic interest (corresponding to a book value of over $130 billion) and holds exclusive control over the Class N board; management’s control is subject to institutional checks and balances.</td>
+</tr>
+<tr>
+<td align="left"><strong>Shareholdings in strategic technology giants</strong></td>
+<td align="left">Amazon (15–21 per cent stake) and Google (approximately 14 per cent stake) are passive strategic financial shareholders with no exclusivity clauses.</td>
+<td align="left"><strong>Microsoft holds a stake of approximately 27 per cent (with a market capitalisation exceeding $135B)</strong>; Early-stage deep integration; IP commercialisation and intellectual property licensing have been secured and extended until 2032</td>
+</tr>
+<tr>
+<td align="left"><strong>Computing Power and Supply Chain Agreement</strong></td>
+<td align="left">Commitments totalling approximately $518B for computing power procurement have been signed (47 per cent of revenue is routed via AWS/GCP cloud services)</td>
+<td align="left">It pays Microsoft over 10 billion in computing power costs annually; it is also spearheading the $500 billion ‘Stargate’ infrastructure project, with a capital expenditure plan totalling $856 billion by 2030.</td>
+</tr>
+<tr>
+<td align="left"><strong>The biggest compliance hurdle to listing</strong></td>
+<td align="left"><strong>Largely cleared</strong>: Approximately $72 billion worth of convertible bonds were automatically converted into ordinary shares at the closing bell at a pre-set price, and the balance sheet was cleared in an instant.</td>
+<td align="left"><strong>Intricately complex</strong>: How can one demonstrate to the SEC that a non-profit foundation holding 26 per cent of the voting rights does not conflict with the interests of public shareholders? How should Microsoft’s exceptionally large free float of 27 per cent be addressed? These issues remain entirely unresolved.</td>
+</tr>
+</tbody></table></div>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://sweetvaluelab.com/blog/img/0823ec53f0e42a60.svg" alt="Anthropic’s US$518 billion computing power commitment, broken down by competitor" decoding="async" loading="lazy" width="1000" height="500"><figcaption>Anthropic’s US$518 billion computing power commitment, broken down by competitor</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 4</span><span class="aden-caption-text">A breakdown of Anthropic’s computing power ecosystem: whereas OpenAI is deeply tied to Microsoft Azure, Anthropic’s commitment of 518 billion is spread across a diverse range of partners, including Broadcom, Google and Amazon, offering a clearer path for capital exit. (Data: Reuters / S-1 draft; Chart: SweetValueLab)</span></p>
+<p>As a former technology underwriting specialist at Morgan Stanley pointed out:<strong>Anthropic is a modern company that has been meticulously designed from day one with commercialisation and an IPO in mind; OpenAI, on the other hand, is an aircraft carrier that was converted from a non-profit research institute partway through its journey, its hull laden with unresolved ties to Microsoft, its non-profit board and early donors.</strong> To sort through these issues, CFO Sarah Friar will need at least a full year to fine-tune compliance.</p>
+<h2 id="五、定价锚定效应与承销商的华尔街博弈"><a href="#五、定价锚定效应与承销商的华尔街博弈" class="headerlink" title="V. The Pricing Anchoring Effect and the Wall Street Game Played by Underwriters"></a>V. The Pricing Anchoring Effect and the Wall Street Game Played by Underwriters</h2><p>Every major IPO in the history of technology has been a psychological battle over ‘who sets the price first and who sets the benchmark’.</p>
+<p>At present, there is a high degree of overlap between the two companies’ underwriting teams:<strong>Goldman Sachs and Morgan Stanley are acting as lead underwriters for both companies.</strong> Investment banks are hedging their bets on both sides, and this has directly led to a delicate game of brinkmanship between the two companies regarding the timing of their listings.</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://fortune.com/img-assets/wp-content/uploads/2026/06/Screenshot-2026-06-11-at-154932.png" alt="ARK Invest: A Comparison of AI Investment as a Proportion of GDP with the Railway Boom of 1873" decoding="async" loading="lazy" width="1000" height="500"><figcaption>ARK Invest: A Comparison of AI Investment as a Proportion of GDP with the Railway Boom of 1873</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 5</span><span class="aden-caption-text">ARK Invest has calculated the proportion of global GDP accounted for by capital expenditure on cutting-edge AI: its rate of expansion has already surpassed that of the US railway boom of 1873, and the massive funding required must rely on a continuous inflow of capital from the public capital markets. (Data: ARK Invest via Fortune)</span></p>
+<h3 id="谁先上市，谁就是“定盘星”"><a href="#谁先上市，谁就是“定盘星”" class="headerlink" title="Whoever goes public first will be the ‘guiding star’"></a>Whoever goes public first will be the ‘guiding star’</h3><ul>
+<li><strong>If Anthropic goes public successfully in mid-November</strong>, and the price is set at <strong>US$1.5 trillion to US$2.0 trillion</strong> Based on its Q3 annualised revenue (approximately US$67 billion), the market’s price-to-sales (P/S) ratio for the company is expected to fall within the range of <strong>22 to 30 times</strong> between.</li>
+<li><strong>This multiple will immediately become the publicly recognised benchmark for the generative AI sector across Wall Street.</strong>。</li>
+<li>Once this benchmark is established, OpenAI—which is currently trailing behind—will have to accept the stringent valuation multiples if it wishes to challenge a valuation of 1 trillion or even 1.5 trillion US dollars by 2027. If, by then, OpenAI is unable to produce even a modest operating profit statement and continues to run an annual cash deficit of tens of billions of dollars, secondary market investors will ruthlessly apply valuation discounts.</li>
+</ul>
+<h3 id="为什么-OpenAI-正在加速-300-亿新融资？"><a href="#为什么-OpenAI-正在加速-300-亿新融资？" class="headerlink" title="Why is OpenAI rushing to secure 30 billion in new funding?"></a>Why is OpenAI rushing to secure 30 billion in new funding?</h3><p>This also perfectly explains the major development revealed by Reuters on 19 October:<br><strong>OpenAI is urgently accelerating a massive private funding round worth at least US$30 billion, led by SoftBank and Abu Dhabi’s MGX, with a post-investment valuation targeting US$1.4 trillion ($1.4T)!</strong></p>
+<p>The original report hit the nail on the head: “The reason OpenAI is racing against the clock is precisely to complete the transaction before Anthropic’s anticipated IPO in mid-November.”</p>
+<p>The real tactical intention behind this lies in:<strong>Before Anthropic goes public and its public market valuation multiples are set in stone, OpenAI must first cement its ‘$1.4 trillion valuation’ in writing through a contract on the private market.</strong> Only in this way will this figure of 1.4 trillion not be easily discounted by the critical eye of the secondary market when the company finally goes public in 2027.</p>
+<h2 id="六、未来推演：三种可能的情景与时间表"><a href="#六、未来推演：三种可能的情景与时间表" class="headerlink" title="VI. Future Projections: Three Possible Scenarios and Timelines"></a>VI. Future Projections: Three Possible Scenarios and Timelines</h2><p>Taking into account current liquidity in the open market, the business progress of the two companies and the market’s overall pricing expectations, the following three possible scenarios can be envisaged regarding the IPO rivalry between these two giants:</p>
+<div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th align="left">Role-play scenario</th>
+<th align="center">Probability of occurrence</th>
+<th align="left">Key trigger thresholds and macroeconomic conditions</th>
+<th align="left">Market and Valuation: Definitions</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Scenario A<br>(Base-case scenario)</strong></td>
+<td align="center"><strong>~55%</strong><br><em>(Note: Based on Kalshi’s prediction market, which indicates that 59 per cent of contracts for IPOs before 2027 have been priced; source cited)</em></td>
+<td align="left">• Anthropic was successfully listed in mid-November, with its valuation stabilising in the $1.5T–$2.0T range; there was no sharp drop in price during the first month following its initial public offering;<br>• OpenAI successfully secured $30B in private funding at a valuation of $1.4T before the end of the year;<br>• CFO Sarah Friar is steadily advancing the compliance audit of the financial statements; OpenAI’s ARR is set to reach over $60 billion by the end of 2026.</td>
+<td align="left"><strong>A Win-Win Evolution</strong>: Anthropic has successfully set a 25x valuation benchmark; OpenAI on <strong>A successful listing on the New York Stock Exchange or Nasdaq in the second quarter of 2027 (May–June)</strong>, with its listing valuation naturally settling at between $1.2T and $1.5T, making it the largest IPO in the history of the technology sector.</td>
+</tr>
+<tr>
+<td align="left"><strong>Scenario B<br>(The shock of a share price falling below its issue price)</strong></td>
+<td align="center"><strong>~25%</strong></td>
+<td align="left">• Following its listing, Anthropic has re-enacted the SpaceX debacle of June this year (when SpaceX’s share price plummeted by over 32 per cent within two weeks of its listing), with secondary market investors launching a fierce short-selling campaign against the company’s trillion-valuation, which is not fully GAAP-compliant;<br>• US technology shares have experienced a systemic compression in valuations due to persistently high macroeconomic interest rates (with the 10-year US Treasury yield exceeding 5 per cent).</td>
+<td align="left"><strong>A complete ebb</strong>: The overall underwriting multiple for the AI sector has fallen below 15x; major shareholders such as SoftBank are losing confidence,<strong>OpenAI has been forced to significantly delay its IPO until the end of 2027 or even 2028</strong>… the prospect of a trillion-yuan valuation faces the risk of being revised downwards.</td>
+</tr>
+<tr>
+<td align="left"><strong>Scenario C<br>(Forced false start)</strong></td>
+<td align="center"><strong>~20%</strong></td>
+<td align="left">• Amazon has threatened to withdraw a potential investment of US$35 billion due to strategic differences, or major creditors and SoftBank have exerted extreme political pressure to realise liquidity;<br>• Altman was forced to renege on his previous statement that the company would not go public until its valuation reached at least 1 trillion.</td>
+<td align="left"><strong>Get a head start with a discount</strong>: OpenAI has abandoned its measured plans for 2027 and is rushing to file its S-1 prospectus with the market by the end of 2026, listing at a significantly discounted valuation of $800B–$900B in a bid to secure liquidity on the open market.</td>
+</tr>
+</tbody></table></div>
+<h2 id="七、数据口径诚实说明（关键事实边界）"><a href="#七、数据口径诚实说明（关键事实边界）" class="headerlink" title="VII. Honest Explanation of Data Definitions (Key Factual Boundaries)"></a>VII. Honest Explanation of Data Definitions (Key Factual Boundaries)</h2><p>When interpreting the data contained in this report, readers should exercise caution and remain mindful of its limitations:</p>
+<ol>
+<li><strong>OpenAI’s key financial results have not yet been publicly disclosed</strong>: The figures for operating costs, research and development expenditure and a net loss of -$38.5B for 2025 cited in the article are derived from leaked audit working papers obtained by independent investigative journalist Ed Zitron and verified by the *Financial Times*; the final S-1 filing, as approved by the SEC, may contain restatements regarding accounting classifications;</li>
+<li><strong>There is a ‘calibre trap’ in the definition of ARR</strong>: The figure of ‘$70 billion in annualised revenue’ attributed to OpenAI in recent reports largely comprises the total Gross Merchandise Value (GMV) generated through ecosystem channels such as Microsoft; the net Annual Recurring Revenue (ARR), after deducting revenue shares, is expected to be approximately <strong>US$50 billion</strong>, when conducting the analysis, it is essential not to confuse the gross figures with Anthropic’s net figures;</li>
+<li><strong>The postponement schedule exhibits characteristics of a dynamic game</strong>: Whether Altman describes an IPO in 2026 as ‘unwise’ or Sarah Friar refers to an ‘IPO in 2027’, these are both non-legally binding examples of the company’s external expectation management; the specific timeline will still depend heavily on the actual market response following Anthropic’s listing.</li>
+</ol>
+<h2 id="结语：谁在为未来买单？"><a href="#结语：谁在为未来买单？" class="headerlink" title="Conclusion: Who is footing the bill for the future?"></a>Conclusion: Who is footing the bill for the future?</h2><p>Returning to the original question: why is OpenAI, despite being larger, ranked lower?</p>
+<p>The answer may not be all that complicated. Throughout Silicon Valley’s long history, the first generation of pioneers has often borne the heaviest costs of laying the foundations—they have had to educate hundreds of millions of users worldwide about what large language models are, shoulder the most costly losses from trial and error in exploring foundational technologies, and repeatedly grapple with antitrust regulation and complex historical structures.</p>
+<p>Meanwhile, those trailing behind are often able to prune their branches and leaves with greater ease. Anthropic’s lead is no myth, but a highly pragmatic business decision:<strong>We do not need a sprawling global network; we simply require the most valuable assets within the corporate sector, for which there is the greatest willingness to pay. We do not need the self-contradictory, sacrosanct shackles of non-profit organisations; we simply require a clear equity structure that adheres to commercial principles.</strong></p>
+<p>When Anthropic’s bell rang out in New York in November, it marked not only the crowning moment for a start-up, but also a public test for OpenAI and Sam Altman:<strong>When the doors to the capital markets are thrown open, that super-portal with a valuation in the trillions will ultimately have to prove to the world: are you merely a money-shredder that devours tens of billions in capital, or a truly great engine capable of generating a steady stream of profits?</strong></p>
+<h3 id="主要信息来源与核验索引"><a href="#主要信息来源与核验索引" class="headerlink" title="Main Sources of Information and Verification Index"></a>Main Sources of Information and Verification Index</h3><ul>
+<li><a class="link" target="_blank" rel="noopener" href="https://openai.com/index/scaling-ai-for-everyone/">OpenAI Official Blog: Scaling AI for everyone (27 February 2026, revealing 900 million weekly active users and 50 million subscribers)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://openai.com/index/statement-on-openai-nonprofit-and-pbc/">Official Statement from OpenAI: Statement on OpenAI Nonprofit and PBC<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://fortune.com/2026/06/16/openai-financials-leaked-losses-revenue-profit/">Fortune Exclusive Investigation: OpenAI Financials Leaked – Losses, Revenue, Profit (16 June 2026)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://valueaddvc.com/blog/openai-revenue-2026-20b-arr-4b-month-path-to-profitability">ValueAddVC In-depth Research Report: A Comprehensive Overview of OpenAI’s Revenue in 2026 and Verification of the $50B Net Figure (21 October 2026)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://pick-right.com/news/openai-confidential-ipo-filing-actual-2026-06-08/">Pick Right Correction: OpenAI Confidential IPO Filing – Actual Date: 8 June 2026<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://techstartups.com/2026/10/20/anthropic-posts-staggering-80-7-billion-net-loss-in-first-half-of-2026-as-ipo-approaches/">TechStartups Fact-Check: Anthropic reports a staggering net loss of $80.7B ahead of its IPO<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://sweetvaluelab.com/blog/anthropic-ipo-prospectus-numbers">SweetValueLab Financial Visualisation: Anthropic IPO Prospectus Figures<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.reuters.com/">Reuters Exclusive In-Depth Report: OpenAI Accelerates $30 Billion Funding Round at $1.4T Ahead of Anthropic’s IPO (19 October 2026)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+</ul>
+<p>Cover image:<a class="link" target="_blank" rel="noopener" href="https://www.pexels.com/photo/white-and-red-track-field-3905827/">Markus Spiske / Pexels<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> OpenAI vs Anthropic: Why is the larger of the two giants going public later?</li>
+        <li><strong>Author:</strong> AdenXie</li>
+        <li><strong>Created at
+                :</strong> 2026-10-24 18:30:00</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2026-10-24 18:30:00
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://blog.adenxie.com.cn/2026/10/24/2026-10-24-openai-vs-anthropic-ipo-race/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                All Rights Reserved © AdenXie
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/Anthropic/">#Anthropic</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/IPO/">#IPO</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">#Artificial Intelligence</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/OpenAI/">#OpenAI</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E7%A7%91%E6%8A%80%E9%87%91%E8%9E%8D/">#Tech and Finance</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/en/2026/10/23/2026-10-23-anthropic-loss-ipo/" title="Anthropic, with a loss of 80.7 billion, is currently in the healthiest state in its history – why is that?" rel="bookmark">
+  <img src="https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Anthropic, with a loss of 80.7 billion, is currently in the healthiest state in its history – why is that?" class="!max-w-none" decoding="async">
+  <span class="title">Anthropic, with a loss of 80.7 billion, is currently in the healthiest state in its history – why is that?</span>
+</a><a class="recommended-article-item" href="/en/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/" title="Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP" rel="bookmark">
+  <img src="https://images.pexels.com/photos/5480781/pexels-photo-5480781.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP" class="!max-w-none" decoding="async">
+  <span class="title">Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP</span>
+</a><a class="recommended-article-item" href="/en/2026/10/24/2026-10-24-daily-brief/" title="Daily Briefing | 24 October 2026: Brent crude nears US$117; US expands technology investment restrictions on China; OpenAI plans to raise funds at a valuation of US$1.25 trillion" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1518527989017-5baca7a58d3c?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 24 October 2026: Brent crude nears US$117; US expands technology investment restrictions on China; OpenAI plans to raise funds at a valuation of US$1.25 trillion" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | 24 October 2026: Brent crude nears US$117; US expands technology investment restrictions on China; OpenAI plans to raise funds at a valuation of US$1.25 trillion</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/en/2026/10/23/2026-10-23-anthropic-loss-ipo/" title="Anthropic, with a loss of 80.7 billion, is currently in the healthiest state in its history – why is that?" rel="bookmark">
+  <img src="https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Anthropic, with a loss of 80.7 billion, is currently in the healthiest state in its history – why is that?" class="!max-w-none" decoding="async">
+  <span class="title">Anthropic, with a loss of 80.7 billion, is currently in the healthiest state in its history – why is that?</span>
+</a><a class="recommended-article-item" href="/en/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/" title="Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP" rel="bookmark">
+  <img src="https://images.pexels.com/photos/5480781/pexels-photo-5480781.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP" class="!max-w-none" decoding="async">
+  <span class="title">Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/en/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP</span>
+						<span class="post-nav-item">Prev posts</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/en/2026/10/24/2026-10-24-daily-brief/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Daily Briefing | 24 October 2026: Brent crude nears US$117; US expands technology investment restrictions on China; OpenAI plans to raise funds at a valuation of US$1.25 trillion</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">OpenAI vs Anthropic: Why is the larger of the two giants going public later?</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E5%AD%90%EF%BC%9A%E5%8F%8D%E5%B8%B8%E8%AF%86%E7%9A%84%E6%8E%92%E4%BD%8D%E8%B5%9B"><span class="nav-text">Prologue: A Qualifying Session Defying Conventional Wisdom</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E4%B8%80%E5%9C%BA%E8%A1%8C%E4%B8%9A%E4%B9%8C%E9%BE%99%EF%BC%9AS-1-%E7%A7%98%E5%AF%86%E9%80%92%E4%BA%A4%E7%9A%84%E6%97%B6%E9%97%B4%E5%AF%86%E7%A0%81"><span class="nav-text">I. An Industry Blunder: The Timing of the Secret S-1 Filing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81OpenAI-%E7%9A%84%E4%B8%A4%E9%9A%BE%E8%B4%A6%E6%9C%AC%EF%BC%9A%E5%90%8C%E6%AC%BE%E4%BC%9A%E8%AE%A1%E6%94%BE%E5%A4%A7%E5%99%A8%E4%B8%8E%E7%9C%9F%E5%AE%9E%E7%9A%84%E7%83%A7%E9%92%B1%E9%BB%91%E6%B4%9E"><span class="nav-text">II. OpenAI’s Dilemma: An Accounting Amplifier and a Genuine Money-Sucking Black Hole</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2025-%E7%9C%9F%E5%AE%9E%E8%B4%A6%E6%9C%AC%EF%BC%9A%E6%AF%8F%E8%B5%9A-1-%E7%BE%8E%E5%85%83%EF%BC%8C%E4%BE%9D%E7%84%B6%E4%BA%8F%E6%8E%89-1-60-%E7%BE%8E%E5%85%83"><span class="nav-text">1. 2025 Real Ledger: For every dollar earned, I’m still losing 1.60 dollars</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%8E%B0%E9%87%91%E6%B5%81%E9%B8%BF%E6%B2%9F%EF%BC%9A%E9%80%A0%E8%A1%80%E8%BD%AC%E6%AD%A3-vs-%E6%8C%81%E7%BB%AD%E5%A4%B1%E8%A1%80"><span class="nav-text">2. The cash flow gap: moving into the black vs continuing to bleed cash</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%818520-%E4%BA%BF%E5%9B%9E%E8%B4%AD%E5%81%9C%E6%BB%9E%EF%BC%9A%E5%B8%82%E5%9C%BA%E7%94%A8%E7%9C%9F%E9%87%91%E7%99%BD%E9%93%B6%E6%8A%95%E5%87%BA%E7%9A%84%E6%80%80%E7%96%91%E7%A5%A8"><span class="nav-text">III. 852 billion buyback programme stalls: the market casts a vote of no confidence with hard cash</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E8%B5%84%E6%9C%AC%E7%BB%93%E6%9E%84%E5%AF%B9%E5%86%B3%EF%BC%9A%E8%BD%BB%E8%A3%85%E4%B8%8A%E9%98%B5-vs-%E5%8E%86%E5%8F%B2%E9%81%97%E7%95%99%E9%87%8D%E6%8B%85"><span class="nav-text">IV. The Capital Structure Showdown: A Light-Footed Approach vs the Burden of the Past</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E5%AE%9A%E4%BB%B7%E9%94%9A%E5%AE%9A%E6%95%88%E5%BA%94%E4%B8%8E%E6%89%BF%E9%94%80%E5%95%86%E7%9A%84%E5%8D%8E%E5%B0%94%E8%A1%97%E5%8D%9A%E5%BC%88"><span class="nav-text">V. The Pricing Anchoring Effect and the Wall Street Game Played by Underwriters</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%81%E5%85%88%E4%B8%8A%E5%B8%82%EF%BC%8C%E8%B0%81%E5%B0%B1%E6%98%AF%E2%80%9C%E5%AE%9A%E7%9B%98%E6%98%9F%E2%80%9D"><span class="nav-text">Whoever goes public first will be the ‘guiding star’</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-OpenAI-%E6%AD%A3%E5%9C%A8%E5%8A%A0%E9%80%9F-300-%E4%BA%BF%E6%96%B0%E8%9E%8D%E8%B5%84%EF%BC%9F"><span class="nav-text">Why is OpenAI rushing to secure 30 billion in new funding?</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E6%9C%AA%E6%9D%A5%E6%8E%A8%E6%BC%94%EF%BC%9A%E4%B8%89%E7%A7%8D%E5%8F%AF%E8%83%BD%E7%9A%84%E6%83%85%E6%99%AF%E4%B8%8E%E6%97%B6%E9%97%B4%E8%A1%A8"><span class="nav-text">VI. Future Projections: Three Possible Scenarios and Timelines</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E6%95%B0%E6%8D%AE%E5%8F%A3%E5%BE%84%E8%AF%9A%E5%AE%9E%E8%AF%B4%E6%98%8E%EF%BC%88%E5%85%B3%E9%94%AE%E4%BA%8B%E5%AE%9E%E8%BE%B9%E7%95%8C%EF%BC%89"><span class="nav-text">VII. Honest Explanation of Data Definitions (Key Factual Boundaries)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AF%AD%EF%BC%9A%E8%B0%81%E5%9C%A8%E4%B8%BA%E6%9C%AA%E6%9D%A5%E4%B9%B0%E5%8D%95%EF%BC%9F"><span class="nav-text">Conclusion: Who is footing the bill for the future?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E4%BF%A1%E6%81%AF%E6%9D%A5%E6%BA%90%E4%B8%8E%E6%A0%B8%E9%AA%8C%E7%B4%A2%E5%BC%95"><span class="nav-text">Main Sources of Information and Verification Index</span></a></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">Write down your real experiences while retaining the edges of your viewpoints.</div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/en/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        86 posts in total
+                    </span>
+                    
+                        <span>
+                            227.6k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js" async=""></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days"></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="Image viewer">
+	<button class="image-viewer-close" type="button" aria-label="Close">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="Prev">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="" decoding="async">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="Close">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="Next">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Search..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js?v=509b91971bf2"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js?v=969d65618587"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js?v=193270b6fdb0"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js?v=647d2af612df"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js?v=c9d014a814b8"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js?v=792db0224d6b"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js?v=7e6a109d5509" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js?v=03c1e188b884"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css?v=77a3a9d5a3d0">
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js?v=e98ec22436a5"></script>
+
+
+<script src="/js/build/plugins/aplayer.js?v=d6d3c64af35f"></script>
+
+
+	
+
+
+<button type="button" id="aden-chat-launcher" class="aden-chat-launcher" aria-haspopup="dialog" aria-expanded="false" hidden="" aria-label="Open AI chat" data-script="/js/chat.js?v=750a15ffa2e2" data-style="/css/chat.css?v=286cbaf4025c"><span aria-hidden="true">✳</span><span class="aden-chat-launcher-label">Ask AI</span></button></body></html>

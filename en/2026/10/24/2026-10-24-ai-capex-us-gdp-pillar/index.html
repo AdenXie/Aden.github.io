@@ -1,0 +1,1536 @@
+<!DOCTYPE html><html lang="en"><head><script src="/js/language-preference.js?v=29a144036da1" data-english-home="/en/"></script><script src="/js/site-runtime.js?v=0711b6201338" defer=""></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/en/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP">
+<meta property="og:url" content="https://blog.adenxie.com.cn/en/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-10-24T12:00:00.000Z">
+<meta property="article:modified_time" content="2026-10-24T12:00:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="美联储">
+<meta property="article:tag" content="人工智能">
+<meta property="article:tag" content="美国经济">
+<meta property="article:tag" content="GDP">
+<meta property="article:tag" content="资本开支">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png?v=fa6db12e9674" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP | Aden’s Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/css/site-5a4bbfac1125.css?v=5a4bbfac1125">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js?v=258b1afa4680"></script>
+                
+    
+            
+                
+                    
+                
+    
+
+    
+
+
+
+    
+        
+
+
+    
+
+    
+
+
+    
+
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"en","path":"en/search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"17px","line_height":1.85,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"all_rights_reserved"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["Technology, experience and independent thinking","Real experiences. A personal perspective."],"hitokoto":{"enable":false,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Daily Brief":{"path":"/daily/","icon":"fa-regular fa-newspaper"},"archives":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"},"tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"World Time":{"path":"/world-time/","icon":"fa-regular fa-clock"},"about":{"path":"/about/","icon":"fa-regular fa-user"},"links":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":true,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.i18n = {"search":"Search...","toc":"On this page","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"POWERED BY %s","theme":"THEME","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","post":"Post","posts":"Posts","tagcloud":"Tag Cloud","comment":"Comment","comments":"Comments","home":"Home","archive":"Archive","archives":"Archives","top":"TOP","sticky":"Sticky","go-back-home":"Go Back Home","masonry_loading":"Loading photos...","image_viewer":"Image viewer","close":"Close","exif":{"title":"EXIF","cards":{"camera":"Camera","lens":"Lens","exposure":"Exposure","other":"Other"},"fields":{"make":"Brand","model":"Model","date_taken":"Date taken","lens_model":"Lens","focal_length":"Focal length","focus_mode":"Focus mode","shutter":"Shutter","aperture":"Aperture","iso":"ISO","exposure_program":"Exposure program","exposure_compensation":"Exposure compensation","metering_mode":"Metering mode","flash":"Flash","white_balance":"White balance","latitude":"Latitude","longitude":"Longitude","altitude":"Altitude"},"status":{"loading":"Loading...","no_exif":"No EXIF available","library_missing":"EXIF library not loaded","image_source_missing":"Image source unavailable","unavailable":"EXIF unavailable (blocked by CORS or missing metadata)","flag_unavailable":"EXIF unavailable"}},"about":"About","changelog":"Changelog","links":"Links","link":"Link","friends":"Friends","friend":"Friend","timeline":"Timeline","shuoshuo":"Shuoshuo","bookmarks":"Bookmarks","site_uv":"VISITOR COUNT","site_pv":"TOTAL PAGE VIEWS","read_more":"Read more","wordcount":"Words","min2read":"Mins","status":"Status","runtime":"Blog up for","days":"days","hours":"hrs","minutes":"Min","seconds":"Sec","optimized_by":"and Optimized by Evan","rights":"All Rights Reserved","site_posts":"%s posts in total","site_wordcount":"%s words in total","copyright":{"author":"Author","title":"Title","link":"Link","create_time":"Created at","update_time":"Updated at","license_title":"License","license_content":"This work is licensed under %s.","all_rights_reserved":"All Rights Reserved &#169; %s","public_domain":"This work is in the public domain."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"},"create_time":"Created","update_time":"Updated","expired":"This post is written %s days ago, and the content may not be up to date."};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" hreflang="zh-CN" href="https://blog.adenxie.com.cn/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/"><link rel="alternate" hreflang="en" href="https://blog.adenxie.com.cn/en/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/"><script data-aden-analytics="">
+      if (location.hostname === 'blog.adenxie.com.cn' && !window.__adenAnalyticsLoaded) {
+        window.__adenAnalyticsLoaded = true;
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        const script = document.createElement('script');
+        script.defer = true;
+        script.src = '/_vercel/insights/script.js';
+        document.head.append(script);
+      }
+    </script></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/en/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/daily/">
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    DAILY BRIEF
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/categories/">
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    CATEGORIES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    WORLD TIME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    <nav class="aden-language-switch" aria-label="Language"><a lang="zh-CN" href="/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/" aria-current="false" data-no-swup="">中文</a><span> / </span><a lang="en" href="/en/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/" aria-current="page" data-no-swup="">English</a></nav></div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/">
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/daily/">
+                            <span>
+                                DAILY BRIEF
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/archives/">
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/categories/">
+                            <span>
+                                CATEGORIES
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/tags/">
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/world-time/">
+                            <span>
+                                WORLD TIME
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/about/">
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/link/">
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/en/archives/">
+                            <span>Article Archive</span>
+                            <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/en/tags/">
+                            <span>Topic Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/en/about/">
+                            <span>About Aden</span>
+                            <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/tags/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">52</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/categories/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">8</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/archives/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">86</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://images.pexels.com/photos/5480781/pexels-photo-5480781.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" decoding="async">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg?v=93ba7ebfa2ff" decoding="async" width="460" height="460">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-10-24 20:00</span>
+        <span class="mobile">2026-10-24 20:00</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-10-24 20:00</span>
+            <span class="mobile">2026-10-24 20:00</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/en/categories/%E5%AE%8F%E8%A7%82%E7%BB%8F%E6%B5%8E/">Macroeconomics</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/en/tags/%E7%BE%8E%E8%81%94%E5%82%A8/">The Federal Reserve</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">Artificial Intelligence</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/%E7%BE%8E%E5%9B%BD%E7%BB%8F%E6%B5%8E/">The US economy</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/GDP/">GDP</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/%E8%B5%84%E6%9C%AC%E5%BC%80%E6%94%AF/">Capital expenditure</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>6.9k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>24 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8"><p class="aden-translation-notice">Automatically translated. <a href="/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/">Read the Chinese original</a>.</p>
+			<blockquote>
+<p><strong>Introduction</strong>: For a long time, global investors have held a deeply ingrained consensus regarding the US economy: ‘Consumption is life; without it, the economy dies’. Personal consumption expenditure (PCE) accounts for nearly 70 per cent of US GDP; as long as ordinary Americans continue to use their credit cards, the economic engine will not stall. However, the latest macroeconomic data released in 2026 paints a new reality that completely overturns this conventional wisdom:<strong>Consumer spending has taken a back seat; instead, the US economy is now underpinned by the proliferation of AI data centres, expensive GPU clusters and extensive power grids.</strong> Wall Street estimates suggest that nearly half of US economic growth this year has been driven directly by AI capital expenditure (Capex); under the most aggressive projections, this figure has even been estimated at a staggering 74 per cent. Exactly how many percentage points has AI investment contributed to growth? What would happen to the US economy if this colossal computing-power money-spinner were to suddenly grind to a halt? Are we reliving the old dream of the 1990s ‘trillion-fibre’ Great Leap Forward?</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="引子：单引擎经济的诞生"><a href="#引子：单引擎经济的诞生" class="headerlink" title="Prologue: The Emergence of a Single-Engine Economy"></a>Prologue: The Emergence of a Single-Engine Economy</h2><p>Let us first turn our attention to several sets of macroeconomic data officially finalised this year by the US Bureau of Economic Analysis (BEA):</p>
+<ul>
+<li><strong>The fourth quarter of 2025</strong>: The annualised quarter-on-quarter growth rate of US real GDP was only a meagre <strong>+0.5%</strong>, almost slipping to the brink of stagnation;</li>
+<li><strong>First quarter of 2026</strong>: GDP growth suddenly rebounded strongly to <strong>+2.1%</strong>(Third estimate revised to +2.5 per cent);</li>
+<li><strong>The second quarter of 2026</strong>: The final GDP figure remains stable at <strong>+2.2%</strong> the moderate range.</li>
+</ul>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://storage.ghost.io/c/77/f7/77f78434-a11f-4803-9c04-b15aaa2a8e69/content/images/2026/06/ai-capex-gdp-growth-q1-2026-bea-third-estimate.png" alt="AI Data Centre Construction and Macro Capital Expenditure" decoding="async" loading="lazy" width="1000" height="500"><figcaption>AI Data Centre Construction and Macro Capital Expenditure</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 1</span><span class="aden-caption-text">A panoramic view of construction at a large data centre campus in North America: AI capital expenditure has evolved from being an isolated commercial activity of tech giants into the primary driver of US macroeconomic growth. (Image credit: TFTC / Ghost CDN)</span></p>
+<p>On the surface, this appears to be a standard report card on the US economy’s ‘soft landing’. Yet behind the spotlight, the structural pillars have undergone a historic fracture and reorganisation:<br>The contribution to economic growth from household consumption—which had previously been the dominant driver—has been significantly squeezed, whilst investment in residential property has acted as a drag on growth for several consecutive quarters due to high mortgage interest rates of 7.5 per cent.<strong>The only driving force that will prevent the US economy from plunging into recession in 2026 is the AI infrastructure development on which the tech giants are betting heavily, regardless of the cost.</strong></p>
+<p>As Bridgewater asserted in its macroeconomic research report:<strong>The US economy is becoming a giant ship powered by a single engine—and that sole pillar of support is known as AI capital expenditure.</strong></p>
+<h2 id="一、“74-”-的争议：AI-到底给美国经济贡献了几个点？"><a href="#一、“74-”-的争议：AI-到底给美国经济贡献了几个点？" class="headerlink" title="1. The ‘74 per cent’ controversy: How many percentage points has AI actually contributed to the US economy?"></a>1. The ‘74 per cent’ controversy: How many percentage points has AI actually contributed to the US economy?</h2><p>In the debate between the financial community and macroeconomists, ‘Just how much has AI actually contributed to GDP growth?’ is currently the most contentious and revealing topic. The conclusions circulating in the market range from <strong>30%</strong> to <strong>74%</strong> or even higher, depending on the circumstances.</p>
+<p>How on earth did this vast range of figures come about? We must break it down into four distinctly different statistical methodologies:</p>
+<h3 id="口径-1：TFTC-的“74-”最宽口径（激进推演）"><a href="#口径-1：TFTC-的“74-”最宽口径（激进推演）" class="headerlink" title="Scenario 1: TFTC’s ‘74 per cent’ – the broadest scenario (radical projection)"></a>Scenario 1: TFTC’s ‘74 per cent’ – the broadest scenario (radical projection)</h3><p>This summer, the renowned macroeconomic analysis organisation TFTC calculated, based on the Bureau of Economic Analysis’ (BEA) National Income and Product Accounts for the first quarter of 2026 (NIPA Table 1.5.2), that:<strong>Investment in AI data centre construction and software accounted for nearly 74 per cent of US GDP growth in the first quarter.</strong></p>
+<p>The algorithm is extremely straightforward and crude:<br>In the first quarter, the annualised contribution to US real GDP growth was 2.1 percentage points. TFTC directly extracted two major sub-categories from fixed asset investment—<strong>Information processing equipment</strong>(including data centre servers, network hardware and GPU clusters) contributed approximately 0.65 percentage points, plus<strong>Intellectual Property Products</strong>(primarily in AI training and enterprise-level software development) contributed approximately 0.90 percentage points, with the two combined totalling <strong>1.55 percentage points</strong>。<br>1.55% ÷ 2.10% ≈ 73.8% ≈ 74%</p>
+<ul>
+<li><strong>Reasonableness</strong>: The St. Louis Fed also used the same sub-components as proxy variables for tracking AI in a special report published in January this year; this methodology has precedents at central bank level;</li>
+<li><strong>Weak points</strong>: These two broad categories fall under the ‘broad IT basket’ and inevitably include traditional non-AI software and standard office equipment procurement; they represent the broadest possible upper limit in analysts’ projections.</li>
+</ul>
+<h3 id="口径-2：美联储（Fed）的严谨净贡献口径（30-–50-）"><a href="#口径-2：美联储（Fed）的严谨净贡献口径（30-–50-）" class="headerlink" title="Measure 2: The Federal Reserve’s (Fed) rigorous net contribution measure (30 per cent–50 per cent)"></a>Measure 2: The Federal Reserve’s (Fed) rigorous net contribution measure (30 per cent–50 per cent)</h3><p>On 17 July 2026, the Federal Reserve Board published a landmark research note entitled ‘AI Development and the Macroeconomy’ (<em>The AI Buildout and the Economy</em>). Economists at the Federal Reserve have developed a more sophisticated proxy model: one that tracks four major sub-sectors simultaneously—software, data centre construction, electricity infrastructure and computing equipment—but<strong>It specifically excluded the negative impact of the sharp rise in imported components on net exports.</strong>。</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://www.federalreserve.gov/econres/notes/feds-notes/figure7-4119.png" alt="Federal Reserve, FEDS Notes, Figure 7: Analysis of the quarterly contribution of key AI components to US GDP growth" decoding="async" loading="lazy" width="1000" height="500"><figcaption>Federal Reserve, FEDS Notes, Figure 7: Analysis of the quarterly contribution of key AI components to US GDP growth</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 2</span><span class="aden-caption-text">The quarterly contribution of the Federal Reserve’s AI investment agent index (software + data centre construction + electricity infrastructure + IT computing equipment) to real GDP. The net effect (black line) shows a significant contribution, but this is subject to considerable volatility due to drag from net exports, such as server imports. (Data and chart: Federal Reserve Board / BEA, FEDS Notes 17 July 2026)</span></p>
+<p>The conclusion reached by the Federal Reserve is highly enlightening:<br>The boost from gross investment in AI development has indeed been exceptionally strong; however, as a large proportion of server components rely on overseas supply chains, the surge in imports has, in some quarters, directly offset half of the total investment contribution. After adjusting for import leakage,<strong>The actual contribution of net investment in AI to US GDP growth falls within the range of approximately 30 per cent to 50 per cent</strong>。</p>
+<p>More importantly, the Federal Reserve was quite forthright in its report:<strong>“As of 2026, no widespread signs of technological transformation have yet been observed in aggregate macroeconomic productivity data.”</strong> In other words, current GDP is purely the result of massive investment in ‘infrastructure construction’ using real money; the cost-saving and efficiency-boosting benefits of AI technology itself are still far from being realised at the macro level.</p>
+<h3 id="口径-3：桥水基金（Bridgewater）的-1-4-个百分点中枢（约-50-）"><a href="#口径-3：桥水基金（Bridgewater）的-1-4-个百分点中枢（约-50-）" class="headerlink" title="Source 3: Bridgewater’s 1.4 percentage point median (approximately 50 per cent)"></a>Source 3: Bridgewater’s 1.4 percentage point median (approximately 50 per cent)</h3><p>Greg Jensen, Chief Investment Officer at Bridgewater, and others have calculated that:<strong>AI capital expenditure directly contributed to approximately 1.4 percentage points of US GDP growth in 2026; this accounted for a full half (50 per cent) of the projected annual growth of 2.8 per cent.</strong> They forecast that by 2027, this boost will have increased further to 1.5 percentage points. This level is now fully on a par with the intensity of business investment seen during the internet boom of the 1990s.</p>
+<h3 id="口径-4：高盛（Goldman-Sachs）的全球万亿美元视野"><a href="#口径-4：高盛（Goldman-Sachs）的全球万亿美元视野" class="headerlink" title="Perspective 4: Goldman Sachs’ global trillion-dollar outlook"></a>Perspective 4: Goldman Sachs’ global trillion-dollar outlook</h3><p>Joseph Briggs, a macroeconomist at Goldman Sachs, has calculated this based on the total money supply:<strong>In 2026, total global investment in AI-related sectors is set to officially exceed US$1 trillion (&gt;$1T), with the United States alone accounting for US$581 billion ($581B) of this figure.</strong></p>
+<div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th align="left">Statistical and Analytical Criteria</th>
+<th align="center">Calculated contribution percentage / amount</th>
+<th align="left">Core Methodology and Features</th>
+<th align="left">Key Limitations and Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>TFTC Aggressive Upper Limit Calibre</strong></td>
+<td align="center"><strong>~74%</strong>（Q1 2026）</td>
+<td align="left">NIPA Table 1.5.2: Direct sum of the ‘software’ and ‘hardware’ sub-items (contributing 1.55 percentage points / 2.1 per cent)</td>
+<td align="left">Includes non-AI traditional IT and software procurement; the scope is rather broad</td>
+</tr>
+<tr>
+<td align="left"><strong>Federal Reserve (Fed) – strict net basis</strong></td>
+<td align="center"><strong>30% – 50%</strong>(Dynamic fluctuations)</td>
+<td align="left">Based on a comprehensive analysis of four categories of factors, the negative impact of import leakage in servers and components on net exports has been excluded.</td>
+<td align="left">The net effect is subject to significant quarterly fluctuations due to the trade deficit, indicating that productivity gains have yet to materialise</td>
+</tr>
+<tr>
+<td align="left"><strong>Bridgewater Headquarters</strong></td>
+<td align="center"><strong>~50%</strong>(Contributing approximately 1.4 percentage points over the year)</td>
+<td align="left">This includes profit distribution by chip giants and combined investment in software and hardware, which is expected to account for half of the full-year growth.</td>
+<td align="left">The most widely cited benchmark in the market forecasts a figure of 1.5 percentage points by 2027</td>
+</tr>
+<tr>
+<td align="left"><strong>Goldman Sachs’ Macro Perspective</strong></td>
+<td align="center"><strong>United States $581B</strong>(Global &gt; $1T)</td>
+<td align="left">Global Top-Down Capital Expenditure Statistics</td>
+<td align="left">Measuring the total stock of funds, rather than the marginal change in GDP for a single quarter</td>
+</tr>
+</tbody></table></div>
+<p><strong>An objective conclusion for the general reader</strong>：<br>As for the question ‘Exactly how many percentage points has AI contributed?’, the honest answer is one<strong>Interval</strong>—Even using the Federal Reserve’s most conservative net measure, AI is driving between 30 per cent and 50 per cent of economic growth across the United States; according to the widely cited central estimate,<strong>This year, one in every two dollars of growth in the US is attributable to AI capital expenditure</strong>。</p>
+<p>In peacetime—when there is no war and the government is not actively pursuing a massive 4 trillion infrastructure programme—the private sector’s capital expenditure in a single industry alone accounts for nearly half of a major economy’s growth; this is an extremely rare occurrence in modern economic history.</p>
+<h2 id="二、万亿基建的微观地基：从五大巨头到千亿算力锁链"><a href="#二、万亿基建的微观地基：从五大巨头到千亿算力锁链" class="headerlink" title="II. The Microfoundations of the Trillion-Yuan Infrastructure Programme: From the Five Giants to the 100-Billion-Yuan Computing Power Chain"></a>II. The Microfoundations of the Trillion-Yuan Infrastructure Programme: From the Five Giants to the 100-Billion-Yuan Computing Power Chain</h2><p>This colossal macro-level load-bearing pillar has been built, at the micro-level, by a succession of technology giants through a series of irrevocable, binding contracts.</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://www.federalreserve.gov/econres/notes/feds-notes/figure4-4119.png" alt="Federal Reserve (FED) Notes, Figure 4: Explosive rise in quarterly capital expenditure by major tech giants" decoding="async" loading="lazy" width="1000" height="500"><figcaption>Federal Reserve (FED) Notes, Figure 4: Explosive rise in quarterly capital expenditure by major tech giants</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 3</span><span class="aden-caption-text">Trends in quarterly capital expenditure among major tech giants (hyperscalers): from approximately US$3 billion to US$5 billion per quarter in 2019, soaring to the epic scale of tens of billions of US dollars per quarter per company today. (Data: SEC 10-Q filings / Federal Reserve Board)</span></p>
+<h3 id="1-科技五巨头的开支军备竞赛"><a href="#1-科技五巨头的开支军备竞赛" class="headerlink" title="1. The spending arms race amongst the five tech giants"></a>1. The spending arms race amongst the five tech giants</h3><p>According to the latest financial results and guidance disclosed by major technology companies:</p>
+<ul>
+<li><strong>Microsoft</strong>: The capital expenditure guidance for the 2026 calendar year has been raised directly to <strong>Approximately US$190 billion ($190B)</strong>, a staggering 61 per cent year-on-year increase, with expenditure by a single company exceeding market expectations by US$35 billion;</li>
+<li><strong>Amazon</strong>: Annualised capital expenditure is also surging towards <strong>Approximately US$200 billion ($200B)</strong> High;</li>
+<li>Statistics show that the total capital expenditure of the world’s five largest cloud giants, including Alphabet (Google) and Meta, for the year 2026 alone will amount to <strong>US$700 billion to US$725 billion ($700B–$725B)</strong> astronomical range.</li>
+</ul>
+<p>Leading think tank <a class="link" target="_blank" rel="noopener" href="https://epoch.ai/data-insights/ai-datacenter-share-gdp">A specialised study published by Epoch AI<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> Further evidence of this dramatic change:<strong>At present, AI-related capital formation alone (data centre construction and hardware equipment) accounts for approximately 0.8 per cent of US GDP, driving the share of the entire computing infrastructure in GDP up to 1.5 per cent.</strong>— Compared with the historical average of just 0.7 per cent between 2015 and 2022, this represents a staggering ‘doubling surge’.</p>
+<h3 id="2-联动前篇：微观主体的算力负债锁链"><a href="#2-联动前篇：微观主体的算力负债锁链" class="headerlink" title="2. A follow-up to the previous instalment: The chain of computational debt among micro-entities"></a>2. A follow-up to the previous instalment: The chain of computational debt among micro-entities</h3><p>The microscopic foundation of this macro-level pillar is precisely those two cutting-edge large-model unicorns that we dissected in our previous two in-depth analyses:</p>
+<ul>
+<li><strong><a href="/en/2026/10/23/2026-10-23-anthropic-loss-ipo/">Anthropic</a></strong>: The draft prospectus reveals that the company is burdened with debt spanning approximately 10 years and amounting to as much as <strong>US$518 billion ($518B)</strong> firm commitments to purchase computing power, of which nearly 80 per cent (US$413.7 billion) are fully irrevocable, binding contracts;</li>
+<li><strong><a href="/en/2026/10/24/2026-10-24-openai-vs-anthropic-ipo-race/">OpenAI</a></strong>: In 2025 alone, expenditure on cloud computing power for Microsoft Azure is set to reach as much as US$17.2 billion, whilst the total budget for the long-term computing infrastructure plan up to 2030 is a staggering <strong>US$856 billion ($856B)</strong>… and have even joined forces to spearhead the US$500 billion ‘Stargate’ supercomputing project.</li>
+</ul>
+<p><strong>The total long-term computing power debt committed by the two companies alone has already surpassed the total annual investment in AI across the United States.</strong> This closed loop—where ‘buyers sign massive, irrevocable commitments ➔ cloud service providers frantically snap up land to build data centres ➔ chip manufacturers ramp up production to full capacity’—has directly endowed this capital expenditure with an extremely strong, unstoppable momentum: the arrow is on the string; no one can stop it now.</p>
+<h2 id="三、反事实推演：如果-AI-资本开支停下来会怎样？"><a href="#三、反事实推演：如果-AI-资本开支停下来会怎样？" class="headerlink" title="III. Counterfactual analysis: What would happen if AI capital expenditure were to come to a halt?"></a>III. Counterfactual analysis: What would happen if AI capital expenditure were to come to a halt?</h2><p>The simplest way to assess just how important a column is, is to carry out a<strong>Counterfactual Analysis</strong>: Assuming that the major players stop stepping up their investments tomorrow, and this pillar is removed or scaled back, what would happen to the US economy?</p>
+<p>Based on the verified data model, we can clearly deduce three levels of mechanical impact:</p>
+<div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th align="left">Impact Levels</th>
+<th align="left">Assumptions</th>
+<th align="left">Transmission mechanisms and economic consequences</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Impact 1: Slowdown in growth</strong></td>
+<td align="left">Zero growth in capital expenditure (capex) or a 20 per cent contraction in the existing stock</td>
+<td align="left">The 1.4pp increase projected by Bridgewater has effectively evaporated; nearly half of the US’s GDP growth for the quarter has been wiped out, and should it contract by 20 per cent, it would fall by more than 1 percentage point, bringing the economy to the brink of recession; the +0.5 per cent figure for Q4 2025 represents the true underlying trend once the impact of AI is factored out.</td>
+</tr>
+<tr>
+<td align="left"><strong>Impact 2: Employment and Regional Shock</strong></td>
+<td align="left">The investment slowdown is being felt across the real economy’s industrial chain</td>
+<td align="left">Data centres are, by their very nature, a heavy industry: electrical installation, specialist electricians and heavy-duty HVAC systems are all under significant strain; the impact is concentrated in ‘computing corridors’ such as Northern Virginia, Texas and Arizona, where the retreat of capital-intensive industries has given rise to political pressure on local finances and employment.</td>
+</tr>
+<tr>
+<td align="left"><strong>Impact 3: The ratchet effect in factor prices</strong></td>
+<td align="left">Even if spending returns to normal</td>
+<td align="left">The electricity grid connection quotas, industrial land and water prices—which were fiercely contested in the early stages—exhibit extremely high stickiness; the utility bills for households and the manufacturing sector, which have been driven up, are unlikely to fall rapidly; “stalling growth coupled with soaring costs” is leading to a slide into the quagmire of stagflation.</td>
+</tr>
+</tbody></table></div>
+<p>The impact is transmitted from top to bottom in three stages: the first stage is immediate (data for the current quarter); the second stage is delayed by 2–4 quarters (the project construction cycle); and the third stage is the most enduring (the ratchet effect of factor prices).</p>
+<ol>
+<li><p><strong>Growth halved in an instant</strong>：<br>AI capital expenditure contributed 1.4 percentage points to the full-year growth rate.<strong>If AI capital expenditure were merely to ‘stop growing’ (with the growth rate falling to zero whilst absolute investment levels remained unchanged), the US GDP growth rate for that quarter would be wiped out by nearly half.</strong>; If tech giants were to cut their overall budgets by 20 per cent due to pressure on profits, US real GDP would contract by more than one percentage point, instantly pushing the economy to the brink of recession. That +0.5 per cent figure for the fourth quarter of 2025 – which narrowly avoided turning negative – represents the true underlying decline in the US real economy once the AI frenzy is factored out.</p>
+</li>
+<li><p><strong>Heavy Industry and the Local Economic Shock</strong>：<br>Contrary to the widespread belief that ‘AI is merely a virtual economy that writes code’, today’s data centres are, in essence, a<strong>A Celebration of Heavy Industry and Civil Engineering</strong>. The procurement of high-voltage substations, industrial chillers and standby diesel generator sets has sustained a large number of mid-to-high-end manufacturing and specialist construction teams across the United States. Should investment dry up, key hubs such as Northern Virginia’s ‘Data Centre Corridor’ would immediately face a wave of stalled projects and mass redundancies in the construction sector.</p>
+</li>
+<li><p><strong>The ‘ratchet effect’ of factor costs</strong>：<br>Austan Goolsbee, President of the Chicago Federal Reserve, recently issued an extremely sobering warning:<strong>Data centres are encroaching on the electricity, land and water resources essential to ordinary households and the manufacturing sector in every conceivable way.</strong> Even if tech giants were to suddenly cut back on spending in the future, the inflated peak-hour electricity prices, grid modernisation surcharges and industrial land rents are highly inelastic and would not fall in tandem. The real economy would be forced to bear the bitter consequences of rising input costs for the long term, without reaping the benefits of an AI boom.</p>
+</li>
+</ol>
+<h2 id="四、历史的回响：1990-年代电信光纤大跃进的宿命对照"><a href="#四、历史的回响：1990-年代电信光纤大跃进的宿命对照" class="headerlink" title="IV. Echoes of History: A Fateful Comparison with the ‘Great Leap Forward’ in Telecommunications Fibre Optics in the 1990s"></a>IV. Echoes of History: A Fateful Comparison with the ‘Great Leap Forward’ in Telecommunications Fibre Optics in the 1990s</h2><p>Today’s AI frenzy is not the first time humanity has staked the macro-level fate of a nation on a high-stakes gamble involving communications and computing infrastructure. Thirty years ago, a similar scenario played out in an almost identical manner amidst the telecommunications and internet boom.</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://fortune.com/img-assets/wp-content/uploads/2026/06/Screenshot-2026-06-11-at-154932.png" alt="ARK Invest: A comparison of AI capital expenditure as a proportion of GDP with the railway boom of 1873" decoding="async" loading="lazy" width="1000" height="500"><figcaption>ARK Invest: A comparison of AI capital expenditure as a proportion of GDP with the railway boom of 1873</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 4</span><span class="aden-caption-text">Historical comparison of capital expenditure on cutting-edge technology as a proportion of GDP: the current rate of growth in AI capital expenditure has surpassed that of the US railway construction cycle in 1873. (Source: ARK Invest via Fortune)</span></p>
+<h3 id="1-1996–2001-光纤泡沫的震撼旧事"><a href="#1-1996–2001-光纤泡沫的震撼旧事" class="headerlink" title="1. 1996–2001: The Sensational Story of the Fibre-Optic Bubble"></a>1. 1996–2001: The Sensational Story of the Fibre-Optic Bubble</h3><p>In the mid-to-late 1990s, under the banner of the ‘Information Superhighway’:</p>
+<ul>
+<li>Global telecoms operators and fibre-optic giants have collectively blown through <strong>Approximately 2 trillion US dollars ($2T)</strong> With its vast capital, it has laid more than <strong>85 million miles</strong> advanced fibre-optic cables;</li>
+<li>The proportion of telecoms capital expenditure to GDP in the US peaked at <strong>1.0 per cent to 1.2 per cent</strong>… which fuelled the economic boom of the latter part of the Clinton era.</li>
+</ul>
+<p>However, when commercial demand failed to keep pace with the frenetic supply of technology, a brutal downturn ensued:</p>
+<ul>
+<li>In 2002, what was then the largest case of financial fraud and bankruptcy in US history—<strong>WorldCom’s spectacular collapse</strong>… as giants such as Global Crossing collapsed one after another, the telecoms sector saw nearly US$2 trillion wiped off its market capitalisation;</li>
+<li>Exactly four years after the bubble burst, a survey revealed that of the fibre-optic cables laid across the United States that year,<strong>As many as 85 per cent to 95 per cent have never been activated or used, and have become ‘dark fibre’ lying dormant underground.</strong>。</li>
+</ul>
+<p>But the most ironic twist in history is this:<br>It was precisely this vast network of dark fibre—abandoned by bankrupt companies and virtually a free find—that provided an extremely cheap and ahead-of-its-time physical foundation for the rise, after 2005, of high-definition video streaming services (YouTube, Netflix), the mobile internet via smartphones, and the first generation of modern cloud computing services (AWS).<strong>The pioneers bled and went bankrupt, ultimately paving the way for the subsequent boom in innovation.</strong></p>
+<h3 id="2-这一次的同与不同：为什么-AI-比光纤更脆弱？"><a href="#2-这一次的同与不同：为什么-AI-比光纤更脆弱？" class="headerlink" title="2. Similarities and differences this time round: why is AI more fragile than fibre optics?"></a>2. Similarities and differences this time round: why is AI more fragile than fibre optics?</h3><div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th align="left">Dimensions of comparison</th>
+<th align="left">The Great Leap Forward in Telecommunications Fibre Optics in the 1990s</th>
+<th align="left">Major Expansion of AI Data Centres in the 2020s</th>
+<th align="left">Potential Risks and Differences in Mechanisms</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Peak as a percentage of GDP</strong></td>
+<td align="left">Approx. <strong>1.0% – 1.2%</strong></td>
+<td align="left">The current total is <strong>1.4% – 1.5%</strong></td>
+<td align="left">Both are part of a ‘super technology cycle’ that is reshaping the national macro-investment structure.</td>
+</tr>
+<tr>
+<td align="left"><strong>Authenticity of underlying technology</strong></td>
+<td align="left">It’s true: the internet has completely transformed the world.</td>
+<td align="left">Indeed, large language models are becoming a new form of productive capacity.</td>
+<td align="left">Technology itself is not a scam; rather, it is the pace at which capital is being drawn down prematurely that is excessive.</td>
+</tr>
+<tr>
+<td align="left"><strong>Equipment manufacturer’s cycle amplifier</strong></td>
+<td align="left">Nortel, Lucent</td>
+<td align="left">Nvidia, Broadcom</td>
+<td align="left">Equipment suppliers, acting as monopolists, reap the largest profits in the entire industry, thereby amplifying the capital-chasing effect</td>
+</tr>
+<tr>
+<td align="left"><strong>Physical depreciation attributes of assets</strong></td>
+<td align="left"><strong>Extremely durable</strong>: As glass fibre buried underground is not subject to wear and tear, maintenance costs are virtually zero; we are waiting for demand to catch up.</td>
+<td align="left"><strong>Rapid depreciation</strong>：<strong>The depreciation cycle for GPU chips is only 3 to 5 years</strong>, As the next-generation computing architecture evolves rapidly, hardware that has backed the wrong horse will face obsolescence and be phased out.</td>
+<td align="left"><strong>⚠️ The balance sheets of this round of AI infrastructure are far more vulnerable than those of fibre-optic networks</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>Financing Structure Models</strong></td>
+<td align="left">Telecom operators increased their leverage through large-scale corporate bond issues (which ultimately led to a collapse as they were forced to roll over their debt).</td>
+<td align="left">In the early stages, it was underpinned by the tech giants’ abundant operating cash flow and cloud profits</td>
+<td align="left">Rapid ‘debtification’ is underway: Anthropic and OpenAI are accumulating computing power liabilities running into tens of billions or even hundreds of billions</td>
+</tr>
+<tr>
+<td align="left"><strong>Macroeconomic Monetary Environment</strong></td>
+<td align="left">In the latter stages of the bubble, Federal Reserve Chairman Greenspan had ample<strong>Room for interest rate cuts</strong></td>
+<td align="left"><strong>The Federal Reserve is mired in the battle against inflation</strong>(With the base rate remaining high at 3.75 per cent–4.00 per cent, and expectations of further rate rises still present)</td>
+<td align="left">External financing costs are extremely high, and there is no low-interest safety net to rescue the market</td>
+</tr>
+</tbody></table></div>
+<p>The most crucial difference lies precisely in<strong>Depreciation period</strong>：<br>Even though it took eight years for Netflix to arrive on the fibre-optic cables laid underground all those years ago, the cables remained in perfect condition; but today, the millions of state-of-the-art GPUs piled up in data centres,<strong>Within three years, depreciation costs will be whizzing past on the profit and loss account, and within five years, the next generation of manufacturing processes will ruthlessly render them obsolete in terms of computing power-to-energy efficiency ratio.</strong>. AI Capital does not have the luxury of patience to wait a full decade for demand to develop naturally.</p>
+<h2 id="五、物理天花板与宏观闭环：电力饥渴正在推升通胀"><a href="#五、物理天花板与宏观闭环：电力饥渴正在推升通胀" class="headerlink" title="V. The Physical Ceiling and the Macroeconomic Closed Loop: The Thirst for Electricity is Driving Up Inflation"></a>V. The Physical Ceiling and the Macroeconomic Closed Loop: The Thirst for Electricity is Driving Up Inflation</h2><p>If the slow pace of commercialisation in the software sector is a hidden concern from a business perspective, then the most brutal challenge currently facing AI capital expenditure is a series of ruthless<strong>Upper limits in physics and engineering</strong>。</p>
+<h3 id="1-33-吉瓦的电网天堑与近-3-年的变压器排期"><a href="#1-33-吉瓦的电网天堑与近-3-年的变压器排期" class="headerlink" title="1. A 33-gigawatt grid bottleneck and transformer delivery schedules spanning nearly three years"></a>1. A 33-gigawatt grid bottleneck and transformer delivery schedules spanning nearly three years</h3><p>In an in-depth special report published in October 2026, Morgan Stanley calculated a set of figures regarding the skills gap that left Silicon Valley engineers breathless:</p>
+<ul>
+<li>It is estimated that by 2028, the additional electricity demand from data centres across the US will reach as high as <strong>97 GW (gigawatts)</strong>；</li>
+<li>Even if all the accelerated schemes for on-site power generation (industrial gas turbines, solid oxide fuel cells, and even attempts to restart small nuclear reactors) were taken fully into account, the US power grid could, at best, barely muster an additional 24 GW;</li>
+<li><strong>Data centres across the US face an insurmountable net power shortfall of between 32 and 33 GW (equivalent to 34 per cent of total demand being at risk of power cuts).</strong>。</li>
+</ul>
+<p>Accompanying the power shortfall is a supply disruption and severe congestion in the global heavy electrical equipment supply chain:<br>According to an authoritative industry survey by Wood Mackenzie, the current cost of purchasing a unit in North America is<strong>The standard delivery lead time for large power transformers (LPTs) is as long as 128 weeks (nearly 2.5 years)</strong>, whilst the generator step-up transformer is as long as <strong>144 weeks (nearly 3 years)</strong>! Whereas in 2020, this lead time was just 6 to 12 weeks.</p>
+<p>Gartner’s research further predicts that, within the next year, there will be <strong>40 per cent of new AI data centres are directly affected by the suspension of electricity supply quotas</strong>… as many as half of the planning projects are facing substantial delays.</p>
+<h3 id="2-美联储的闭环警报：“AI-正在推升通胀”"><a href="#2-美联储的闭环警报：“AI-正在推升通胀”" class="headerlink" title="2. The Federal Reserve’s closed-loop warning: ‘AI is driving up inflation’"></a>2. The Federal Reserve’s closed-loop warning: ‘AI is driving up inflation’</h3><p>This scramble for physical resources is not only curbing the expansion of technology companies, but has also come directly to the attention of the Federal Reserve:</p>
+<p>In the minutes of the Federal Reserve’s September FOMC meeting, a single line was formally included in the record of the entire Monetary Policy Committee:<br><strong>“Geopolitical developments and the surge in AI-related investment are jointly driving up inflationary pressures (AI-related investments were pushing up inflationary pressures).”</strong></p>
+<p>Public statements by Federal Reserve officials no longer conceal their concerns:</p>
+<ul>
+<li>Beth Hammack, President of the Cleveland Federal Reserve Bank, pointed out that, in order to secure access to the grid, tech giants are willing to ‘write any exorbitant cheque’ for even mediocre electrical switchgear;</li>
+<li>Austan Goolsbee, President of the Chicago Fed, went so far as to state outright that AI is causing inflation<strong>“It is breaking out of its original narrow technological niche”</strong>… leading to a classic case of overheating in macroeconomic demand across the cement, steel, specialised copper products, electricity and labour markets.</li>
+</ul>
+<p>This creates an absurd and dangerous<strong>Macro-level infinite loop</strong>：</p>
+<ol>
+<li>In order to maintain their competitive position, tech giants are pushing ahead with capital expenditure totalling hundreds of billions;</li>
+<li>The infrastructure boom and energy shortages have directly driven up electricity and input inflation;</li>
+<li>Inflationary stickiness is forcing the Federal Reserve to maintain high interest rates and even continue raising them (currently at 3.75 per cent–4.00 per cent);</li>
+<li>High interest rates, in turn, have driven up the cost of borrowing for tech giants and the cost of financing for the real economy;</li>
+<li>Ultimately, this high-cost pillar supporting GDP became an increasingly heavy burden and increasingly difficult to sustain.</li>
+</ol>
+<h2 id="六、未来推演：AI-承重柱的三种命运"><a href="#六、未来推演：AI-承重柱的三种命运" class="headerlink" title="VI. Future Scenarios: Three Possible Fates for AI-Powered Load-Bearing Columns"></a>VI. Future Scenarios: Three Possible Fates for AI-Powered Load-Bearing Columns</h2><p>In light of the forthcoming third-quarter GDP figures and the technology giants’ capital guidance for the coming year, the trajectory of this pillar of support presents the following three probability distributions:</p>
+<div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th align="left">Role-play scenario</th>
+<th align="center">Probability of occurrence</th>
+<th align="left">Core trigger thresholds for macroeconomic and fundamental factors</th>
+<th align="left">The Ultimate Significance of the Economy and Capital Markets</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Scenario A<br>(The load-bearing columns are sturdy)</strong></td>
+<td align="center"><strong>~55%</strong><br><em>(Base case)</em></td>
+<td align="left">• The Q3 GDP figures released on 29 October confirmed that fixed investment continues to show robust positive growth;<br>• The five tech giants have maintained their capital expenditure guidance at the US$700 billion level in their November earnings reports, showing no sign of backing down;<br>• On-site power generation and nuclear energy solutions are gradually being implemented, providing temporary relief from electricity shortages.</td>
+<td align="left"><strong>Single-engine continuation</strong>: US GDP as a whole remains within the 2.0 per cent–2.5 per cent range, with AI capital expenditure continuing to account for nearly half of the growth. Concerns about a ‘coexistence of prosperity and overheating’ are lingering, but there is no risk of a systemic recession in the short term.</td>
+</tr>
+<tr>
+<td align="left"><strong>Scenario B<br>(The engine suddenly cut out)</strong></td>
+<td align="center"><strong>~25%</strong><br><em>(Risk scenarios)</em></td>
+<td align="left">• Commercialisation and monetisation by large-scale model companies have fallen far short of expectations, forcing the industry giants to scale back their capital budgets in the second half of the year;<br>• Delays in grid connection exceeding 50 per cent have resulted in a large number of projects being put on hold;<br>• Persistently high interest rates have caused the highly leveraged computing power debt chain to collapse.</td>
+<td align="left"><strong>Cliff-face landslide</strong>: With AI investment growth turning negative and US GDP growth rapidly falling below 1.0 per cent, the truth behind the economy’s decline has been laid bare. The Federal Reserve has been forced to make an emergency U-turn, resorting to panic-driven interest rate cuts and even introducing liquidity support measures.</td>
+</tr>
+<tr>
+<td align="left"><strong>Scenario C<br>(Productivity fully realised)</strong></td>
+<td align="center"><strong>~20%</strong><br><em>(Better than expected)</em></td>
+<td align="left">• Data from the Bureau of Labour Statistics (BLS) has, for the first time, shown that labour productivity growth in sectors with high exposure to AI—such as finance, software and biotechnology—has exceeded 2.0 per cent for several consecutive quarters;<br>• Intelligent agents and enterprise workflows have fully realised a self-sustaining commercial ecosystem.</td>
+<td align="left"><strong>A historic leap forward</strong>: The current trillion-scale capital expenditure has been officially recognised as laying the foundations for a great, forward-looking strategy; the ‘AI bubble’ theory has been thoroughly debunked, reviving the narrative of the ultimate boom seen in the fibre-optic and internet eras.</td>
+</tr>
+</tbody></table></div>
+<h2 id="七、数据口径诚实说明（关键边界与审慎声明）"><a href="#七、数据口径诚实说明（关键边界与审慎声明）" class="headerlink" title="VII. Honest Explanation of Data Definitions (Key Delimitations and Prudential Statements)"></a>VII. Honest Explanation of Data Definitions (Key Delimitations and Prudential Statements)</h2><p>When reading through all the arguments presented in this report, readers are urged to exercise sound academic judgement:</p>
+<ol>
+<li><strong>The BEA does not have a separate ‘AI industry statistical category’</strong>: All references in the text to “AI contributing 74 per cent” or “contributing 1.4 percentage points” are analytical conclusions derived by leading financial institutions and think tanks using proxy variables from NIPA sub-categories and bottom-up supply chain decomposition models; they do not constitute official statistical definitions issued by the US government;</li>
+<li><strong>Bridgewater’s research reports contain elements of commercial copyright paraphrasing</strong>: Key figures, such as its 1.4 percentage point contribution in 2026 and the $650 billion investment by Big Tech, are derived from cross-referenced and verified reports by authoritative financial media outlets and macroeconomists;</li>
+<li><strong>Forward-looking and time-sensitive constraints</strong>: The Bureau of Economic Analysis (BEA) will officially release the advance estimate of real GDP for the third quarter of 2026 to the global community on 29 October; at that time, the extent to which AI capital expenditure drives the economy in the second half of the year will undergo a fresh round of stress testing based on objective data.</li>
+</ol>
+<h2 id="结语：别把脚手架当成大厦本身"><a href="#结语：别把脚手架当成大厦本身" class="headerlink" title="Conclusion: Do not mistake the scaffolding for the building itself"></a>Conclusion: Do not mistake the scaffolding for the building itself</h2><p>Returning to the original question: is consumption no longer the driving force behind the US economy?</p>
+<p>Judging by the marginal increase in aggregate output, this is certainly the case. Over the past year and a half, it has been the trillion-yuan gambles taken by several tech giants that have single-handedly pulled the US economy back from the brink of a slowdown. In this sense, AI capital expenditure is indeed a well-deserved ‘pillar of support’.</p>
+<p>Yet every serious economist is well aware that:<strong>Capital expenditure is, in essence, merely the ‘scaffolding’ used when constructing a building; it can never replace the building itself.</strong><br>The ultimate aim behind companies’ willingness to splash out hundreds of billions of dollars annually on chips and power stations must be to achieve a genuine leap in purchasing power and efficiency across both the consumer and production sectors of society. If, three years from now, when this computing power edifice—built with a trillion dollars—is finally completed, there are still only a handful of companies paying for it from outside the door, whilst inside there is a pile of overheating silicon wafers facing a three-year obsolescence cycle, then this sturdy load-bearing pillar could, overnight, become the heaviest blow to the US economy.</p>
+<p>The two giants of the large-scale model sector are heading for the public capital markets, whilst tech giants are securing power contracts for the next decade. Is this trillion-dollar gamble a major industrial revolution set to reshape the world, or a fibre-optic-style tragedy-comedy for which American utilities will ultimately foot the bill?</p>
+<p>The answer lies in the bills over the next two years.</p>
+<h3 id="主要信息来源与核验索引"><a href="#主要信息来源与核验索引" class="headerlink" title="Main Sources of Information and Verification Index"></a>Main Sources of Information and Verification Index</h3><ul>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.federalreserve.gov/econres/notes/feds-notes/the-ai-buildout-and-the-economy-publicly-available-data-to-assess-ais-impact-20260717.html">Federal Reserve Official Economic Research Notes (FEDS Notes, 17 July 2026): The AI Buildout and the Economy<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.tftc.io/ai-capex-gdp-growth-q1-2026-bea-third-estimate">TFTC In-depth Macroeconomic Survey Report: AI Capital Expenditure Drove 74 per cent of Q1 2026 GDP Growth (BEA Third Estimate Analysis)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://epoch.ai/data-insights/ai-datacenter-share-gdp">Epoch AI Think Tank Report (5 June 2026): AI data centres’ share of GDP<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.edwardconard.com/macro-roundup/bridgewater-forecasts-real-us-gdp-growth-of-2-8-in-2026-with-ai-capex-contributing-1-4pp-50-this-year-and-growing-to-1-5pp-in-2027/">Bridgewater’s Macro Analysis (verified via a repost from Edward Conard’s Macro Roundup): The Macro Implications of the AI Capex Boom<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.goldmansachs.com/insights/articles/global-investment-is-forecast-to-exceed-1-trillion-in-2026">Goldman Sachs Global Economic Research Report: Global AI Investment is Forecast to Exceed $1 Trillion in 2026<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.stlouisfed.org/on-the-economy/2026/jan/tracking-ai-contribution-gdp-growth">St. Louis Fed Macro Tracker: Tracking AI’s Contribution to GDP Growth<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://blockspace.media/insight/morgan-stanley-data-center-shortfall/">Morgan Stanley Industry Report on Power Shortages (5 October 2026): AI Data Centre Power Grid Shortfall<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://fortune.com/img-assets/wp-content/uploads/2026/06/Screenshot-2026-06-11-at-154932.png">Fortune / ARK Invest: A Historical Comparison of Cutting-Edge Capital Expenditure as a Proportion of GDP<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.federalreserve.gov/monetarypolicy/fomcminutes20260916.htm">Minutes of the Federal Reserve’s September FOMC Monetary Policy Meeting (published on 7 October 2026)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+</ul>
+<p>Cover image:<a class="link" target="_blank" rel="noopener" href="https://www.pexels.com/photo/server-racks-on-data-center-5480781/">Brett Sayles / Pexels<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP</li>
+        <li><strong>Author:</strong> AdenXie</li>
+        <li><strong>Created at
+                :</strong> 2026-10-24 20:00:00</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2026-10-24 20:00:00
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://blog.adenxie.com.cn/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                All Rights Reserved © AdenXie
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E7%BE%8E%E8%81%94%E5%82%A8/">#Federal Reserve</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">#Artificial Intelligence</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E7%BE%8E%E5%9B%BD%E7%BB%8F%E6%B5%8E/">#The US Economy</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/GDP/">#GDP</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E8%B5%84%E6%9C%AC%E5%BC%80%E6%94%AF/">#Capital Expenditure</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/en/2026/10/24/2026-10-24-openai-vs-anthropic-ipo-race/" title="OpenAI vs Anthropic: Why is the larger of the two giants going public later?" rel="bookmark">
+  <img src="https://images.pexels.com/photos/3905827/pexels-photo-3905827.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="OpenAI vs Anthropic: Why is the larger of the two giants going public later?" class="!max-w-none" decoding="async">
+  <span class="title">OpenAI vs Anthropic: Why is the larger of the two giants going public later?</span>
+</a><a class="recommended-article-item" href="/en/2026/10/23/2026-10-23-anthropic-loss-ipo/" title="Anthropic, with a loss of 80.7 billion, is currently in the healthiest state in its history – why is that?" rel="bookmark">
+  <img src="https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Anthropic, with a loss of 80.7 billion, is currently in the healthiest state in its history – why is that?" class="!max-w-none" decoding="async">
+  <span class="title">Anthropic, with a loss of 80.7 billion, is currently in the healthiest state in its history – why is that?</span>
+</a><a class="recommended-article-item" href="/en/2026/10/21/2026-10-21-rba-rate-hikes-aud-cny/" title="Australia Rate Hikes and the AUD/CNY Exchange Rate: RBA 2026 Tightening Cycle and AUD/CNY Scenario Analysis" rel="bookmark">
+  <img src="https://images.pexels.com/photos/4359064/pexels-photo-4359064.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Australia Rate Hikes and the AUD/CNY Exchange Rate: RBA 2026 Tightening Cycle and AUD/CNY Scenario Analysis" class="!max-w-none" decoding="async">
+  <span class="title">Australia Rate Hikes and the AUD/CNY Exchange Rate: RBA 2026 Tightening Cycle and AUD/CNY Scenario Analysis</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/en/2026/10/24/2026-10-24-openai-vs-anthropic-ipo-race/" title="OpenAI vs Anthropic: Why is the larger of the two giants going public later?" rel="bookmark">
+  <img src="https://images.pexels.com/photos/3905827/pexels-photo-3905827.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="OpenAI vs Anthropic: Why is the larger of the two giants going public later?" class="!max-w-none" decoding="async">
+  <span class="title">OpenAI vs Anthropic: Why is the larger of the two giants going public later?</span>
+</a><a class="recommended-article-item" href="/en/2026/10/23/2026-10-23-anthropic-loss-ipo/" title="Anthropic, with a loss of 80.7 billion, is currently in the healthiest state in its history – why is that?" rel="bookmark">
+  <img src="https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Anthropic, with a loss of 80.7 billion, is currently in the healthiest state in its history – why is that?" class="!max-w-none" decoding="async">
+  <span class="title">Anthropic, with a loss of 80.7 billion, is currently in the healthiest state in its history – why is that?</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/en/2026/10/24/2026-10-24-openai-vs-anthropic-ipo-race/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">OpenAI vs Anthropic: Why is the larger of the two giants going public later?</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E5%AD%90%EF%BC%9A%E5%8D%95%E5%BC%95%E6%93%8E%E7%BB%8F%E6%B5%8E%E7%9A%84%E8%AF%9E%E7%94%9F"><span class="nav-text">Prologue: The Emergence of a Single-Engine Economy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E2%80%9C74-%E2%80%9D-%E7%9A%84%E4%BA%89%E8%AE%AE%EF%BC%9AAI-%E5%88%B0%E5%BA%95%E7%BB%99%E7%BE%8E%E5%9B%BD%E7%BB%8F%E6%B5%8E%E8%B4%A1%E7%8C%AE%E4%BA%86%E5%87%A0%E4%B8%AA%E7%82%B9%EF%BC%9F"><span class="nav-text">1. The ‘74 per cent’ controversy: How many percentage points has AI actually contributed to the US economy?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%A3%E5%BE%84-1%EF%BC%9ATFTC-%E7%9A%84%E2%80%9C74-%E2%80%9D%E6%9C%80%E5%AE%BD%E5%8F%A3%E5%BE%84%EF%BC%88%E6%BF%80%E8%BF%9B%E6%8E%A8%E6%BC%94%EF%BC%89"><span class="nav-text">Scenario 1: TFTC’s ‘74 per cent’ – the broadest scenario (radical projection)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%A3%E5%BE%84-2%EF%BC%9A%E7%BE%8E%E8%81%94%E5%82%A8%EF%BC%88Fed%EF%BC%89%E7%9A%84%E4%B8%A5%E8%B0%A8%E5%87%80%E8%B4%A1%E7%8C%AE%E5%8F%A3%E5%BE%84%EF%BC%8830-%E2%80%9350-%EF%BC%89"><span class="nav-text">Measure 2: The Federal Reserve’s (Fed) rigorous net contribution measure (30 per cent–50 per cent)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%A3%E5%BE%84-3%EF%BC%9A%E6%A1%A5%E6%B0%B4%E5%9F%BA%E9%87%91%EF%BC%88Bridgewater%EF%BC%89%E7%9A%84-1-4-%E4%B8%AA%E7%99%BE%E5%88%86%E7%82%B9%E4%B8%AD%E6%9E%A2%EF%BC%88%E7%BA%A6-50-%EF%BC%89"><span class="nav-text">Source 3: Bridgewater’s 1.4 percentage point median (approximately 50 per cent)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%A3%E5%BE%84-4%EF%BC%9A%E9%AB%98%E7%9B%9B%EF%BC%88Goldman-Sachs%EF%BC%89%E7%9A%84%E5%85%A8%E7%90%83%E4%B8%87%E4%BA%BF%E7%BE%8E%E5%85%83%E8%A7%86%E9%87%8E"><span class="nav-text">Perspective 4: Goldman Sachs’ global trillion-dollar outlook</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%B8%87%E4%BA%BF%E5%9F%BA%E5%BB%BA%E7%9A%84%E5%BE%AE%E8%A7%82%E5%9C%B0%E5%9F%BA%EF%BC%9A%E4%BB%8E%E4%BA%94%E5%A4%A7%E5%B7%A8%E5%A4%B4%E5%88%B0%E5%8D%83%E4%BA%BF%E7%AE%97%E5%8A%9B%E9%94%81%E9%93%BE"><span class="nav-text">II. The Microfoundations of the Trillion-Yuan Infrastructure Programme: From the Five Giants to the 100-Billion-Yuan Computing Power Chain</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%A7%91%E6%8A%80%E4%BA%94%E5%B7%A8%E5%A4%B4%E7%9A%84%E5%BC%80%E6%94%AF%E5%86%9B%E5%A4%87%E7%AB%9E%E8%B5%9B"><span class="nav-text">1. The spending arms race amongst the five tech giants</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%81%94%E5%8A%A8%E5%89%8D%E7%AF%87%EF%BC%9A%E5%BE%AE%E8%A7%82%E4%B8%BB%E4%BD%93%E7%9A%84%E7%AE%97%E5%8A%9B%E8%B4%9F%E5%80%BA%E9%94%81%E9%93%BE"><span class="nav-text">2. A follow-up to the previous instalment: The chain of computational debt among micro-entities</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%8F%8D%E4%BA%8B%E5%AE%9E%E6%8E%A8%E6%BC%94%EF%BC%9A%E5%A6%82%E6%9E%9C-AI-%E8%B5%84%E6%9C%AC%E5%BC%80%E6%94%AF%E5%81%9C%E4%B8%8B%E6%9D%A5%E4%BC%9A%E6%80%8E%E6%A0%B7%EF%BC%9F"><span class="nav-text">III. Counterfactual analysis: What would happen if AI capital expenditure were to come to a halt?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%8E%86%E5%8F%B2%E7%9A%84%E5%9B%9E%E5%93%8D%EF%BC%9A1990-%E5%B9%B4%E4%BB%A3%E7%94%B5%E4%BF%A1%E5%85%89%E7%BA%A4%E5%A4%A7%E8%B7%83%E8%BF%9B%E7%9A%84%E5%AE%BF%E5%91%BD%E5%AF%B9%E7%85%A7"><span class="nav-text">IV. Echoes of History: A Fateful Comparison with the ‘Great Leap Forward’ in Telecommunications Fibre Optics in the 1990s</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1996%E2%80%932001-%E5%85%89%E7%BA%A4%E6%B3%A1%E6%B2%AB%E7%9A%84%E9%9C%87%E6%92%BC%E6%97%A7%E4%BA%8B"><span class="nav-text">1. 1996–2001: The Sensational Story of the Fibre-Optic Bubble</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%BF%99%E4%B8%80%E6%AC%A1%E7%9A%84%E5%90%8C%E4%B8%8E%E4%B8%8D%E5%90%8C%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88-AI-%E6%AF%94%E5%85%89%E7%BA%A4%E6%9B%B4%E8%84%86%E5%BC%B1%EF%BC%9F"><span class="nav-text">2. Similarities and differences this time round: why is AI more fragile than fibre optics?</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E7%89%A9%E7%90%86%E5%A4%A9%E8%8A%B1%E6%9D%BF%E4%B8%8E%E5%AE%8F%E8%A7%82%E9%97%AD%E7%8E%AF%EF%BC%9A%E7%94%B5%E5%8A%9B%E9%A5%A5%E6%B8%B4%E6%AD%A3%E5%9C%A8%E6%8E%A8%E5%8D%87%E9%80%9A%E8%83%80"><span class="nav-text">V. The Physical Ceiling and the Macroeconomic Closed Loop: The Thirst for Electricity is Driving Up Inflation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-33-%E5%90%89%E7%93%A6%E7%9A%84%E7%94%B5%E7%BD%91%E5%A4%A9%E5%A0%91%E4%B8%8E%E8%BF%91-3-%E5%B9%B4%E7%9A%84%E5%8F%98%E5%8E%8B%E5%99%A8%E6%8E%92%E6%9C%9F"><span class="nav-text">1. A 33-gigawatt grid bottleneck and transformer delivery schedules spanning nearly three years</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%BE%8E%E8%81%94%E5%82%A8%E7%9A%84%E9%97%AD%E7%8E%AF%E8%AD%A6%E6%8A%A5%EF%BC%9A%E2%80%9CAI-%E6%AD%A3%E5%9C%A8%E6%8E%A8%E5%8D%87%E9%80%9A%E8%83%80%E2%80%9D"><span class="nav-text">2. The Federal Reserve’s closed-loop warning: ‘AI is driving up inflation’</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E6%9C%AA%E6%9D%A5%E6%8E%A8%E6%BC%94%EF%BC%9AAI-%E6%89%BF%E9%87%8D%E6%9F%B1%E7%9A%84%E4%B8%89%E7%A7%8D%E5%91%BD%E8%BF%90"><span class="nav-text">VI. Future Scenarios: Three Possible Fates for AI-Powered Load-Bearing Columns</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E6%95%B0%E6%8D%AE%E5%8F%A3%E5%BE%84%E8%AF%9A%E5%AE%9E%E8%AF%B4%E6%98%8E%EF%BC%88%E5%85%B3%E9%94%AE%E8%BE%B9%E7%95%8C%E4%B8%8E%E5%AE%A1%E6%85%8E%E5%A3%B0%E6%98%8E%EF%BC%89"><span class="nav-text">VII. Honest Explanation of Data Definitions (Key Delimitations and Prudential Statements)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AF%AD%EF%BC%9A%E5%88%AB%E6%8A%8A%E8%84%9A%E6%89%8B%E6%9E%B6%E5%BD%93%E6%88%90%E5%A4%A7%E5%8E%A6%E6%9C%AC%E8%BA%AB"><span class="nav-text">Conclusion: Do not mistake the scaffolding for the building itself</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E4%BF%A1%E6%81%AF%E6%9D%A5%E6%BA%90%E4%B8%8E%E6%A0%B8%E9%AA%8C%E7%B4%A2%E5%BC%95"><span class="nav-text">Main Sources of Information and Verification Index</span></a></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">Write down your real experiences while retaining the edges of your viewpoints.</div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/en/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        86 posts in total
+                    </span>
+                    
+                        <span>
+                            227.6k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js" async=""></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days"></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="Image viewer">
+	<button class="image-viewer-close" type="button" aria-label="Close">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="Prev">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="" decoding="async">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="Close">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="Next">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Search..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js?v=509b91971bf2"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js?v=969d65618587"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js?v=193270b6fdb0"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js?v=647d2af612df"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js?v=c9d014a814b8"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js?v=792db0224d6b"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js?v=7e6a109d5509" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js?v=03c1e188b884"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css?v=77a3a9d5a3d0">
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js?v=e98ec22436a5"></script>
+
+
+<script src="/js/build/plugins/aplayer.js?v=d6d3c64af35f"></script>
+
+
+	
+
+
+<button type="button" id="aden-chat-launcher" class="aden-chat-launcher" aria-haspopup="dialog" aria-expanded="false" hidden="" aria-label="Open AI chat" data-script="/js/chat.js?v=750a15ffa2e2" data-style="/css/chat.css?v=286cbaf4025c"><span aria-hidden="true">✳</span><span class="aden-chat-launcher-label">Ask AI</span></button></body></html>
