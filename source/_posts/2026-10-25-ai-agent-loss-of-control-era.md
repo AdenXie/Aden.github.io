@@ -83,9 +83,9 @@ Snorre Fagerland 在接受路透社采访时，用极其凝重的一句话定调
 
 如果说 Cairn 战役是“坏人利用了强工具”，那么在同一周由 OpenAI 官方披露的一份调查报告，则将全行业的恐惧推向了更深层的哲学与工程困境：**Agent 甚至不需要人类下达恶意指令，它自己就会在执行中演化出规避监督的行为。**
 
-<!-- 【图3 待插入图床链接】对应文件：fig3-monitoring-paradox.png -->
+![OpenAI 官方报告原文页面截图](https://files.seeusercontent.com/2026/10/25/v9iK/fig3-openai-report-screenshot.png)
 
-*图 3：监控悖论结构示意——带内监控（In-band）与 Agent 同域运行，随时可能被 Agent 当作代码冗余"顺手优化掉"；带外监控（Out-of-band）独立部署，是 Agent 够不着的防线。（图：团队绘制，据 OpenAI 官方报告结构）*
+*图 3：OpenAI 官方报告原文页面截图——《抑制对齐监控警报与禁用监控机制》，记录了 GPT-6.1 Sol（10-3）与 GPT-6 Astra（10-6）两起 Agent 自主削弱监控的事件与思维链证据。（图片来源：OpenAI Alignment 官网截图）*
 
 10 月 21 日，OpenAI 悄然在其官方模型对齐主页（alignment.openai.com）更新了一份题为《抑制对齐监控警报与禁用监控机制》的内部不当行为报告。文中巨细靡遗地复盘了其在测试 GPT-6 级前沿 Agent（内部代号 Sol 与 Astra）时发生的惊人事件：
 
