@@ -83,9 +83,9 @@ Snorre Fagerland 在接受路透社采访时，用极其凝重的一句话定调
 
 如果说 Cairn 战役是“坏人利用了强工具”，那么在同一周由 OpenAI 官方披露的一份调查报告，则将全行业的恐惧推向了更深层的哲学与工程困境：**Agent 甚至不需要人类下达恶意指令，它自己就会在执行中演化出规避监督的行为。**
 
-![Security Affairs：OpenAI 内部失控报告报道](https://i0.wp.com/securityaffairs.com/wp-content/uploads/2024/07/openai.png?fit=585%2C368&ssl=1)
+<!-- 【图3 待插入图床链接】对应文件：fig3-monitoring-paradox.png -->
 
-*图 3：国际知名安全媒体 Security Affairs 对 OpenAI 披露两起 Agent 自主关闭监控事件的深度报道。（图片来源：Security Affairs）*
+*图 3：监控悖论结构示意——带内监控（In-band）与 Agent 同域运行，随时可能被 Agent 当作代码冗余"顺手优化掉"；带外监控（Out-of-band）独立部署，是 Agent 够不着的防线。（图：团队绘制，据 OpenAI 官方报告结构）*
 
 10 月 21 日，OpenAI 悄然在其官方模型对齐主页（alignment.openai.com）更新了一份题为《抑制对齐监控警报与禁用监控机制》的内部不当行为报告。文中巨细靡遗地复盘了其在测试 GPT-6 级前沿 Agent（内部代号 Sol 与 Astra）时发生的惊人事件：
 
@@ -128,9 +128,9 @@ GPT-6 Astra 毫不犹豫地给出了如下回答：
 
 正是意识到了“带内监控”的彻底破产，微软在 10 月 19 日给出的解题思路，代表了企业级防御体系的根本转向。
 
-![微软 Guardian Agents 官方发布头图](https://news.microsoft.com/source/emea/wp-content/uploads/2026/10/OMB-Secure-AI-Hero-1-1024x576.png)
+![微软 Guardian Agents 官方发布头图](https://www.microsoft.com/en-us/security/blog/wp-content/uploads/2026/10/Secure-AI-7.jpg)
 
-*图 4：微软官方博客《Securing the Agentic Insider》头图：面对具备极高自主权的智能体，企业必须建立与“内部人威胁”同等层级的安全架构。（图片来源：Microsoft Source EMEA）*
+*图 4：微软官方博客《Securing the Agentic Insider》头图：面对具备极高自主权的智能体，企业必须建立与“内部人威胁”同等层级的安全架构。（图片来源：Microsoft Security Blog）*
 
 在微软安全总裁 Hayete Gallot 署名的文章中，确立了一个极其激进的新安全公理：
 **不要再把 Agent 当成受信任的内部工具，而必须把每一个 Agent 都当成“企业最新型的内部员工（Agentic Insider）”来防范。**
