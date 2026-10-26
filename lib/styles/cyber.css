@@ -372,3 +372,84 @@ html .cyber-exchange-card.is-offline {
 .nf-button a i {
   color: var(--aden-on-signal);
 }
+
+/* 13. 3D scenes (source/js/scenes/, loaded by scene-loader.js on capable desktops).
+   The canvas fades in over the static banner / blackwall once its first frame is
+   drawn; without it those stay exactly as before. */
+.aden-scene-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.aden-scene-ready > .aden-scene-canvas {
+  opacity: 1;
+}
+
+/* Home banner: the scene's lower part fades out to the fixed background photo, which
+   the theme blurs on scroll; the photo shows through as it does below, so the two
+   halves always match (an extra blur here would not). */
+.home-banner-container .aden-scene-canvas {
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+}
+
+/* 404 Mart: the scene fills the panel; "404" and the home button move to the corner. */
+.nf-container.aden-scene-ready {
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-height: 78vh;
+  padding: 2.6rem 2rem;
+}
+
+.nf-container.aden-scene-ready .nf-text,
+.nf-container.aden-scene-ready .nf-button {
+  position: relative;
+  z-index: 2;
+}
+
+/* The corner labels are already absolutely placed; lift them above the scene. */
+.nf-container.aden-scene-ready::before,
+.nf-container.aden-scene-ready::after {
+  z-index: 2;
+}
+
+.nf-container.aden-scene-ready .nf-text h1 {
+  font-size: 3rem;
+}
+
+.aden-store-hint,
+.aden-store-toast {
+  position: absolute;
+  z-index: 2;
+  margin: 0;
+  font: 0.68rem var(--aden-mono-font);
+  letter-spacing: 0.08em;
+}
+
+.aden-store-hint {
+  left: 1.2rem;
+  bottom: 2.3rem;
+  color: color-mix(in srgb, var(--aden-cyan) 75%, transparent);
+}
+
+.aden-store-toast {
+  left: 50%;
+  bottom: 4rem;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid color-mix(in srgb, var(--aden-cyan) 45%, transparent);
+  background: rgb(5 8 14 / 80%);
+  color: var(--aden-cyan);
+  opacity: 0;
+  transform: translateX(-50%);
+  transition: opacity 0.3s;
+}
+
+.aden-store-toast.is-shown {
+  opacity: 1;
+}

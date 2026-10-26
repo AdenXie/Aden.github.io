@@ -102,7 +102,7 @@ test('global search keeps the world-time summary without map or code; other arti
   const filename = path.join(__dirname, '../scripts/world-time.js');
   let init, wrapped;
   const untouched = '<entry><title>Other</title><url>/about/index.html</url><content><![CDATA[Original content]]></content></entry>';
-  const xml = `<search>${untouched}<entry><url>/world-time/index.html</url><content><![CDATA[<svg>large map</svg>]]></content></entry><entry><url>/css/world-time.css</url><content><![CDATA[CSS]]></content></entry><entry><url>/js/world-time.js</url><content><![CDATA[JS]]></content></entry></search>`;
+  const xml = `<search>${untouched}<entry><url>/world-time/index.html</url><content><![CDATA[<svg>large map</svg>]]></content></entry><entry><url>/css/world-time.css</url><content><![CDATA[CSS]]></content></entry><entry><url>/js/world-time.js</url><content><![CDATA[JS]]></content></entry><entry><url>/js/scenes/store.js</url><content><![CDATA[SCENE]]></content></entry></search>`;
   vm.runInNewContext(fs.readFileSync(filename, 'utf8'), {
     require: name => require(path.resolve(path.dirname(filename), name)),
     hexo: { extend: { tag: { register() {} }, filter: { register: (name, fn) => { assert.equal(name, 'after_init'); init = fn; } } } }
@@ -112,6 +112,7 @@ test('global search keeps the world-time summary without map or code; other arti
   assert.ok(result.data.includes(untouched));
   assert.ok(result.data.includes('多伦多') && result.data.includes('霍巴特'));
   assert.ok(!result.data.includes('large map') && !result.data.includes('/css/world-time') && !result.data.includes('/js/world-time'));
+  assert.ok(!result.data.includes('/js/scenes/') && !result.data.includes('SCENE'));
 });
 
 test('sun position: solstice declination, noon over Greenwich, local day and night', () => {

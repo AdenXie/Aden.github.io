@@ -2,7 +2,8 @@ const cities = require('../lib/world-time-cities.json');
 const map = require('../lib/world-time-map.json');
 
 // Search is preloaded site-wide. Keep this page searchable without shipping SVG
-// geometry or executable markup in the global search index.
+// geometry or executable markup in the global search index. Source scripts and
+// styles (site widgets, 3D scenes, API handlers) are not content, so none are indexed.
 hexo.extend.filter.register('after_init', function () {
   const searchPath = this.config.search?.path;
   if (!searchPath?.endsWith('.xml')) return;
@@ -12,7 +13,7 @@ hexo.extend.filter.register('after_init', function () {
   this.extend.generator.register('xml', async function (locals) {
     const result = await generate.call(this, locals);
     result.data = result.data.replace(/<entry>[\s\S]*?<\/entry>/g, entry => {
-      if (/<url>[^<]*\/(?:css\/world-time\.css|js\/world-time\.js)<\/url>/.test(entry)) return '';
+      if (/<url>[^<]*\.(?:css|js)<\/url>/.test(entry)) return '';
       if (!/<url>[^<]*\/world-time\/(?:index\.html)?<\/url>/.test(entry)) return entry;
       return entry.replace(/<content><!\[CDATA\[[\s\S]*?\]\]><\/content>/, `<content><![CDATA[${summary}]]></content>`);
     });

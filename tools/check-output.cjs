@@ -27,6 +27,14 @@ function checkOutput(directory = 'public') {
   // Daily briefs, found from their own pages, must not appear in the home article list.
   const briefPaths = new Set([['', ''], ['en', '/en']].flatMap(([dir, prefix]) => readPosts(path.join(root, dir), prefix).filter(p => p.brief).map(p => new URL(p.url).pathname)));
   assert(briefPaths.size > 0, 'No daily briefs found');
+  // 3D scenes load by URL from scene-loader.js and import three.js by URL, so a
+  // renamed file or a three.js upgrade would only fail in the browser.
+  for (const scene of ['saturn', 'store']) {
+    const file = path.join(root, 'js/scenes', `${scene}.js`);
+    assert(fs.existsSync(file), `Missing scene ${scene}`);
+    for (const [, url] of fs.readFileSync(file, 'utf8').matchAll(/from '([^']+)'/g)) exists(url);
+  }
+  exists('/js/scene-loader.js');
   let pages = 0;
   for (const file of files(root).filter(f => f.endsWith('.html'))) {
     const $ = cheerio.load(fs.readFileSync(file, 'utf8')); pages++;
