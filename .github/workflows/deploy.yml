@@ -138,3 +138,9 @@ jobs:
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --global url."https://x-access-token:${DEPLOY_TOKEN}@github.com/".insteadOf "https://github.com/"
           npm run deploy
+
+      - name: Purge ESA edge cache
+        env:
+          ESA_ACCESS_KEY_ID: ${{ secrets.ESA_ACCESS_KEY_ID }}
+          ESA_ACCESS_KEY_SECRET: ${{ secrets.ESA_ACCESS_KEY_SECRET }}
+        run: node tools/purge-esa-cache.cjs

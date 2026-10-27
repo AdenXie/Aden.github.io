@@ -22,6 +22,8 @@ async function main() {
   injectBriefStrip(path.join(ROOT, 'public'));
   buildLatestPosts(path.join(ROOT, 'public'));
   fs.copyFileSync(path.join(ROOT, 'lib/README.main.md'), path.join(ROOT, 'public/README.md'));
+  // Lets tools/purge-esa-cache.cjs tell when Vercel serves this build before purging the ESA edge.
+  fs.writeFileSync(path.join(ROOT, 'public/build-id.txt'), `${process.env.GITHUB_SHA || 'local'}\n`);
   // Scheduled workflows must exist on GitHub's default (generated main) branch.
   // Initialize/update this workflow on main through an authorized GitHub user
   // before deployment: the CI token can preserve it but cannot create workflows.
