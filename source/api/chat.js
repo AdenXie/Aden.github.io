@@ -86,7 +86,8 @@ async function handler(req, res) {
     reasoningEffort = body?.reasoningEffort || 'low';
   } catch { return json(res, 400, { error: 'invalid_request' }); }
   if (!messages || page === null) return json(res, 400, { error: 'invalid_request' });
-  const ip = String(req.headers['x-vercel-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
+  // Behind Alibaba Cloud ESA, Vercel sees the edge node; ESA's managed transform adds the visitor's address.
+  const ip = String(req.headers['ali-real-client-ip'] || req.headers['x-vercel-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
   if (!allowed(ip)) { res.setHeader('Retry-After', '60'); return json(res, 429, { error: 'rate_limited' }); }
   const controller = new AbortController();
   const abort = () => controller.abort();
