@@ -1,0 +1,1496 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/2026/10/28/2026-10-28-anthropic-s1-open-cards/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Anthropic officially unveils its S-1 prospectus: a deep dive – the bets we placed a week ago have all been revealed today">
+<meta property="og:url" content="https://blog.adenxie.com.cn/2026/10/28/2026-10-28-anthropic-s1-open-cards/index.html">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-10-27T19:30:00.000Z">
+<meta property="article:modified_time" content="2026-10-27T19:30:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="Claude">
+<meta property="article:tag" content="Anthropic">
+<meta property="article:tag" content="IPO">
+<meta property="article:tag" content="人工智能">
+<meta property="article:tag" content="财报分析">
+<meta property="article:tag" content="S-1">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Anthropic officially unveils its S-1 prospectus: a deep dive – the bets we placed a week ago have all been revealed today | Aden’s Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/site-runtime.js" defer=""></script>
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js"></script>
+                
+    
+            
+                
+                    <link rel="stylesheet" href="/css/custom.css">
+                
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"en","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"17px","line_height":1.85,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"all_rights_reserved"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["科技、体验与个人判断","写下真实体验，也保留观点的棱角"],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Daily Brief":{"path":"/daily/","icon":"fa-regular fa-newspaper"},"archives":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"},"tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"World Time":{"path":"/world-time/","icon":"fa-regular fa-clock"},"about":{"path":"/about/","icon":"fa-regular fa-user"},"links":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":true,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.i18n = {"search":"Search...","toc":"On this page","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"POWERED BY %s","theme":"THEME","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","post":"Post","posts":"Posts","tagcloud":"Tag Cloud","comment":"Comment","comments":"Comments","home":"Home","archive":"Archive","archives":"Archives","top":"TOP","sticky":"Sticky","go-back-home":"Go Back Home","masonry_loading":"Loading photos...","image_viewer":"Image viewer","close":"Close","exif":{"title":"EXIF","cards":{"camera":"Camera","lens":"Lens","exposure":"Exposure","other":"Other"},"fields":{"make":"Brand","model":"Model","date_taken":"Date taken","lens_model":"Lens","focal_length":"Focal length","focus_mode":"Focus mode","shutter":"Shutter","aperture":"Aperture","iso":"ISO","exposure_program":"Exposure program","exposure_compensation":"Exposure compensation","metering_mode":"Metering mode","flash":"Flash","white_balance":"White balance","latitude":"Latitude","longitude":"Longitude","altitude":"Altitude"},"status":{"loading":"Loading...","no_exif":"No EXIF available","library_missing":"EXIF library not loaded","image_source_missing":"Image source unavailable","unavailable":"EXIF unavailable (blocked by CORS or missing metadata)","flag_unavailable":"EXIF unavailable"}},"about":"About","changelog":"Changelog","links":"Links","link":"Link","friends":"Friends","friend":"Friend","timeline":"Timeline","shuoshuo":"Shuoshuo","bookmarks":"Bookmarks","site_uv":"VISITOR COUNT","site_pv":"TOTAL PAGE VIEWS","read_more":"Read more","wordcount":"Words","min2read":"Mins","status":"Status","runtime":"Blog up for","days":"days","hours":"hrs","minutes":"Min","seconds":"Sec","optimized_by":"and Optimized by Evan","rights":"All Rights Reserved","site_posts":"%s posts in total","site_wordcount":"%s words in total","copyright":{"author":"Author","title":"Title","link":"Link","create_time":"Created at","update_time":"Updated at","license_title":"License","license_content":"This work is licensed under %s.","all_rights_reserved":"All Rights Reserved &#169; %s","public_domain":"This work is in the public domain."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"},"create_time":"Created","update_time":"Updated","expired":"This post is written %s days ago, and the content may not be up to date."};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/daily/">
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    DAILY BRIEF
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/categories/">
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    CATEGORIES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    WORLD TIME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/">
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/daily/">
+                            <span>
+                                DAILY BRIEF
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/archives/">
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/categories/">
+                            <span>
+                                CATEGORIES
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/tags/">
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/world-time/">
+                            <span>
+                                WORLD TIME
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/about/">
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/link/">
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/archives/">
+                            <span>Article Archive</span>
+                            <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/tags/">
+                            <span>Topic Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/about/">
+                            <span>About Aden</span>
+                            <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">56</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">91</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://images.pexels.com/photos/38358503/pexels-photo-38358503.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Anthropic officially unveils its S-1 prospectus: a deep dive – the bets we placed a week ago have all been revealed today" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">Anthropic officially unveils its S-1 prospectus: a deep dive – the bets we placed a week ago have all been revealed today</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-10-28 03:30</span>
+        <span class="mobile">2026-10-28 03:30</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-10-28 03:30</span>
+            <span class="mobile">2026-10-28 03:30</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E5%95%86%E4%B8%9A%E6%B7%B1%E5%BA%A6/">Business Insights</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/Claude/">Claude</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/Anthropic/">Anthropic</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/IPO/">IPO</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">Artificial Intelligence</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E8%B4%A2%E6%8A%A5%E5%88%86%E6%9E%90/">Financial Statement Analysis</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/S-1/">S-1</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>6.1k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>22 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<blockquote>
+<p><strong>Introduction</strong>: Over the past two months, we have been closely following Anthropic’s capital frenzy: first in<a href="/2026/10/23/2026-10-23-anthropic-loss-ipo/">Reports on the leaked draft</a>It analysed the accounting intricacies behind the “huge book loss of 80.7 billion”, and subsequently compared it with OpenAI’s<a href="/2026/10/24/2026-10-24-openai-vs-anthropic-ipo-race/">Nasdaq jumps the gun</a>. At the time, all speculation was based on unofficial sources—on 26 October 2026, the official announcement was made: Anthropic publicly filed its S-1 registration statement with the SEC, and the stock code was finalised <strong>ANT</strong>, with Goldman Sachs and Morgan Stanley leading a consortium of around 20 investment banks; the roadshow is expected to begin in the week of 9 November. This regulatory filing, comprising 335 pages of main text and 65 pages of financial notes, has finally brought the ‘moment of truth’ into sharp focus—<strong>Nine sets of previous inferences: five were confirmed, two were clarified, and two were significantly revised; one of these directly overturned the conclusion reached in our previous article.</strong></p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="引子：从传闻到公章，正式的”验钞时刻”"><a href="#引子：从传闻到公章，正式的”验钞时刻”" class="headerlink" title="Introduction: From rumours to the official seal – the formal ‘money-checking moment’"></a>Introduction: From rumours to the official seal – the formal ‘money-checking moment’</h2><p>For investors interested in the commercialisation of generative AI, 26 October 2026 is a date to note.</p>
+<p>Following the formal filing of Anthropic, PBC’s (Registration No. 333-299633) S-1 form with the SEC’s EDGAR system, this mega-IPO—co-led by Goldman Sachs and Morgan Stanley, and backed by around 20 investment banks including JPMorgan, Citigroup, Barclays and Wells Fargo—has, for the first time, allowed everyone to cross-check all the rumours circulating over the past two months, one by one.</p>
+<p>On the eve of investment banks launching their full-scale US roadshow in November and making a final push to list on the Nasdaq before Thanksgiving, we have laid out the key conclusions drawn from our two previous in-depth analyses side by side with this formal document—which is strictly governed by law—and compared them point by point.</p>
+<p>The results of the card draw were quite solid:<strong>“Loss of 80.7 billion primarily due to the revaluation of convertible bonds” “Revenue surges 14-fold” “Five-tier shareholding structure with super voting rights”</strong>All of this has been confirmed by the official financial reports; and, even more unexpectedly, two key figures that had previously caused widespread concern saw a dramatic turnaround following the official announcement, proving to be in far better shape than rumours had suggested.</p>
+<h2 id="一、开牌总览：我们之前的九组推断对照表"><a href="#一、开牌总览：我们之前的九组推断对照表" class="headerlink" title="I. Overview of the Card Reveals: Our previous comparison table of the nine sets of inferences"></a>I. Overview of the Card Reveals: Our previous comparison table of the nine sets of inferences</h2><p>Before you delve into the in-depth analysis, take a look at this definitive report card:</p>
+<table>
+<thead>
+<tr>
+<th align="center">#</th>
+<th align="left">Our previous conclusions (based on leaked drafts and media reports)</th>
+<th align="left">Results of the disclosure in the SEC’s formal S-1 prospectus</th>
+<th align="center">Final verification and assessment</th>
+<th align="left">In-depth Facts and Explanation of Definitions</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>1</strong></td>
+<td align="left">Net loss for the first half of 2026 was approximately <strong>$80.7B</strong></td>
+<td align="left"><strong>$80,748M (approximately US$80.748 billion)</strong></td>
+<td align="center">✅ <strong>A perfect match</strong></td>
+<td align="left">The officially audited profit and loss account confirms that this figure has increased more than sixfold compared with the $12,969M (approximately US$12.97 billion) recorded in the same period last year.</td>
+</tr>
+<tr>
+<td align="center"><strong>2</strong></td>
+<td align="left">Losses of approximately <strong>$72B (nearly 90 per cent)</strong> Fair value revaluation of convertible bonds</td>
+<td align="left"><strong>$72,388M (approximately US$72.388 billion, accounting for 89.7 per cent)</strong></td>
+<td align="center">✅ <strong>A perfect match</strong></td>
+<td align="left">This non-cash provision amounted to $1.04 billion, $5.43 billion and $34.31 billion in 2023, 2024 and 2025 respectively, increasing year on year as valuations rose.</td>
+</tr>
+<tr>
+<td align="center"><strong>3</strong></td>
+<td align="left">The actual operating loss for the first half of 2026 was <strong>$8.7B</strong></td>
+<td align="left"><strong>The actual operating loss amounted to just US$693 million ($693M)</strong></td>
+<td align="center">❌ <strong>Major amendments</strong></td>
+<td align="left"><strong>The most astonishing reversal!</strong> The previously reported “loss of 8.7 billion” was actually calculated as “net loss less changes in fair value” (approximately US$8.36 billion); the actual operating loss was less than 700 million.</td>
+</tr>
+<tr>
+<td align="center"><strong>4</strong></td>
+<td align="left">Total revenue for the first half of 2026 was approximately <strong>$16.3B</strong></td>
+<td align="left"><strong>$16,286M (approximately US$16.286 billion)</strong></td>
+<td align="center">✅ <strong>A perfect match</strong></td>
+<td align="left">A sharp rise compared with the $1,163M figure for the same period in 2025 <strong>approximately 14 times</strong>, and is already more than 3.5 times the full-year revenue for 2025 ($4,585M)</td>
+</tr>
+<tr>
+<td align="center"><strong>5</strong></td>
+<td align="left">Revenue for the third quarter of 2026 was approximately <strong>$16.8B</strong></td>
+<td align="left">The profit and loss account is presented on a full-year and half-year basis; quarterly revenue is not disclosed separately, and nine-month figures are only mentioned sporadically in discussions such as those on customer concentration.</td>
+<td align="center">⚠️ <strong>To be completed with due care</strong></td>
+<td align="left">The figure of $16.8 billion for a single quarter cited during the draft stage has not been verified by official documents and is not referenced in this article; the run-rate figure will be addressed in the S-1/A filing.</td>
+</tr>
+<tr>
+<td align="center"><strong>6</strong></td>
+<td align="left">The total value of computing power procurement commitments is approximately <strong>US$518 billion (80 per cent non-cancellable)</strong></td>
+<td align="left">S-1: No single numerical heading is provided; the total of the individual items amounts to approximately US$515 billion to US$535 billion, and the officially audited fixed/minimum commitment is <strong>US$265.6 billion ($265.6B)</strong></td>
+<td align="center">⚠️ <strong>Clarification of the scope</strong></td>
+<td align="left">The figure of $518B represents the media’s aggregate total of the various framework caps; the prospectus establishes a mandatory minimum liability threshold.</td>
+</tr>
+<tr>
+<td align="center"><strong>7</strong></td>
+<td align="left">The top two clients accounted for approximately <strong>20%</strong> total revenue</td>
+<td align="left"><strong>In the first three quarters of 2026, no single customer accounted for more than 10 per cent of the total.</strong>, with the top five customers accounting for approximately 25 per cent in total</td>
+<td align="center">❌ <strong>Major amendments</strong></td>
+<td align="left">Customer concentration is significantly diversified, and previous market concerns regarding reliance on a single major client have been disproved by the facts.</td>
+</tr>
+<tr>
+<td align="center"><strong>8</strong></td>
+<td align="left">Approx. <strong>47%</strong> Revenue from sales is routed via the cloud providers’ (AWS/GCP) marketplaces</td>
+<td align="left"><strong>47 per cent in 2025, rising slightly to 48 per cent in the first half of 2026</strong></td>
+<td align="center">✅ <strong>Confirmation Update</strong></td>
+<td align="left">The closed-loop distribution systems of the cloud computing giants remain robust, serving as their most important commercial moat.</td>
+</tr>
+<tr>
+<td align="center"><strong>9</strong></td>
+<td align="left">5-tier equity isolation + Class F shares with 50.1 per cent voting rights + LTBT (Long-Term Beneficiary Trust)</td>
+<td align="left"><strong>All of it has been confirmed in black and white</strong>… and also disclosed further details, including the actual transfer of a 5 per cent stake to a charitable foundation and the allocation of Class E shares to employees</td>
+<td align="center">✅ <strong>A perfect match</strong></td>
+<td align="left">The seven founders have secured 50.1 per cent of the total voting rights through a single Class F share, implementing a dual-layered defence mechanism combining commercial and ethical safeguards.</td>
+</tr>
+</tbody></table>
+<h2 id="二、两大硬核翻案：真实经营亏损只有不到-7-亿，客户集中度虚惊一场"><a href="#二、两大硬核翻案：真实经营亏损只有不到-7-亿，客户集中度虚惊一场" class="headerlink" title="II. Two Major Rebuttals: The actual operating loss was less than 700 million, and the concerns over customer concentration proved to be a false alarm"></a>II. Two Major Rebuttals: The actual operating loss was less than 700 million, and the concerns over customer concentration proved to be a false alarm</h2><p>In this substantial S-1 prospectus, what deserves the closest scrutiny from all secondary market analysts and technology observers are two points that completely overturn the market’s previous negative narrative:<strong>Major amendments</strong>：</p>
+<h3 id="翻案一：真实经营亏损仅-6-93-亿美元，而非传闻中的-87-亿"><a href="#翻案一：真实经营亏损仅-6-93-亿美元，而非传闻中的-87-亿" class="headerlink" title="Clarification 1: The actual operating loss was only US$693 million, not the rumoured US$8.7 billion"></a>Clarification 1: The actual operating loss was only US$693 million, not the rumoured US$8.7 billion</h3><p>During the period when the draft was leaked, the claim that ‘even after deducting the 72 billion fair value revaluation, Anthropic’s actual loss for the first half of the year still amounted to a staggering 8.7 billion’ was widely circulated—including in our own previous article.</p>
+<p>A glance at the official S-1 income statement reveals the truth:</p>
+<p>In the first half of 2026, Anthropic’s total operating revenue was <strong>US$16.286 billion</strong>, Total Operating Expenses—which cover computing power leasing, model R&amp;D, staff remuneration and sales management—amount to <strong>US$16.979 billion</strong>。</p>
+<p><strong>Subtracting one figure from the other, the actual operating loss amounted to just US$693 million ($693M) – compared with an operating loss of US$2,135 million ($2,135M) in the same period of the previous year.</strong></p>
+<p>The prospectus states in black and white:</p>
+<blockquote>
+<p><em>“Our operating loss was $693 million for the six months ended June 30, 2026.”</em>(For the six months ended 30 June 2026, our operating loss was US$693 million.)</p>
+</blockquote>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://files.seeusercontent.com/2026/10/27/iwI5/fig1-h1-2026-pnl-waterfall.png" alt="A Breakdown of Anthropic’s Official Profit and Loss Statement for the First Half of 2026"><figcaption>A Breakdown of Anthropic’s Official Profit and Loss Statement for the First Half of 2026</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 1</span><span class="aden-caption-text">Breakdown of Anthropic’s official profit and loss figures for the first half of 2026: revenue of US$16.286 billion, with an actual operating loss of just US$693 million; nearly 90 per cent of the massive reported loss (US$72.388 billion) was attributable to the revaluation of convertible bonds at fair value. Source: SEC EDGAR S-1 formal prospectus.</span></p>
+<p>So where exactly did the previously circulating figure of ‘US$8.7 billion’ come from?</p>
+<p>This is a classic example of<strong>Confusion over terminology</strong>：</p>
+<p>Total net loss <strong>$80,748M</strong> Less: revaluation of the fair value of convertible bonds <strong>$72,388M</strong>, the difference being approximately <strong>US$8.36 billion</strong>. This shortfall comprises three components: an actual operating loss of 693 million, net non-operating expenditure of approximately 7.65 billion (interest income of 1.11 billion, other non-operating net expenditure of −8.76 billion, the latter primarily comprising changes in the fair value of strategic investments and financial instruments), and income tax of approximately 20 million. To describe the entire difference resulting from ‘stripping the fair value revaluation from the net loss’ directly as an ‘operating loss’ is tantamount to cramming non-operating items into the operating line—this was precisely the terminology error committed by financial reports at the time (including when we ourselves paraphrased them); it was only with the formal filing of the S-1 that this line was truly drawn.</p>
+<p>Given a total revenue of over US$16.2 billion, an operating loss of just under US$700 million means that:<strong>Anthropic’s operating loss margin for its core business has narrowed to approximately -4.2 per cent (compared with approximately -184 per cent in the same period last year), bringing it within touching distance of breaking even.</strong></p>
+<h3 id="翻案二：客户集中度恐慌被事实证伪"><a href="#翻案二：客户集中度恐慌被事实证伪" class="headerlink" title="Case Study 2: Fears over customer concentration disproved by the facts"></a>Case Study 2: Fears over customer concentration disproved by the facts</h3><p>During the period when the draft was leaked, the market had expressed concerns that “the top two clients accounted for 20 per cent of revenue in the first half of the year”, whilst the decision by the AI programming tool Replit to switch its default model to OpenAI also caused a brief stir.</p>
+<p>The official S-1 filing provides a compelling rebuttal:</p>
+<p>In the first three quarters of 2026,<strong>No single customer accounts for 10 per cent or more of total revenue</strong>(In the first half of the year, Customer C alone accounted for 11 per cent), with the top five customers collectively contributing approximately 25 per cent; the S-1 filing also disclosed that in the third quarter of 2026, revenue from the ‘long tail’—i.e. customers other than the top five—accounted for approximately 79 per cent, a further increase from the approximately 64 per cent recorded in the first quarter.</p>
+<p>In its place is a healthy, horizontal customer funnel:</p>
+<ul>
+<li>Revenue over the past 12 months (TTM) exceeded <strong>US$100,000</strong> The number of corporate clients has reached <strong>Over 11,900</strong>(Just over 950 a year ago, representing a growth of more than 12-fold);</li>
+<li>TTM revenue exceeded <strong>US$1 million</strong> has more than <strong>1,900</strong>；</li>
+<li>Revenue in excess of <strong>US$10 million</strong> Super Lighthouse’s client base of approximately <strong>250 companies</strong>；</li>
+<li>More than half of the Fortune 500 companies have already adopted Claude’s enterprise services, with a penetration rate of over 30 per cent amongst the Forbes Global 2000.</li>
+</ul>
+<p>The so-called structural weakness of ‘over-reliance on one or two major clients’ has been thoroughly debunked in the light of official data.</p>
+<h2 id="三、比预想更强悍的财务底色：造血转正与充沛现金"><a href="#三、比预想更强悍的财务底色：造血转正与充沛现金" class="headerlink" title="III. A stronger-than-expected financial foundation: a return to profitability and ample cash reserves"></a>III. A stronger-than-expected financial foundation: a return to profitability and ample cash reserves</h2><p>In addition to these two major reversals, a series of in-depth financial indicators disclosed for the first time in the formal prospectus demonstrate the financial resilience of a mature software giant:</p>
+<ol>
+<li><strong>Adjusted operating profit has returned to positive territory</strong>：<br>After excluding non-cash items such as share-based payment expenses ($2,185M) and liabilities relating to the charitable matching scheme ($126M), Anthropic’s adjusted operating profit for the first half of 2026 amounted to <strong>+US$1.618 billion</strong>, adjusted operating profit margin <strong>10%</strong>(compared with −US$1.849 billion in the same period last year, marking a complete turnaround); adjusted net profit also recorded <strong>+US$2.671 billion</strong>。</li>
+<li><strong>Operating cash flow (CFO) generates genuine self-sustaining revenue</strong>：<br>In the first half of 2026, the company’s net cash flow from operating activities amounted to <strong>+US$3.93 billion (+$3,929M)</strong>, compared with a net outflow of US$1.51 billion in the same period last year. This means that even without external equity financing, the company’s day-to-day operations alone are already generating a steady stream of real cash.</li>
+<li><strong>A massive cash moat of US$131.65 billion</strong>：<br>As at 30 June 2026, Anthropic’s total book value of cash, cash equivalents and highly liquid short-term investments amounted to <strong>US$131.65 billion ($131.65B)</strong>…exceeding the reserves of the vast majority of S&amp;P 500 constituents, providing a substantial liquidity buffer for the future race for high-intensity computing power.</li>
+<li><strong>Statutory definition of historical funding amounts</strong>：<br>Section 15 of the prospectus (Item 15) disclosed for the first time the official figures for the two most recent rounds of substantial funding:<strong>Series G-1 preference shares raised US$23.5 billion, Series H-1 raised US$45.7 billion, and Series H-2 raised US$19.5 billion</strong>。</li>
+<li><strong>An impressive Net Retention Rate (NRR)</strong>：<br>NRR, the key metric used in the enterprise software sector to measure customer retention, recorded <strong>Approximately 900 per cent</strong>. The average net revenue contribution from our existing customer base is approximately nine times what it was a year ago—not due to churn, but rather to an almost explosive rate of organic growth.</li>
+<li><strong>The ‘inflated revenue figures’ disclosed in all honesty</strong>：<br>The prospectus makes the rare admission that in the first three quarters of 2026, there were approximately <strong>5 per cent to 7 per cent of revenue comes from customers who breach our usage policy or commercial terms</strong>(The S-1 form does not specify the exact type; the risk section mentions ongoing external attempts to replicate, distil and extract the model). With the company set to comprehensively strengthen monitoring and enforcement between August and September 2026, this portion of revenue is expected to decline in subsequent quarters—the fact that the company has taken the initiative to proactively eliminate inflated figures in its prospectus demonstrates a strong commitment to compliance.</li>
+</ol>
+<h2 id="四、千亿算力锁链的精确拆账：媒体加总-vs-审计底线"><a href="#四、千亿算力锁链的精确拆账：媒体加总-vs-审计底线" class="headerlink" title="IV. A Detailed Breakdown of the 100-billion-yuan computing power chain: Media estimates vs the audit baseline"></a>IV. A Detailed Breakdown of the 100-billion-yuan computing power chain: Media estimates vs the audit baseline</h2><p>The “US$518 billion computing power procurement commitment”, which we discussed previously in our series of articles, has been subject to the most comprehensive statutory breakdown to date in the notes to the financial statements of the formal S-1 filing.</p>
+<p>It should be clarified that,<strong>The main text of Form S-1 does not directly state a single figure of ‘US$518 billion’ in bold.</strong>, This is a consolidated total compiled by financial media outlets of the maximum contract values for the major cloud service providers:</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://files.seeusercontent.com/2026/10/27/sU2o/fig2-compute-commitments-breakdo.png" alt="Anthropic’s computing power procurement commitments, broken down by supplier"><figcaption>Anthropic’s computing power procurement commitments, broken down by supplier</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 2</span><span class="aden-caption-text">A breakdown of Anthropic’s computing power procurement commitments: the total value of contracts with major suppliers amounts to approximately US$518 billion ($518B), whilst the fixed/minimum commitments, as per the officially audited figures in the S-1 filing, stand at US$265.6 billion ($265.6B). Source: SEC EDGAR S-1 formal prospectus.</span></p>
+<h3 id="供应商逐笔合同穿透："><a href="#供应商逐笔合同穿透：" class="headerlink" title="Supplier contract-by-contract breakdown:"></a>Supplier contract-by-contract breakdown:</h3><ul>
+<li><strong>Broadcom</strong>: Five-year lease agreement for specialised hardware equipment, totalling approximately <strong>US$125.2 billion ($125.2B)</strong>, interest-free and irrevocable; rent is payable quarterly, with a maximum of <strong>US$42 billion</strong>the supply chain financing facility secured by the Infrastructure Partner 2026 NPA (asset-backed notes);</li>
+<li><strong>SpaceXAI (formerly X.AI, part of the Musk ecosystem)</strong>: Up to <strong>US$120.5 billion (≤$120.5B)</strong> The cluster computing power procurement agreement (NVIDIA GPUs) entails monthly expenditure of approximately US$3.1 billion when operating at full capacity; the initial irrevocable term runs until 1 March 2027, after which either party may terminate the agreement by giving 90 days’ notice—an increase on the estimate given during the draft stage;</li>
+<li><strong>Google</strong>: Irrevocable TPU computing power guarantee agreement <strong>US$114.5 billion (≥$114.5B)</strong>, covering the period from April 2026 to July 2033; any shortfall must be made up via a true-up; in addition, the forecast for 2028–2031 is <strong>US$125 billion to US$150 billion</strong> the procurement of additional computing power (not included in the fixed commitment table);</li>
+<li><strong>Amazon</strong>: The irrevocable minimum threshold for computing power procurement <strong>US$110.0 billion (≥$110.0B)</strong>, with a term running from May 2026 to April 2036—a period of ten years—and also incorporating a true-up mechanism;</li>
+<li><strong>Microsoft</strong>: Irrevocable procurement threshold <strong>US$44.9 billion (≥$44.9B)</strong>, valid from November 2026 to May 2033; payment is required regardless of actual usage—Claude is currently available via the three major cloud platforms: AWS, GCP and Azure;</li>
+<li><strong>AMD</strong>: No fixed amount is committed; if the entire initial batch of computing power is purchased, the expenditure will exceed <strong>US$20 billion (&gt;$20B)</strong>; in return, AMD has undertaken to purchase up to <strong>US$5 billion</strong> Class N non-voting shares (unlocked in tranches upon the achievement of GPU delivery milestones).</li>
+</ul>
+<p><strong>The absolute minimum requirements for statutory audits</strong>：</p>
+<p>After excluding all optional cancellation clauses, flexible arrangements and potential options, the financial notes to the prospectus (F-59) provide the audited figures for firm contracts—<strong>The total value of fixed/guaranteed procurement commitments spanning 1 to 20 years amounts to US$265.6 billion ($265.6B)</strong>。</p>
+<p>Whether it is the framework cap of 518 billion or the statutory obligation of 265.6 billion, Anthropic has, through these massive contracts spanning a decade, secured the core production capacity of global semiconductor and cloud computing giants for its own purposes.</p>
+<h2 id="五、顶层治理细节：超级投票权、独立信托与-5-公益基金实股化"><a href="#五、顶层治理细节：超级投票权、独立信托与-5-公益基金实股化" class="headerlink" title="V. Details of Top-Level Governance: Super Voting Rights, Independent Trust and the Conversion of the 5 per cent Public Welfare Fund into Equity Shares"></a>V. Details of Top-Level Governance: Super Voting Rights, Independent Trust and the Conversion of the 5 per cent Public Welfare Fund into Equity Shares</h2><p>In the area of governance and control—which attracts the most attention in the capital markets—the formal S-1 filing reveals the ingenious safeguards this not-for-profit organisation has put in place to strike a balance between commercial interests and ethical autonomy:</p>
+<h3 id="1-五层股权结构的设计与绝对控制"><a href="#1-五层股权结构的设计与绝对控制" class="headerlink" title="1. The design of a five-tier shareholding structure and absolute control"></a>1. The design of a five-tier shareholding structure and absolute control</h3><ul>
+<li><strong>Class A Ordinary Shares</strong>: One voting right per share, for trading on the open secondary market;</li>
+<li><strong>Class N shares</strong>: The economic rights are the same as those of Class A shares, but they carry no voting rights; upon transfer to an unrelated third party, they are automatically converted into Class A shares. Amazon’s convertible bonds are subject to a 12 per cent conversion cap (any amount exceeding this is converted into rolling notes with no additional issuance rights), and external investors such as Google also hold primarily this type of share to prevent the cloud giant from holding an excessive stake;</li>
+<li><strong>Class E Employee Incentive Shares</strong>: Details revealed for the first time in the official version—employees are automatically allocated one Class E share for every six months they have worked at the company, with each share carrying one voting right;</li>
+<li><strong>Class T shares</strong>: Held exclusively by the Long-Term Benefits Trust (LTBT), which has no economic interest, and is responsible for appointing certain directors (Class T directors) and participating in specific governance arrangements;</li>
+<li><strong>Class F Founder’s Exclusive Shares</strong>: Through a dedicated <strong>Founder LLC</strong> Held separately<strong>a stream</strong>. This group, which has no economic stake but holds sway over the entire company <strong>50.1 per cent of the total voting rights</strong>—The seven co-founders (Dario, Daniela Amodei, Tom Brown, Jack Clark, Jared Kaplan, Sam McCandlish and Christopher Olah) thereby retained decisive control over the company’s strategic direction.</li>
+</ul>
+<p>The individual economic stakes held by the seven founders were not disclosed as a single figure in the beneficial ownership table of the formal S-1 filing (external estimates during the draft stage put this at approximately 14 per cent) ; what is certain is the governance arrangement itself: the company is eligible for an exemption from certain governance requirements under the Nasdaq ‘Controlled Company’ rules, but the S-1 states that it intends to apply this exemption only to the Nomination Committee, with the majority of the Board of Directors still comprising independent directors. Another new detail is:<strong>The seven founders have each pledged to donate 80 per cent of their personal shareholdings in Anthropic to charitable causes.</strong>(A voluntary, revocable long-term commitment).</p>
+<h3 id="2-真正的共益企业：公益基金获-5-实股注入"><a href="#2-真正的共益企业：公益基金获-5-实股注入" class="headerlink" title="2. A genuine B Corp: a charitable trust receives a 5 per cent equity stake"></a>2. A genuine B Corp: a charitable trust receives a 5 per cent equity stake</h3><p>Unlike many companies, which merely make vague charitable pledges in their prospectuses, Anthropic has gone ahead and completed a transfer of shares involving real money:</p>
+<p>The company has provided the independent <strong>Anthropic Public Benefit Fund</strong> Injection <strong>847 million shares (846,840,960 shares) of Class N shares, representing 5 per cent of the fully diluted economic interest</strong>(Based on the assumption that the convertible bonds are converted in full).</p>
+<p>Furthermore, the Articles of Association stipulate that whenever the share price rises by 50 per cent compared with the previous price, the Board of Directors may, at its discretion, issue up to a further 2 per cent of shares to the fund to support long-term AI governance, alignment research and public interest initiatives.</p>
+<h3 id="3-长达约-94-页的风险警告与保险业承保难题"><a href="#3-长达约-94-页的风险警告与保险业承保难题" class="headerlink" title="3. A risk warning spanning approximately 94 pages and the challenges faced by the insurance industry in underwriting"></a>3. A risk warning spanning approximately 94 pages and the challenges faced by the insurance industry in underwriting</h3><p>Throughout the prospectus,<strong>The ‘Risk Factors’ section begins on page 26 and continues for approximately 94 pages (up to around page 119)</strong>—This is probably the most substantial prospectus of any AI company to date.</p>
+<p>The document contained strong language rarely seen in the prospectuses of publicly listed companies:</p>
+<blockquote>
+<p><em>“…sufficiently advanced AI systems could, if not developed, deployed, and operated with appropriate safeguards, oversight, and security measures, pose catastrophic or existential risks to humanity…”</em><br>(AI systems that are sufficiently advanced may pose catastrophic or even existential risks to humanity if they lack appropriate safeguards, oversight and security measures during their development, deployment and operation.)</p>
+</blockquote>
+<blockquote>
+<p><em>“With the scale of harm that could result from a catastrophic AI-related incident, no single insurer, and potentially the insurance industry in the aggregate, may have sufficient capacity or expertise to underwrite insurance commensurate with such exposure.”</em><br>(Given the scale of damage that a catastrophic AI incident could cause, no single insurer—or even the entire insurance industry taken as a whole—is likely to possess the underwriting capacity or specialist expertise required to deal with it.)</p>
+</blockquote>
+<p>Including the statement that ‘commercial insurance may not cover AI disasters’ in formal securities disclosures not only reflects the founding team’s roots in Effective Altruism (EA), but also fulfils, from a legal perspective, the ultimate duty to inform the public of potential risks.</p>
+<h2 id="六、挂牌首日新情景推演（更新-50-35-15）"><a href="#六、挂牌首日新情景推演（更新-50-35-15）" class="headerlink" title="VI. Simulation of New Scenarios on the First Day of Listing (Updated 50 / 35 / 15)"></a>VI. Simulation of New Scenarios on the First Day of Listing (Updated 50 / 35 / 15)</h2><p>Given that the underlying financial fundamentals are significantly better than expected and concerns regarding customer concentration have been allayed, we have updated our assessment of the probability of market volatility on Anthropic’s first day of trading:</p>
+<table>
+<thead>
+<tr>
+<th align="left">Role-play scenario</th>
+<th align="center">Probability of occurrence</th>
+<th align="left">Key trigger thresholds and macroeconomic conditions</th>
+<th align="left">Market and Valuation: Definitions</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Scenario A<br>(Open higher and remain stable)</strong></td>
+<td align="center"><strong>~50%</strong><br><em>(Base case)</em></td>
+<td align="left">• If the amended S-1/A filed in early November sets the pricing range at the level currently being discussed in the market, <strong>$1.5T to $2.0T</strong> Implied valuation range (Note: this range is currently only being discussed in the media; the official document leaves this field blank);<br>• Roadshow orders were oversubscribed several times over by sovereign wealth funds and long-term mutual funds;<br>• Macroeconomic liquidity in the US stock market remained stable in early November.</td>
+<td align="left"><strong>A resounding victory lays the foundations</strong>: On the first day of trading, the shares changed hands smoothly, with the initial gain falling within the 10 per cent–20 per cent range. This establishes a public market pricing benchmark for ‘enterprise-grade AI software’ (specific valuation multiples can only be calculated once the run-rate is disclosed in the S-1/A filing), from which OpenAI, which is next in line, will benefit directly.</td>
+</tr>
+<tr>
+<td align="left"><strong>Scenario B<br>(Slightly higher than the previous close)</strong></td>
+<td align="center"><strong>~35%</strong></td>
+<td align="left">• The pricing is close to the lower end of the $1.5T valuation range;<br>• With the market under macroeconomic pressure from the 10-year US Treasury yield remaining above 5 per cent, trading in technology and growth stocks has been cautious across the board;<br>• Institutional investors chose to take moderate profits after the market opened.</td>
+<td align="left"><strong>Soft landing</strong>: Performance on the first day of trading was relatively subdued (with the share price fluctuating within a range of ±5 per cent). The underlying business logic remains sound, but the ‘AI miracle valuation’ has come under rigorous scrutiny in the open market.</td>
+</tr>
+<tr>
+<td align="left"><strong>Scenario C<br>(The shock of a share price falling below its issue price)</strong></td>
+<td align="center"><strong>~15%</strong></td>
+<td align="left">• Short sellers in the secondary market are focusing their efforts on the company’s 265.6 billion rigid hashrate commitment and the impact of the 5 per cent–7 per cent decline in non-compliant transaction volume to drive short selling;<br>• A repeat of the market performance seen in June this year, when SpaceX’s share price fell by more than 30 per cent within two weeks of its listing.</td>
+<td align="left"><strong>Across the board</strong>: The share price fell by more than 15 per cent below its issue price in its first week of trading, triggering a downward shift in the valuation benchmark for technology growth stocks; this will deal a blow to the narrative surrounding OpenAI’s planned 2027 IPO.</td>
+</tr>
+</tbody></table>
+<p>(The probability represents the findings of this study rather than a predictive conclusion; should the trigger conditions not be met, the probability will be adjusted accordingly.)</p>
+<h2 id="七、数据口径诚实说明（关键事实边界）"><a href="#七、数据口径诚实说明（关键事实边界）" class="headerlink" title="VII. Honest Explanation of Data Definitions (Key Factual Boundaries)"></a>VII. Honest Explanation of Data Definitions (Key Factual Boundaries)</h2><p>When reading this card-laying report, readers must maintain an objective and rigorous understanding of its scope:</p>
+<ol>
+<li><strong>The price range and offering size were deliberately left blank in the initial S-1 filing</strong>: In accordance with SEC practice, the current filing constitutes a preliminary registration statement (Subject to Completion); the specific price range per share, the actual number of shares to be issued and the amount to be raised by existing shareholders will be formally finalised in a subsequent amendment to Form S-1/A; The valuation of between 1.5 trillion and 2 trillion US dollars currently being discussed in the media represents a non-binding indicative offer and has not been included in any formal documentation;</li>
+<li><strong>This article does not cite any third-quarter figures whatsoever.</strong>: The statutory audited financial statements in Form S-1 are presented on a full-year and half-year basis; revenue for the third quarter alone does not appear separately in the statements (figures covering the nine-month period are only mentioned sporadically in discussions regarding customer concentration and the proportion of non-compliant revenue); the figure of $16.8 billion for a single quarter, which circulated during the draft stage, has not been verified by any official document;</li>
+<li><strong>The roadshow schedule is taken from various financial news reports</strong>: The timeframe of launching the roadshow in the week of 9 November and listing before Thanksgiving (26 November) is the consensus timeline reported by media outlets such as Bloomberg and Reuters; the S-1 filing itself, in accordance with standard practice, merely states ‘as soon as practicable’;</li>
+<li><strong>All financial figures in this article are taken from the audited S-1 financial statements and the original text.</strong>, available at <a class="link" target="_blank" rel="noopener" href="https://www.sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm">Original text from SEC EDGAR<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>Check each item individually.</li>
+</ol>
+<h2 id="结语：商业化成人礼的真正答卷"><a href="#结语：商业化成人礼的真正答卷" class="headerlink" title="Conclusion: The True Test of the Commercialisation of Coming-of-Age Ceremonies"></a>Conclusion: The True Test of the Commercialisation of Coming-of-Age Ceremonies</h2><p>Having worked my way through this S-1 prospectus—comprising 335 pages of main text and financial notes up to F-65—what struck me most was the pace of evolution demonstrated by this company, founded by idealistic tech geeks.</p>
+<p>Just over five years ago, when they left OpenAI to found Anthropic (in January 2021), there were those who questioned whether they were merely a group of armchair academics, sitting in an ivory tower and spouting empty rhetoric about ‘model alignment’ and ‘AI safety’, and who believed they stood no chance commercially against the ChatGPT empire backed by Microsoft.</p>
+<p>Yet what is now before global investors is a textbook example of a financial statement:</p>
+<p><strong>Revenue surged 14-fold, surpassing the US$16 billion mark, whilst the actual operating loss narrowed to less than US$700 million, net operating cash flow stood at nearly US$4 billion, with over US$130 billion in cash reserves sitting on the balance sheet, whilst the company has also institutionalised the injection of 5 per cent of its actual shares into a charitable foundation.</strong></p>
+<p>When the ticker symbol ‘ANT’ lit up on the Nasdaq screen in November, it was not only a crowning moment for Dario Amodei and his team, but also a coming-of-age ceremony for the entire generative AI industry.</p>
+<p>They laid their cards on the table for the world to see, using an official ledger:<strong>Large-scale models are not only capable of devouring capital, but have also, for the first time, demonstrated their ability to generate their own revenue under audit criteria—as for how high a price the market is willing to place on this ledger, the answer will soon be displayed on the Nasdaq screen.</strong></p>
+<h3 id="主要信息来源与核验索引"><a href="#主要信息来源与核验索引" class="headerlink" title="Main Sources of Information and Verification Index"></a>Main Sources of Information and Verification Index</h3><ul>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm">Official original registration statement on SEC EDGAR: Anthropic, PBC Form S-1 Registration Statement (CIK 0002130357, File No. 333-299633, 26 October 2026)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>(All financial figures in this article are sourced directly from the original sources and have been verified item by item prior to publication.)</li>
+<li><a class="link" target="_blank" rel="noopener" href="https://techcrunch.com/2026/10/26/anthropic-officially-files-for-its-public-debut/">TechCrunch In-Depth Feature: Anthropic officially files for its initial public offering under the ticker symbol ANT (26 October 2026)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.cnbc.com/2026/10/26/anthropic-ipo-live-updates-ai-s-1-filing.html">CNBC Live reports: Anthropic IPO live updates – AI giant files S-1 prospectus<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.bloomberg.com/news/articles/2026-10-26/anthropic-ipo-explained-s-1-filing-nasdaq-listing-and-key-risks">Bloomberg Exclusive Analysis: Anthropic’s IPO Explained – S-1 Filing, Nasdaq Listing and Key Risks<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://fortune.com/2026/10/26/anthropics-s-1/">Fortune Feature: Anthropic’s S-1 is out – An inside look at the AI giant’s financials<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a href="/2026/10/23/2026-10-23-anthropic-loss-ipo/">First in this series: Anthropic, with a loss of 80.7 billion, why is it in the best shape it has ever been?</a></li>
+<li><a href="/2026/10/24/2026-10-24-openai-vs-anthropic-ipo-race/">Part Two of this series: The IPO race between OpenAI and Anthropic – why the larger company is trailing behind</a></li>
+</ul>
+<p>Cover image:<a class="link" target="_blank" rel="noopener" href="https://www.pexels.com/photo/stock-market-trading-analysis-on-screen-38358503/">Rafael Minguet Delgado / Pexels<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> Anthropic officially unveils its S-1 prospectus: a deep dive – the bets we placed a week ago have all been revealed today</li>
+        <li><strong>Author:</strong> AdenXie</li>
+        <li><strong>Created at
+                :</strong> 2026-10-28 03:30:00</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2026-10-28 03:30:00
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://blog.adenxie.com.cn/2026/10/28/2026-10-28-anthropic-s1-open-cards/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                All Rights Reserved © AdenXie
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/Claude/">#Claude</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/Anthropic/">#Anthropic</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/IPO/">#IPO</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">#Artificial Intelligence</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E8%B4%A2%E6%8A%A5%E5%88%86%E6%9E%90/">#Financial Report Analysis</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/S-1/">#S-1</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/10/23/2026-10-23-anthropic-loss-ipo/" title="Anthropic, with a loss of 80.7 billion, is currently in the healthiest state in its history – why is that?" rel="bookmark">
+  <img src="https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Anthropic, with a loss of 80.7 billion, is currently in the healthiest state in its history – why is that?" class="!max-w-none">
+  <span class="title">Anthropic, with a loss of 80.7 billion, is currently in the healthiest state in its history – why is that?</span>
+</a><a class="recommended-article-item" href="/2026/10/24/2026-10-24-openai-vs-anthropic-ipo-race/" title="OpenAI vs Anthropic: Why is the larger of the two giants going public later?" rel="bookmark">
+  <img src="https://images.pexels.com/photos/3905827/pexels-photo-3905827.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="OpenAI vs Anthropic: Why is the larger of the two giants going public later?" class="!max-w-none">
+  <span class="title">OpenAI vs Anthropic: Why is the larger of the two giants going public later?</span>
+</a><a class="recommended-article-item" href="/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/" title="Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP" rel="bookmark">
+  <img src="https://images.pexels.com/photos/5480781/pexels-photo-5480781.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP" class="!max-w-none">
+  <span class="title">Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/10/23/2026-10-23-anthropic-loss-ipo/" title="Anthropic, with a loss of 80.7 billion, is currently in the healthiest state in its history – why is that?" rel="bookmark">
+  <img src="https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Anthropic, with a loss of 80.7 billion, is currently in the healthiest state in its history – why is that?" class="!max-w-none">
+  <span class="title">Anthropic, with a loss of 80.7 billion, is currently in the healthiest state in its history – why is that?</span>
+</a><a class="recommended-article-item" href="/2026/10/24/2026-10-24-openai-vs-anthropic-ipo-race/" title="OpenAI vs Anthropic: Why is the larger of the two giants going public later?" rel="bookmark">
+  <img src="https://images.pexels.com/photos/3905827/pexels-photo-3905827.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="OpenAI vs Anthropic: Why is the larger of the two giants going public later?" class="!max-w-none">
+  <span class="title">OpenAI vs Anthropic: Why is the larger of the two giants going public later?</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/10/27/2026-10-27-daily-brief/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Daily Briefing | 27 October 2026: Lula’s re-election triggers sharp falls in Brazilian shares and currency; Anthropic files for an IPO; Meta plans to raise US$95 billion through an equity offering</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">Anthropic officially unveils its S-1 prospectus: a deep dive – the bets we placed a week ago have all been revealed today</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E5%AD%90%EF%BC%9A%E4%BB%8E%E4%BC%A0%E9%97%BB%E5%88%B0%E5%85%AC%E7%AB%A0%EF%BC%8C%E6%AD%A3%E5%BC%8F%E7%9A%84%E2%80%9D%E9%AA%8C%E9%92%9E%E6%97%B6%E5%88%BB%E2%80%9D"><span class="nav-text">Introduction: From rumours to the official seal – the formal ‘money-checking moment’</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%BC%80%E7%89%8C%E6%80%BB%E8%A7%88%EF%BC%9A%E6%88%91%E4%BB%AC%E4%B9%8B%E5%89%8D%E7%9A%84%E4%B9%9D%E7%BB%84%E6%8E%A8%E6%96%AD%E5%AF%B9%E7%85%A7%E8%A1%A8"><span class="nav-text">I. Overview of the Card Reveals: Our previous comparison table of the nine sets of inferences</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%B8%A4%E5%A4%A7%E7%A1%AC%E6%A0%B8%E7%BF%BB%E6%A1%88%EF%BC%9A%E7%9C%9F%E5%AE%9E%E7%BB%8F%E8%90%A5%E4%BA%8F%E6%8D%9F%E5%8F%AA%E6%9C%89%E4%B8%8D%E5%88%B0-7-%E4%BA%BF%EF%BC%8C%E5%AE%A2%E6%88%B7%E9%9B%86%E4%B8%AD%E5%BA%A6%E8%99%9A%E6%83%8A%E4%B8%80%E5%9C%BA"><span class="nav-text">II. Two Major Rebuttals: The actual operating loss was less than 700 million, and the concerns over customer concentration proved to be a false alarm</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BF%BB%E6%A1%88%E4%B8%80%EF%BC%9A%E7%9C%9F%E5%AE%9E%E7%BB%8F%E8%90%A5%E4%BA%8F%E6%8D%9F%E4%BB%85-6-93-%E4%BA%BF%E7%BE%8E%E5%85%83%EF%BC%8C%E8%80%8C%E9%9D%9E%E4%BC%A0%E9%97%BB%E4%B8%AD%E7%9A%84-87-%E4%BA%BF"><span class="nav-text">Clarification 1: The actual operating loss was only US$693 million, not the rumoured US$8.7 billion</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BF%BB%E6%A1%88%E4%BA%8C%EF%BC%9A%E5%AE%A2%E6%88%B7%E9%9B%86%E4%B8%AD%E5%BA%A6%E6%81%90%E6%85%8C%E8%A2%AB%E4%BA%8B%E5%AE%9E%E8%AF%81%E4%BC%AA"><span class="nav-text">Case Study 2: Fears over customer concentration disproved by the facts</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E6%AF%94%E9%A2%84%E6%83%B3%E6%9B%B4%E5%BC%BA%E6%82%8D%E7%9A%84%E8%B4%A2%E5%8A%A1%E5%BA%95%E8%89%B2%EF%BC%9A%E9%80%A0%E8%A1%80%E8%BD%AC%E6%AD%A3%E4%B8%8E%E5%85%85%E6%B2%9B%E7%8E%B0%E9%87%91"><span class="nav-text">III. A stronger-than-expected financial foundation: a return to profitability and ample cash reserves</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%8D%83%E4%BA%BF%E7%AE%97%E5%8A%9B%E9%94%81%E9%93%BE%E7%9A%84%E7%B2%BE%E7%A1%AE%E6%8B%86%E8%B4%A6%EF%BC%9A%E5%AA%92%E4%BD%93%E5%8A%A0%E6%80%BB-vs-%E5%AE%A1%E8%AE%A1%E5%BA%95%E7%BA%BF"><span class="nav-text">IV. A Detailed Breakdown of the 100-billion-yuan computing power chain: Media estimates vs the audit baseline</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%9B%E5%BA%94%E5%95%86%E9%80%90%E7%AC%94%E5%90%88%E5%90%8C%E7%A9%BF%E9%80%8F%EF%BC%9A"><span class="nav-text">Supplier contract-by-contract breakdown:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E9%A1%B6%E5%B1%82%E6%B2%BB%E7%90%86%E7%BB%86%E8%8A%82%EF%BC%9A%E8%B6%85%E7%BA%A7%E6%8A%95%E7%A5%A8%E6%9D%83%E3%80%81%E7%8B%AC%E7%AB%8B%E4%BF%A1%E6%89%98%E4%B8%8E-5-%E5%85%AC%E7%9B%8A%E5%9F%BA%E9%87%91%E5%AE%9E%E8%82%A1%E5%8C%96"><span class="nav-text">V. Details of Top-Level Governance: Super Voting Rights, Independent Trust and the Conversion of the 5 per cent Public Welfare Fund into Equity Shares</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%BA%94%E5%B1%82%E8%82%A1%E6%9D%83%E7%BB%93%E6%9E%84%E7%9A%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E7%BB%9D%E5%AF%B9%E6%8E%A7%E5%88%B6"><span class="nav-text">1. The design of a five-tier shareholding structure and absolute control</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%9C%9F%E6%AD%A3%E7%9A%84%E5%85%B1%E7%9B%8A%E4%BC%81%E4%B8%9A%EF%BC%9A%E5%85%AC%E7%9B%8A%E5%9F%BA%E9%87%91%E8%8E%B7-5-%E5%AE%9E%E8%82%A1%E6%B3%A8%E5%85%A5"><span class="nav-text">2. A genuine B Corp: a charitable trust receives a 5 per cent equity stake</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E9%95%BF%E8%BE%BE%E7%BA%A6-94-%E9%A1%B5%E7%9A%84%E9%A3%8E%E9%99%A9%E8%AD%A6%E5%91%8A%E4%B8%8E%E4%BF%9D%E9%99%A9%E4%B8%9A%E6%89%BF%E4%BF%9D%E9%9A%BE%E9%A2%98"><span class="nav-text">3. A risk warning spanning approximately 94 pages and the challenges faced by the insurance industry in underwriting</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E6%8C%82%E7%89%8C%E9%A6%96%E6%97%A5%E6%96%B0%E6%83%85%E6%99%AF%E6%8E%A8%E6%BC%94%EF%BC%88%E6%9B%B4%E6%96%B0-50-35-15%EF%BC%89"><span class="nav-text">VI. Simulation of New Scenarios on the First Day of Listing (Updated 50 / 35 / 15)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E6%95%B0%E6%8D%AE%E5%8F%A3%E5%BE%84%E8%AF%9A%E5%AE%9E%E8%AF%B4%E6%98%8E%EF%BC%88%E5%85%B3%E9%94%AE%E4%BA%8B%E5%AE%9E%E8%BE%B9%E7%95%8C%EF%BC%89"><span class="nav-text">VII. Honest Explanation of Data Definitions (Key Factual Boundaries)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AF%AD%EF%BC%9A%E5%95%86%E4%B8%9A%E5%8C%96%E6%88%90%E4%BA%BA%E7%A4%BC%E7%9A%84%E7%9C%9F%E6%AD%A3%E7%AD%94%E5%8D%B7"><span class="nav-text">Conclusion: The True Test of the Commercialisation of Coming-of-Age Ceremonies</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E4%BF%A1%E6%81%AF%E6%9D%A5%E6%BA%90%E4%B8%8E%E6%A0%B8%E9%AA%8C%E7%B4%A2%E5%BC%95"><span class="nav-text">Main Sources of Information and Verification Index</span></a></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">Write down your real experiences while retaining the edges of your viewpoints.</div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        91 posts in total
+                    </span>
+                    
+                        <span>
+                            250k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days"></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/cyber-weather.js" defer=""></script>
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/cyber-exchange.js" defer=""></script>
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/scene-loader.js" defer=""></script>
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="Image viewer">
+	<button class="image-viewer-close" type="button" aria-label="Close">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="Prev">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="Close">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="Next">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Search..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js"></script>
+
+
+<script src="/js/build/plugins/aplayer.js"></script>
+
+
+	
+
+
+</body></html>
