@@ -30,7 +30,10 @@ async function main() {
   fs.copyFileSync(path.join(ROOT, 'lib/workflows/exchange-rates.yml'), path.join(workflows, 'exchange-rates.yml'));
   // Stylesheets request reading fonts with a ?v= content hash, so those responses never
   // change. Without this Vercel serves max-age=0 and every page view revalidates ~1 MB of fonts.
-  const immutableFonts = { source: '/fonts/reading/(.*)', has: [{ type: 'query', key: 'v' }], headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }] };
+  const immutable = [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }];
+  const immutableFonts = { source: '/fonts/reading/(.*)', has: [{ type: 'query', key: 'v' }], headers: immutable };
+  // Vendor files carry their version in the file name (js/vendor/three-<version>.module.min.js).
+  const immutableVendor = { source: '/js/vendor/(.*)', headers: immutable };
   // The chat page became a floating panel; old links open it on the matching home page.
   const chatRedirects = ['', '/en'].flatMap(prefix => [`${prefix}/chat`, `${prefix}/chat/`].map(source => ({ source, destination: `${prefix}/?chat=open`, permanent: false })));
   // Daily briefs moved from their category page (first /categories/每日简报/, briefly /categories/daily/) to /daily/.
@@ -39,7 +42,7 @@ async function main() {
   const briefRedirects = ['', '/en'].flatMap(prefix => ['daily', '%E6%AF%8F%E6%97%A5%E7%AE%80%E6%8A%A5']
     .flatMap(slug => [`${prefix}/categories/${slug}`, `${prefix}/categories/${slug}/(.*)`])
     .map(source => ({ source, destination: `${prefix}/daily/`, permanent: true })));
-  fs.writeFileSync(path.join(ROOT, 'public/vercel.json'), JSON.stringify({ git: { deploymentEnabled: { source: false, 'exchange-rates': false } }, functions: { 'api/chat.js': { maxDuration: 65 } }, headers: [immutableFonts], redirects: [...chatRedirects, ...briefRedirects] }, null, 2));
+  fs.writeFileSync(path.join(ROOT, 'public/vercel.json'), JSON.stringify({ git: { deploymentEnabled: { source: false, 'exchange-rates': false } }, functions: { 'api/chat.js': { maxDuration: 65 } }, headers: [immutableFonts, immutableVendor], redirects: [...chatRedirects, ...briefRedirects] }, null, 2));
   require('./check-output.cjs').checkOutput();
 }
 main().catch(e => { console.error(e); process.exitCode = 1; });
