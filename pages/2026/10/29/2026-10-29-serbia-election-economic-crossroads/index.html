@@ -1,0 +1,1449 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/2026/10/29/2026-10-29-serbia-election-economic-crossroads/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Serbia’s Economic Crossroads Amid Political Upheaval: Lithium Mines, Russian Gas and ‘Ironclad Friendship’">
+<meta property="og:url" content="https://blog.adenxie.com.cn/2026/10/29/2026-10-29-serbia-election-economic-crossroads/index.html">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-10-28T18:40:00.000Z">
+<meta property="article:modified_time" content="2026-10-28T18:40:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="塞尔维亚">
+<meta property="article:tag" content="锂矿">
+<meta property="article:tag" content="力拓">
+<meta property="article:tag" content="中塞关系">
+<meta property="article:tag" content="能源">
+<meta property="article:tag" content="欧洲经济">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Serbia’s Economic Crossroads Amid Political Upheaval: Lithium Mines, Russian Gas and ‘Ironclad Friendship’ | Aden’s Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/site-runtime.js" defer=""></script>
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js"></script>
+                
+    
+            
+                
+                    <link rel="stylesheet" href="/css/custom.css">
+                
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"en","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"17px","line_height":1.85,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"all_rights_reserved"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["科技、体验与个人判断","写下真实体验，也保留观点的棱角"],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Daily Brief":{"path":"/daily/","icon":"fa-regular fa-newspaper"},"archives":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"},"tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"World Time":{"path":"/world-time/","icon":"fa-regular fa-clock"},"about":{"path":"/about/","icon":"fa-regular fa-user"},"links":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":true,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.i18n = {"search":"Search...","toc":"On this page","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"POWERED BY %s","theme":"THEME","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","post":"Post","posts":"Posts","tagcloud":"Tag Cloud","comment":"Comment","comments":"Comments","home":"Home","archive":"Archive","archives":"Archives","top":"TOP","sticky":"Sticky","go-back-home":"Go Back Home","masonry_loading":"Loading photos...","image_viewer":"Image viewer","close":"Close","exif":{"title":"EXIF","cards":{"camera":"Camera","lens":"Lens","exposure":"Exposure","other":"Other"},"fields":{"make":"Brand","model":"Model","date_taken":"Date taken","lens_model":"Lens","focal_length":"Focal length","focus_mode":"Focus mode","shutter":"Shutter","aperture":"Aperture","iso":"ISO","exposure_program":"Exposure program","exposure_compensation":"Exposure compensation","metering_mode":"Metering mode","flash":"Flash","white_balance":"White balance","latitude":"Latitude","longitude":"Longitude","altitude":"Altitude"},"status":{"loading":"Loading...","no_exif":"No EXIF available","library_missing":"EXIF library not loaded","image_source_missing":"Image source unavailable","unavailable":"EXIF unavailable (blocked by CORS or missing metadata)","flag_unavailable":"EXIF unavailable"}},"about":"About","changelog":"Changelog","links":"Links","link":"Link","friends":"Friends","friend":"Friend","timeline":"Timeline","shuoshuo":"Shuoshuo","bookmarks":"Bookmarks","site_uv":"VISITOR COUNT","site_pv":"TOTAL PAGE VIEWS","read_more":"Read more","wordcount":"Words","min2read":"Mins","status":"Status","runtime":"Blog up for","days":"days","hours":"hrs","minutes":"Min","seconds":"Sec","optimized_by":"and Optimized by Evan","rights":"All Rights Reserved","site_posts":"%s posts in total","site_wordcount":"%s words in total","copyright":{"author":"Author","title":"Title","link":"Link","create_time":"Created at","update_time":"Updated at","license_title":"License","license_content":"This work is licensed under %s.","all_rights_reserved":"All Rights Reserved &#169; %s","public_domain":"This work is in the public domain."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"},"create_time":"Created","update_time":"Updated","expired":"This post is written %s days ago, and the content may not be up to date."};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/daily/">
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    DAILY BRIEF
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/categories/">
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    CATEGORIES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    WORLD TIME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/">
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/daily/">
+                            <span>
+                                DAILY BRIEF
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/archives/">
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/categories/">
+                            <span>
+                                CATEGORIES
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/tags/">
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/world-time/">
+                            <span>
+                                WORLD TIME
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/about/">
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/link/">
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/archives/">
+                            <span>Article Archive</span>
+                            <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/tags/">
+                            <span>Topic Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/about/">
+                            <span>About Aden</span>
+                            <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">62</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">93</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://images.pexels.com/photos/5505961/pexels-photo-5505961.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Serbia’s Economic Crossroads Amid Political Upheaval: Lithium Mines, Russian Gas and ‘Ironclad Friendship’" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">Serbia’s Economic Crossroads Amid Political Upheaval: Lithium Mines, Russian Gas and ‘Ironclad Friendship’</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-10-29 02:40</span>
+        <span class="mobile">2026-10-29 02:40</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-10-29 02:40</span>
+            <span class="mobile">2026-10-29 02:40</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E7%BB%8F%E6%B5%8E%E8%A7%82%E5%AF%9F/">Economic Observer</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E5%A1%9E%E5%B0%94%E7%BB%B4%E4%BA%9A/">Serbia</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E9%94%82%E7%9F%BF/">Lithium ore</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E5%8A%9B%E6%8B%93/">Rio Tinto</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E4%B8%AD%E5%A1%9E%E5%85%B3%E7%B3%BB/">China–Serbia relations</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E8%83%BD%E6%BA%90/">Energy</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E6%AC%A7%E6%B4%B2%E7%BB%8F%E6%B5%8E/">The European Economy</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>5.9k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>20 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<blockquote>
+<p><strong>Introduction</strong>: In our post last week on<a href="/2026/10/21/2026-10-21-europe-protest-wave-cost-of-living/">‘The Synchrony of the Wave of Protests in Europe’</a>In our in-depth analysis, we examined how high interest rates and energy inflation had sparked protests amongst young people in Southern Europe and France. Just a few days later, this wave of youth protests sweeping across Europe reached the Balkans, where it entered its ‘second phase, focusing on governance issues’: On 25 October 2026, Serbia’s snap parliamentary election produced a historic upset: the ‘Students’ List’, a party with no prior governing experience, secured an absolute majority, bringing an end to the Vucic camp’s 14-year rule. However, once the euphoria of the election had subsided, what lay before this young team were not abstract political slogans, but three weighty volumes of transnational economic figures, each with far-reaching implications:<strong>Will Rio Tinto’s lithium mine in Europe—valued at nearly US$3 billion—be kept open or shut down? How can a smooth transition be achieved between the cheap Russian gas, the supply of which is renewed every three months, and the state-owned refinery that has just changed hands? And what will become of the China-Serbia infrastructure investment project, which provides vital support for the nation’s industrial lifeline and tens of thousands of jobs?</strong></p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="引子：债券交易员投下的反直觉“信任票”"><a href="#引子：债券交易员投下的反直觉“信任票”" class="headerlink" title="Introduction: The counter-intuitive ‘vote of confidence’ cast by bond traders"></a>Introduction: The counter-intuitive ‘vote of confidence’ cast by bond traders</h2><p>Late on the night of 25 October 2026, the atmosphere in the vote-counting hall in Belgrade was electric.</p>
+<p>Just two hours after the polls closed, Vucic—the strongman who had dominated Serbian politics for 14 years (and who had previously resigned as president to stand for prime minister)—took to the podium ahead of schedule to concede defeat. Formed by university students and young academics,<strong>“Student List – Students Win”</strong>The Alliance secured approximately 2.2 million votes, winning seats in the 250-seat parliament <strong>135 to 140 seats (exit polls put the figure at 138 seats)</strong>, surpassing the threshold of 126 seats to achieve<strong>A majority on its own</strong>; whilst the ruling coalition secured only around 105 seats. The turnout across the country was close to 69 per cent, reaching a historic high not seen for decades.</p>
+<p>In a subsequent column, Bloomberg characterised this dramatic upheaval as ‘a group of faceless young people taking control of the state’.</p>
+<p>However, on the first trading day following the announcement of the election results, the reaction of the capital markets took everyone by surprise:</p>
+<p><strong>The first to make their position clear were not Brussels, nor Moscow, but international sovereign bond traders.</strong></p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://files.seeusercontent.com/2026/10/28/tm5F/fig3-serbia-market-reaction-afte.png" alt="Initial reaction in the Serbian capital markets following the general election"><figcaption>Initial reaction in the Serbian capital markets following the general election</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 1</span><span class="aden-caption-text">Post-election market movements in Serbia: yields on US dollar-denominated bonds maturing in 2036 fell to 6.42 per cent (a one-month low), whilst 10-year euro-denominated bonds fell by 17 basis points; S&amp;P maintained its BBB- investment-grade rating, reflecting an initial positive response from the capital markets to the easing of political risks.</span></p>
+<p>On 27 October, yields on Serbia’s benchmark US dollar-denominated sovereign bonds maturing in 2036 fell rather than rose, dropping by 12–13 basis points to <strong>6.42%</strong>, hitting a new low in nearly a month; the yield on 10-year offshore euro-denominated sovereign bonds also fell sharply by 17 basis points to <strong>5.19%</strong>. Rather than witnessing a panic-driven flight of capital, the market responded by investing real money in sovereign bonds, thereby casting its first vote of confidence in this young team with absolutely no track record in government.</p>
+<p>However, in stark contrast to the buoyancy in the bond market, Belgrade’s local share index, the Belex15, rose only slightly throughout the day <strong>+0.23%</strong>; Strickland Metals, a mining company listed in Australia and with gold exploration projects in Serbia, saw its share price briefly<strong>A sharp fall, with the share price dropping by as much as 33 per cent during the session</strong>。</p>
+<p><strong>Behind the cautious approach to ‘debt-driven’ stocks lies an extremely complex dual mindset in the capital markets</strong>：</p>
+<p>International creditors welcomed the peaceful resolution of the long-standing political deadlock and public opposition; however, in a commentary issued on 28 October, the international credit rating agency Fitch sounded a warning—<strong>Although electoral uncertainty has diminished, the new administration’s economic agenda, policy priorities and cabinet formation remain a mystery.</strong>。</p>
+<p>The 90-day countdown to forming a government, as stipulated by the Constitution, is about to begin. The young elected representatives will soon discover that in this landlocked nation situated on the geopolitical fault line between East and West,<strong>Taking a political stance is an extremely cheap exercise, whilst the hard realities of capital and energy leave no room for black-and-white thinking.</strong>。</p>
+<h2 id="一、欧洲最大锂矿生死簿：亚达尔（Jadar）的-20-年博弈"><a href="#一、欧洲最大锂矿生死簿：亚达尔（Jadar）的-20-年博弈" class="headerlink" title="I. The Life and Death of Europe’s Largest Lithium Mine: The 20-Year Struggle at Jadar"></a>I. The Life and Death of Europe’s Largest Lithium Mine: The 20-Year Struggle at Jadar</h2><p>If there is one asset capable of simultaneously influencing Brussels’ green ambitions, the balance sheets of international mining giants and street politics in Serbia, it must surely be the one located in the west of the country:<strong>The Jadar lithium-boron deposit</strong>。</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://files.seeusercontent.com/2026/10/28/It2r/fig1-jadar-lithium-timeline.png" alt="A timeline of the twenty-year struggle over the Yadarl lithium mine"><figcaption>A timeline of the twenty-year struggle over the Yadarl lithium mine</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 2</span><span class="aden-caption-text">A 20-year timeline for the Jadar lithium mine: Rio Tinto’s investment commitment was increased from $2.4B to $2.95B (put on hold in November 2025); the EU designated it a strategic project under the CRMA; and, following a change in government after the general election, the project faces a licence expiry deadline in 2027.</span></p>
+<h3 id="1-沉睡-20-年的欧洲“白色黄金”"><a href="#1-沉睡-20-年的欧洲“白色黄金”" class="headerlink" title="1. Europe’s ‘white gold’, dormant for 20 years"></a>1. Europe’s ‘white gold’, dormant for 20 years</h3><p>In 2004, geologists working for the global mining giant Rio Tinto discovered a unique lithium-bearing borate mineral in the Jadar Valley in Serbia, which was subsequently officially named ‘Jadarite’.</p>
+<p>Following nearly twenty years of exploration and feasibility studies, this mineral deposit has been confirmed as<strong>The largest and highest-grade undeveloped lithium deposit on the European continent</strong>：</p>
+<ul>
+<li><strong>Resource reserves</strong>: Proven ore reserves amount to <strong>118 million tonnes</strong>, with an average lithium oxide (Li₂O) grade of up to <strong>1.8%</strong>；</li>
+<li><strong>Design capacity</strong>: Estimated annual output once full production is achieved <strong>58,000 metric tonnes of battery-grade lithium carbonate</strong>, 160,000 metric tonnes of boric acid and 255,000 metric tonnes of sodium sulphate;</li>
+<li><strong>Industry standing</strong>: According to estimates by the industry think tank AlphaBriefing, the mine’s production capacity alone is sufficient to meet<strong>10 per cent to 15 per cent of total demand for electric vehicle batteries in Europe</strong>... Over its entire life cycle (40 years), it is expected to produce 2.3 million metric tonnes of lithium carbonate, which would be sufficient to propel Serbia directly into the ranks of the world’s top ten lithium-producing countries.</li>
+</ul>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://files.seeusercontent.com/2026/10/28/0Rbj/fig2-rio-tinto-jadar-balance-she.png" alt="Rio Tinto’s Yadarl Lithium Mine: Key Financial Statements and Constraints"><figcaption>Rio Tinto’s Yadarl Lithium Mine: Key Financial Statements and Constraints</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 3</span><span class="aden-caption-text">Rio Tinto’s Yadal lithium mine accounts: cumulative investment of approximately 640 million euros (€640M), the project’s total budget has been reassessed at US$2.95 billion ($2.95B), with the licence due to expire in 2027; an annual output of 58,000 metric tonnes of lithium carbonate is sufficient to reshape Europe’s electric vehicle supply chain.</span></p>
+<h3 id="2-废止、复活与跨国战略捆绑"><a href="#2-废止、复活与跨国战略捆绑" class="headerlink" title="2. Abolition, Revival and Tying to Transnational Strategies"></a>2. Abolition, Revival and Tying to Transnational Strategies</h3><p>The political tug-of-war surrounding this mega-mine has been almost the most intense domestic political storm to hit Serbia over the past five years:</p>
+<ul>
+<li><strong>July 2021</strong>: Rio Tinto has formally approved up to <strong>US$2.4 billion ($2.4B)</strong> commitments to investment in the construction of;</li>
+<li><strong>20 January 2022</strong>: Following months of roadblock protests in more than 40 towns and cities across the country, the Burnačić government, under pressure from the general election, announced the revocation of the spatial planning order for the project (the Constitutional Court subsequently ruled that this revocation order was unconstitutional);</li>
+<li><strong>July 2024</strong>: The Vučić government issued a new decree in accordance with a ruling by the Constitutional Court, reviving the project at short notice, prompting tens of thousands of people in the capital to take to the streets for a mass environmental rally;</li>
+<li><strong>4 June 2025</strong>: The European Commission, keen to reduce its reliance on key raw materials from overseas, has officially included Jadar among the first 13 entities outside the EU<strong>Strategic Projects under the Critical Raw Materials Act (CRMA)</strong>, linking it directly to the security of Europe’s electric vehicle strategy.</li>
+</ul>
+<h3 id="3-力拓的退缩与-2027-悬顶之剑"><a href="#3-力拓的退缩与-2027-悬顶之剑" class="headerlink" title="3. Rio Tinto’s retreat and the sword of Damocles hanging over 2027"></a>3. Rio Tinto’s retreat and the sword of Damocles hanging over 2027</h3><p>However, on 13 November 2025, Bloomberg reported that Rio Tinto had officially placed the project into ‘care and maintenance’ status, with the total budget for the project being reassessed and adjusted to <strong>US$2.95 billion ($2.95B)</strong>。</p>
+<p>It must be pointed out that,<strong>Rio Tinto’s decision to put the project on hold at the time was not entirely due to local political protests</strong>：</p>
+<p>A more crucial commercial factor is that, against the backdrop of a global slump in lithium prices, Rio Tinto’s new management has implemented strict capital discipline and cost-cutting measures, with Jadar becoming one of the key projects targeted for active downsizing. By the end of 2025, Rio Tinto will have invested <strong>Approximately 640 million euros (€640M)</strong> the actual sunk costs.</p>
+<p>Rio Tinto’s current statutory exploration and mining licences are due to expire on <strong>Due to expire in 2027</strong>. There is now just over a year left for the various parties to engage in mediation.</p>
+<h3 id="4-新政府的死结：反矿盟友-vs-欧盟战略胡萝卜"><a href="#4-新政府的死结：反矿盟友-vs-欧盟战略胡萝卜" class="headerlink" title="4. The new government’s dilemma: anti-mining allies versus the EU’s strategic carrot"></a>4. The new government’s dilemma: anti-mining allies versus the EU’s strategic carrot</h3><p>For the newly elected ‘student list’, the Yadar lithium mine is a deeply divisive political issue that cannot be avoided:</p>
+<ul>
+<li><strong>The Shackles of Public Opinion</strong>: According to reports from several Balkan media outlets, Zlatko Kokanović, the most prominent local environmental activist and leader of the anti-mining movement in the Jadral Valley, is himself a key figure within the ‘Students’ List’ coalition. Should the new government give the green light to the project, it would amount to a direct betrayal of its grassroots support base;</li>
+<li><strong>Pressure from the EU</strong>: Whilst congratulating the country on the success of the election, the EU has made no secret of its expectations regarding the CRMA strategic project. The conditions offered by Brussels are extremely attractive—integrating Jadar into the European battery supply chain would not only secure billions of euros in infrastructure funding but would also provide the quickest route to opening substantive accession negotiations.</li>
+</ul>
+<p><strong>It must be made absolutely clear that, to date, the newly elected team has not issued any official statement regarding the Jadar lithium mine project.</strong> Any assertion that the new government will ‘inevitably impose a total ban’ or ‘immediately and comprehensively reopen’ is premature from both a commercial and political perspective.</p>
+<p>Based on verified data and political and economic constraints, the future of the Jadar project is characterised by the following three probability distributions:</p>
+<table>
+<thead>
+<tr>
+<th align="left">Evolutionary scenarios</th>
+<th align="center">Probability Analysis</th>
+<th align="left">Core Trigger Thresholds and Game Theory Pathways</th>
+<th align="left">Economic and Industrial Chain Impacts</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Maintain the suspension<br>(Continuation of the benchmark)</strong></td>
+<td align="center"><strong>~50%</strong></td>
+<td align="left">• Following the formation of the new government, it adopted a ‘wait-and-see’ approach, refraining from introducing new policies;<br>• The environmentalist faction within the alliance exercises an effective veto;<br>• No extension of the planning permission has been granted by 2027.</td>
+<td align="left">Rio Tinto was forced to take a further write-down of €640 million on historical investments in its financial report; its strategy for lithium mines outside the EU has suffered a setback, forcing it to diversify its supply chain towards Africa or South America.</td>
+</tr>
+<tr>
+<td align="left"><strong>Conditional resurrection<br>(Restart after compromise)</strong></td>
+<td align="center"><strong>~30%</strong></td>
+<td align="left">• The EU is using a substantial green transition fund and an accelerated accession process as bargaining chips;<br>• The new government may introduce a top-tier international environmental audit conducted by a third party, or put the matter to a nationwide referendum;<br>• Global lithium carbonate prices have stabilised and are on the rise.</td>
+<td align="left">With US$2.95 billion in investment gradually being released, Serbia has established itself as a key hub for the European battery industry; however, the ruling coalition is set to face a severe test of political division from within.</td>
+</tr>
+<tr>
+<td align="left"><strong>A formal legislative ban<br>(Completely terminated)</strong></td>
+<td align="center"><strong>~20%</strong></td>
+<td align="left">• Parliament has delivered on its radical environmental campaign pledges by passing legislation to permanently ban lithium mining;<br>• Street-level environmental campaigns act as a powerful deterrent against any signs of a resurgence.</td>
+<td align="left">Rio Tinto’s asset project has come to a complete standstill, and an International Investment Dispute Settlement (ISDS) arbitration may be initiated; Europe’s strategy for battery self-sufficiency has fallen through, further deepening its reliance on existing import chains.</td>
+</tr>
+</tbody></table>
+<p><em>(Note: The probabilities set out above are analytical estimates based on the current macroeconomic situation and the dynamics of the various parties’ interactions; they are not definitive forecasts.)</em></p>
+<h2 id="二、三个月一续的俄气账：被武契奇提前拆掉的石油暗雷"><a href="#二、三个月一续的俄气账：被武契奇提前拆掉的石油暗雷" class="headerlink" title="II. The Russian gas bill, renewed every three months: the hidden oil time bomb that Vučić defused ahead of schedule"></a>II. The Russian gas bill, renewed every three months: the hidden oil time bomb that Vučić defused ahead of schedule</h2><p>If lithium mines are crucial to Serbia’s future, then natural gas and oil are what directly hold the entire country by the throat.</p>
+<p>For a long time, the vast majority of Serbia’s natural gas supplies have come from Gazprom. In the geopolitical context following the Russia–Ukraine conflict, the Vučić government has leveraged its special relationship with Moscow to secure highly favourable energy terms for Serbia:</p>
+<ul>
+<li><strong>Short-term lock-up of shares</strong>: Throughout 2026, the gas supply agreement signed by Serbia and Russia remained in force<strong>A rolling extension model involving ‘renewal every three months’</strong>(The contracts were renewed in March and June respectively until the end of September, and subsequently extended again until the end of 2026). Moscow categorically refused to sign a new long-term gas supply agreement, instead using frequent contract renewals to turn the gas tap into a political lever with which to exert pressure on Belgrade at any time;</li>
+<li><strong>Unbeatable price differences</strong>: According to figures disclosed by Vučić in September, the price of pipeline gas purchased by Serbia from Russia is approximately <strong>318 euros per 1,000 cubic metres (€318/1,000 m³)</strong>, which was significantly lower than the benchmark price on the European TTF spot market at the time. These favourable prices, which effectively amounted to substantial subsidies, kept thousands of factories in Serbia running and ensured that ordinary residents’ winter heating bills remained low.</li>
+</ul>
+<p>Compared with the outstanding short-term natural gas contracts,<strong>In the oil refining sector, Vučić played an extremely astute move to hedge his risks on the eve of his election defeat</strong>：</p>
+<p>As Serbia’s only modern oil refinery,<strong>The National Petroleum Industry of Serbia (NIS) supplies approximately 80 per cent of the country’s refined oil products</strong>. However, as Gazprom Neft and its affiliates have long held a majority stake in NIS (approximately 56 per cent), the company has, since <strong>In January 2025, the US Treasury Department’s Office of Foreign Assets Control (OFAC) added Gazprom Neft to the list of entities subject to sanctions relating to Russia.</strong>From the outset, it has been living under the shadow of sanctions; for over a year now, the entire island’s fuel supply has been teetering on a knife-edge, relying solely on rolling exemptions granted by the US.</p>
+<p><strong>20 October 2026 — Just five days before the general election, Serbia’s Deputy Prime Minister and Minister of Finance, Siniša Mali, suddenly made an official announcement</strong>：</p>
+<p><strong>The Russian shareholders have signed a binding share transfer agreement with the Hungarian multinational energy giant MOL Group, under which MOL will acquire the majority stake held by the Russian side; at the same time, the Serbian state’s shareholding has been increased to 35 per cent.</strong> The transaction is currently pending approval by the competition regulators in Serbia and Bosnia and Herzegovina.</p>
+<p>This agreement, reached at the eleventh hour on the eve of the election, is of great practical significance:</p>
+<p><strong>Before leaving office, Vučić decisively defused this ‘secondary sanctions’ time bomb—which could have triggered a nationwide fuel shortage at any moment—for his successor.</strong> Bringing in a company from an EU Member State (Hungary’s MOL) to take a controlling stake, whilst increasing the proportion of domestic state-owned shares, not only completely eliminated the legal pretext for US and EU sanctions, but also ensured uninterrupted production at the Pančevo refinery during the transition of power.</p>
+<p>The energy challenge facing the new government has thus been greatly simplified: the oil supply chain has largely been stabilised, whilst the real test will come this winter—when the short-term contract with Gazprom expires once again on 31 December— whether the new cabinet will embrace the EU’s common foreign policy in exchange for Brussels’ expensive and limited-capacity liquefied natural gas (LNG), or continue to hold its nose and head to the negotiating table in Moscow to secure a renewal at €318?</p>
+<h2 id="三、中塞“铁杆友谊”的底色：绑定工业化与就业的实体清单"><a href="#三、中塞“铁杆友谊”的底色：绑定工业化与就业的实体清单" class="headerlink" title="III. The Foundation of the ‘Rock-Solid Friendship’ between China and Serbia: A Concrete List Linking Industrialisation and Employment"></a>III. The Foundation of the ‘Rock-Solid Friendship’ between China and Serbia: A Concrete List Linking Industrialisation and Employment</h2><p>Following the announcement of the election results, some Western media outlets raised the speculative question of whether ‘the ironclad friendship between China and Serbia might be undermined’. However, a close examination of Serbia’s macroeconomic fundamentals reveals an inescapable truth:<strong>Chinese investment is not an abstract political slogan, but a tangible presence that has long been deeply embedded in the very backbone of Serbia’s industrialisation.</strong></p>
+<p>Unlike the speculative capital circulating in financial markets, Chinese investment in Serbia is heavily concentrated in the manufacturing sector, the primary mining industry and strategic transport corridors, forming the bedrock of the country’s foreign trade exports and local tax revenue:</p>
+<table>
+<thead>
+<tr>
+<th align="left">Key Strategic Partnership Projects</th>
+<th align="left">Investors and Contractors</th>
+<th align="left">Business scale, standing and current operational status</th>
+<th align="left">Key economic and social impacts</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Smederevo Steelworks</strong><br><em>(Železara Smederevo)</em></td>
+<td align="left"><strong>Hebei Iron and Steel Group</strong><br><em>(HBIS Group)</em></td>
+<td align="left">• The acquisition was completed in 2016 for 46 million euros (according to Xinhua News Agency);<br>• Through the ongoing implementation of environmental protection measures and production line upgrades, the company has ranked among Serbia’s largest exporters for many years (according to Xinhua News Agency).</td>
+<td align="left">It averted the crisis of closure and bankruptcy facing the century-old steelworks, safeguarding thousands of direct jobs (according to Xinhua News Agency, more than 5,000 workers), whilst also stimulating further employment across the upstream and downstream sectors.</td>
+</tr>
+<tr>
+<td align="left"><strong>The Bor Copper-Gold Mine and the Ciucaru-Pegi Copper-Gold Mine</strong><br><em>(Bor / Čukaru Peki)</em></td>
+<td align="left"><strong>Zijin Mining</strong><br><em>(Zijin Mining)</em></td>
+<td align="left">• Implement investment in technical upgrades and capacity expansion at mines (with a cumulative value running into hundreds of millions of US dollars);<br>• A major expansion project is currently underway at the Jama Bor underground mine, with plans to increase the annual ore processing capacity to<strong>18 million tonnes</strong>(Serbia-Energy reporting standards).</td>
+<td align="left">This has made Bor one of the cities with the highest average wages in Serbia (according to media reports), whilst Serbia has become one of Europe’s leading producers of refined copper and gold.</td>
+</tr>
+<tr>
+<td align="left"><strong>Hungary–Serbia Railway (Serbian section)</strong><br><em>(Belgrade–Subotica)</em></td>
+<td align="left">Chinese companies involved in the construction<br><em>(Joint construction of multiple contract sections)</em></td>
+<td align="left">• The Bei-Nuo section (approximately 75 kilometres) is already in commercial operation at a speed of 200 kilometres per hour;<br>• Total capital expenditure (CAPEX) for the 183-kilometre section of the project<strong>Over 2 billion euros</strong>(Serbia-Business statistical criteria).</td>
+<td align="left">It has reduced the journey time between the capital, Belgrade, and Novi Sad from around 90 minutes to just over 30 minutes, becoming part of the Central European land transport corridor.</td>
+</tr>
+<tr>
+<td align="left"><strong>Tyre and Automotive Components Manufacturing</strong></td>
+<td align="left">Chinese manufacturing companies such as Linglong Tyres</td>
+<td align="left">• Linglong Tyre is investing in the construction of a smart tyre manufacturing base in Zrenjanin (with a planned investment of approximately US$1 billion, according to the company’s announcement).</td>
+<td align="left">Attracting the supply chains of major European car manufacturers to the region, and providing employment for local industrial workers.</td>
+</tr>
+</tbody></table>
+<p>When analysing the aforementioned economic and trade cooperation, we must not only take an objective view of the narrative of Sino-Serbian friendship constructed by official media outlets such as Xinhua News Agency, but also draw rational conclusions based purely on commercial and employment considerations:</p>
+<p>Based on reports from Chinese sources such as Xinhua News Agency and local media outlets such as serbia-business.eu,<strong>The number of jobs created locally by various medium- and large-scale investment projects from China runs into the “tens of thousands”</strong>(As reported).</p>
+<p>From this, a relatively cautious business conclusion can be drawn:</p>
+<p>The newly elected student movement may be closer to European values, but in the absence of any viable alternative, it would be difficult for any pragmatic government to single-handedly shut down a modern steelworks that supports the livelihoods of thousands of families, or to halt the expansion of a copper mine that is generating a stable cash flow. Chinese projects offer Serbia not abstract slogans, but tangible industrial assets and jobs.</p>
+<p>The facts of the project provide compelling evidence that:<strong>The solid foundation of China–Serbia economic and trade relations is rooted in the highly complementary structures of their real economies, rather than in the personal will of any single politician. In the foreseeable future, this framework of cooperation will not only remain stable but will, in fact, serve as a fundamental safeguard for the new government in maintaining domestic employment and fiscal stability.</strong></p>
+<h2 id="四、宏观底盘与-90-天大考：无领袖团队的执政第一课"><a href="#四、宏观底盘与-90-天大考：无领袖团队的执政第一课" class="headerlink" title="IV. The Macroeconomic Foundation and the 90-Day Test: The First Lesson in Governance for a Leaderless Team"></a>IV. The Macroeconomic Foundation and the 90-Day Test: The First Lesson in Governance for a Leaderless Team</h2><p>In accordance with Serbian constitutional procedures, once the Electoral Commission has announced the official results and the new parliament has been convened, the winning coalition must, within <strong>The formation of the government will be formally completed within 90 days</strong>, otherwise the country will be forced to hold new general elections.</p>
+<p>This youth and student movement, known as the ‘Faceless Group’, is about to face its first major test of real-world governance since its inception:</p>
+<ol>
+<li><strong>The macroeconomic fundamentals still provide a safety net</strong>：<br>In its latest assessment in mid-September 2026, the leading international credit rating agency S&amp;P Global affirmed Serbia’s <strong>Long-term sovereign credit rating of BBB-</strong>(In October 2024, it was officially upgraded from speculative-grade BB+ to the lowest investment-grade category). Although real GDP growth for 2026 has been revised down slightly due to global geopolitical turmoil to <strong>3.2%</strong>, and relaxed the deficit target to <strong>3.5 per cent of GDP</strong>, but S&amp;P explicitly pointed out that Serbia’s foreign exchange reserves are ample, its total government debt-to-GDP ratio is manageable (remaining below the 50 per cent safety threshold), and the social relief packages distributed prior to the election (accounting for approximately 1 per cent of GDP) have not undermined the country’s fiscal foundations;</li>
+<li><strong>The Shift from the ‘Political Risk Discount’ to the ‘Policy Uncertainty Discount’</strong>：<br>Why did sovereign bond yields hit a one-month low (6.42 per cent) following the election victory?<br>This is because, in the secondary market, the years-long street standoffs, road blockades, school strikes and potential political instability have been factored in as an extremely high risk premium. The Students’ Alliance secured power with an absolute majority of more than half the seats, thereby averting a protracted ‘hung parliament’ crisis,<strong>Instantly wiped out the largest political risk premium in the short term</strong>；</li>
+<li><strong>The real challenge will come once the policy has been introduced</strong>：<br>However, as the applause dies down, the capital markets’ focus will shift seamlessly from ‘who takes office’ to ‘how they will govern’.<br>As Fitch has warned:<strong>A young team with no clear cabinet line-up and no experienced Minister for Economic Affairs is highly likely to become bogged down in factional infighting and decision-making paralysis at an early stage.</strong>. Faced with the expiry of Rio Tinto’s lithium mining concession in 2027, the negotiations on natural gas supply guarantees that must be extended by the end of the year, and the massive infrastructure capital expenditure required for EXPO 2027, whether these young leaders can maintain an investment-grade credit rating amidst bureaucratic hurdles and external pressures will directly determine the sustainability of the current bond market rally.</li>
+</ol>
+<h2 id="结语：在理想主义与现实重力之间"><a href="#结语：在理想主义与现实重力之间" class="headerlink" title="Conclusion: Between idealism and the pull of reality"></a>Conclusion: Between idealism and the pull of reality</h2><p>At the rally celebrating the election victory, young demonstrators sang the national anthem at the top of their voices, marking the end of an era. It was a moving moment in which the younger generation exercised their democratic voice through the ballot box.</p>
+<p>But outside the building, the economic machine never stops turning:</p>
+<p>Beneath the ground lies the Yadar lithium mine, in which Lituo has invested some 640 million euros and which has been included in the EU’s strategy on critical raw materials; through the pipelines flows Russian gas, which keeps industry running but whose supply is choked by short-term contracts renewed every three months; and on the banks of the Danube stand steelworks and mines revitalised by Chinese investment, which support the livelihoods of thousands of families.</p>
+<p><strong>Serbia’s national fortunes have never depended on whether it can make a decisive, either/or choice between East and West, but rather on whether it can, amidst the intricate web of major powers, carefully and shrewdly safeguard every last bit of its own development dividends.</strong></p>
+<p>For young people about to take up positions in government offices, their rite of passage into idealism begins with picking up these three heavy ledgers.</p>
+<h3 id="主要信息来源与核验索引"><a href="#主要信息来源与核验索引" class="headerlink" title="Main Sources of Information and Verification Index"></a>Main Sources of Information and Verification Index</h3><ul>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.reuters.com/world/europe/serbia-votes-students-seek-unseat-vucic-snap-election-2026-10-25/">Reuters on-the-ground report (Reuters, 25 October 2026): Serbia votes as students seek to unseat Vučić in a snap election<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://balkaninsight.com/2026/10/26/student-list-wins-outright-majority-in-serbian-parliamentary-polls/bi/">Balkan Insight (26 October 2026): Student List wins an outright majority in the Serbian parliamentary elections<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.bloomberg.com/news/articles/2026-10-27/bond-market-gives-initial-nod-to-serbia-s-untested-ballot-winner">Bloomberg Financial Markets Column (Bloomberg, 27 October 2026): Bond Market Gives Initial Nod to Serbia’s Untested Election Winner<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.fitchratings.com/research/sovereigns/serbias-election-result-shifts-focus-to-policy-uncertainty-28-10-2026">Fitch Ratings Sovereign Rating Update (28 October 2026): Serbia’s Election Result Shifts Focus to Policy Uncertainty<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.spglobal.com/ratings/en/regulatory/article/-/view/type/HTML/id/3262738">S&amp;P Global Sovereign Credit Report (S&amp;P Global Ratings, 16 September 2026): Research Update: Serbia’s ‘BBB-/A-3’ Ratings Affirmed; Outlook Stable<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.mreast.eu/2026/08/by-the-numbers-serbias-lithium-standoff/">MrEast In-Depth Analysis of Lithium Mine Data (August 2026): By the Numbers – Serbia’s Lithium Standoff<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.riotinto.com/en/operations/europe-me/jadar">Rio Tinto Group’s official Jadar operations page (Rio Tinto Operations): Jadar Lithium-Borate Project<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.reuters.com/business/energy/serbia-secures-further-sanctions-waiver-russian-owned-nis-oil-firm-2026-08-28/">Reuters Energy Exclusive (28 August 2026): Serbia secures further sanctions waiver for Russian-owned oil firm NIS<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://english.news.cn/20260527/9a4f27714b054dc79ed002b459bdb2d8/c.html">Xinhua Overseas Special Report (Xinhua 2026-05): Steel Mill Revival Underlines Thriving China-Serbia Ties<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://serbia-energy.eu/zijin-plans-massive-bor-copper-mine-expansion-as-18-million-tonne-output-target-raises-investment-relocation-and-environmental-costs/">Serbia Energy Industry Investment Update: Zijin plans massive expansion of the Bor copper mine to 18 million tonnes<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+</ul>
+<h3 id="数据口径与边界说明"><a href="#数据口径与边界说明" class="headerlink" title="Explanation of Data Definitions and Scope"></a>Explanation of Data Definitions and Scope</h3><ol>
+<li>Following the election victory, the student list expressed support for both the Jadar lithium mine and cooperation with China<strong>There has been no official policy statement as yet</strong>, All the projections in this paper are analytical estimates and do not constitute forecasts;</li>
+<li>The figures “Rio Tinto has invested a total of €640 million” and “licences expiring in 2027” are based on media and industry sources; the figure “accounting for 10–15 per cent of European battery demand” is based on estimates by alphabriefing; none of these are official figures;</li>
+<li>The gas price of €318 per thousand cubic metres is based on information disclosed unilaterally by Vučić; the terms of the current contract have not been made public; the transaction value of the NIS-MOL deal has not been disclosed, and completion is subject to regulatory approval;</li>
+<li>Bond yields are based on market readings for the first week following the election (Bloomberg/Yatırım Masası, etc.); these are unofficial pricing figures.</li>
+</ol>
+<p>Cover image:<a class="link" target="_blank" rel="noopener" href="https://www.pexels.com/photo/strip-mining-excavator-5505961/">Mike van Schoonderwalt / Pexels<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> Serbia’s Economic Crossroads Amid Political Upheaval: Lithium Mines, Russian Gas and ‘Ironclad Friendship’</li>
+        <li><strong>Author:</strong> AdenXie</li>
+        <li><strong>Created at
+                :</strong> 2026-10-29 02:40:00</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2026-10-29 02:40:00
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://blog.adenxie.com.cn/2026/10/29/2026-10-29-serbia-election-economic-crossroads/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                All Rights Reserved © AdenXie
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%A1%9E%E5%B0%94%E7%BB%B4%E4%BA%9A/">#Serbia</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E9%94%82%E7%9F%BF/">#Lithium mines</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%8A%9B%E6%8B%93/">#Rio Tinto</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E4%B8%AD%E5%A1%9E%E5%85%B3%E7%B3%BB/">#China–Serbia Relations</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E8%83%BD%E6%BA%90/">#Energy</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E6%AC%A7%E6%B4%B2%E7%BB%8F%E6%B5%8E/">#European Economy</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/" title="Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP" rel="bookmark">
+  <img src="https://images.pexels.com/photos/5480781/pexels-photo-5480781.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP" class="!max-w-none">
+  <span class="title">Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP</span>
+</a><a class="recommended-article-item" href="/2026/10/28/2026-10-28-anthropic-s1-open-cards/" title="Anthropic officially unveils its S-1 prospectus: a deep dive – the bets we placed a week ago have all been revealed today" rel="bookmark">
+  <img src="https://images.pexels.com/photos/38358503/pexels-photo-38358503.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Anthropic officially unveils its S-1 prospectus: a deep dive – the bets we placed a week ago have all been revealed today" class="!max-w-none">
+  <span class="title">Anthropic officially unveils its S-1 prospectus: a deep dive – the bets we placed a week ago have all been revealed today</span>
+</a><a class="recommended-article-item" href="/2026/10/24/2026-10-24-openai-vs-anthropic-ipo-race/" title="OpenAI vs Anthropic: Why is the larger of the two giants going public later?" rel="bookmark">
+  <img src="https://images.pexels.com/photos/3905827/pexels-photo-3905827.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="OpenAI vs Anthropic: Why is the larger of the two giants going public later?" class="!max-w-none">
+  <span class="title">OpenAI vs Anthropic: Why is the larger of the two giants going public later?</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/" title="Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP" rel="bookmark">
+  <img src="https://images.pexels.com/photos/5480781/pexels-photo-5480781.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP" class="!max-w-none">
+  <span class="title">Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP</span>
+</a><a class="recommended-article-item" href="/2026/10/28/2026-10-28-anthropic-s1-open-cards/" title="Anthropic officially unveils its S-1 prospectus: a deep dive – the bets we placed a week ago have all been revealed today" rel="bookmark">
+  <img src="https://images.pexels.com/photos/38358503/pexels-photo-38358503.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Anthropic officially unveils its S-1 prospectus: a deep dive – the bets we placed a week ago have all been revealed today" class="!max-w-none">
+  <span class="title">Anthropic officially unveils its S-1 prospectus: a deep dive – the bets we placed a week ago have all been revealed today</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/10/28/2026-10-28-daily-brief/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Daily Briefing | 28 October 2026: Neither of the two main blocs secured a majority in the Israeli general election; China’s industrial profits rose by 14.4 per cent in September; OpenAI launched GPT-6.1 Terra</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">Serbia’s Economic Crossroads Amid Political Upheaval: Lithium Mines, Russian Gas and ‘Ironclad Friendship’</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E5%AD%90%EF%BC%9A%E5%80%BA%E5%88%B8%E4%BA%A4%E6%98%93%E5%91%98%E6%8A%95%E4%B8%8B%E7%9A%84%E5%8F%8D%E7%9B%B4%E8%A7%89%E2%80%9C%E4%BF%A1%E4%BB%BB%E7%A5%A8%E2%80%9D"><span class="nav-text">Introduction: The counter-intuitive ‘vote of confidence’ cast by bond traders</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%AC%A7%E6%B4%B2%E6%9C%80%E5%A4%A7%E9%94%82%E7%9F%BF%E7%94%9F%E6%AD%BB%E7%B0%BF%EF%BC%9A%E4%BA%9A%E8%BE%BE%E5%B0%94%EF%BC%88Jadar%EF%BC%89%E7%9A%84-20-%E5%B9%B4%E5%8D%9A%E5%BC%88"><span class="nav-text">I. The Life and Death of Europe’s Largest Lithium Mine: The 20-Year Struggle at Jadar</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%B2%89%E7%9D%A1-20-%E5%B9%B4%E7%9A%84%E6%AC%A7%E6%B4%B2%E2%80%9C%E7%99%BD%E8%89%B2%E9%BB%84%E9%87%91%E2%80%9D"><span class="nav-text">1. Europe’s ‘white gold’, dormant for 20 years</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%BA%9F%E6%AD%A2%E3%80%81%E5%A4%8D%E6%B4%BB%E4%B8%8E%E8%B7%A8%E5%9B%BD%E6%88%98%E7%95%A5%E6%8D%86%E7%BB%91"><span class="nav-text">2. Abolition, Revival and Tying to Transnational Strategies</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%8A%9B%E6%8B%93%E7%9A%84%E9%80%80%E7%BC%A9%E4%B8%8E-2027-%E6%82%AC%E9%A1%B6%E4%B9%8B%E5%89%91"><span class="nav-text">3. Rio Tinto’s retreat and the sword of Damocles hanging over 2027</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%96%B0%E6%94%BF%E5%BA%9C%E7%9A%84%E6%AD%BB%E7%BB%93%EF%BC%9A%E5%8F%8D%E7%9F%BF%E7%9B%9F%E5%8F%8B-vs-%E6%AC%A7%E7%9B%9F%E6%88%98%E7%95%A5%E8%83%A1%E8%90%9D%E5%8D%9C"><span class="nav-text">4. The new government’s dilemma: anti-mining allies versus the EU’s strategic carrot</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%B8%89%E4%B8%AA%E6%9C%88%E4%B8%80%E7%BB%AD%E7%9A%84%E4%BF%84%E6%B0%94%E8%B4%A6%EF%BC%9A%E8%A2%AB%E6%AD%A6%E5%A5%91%E5%A5%87%E6%8F%90%E5%89%8D%E6%8B%86%E6%8E%89%E7%9A%84%E7%9F%B3%E6%B2%B9%E6%9A%97%E9%9B%B7"><span class="nav-text">II. The Russian gas bill, renewed every three months: the hidden oil time bomb that Vučić defused ahead of schedule</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E4%B8%AD%E5%A1%9E%E2%80%9C%E9%93%81%E6%9D%86%E5%8F%8B%E8%B0%8A%E2%80%9D%E7%9A%84%E5%BA%95%E8%89%B2%EF%BC%9A%E7%BB%91%E5%AE%9A%E5%B7%A5%E4%B8%9A%E5%8C%96%E4%B8%8E%E5%B0%B1%E4%B8%9A%E7%9A%84%E5%AE%9E%E4%BD%93%E6%B8%85%E5%8D%95"><span class="nav-text">III. The Foundation of the ‘Rock-Solid Friendship’ between China and Serbia: A Concrete List Linking Industrialisation and Employment</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%AE%8F%E8%A7%82%E5%BA%95%E7%9B%98%E4%B8%8E-90-%E5%A4%A9%E5%A4%A7%E8%80%83%EF%BC%9A%E6%97%A0%E9%A2%86%E8%A2%96%E5%9B%A2%E9%98%9F%E7%9A%84%E6%89%A7%E6%94%BF%E7%AC%AC%E4%B8%80%E8%AF%BE"><span class="nav-text">IV. The Macroeconomic Foundation and the 90-Day Test: The First Lesson in Governance for a Leaderless Team</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AF%AD%EF%BC%9A%E5%9C%A8%E7%90%86%E6%83%B3%E4%B8%BB%E4%B9%89%E4%B8%8E%E7%8E%B0%E5%AE%9E%E9%87%8D%E5%8A%9B%E4%B9%8B%E9%97%B4"><span class="nav-text">Conclusion: Between idealism and the pull of reality</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E4%BF%A1%E6%81%AF%E6%9D%A5%E6%BA%90%E4%B8%8E%E6%A0%B8%E9%AA%8C%E7%B4%A2%E5%BC%95"><span class="nav-text">Main Sources of Information and Verification Index</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%8F%A3%E5%BE%84%E4%B8%8E%E8%BE%B9%E7%95%8C%E8%AF%B4%E6%98%8E"><span class="nav-text">Explanation of Data Definitions and Scope</span></a></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">Write down your real experiences while retaining the edges of your viewpoints.</div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        93 posts in total
+                    </span>
+                    
+                        <span>
+                            259k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days"></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/cyber-weather.js" defer=""></script>
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/cyber-exchange.js" defer=""></script>
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/scene-loader.js" defer=""></script>
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="Image viewer">
+	<button class="image-viewer-close" type="button" aria-label="Close">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="Prev">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="Close">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="Next">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Search..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js"></script>
+
+
+<script src="/js/build/plugins/aplayer.js"></script>
+
+
+	
+
+
+</body></html>
