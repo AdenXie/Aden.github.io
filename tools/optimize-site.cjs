@@ -151,6 +151,7 @@ async function optimize(directory = 'public') {
     if (!$('#subtitle').length) $('script[src*="Typed.min.js"]').remove();
     // 404 "signal lost" screen (lib/styles/cyber.css) shows just the code.
     $('.nf-text h1').text('404');
+    $('.nf-container').not(':has(.aden-nf-corner)').append('<span class="aden-nf-corner" aria-hidden="true"></span>');
     // Point visitors who hit errors to the status page (footer on every page, plus the 404 panel).
     // Added after translation, so cached English pages are replaced rather than duplicated.
     {

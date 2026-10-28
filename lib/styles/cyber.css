@@ -312,7 +312,6 @@ html .cyber-exchange-card.is-offline {
   min-height: 62vh;
   border: 1px solid var(--aden-frame);
   background:
-    linear-gradient(to top left, transparent 50%, var(--aden-frame) 50% calc(50% + 1px), transparent calc(50% + 1px)) right bottom / 28px 28px no-repeat border-box,
     linear-gradient(90deg, transparent 8%, color-mix(in srgb, var(--aden-alert) 55%, transparent) 50%, transparent 92%) center / 100% 1px no-repeat,
     radial-gradient(ellipse 55% 16% at 50% 50%, color-mix(in srgb, var(--aden-alert) 22%, transparent), transparent 70%),
     repeating-linear-gradient(90deg, color-mix(in srgb, var(--aden-alert) 8%, transparent) 0 1px, transparent 1px 7px, color-mix(in srgb, var(--aden-alert) 4%, transparent) 7px 10px, transparent 10px 23px),
@@ -440,6 +439,21 @@ html .cyber-exchange-card.is-offline {
   font-size: 3rem;
 }
 
+/* The cut corner's edge (added by optimize-site.cjs): a 1px bar turned 45deg, so it is drawn
+   like the borders and sits above the scene. Its centre lies half a pixel inside the 28px cut,
+   about 13.35px from the padding box corner; the clip-path trims its ends onto the borders. */
+.aden-nf-corner {
+  position: absolute;
+  right: calc(13.35px - 20.5px);
+  bottom: 12.85px;
+  z-index: 3;
+  width: 41px;
+  height: 1px;
+  background: var(--aden-frame);
+  transform: rotate(-45deg);
+  pointer-events: none;
+}
+
 .aden-store-hint,
 .aden-store-toast {
   position: absolute;
@@ -453,6 +467,13 @@ html .cyber-exchange-card.is-offline {
   left: 1.2rem;
   bottom: 2.3rem;
   color: color-mix(in srgb, var(--aden-cyan) 75%, transparent);
+}
+
+/* Wide panels have room for the hint on the same line as the TRACE label; narrow ones stack them. */
+@media (min-width: 900px) {
+  .aden-store-hint {
+    bottom: 0.9rem;
+  }
 }
 
 .aden-store-toast {
