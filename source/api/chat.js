@@ -97,11 +97,26 @@ async function handler(req, res) {
   let reader;
   const emit = value => { if (!res.destroyed && !res.writableEnded) res.write(`data: ${JSON.stringify(value)}\n\n`); };
   try {
-    const upstream = await fetch(ENDPOINT, {
-      method: 'POST', signal: controller.signal,
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey()}` },
-      body: JSON.stringify({ model: model(), messages: [{ role: 'system', content: systemPrompt(page) }, ...messages], stream: true, reasoning_effort: reasoningEffort, max_tokens: 2048, temperature: 0.7 })
-    });
+    const body = JSON.stringify({ model: model(), messages: [{ role: 'system', content: systemPrompt(page) }, ...messages], stream: true, reasoning_effort: reasoningEffort, max_tokens: 2048, temperature: 0.7 });
+    let upstream;
+    // Per the provider's rate-limit guide: retry only 429, wait Retry-After plus exponential
+    // backoff with jitter. A short Retry-After means the platform or model is momentarily full;
+    // a long one (per-minute or daily quota) is returned to the visitor instead of retried.
+    for (let attempt = 0; ; attempt++) {
+      upstream = await fetch(ENDPOINT, {
+        method: 'POST', signal: controller.signal,
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey()}` },
+        body
+      });
+      const retryAfter = Number(upstream.headers.get('retry-after') ?? NaN);
+      if (upstream.status !== 429 || attempt >= 2 || !(retryAfter <= 5)) break;
+      await upstream.body?.cancel();
+      const wait = (retryAfter * 1000) * 2 ** attempt + Math.random() * 1000;
+      await new Promise((resolve, reject) => {
+        const delay = setTimeout(resolve, wait);
+        controller.signal.addEventListener('abort', () => { clearTimeout(delay); reject(controller.signal.reason); }, { once: true });
+      });
+    }
     if (!upstream.ok) {
       const retryAfter = upstream.headers.get('retry-after');
       if (retryAfter) res.setHeader('Retry-After', retryAfter);

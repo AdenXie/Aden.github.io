@@ -79,6 +79,14 @@ test('maps authentication, quota and upstream errors without exposing provider b
     assert.equal(JSON.parse(res.output).error,expected); assert.doesNotMatch(res.output,/secret/);
   }
 });
+test('retries a short Retry-After 429 (platform busy) but returns quota 429s at once', async () => {
+  let calls = 0;
+  const busy = await harness(async()=>++calls === 1 ? new Response('',{status:429,headers:{'retry-after':'1'}}) : stream('data: [DONE]\n\n'))();
+  assert.equal(calls,2); assert.match(busy.output,/"done":true/);
+  calls = 0;
+  const quota = await harness(async()=>{calls++;return new Response('',{status:429,headers:{'retry-after':'60'}});})();
+  assert.equal(calls,1); assert.equal(quota.statusCode,429); assert.equal(quota.headers['retry-after'],'60');
+});
 test('detects missing stream completion, stream errors and length limits', async () => {
   const prefix = 'data: {"choices":[{"delta":{"content":"partial"}}]}\n\n';
   const partial = await harness(async()=>stream(prefix))(); assert.match(partial.output,/interrupted/);
