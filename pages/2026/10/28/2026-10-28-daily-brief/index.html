@@ -1,1 +1,1274 @@
-<html><head></head><body></body></html>
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/2026/10/28/2026-10-28-daily-brief/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Daily Briefing | 28 October 2026: Neither of the two main blocs secured a majority in the Israeli general election; China’s industrial profits rose by 14.4 per cent in September; OpenAI launched GPT-6.1 Terra">
+<meta property="og:url" content="https://blog.adenxie.com.cn/2026/10/28/2026-10-28-daily-brief/index.html">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-10-28T01:00:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="新闻">
+<meta property="article:tag" content="市场观察">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Daily Briefing | 28 October 2026: Neither of the two main blocs secures a majority in the Israeli general election; China’s industrial profits rise by 14.4 per cent in September; OpenAI releases GPT-6.1 Terra | Aden’s Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/site-runtime.js" defer=""></script>
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js"></script>
+                
+    
+            
+                
+                    <link rel="stylesheet" href="/css/custom.css">
+                
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"en","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"17px","line_height":1.85,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"all_rights_reserved"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["科技、体验与个人判断","写下真实体验，也保留观点的棱角"],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Daily Brief":{"path":"/daily/","icon":"fa-regular fa-newspaper"},"archives":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"},"tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"World Time":{"path":"/world-time/","icon":"fa-regular fa-clock"},"about":{"path":"/about/","icon":"fa-regular fa-user"},"links":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":true,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.i18n = {"search":"Search...","toc":"On this page","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"POWERED BY %s","theme":"THEME","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","post":"Post","posts":"Posts","tagcloud":"Tag Cloud","comment":"Comment","comments":"Comments","home":"Home","archive":"Archive","archives":"Archives","top":"TOP","sticky":"Sticky","go-back-home":"Go Back Home","masonry_loading":"Loading photos...","image_viewer":"Image viewer","close":"Close","exif":{"title":"EXIF","cards":{"camera":"Camera","lens":"Lens","exposure":"Exposure","other":"Other"},"fields":{"make":"Brand","model":"Model","date_taken":"Date taken","lens_model":"Lens","focal_length":"Focal length","focus_mode":"Focus mode","shutter":"Shutter","aperture":"Aperture","iso":"ISO","exposure_program":"Exposure program","exposure_compensation":"Exposure compensation","metering_mode":"Metering mode","flash":"Flash","white_balance":"White balance","latitude":"Latitude","longitude":"Longitude","altitude":"Altitude"},"status":{"loading":"Loading...","no_exif":"No EXIF available","library_missing":"EXIF library not loaded","image_source_missing":"Image source unavailable","unavailable":"EXIF unavailable (blocked by CORS or missing metadata)","flag_unavailable":"EXIF unavailable"}},"about":"About","changelog":"Changelog","links":"Links","link":"Link","friends":"Friends","friend":"Friend","timeline":"Timeline","shuoshuo":"Shuoshuo","bookmarks":"Bookmarks","site_uv":"VISITOR COUNT","site_pv":"TOTAL PAGE VIEWS","read_more":"Read more","wordcount":"Words","min2read":"Mins","status":"Status","runtime":"Blog up for","days":"days","hours":"hrs","minutes":"Min","seconds":"Sec","optimized_by":"and Optimized by Evan","rights":"All Rights Reserved","site_posts":"%s posts in total","site_wordcount":"%s words in total","copyright":{"author":"Author","title":"Title","link":"Link","create_time":"Created at","update_time":"Updated at","license_title":"License","license_content":"This work is licensed under %s.","all_rights_reserved":"All Rights Reserved &#169; %s","public_domain":"This work is in the public domain."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"},"create_time":"Created","update_time":"Updated","expired":"This post is written %s days ago, and the content may not be up to date."};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/daily/">
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    DAILY BRIEF
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/categories/">
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    CATEGORIES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    WORLD TIME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/">
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/daily/">
+                            <span>
+                                DAILY BRIEF
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/archives/">
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/categories/">
+                            <span>
+                                CATEGORIES
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/tags/">
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/world-time/">
+                            <span>
+                                WORLD TIME
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/about/">
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/link/">
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/archives/">
+                            <span>Article Archive</span>
+                            <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/tags/">
+                            <span>Topic Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/about/">
+                            <span>About Aden</span>
+                            <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">56</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">92</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://images.unsplash.com/photo-1730808822974-b21a29d64055?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 28 October 2026: Neither of the two main blocs secured a majority in the Israeli general election; China’s industrial profits rose by 14.4 per cent in September; OpenAI launched GPT-6.1 Terra" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">Daily Briefing | 28 October 2026: Neither of the two main blocs secured a majority in the Israeli general election; China’s industrial profits rose by 14.4 per cent in September; OpenAI launched GPT-6.1 Terra</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-10-28 09:00</span>
+        <span class="mobile">2026-10-28 09:00</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/daily/">Daily Briefing</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E6%96%B0%E9%97%BB/">News</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/">Market Watch</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>3.1k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>11 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h2 id="今日主线"><a href="#今日主线" class="headerlink" title="Today's main theme"></a>Today's main theme</h2><p>This edition covers Tuesday 27 October, with some technology news dating from 26 October. The main themes of the day were ‘voting and negotiations’. Israel held its first parliamentary election since the attacks of 7 October. Exit polls from three television stations all indicated that neither Netanyahu’s camp nor the opposition led by Eisenkot would secure a majority of 61 seats; Likud remains the largest party, and the process of forming a government is likely to drag on for several weeks. In Iran, Pezeshchiyan met with Putin and the Emir of Qatar in Moscow, whilst Tehran put forward ‘seven conditions’ for negotiations; however, the Houthi rebels continued to fire missiles at Saudi Arabia and claimed to have attacked the Rastanura refinery. The diplomatic developments caused Brent crude to fall by approximately $2 during trading, whilst WTI dipped below $100. Domestically, the National Bureau of Statistics reported that profits at industrial enterprises above a specified scale rose by 14.4 per cent year-on-year in September, an acceleration of around 10 percentage points compared with August, with the electronics and raw materials sectors providing the main support. In the technology sector, OpenAI launched GPT-6.1 Terra, designed primarily for computer operations, at half the price of the previous generation of similar models. Brazilian assets rebounded slightly following the previous day’s sharp fall, with the Finance Minister pledging to uphold fiscal discipline.</p>
+<span id="more"></span>
+
+<h2 id="重点新闻"><a href="#重点新闻" class="headerlink" title="Key News"></a>Key News</h2><h3 id="1-以色列大选出口民调：利库德仍是第一大党，两大阵营都不过半"><a href="#1-以色列大选出口民调：利库德仍是第一大党，两大阵营都不过半" class="headerlink" title="1. Exit polls from the Israeli general election: Likud remains the largest party, with neither bloc securing a majority"></a>1. Exit polls from the Israeli general election: Likud remains the largest party, with neither bloc securing a majority</h3><p>Israel held parliamentary elections on 27 October, the first general election since the attacks of 7 October 2023. According to a compilation by *Israel Today*, exit poll results from three television stations were similar: Netanyahu’s Likud party secured 24 to 25 seats, remaining the largest party; Yashar!, led by former IDF Chief of Staff Eizenkot, secured between 21 and 23 seats, whilst Bennett’s B’Yachad secured between 12 and 14 seats. According to data from the Israeli public broadcaster Kan 11, Eisenkot’s bloc is projected to win approximately 53 seats, Netanyahu’s bloc approximately 50, and Arab parties a combined total of approximately 17; neither side is expected to secure the 61-seat majority required in the 120-seat Knesset. The *Israel Times* summarised the situation as follows: “The anti-Netanyahu camp is in the lead, Likud remains the largest party, and neither side has a clear path to a majority.”</p>
+<p>Voter turnout was very high. According to the Jewish Telegraphic Agency, citing figures from the Central Elections Committee, by 8.00 pm approximately 74.3 per cent of voters had cast their ballots, compared with 66.3 per cent at the same stage in the 2022 general election—the highest figure in decades. The atmosphere during the election was tense: Netanyahu claimed that Arab voters were “rushing to the polling stations” and accused the Arab party Ra’am of “attempting to steal the election”; Eizenkot, meanwhile, accused Netanyahu of laying the groundwork for refusing to recognise the results. Prior to the election, Netanyahu also stated that, as long as he remained in power, Trump was willing to take action to “completely eliminate the Iranian threat”.</p>
+<p>Exit polls are only preliminary results. According to *Time* magazine, the final count is expected to be completed by 30 October, with the official results to be announced on 4 November. President Herzog will then consult with the various parties and authorise the most promising candidate to form a government within 42 days; Should multiple rounds of coalition-building efforts fail, the current Likud government will continue to govern as a caretaker government until the next election. Key points to watch: which side the Arab parties and Lieberman’s Yisrael Beiteinu party will align with; whether Netanyahu will contest the results; and the impact of the deadlock over forming a government on Israel’s decision-making regarding Iran.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://www.israelhayom.com/2026/10/27/israel-election-2026-exit-polls-full-results/">Israel Today<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.timesofisrael.com/liveblog-october-27-2026/">The Israel Times<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.jta.org/2026/10/27/israel/netanyahu-leads-in-exit-polls-but-change-bloc-by-eisenkot-has-more-seats">Jewish Telegraphic Agency<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://time.com/article/2026/10/27/israel-netanyahu-eisenkot-knesset-election-explainer/">Time Magazine<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="2-伊朗总统在莫斯科会见普京，德黑兰提出谈判“七项条件”；胡塞武装继续袭击沙特"><a href="#2-伊朗总统在莫斯科会见普京，德黑兰提出谈判“七项条件”；胡塞武装继续袭击沙特" class="headerlink" title="2. The Iranian President met with Putin in Moscow, whilst Tehran put forward ‘seven conditions’ for negotiations; the Houthi rebels continued their attacks on Saudi Arabia"></a>2. The Iranian President met with Putin in Moscow, whilst Tehran put forward ‘seven conditions’ for negotiations; the Houthi rebels continued their attacks on Saudi Arabia</h3><p>Iranian President Pezeshigian met with Putin on 27 October whilst attending the Gas Exporting Countries Forum summit in Moscow. According to TASS, citing the Iranian President’s Office, the two sides discussed oil and gas cooperation and the expansion of economic and trade ties; publicly available information made no mention of the war or the Strait of Hormuz. On the same day, Pezeshizian also met with the Emir of Qatar, Tamim; according to *Gulf News*, Iranian state media merely stated that the two sides discussed bilateral relations, whilst the Qatari side claimed that the talks covered the war, the Strait of Hormuz and energy supplies. In Tehran, Supreme Leader Mojtaba Khamenei met with security official Rezaei, emphasising the need to end the state of “neither war nor peace”. Iranian official Bagheri Kani stated that the US must first meet seven conditions before Iran would consider negotiations, and warned that the US might be seeking to reach a short-term agreement before the 3 November mid-term elections, only to resume military pressure afterwards.</p>
+<p>The conflict has shown no signs of abating. According to *Gulf News*, on 27 October, the Saudi-led coalition intercepted three ballistic missiles fired towards the eastern region and four drones fired towards the south, before subsequently intercepting two more ballistic missiles fired towards Riyadh; The Houthi rebels claimed to have launched a ballistic missile attack on Saudi Arabia’s largest oil refinery in Ras Tanura, a claim that has not been confirmed by the Saudi authorities. The Egyptian parliament approved the provision of military support to Saudi Arabia, which Houthi officials described as tantamount to a declaration of war on Yemen. Both the United States and Australia have advised their citizens against travelling to Saudi Arabia. Regarding the Strait of Hormuz, the Iranian military stated that an oil tanker struck a mine and caught fire outside the Iranian-authorised shipping lanes, adding that the strait was “completely closed” to vessels that did not comply with Iranian regulations.</p>
+<p>Key points to watch: the specific details of Iran’s ‘seven conditions’ and the US response; whether Qatar’s mediation efforts will make headway; whether the Houthi attacks on Rastanura are true; and whether the fighting will further draw in countries such as Egypt.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://tass.com/world/2209037">TASS<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://gulfnews.com/world/mena/middle-east-war-saudi-arabia-intercepts-houthi-missiles-drones-as-iran-talks-continue-1.500724842">Gulf News<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://live.euronext.com/en/financial-news/oil-falls-2-middle-east-talks-help-ease-supply-worries">Reuters (reprinted by Euronext)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="3-9月规上工业企业利润增长14-4-，比8月加快约10个百分点"><a href="#3-9月规上工业企业利润增长14-4-，比8月加快约10个百分点" class="headerlink" title="3. In September, profits at industrial enterprises above a specified scale rose by 14.4 per cent, an acceleration of approximately 10 percentage points compared with August."></a>3. In September, profits at industrial enterprises above a specified scale rose by 14.4 per cent, an acceleration of approximately 10 percentage points compared with August.</h3><p>The National Bureau of Statistics announced on 27 October that from January to September, the total profits of industrial enterprises above designated size nationwide amounted to 6,033.74 billion yuan, representing a year-on-year increase of 15.5 per cent; operating revenue stood at 106.21 trillion yuan, up 6.6 per cent. Profits for the month of September alone rose by 14.4 per cent year-on-year, according to Caixin, an acceleration of 10.2 percentage points compared with the 4.2 per cent growth recorded in August. By sector, profits in the mining industry rose by 38.2 per cent, whilst those in the manufacturing sector increased by 17.0 per cent; however, the electricity, heat, gas and water production and supply sector saw a decline of 14.3 per cent.</p>
+<p>Growth came primarily from two sources. The first was the AI-related electronics sector: according to an interpretation by Yu Weining, Chief Statistician of the Industrial Department at the National Bureau of Statistics, profits in the manufacture of computers, communications and other electronic equipment increased by 1.0 times, driving the growth in total profits of industrial enterprises above designated size by 9.6 percentage points; profits in the high-tech manufacturing sector rose by 52.0 per cent, with their share of total profits rising to 25.5 per cent. The other driver was the raw materials sector, buoyed by oil and commodity prices: the non-ferrous metals sector grew by 79.7 per cent, the chemical industry by 49.2 per cent, coal mining by 57.0 per cent, whilst the petroleum processing sector returned to profitability. Downstream sectors came under significant pressure: profits in the automotive manufacturing sector fell by 22.8 per cent, ferrous metal smelting by 73.3 per cent, non-metallic mineral products by 46.9 per cent, and electricity and heat production and supply by 17.9 per cent, indicating that rising upstream costs are squeezing the mid- and downstream sectors. Profits for foreign-invested enterprises rose by just 0.5 per cent, whilst those for private enterprises increased by 8.7 per cent; both figures were below the overall average. The operating profit margin stood at 5.68 per cent, up 0.44 percentage points year-on-year; however, Caixin noted that the growth rate of accounts receivable reached a three-year high, indicating increasing pressure on enterprises to recover payments.</p>
+<p>Key points to watch: the October PMI, the further squeeze on mid- and downstream profits from oil prices in the fourth quarter, and whether the strong growth in the AI-related electronics sector can be sustained.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://www.stats.gov.cn/sj/zxfbhjd/202610/t20261027_1965697.html">National Bureau of Statistics<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.news.cn/fortune/20261027/a3bd22523ec047e8a4a4e709d37f7387/c.html">Xinhua News Agency (Analysis by Yu Weining)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://economy.caixin.com/2026-10-27/102497850.html">Caixin<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="4-OpenAI发布GPT-6-1-Terra：主打电脑操作，价格降一半"><a href="#4-OpenAI发布GPT-6-1-Terra：主打电脑操作，价格降一半" class="headerlink" title="4. OpenAI launches GPT-6.1 Terra: designed for computer operations, with prices halved"></a>4. OpenAI launches GPT-6.1 Terra: designed for computer operations, with prices halved</h3><p>On 26 October, OpenAI released GPT-6.1 Terra, positioned as a fast, low-cost mid-range model primarily intended for computer operations, visual reasoning, programming and everyday office tasks, such as filling in forms, editing videos, interpreting technical drawings and automating repetitive desktop tasks. According to BleepingComputer, OpenAI states that it completes tasks more than three times faster than GPT-6 Astra and GPT-6.1 Sol; the API pricing is set at US$1 per million input tokens and US$5 per million output tokens, which is 50 per cent lower than that of GPT-5.6 Terra and GPT-6.1 Sol. In terms of test results, on the Agents’ Last Exam, Terra scored 15 percentage points higher than GPT-5.6 Terra at medium reasoning intensity, at approximately one-third of the latter’s cost; its score on Terminal-Bench 4.0 was 50.3 per cent, more than double that of the previous generation. OpenAI also notes that GPT-6.1 Sol or GPT-6 Astra are still recommended for the most complex programming tasks. The model is now available to ChatGPT Plus, Pro, Enterprise and Education users, and has been launched on Codex and via the API.</p>
+<p>The focus of this launch is on price and speed. Last week, Moon’s Dark Side launched the Kimi K3.1 Pro at approximately half the price of Claude Opus 5.5; now, OpenAI has slashed the price of its mid-range model by half, indicating that competition amongst AI agents is shifting from a focus on capability to a focus on cost per task. For Anthropic, which is preparing for its IPO, this will also dampen market expectations regarding its pricing power. Key points to watch going forward include: third-party evaluation results for Terra; whether Anthropic and Google will follow suit with price cuts; and whether more affordable computer-operated models can drive large-scale adoption in the enterprise sector.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://www.bleepingcomputer.com/news/artificial-intelligence/openai-launches-gpt-61-terra-with-3x-faster-ai-agents-50-percent-lower-pricing/">BleepingComputer<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://9to5mac.com/2026/10/26/openai-upgrades-chatgpt-and-codex-with-new-gpt-6-1-terra-model/">9to5Mac<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="5-巴西资产暴跌后小幅反弹，财长称“不是基本面问题”"><a href="#5-巴西资产暴跌后小幅反弹，财长称“不是基本面问题”" class="headerlink" title="5. Brazilian assets rebounded slightly following a sharp fall; the Finance Minister stated that “it is not a fundamental issue”"></a>5. Brazilian assets rebounded slightly following a sharp fall; the Finance Minister stated that “it is not a fundamental issue”</h3><p>Following the sharp fall in Brazilian markets triggered by Lula’s re-election, Brazilian assets rebounded somewhat on 27 October. According to Reuters, the Ibovespa index rose by around 1 per cent, having fallen by 13.9 per cent the previous trading day; the real appreciated by nearly 2 per cent against the US dollar to around 5.31, whilst interest rate futures retreated. Finance Minister Durigan stated that the previous day’s sell-off reflected investors’ prior betting positions and “was not a reaction to fundamentals”, adding that the government would continue to uphold fiscal responsibility.</p>
+<p>Market views remain widely divided. According to Reuters, JPMorgan believes the market has not yet formed a clear view of Lula’s new government and expects investors to reassess the situation in the coming weeks; investors at Armor Capital, however, view this sharp fall as a buying opportunity. The previous day, the Brazilian Ministry of Finance had cancelled the government bond auction scheduled for 27–29 October and repurchased a portion of its government bonds in an effort to stabilise the market.</p>
+<p>Key points to watch: whether Lula’s team can swiftly announce a credible fiscal framework and the appointments to his economic team; the stance of the Central Bank of Brazil; and any legal challenges to the election result from Flávio Bolsonaro’s camp.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://www.investing.com/news/economy-news/brazils-markets-recover-some-ground-after-selloff-minister-vows-fiscal-discipline-4976164">Reuters (reprinted by Investing.com)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h2 id="市场关联与今日观察"><a href="#市场关联与今日观察" class="headerlink" title="Market Correlation and Today's Observation"></a>Market Correlation and Today's Observation</h2><p>On 27 October, US shares continued to rise. According to TheStreet, the S&amp;P 500 rose by 0.60 per cent to 7,722.60 points, whilst the Nasdaq rose by 1.18 per cent to 26,477.81 points, whilst the Dow Jones Industrial Average remained largely unchanged, closing at 52,377.57 points; the yield on the 10-year US Treasury note stood at around 4.99 per cent. Tech stocks led the gains for the second consecutive day, with optimism stemming from Anthropic’s prospectus continuing to prevail; the prospectus also revealed that Anthropic expects to pay SpaceX up to US$120.5 billion for computing power by 2029, further illustrating the scale of expenditure on AI infrastructure. In terms of earnings reports, Boeing fell by around 10 per cent after reporting results that fell short of expectations and revising down its full-year delivery targets, whilst UPS reported better-than-expected results and raised its full-year guidance. Regarding oil prices, according to Reuters, diplomatic activity in Tehran and Moscow caused Brent crude to fall by approximately $2 during trading to around $113.7, whilst WTI fell below $100; however, attacks by Houthi militants on Saudi Arabia and a mine strike in the Strait of Hormuz limited the decline, with UBS raising its year-end forecast for Brent crude to around $110.</p>
+<p>Looking at several news stories together: the deadlock over the formation of a government in Israel and Iran’s negotiating conditions have made the situation in the Middle East even harder to assess ahead of the US mid-term elections, with oil prices set to fluctuate between the prospects of ‘negotiation’ and ‘conflict’. High oil prices have already been reflected in China’s industrial profits, with profits surging in the upstream mining and raw materials sectors whilst declining in the downstream automotive, steel and power sectors. In the AI sector, falling model prices are occurring alongside rising expenditure on computing power; this week’s earnings reports from tech giants will reveal whether AI investment can be translated into revenue.</p>
+<p>Checklist:</p>
+<ul>
+<li>Did the Federal Reserve’s 28 October monetary policy statement and Wash’s press conference signal an interest rate rise?</li>
+<li>Capital expenditure and cloud business growth in the financial reports of Microsoft, Alphabet (28 October) and Amazon (29 October)</li>
+<li>Final election results in Israel and the outlook for government formation</li>
+<li>The details of Iran’s ‘seven conditions’ and the US response, as well as whether Brent crude can hold above $110</li>
+<li>Third-party reviews of GPT-6.1 Terra and competitors’ pricing responses</li>
+<li>China’s October PMI, Brazil’s fiscal framework and the trend in the real</li>
+</ul>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-oct-27-2026">TheStreet<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.tipranks.com/news/spcx-stock-what-anthropics-120-5b-deal-means-for-spacex">TipRanks<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://live.euronext.com/en/financial-news/oil-falls-2-middle-east-talks-help-ease-supply-worries">Reuters (reprinted by Euronext)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>Cover image:<a class="link" target="_blank" rel="noopener" href="https://unsplash.com/photos/a-box-with-a-piece-of-paper-sticking-out-of-it-ItpdJY7cC7c">Dmitrii Vaccinium / Unsplash<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> Daily Briefing | 28 October 2026: Neither of the two main blocs secured a majority in the Israeli general election; China’s industrial profits rose by 14.4 per cent in September; OpenAI launched GPT-6.1 Terra</li>
+        <li><strong>Author:</strong> AdenXie</li>
+        <li><strong>Created at
+                :</strong> 2026-10-28 09:00:00</li>
+        
+        <li>
+            <strong>Link:</strong> https://blog.adenxie.com.cn/2026/10/28/2026-10-28-daily-brief/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                All Rights Reserved © AdenXie
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E6%96%B0%E9%97%BB/">#News</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/">#MarketObservation</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/10/27/2026-10-27-daily-brief/" title="Daily Briefing | 27 October 2026: Lula’s re-election triggers sharp falls in Brazilian shares and currency; Anthropic files for an IPO; Meta plans to raise US$95 billion through an equity offering" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1745509267699-1b1db256601e?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 27 October 2026: Lula’s re-election triggers sharp falls in Brazilian shares and currency; Anthropic files for an IPO; Meta plans to raise US$95 billion through an equity offering" class="!max-w-none">
+  <span class="title">Daily Briefing | 27 October 2026: Lula’s re-election triggers sharp falls in Brazilian shares and currency; Anthropic files for an IPO; Meta plans to raise US$95 billion through an equity offering</span>
+</a><a class="recommended-article-item" href="/2026/10/26/2026-10-26-daily-brief/" title="Daily Briefing | 26 October 2026: Lula secures a comeback victory to win a second term as Brazilian President; Houthi rebels claim to have attacked a Saudi oil pipeline; Trump says the choice between ‘negotiation or war’ with Iran will be decided" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1703540918559-2ac64d38b6c8?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 26 October 2026: Lula secures a comeback victory to win a second term as Brazilian President; Houthi rebels claim to have attacked a Saudi oil pipeline; Trump says the choice between ‘negotiation or war’ with Iran will be decided" class="!max-w-none">
+  <span class="title">Daily Briefing | 26 October 2026: Lula secures a comeback victory to win a second term as Brazilian President; Houthi rebels claim to have attacked a Saudi oil pipeline; Trump says the choice between ‘negotiation or war’ with Iran will be decided</span>
+</a><a class="recommended-article-item" href="/2026/10/25/2026-10-25-daily-brief/" title="Daily Briefing | 25 October 2026: Trump suggests he may strike Iran again; over 400,000 protest in France; OpenAI switches to offline training for cutting-edge models" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1508530786855-dfea35260b8d?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 25 October 2026: Trump suggests he may strike Iran again; over 400,000 protest in France; OpenAI switches to offline training for cutting-edge models" class="!max-w-none">
+  <span class="title">Daily Briefing | 25 October 2026: Trump suggests he may strike Iran again; over 400,000 protest in France; OpenAI switches to offline training for cutting-edge models</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/10/27/2026-10-27-daily-brief/" title="Daily Briefing | 27 October 2026: Lula’s re-election triggers sharp falls in Brazilian shares and currency; Anthropic files for an IPO; Meta plans to raise US$95 billion through an equity offering" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1745509267699-1b1db256601e?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 27 October 2026: Lula’s re-election triggers sharp falls in Brazilian shares and currency; Anthropic files for an IPO; Meta plans to raise US$95 billion through an equity offering" class="!max-w-none">
+  <span class="title">Daily Briefing | 27 October 2026: Lula’s re-election triggers sharp falls in Brazilian shares and currency; Anthropic files for an IPO; Meta plans to raise US$95 billion through an equity offering</span>
+</a><a class="recommended-article-item" href="/2026/10/26/2026-10-26-daily-brief/" title="Daily Briefing | 26 October 2026: Lula secures a comeback victory to win a second term as Brazilian President; Houthi rebels claim to have attacked a Saudi oil pipeline; Trump says the choice between ‘negotiation or war’ with Iran will be decided" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1703540918559-2ac64d38b6c8?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 26 October 2026: Lula secures a comeback victory to win a second term as Brazilian President; Houthi rebels claim to have attacked a Saudi oil pipeline; Trump says the choice between ‘negotiation or war’ with Iran will be decided" class="!max-w-none">
+  <span class="title">Daily Briefing | 26 October 2026: Lula secures a comeback victory to win a second term as Brazilian President; Houthi rebels claim to have attacked a Saudi oil pipeline; Trump says the choice between ‘negotiation or war’ with Iran will be decided</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/10/28/2026-10-28-anthropic-s1-open-cards/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Anthropic officially unveils its S-1 prospectus: a deep dive – the bets we placed a week ago have all been revealed today</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">Daily Briefing | 28 October 2026: Neither of the two main blocs secured a majority in the Israeli general election; China’s industrial profits rose by 14.4 per cent in September; OpenAI launched GPT-6.1 Terra</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8A%E6%97%A5%E4%B8%BB%E7%BA%BF"><span class="nav-text">Today's main theme</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E7%82%B9%E6%96%B0%E9%97%BB"><span class="nav-text">Key News</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%BB%A5%E8%89%B2%E5%88%97%E5%A4%A7%E9%80%89%E5%87%BA%E5%8F%A3%E6%B0%91%E8%B0%83%EF%BC%9A%E5%88%A9%E5%BA%93%E5%BE%B7%E4%BB%8D%E6%98%AF%E7%AC%AC%E4%B8%80%E5%A4%A7%E5%85%9A%EF%BC%8C%E4%B8%A4%E5%A4%A7%E9%98%B5%E8%90%A5%E9%83%BD%E4%B8%8D%E8%BF%87%E5%8D%8A"><span class="nav-text">1. Exit polls from the Israeli general election: Likud remains the largest party, with neither bloc securing a majority</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%BC%8A%E6%9C%97%E6%80%BB%E7%BB%9F%E5%9C%A8%E8%8E%AB%E6%96%AF%E7%A7%91%E4%BC%9A%E8%A7%81%E6%99%AE%E4%BA%AC%EF%BC%8C%E5%BE%B7%E9%BB%91%E5%85%B0%E6%8F%90%E5%87%BA%E8%B0%88%E5%88%A4%E2%80%9C%E4%B8%83%E9%A1%B9%E6%9D%A1%E4%BB%B6%E2%80%9D%EF%BC%9B%E8%83%A1%E5%A1%9E%E6%AD%A6%E8%A3%85%E7%BB%A7%E7%BB%AD%E8%A2%AD%E5%87%BB%E6%B2%99%E7%89%B9"><span class="nav-text">2. The Iranian President met with Putin in Moscow, whilst Tehran put forward ‘seven conditions’ for negotiations; the Houthi rebels continued their attacks on Saudi Arabia</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-9%E6%9C%88%E8%A7%84%E4%B8%8A%E5%B7%A5%E4%B8%9A%E4%BC%81%E4%B8%9A%E5%88%A9%E6%B6%A6%E5%A2%9E%E9%95%BF14-4-%EF%BC%8C%E6%AF%948%E6%9C%88%E5%8A%A0%E5%BF%AB%E7%BA%A610%E4%B8%AA%E7%99%BE%E5%88%86%E7%82%B9"><span class="nav-text">3. In September, profits at industrial enterprises above a specified scale rose by 14.4 per cent, an acceleration of approximately 10 percentage points compared with August.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-OpenAI%E5%8F%91%E5%B8%83GPT-6-1-Terra%EF%BC%9A%E4%B8%BB%E6%89%93%E7%94%B5%E8%84%91%E6%93%8D%E4%BD%9C%EF%BC%8C%E4%BB%B7%E6%A0%BC%E9%99%8D%E4%B8%80%E5%8D%8A"><span class="nav-text">4. OpenAI launches GPT-6.1 Terra: designed for computer operations, with prices halved</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E5%B7%B4%E8%A5%BF%E8%B5%84%E4%BA%A7%E6%9A%B4%E8%B7%8C%E5%90%8E%E5%B0%8F%E5%B9%85%E5%8F%8D%E5%BC%B9%EF%BC%8C%E8%B4%A2%E9%95%BF%E7%A7%B0%E2%80%9C%E4%B8%8D%E6%98%AF%E5%9F%BA%E6%9C%AC%E9%9D%A2%E9%97%AE%E9%A2%98%E2%80%9D"><span class="nav-text">5. Brazilian assets rebounded slightly following a sharp fall; the Finance Minister stated that “it is not a fundamental issue”</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%82%E5%9C%BA%E5%85%B3%E8%81%94%E4%B8%8E%E4%BB%8A%E6%97%A5%E8%A7%82%E5%AF%9F"><span class="nav-text">Market Correlation and Today's Observation</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">Write down your real experiences while retaining the edges of your viewpoints.</div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        92 posts in total
+                    </span>
+                    
+                        <span>
+                            253.2k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days"></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/cyber-weather.js" defer=""></script>
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/cyber-exchange.js" defer=""></script>
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/scene-loader.js" defer=""></script>
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="Image viewer">
+	<button class="image-viewer-close" type="button" aria-label="Close">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="Prev">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="Close">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="Next">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Search..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js"></script>
+
+
+<script src="/js/build/plugins/aplayer.js"></script>
+
+
+	
+
+
+</body></html>
