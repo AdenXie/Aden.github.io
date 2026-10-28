@@ -151,6 +151,15 @@ async function optimize(directory = 'public') {
     if (!$('#subtitle').length) $('script[src*="Typed.min.js"]').remove();
     // 404 "signal lost" screen (lib/styles/cyber.css) shows just the code.
     $('.nf-text h1').text('404');
+    // Point visitors who hit errors to the status page (footer on every page, plus the 404 panel).
+    // Added after translation, so cached English pages are replaced rather than duplicated.
+    {
+      const english = $('html').attr('lang')?.startsWith('en');
+      const link = '<a href="https://status.adenxie.com.cn/" target="_blank" rel="noopener">status.adenxie.com.cn</a>';
+      $('.aden-status-hint').remove();
+      $('footer .customize-info').after(`<div class="aden-status-hint">${english ? `Something not working? Check service status at ${link}` : `页面打不开或功能出错？可在 ${link} 查看服务状态`}</div>`);
+      $('.nf-container').after(`<p class="aden-status-hint aden-nf-status">${english ? `If other pages fail too, check ${link}` : `其他页面也打不开？可在 ${link} 查看服务状态`}</p>`);
+    }
     // Wide article tables scroll inside their own frame instead of overflowing the article panel.
     $('.markdown-body > table:not(.not-markdown)').wrap('<div class="aden-table-scroll"></div>');
     $('script[src*="vercount"]').attr('async', '');
