@@ -310,7 +310,7 @@ html .cyber-exchange-card.is-offline {
   justify-content: center;
   gap: 2.2rem;
   min-height: 62vh;
-  border: 1px solid var(--aden-frame);
+  border: 1px solid transparent;
   background:
     linear-gradient(90deg, transparent 8%, color-mix(in srgb, var(--aden-alert) 55%, transparent) 50%, transparent 92%) center / 100% 1px no-repeat,
     radial-gradient(ellipse 55% 16% at 50% 50%, color-mix(in srgb, var(--aden-alert) 22%, transparent), transparent 70%),
@@ -439,18 +439,17 @@ html .cyber-exchange-card.is-offline {
   font-size: 3rem;
 }
 
-/* The cut corner's edge (added by optimize-site.cjs): a 1px bar turned 45deg, so it is drawn
-   like the borders and sits above the scene. Its centre lies half a pixel inside the 28px cut,
-   about 13.35px from the padding box corner; the clip-path trims its ends onto the borders. */
-.aden-nf-corner {
+/* The panel's frame (added by optimize-site.cjs): one ring-shaped layer above the scene, so the
+   four edges and the cut corner join cleanly. Outer ring follows the panel's clip-path; the inner
+   ring is 1px in, and 1px from a 45deg edge is 28px + sqrt(2)px along each axis. */
+.aden-nf-frame {
   position: absolute;
-  right: calc(13.35px - 20.5px);
-  bottom: 12.85px;
+  inset: -1px;
   z-index: 3;
-  width: 41px;
-  height: 1px;
   background: var(--aden-frame);
-  transform: rotate(-45deg);
+  clip-path: polygon(evenodd,
+    0 0, 100% 0, 100% calc(100% - 28px), calc(100% - 28px) 100%, 0 100%, 0 0,
+    1px 1px, 1px calc(100% - 1px), calc(100% - 29.414px) calc(100% - 1px), calc(100% - 1px) calc(100% - 29.414px), calc(100% - 1px) 1px, 1px 1px);
   pointer-events: none;
 }
 
