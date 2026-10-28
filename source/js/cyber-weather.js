@@ -1,7 +1,11 @@
 (() => {
   "use strict";
 
-  const VISITOR_WEATHER_URL = "/api/visitor-weather";
+  // The blog sits behind Alibaba Cloud ESA, so Vercel would locate every visitor at the
+  // edge node; geo.adenxie.com.cn points straight at Vercel and sees the visitor's IP.
+  const VISITOR_WEATHER_URL = globalThis.location?.hostname === "blog.adenxie.com.cn"
+    ? "https://geo.adenxie.com.cn/api/visitor-weather"
+    : "/api/visitor-weather";
   const CACHE_KEY = "aden-visitor-weather-v2";
   const CACHE_TTL = 10 * 60 * 1000;
   const REQUEST_TIMEOUT_MS = 15000;

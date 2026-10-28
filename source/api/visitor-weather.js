@@ -51,7 +51,14 @@ function parseCoordinate(value) {
   return Number(value);
 }
 
+// The blog calls this from geo.adenxie.com.cn (direct to Vercel, see cyber-weather.js).
+const ALLOWED_ORIGIN = "https://blog.adenxie.com.cn";
+
 module.exports = async function visitorWeather(request, response) {
+  if (readHeader(request, "origin") === ALLOWED_ORIGIN) {
+    response.setHeader("Access-Control-Allow-Origin", ALLOWED_ORIGIN);
+    response.setHeader("Vary", "Origin");
+  }
   if (request.method && request.method !== "GET") {
     response.setHeader("Allow", "GET");
     sendJson(response, 405, { error: "method_not_allowed" });

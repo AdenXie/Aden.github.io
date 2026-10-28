@@ -1,8 +1,8 @@
 'use strict';
 // After a deploy, wait until Vercel (the origin) serves the new build, then purge the
-// Alibaba Cloud ESA edge so cached HTML (1 hour, see the "html" cache rule) updates now.
+// Alibaba Cloud ESA edge so cached HTML (1 day, ESA cache rule "html-1d") updates now.
 // Needs ESA_ACCESS_KEY_ID / ESA_ACCESS_KEY_SECRET (a RAM user allowed esa:PurgeCaches);
-// without them it skips, since the edge cache expires on its own within the hour.
+// without them it skips, since the edge cache then expires on its own within a day.
 const crypto = require('node:crypto');
 const dns = require('node:dns/promises');
 const https = require('node:https');
@@ -83,6 +83,6 @@ async function main() {
 }
 
 main().catch(error => {
-  // A failed purge only delays updates until the cache expires; never fail the deploy.
+  // A failed purge only delays updates until the edge cache expires; never fail the deploy.
   console.warn(`ESA purge failed: ${error.message}`);
 });
