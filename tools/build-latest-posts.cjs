@@ -47,5 +47,5 @@ function buildLatestPosts(publicDir = path.resolve(__dirname, '../public')) {
     console.log(`latest-posts.json (${lang}): ${posts.length} posts`);
   }
 }
-module.exports = { readPosts, latestPosts, buildLatestPosts };
+module.exports = { postFiles, readPosts, latestPosts, buildLatestPosts };
 if (require.main === module) buildLatestPosts(process.argv[2] && path.resolve(process.argv[2]));

@@ -53,6 +53,9 @@ async function prepare() {
   replace('source/css/common/markdown.styl', '  & > table:not(.not-markdown),\n', '  & > table:not(.not-markdown),\n  & > .aden-table-scroll > table:not(.not-markdown),\n');
   // The fixed home banner blurs on scroll only at config.root; the English homepage lives at /en/.
   replace('source/js/utils/scroll.js', 'location.pathname === config.root', 'ctx.homeBanner_dom');
+  // __() runs titles through sprintf, so a post title containing "%" (e.g. "增长14.4%，") throws and
+  // Hexo writes an empty page. Translate only titles that are safe to format.
+  replace('layout/components/header/head.ejs', '        title = __(page.title);', "        title = String(page.title ?? '').includes('%') ? page.title : __(page.title);");
   fs.copyFileSync(path.join(ROOT, 'lib/theme/twikoo.ejs'), path.join(target, 'layout/components/comments/twikoo.ejs'));
   // Keep the complete upstream source in the generated theme; bundle only its entry graph.
   await build({ entryPoints: [path.join(target, 'source/js/main.js')], outfile: path.join(target, 'source/js/build/main.js'), bundle: true, minify: true, format: 'esm', target: 'es2020' });

@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const assert = require('node:assert/strict');
 const cheerio = require('cheerio');
-const { readPosts } = require('./build-latest-posts.cjs');
+const { postFiles, readPosts } = require('./build-latest-posts.cjs');
 function checkOutput(directory = 'public') {
   const root = path.resolve(directory);
   assert(fs.existsSync(path.join(root, 'README.md')), 'Missing generated main-branch README');
@@ -23,6 +23,16 @@ function checkOutput(directory = 'public') {
     const $home = cheerio.load(fs.readFileSync(path.join(root, dir, 'index.html'), 'utf8'));
     assert.equal($home('.aden-brief-strip').length, 1, `${dir}/index.html brief strip`);
     exists($home('.aden-brief-strip a.aden-brief-latest').attr('href'));
+  }
+  // A theme error during rendering leaves a post page without title or date (Hexo logs it but
+  // still writes the page), which also hides that post from latest-posts.json.
+  for (const dir of ['', 'en']) {
+    const pageDir = path.join(root, dir);
+    const readable = new Set(readPosts(pageDir).map(p => p.url));
+    for (const file of postFiles(pageDir)) {
+      const url = 'https://blog.adenxie.com.cn/' + path.relative(pageDir, path.dirname(file)).replaceAll('\\', '/') + '/';
+      assert(readable.has(url), `${file}: post page has no title or date (failed render?)`);
+    }
   }
   // Daily briefs, found from their own pages, must not appear in the home article list.
   const briefPaths = new Set([['', ''], ['en', '/en']].flatMap(([dir, prefix]) => readPosts(path.join(root, dir), prefix).filter(p => p.brief).map(p => new URL(p.url).pathname)));
