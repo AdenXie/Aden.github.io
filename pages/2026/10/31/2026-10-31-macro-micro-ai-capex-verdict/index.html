@@ -1,0 +1,1538 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/2026/10/31/2026-10-31-macro-micro-ai-capex-verdict/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="In the same week, macro and micro perspectives delivered conflicting assessments of AI capital expenditure">
+<meta property="og:url" content="https://blog.adenxie.com.cn/2026/10/31/2026-10-31-macro-micro-ai-capex-verdict/index.html">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-10-30T18:30:00.000Z">
+<meta property="article:modified_time" content="2026-10-30T18:30:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="美联储">
+<meta property="article:tag" content="美国经济">
+<meta property="article:tag" content="GDP">
+<meta property="article:tag" content="AI 资本开支">
+<meta property="article:tag" content="财报季">
+<meta property="article:tag" content="科技股">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            In the same week, macro and micro perspectives delivered conflicting assessments of AI capital expenditure | Aden’s Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/site-runtime.js" defer=""></script>
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js"></script>
+                
+    
+            
+                
+                    <link rel="stylesheet" href="/css/custom.css">
+                
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"en","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"17px","line_height":1.85,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"all_rights_reserved"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["科技、体验与个人判断","写下真实体验，也保留观点的棱角"],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Daily Brief":{"path":"/daily/","icon":"fa-regular fa-newspaper"},"archives":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"},"tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"World Time":{"path":"/world-time/","icon":"fa-regular fa-clock"},"about":{"path":"/about/","icon":"fa-regular fa-user"},"links":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":true,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.i18n = {"search":"Search...","toc":"On this page","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"POWERED BY %s","theme":"THEME","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","post":"Post","posts":"Posts","tagcloud":"Tag Cloud","comment":"Comment","comments":"Comments","home":"Home","archive":"Archive","archives":"Archives","top":"TOP","sticky":"Sticky","go-back-home":"Go Back Home","masonry_loading":"Loading photos...","image_viewer":"Image viewer","close":"Close","exif":{"title":"EXIF","cards":{"camera":"Camera","lens":"Lens","exposure":"Exposure","other":"Other"},"fields":{"make":"Brand","model":"Model","date_taken":"Date taken","lens_model":"Lens","focal_length":"Focal length","focus_mode":"Focus mode","shutter":"Shutter","aperture":"Aperture","iso":"ISO","exposure_program":"Exposure program","exposure_compensation":"Exposure compensation","metering_mode":"Metering mode","flash":"Flash","white_balance":"White balance","latitude":"Latitude","longitude":"Longitude","altitude":"Altitude"},"status":{"loading":"Loading...","no_exif":"No EXIF available","library_missing":"EXIF library not loaded","image_source_missing":"Image source unavailable","unavailable":"EXIF unavailable (blocked by CORS or missing metadata)","flag_unavailable":"EXIF unavailable"}},"about":"About","changelog":"Changelog","links":"Links","link":"Link","friends":"Friends","friend":"Friend","timeline":"Timeline","shuoshuo":"Shuoshuo","bookmarks":"Bookmarks","site_uv":"VISITOR COUNT","site_pv":"TOTAL PAGE VIEWS","read_more":"Read more","wordcount":"Words","min2read":"Mins","status":"Status","runtime":"Blog up for","days":"days","hours":"hrs","minutes":"Min","seconds":"Sec","optimized_by":"and Optimized by Evan","rights":"All Rights Reserved","site_posts":"%s posts in total","site_wordcount":"%s words in total","copyright":{"author":"Author","title":"Title","link":"Link","create_time":"Created at","update_time":"Updated at","license_title":"License","license_content":"This work is licensed under %s.","all_rights_reserved":"All Rights Reserved &#169; %s","public_domain":"This work is in the public domain."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"},"create_time":"Created","update_time":"Updated","expired":"This post is written %s days ago, and the content may not be up to date."};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/daily/">
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    DAILY BRIEF
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/categories/">
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    CATEGORIES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    WORLD TIME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/">
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/daily/">
+                            <span>
+                                DAILY BRIEF
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/archives/">
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/categories/">
+                            <span>
+                                CATEGORIES
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/tags/">
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/world-time/">
+                            <span>
+                                WORLD TIME
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/about/">
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/link/">
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/archives/">
+                            <span>Article Archive</span>
+                            <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/tags/">
+                            <span>Topic Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/about/">
+                            <span>About Aden</span>
+                            <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">65</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">96</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://images.pexels.com/photos/187041/pexels-photo-187041.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="In the same week, macro and micro perspectives delivered conflicting assessments of AI capital expenditure" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">In the same week, macro and micro perspectives delivered conflicting assessments of AI capital expenditure</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-10-31 02:30</span>
+        <span class="mobile">2026-10-31 02:30</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-10-31 02:30</span>
+            <span class="mobile">2026-10-31 02:30</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E7%BB%8F%E6%B5%8E%E8%A7%82%E5%AF%9F/">Economic Observer</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E7%BE%8E%E8%81%94%E5%82%A8/">The Federal Reserve</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E7%BE%8E%E5%9B%BD%E7%BB%8F%E6%B5%8E/">The US economy</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/GDP/">GDP</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/AI-%E8%B5%84%E6%9C%AC%E5%BC%80%E6%94%AF/">AI capital expenditure</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E8%B4%A2%E6%8A%A5%E5%AD%A3/">Earnings season</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E7%A7%91%E6%8A%80%E8%82%A1/">Technology shares</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>7.1k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>25 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<blockquote>
+<p><strong>Introduction</strong>: At our meeting on 24 October,<a href="/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/">‘AI: The Mainstay of Capital Expenditure’</a>In a previous article, we analysed in depth how the tech giants’ investments of hundreds of billions of dollars in computing power single-handedly prop up half of the US economy; subsequently, in<a href="/2026/10/25/2026-10-25-ai-agent-loss-of-control-era/">*The Year AI Agents Went Haywire*</a>In this piece, we explored the dark side of governance amidst the rapid advance of cutting-edge technologies. However, in the final days of late October 2026, the global financial markets were the scene of a highly dramatic ‘split’:<strong>At the macro level, the US Bureau of Economic Analysis (BEA) and the Federal Reserve (Fed) have concluded that ‘the economy is exceptionally strong’.</strong>—Real GDP in the third quarter jumped to an annualised rate of <strong>+3.4%</strong>, and the Federal Reserve even went so far as to explicitly state in its policy statement—in black and white—that ‘productivity is strong and capital investment is robust’;<strong>However, at the micro level, the tech giants on the secondary market have faced a brutal, storm-like reckoning.</strong>—Alphabet plummeted by 12.6 per cent in a single day (according to StockTitan, marking its largest single-day fall since its IPO in 2004), with its market capitalisation evaporating by approximately US$500 billion; Amazon suffered a sharp after-hours slump due to capital expenditure of 100 billion and deteriorating free cash flow, with major media outlets exclaiming that “a trillion dollars in market capitalisation has evaporated”. The macro picture is celebrating, whilst the micro picture is bleeding. Why has the same AI-driven boom received such diametrically opposed verdicts within the same week?</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="引子：分裂的钟摆与虚幻的共识"><a href="#引子：分裂的钟摆与虚幻的共识" class="headerlink" title="Prologue: The Divided Pendulum and the Illusory Consensus"></a>Prologue: The Divided Pendulum and the Illusory Consensus</h2><p>The week of 28 to 30 October 2026 is destined to go down in the history of fintech as a ‘week of misalignment’ that will be analysed time and again.</p>
+<p>If one were to look only at the headlines of macroeconomic news, everyone would conclude that ‘the US economy is enjoying a golden age’:</p>
+<ul>
+<li><strong>Real GDP growth exceeds three per cent</strong>: The preliminary figure for US real GDP in the third quarter, released on 29 October, showed an annualised quarter-on-quarter increase of <strong>+3.4%</strong>, marking a sharp acceleration compared with the +2.2 per cent recorded in the second quarter;</li>
+<li><strong>Endorsement from the highest levels of the government</strong>: In its statement following the monetary policy meeting on 28 October, the Federal Reserve explicitly characterised the macroeconomy as ‘expanding at a strong pace’ and specifically endorsed ‘strong productivity growth and robust capital investment’.</li>
+</ul>
+<p>However, on the trading floor of Wall Street the previous night, an indiscriminate valuation bloodbath awaited the tech giants:</p>
+<ul>
+<li><strong>Alphabet</strong> Although cloud business revenue more than doubled, the share price plummeted on 29 October as search revenue fell slightly short of expectations and free cash flow remained negative for the second consecutive quarter. <strong>12.6%</strong>(According to StockTitan statistics, this marked the largest single-day fall in the company’s history since its listing in 2004), wiping out approximately <strong>US$500 billion</strong>；</li>
+<li><strong>Amazon</strong> Following hot on its heels, the company released its financial results; although its cloud computing division, AWS, recorded its fastest growth in nearly five years (+39.3 per cent), it suffered a severe cash drain due to maintaining capital expenditure of as much as US$220 billion for 2026, leading to a sharp fall in after-hours trading. <strong>5 per cent to 8 per cent</strong>；</li>
+<li>Panic spread rapidly, and the Nasdaq 100 index plummeted on 30 October <strong>-2.77%</strong>。</li>
+</ul>
+<p>Many financial media outlets have simplistically and bluntly attributed this development to the ‘bursting of the AI bubble’.</p>
+<p>But if you look beyond the underlying ledger, you will arrive at a completely different, yet more profound conclusion:</p>
+<p><strong>Neither the macro nor the micro perspective is wrong; they simply offer different perspectives on this capital expenditure—the largest in human history—at the same moment in time.</strong></p>
+<h2 id="一、三句话看懂本轮“判决分裂”"><a href="#一、三句话看懂本轮“判决分裂”" class="headerlink" title="I. Understanding the current ‘divergence in judgements’ in three sentences"></a>I. Understanding the current ‘divergence in judgements’ in three sentences</h2><p>Before undertaking a detailed analysis of the official data, we can first distil the essence of this misalignment into three key facts:</p>
+<ol>
+<li><strong>In the grand scheme of things, AI isn’t quite as mysterious as people imagine</strong>：<br>Of the 3.4 per cent GDP growth in the third quarter, the gross contribution from investment in capital goods—primarily information processing equipment—was only approximately <strong>1.16 percentage points (accounting for approximately 34 per cent of the growth, and this represents the upper limit of AI’s contribution)</strong>; more importantly, the original BEA text explicitly states that this batch of computing hardware is ‘primarily based on imported data’—<strong>The money comes from US tech giants, but a large proportion of the added value remains in the overseas chip manufacturing locations.</strong>, after deducting the reduction in imports, the net boost to the US economy is far lower than the widely circulated claim that it accounts for ‘more than half’.</li>
+<li><strong>What actually drove growth from 2.2 per cent to 3.4 per cent were two factors entirely unrelated to AI</strong>：<br>Consumption (+2.52 percentage points) remains the largest component, whilst the main driver of the acceleration in the third quarter compared with the second quarter was, in fact,<strong>A significant restocking of private inventories (contributing +1.61 percentage points)<strong>with</strong>Expansion of federal government expenditure (contribution: +0.90 percentage points)</strong>. This round of acceleration is essentially a combination of a traditional inventory cycle rebound and a fiscal stimulus.</li>
+<li><strong>The market has never been concerned with whether there is ‘demand for AI’, but rather with ‘when this investment will generate cash flow’.</strong>：<br>Google Cloud’s doubling (+103 per cent) and AWS’s fastest growth in five years (+39.3 per cent) provide irrefutable evidence that demand for AI is exceptionally strong; The reason the stock market has dealt such a heavy blow is to punish the tech giants for their reckless over-spending, which has “burned through the quarter’s free cash flow to a massive negative figure simply to secure contracts”.<strong>The equity market is pricing in which cash flows will run out first, whilst the bond market is pricing in that the 3.4 per cent growth floor has not been breached.</strong>。</li>
+</ol>
+<h2 id="二、GDP-明细拆解：3-4-的真实成分表"><a href="#二、GDP-明细拆解：3-4-的真实成分表" class="headerlink" title="II. A Detailed Breakdown of GDP: The True Composition of the 3.4 per cent Figure"></a>II. A Detailed Breakdown of GDP: The True Composition of the 3.4 per cent Figure</h2><p>To gain a clear understanding of the underlying context of the macroeconomic assessment, one must consult the National Income and Product Accounts (NIPA Table 1.1.2) for third-quarter real GDP, published by the US Bureau of Economic Analysis (BEA) on 29 October 2026:</p>
+<table>
+<thead>
+<tr>
+<th align="left">Key components of GDP</th>
+<th align="center">Contribution in Q2 2026</th>
+<th align="center">Q3 2026 Contribution</th>
+<th align="left">Official breakdown and reasons for changes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Annualised quarter-on-quarter real GDP</strong></td>
+<td align="center"><strong>+2.2%</strong></td>
+<td align="center"><strong>+3.4%</strong></td>
+<td align="left">Nominal (current) GDP: annualised growth for the same period <strong>+5.6%</strong>, with sales ultimately rising by +4.9 per cent</td>
+</tr>
+<tr>
+<td align="left"><strong>Personal Consumption Expenditure (PCE)</strong></td>
+<td align="center">+2.51 pp</td>
+<td align="center"><strong>+2.52 pp</strong></td>
+<td align="left">Performance remained stable, with consumer spending on services acting as a driving force <strong>+1.89 pp</strong>(Primarily driven by healthcare, catering and accommodation)</td>
+</tr>
+<tr>
+<td align="left"><strong>Private fixed investment (Fixed)</strong></td>
+<td align="center">+1.35 pp</td>
+<td align="center"><strong>+1.66 pp</strong></td>
+<td align="left">A mixed picture: driven by investment in equipment <strong>+1.16 pp</strong>, with residential investment continuing to weigh on <strong>-0.12 pp</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>Changes in Private Inventories (Inventories)</strong></td>
+<td align="center"><strong>-0.53 pp</strong></td>
+<td align="center"><strong>+1.61 pp</strong></td>
+<td align="left"><strong>A surge of 2.14 percentage points!</strong> There has been a strong technical rebound in inventories of non-durable goods in the wholesale and manufacturing sectors</td>
+</tr>
+<tr>
+<td align="left"><strong>Government consumption and investment (Gov)</strong></td>
+<td align="center">-0.01 pp</td>
+<td align="center"><strong>+0.90 pp</strong></td>
+<td align="left">Contribution from federal expenditure: +0.90 percentage points (defence: +0.41 percentage points; non-defence: +0.49 percentage points, including the accounting item for oil sales from the Strategic Petroleum Reserve)</td>
+</tr>
+<tr>
+<td align="left"><strong>Exports of Goods and Services (Exports)</strong></td>
+<td align="center">+0.56 pp</td>
+<td align="center"><strong>-0.68 pp</strong></td>
+<td align="left">Weaker exports of energy and petroleum products constituted a net drag</td>
+</tr>
+<tr>
+<td align="left"><strong>Total imports (Imports, net)</strong></td>
+<td align="center">-1.66 pp</td>
+<td align="center"><strong>-2.64 pp</strong></td>
+<td align="left"><strong>The deduction has increased by nearly 1 percentage point!</strong> Imports of capital goods (excluding motor vehicles) surged, directly offsetting domestic value added</td>
+</tr>
+<tr>
+<td align="left"><strong>Total on the investment side</strong></td>
+<td align="center">+0.82 pp</td>
+<td align="center"><strong>+3.27 pp</strong></td>
+<td align="left">Including inventory restocking (+1.61 pp) and investment in fixed assets (+1.66 pp)</td>
+</tr>
+</tbody></table>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://files.seeusercontent.com/2026/10/30/bfR1/fig1-q3-gdp-breakdown.png" alt="Breakdown of Contributions to US GDP Growth in the Third Quarter of 2026"><figcaption>Breakdown of Contributions to US GDP Growth in the Third Quarter of 2026</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 1</span><span class="aden-caption-text">A breakdown of the 3.4 per cent real GDP growth in the third quarter of 2026 in the United States: inventories (+1.61 percentage points) and consumption (+2.52 percentage points) accounted for the bulk of the growth, whilst investment in equipment—primarily information processing equipment—contributed only 1.16 percentage points, with the net contribution largely offset by imports. Source: BEA NIPA Table 1.1.2.</span></p>
+<h3 id="对我们前文“承重柱”论点的实质性修正"><a href="#对我们前文“承重柱”论点的实质性修正" class="headerlink" title="A Substantive Revision to Our Previous Argument on ‘Load-bearing Columns’"></a>A Substantive Revision to Our Previous Argument on ‘Load-bearing Columns’</h3><p>In our article ‘AI Capital Expenditure: The Mainstay’, published on 24 October, we noted that Bridgewater estimated AI capital expenditure would contribute approximately 1.4 percentage points to full-year 2026 growth (accounting for half of that growth), and pointed out that the preliminary third-quarter GDP figures due on 29 October would serve as a stress test for the extent to which AI drives growth.</p>
+<p>Today, the official preliminary figures have provided the final verdict:</p>
+<ol>
+<li><strong>Mao’s contribution accounted for only 34 per cent</strong>：<br>Of the 3.4 per cent overall growth, investment in equipment—primarily information processing equipment—contributed <strong>+1.16 percentage points</strong>(1.16 ÷ 3.40 ≈ 34 per cent). This figure falls far short of the widely publicised claim that ‘AI alone accounted for over half the growth’, and is certainly not comparable to the ‘74 per cent’ recorded in the first quarter under the aggressive algorithm;</li>
+<li><strong>The growth in equipment “is mainly attributable to imports”</strong>：<br>In the official text of its press release, BEA specifically stated in black and white: the surge in investment in computers and peripheral equipment,<strong>“Based primarily on import data”</strong>。<br>In macroeconomic national accounts, high-end chips and assembled servers procured from TSMC or overseas are first included once in ‘domestic fixed investment’ (+1.16 pp), but are then immediately deducted by the same amount from ‘total imports’ (–2.64 pp; capital goods account for the lion’s share of import deductions).<br><strong>The conclusion is clear and stark: the vast majority of the money spent by these giants has gone towards the profits and output of overseas supply chains, whilst the net value added that actually contributes to the US domestic GDP is extremely meagre.</strong></li>
+<li><strong>The key lies in the micro level, not in the marginal change in GDP</strong>：<br>This calculation constitutes a significant revision to our previous statement:<strong>AI capital expenditure is indeed an absolute mainstay of the balance sheets of companies such as Microsoft and Amazon, but in terms of the marginal net increase in US GDP, it is not as indispensable as is often claimed.</strong></li>
+</ol>
+<h3 id="季度均值掩盖下的-9-月单月裂缝"><a href="#季度均值掩盖下的-9-月单月裂缝" class="headerlink" title="The September shortfall masked by the quarterly average"></a>The September shortfall masked by the quarterly average</h3><p>Third-quarter GDP figures appear to paint a rosy picture, even bringing the annualised increase in the PCE price index down from 5.0 per cent in the second quarter to <strong>2.1%</strong>(Core PCE stood at 2.5 per cent). However, a breakdown of the high-frequency data for September alone reveals that the real economy was already showing signs of strain at the end of the quarter:</p>
+<ul>
+<li><strong>Prices have edged up month-on-month</strong>: The price index for personal consumption expenditure rose month-on-month in September <strong>0.5%</strong>, rebounding year-on-year to <strong>3.6%</strong>(Core year-on-year: 3.1 per cent);</li>
+<li><strong>The real drivers of consumption have stalled</strong>: In September, real personal consumption expenditure, adjusted for inflation, rose by a mere US$2.6 billion month-on-month, remaining almost at<strong>zero-growth state</strong>；</li>
+<li><strong>Residents’ water tanks have run dry</strong>: Real personal disposable income fell month-on-month <strong>-0.3%</strong>, the personal savings rate has fallen to <strong>3.8%</strong> a historic low.</li>
+</ul>
+<p>A consumer economy fuelled by drawing down savings has, coupled with monthly inflation resurging at the end of the quarter, forced the Federal Reserve into an unprecedented institutional impasse.</p>
+<h2 id="三、美联储的声明：官方背书强劲，票委却走向分裂"><a href="#三、美联储的声明：官方背书强劲，票委却走向分裂" class="headerlink" title="III. The Federal Reserve’s Statement: Strong Official Endorsement, Yet a Split Among Voting Members"></a>III. The Federal Reserve’s Statement: Strong Official Endorsement, Yet a Split Among Voting Members</h2><p>On 28 October, the day before the GDP figures were released, the Federal Reserve concluded its two-day FOMC monetary policy meeting. The final decision was to maintain the target range for the federal funds rate at <strong>3.75%–4.00%</strong> Unchanged (following a 25-basis-point rate rise in September).</p>
+<p>However, behind the calm tone regarding the base rate, the entire official statement was rife with an extremely rare exchange of sharp retorts:</p>
+<h3 id="1-决议声明里的三句硬话"><a href="#1-决议声明里的三句硬话" class="headerlink" title="1. Three strong statements in the resolution’s preamble"></a>1. Three strong statements in the resolution’s preamble</h3><p>In the body of the statement, the Federal Reserve, in a rare move, employed highly definitive language:</p>
+<ul>
+<li><strong>“Economic activity is expanding at a strong pace”</strong>— has completely eliminated the risk of a short-term recession;</li>
+<li><strong>“Productivity growth is strong, and capital investment remains robust”</strong>— The Federal Reserve has officially characterised the development of AI infrastructure as a core, positive force underpinning the economy in its official statement;</li>
+<li>Yet immediately afterwards, he still insisted:<strong>“Inflation remains elevated”</strong>。</li>
+</ul>
+<h3 id="2-10-比-2-的分裂投票与加息暗流"><a href="#2-10-比-2-的分裂投票与加息暗流" class="headerlink" title="2. A 10-to-2 split vote and undercurrents regarding interest rate rises"></a>2. A 10-to-2 split vote and undercurrents regarding interest rate rises</h3><p>At the final vote, the Federal Reserve was split into two camps:</p>
+<p>Federal Reserve Governor Lisa Cook and Beth Hammack, President of the Cleveland Federal Reserve Bank <strong>Both cast votes against the decision, with both voting members explicitly advocating for a further interest rate rise of 25 basis points at that meeting.</strong>。</p>
+<p>At the post-meeting press conference, the new Chair of the Federal Reserve, Kevin Warsh, demonstrated an extremely skilful balancing act:</p>
+<p>On the one hand, he reassured the markets by stating that the macroeconomy was ‘pointing in the right direction’, that he did not believe there was currently any uncontrollable overheating, and that the Federal Reserve’s role ‘is not to throw sand in the gears’ of the economic engine;</p>
+<p>However, on the other hand, upon closer examination of his remarks and the broader context, this journal’s analysis suggests that the underlying message is extremely clear:<strong>With GDP growth at 3.4 per cent, AI investment in full swing and September’s inflation rebounding to 3.6 per cent, the Federal Reserve has no grounds whatsoever to support a rate cut, yet there are at least two compelling reasons to resume rate rises in December.</strong></p>
+<p>AI capital expenditure is becoming the Federal Reserve’s most vexing underlying variable—it not only provides growth at the macro level that prevents an economic downturn, but also competes for electricity and commodities at the physical level, thereby firmly blocking the path to interest rate cuts.</p>
+<h2 id="四、财报季清算：四家大厂，四种截然不同的病因"><a href="#四、财报季清算：四家大厂，四种截然不同的病因" class="headerlink" title="IV. Financial Results Season Review: Four Major Companies, Four Distinctly Different Causes"></a>IV. Financial Results Season Review: Four Major Companies, Four Distinctly Different Causes</h2><p>If macroeconomic data suggests that capital continues to flow steadily into data centres, why did secondary market investors unleash a wave of selling targeting tech blue-chips on 28–29 October?</p>
+<p>To dismiss this round of market turbulence as merely the ‘bursting of the AI bubble’ is the laziest approach one can take in technology reporting. In fact, a closer examination of the four sets of financial statements released during this round reveals that the four tech giants are facing four entirely distinct underlying issues:</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://files.seeusercontent.com/2026/10/30/0rNq/fig2-four-tech-giants-earnings.png" alt="Financial Results of the Big Four: A Comparative Analysis in a Four-Panel Grid"><figcaption>Financial Results of the Big Four: A Comparative Analysis in a Four-Panel Grid</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 2</span><span class="aden-caption-text">Q3 2026 ‘Big Tech’ earnings round-up: Google Cloud doubles revenue, whilst AWS accelerates to 39.3 per cent—its fastest growth in nearly five years—confirming robust underlying demand; The root cause of the sell-off is severe cash outflow (Amazon’s TTM FCF: -$42.4 billion; Google’s quarterly FCF: -$9.07 billion), rather than the businesses themselves.</span></p>
+<h3 id="1-Alphabet（谷歌母公司）：收入微不及预期-现金流再度为负"><a href="#1-Alphabet（谷歌母公司）：收入微不及预期-现金流再度为负" class="headerlink" title="1. Alphabet (Google’s parent company): Revenue slightly below expectations + cash flow negative once again"></a>1. Alphabet (Google’s parent company): Revenue slightly below expectations + cash flow negative once again</h3><ul>
+<li><strong>Business Update</strong>: Total revenue amounted to <strong>US$127.58 billion ($127.58B)</strong>, up 25 per cent year-on-year, as traditional search advertising (US$63.35 billion, $63.35B) fell slightly short of Wall Street’s forecast of $64.96 billion (64.96B), resulting in overall revenue missing the mark by a narrow margin; however, on the AI front, Google Cloud’s revenue year-on-year<strong>Soared by 103 per cent to US$30.7 billion</strong>, achieving a remarkable ‘doubling in a single quarter’;</li>
+<li><strong>The true cause of the illness</strong>: A precipitous drop in net profit and cash flow. The company reported earnings per share (EPS) of US$2.12 (significantly below the expected US$3.01; CNBC reported an adjusted figure of US$2.67, with the discrepancy primarily attributable to substantial non-operating book losses on equity investments); What shocked long-term investors even more was that, in a single quarter,<strong>Free cash flow (FCF) stood at US$9.07 billion, having deteriorated further following its first-ever dip into negative territory in the second quarter</strong>。</li>
+<li><strong>Clarifying Misunderstandings</strong>: There were rumours in the market at one point that a sharp fall had been triggered by out-of-control capital expenditure, but CNBC’s earnings verification clearly stated:<strong>Alphabet has left its full-year capital expenditure guidance for 2026 unchanged</strong>… merely suggesting that there may be an increase in 2027.</li>
+<li><strong>Market Verdict</strong>: Sharp fall at the close on 29 October <strong>12.6%</strong>(According to StockTitan’s statistics, this marks the largest single-day fall since the company’s listing in 2004), with its market capitalisation falling by approximately <strong>US$500 billion</strong>. The market is penalising the company because ‘the slowdown in its cash cow search business, coupled with the fact that the doubling of its cloud business is not yet sufficient to plug the massive hole in free cash flow’.</li>
+</ul>
+<h3 id="2-Amazon（亚马逊）：开支失控-自由现金流持续重创"><a href="#2-Amazon（亚马逊）：开支失控-自由现金流持续重创" class="headerlink" title="2. Amazon: Uncontrolled spending + free cash flow continues to take a heavy hit"></a>2. Amazon: Uncontrolled spending + free cash flow continues to take a heavy hit</h3><ul>
+<li><strong>Business Update</strong>: Total revenue amounted to <strong>US$201.9 billion ($201.9B)</strong>, up 12 per cent year-on-year, slightly below Wall Street’s expectations; AWS, the cloud computing leader, saw its revenue surge year-on-year <strong>+39.3 per cent to US$46 billion</strong>, marking the highest growth rate in the past five years; CEO Andy Jassy even predicted during the conference call that AWS’s growth is expected to consistently exceed the 40 per cent mark between 2027 and 2028; operating profit reached a record high of US$28.1 billion (with a profit margin of 13.9 per cent);</li>
+<li><strong>The true cause of the illness</strong>: Astronomical capital expenditure is causing cash to drain away. In its financial report, Amazon not only maintained its full-year 2026 forecast of as much as <strong>US$220 billion ($220B)</strong> Its capital expenditure guidance, as further confirmed in its official 8-K filing:<strong>Over the past 12 months (TTM), Amazon’s net free cash flow stood at a staggering -$42.4 billion</strong>。</li>
+<li><strong>Market Verdict</strong>: Sharp post-market fall <strong>5 per cent to 8 per cent</strong>. The logic of Wall Street is utterly ruthless—even though AWS has posted its fastest growth in five years, investors find it hard to accept that all the hard-earned cash generated by the entire company is being poured into data centres and a computing power black hole, and that the company is even having to fork out an additional $40 billion or more in liquidity.</li>
+</ul>
+<h3 id="3-Microsoft（微软）·-赢家对照组：收入利润超预期-商业循环兑现"><a href="#3-Microsoft（微软）·-赢家对照组：收入利润超预期-商业循环兑现" class="headerlink" title="3. Microsoft · Winner control group: Revenue and profits exceeded expectations + business cycle materialised"></a>3. Microsoft · Winner control group: Revenue and profits exceeded expectations + business cycle materialised</h3><ul>
+<li><strong>Business Update</strong>: Revenue for the first quarter of the 2027 financial year reached a record high of <strong>US$92.3 billion ($92.3B)</strong>, up 19 per cent year-on-year; net profit reached <strong>US$33.6 billion ($33.6B)</strong>, representing a year-on-year increase of 32 per cent;</li>
+<li><strong>Key breakthrough</strong>: Microsoft has, for the first time, disclosed the specific revenue figures in US dollars for its intelligent cloud, Azure – generating <strong>US$33.2 billion</strong>, a sharp rise compared with the same period last year <strong>48%</strong>, far exceeding Wall Street’s consensus forecasts;</li>
+<li><strong>Verification of the循环 mechanism</strong>: The financial report confirmed for the first time that revenue from commercial arrangements with OpenAI for the quarter amounted to <strong>Approximately US$10 billion (representing 11 per cent of total revenue for the quarter)</strong>. Although, from an analytical perspective, this revenue of ten billion includes nested revenue flows arising from OpenAI’s procurement of Azure cloud computing power and revenue-sharing arrangements, it has successfully demonstrated to the market that ‘Microsoft is currently the only tech giant capable of converting computing expenditure into direct profit at a double-digit rate’;</li>
+<li><strong>Market Verdict</strong>: Share price rose against the market trend following the release of the financial results <strong>+4.0%</strong>。</li>
+</ul>
+<h3 id="4-Intel（英特尔）·-传统周期误伤：与-AI-无关的惨烈指引"><a href="#4-Intel（英特尔）·-传统周期误伤：与-AI-无关的惨烈指引" class="headerlink" title="4. Intel: A casualty of the traditional business cycle – a grim outlook unrelated to AI"></a>4. Intel: A casualty of the traditional business cycle – a grim outlook unrelated to AI</h3><ul>
+<li><strong>Business Update</strong>: Intel’s guidance for fourth-quarter gross profit margin has fallen sharply compared with the third quarter <strong>6.1 percentage points</strong>, management has issued a clear warning that traditional business operations are under pressure;</li>
+<li><strong>Market Verdict</strong>: Closed at US$92.07, plummeting in after-hours trading following a barrage of poor guidance <strong>-23.0%</strong>. This is essentially a double blow resulting from the traditional consumer electronics cycle hitting bottom and depreciation in contract manufacturing; attributing it solely to AI capital expenditure is entirely a misinterpretation at the industry level.</li>
+</ul>
+<h2 id="五、市场结构：谁在定价增长，谁在定价现金流？"><a href="#五、市场结构：谁在定价增长，谁在定价现金流？" class="headerlink" title="V. Market Structure: Who is setting the price for growth, and who is setting the price for cash flow?"></a>V. Market Structure: Who is setting the price for growth, and who is setting the price for cash flow?</h2><p>Amidst this earnings season storm, the financial markets have exhibited a textbook example of a split in sentiment:</p>
+<ol>
+<li><strong>Precision Targeting of Technology Growth Stocks</strong>：<br>On 29 October, the Nasdaq Composite Index fell by 1.38 per cent, whilst the S&amp;P 500 Index edged down by 0.31 per cent; on 30 October, the Nasdaq 100 suffered a sharp one-day plunge <strong>-2.77%</strong>. The rumour circulating that ‘tech stocks lost a trillion dollars in market capitalisation in a single day’ is essentially a media estimate, but the core of the story is highly accurate—<strong>The sell-off has been concentrated specifically on heavyweight market leaders facing massive capital expenditure and deteriorating free cash flow (Alphabet alone accounts for 500 billion).</strong>；</li>
+<li><strong>Safe-haven capital is flooding into the government bond market</strong>：<br>In stark contrast to the turmoil in the stock market, the US Treasury market saw strong buying support during the same week. The yield on the benchmark 10-year US Treasury note fell to its lowest level in nearly two months.</li>
+</ol>
+<p>These diametrically opposed capital flows reveal the true pricing models currently employed by professional institutions:</p>
+<ul>
+<li><strong>Stock traders are pricing in the ‘risk of a disruption to micro-cash flows’</strong>: When tech giants are willing to pour as much as US$40 billion of their free cash flow into the race for computing power, big-tech shares—which were once regarded as defensive assets—lose their cash flow safety cushion and are downgraded to high-risk investments;</li>
+<li><strong>Bond traders are pricing in ‘a solid foundation for GDP growth of 3.4 per cent’</strong>: Regardless of whether the tech giants make a profit this quarter, as long as they cash their 200 billion Capex cheques, the entire real economy and construction supply chain will continue to function, and there is absolutely no risk of a cliff-edge recession in the short term.</li>
+</ul>
+<h2 id="六、历史对照：90-年代电信光纤泡沫的时序反转"><a href="#六、历史对照：90-年代电信光纤泡沫的时序反转" class="headerlink" title="VI. Historical Comparison: The Chronological Reversal of the Telecoms Fibre-Optics Bubble of the 1990s"></a>VI. Historical Comparison: The Chronological Reversal of the Telecoms Fibre-Optics Bubble of the 1990s</h2><p>In our earlier macroeconomic research, we have on several occasions drawn parallels between the current expansion of AI data centres and the global telecoms fibre-optic boom of 1996 to 2001: back then, the global industry spent <strong>Approximately 2 trillion US dollars ($2T)</strong>, laid more than 80 million miles of advanced fibre-optic cable, with telecoms capital expenditure accounting for up to <strong>1.0%–1.2%</strong>, but four years after the bubble burst, there are still <strong>Between 85 per cent and 95 per cent of optical cables end up as dark fibre that has never carried any light.</strong>。</p>
+<p>However, having reviewed this week’s market movements, we can distil a highly forward-looking macroeconomic hypothesis—<strong>The timing of the correction in this AI cycle is likely to be the exact opposite of that in the 1990s</strong>：</p>
+<table>
+<thead>
+<tr>
+<th align="left">The dimension of the grand historical cycle</th>
+<th align="left">1996–2001: The Great Leap Forward in Telecommunications Fibre Optics</th>
+<th align="left">2024–2026: The Current AI Capital Expenditure Cycle</th>
+<th align="left">Differences in Core Mechanisms and Implications</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Cycle Start Logic</strong></td>
+<td align="left">The Internet took its first steps, and policies encouraged the roll-out of the information superhighway</td>
+<td align="left">Breakthroughs in large-scale models spark a computing power arms race amongst tech giants</td>
+<td align="left">All of these represent a depletion of forward-looking investment triggered by genuine technological breakthroughs</td>
+</tr>
+<tr>
+<td align="left"><strong>Capital expenditure intensity</strong></td>
+<td align="left">At its peak, it accounted for approximately <strong>1.0% – 1.2%</strong></td>
+<td align="left">According to Epoch AI’s calculations, investment in computing infrastructure as a proportion of GDP has reached <strong>Approximately 1.5 per cent</strong></td>
+<td align="left">The concentration of capital and the intensity of capital expenditure in this round have even surpassed those of that year</td>
+</tr>
+<tr>
+<td align="left"><strong>Timeline of the Liquidation Process</strong></td>
+<td align="left"><strong>Micro trends peak first ➔ Macro trends confirm later</strong>：<br>1. Nasdaq technology shares were the first to peak and plummet in March 2000;<br>2. It was only in the following quarters that telecoms expenditure gradually began to decline and eventually peaked;<br>3. It was not until after 2001 that the macroeconomic GDP recession was officially recognised in the statistics.</td>
+<td align="left"><strong>Confirm the macro picture first ➔ Settle the micro details first</strong>：<br>1. Macroeconomic data was the first to confirm spending (GDP for Q3 2026 recorded growth of 3.4 per cent);<br>2. During the earnings season, the micro-level stock market was the first to react to the deterioration in free cash flow;<br>3. Macroeconomic value added is not fully retained within the country due to import leakage.</td>
+<td align="left"><strong>⚠️ Macroeconomic indicators lag behind expenditure, whilst the stock market leads returns</strong>。<br>The macro view records ‘how money has been spent over the past three months’, whilst the micro view scrutines ‘whether the money can be recouped over the next three years’.</td>
+</tr>
+</tbody></table>
+<p>The most critical reality lies in the intergenerational differences in the depreciation patterns of assets:</p>
+<p>Even though the fibre-optic cables buried in the ground all those years ago had lain dormant for eight years, the glass fibres remained intact and were ultimately snapped up by Netflix and YouTube as the foundation for the streaming boom;</p>
+<p>But the millions of advanced GPUs currently piled up in the server room,<strong>Within three years, depreciation costs will be ruthlessly reflected in the financial statements, and within five years, the equipment will face physical obsolescence in terms of energy efficiency.</strong>. The tech giants have not had the luxury of waiting a full decade for demand to develop naturally; every day, they are racing against the physical ageing of silicon wafers.</p>
+<h2 id="七、宏观情景更新：承重柱概率的理性重估"><a href="#七、宏观情景更新：承重柱概率的理性重估" class="headerlink" title="VII. Macroeconomic Scenario Update: A Rational Reassessment of the Probability of Load-bearing Columns"></a>VII. Macroeconomic Scenario Update: A Rational Reassessment of the Probability of Load-bearing Columns</h2><p>Taking into account this week’s release of the BEA’s GDP real component breakdown and the latest developments surrounding the ‘Big Tech’ earnings reports, we are publicly revising the probabilities of the macroeconomic scenarios set out in our 24 October article, ‘AI Capital Expenditure: The Cornerstone’.<strong>Prudent iterative refinement</strong>：</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://files.seeusercontent.com/2026/10/30/Ntm1/fig3-ai-capex-scenario-update.png" alt="Comparison of Probability Adjustments for AI Capital Expenditure Scenarios"><figcaption>Comparison of Probability Adjustments for AI Capital Expenditure Scenarios</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 3</span><span class="aden-caption-text">The Evolution of the Macro Narrative on AI Capital Expenditure: A Comparison of Iterative Revisions to Scenario Probabilities. The market has shifted from a simple ‘spending frenzy’ to a ‘rigorous scrutiny of cash flow’; the probability of the baseline scenario continuing has been revised downwards, whilst the probability of growth peaking and slowing has risen significantly.</span></p>
+<table>
+<thead>
+<tr>
+<th align="left">Classification of evolutionary scenarios</th>
+<th align="center">24 October: Original Probability</th>
+<th align="center">31 October: Correction probability</th>
+<th align="left">Key trigger thresholds and macroeconomic conditions</th>
+<th align="left">Determination of the Meaning of ‘Market’ and ‘Asset’</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Scenario A<br>(To be continued after digestion)</strong></td>
+<td align="center"><strong>55%</strong></td>
+<td align="center"><strong>45%</strong><br><em>(▼ Down 10pp)</em></td>
+<td align="left">• Subsequent technology sector financial reports from November to December confirmed that growth in the enterprise cloud business remained at over 35 per cent;<br>• Industry giants have narrowed or turned their quarterly free cash flow into a positive figure by raising prices or scaling back traditional non-core businesses;<br>• At its December meeting, the Federal Reserve clarified its policy path, dispelling doubts about an interest rate rise exceeding market expectations.</td>
+<td align="left"><strong>Volatility following a valuation reset</strong>: AI capital expenditure remains a key expenditure item, but the valuation multiples offered by the market are contracting systematically; share prices have shifted from a one-way surge to being driven by the delivery of results.</td>
+</tr>
+<tr>
+<td align="left"><strong>Scenario B<br>(Growth has peaked and is slowing)</strong></td>
+<td align="center"><strong>25%</strong></td>
+<td align="center"><strong>40%</strong><br><em>(▲ Up 15 percentage points)</em></td>
+<td align="left">• Two consecutive quarters of deteriorating free cash flow have raised concerns amongst the board, prompting some major companies to cautiously revise their guidance for incremental expenditure downwards in 2027;<br>• The expansion of the scope of power grid delays has led to new projects being postponed involuntarily;<br>• As interest rates rise, the cost of debt financing is beginning to erode net profit.</td>
+<td align="left"><strong>Kinetic Shift</strong>: The marginal contribution of AI capital expenditure to US GDP has fallen back to the 0.5 percentage point range, and the macroeconomic outlook for 2027 is subject to a modest downward revision.</td>
+</tr>
+<tr>
+<td align="left"><strong>Scenario C<br>(Hard-landing fracture)</strong></td>
+<td align="center"><strong>20%</strong></td>
+<td align="center"><strong>15%</strong><br><em>(▼ Slight decline, remaining at a low level)</em></td>
+<td align="left">• The commercialisation of large-scale model applications has been systematically discredited, leading to widespread order cancellations by cloud service providers;<br>• A major debt default involving highly leveraged computing power forced a drastic cut in expenditure.</td>
+<td align="left"><strong>Hedging against extreme risks</strong>: Although individual shares have come under heavy selling pressure, the 40 per cent to 100 per cent real growth rate in the cloud business demonstrates that underlying demand has not collapsed, and the probability of a hard landing remains low and within a manageable range.</td>
+</tr>
+</tbody></table>
+<p><em>(Note: The probabilities set out above are analytical projections based on the evolution of macroeconomic variables and the current state of the strategic interplay between various parties; they do not constitute investment forecasts or definitive advice.)</em></p>
+<h2 id="八、数据口径与事实边界诚实说明"><a href="#八、数据口径与事实边界诚实说明" class="headerlink" title="VIII. Honest Explanation of Data Definitions and Factual Boundaries"></a>VIII. Honest Explanation of Data Definitions and Factual Boundaries</h2><p>When reading this report, readers are asked to maintain a clear understanding of the boundaries:</p>
+<ol>
+<li><strong>The accuracy of AI-driven investment contributions</strong>: In the official BEA press release, ‘information processing equipment’ is listed as the main sub-category driving investment in equipment (+1.16 pp); however, due to delays in format consolidation of the NIPA’s comprehensive multi-dimensional interactive data tables during the initial release of preliminary figures, the 1.16 percentage points represents the upper limit of the contribution to overall equipment investment; the precise contribution attributable solely to AI computing power, once isolated, may be slightly lower;</li>
+<li><strong>Regarding media reports of ‘a trillion dollars wiped off in a single day’</strong>: This figure is a rough estimate by financial media outlets and overseas news sources (such as Intellectia and NBC commentary) based on post-market fluctuations in market capitalisation, the main text of this report is based on the fact that Alphabet lost approximately US$500 billion in market capitalisation in a single day (varying slightly across sources to around US$480 billion based on closing prices) and the decline in the Nasdaq 100 index (-2.77 per cent);</li>
+<li><strong>Regarding Alphabet’s earnings per share (EPS) metrics</strong>: The figure of US$2.12 disclosed includes unrealised gains or losses on changes in the fair value of equity investments recognised in accordance with accounting standards; CNBC’s adjusted operating figure is approximately US$2.67, and this should be viewed objectively in the context of non-cash distortions when analysing the figures;</li>
+<li><strong>The Commercial Nature of Microsoft’s 10 Billion Revenue</strong>: The US$10 billion in revenue from the OpenAI arrangement disclosed in the financial statements essentially comprises offsets for Azure cloud resources and a revenue-sharing agreement; this constitutes a special model involving a deep strategic partnership and cannot be directly equated with standard enterprise-grade SaaS revenue;</li>
+<li><strong>A Comparison of Timelines from the 1990s</strong>: The application of a time-reversed simulation—comparing the historical telecommunications bubble with current AI investment—forms part of the author’s macro-historical analytical framework, which aims to reveal the tension between macro-statistical lags and micro-level leading indicators; it does not constitute an absolute, mechanical repetition of history.</li>
+</ol>
+<h2 id="结语：算力很硬，但现金流更硬"><a href="#结语：算力很硬，但现金流更硬" class="headerlink" title="Conclusion: Computing power is strong, but cash flow is even stronger"></a>Conclusion: Computing power is strong, but cash flow is even stronger</h2><p>Looking back on this dramatic week, the clash between macro and micro factors has, in fact, served as a timely wake-up call.</p>
+<p>What macroeconomists see is the most spectacular wave of machinery installation in human history—hundreds of terawatts of transformers being hoisted into place, tens of thousands of state-of-the-art silicon wafers emitting a low rumble within server rooms, with 3.4 per cent of GDP faithfully recording every instance of capital extravagance that takes place on this land.</p>
+<p>But from the sidelines of the stock market, investors finally posed that most basic—and most devastating—question of business common sense:</p>
+<p><strong>If annual capital expenditure of US$220 billion results in a net outflow of free cash flow exceeding US$40 billion over the past 12 months (Amazon TTM), how much longer can this frenzy possibly last?</strong></p>
+<p>There is no doubt about the demand for AI, no doubt about the explosive growth of cloud services, and certainly no doubt about the long-term vision of technology transforming the world. But as the ironclad rule of the capital markets states:</p>
+<p><strong>Computing power may be robust, but free cash flow is always more robust than computing power.</strong></p>
+<p>Whilst the tech giants raise their glasses at the macro-level banquet to celebrate growth exceeding 3.4 per cent, the micro-level reckoning has already begun in cold-blooded fashion. Only those who can be the first to truly transform red-hot computing power into cold, abundant free cash flow will survive the ebb of the next capital cycle.</p>
+<h3 id="主要信息来源与核验索引"><a href="#主要信息来源与核验索引" class="headerlink" title="Main Sources of Information and Verification Index"></a>Main Sources of Information and Verification Index</h3><ul>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.bea.gov/news/2026/gdp-advance-estimate-3rd-quarter-2026">Bureau of Economic Analysis (BEA), officially published on 29 October 2026: Gross Domestic Product, Third Quarter 2026 (Advance Estimate)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.bea.gov/sites/default/files/2026-10/gdp3q26-adv.pdf">Full text of the official BEA report (PDF): GDP 3Q26 Advance Release<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.federalreserve.gov/newsevents/pressreleases/monetary20261028a.htm">Official Monetary Policy Statement of the Federal Reserve (FOMC Statement, 28 October 2026)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.federalreserve.gov/mediacenter/files/FOMCpresconf20261028.pdf">Official transcript of the press conference by Kevin Warsh, Chair of the Federal Reserve (28 October 2026)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://maseconomics.com/us-gdp-q3-2026/">MASEconomics Macroeconomic Breakdown: U.S. GDP Q3 2026 Preliminary Breakdown<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://epoch.ai/data-insights/ai-datacenter-share-gdp">Epoch AI Data Insights: The AI boom has doubled the share of computing infrastructure in US GDP<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.cnbc.com/2026/10/28/alphabet-googl-earnings-q3-2026.html">CNBC In-Depth Earnings Review: Alphabet Q3 2026 Earnings Analysis<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.reuters.com/business/alphabets-google-cloud-unit-beats-quarterly-revenue-estimates-steady-ai-demand-2026-10-28/">Reuters Business Report: Alphabet’s Google Cloud Revenue Doubles on AI Demand<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.theguardian.com/technology/2026/oct/28/google-alphabet-q3-earnings-report">The Guardian feature: Google’s parent company Alphabet loses $500B in value<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.fool.com/coverage/stock-market-today/2026/10/29/stock-market-today-oct-29-amazon-falls-on-q3-earnings-report-and-capex-concerns/">The Motley Fool Market Round-up: Amazon Falls on Q3 Earnings Report and Capital Expenditure Concerns<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://techcrunch.com/2026/10/28/microsoft-recorded-10-billion-in-revenue-from-openai/">TechCrunch Industry Survey: Microsoft Records $10 Billion in Revenue from OpenAI<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.geekwire.com/2026/bigger-than-bing-or-xbox-microsofts-openai-haul-reaches-10b-in-quarterly-revenue/">GeekWire Exclusive Financial Report: Microsoft’s OpenAI Revenue Hits $10B in Q1<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.nytimes.com/2026/10/30/business/stock-market-october-ai.html">The New York Times: October Tech Selloff on the Stock Market (30 October 2026)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+</ul>
+<p>Cover image:<a class="link" target="_blank" rel="noopener" href="https://www.pexels.com/photo/graphs-display-on-an-ipad-187041/">Pixabay / Pexels<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> In the same week, macro and micro perspectives delivered conflicting assessments of AI capital expenditure</li>
+        <li><strong>Author:</strong> AdenXie</li>
+        <li><strong>Created at
+                :</strong> 2026-10-31 02:30:00</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2026-10-31 02:30:00
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://blog.adenxie.com.cn/2026/10/31/2026-10-31-macro-micro-ai-capex-verdict/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                All Rights Reserved © AdenXie
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E7%BE%8E%E8%81%94%E5%82%A8/">#Federal Reserve</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E7%BE%8E%E5%9B%BD%E7%BB%8F%E6%B5%8E/">#The US Economy</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/GDP/">#GDP</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/AI-%E8%B5%84%E6%9C%AC%E5%BC%80%E6%94%AF/">#AI Capital Expenditure</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E8%B4%A2%E6%8A%A5%E5%AD%A3/">#Earnings Season</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E7%A7%91%E6%8A%80%E8%82%A1/">#Tech shares</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/" title="Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP" rel="bookmark">
+  <img src="https://images.pexels.com/photos/5480781/pexels-photo-5480781.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP" class="!max-w-none">
+  <span class="title">Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP</span>
+</a><a class="recommended-article-item" href="/2026/10/24/2026-10-24-openai-vs-anthropic-ipo-race/" title="OpenAI vs Anthropic: Why is the larger of the two giants going public later?" rel="bookmark">
+  <img src="https://images.pexels.com/photos/3905827/pexels-photo-3905827.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="OpenAI vs Anthropic: Why is the larger of the two giants going public later?" class="!max-w-none">
+  <span class="title">OpenAI vs Anthropic: Why is the larger of the two giants going public later?</span>
+</a><a class="recommended-article-item" href="/2026/10/23/2026-10-23-anthropic-loss-ipo/" title="Anthropic, with a loss of 80.7 billion, is currently in the healthiest state in its history – why is that?" rel="bookmark">
+  <img src="https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Anthropic, with a loss of 80.7 billion, is currently in the healthiest state in its history – why is that?" class="!max-w-none">
+  <span class="title">Anthropic, with a loss of 80.7 billion, is currently in the healthiest state in its history – why is that?</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/" title="Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP" rel="bookmark">
+  <img src="https://images.pexels.com/photos/5480781/pexels-photo-5480781.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP" class="!max-w-none">
+  <span class="title">Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP</span>
+</a><a class="recommended-article-item" href="/2026/10/24/2026-10-24-openai-vs-anthropic-ipo-race/" title="OpenAI vs Anthropic: Why is the larger of the two giants going public later?" rel="bookmark">
+  <img src="https://images.pexels.com/photos/3905827/pexels-photo-3905827.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="OpenAI vs Anthropic: Why is the larger of the two giants going public later?" class="!max-w-none">
+  <span class="title">OpenAI vs Anthropic: Why is the larger of the two giants going public later?</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/10/30/2026-10-30-daily-brief/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Daily Briefing | 30 October 2026: Alphabet plummets 12.6 per cent in a single day; US Q3 GDP grows by 3.4 per cent; PCE inflation rises to 3.6 per cent; Iran rejects Qatar’s ceasefire proposal</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">In the same week, macro and micro perspectives delivered conflicting assessments of AI capital expenditure</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E5%AD%90%EF%BC%9A%E5%88%86%E8%A3%82%E7%9A%84%E9%92%9F%E6%91%86%E4%B8%8E%E8%99%9A%E5%B9%BB%E7%9A%84%E5%85%B1%E8%AF%86"><span class="nav-text">Prologue: The Divided Pendulum and the Illusory Consensus</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E4%B8%89%E5%8F%A5%E8%AF%9D%E7%9C%8B%E6%87%82%E6%9C%AC%E8%BD%AE%E2%80%9C%E5%88%A4%E5%86%B3%E5%88%86%E8%A3%82%E2%80%9D"><span class="nav-text">I. Understanding the current ‘divergence in judgements’ in three sentences</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81GDP-%E6%98%8E%E7%BB%86%E6%8B%86%E8%A7%A3%EF%BC%9A3-4-%E7%9A%84%E7%9C%9F%E5%AE%9E%E6%88%90%E5%88%86%E8%A1%A8"><span class="nav-text">II. A Detailed Breakdown of GDP: The True Composition of the 3.4 per cent Figure</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E6%88%91%E4%BB%AC%E5%89%8D%E6%96%87%E2%80%9C%E6%89%BF%E9%87%8D%E6%9F%B1%E2%80%9D%E8%AE%BA%E7%82%B9%E7%9A%84%E5%AE%9E%E8%B4%A8%E6%80%A7%E4%BF%AE%E6%AD%A3"><span class="nav-text">A Substantive Revision to Our Previous Argument on ‘Load-bearing Columns’</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%A3%E5%BA%A6%E5%9D%87%E5%80%BC%E6%8E%A9%E7%9B%96%E4%B8%8B%E7%9A%84-9-%E6%9C%88%E5%8D%95%E6%9C%88%E8%A3%82%E7%BC%9D"><span class="nav-text">The September shortfall masked by the quarterly average</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E7%BE%8E%E8%81%94%E5%82%A8%E7%9A%84%E5%A3%B0%E6%98%8E%EF%BC%9A%E5%AE%98%E6%96%B9%E8%83%8C%E4%B9%A6%E5%BC%BA%E5%8A%B2%EF%BC%8C%E7%A5%A8%E5%A7%94%E5%8D%B4%E8%B5%B0%E5%90%91%E5%88%86%E8%A3%82"><span class="nav-text">III. The Federal Reserve’s Statement: Strong Official Endorsement, Yet a Split Among Voting Members</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%86%B3%E8%AE%AE%E5%A3%B0%E6%98%8E%E9%87%8C%E7%9A%84%E4%B8%89%E5%8F%A5%E7%A1%AC%E8%AF%9D"><span class="nav-text">1. Three strong statements in the resolution’s preamble</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-10-%E6%AF%94-2-%E7%9A%84%E5%88%86%E8%A3%82%E6%8A%95%E7%A5%A8%E4%B8%8E%E5%8A%A0%E6%81%AF%E6%9A%97%E6%B5%81"><span class="nav-text">2. A 10-to-2 split vote and undercurrents regarding interest rate rises</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E8%B4%A2%E6%8A%A5%E5%AD%A3%E6%B8%85%E7%AE%97%EF%BC%9A%E5%9B%9B%E5%AE%B6%E5%A4%A7%E5%8E%82%EF%BC%8C%E5%9B%9B%E7%A7%8D%E6%88%AA%E7%84%B6%E4%B8%8D%E5%90%8C%E7%9A%84%E7%97%85%E5%9B%A0"><span class="nav-text">IV. Financial Results Season Review: Four Major Companies, Four Distinctly Different Causes</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Alphabet%EF%BC%88%E8%B0%B7%E6%AD%8C%E6%AF%8D%E5%85%AC%E5%8F%B8%EF%BC%89%EF%BC%9A%E6%94%B6%E5%85%A5%E5%BE%AE%E4%B8%8D%E5%8F%8A%E9%A2%84%E6%9C%9F-%E7%8E%B0%E9%87%91%E6%B5%81%E5%86%8D%E5%BA%A6%E4%B8%BA%E8%B4%9F"><span class="nav-text">1. Alphabet (Google’s parent company): Revenue slightly below expectations + cash flow negative once again</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Amazon%EF%BC%88%E4%BA%9A%E9%A9%AC%E9%80%8A%EF%BC%89%EF%BC%9A%E5%BC%80%E6%94%AF%E5%A4%B1%E6%8E%A7-%E8%87%AA%E7%94%B1%E7%8E%B0%E9%87%91%E6%B5%81%E6%8C%81%E7%BB%AD%E9%87%8D%E5%88%9B"><span class="nav-text">2. Amazon: Uncontrolled spending + free cash flow continues to take a heavy hit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Microsoft%EF%BC%88%E5%BE%AE%E8%BD%AF%EF%BC%89%C2%B7-%E8%B5%A2%E5%AE%B6%E5%AF%B9%E7%85%A7%E7%BB%84%EF%BC%9A%E6%94%B6%E5%85%A5%E5%88%A9%E6%B6%A6%E8%B6%85%E9%A2%84%E6%9C%9F-%E5%95%86%E4%B8%9A%E5%BE%AA%E7%8E%AF%E5%85%91%E7%8E%B0"><span class="nav-text">3. Microsoft · Winner control group: Revenue and profits exceeded expectations + business cycle materialised</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Intel%EF%BC%88%E8%8B%B1%E7%89%B9%E5%B0%94%EF%BC%89%C2%B7-%E4%BC%A0%E7%BB%9F%E5%91%A8%E6%9C%9F%E8%AF%AF%E4%BC%A4%EF%BC%9A%E4%B8%8E-AI-%E6%97%A0%E5%85%B3%E7%9A%84%E6%83%A8%E7%83%88%E6%8C%87%E5%BC%95"><span class="nav-text">4. Intel: A casualty of the traditional business cycle – a grim outlook unrelated to AI</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E5%B8%82%E5%9C%BA%E7%BB%93%E6%9E%84%EF%BC%9A%E8%B0%81%E5%9C%A8%E5%AE%9A%E4%BB%B7%E5%A2%9E%E9%95%BF%EF%BC%8C%E8%B0%81%E5%9C%A8%E5%AE%9A%E4%BB%B7%E7%8E%B0%E9%87%91%E6%B5%81%EF%BC%9F"><span class="nav-text">V. Market Structure: Who is setting the price for growth, and who is setting the price for cash flow?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E5%8E%86%E5%8F%B2%E5%AF%B9%E7%85%A7%EF%BC%9A90-%E5%B9%B4%E4%BB%A3%E7%94%B5%E4%BF%A1%E5%85%89%E7%BA%A4%E6%B3%A1%E6%B2%AB%E7%9A%84%E6%97%B6%E5%BA%8F%E5%8F%8D%E8%BD%AC"><span class="nav-text">VI. Historical Comparison: The Chronological Reversal of the Telecoms Fibre-Optics Bubble of the 1990s</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E5%AE%8F%E8%A7%82%E6%83%85%E6%99%AF%E6%9B%B4%E6%96%B0%EF%BC%9A%E6%89%BF%E9%87%8D%E6%9F%B1%E6%A6%82%E7%8E%87%E7%9A%84%E7%90%86%E6%80%A7%E9%87%8D%E4%BC%B0"><span class="nav-text">VII. Macroeconomic Scenario Update: A Rational Reassessment of the Probability of Load-bearing Columns</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E6%95%B0%E6%8D%AE%E5%8F%A3%E5%BE%84%E4%B8%8E%E4%BA%8B%E5%AE%9E%E8%BE%B9%E7%95%8C%E8%AF%9A%E5%AE%9E%E8%AF%B4%E6%98%8E"><span class="nav-text">VIII. Honest Explanation of Data Definitions and Factual Boundaries</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AF%AD%EF%BC%9A%E7%AE%97%E5%8A%9B%E5%BE%88%E7%A1%AC%EF%BC%8C%E4%BD%86%E7%8E%B0%E9%87%91%E6%B5%81%E6%9B%B4%E7%A1%AC"><span class="nav-text">Conclusion: Computing power is strong, but cash flow is even stronger</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E4%BF%A1%E6%81%AF%E6%9D%A5%E6%BA%90%E4%B8%8E%E6%A0%B8%E9%AA%8C%E7%B4%A2%E5%BC%95"><span class="nav-text">Main Sources of Information and Verification Index</span></a></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">Write down your real experiences while retaining the edges of your viewpoints.</div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        96 posts in total
+                    </span>
+                    
+                        <span>
+                            272.9k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days"></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/cyber-weather.js" defer=""></script>
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/cyber-exchange.js" defer=""></script>
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/scene-loader.js" defer=""></script>
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="Image viewer">
+	<button class="image-viewer-close" type="button" aria-label="Close">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="Prev">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="Close">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="Next">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Search..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js"></script>
+
+
+<script src="/js/build/plugins/aplayer.js"></script>
+
+
+	
+
+
+</body></html>
