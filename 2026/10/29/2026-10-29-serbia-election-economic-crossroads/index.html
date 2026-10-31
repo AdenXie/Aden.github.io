@@ -1,0 +1,1470 @@
+<!DOCTYPE html><html lang="zh-CN"><head><script src="/js/language-preference.js?v=29a144036da1" data-english-home="/en/"></script><script src="/js/site-runtime.js?v=0711b6201338" defer=""></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/2026/10/29/2026-10-29-serbia-election-economic-crossroads/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="塞尔维亚变天的经济十字路口：锂矿、俄气与“铁杆友谊”">
+<meta property="og:url" content="https://blog.adenxie.com.cn/2026/10/29/2026-10-29-serbia-election-economic-crossroads/index.html">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-10-28T18:40:00.000Z">
+<meta property="article:modified_time" content="2026-10-28T18:40:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="塞尔维亚">
+<meta property="article:tag" content="锂矿">
+<meta property="article:tag" content="力拓">
+<meta property="article:tag" content="中塞关系">
+<meta property="article:tag" content="能源">
+<meta property="article:tag" content="欧洲经济">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png?v=fa6db12e9674" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <!--- Page Info-->
+    
+    <title>
+        
+            塞尔维亚变天的经济十字路口：锂矿、俄气与“铁杆友谊” | Aden's Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/css/site-d4cfb3d087aa.css?v=d4cfb3d087aa">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js?v=258b1afa4680"></script>
+                
+    
+            
+                
+                    
+                
+    
+
+    
+
+
+
+    
+        
+
+
+    
+
+    
+
+
+    
+
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"zh-CN","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"17px","line_height":1.85,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"all_rights_reserved"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["科技、体验与个人判断","写下真实体验，也保留观点的棱角"],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"每日简报":{"path":"/daily/","icon":"fa-regular fa-newspaper"},"归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"分类":{"path":"/categories/","icon":"fa-regular fa-folder"},"标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"世界时间":{"path":"/world-time/","icon":"fa-regular fa-clock"},"关于":{"path":"/about/","icon":"fa-regular fa-user"},"友链":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":true,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.i18n = {"search":"站内搜索您需要的内容...","toc":"目录","prev":"上一页","next":"下一页","prev_posts":"上一篇","next_posts":"下一篇","page":"第 %d 页","recent_posts":"最新文章","share":"分享","powered_by":"由 %s 驱动","theme":"主题","rss_feed":"RSS Feed","category":"分类","categories":"分类","tag":"标签","tags":"标签","post":"文章","posts":"文章","tagcloud":"标签云","comment":"评论","comments":"评论","top":"置顶","sticky":"置顶","go-back-home":"回到首页","masonry_loading":"照片加载中...","image_viewer":"图片查看器","close":"关闭","exif":{"title":"EXIF","cards":{"camera":"相机","lens":"镜头","exposure":"曝光","other":"其他"},"fields":{"make":"品牌","model":"机型","date_taken":"拍摄时间","lens_model":"镜头","focal_length":"焦距","focus_mode":"对焦模式","shutter":"快门","aperture":"光圈","iso":"感光度","exposure_program":"曝光程序","exposure_compensation":"曝光补偿","metering_mode":"测光模式","flash":"闪光灯","white_balance":"白平衡","latitude":"纬度","longitude":"经度","altitude":"海拔"},"status":{"loading":"加载中...","no_exif":"无 EXIF 信息","library_missing":"EXIF 库未加载","image_source_missing":"图片地址不可用","unavailable":"EXIF 不可用（可能被 CORS 阻止或缺少元数据）","flag_unavailable":"EXIF 不可用"}},"home":"首页","archive":"归档","archives":"归档","about":"关于","links":"链接","link":"链接","friends":"友情链接","friend":"友情链接","timeline":"时间轴","shuoshuo":"说说","bookmarks":"书签","site_uv":"访问人数","site_pv":"总访问量","read_more":"阅读全文","wordcount":"字","min2read":"分钟","changelog":"更新日志","status":"状态","runtime":"博客已运行","days":"天","hours":"小时","minutes":"分钟","seconds":"秒","optimized_by":"并由 Evan 进行优化","rights":"版权所有","site_posts":"共撰写了 %s 篇文章","site_wordcount":"共 %s 字","copyright":{"title":"标题","author":"作者","link":"链接","create_time":"创建于","update_time":"更新于","license_title":"版权声明","license_content":"本文章采用 %s 进行许可。","all_rights_reserved":"版权所有 &#169 %s，禁止转载。","public_domain":"本文为公有领域作品，可自由转载、引用。"},"ago":{"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"},"create_time":"创建","update_time":"更新","expired":"这篇文章最后更新于 %s 天前，内容可能已经过时。"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" hreflang="zh-CN" href="https://blog.adenxie.com.cn/2026/10/29/2026-10-29-serbia-election-economic-crossroads/"><link rel="alternate" hreflang="en" href="https://blog.adenxie.com.cn/en/2026/10/29/2026-10-29-serbia-election-economic-crossroads/"><script data-aden-analytics="">
+      if (location.hostname === 'blog.adenxie.com.cn' && !window.__adenAnalyticsLoaded) {
+        window.__adenAnalyticsLoaded = true;
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        const script = document.createElement('script');
+        script.defer = true;
+        script.src = '/_vercel/insights/script.js';
+        document.head.append(script);
+      }
+    </script></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/daily/">
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    每日简报
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    归档
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/categories/">
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    分类
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    标签
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    世界时间
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    友链
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    <nav class="aden-language-switch" aria-label="Language"><a lang="zh-CN" href="/2026/10/29/2026-10-29-serbia-election-economic-crossroads/" aria-current="page">中文</a><span> / </span><a lang="en" href="/en/2026/10/29/2026-10-29-serbia-election-economic-crossroads/" aria-current="false" data-no-swup="">English</a></nav></div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/">
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/daily/">
+                            <span>
+                                每日简报
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/archives/">
+                            <span>
+                                归档
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/categories/">
+                            <span>
+                                分类
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/tags/">
+                            <span>
+                                标签
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/world-time/">
+                            <span>
+                                世界时间
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/about/">
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/link/">
+                            <span>
+                                友链
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/archives/">
+                            <span>文章归档</span>
+                            <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/tags/">
+                            <span>主题标签</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/about/">
+                            <span>关于 Aden</span>
+                            <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">65</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">98</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://images.pexels.com/photos/5505961/pexels-photo-5505961.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="塞尔维亚变天的经济十字路口：锂矿、俄气与“铁杆友谊”" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" decoding="async">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">塞尔维亚变天的经济十字路口：锂矿、俄气与“铁杆友谊”</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg?v=93ba7ebfa2ff" decoding="async" width="460" height="460">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-10-29 02:40</span>
+        <span class="mobile">2026-10-29 02:40</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-10-29 02:40</span>
+            <span class="mobile">2026-10-29 02:40</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E7%BB%8F%E6%B5%8E%E8%A7%82%E5%AF%9F/">经济观察</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E5%A1%9E%E5%B0%94%E7%BB%B4%E4%BA%9A/">塞尔维亚</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E9%94%82%E7%9F%BF/">锂矿</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E5%8A%9B%E6%8B%93/">力拓</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E4%B8%AD%E5%A1%9E%E5%85%B3%E7%B3%BB/">中塞关系</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E8%83%BD%E6%BA%90/">能源</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E6%AC%A7%E6%B4%B2%E7%BB%8F%E6%B5%8E/">欧洲经济</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>5.9k 字</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>20 分钟</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<blockquote>
+<p><strong>导读</strong>：在我们上周关于<a href="/2026/10/21/2026-10-21-europe-protest-wave-cost-of-living/">《欧洲抗议潮的同步性》</a>的深度分析中，我们曾剖析了高利率与能源通胀如何引爆南欧与法国青年走上街头。短短数日之后，这场席卷欧洲的青年浪潮在巴尔干半岛迎来了它的“下半场治理议题版”：2026 年 10 月 25 日，塞尔维亚提前议会选举爆出历史性冷门，毫无执政经验的“学生名单”以单独过半的绝对优势终结了武契奇阵营长达 14 年的执政。然而，当选举的狂欢退去，摆在这支年轻团队面前的不是抽象的政治口号，而是三本沉甸甸、牵一发而动全身的跨国经济硬账：<strong>力拓价值近 30 亿美元的欧洲最大锂矿是放是封？三个月一续的廉价俄气与刚刚易主的国家炼油厂如何平稳过渡？深度支撑国家工业化命脉与数万就业的中塞基建投资又将何去何从？</strong></p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="引子：债券交易员投下的反直觉“信任票”"><a href="#引子：债券交易员投下的反直觉“信任票”" class="headerlink" title="引子：债券交易员投下的反直觉“信任票”"></a>引子：债券交易员投下的反直觉“信任票”</h2><p>2026 年 10 月 25 日深夜，贝尔格莱德的计票大厅里空气凝固。</p>
+<p>开票仅仅两个小时后，掌控塞尔维亚政坛 14 年的强人武契奇（此前已辞去总统职务、转战总理选战）便提前走上讲台承认败选。由大学生和青年学者组建的<strong>“学生名单-学生获胜”（Student List–Students Win）</strong>联盟斩获了约 220 万张选票，在 250 席的议会中夺下 <strong>135 至 140 席（出口民调口径为 138 席）</strong>，越过 126 席的门槛实现<strong>单独过半</strong>；而执政联盟仅获得约 105 席。全境投票率逼近 69%，创下数十年来的历史峰值。</p>
+<p>彭博社在随后的专栏中，将这场剧变定性为“一群没有面孔的年轻人接管了国家权力”。</p>
+<p>然而，大选揭晓后的第一个交易日，资本市场的反应却令所有人大吃一惊：</p>
+<p><strong>第一个明确表态的不是布鲁塞尔，也不是莫斯科，而是国际主权债券交易员。</strong></p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://files.seeusercontent.com/2026/10/28/tm5F/fig3-serbia-market-reaction-afte.png" alt="大选后塞尔维亚资本市场首反应" decoding="async" loading="lazy" width="1000" height="500"><figcaption>大选后塞尔维亚资本市场首反应</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">图 1</span><span class="aden-caption-text">大选后塞尔维亚市场异动：2036 年到期美元债收益率跌至 6.42%（一个月新低），10 年期欧元债下行 17bp，标普维持 BBB- 投资级评级，体现资本市场对政治风险解除的初步积极反馈。</span></p>
+<p>10 月 27 日，塞尔维亚 2036 年到期的基准美元主权债收益率不涨反跌，下行 12–13 个基点至 <strong>6.42%</strong>，创下近一个月以来的新低；10 年期离岸欧元主权债收益率同步大幅下行 17 个基点至 <strong>5.19%</strong>。市场并没有出现恐慌性资金出逃，反而用真金白银买入主权债，给这支完全没有执政履历的年轻团队投下了第一张信任票。</p>
+<p>但与债市的雀跃形成鲜明对照的是，贝尔格莱德本土股票 Belex15 指数全天仅微涨 <strong>+0.23%</strong>；在澳洲上市、在塞尔维亚拥有金矿勘探项目的矿企 Strickland Metals，股价更在选举后一度<strong>大跌，盘中跌幅达 33%</strong>。</p>
+<p><strong>债牛股审慎的背后，是资本市场极其复杂的双重心态</strong>：</p>
+<p>国际债权人乐见长期的政治僵局与民意对峙得以和平解套；但国际评级机构惠誉（Fitch）在 10 月 28 日的点评中敲响了警钟——<strong>选举不确定性虽然下降，但新政权的经济纲领、施政优先级与内阁组建目前仍是黑箱</strong>。</p>
+<p>宪法规定的 90 天组阁倒计时即将启动。年轻的当选者们很快就会发现，在这个处于东西方地缘断层线上的内陆国度，<strong>政治站队极其廉价，而资本与能源的硬账容不得半点非黑即白</strong>。</p>
+<h2 id="一、欧洲最大锂矿生死簿：亚达尔（Jadar）的-20-年博弈"><a href="#一、欧洲最大锂矿生死簿：亚达尔（Jadar）的-20-年博弈" class="headerlink" title="一、欧洲最大锂矿生死簿：亚达尔（Jadar）的 20 年博弈"></a>一、欧洲最大锂矿生死簿：亚达尔（Jadar）的 20 年博弈</h2><p>如果说有一项资产能够同时牵动布鲁塞尔的绿色雄心、国际矿业巨头的资产负债表与塞尔维亚的街头政治，那必然是位于该国西部的<strong>亚达尔（Jadar）锂硼矿</strong>。</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://files.seeusercontent.com/2026/10/28/It2r/fig1-jadar-lithium-timeline.png" alt="亚达尔锂矿二十年博弈时间线" decoding="async" loading="lazy" width="1000" height="500"><figcaption>亚达尔锂矿二十年博弈时间线</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">图 2</span><span class="aden-caption-text">亚达尔（Jadar）锂矿二十年演化线：力拓承诺投资由 $2.4B 上调至 $2.95B（2025-11 搁置），欧盟将其列入 CRMA 战略项目，大选变天后迎来 2027 许可到期窗口。</span></p>
+<h3 id="1-沉睡-20-年的欧洲“白色黄金”"><a href="#1-沉睡-20-年的欧洲“白色黄金”" class="headerlink" title="1. 沉睡 20 年的欧洲“白色黄金”"></a>1. 沉睡 20 年的欧洲“白色黄金”</h3><p>2004 年，全球矿业巨头力拓（Rio Tinto）的地质学家在塞尔维亚亚达尔河谷发现了一种独特的含锂硼酸盐矿物，随后被正式命名为“亚达尔矿石（Jadarite）”。</p>
+<p>经过近二十年的勘探与论证，这片矿藏被确认为<strong>欧洲大陆规模最大、品位极高的未开发锂矿床</strong>：</p>
+<ul>
+<li><strong>资源储量</strong>：探明矿石量达 <strong>1.18 亿吨</strong>，氧化锂（Li₂O）平均品位高达 <strong>1.8%</strong>；</li>
+<li><strong>设计产能</strong>：满产后预计年产 <strong>5.8 万吨电池级碳酸锂</strong>、16 万吨硼酸以及 25.5 万吨硫酸钠；</li>
+<li><strong>行业地位</strong>：行业智库 alphabriefing 估算，该矿单一产能足以满足<strong>欧洲电动汽车电池总需求的 10% 至 15%</strong>，全生命周期（40 年）可产出 230 万吨碳酸锂，足以将塞尔维亚直接推入全球前十大锂生产国阵营。</li>
+</ul>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://files.seeusercontent.com/2026/10/28/0Rbj/fig2-rio-tinto-jadar-balance-she.png" alt="力拓亚达尔锂矿核心账本与约束条件" decoding="async" loading="lazy" width="1000" height="500"><figcaption>力拓亚达尔锂矿核心账本与约束条件</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">图 3</span><span class="aden-caption-text">力拓亚达尔锂矿账本：累计投入约 6.4 亿欧元（€640M），项目总预算重估为 29.5 亿美元（$2.95B），许可 2027 年到期，年产 5.8 万吨碳酸锂足以重塑欧洲电动车供应链。</span></p>
+<h3 id="2-废止、复活与跨国战略捆绑"><a href="#2-废止、复活与跨国战略捆绑" class="headerlink" title="2. 废止、复活与跨国战略捆绑"></a>2. 废止、复活与跨国战略捆绑</h3><p>围绕这座超级矿山的政治拉锯，几乎构成了过去五年塞尔维亚最激烈的内政风暴：</p>
+<ul>
+<li><strong>2021 年 7 月</strong>：力拓正式批准了高达 <strong>24 亿美元（$2.4B）</strong> 的建设投资承诺；</li>
+<li><strong>2022 年 1 月 20 日</strong>：在全国 40 多个城镇爆发持续数月的路障抗议后，布尔纳比奇政府迫于大选压力，宣布撤销该项目的空间规划令（此后宪法法院裁定该废止政令违宪）；</li>
+<li><strong>2024 年 7 月</strong>：武契奇政府依据宪法法院裁定颁布新法令，闪电复活项目，引发首都数万人走上街头举行大规模环保集会；</li>
+<li><strong>2025 年 6 月 4 日</strong>：急于摆脱对海外关键原材料依赖的欧盟委员会，正式将 Jadar 列入首批 13 个欧盟境外<strong>《关键原材料法案》（CRMA）战略项目</strong>，将其直接与欧洲电动汽车战略安全捆绑。</li>
+</ul>
+<h3 id="3-力拓的退缩与-2027-悬顶之剑"><a href="#3-力拓的退缩与-2027-悬顶之剑" class="headerlink" title="3. 力拓的退缩与 2027 悬顶之剑"></a>3. 力拓的退缩与 2027 悬顶之剑</h3><p>然而，到了 2025 年 11 月 13 日，彭博社披露力拓已正式将该项目转入“维护与保养（care &amp; maintenance）”状态，项目口径总预算被重估调整至 <strong>29.5 亿美元（$2.95B）</strong>。</p>
+<p>必须指出的是，<strong>力拓当时的搁置决定并不完全是因为当地的政治示威</strong>：</p>
+<p>更关键的商业动因在于，力拓新任管理层在面对全球锂价暴跌的大环境下推行严格的资本纪律与开支瘦身，Jadar 成为了其主动收缩的重点项目之一。截至 2025 年底，力拓在塞尔维亚已经砸下了 <strong>约 6.4 亿欧元（€640M）</strong> 的实际沉没成本。</p>
+<p>力拓手头的法定勘探与开采许可将于 <strong>2027 年正式到期</strong>。留给各方的斡旋窗口只剩下最后一年多。</p>
+<h3 id="4-新政府的死结：反矿盟友-vs-欧盟战略胡萝卜"><a href="#4-新政府的死结：反矿盟友-vs-欧盟战略胡萝卜" class="headerlink" title="4. 新政府的死结：反矿盟友 vs 欧盟战略胡萝卜"></a>4. 新政府的死结：反矿盟友 vs 欧盟战略胡萝卜</h3><p>对于新胜选的“学生名单”而言，亚达尔锂矿是一道极具撕裂性的政治必答题：</p>
+<ul>
+<li><strong>民意羁绊</strong>：据多家巴尔干媒体报道，来自亚达尔河谷当地最知名的反矿环保运动领袖 Zlatko Kokanović 本人就位列“学生名单”联盟的核心阵营。如果新政府对该项目放行，等于对其街头基本盘的直接背叛；</li>
+<li><strong>欧盟施压</strong>：欧盟在祝贺选举成功的同时，毫不掩饰对 CRMA 战略项目的期待。布鲁塞尔开出的条件极其诱人——将 Jadar 纳入欧洲电池产业链，不仅能换取数十亿欧元的配套基建基金，更是打开入盟实质性谈判大门的最快捷径。</li>
+</ul>
+<p><strong>需要严肃澄清的是：截至目前，新胜选团队尚未对 Jadar 锂矿项目发表任何官方定性表态。</strong> 任何关于新政府“必然彻底封杀”或“立刻全面重启”的断言，在商业和政治逻辑上都为时过早。</p>
+<p>基于已核实的数据与政经约束，Jadar 项目的未来呈现出以下三种概率分布：</p>
+<div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th align="left">演化情景</th>
+<th align="center">分析概率</th>
+<th align="left">核心触发门槛与博弈路径</th>
+<th align="left">经济与产业链影响</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>维持搁置<br>（基准延续）</strong></td>
+<td align="center"><strong>~50%</strong></td>
+<td align="left">• 新政府在组阁后采取“冷处理”策略，回避出台新政令；<br>• 联盟内环保派系行使有效否决权；<br>• 2027 年前未获新的规划许可延期。</td>
+<td align="left">力拓被迫在财报中进一步对 €6.4 亿历史投入做减记处理；欧盟境外战略锂矿受挫，被迫向非洲或南美供应链分散。</td>
+</tr>
+<tr>
+<td align="left"><strong>有条件复活<br>（妥协重启）</strong></td>
+<td align="center"><strong>~30%</strong></td>
+<td align="left">• 欧盟以巨额绿色过渡基金和加速入盟进程作为交换筹码；<br>• 新政府引入第三方国际顶尖环保审计，或交付全国全民公投；<br>• 全球碳酸锂价格企稳回升。</td>
+<td align="left">29.5 亿美元投资逐步解冻，塞尔维亚确立欧洲动力电池核心节点地位；但执政联盟内部将面临剧烈的政治分裂考验。</td>
+</tr>
+<tr>
+<td align="left"><strong>正式立法封杀<br>（彻底终止）</strong></td>
+<td align="center"><strong>~20%</strong></td>
+<td align="left">• 议会兑现竞选激进环保承诺，通过永久性禁止锂矿开采法案；<br>• 街头环保运动对任何重启苗头形成高压威慑。</td>
+<td align="left">力拓资产彻底搁浅，或将提起国际投资争端仲裁（ISDS）；欧洲电池自给率战略落空，进一步加深对现有进口链的依赖。</td>
+</tr>
+</tbody></table></div>
+<p><em>(注：以上概率为基于宏观与各方博弈现状的分析性估计，非决定性预测)</em></p>
+<h2 id="二、三个月一续的俄气账：被武契奇提前拆掉的石油暗雷"><a href="#二、三个月一续的俄气账：被武契奇提前拆掉的石油暗雷" class="headerlink" title="二、三个月一续的俄气账：被武契奇提前拆掉的石油暗雷"></a>二、三个月一续的俄气账：被武契奇提前拆掉的石油暗雷</h2><p>如果说锂矿关系到塞尔维亚的未来，那么天然气与石油则直接卡住了整个国家的即时咽喉。</p>
+<p>长期以来，塞尔维亚绝大部分天然气供应来自俄罗斯天然气工业股份公司（Gazprom）。在俄乌冲突后的地缘环境中，武契奇政府凭借与莫斯科的特殊关系，为塞尔维亚换取了相当优惠的能源条件：</p>
+<ul>
+<li><strong>短约锁定筹码</strong>：2026 年内，塞俄双方签署的供气协议始终维持<strong>“三个月一续”的滚动延期模式</strong>（3 月、6 月分别续签至 9 月底，随后再次展期至 2026 年底）。莫斯科明确拒绝签署长期供气新约，而是通过高频续约，将天然气阀门变成了随时牵制贝尔格莱德的政治杠杆；</li>
+<li><strong>不可替代的优惠差价</strong>：据武契奇 9 月公开披露的数据，塞尔维亚从俄方采购的管道气价格约为 <strong>每千立方米 318 欧元（€318/1,000m³）</strong>，略低于当时欧洲 TTF 现货市场的基准价格。这种相对优惠的价格，维系着塞国内数千家工厂的运转和普通居民低廉的冬季供暖账单。</li>
+</ul>
+<p>相比于悬而未决的天然气短约，<strong>在石油炼化领域，武契奇在败选前夕下了一着极其精妙的避险大棋</strong>：</p>
+<p>作为塞尔维亚唯一的现代化炼油企业，<strong>塞尔维亚石油工业公司（NIS）供应着全国约 80% 的成品油消费</strong>。然而，由于俄罗斯天然气工业石油公司（Gazprom Neft）及其关联方长期持有 NIS 多数股权（约 56%），该公司自 <strong>2025 年 1 月美国财政部外国资产控制办公室（OFAC）将 Gazprom Neft 列入涉俄制裁名单</strong>起，便一直处于制裁阴影之下；过去一年多里，全塞的燃油命脉全靠美方滚动给予的豁免令在刀尖上跳舞。</p>
+<p><strong>2026 年 10 月 20 日——就在大选投票前仅仅 5 天，塞尔维亚副总理兼财政部长马利（Siniša Mali）突然正式对外宣布</strong>：</p>
+<p><strong>俄方股东已与匈牙利跨国能源巨头 MOL 集团签署约束性股权转让协议，由 MOL 接盘俄方所持有的多数股权；同时，塞尔维亚国家持股比例增持至 35%。</strong> 交易目前待塞尔维亚与波黑的竞争监管机构批准。</p>
+<p>这项在选举前夕闪电达成的协议具有极强的现实意义：</p>
+<p><strong>武契奇在离场前，干净利落地替继任者拆掉了这颗随时可能引爆全国“油荒”的次级制裁炸弹。</strong> 引入欧盟成员国企业（匈牙利 MOL）控股并扩大本国公有股比，若交易顺利获批，将消除美方制裁 NIS 的主要依据，并为潘切沃炼油厂在政权交替期的持续生产提供保障。</p>
+<p>留给新政府的能源难题因此大大简化：石油供应链已基本脱敏，而真正的冬天考验在于——当 12 月 31 日俄气短约再次到期时，新内阁究竟是用拥抱欧盟共同外交政策去换取布鲁塞尔昂贵且运力有限的液化天然气（LNG），还是继续捏着鼻子走向莫斯科谈判桌换取 318 欧元的续约？</p>
+<h2 id="三、中塞“铁杆友谊”的底色：绑定工业化与就业的实体清单"><a href="#三、中塞“铁杆友谊”的底色：绑定工业化与就业的实体清单" class="headerlink" title="三、中塞“铁杆友谊”的底色：绑定工业化与就业的实体清单"></a>三、中塞“铁杆友谊”的底色：绑定工业化与就业的实体清单</h2><p>在大选揭晓后，部分西方媒体曾抛出“中塞铁杆友谊是否会遭遇颠覆”的猜测性疑问。但只要真正摊开塞尔维亚的宏观经济底盘，就会发现一个无法回避的硬道理：<strong>中国投资并不是抽象的政治口号，而是早已深嵌在塞尔维亚工业化脊梁中的物理存在。</strong></p>
+<p>与资本市场上流动的金融热钱不同，中资在塞尔维亚的重仓布局完全集中在实体制造业、基础采矿业与战略交通干线，构成了国家外贸出口与地方税收的压舱石：</p>
+<div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th align="left">核心战略合作项目</th>
+<th align="left">投资与承建主体</th>
+<th align="left">业务规模、地位与当前运营现状</th>
+<th align="left">核心经济与社会影响</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>斯梅代雷沃钢厂</strong><br><em>(Železara Smederevo)</em></td>
+<td align="left"><strong>河钢集团</strong><br><em>(HBIS Group)</em></td>
+<td align="left">• 2016 年以 4,600 万欧元完成收购（新华社口径）；<br>• 持续实施环保与产线技术升级，多年来位列塞尔维亚最大出口企业之列（新华社口径）。</td>
+<td align="left">扭转了百年老钢厂的停产倒闭危机，保住了数千个直接岗位（新华社口径称 5,000 余名工人），辐射带动更多上下游就业。</td>
+</tr>
+<tr>
+<td align="left"><strong>博尔铜金矿与丘卡鲁-佩吉铜金矿</strong><br><em>(Bor / Čukaru Peki)</em></td>
+<td align="left"><strong>紫金矿业</strong><br><em>(Zijin Mining)</em></td>
+<td align="left">• 实施矿山技改与扩产投资（累计规模以数亿美元计）；<br>• 正推进 Jama Bor 地下矿重大扩建工程，规划将矿石年处理能力提升至<strong>1,800 万吨</strong>（serbia-energy 披露口径）。</td>
+<td align="left">使博尔成为塞尔维亚平均工资最高的城市之一（媒体口径），塞尔维亚跻身欧洲主要精炼铜与黄金生产国之列。</td>
+</tr>
+<tr>
+<td align="left"><strong>匈塞铁路（塞境内段）</strong><br><em>(Belgrade–Subotica)</em></td>
+<td align="left">中国企业参建<br><em>(多标段联合承建)</em></td>
+<td align="left">• 贝-诺段（约 75 公里）已实现时速 200 公里商业化运营；<br>• 塞段全长 183 公里的工程总投资（CAPEX）<strong>超 20 亿欧元</strong>（serbia-business 统计口径）。</td>
+<td align="left">将首都贝尔格莱德至诺维萨德的通行时间由约 90 分钟压缩至 30 多分钟，成为中欧陆运走廊的组成部分。</td>
+</tr>
+<tr>
+<td align="left"><strong>轮胎与汽车零部件制造</strong></td>
+<td align="left">玲珑轮胎等中资制造企业</td>
+<td align="left">• 玲珑轮胎在兹雷尼亚宁投资建设智能轮胎制造基地（规划投资约 10 亿美元量级，公司公告口径）。</td>
+<td align="left">吸引欧洲主流车企供应链集聚，吸纳当地产业工人就业。</td>
+</tr>
+</tbody></table></div>
+<p>在分析上述经贸合作时，我们既要客观看待新华社等官方媒体所构建的中塞友好叙事，更要从纯粹的商业与就业账本做出理性的推论：</p>
+<p>综合新华社等中方来源与 serbia-business.eu 等当地媒体的报道口径，<strong>中国各类中大型投资项目在当地创造的就业岗位以”数以万计”（tens of thousands）计</strong>（转述口径）。</p>
+<p>由此可以做出一个相对克制的商业推论：</p>
+<p>新当选的学生运动或许在价值取向上更亲近欧洲，但在缺少替代方案的前提下，任何一届务实的政府都很难亲手关停一家支撑数千家庭生计的现代化钢厂，或切断正在产生稳定现金流的铜矿扩产。中国项目给塞尔维亚提供的不是抽象口号，而是实体工业资产与就业。</p>
+<p>从项目现状看：<strong>中塞经贸关系的基础更多植根于互补的实体经济结构，而非某一位政治家的个人意志。在可以预见的未来，这一合作盘子大概率不会轻易生变，并可能成为新政府稳定国内就业与财政的重要支撑。</strong></p>
+<h2 id="四、宏观底盘与-90-天大考：无领袖团队的执政第一课"><a href="#四、宏观底盘与-90-天大考：无领袖团队的执政第一课" class="headerlink" title="四、宏观底盘与 90 天大考：无领袖团队的执政第一课"></a>四、宏观底盘与 90 天大考：无领袖团队的执政第一课</h2><p>根据塞尔维亚宪法程序，在选举委员会公布正式结果且新议会完成召集之后，获胜联盟必须在 <strong>90 天内正式完成组阁</strong>，否则国家将被迫重新举行大选。</p>
+<p>这支被称为“无面孔联盟（Faceless group）”的青年学生运动，即将迎来其诞生以来的第一道现实治理大考：</p>
+<ol>
+<li><strong>宏观基本盘尚存缓冲垫</strong>：<br>国际权威评级机构标普（S&amp;P Global）在 2026 年 9 月中的最新评估中，维持了塞尔维亚 <strong>BBB- 的长期主权信用评级</strong>（2024 年 10 月正式由投机级 BB+ 调升至投资级最低档）。尽管因全球地缘动荡将 2026 年实际 GDP 增速微幅下调至 <strong>3.2%</strong>，并将赤字目标放宽至 <strong>GDP 的 3.5%</strong>，但标普明确指出塞尔维亚的外汇储备充足、政府总债务占 GDP 比重可控（维持在 50% 安全线以下），选前发放的民生救济包（约占 GDP 的 1%）并未动摇财政根基；</li>
+<li><strong>“政治风险折价解除”与“政策不可知折价”的换挡</strong>：<br>为什么主权债券收益率在胜选后会创下一个月新低（6.42%）？<br>因为在二级市场上，长达数年的街头对峙、封路罢课以及潜在的政局动荡被计提了极高的风险溢价。学生联盟以单独过半的绝对多数赢得政权，排除了旷日持久的组阁悬峙（Hung Parliament）危机，<strong>短期内将最大的政治风险溢价瞬间抹平</strong>；</li>
+<li><strong>真正的硬仗在政策出台之后</strong>：<br>但随着掌声渐息，资本市场的目光将由“谁上台”无缝切换为“怎么管”。<br>正如惠誉所警告的：<strong>没有清晰内阁名单、没有成熟经济部长的青年团队，极易在早期陷入派系协调与决策瘫痪</strong>。在面对 2027 年到期的力拓锂矿特许权、年底必须展期的天然气保供谈判以及 2027 年世博会（EXPO 2027）庞大的基础设施资本支出时，年轻的执政者们能否在官僚体系与外部压力中维系投资级的信用底色，将直接决定当前这波债市行情的持续性。</li>
+</ol>
+<h2 id="结语：在理想主义与现实重力之间"><a href="#结语：在理想主义与现实重力之间" class="headerlink" title="结语：在理想主义与现实重力之间"></a>结语：在理想主义与现实重力之间</h2><p>在大选胜利的集会上，年轻的示威者们高唱着国歌，庆祝一个旧时代的落幕。这是青年一代用选票实现民主表达的动人时刻。</p>
+<p>但大厦之外，经济账本从未停止运转：</p>
+<p>地下埋着力拓已投入约 6.4 亿欧元、被欧盟写进关键原材料战略的亚达尔锂矿；管道里流着维系工业运转、却以三个月一续的短约扼住咽喉的俄气；多瑙河畔立着由中资盘活、支撑数千家庭生计的钢厂与矿山。</p>
+<p><strong>塞尔维亚的国运，从来不取决于能否在东西方之间做出非此即彼的决绝切割，而取决于能否在错综复杂的地缘大国夹缝中，精打细算地守住属于自己的每一分发展红利。</strong></p>
+<p>对于即将入主政府大楼的年轻人而言，理想主义的成人礼，就从拿起这三本沉重的经济账簿开始。</p>
+<h3 id="主要信息来源与核验索引"><a href="#主要信息来源与核验索引" class="headerlink" title="主要信息来源与核验索引"></a>主要信息来源与核验索引</h3><ul>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.reuters.com/world/europe/serbia-votes-students-seek-unseat-vucic-snap-election-2026-10-25/">路透社现场报道（Reuters 2026-10-25）：Serbia votes as students seek to unseat Vucic in snap election<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://balkaninsight.com/2026/10/26/student-list-wins-outright-majority-in-serbian-parliamentary-polls/bi/">Balkan Insight 深度观察（2026-10-26）：Student List wins outright majority in Serbian parliamentary polls<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.bloomberg.com/news/articles/2026-10-27/bond-market-gives-initial-nod-to-serbia-s-untested-ballot-winner">彭博社金融市场专栏（Bloomberg 2026-10-27）：Bond Market Gives Initial Nod to Serbia’s Untested Ballot Winner<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.fitchratings.com/research/sovereigns/serbias-election-result-shifts-focus-to-policy-uncertainty-28-10-2026">惠誉国际主权评级更新（Fitch Ratings 2026-10-28）：Serbia’s Election Result Shifts Focus to Policy Uncertainty<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.spglobal.com/ratings/en/regulatory/article/-/view/type/HTML/id/3262738">标普全球主权信用报告（S&amp;P Global Ratings 2026-09-16）：Research Update: Serbia ‘BBB-/A-3’ Ratings Affirmed; Outlook Stable<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.mreast.eu/2026/08/by-the-numbers-serbias-lithium-standoff/">MrEast 锂矿深度数据核算（2026-08）：By the Numbers - Serbia’s Lithium Standoff<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.riotinto.com/en/operations/europe-me/jadar">力拓集团 Jadar 官方运营专页（Rio Tinto Operations）：Jadar Lithium-Borate Project<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.reuters.com/business/energy/serbia-secures-further-sanctions-waiver-russian-owned-nis-oil-firm-2026-08-28/">路透社能源独家（Reuters 2026-08-28）：Serbia secures further sanctions waiver for Russian-owned NIS oil firm<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://english.news.cn/20260527/9a4f27714b054dc79ed002b459bdb2d8/c.html">新华社海外特稿（Xinhua 2026-05）：Steel Mill Revival Underlines Thriving China-Serbia Ties<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://serbia-energy.eu/zijin-plans-massive-bor-copper-mine-expansion-as-18-million-tonne-output-target-raises-investment-relocation-and-environmental-costs/">Serbia Energy 产业投资追踪：Zijin plans massive Bor copper mine expansion to 18 million tonnes<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+</ul>
+<h3 id="数据口径与边界说明"><a href="#数据口径与边界说明" class="headerlink" title="数据口径与边界说明"></a>数据口径与边界说明</h3><ol>
+<li>学生名单胜选后对 Jadar 锂矿、对华合作均<strong>尚无官方政策表态</strong>，本文相关推演均为分析性估计，非预测结论；</li>
+<li>力拓累计投入 €640M、”许可 2027 年到期”为媒体与行业口径；”占欧洲电池需求 10%–15%”为 alphabriefing 估算口径，均非官方数字；</li>
+<li>€318/千方气价为武契奇单方披露口径，现行合同条款未公开；NIS-MOL 交易金额未披露，交割待监管批准；</li>
+<li>债券收益率为选举后首周市场读数（Bloomberg/Yatırım Masası 等），非官方定价数据。</li>
+</ol>
+<p>封面图片：<a class="link" target="_blank" rel="noopener" href="https://www.pexels.com/photo/strip-mining-excavator-5505961/">Mike van Schoonderwalt / Pexels<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> 塞尔维亚变天的经济十字路口：锂矿、俄气与“铁杆友谊”</li>
+        <li><strong>作者:</strong> AdenXie</li>
+        <li><strong>创建于
+                :</strong> 2026-10-29 02:40:00</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2026-10-29 02:40:00
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://blog.adenxie.com.cn/2026/10/29/2026-10-29-serbia-election-economic-crossroads/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                版权所有 © AdenXie，禁止转载。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%A1%9E%E5%B0%94%E7%BB%B4%E4%BA%9A/">#塞尔维亚</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E9%94%82%E7%9F%BF/">#锂矿</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%8A%9B%E6%8B%93/">#力拓</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E4%B8%AD%E5%A1%9E%E5%85%B3%E7%B3%BB/">#中塞关系</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E8%83%BD%E6%BA%90/">#能源</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E6%AC%A7%E6%B4%B2%E7%BB%8F%E6%B5%8E/">#欧洲经济</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/10/31/2026-10-31-macro-micro-ai-capex-verdict/" title="同一周内，宏观和微观对 AI 资本开支给出了相反的判决" rel="bookmark">
+  <img src="https://images.pexels.com/photos/187041/pexels-photo-187041.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="同一周内，宏观和微观对 AI 资本开支给出了相反的判决" class="!max-w-none" decoding="async">
+  <span class="title">同一周内，宏观和微观对 AI 资本开支给出了相反的判决</span>
+</a><a class="recommended-article-item" href="/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/" title="消费已经不是美国经济的故事了：AI 资本开支如何成为美国 GDP 的“承重柱”" rel="bookmark">
+  <img src="https://images.pexels.com/photos/5480781/pexels-photo-5480781.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="消费已经不是美国经济的故事了：AI 资本开支如何成为美国 GDP 的“承重柱”" class="!max-w-none" decoding="async">
+  <span class="title">消费已经不是美国经济的故事了：AI 资本开支如何成为美国 GDP 的“承重柱”</span>
+</a><a class="recommended-article-item" href="/2026/10/28/2026-10-28-anthropic-s1-open-cards/" title="Anthropic 正式公开 S-1 招股书大起底：我们一周前押的注，今天全开牌了" rel="bookmark">
+  <img src="https://images.pexels.com/photos/38358503/pexels-photo-38358503.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Anthropic 正式公开 S-1 招股书大起底：我们一周前押的注，今天全开牌了" class="!max-w-none" decoding="async">
+  <span class="title">Anthropic 正式公开 S-1 招股书大起底：我们一周前押的注，今天全开牌了</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/10/31/2026-10-31-macro-micro-ai-capex-verdict/" title="同一周内，宏观和微观对 AI 资本开支给出了相反的判决" rel="bookmark">
+  <img src="https://images.pexels.com/photos/187041/pexels-photo-187041.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="同一周内，宏观和微观对 AI 资本开支给出了相反的判决" class="!max-w-none" decoding="async">
+  <span class="title">同一周内，宏观和微观对 AI 资本开支给出了相反的判决</span>
+</a><a class="recommended-article-item" href="/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/" title="消费已经不是美国经济的故事了：AI 资本开支如何成为美国 GDP 的“承重柱”" rel="bookmark">
+  <img src="https://images.pexels.com/photos/5480781/pexels-photo-5480781.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="消费已经不是美国经济的故事了：AI 资本开支如何成为美国 GDP 的“承重柱”" class="!max-w-none" decoding="async">
+  <span class="title">消费已经不是美国经济的故事了：AI 资本开支如何成为美国 GDP 的“承重柱”</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2026/10/29/2026-10-29-daily-brief/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">每日简报｜2026-10-29：美联储按兵不动但两票主张加息，微软谷歌财报冷热不均，SK海力士称存储芯片售罄至2029年</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/10/28/2026-10-28-daily-brief/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">每日简报｜2026-10-28：以色列大选两大阵营均未过半，中国9月工业利润增长14.4%，OpenAI发布GPT-6.1 Terra</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">塞尔维亚变天的经济十字路口：锂矿、俄气与“铁杆友谊”</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E5%AD%90%EF%BC%9A%E5%80%BA%E5%88%B8%E4%BA%A4%E6%98%93%E5%91%98%E6%8A%95%E4%B8%8B%E7%9A%84%E5%8F%8D%E7%9B%B4%E8%A7%89%E2%80%9C%E4%BF%A1%E4%BB%BB%E7%A5%A8%E2%80%9D"><span class="nav-text">引子：债券交易员投下的反直觉“信任票”</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%AC%A7%E6%B4%B2%E6%9C%80%E5%A4%A7%E9%94%82%E7%9F%BF%E7%94%9F%E6%AD%BB%E7%B0%BF%EF%BC%9A%E4%BA%9A%E8%BE%BE%E5%B0%94%EF%BC%88Jadar%EF%BC%89%E7%9A%84-20-%E5%B9%B4%E5%8D%9A%E5%BC%88"><span class="nav-text">一、欧洲最大锂矿生死簿：亚达尔（Jadar）的 20 年博弈</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%B2%89%E7%9D%A1-20-%E5%B9%B4%E7%9A%84%E6%AC%A7%E6%B4%B2%E2%80%9C%E7%99%BD%E8%89%B2%E9%BB%84%E9%87%91%E2%80%9D"><span class="nav-text">1. 沉睡 20 年的欧洲“白色黄金”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%BA%9F%E6%AD%A2%E3%80%81%E5%A4%8D%E6%B4%BB%E4%B8%8E%E8%B7%A8%E5%9B%BD%E6%88%98%E7%95%A5%E6%8D%86%E7%BB%91"><span class="nav-text">2. 废止、复活与跨国战略捆绑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%8A%9B%E6%8B%93%E7%9A%84%E9%80%80%E7%BC%A9%E4%B8%8E-2027-%E6%82%AC%E9%A1%B6%E4%B9%8B%E5%89%91"><span class="nav-text">3. 力拓的退缩与 2027 悬顶之剑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%96%B0%E6%94%BF%E5%BA%9C%E7%9A%84%E6%AD%BB%E7%BB%93%EF%BC%9A%E5%8F%8D%E7%9F%BF%E7%9B%9F%E5%8F%8B-vs-%E6%AC%A7%E7%9B%9F%E6%88%98%E7%95%A5%E8%83%A1%E8%90%9D%E5%8D%9C"><span class="nav-text">4. 新政府的死结：反矿盟友 vs 欧盟战略胡萝卜</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%B8%89%E4%B8%AA%E6%9C%88%E4%B8%80%E7%BB%AD%E7%9A%84%E4%BF%84%E6%B0%94%E8%B4%A6%EF%BC%9A%E8%A2%AB%E6%AD%A6%E5%A5%91%E5%A5%87%E6%8F%90%E5%89%8D%E6%8B%86%E6%8E%89%E7%9A%84%E7%9F%B3%E6%B2%B9%E6%9A%97%E9%9B%B7"><span class="nav-text">二、三个月一续的俄气账：被武契奇提前拆掉的石油暗雷</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E4%B8%AD%E5%A1%9E%E2%80%9C%E9%93%81%E6%9D%86%E5%8F%8B%E8%B0%8A%E2%80%9D%E7%9A%84%E5%BA%95%E8%89%B2%EF%BC%9A%E7%BB%91%E5%AE%9A%E5%B7%A5%E4%B8%9A%E5%8C%96%E4%B8%8E%E5%B0%B1%E4%B8%9A%E7%9A%84%E5%AE%9E%E4%BD%93%E6%B8%85%E5%8D%95"><span class="nav-text">三、中塞“铁杆友谊”的底色：绑定工业化与就业的实体清单</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%AE%8F%E8%A7%82%E5%BA%95%E7%9B%98%E4%B8%8E-90-%E5%A4%A9%E5%A4%A7%E8%80%83%EF%BC%9A%E6%97%A0%E9%A2%86%E8%A2%96%E5%9B%A2%E9%98%9F%E7%9A%84%E6%89%A7%E6%94%BF%E7%AC%AC%E4%B8%80%E8%AF%BE"><span class="nav-text">四、宏观底盘与 90 天大考：无领袖团队的执政第一课</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AF%AD%EF%BC%9A%E5%9C%A8%E7%90%86%E6%83%B3%E4%B8%BB%E4%B9%89%E4%B8%8E%E7%8E%B0%E5%AE%9E%E9%87%8D%E5%8A%9B%E4%B9%8B%E9%97%B4"><span class="nav-text">结语：在理想主义与现实重力之间</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E4%BF%A1%E6%81%AF%E6%9D%A5%E6%BA%90%E4%B8%8E%E6%A0%B8%E9%AA%8C%E7%B4%A2%E5%BC%95"><span class="nav-text">主要信息来源与核验索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%8F%A3%E5%BE%84%E4%B8%8E%E8%BE%B9%E7%95%8C%E8%AF%B4%E6%98%8E"><span class="nav-text">数据口径与边界说明</span></a></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">写下真实体验，也保留观点的棱角。</div><div class="customize-info my-1 aden-status-hint">页面打不开或功能出错？可在 <a href="https://status.adenxie.com.cn/" target="_blank" rel="noopener">status.adenxie.com.cn</a> 查看服务状态</div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 98 篇文章
+                    </span>
+                    
+                        <span>
+                            共 279.8k 字
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js" async=""></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days"></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/scene-loader.js?v=b97b1fce3bd0" defer=""></script>
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="图片查看器">
+	<button class="image-viewer-close" type="button" aria-label="关闭">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="上一页">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="" decoding="async">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="关闭">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="下一页">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="站内搜索您需要的内容..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js?v=509b91971bf2"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js?v=969d65618587"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js?v=193270b6fdb0"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js?v=647d2af612df"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js?v=c9d014a814b8"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js?v=792db0224d6b"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js?v=7e6a109d5509" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js?v=03c1e188b884"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css?v=77a3a9d5a3d0">
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js?v=e98ec22436a5"></script>
+
+
+<script src="/js/build/plugins/aplayer.js?v=d6d3c64af35f"></script>
+
+
+	
+
+
+<button type="button" id="aden-chat-launcher" class="aden-chat-launcher" aria-haspopup="dialog" aria-expanded="false" hidden="" aria-label="打开 AI 聊天" data-script="/js/chat.js?v=750a15ffa2e2" data-style="/css/chat.css?v=286cbaf4025c"><span aria-hidden="true">✳</span><span class="aden-chat-launcher-label">问 AI</span></button></body></html>

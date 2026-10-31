@@ -1,0 +1,1517 @@
+<!DOCTYPE html><html lang="zh-CN"><head><script src="/js/language-preference.js?v=29a144036da1" data-english-home="/en/"></script><script src="/js/site-runtime.js?v=0711b6201338" defer=""></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/2026/10/28/2026-10-28-anthropic-s1-open-cards/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Anthropic 正式公开 S-1 招股书大起底：我们一周前押的注，今天全开牌了">
+<meta property="og:url" content="https://blog.adenxie.com.cn/2026/10/28/2026-10-28-anthropic-s1-open-cards/index.html">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-10-27T19:30:00.000Z">
+<meta property="article:modified_time" content="2026-10-27T19:30:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="Claude">
+<meta property="article:tag" content="Anthropic">
+<meta property="article:tag" content="IPO">
+<meta property="article:tag" content="人工智能">
+<meta property="article:tag" content="财报分析">
+<meta property="article:tag" content="S-1">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png?v=fa6db12e9674" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Anthropic 正式公开 S-1 招股书大起底：我们一周前押的注，今天全开牌了 | Aden's Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/css/site-d4cfb3d087aa.css?v=d4cfb3d087aa">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js?v=258b1afa4680"></script>
+                
+    
+            
+                
+                    
+                
+    
+
+    
+
+
+
+    
+        
+
+
+    
+
+    
+
+
+    
+
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"zh-CN","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"17px","line_height":1.85,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"all_rights_reserved"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["科技、体验与个人判断","写下真实体验，也保留观点的棱角"],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"每日简报":{"path":"/daily/","icon":"fa-regular fa-newspaper"},"归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"分类":{"path":"/categories/","icon":"fa-regular fa-folder"},"标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"世界时间":{"path":"/world-time/","icon":"fa-regular fa-clock"},"关于":{"path":"/about/","icon":"fa-regular fa-user"},"友链":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":true,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.i18n = {"search":"站内搜索您需要的内容...","toc":"目录","prev":"上一页","next":"下一页","prev_posts":"上一篇","next_posts":"下一篇","page":"第 %d 页","recent_posts":"最新文章","share":"分享","powered_by":"由 %s 驱动","theme":"主题","rss_feed":"RSS Feed","category":"分类","categories":"分类","tag":"标签","tags":"标签","post":"文章","posts":"文章","tagcloud":"标签云","comment":"评论","comments":"评论","top":"置顶","sticky":"置顶","go-back-home":"回到首页","masonry_loading":"照片加载中...","image_viewer":"图片查看器","close":"关闭","exif":{"title":"EXIF","cards":{"camera":"相机","lens":"镜头","exposure":"曝光","other":"其他"},"fields":{"make":"品牌","model":"机型","date_taken":"拍摄时间","lens_model":"镜头","focal_length":"焦距","focus_mode":"对焦模式","shutter":"快门","aperture":"光圈","iso":"感光度","exposure_program":"曝光程序","exposure_compensation":"曝光补偿","metering_mode":"测光模式","flash":"闪光灯","white_balance":"白平衡","latitude":"纬度","longitude":"经度","altitude":"海拔"},"status":{"loading":"加载中...","no_exif":"无 EXIF 信息","library_missing":"EXIF 库未加载","image_source_missing":"图片地址不可用","unavailable":"EXIF 不可用（可能被 CORS 阻止或缺少元数据）","flag_unavailable":"EXIF 不可用"}},"home":"首页","archive":"归档","archives":"归档","about":"关于","links":"链接","link":"链接","friends":"友情链接","friend":"友情链接","timeline":"时间轴","shuoshuo":"说说","bookmarks":"书签","site_uv":"访问人数","site_pv":"总访问量","read_more":"阅读全文","wordcount":"字","min2read":"分钟","changelog":"更新日志","status":"状态","runtime":"博客已运行","days":"天","hours":"小时","minutes":"分钟","seconds":"秒","optimized_by":"并由 Evan 进行优化","rights":"版权所有","site_posts":"共撰写了 %s 篇文章","site_wordcount":"共 %s 字","copyright":{"title":"标题","author":"作者","link":"链接","create_time":"创建于","update_time":"更新于","license_title":"版权声明","license_content":"本文章采用 %s 进行许可。","all_rights_reserved":"版权所有 &#169 %s，禁止转载。","public_domain":"本文为公有领域作品，可自由转载、引用。"},"ago":{"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"},"create_time":"创建","update_time":"更新","expired":"这篇文章最后更新于 %s 天前，内容可能已经过时。"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" hreflang="zh-CN" href="https://blog.adenxie.com.cn/2026/10/28/2026-10-28-anthropic-s1-open-cards/"><link rel="alternate" hreflang="en" href="https://blog.adenxie.com.cn/en/2026/10/28/2026-10-28-anthropic-s1-open-cards/"><script data-aden-analytics="">
+      if (location.hostname === 'blog.adenxie.com.cn' && !window.__adenAnalyticsLoaded) {
+        window.__adenAnalyticsLoaded = true;
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        const script = document.createElement('script');
+        script.defer = true;
+        script.src = '/_vercel/insights/script.js';
+        document.head.append(script);
+      }
+    </script></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/daily/">
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    每日简报
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    归档
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/categories/">
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    分类
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    标签
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    世界时间
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    友链
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    <nav class="aden-language-switch" aria-label="Language"><a lang="zh-CN" href="/2026/10/28/2026-10-28-anthropic-s1-open-cards/" aria-current="page">中文</a><span> / </span><a lang="en" href="/en/2026/10/28/2026-10-28-anthropic-s1-open-cards/" aria-current="false" data-no-swup="">English</a></nav></div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/">
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/daily/">
+                            <span>
+                                每日简报
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/archives/">
+                            <span>
+                                归档
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/categories/">
+                            <span>
+                                分类
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/tags/">
+                            <span>
+                                标签
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/world-time/">
+                            <span>
+                                世界时间
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/about/">
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/link/">
+                            <span>
+                                友链
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/archives/">
+                            <span>文章归档</span>
+                            <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/tags/">
+                            <span>主题标签</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/about/">
+                            <span>关于 Aden</span>
+                            <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">65</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">98</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://images.pexels.com/photos/38358503/pexels-photo-38358503.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Anthropic 正式公开 S-1 招股书大起底：我们一周前押的注，今天全开牌了" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" decoding="async">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">Anthropic 正式公开 S-1 招股书大起底：我们一周前押的注，今天全开牌了</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg?v=93ba7ebfa2ff" decoding="async" width="460" height="460">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-10-28 03:30</span>
+        <span class="mobile">2026-10-28 03:30</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-10-28 03:30</span>
+            <span class="mobile">2026-10-28 03:30</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E5%95%86%E4%B8%9A%E6%B7%B1%E5%BA%A6/">商业深度</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/Claude/">Claude</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/Anthropic/">Anthropic</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/IPO/">IPO</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">人工智能</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E8%B4%A2%E6%8A%A5%E5%88%86%E6%9E%90/">财报分析</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/S-1/">S-1</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>6.1k 字</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>22 分钟</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<blockquote>
+<p><strong>导读</strong>：两个月里，我们连续追踪了 Anthropic 的资本狂飙：先在<a href="/2026/10/23/2026-10-23-anthropic-loss-ipo/">泄露草案报道</a>里拆解过”807 亿账面巨亏”的会计玄机，随后又对比了它与 OpenAI 的<a href="/2026/10/24/2026-10-24-openai-vs-anthropic-ipo-race/">纳斯达克抢跑</a>。当时所有推断都建立在非官方渠道之上——2026 年 10 月 26 日，正式版落地：Anthropic 向 SEC 公开递交 S-1 注册声明，股票代码敲定 <strong>ANT</strong>，高盛与摩根士丹利牵头约 20 家投行，路演预计 11 月 9 日当周启动。这份正文 335 页、财务附注 65 页的法定文件，终于让”验钞时刻”真正到来——<strong>九组旧推断，五组坐实、两组澄清、两组重大修正；其中一处，直接推翻了我们自己上篇的结论。</strong></p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="引子：从传闻到公章，正式的”验钞时刻”"><a href="#引子：从传闻到公章，正式的”验钞时刻”" class="headerlink" title="引子：从传闻到公章，正式的”验钞时刻”"></a>引子：从传闻到公章，正式的”验钞时刻”</h2><p>对于关注生成式 AI 商业化的投资者而言，2026 年 10 月 26 日是一个值得记账的日子。</p>
+<p>随着 SEC EDGAR 系统正式披露 Anthropic, PBC（注册号：333-299633）的 S-1 文件，这场由高盛（Goldman Sachs）与摩根士丹利（Morgan Stanley）双牵头、联合摩根大通、花旗、巴克莱、富国等约 20 家投行护航的超级 IPO，第一次允许所有人把此前两个月里的所有传闻逐条对账。</p>
+<p>在投行全速启动 11 月全美路演、冲刺感恩节前挂牌纳斯达克的前夕，我们把此前两篇深度分析中做出的核心推断，与这份受法律严格约束的正式文件逐条摊在桌面上对比。</p>
+<p>开牌的结果相当扎实：<strong>“807 亿亏损主要来自可转债重估””营收跃升 14 倍””五层股权与超级投票权架构”</strong>全部得到官方财报证实；而更意想不到的是，有两个曾引发广泛担忧的关键数字，在正式开牌后迎来了比传闻更健康的巨大反转。</p>
+<h2 id="一、开牌总览：我们之前的九组推断对照表"><a href="#一、开牌总览：我们之前的九组推断对照表" class="headerlink" title="一、开牌总览：我们之前的九组推断对照表"></a>一、开牌总览：我们之前的九组推断对照表</h2><p>在正式阅读深度分析之前，先看这张终极核对成绩单：</p>
+<div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th align="center">#</th>
+<th align="left">我们此前的推断（基于泄露草案与媒体转述）</th>
+<th align="left">SEC 正式 S-1 招股书披露结果</th>
+<th align="center">最终核验判定</th>
+<th align="left">深度事实与口径说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>1</strong></td>
+<td align="left">2026 上半年净亏损约 <strong>$80.7B</strong></td>
+<td align="left"><strong>$80,748M（约 807.48 亿美元）</strong></td>
+<td align="center">✅ <strong>完全吻合</strong></td>
+<td align="left">官方审计损益表完全确证，较上年同期的 $12,969M（约 129.7 亿美元）扩大逾 6 倍</td>
+</tr>
+<tr>
+<td align="center"><strong>2</strong></td>
+<td align="left">亏损中约 <strong>$72B（近 90%）</strong> 为可转债公允价值重估</td>
+<td align="left"><strong>$72,388M（约 723.88 亿美元，占比 89.7%）</strong></td>
+<td align="center">✅ <strong>完全吻合</strong></td>
+<td align="left">该非现金计提 2023/24/25 年分别为 $10.4 亿、$54.3 亿与 $343.1 亿，随估值攀升逐年放大</td>
+</tr>
+<tr>
+<td align="center"><strong>3</strong></td>
+<td align="left">2026 上半年实际经营亏损为 <strong>$8.7B</strong></td>
+<td align="left"><strong>实际经营亏损仅为 6.93 亿美元（$693M）</strong></td>
+<td align="center">❌ <strong>重大修正</strong></td>
+<td align="left"><strong>最震撼的翻案！</strong> 此前”87 亿亏损”实为”净亏损减公允价值变动”（约 83.6 亿美元）的口径，真实经营亏损不足 7 亿</td>
+</tr>
+<tr>
+<td align="center"><strong>4</strong></td>
+<td align="left">2026 上半年总营收约 <strong>$16.3B</strong></td>
+<td align="left"><strong>$16,286M（约 162.86 亿美元）</strong></td>
+<td align="center">✅ <strong>完全吻合</strong></td>
+<td align="left">较 2025 年同期的 $1,163M 暴增 <strong>约 14 倍</strong>，且已是 2025 全年营收（$4,585M）的 3.5 倍以上</td>
+</tr>
+<tr>
+<td align="center"><strong>5</strong></td>
+<td align="left">2026 年第三季度单季营收约 <strong>$16.8B</strong></td>
+<td align="left">损益表以全年与半年度口径列示；单季营收未单独披露，9 个月口径仅散见于客户集中度等讨论</td>
+<td align="center">⚠️ <strong>审慎待补</strong></td>
+<td align="left">草案期的 $16.8B 单季数字未经正式文件核实，本文一律不引用；Run-Rate 口径留待 S-1/A</td>
+</tr>
+<tr>
+<td align="center"><strong>6</strong></td>
+<td align="left">算力采购承诺总额约 <strong>5,180 亿美元（80% 不可取消）</strong></td>
+<td align="left">S-1 未设单一标题数字；分项加总约 5,150 亿至 5,350 亿美元，官方审计的固定/保底承诺为 <strong>2,656 亿美元（$265.6B）</strong></td>
+<td align="center">⚠️ <strong>口径澄清</strong></td>
+<td align="left">$518B 属于媒体对各项框架上限的综合加总，招股书确立了硬性保底负债底线</td>
+</tr>
+<tr>
+<td align="center"><strong>7</strong></td>
+<td align="left">前两大客户贡献了上半年约 <strong>20%</strong> 的总营收</td>
+<td align="left"><strong>2026 前三季度无任何单一客户占比超过 10%</strong>，前五大客户合计约占 25%</td>
+<td align="center">❌ <strong>重大修正</strong></td>
+<td align="left">客户集中度显著分散，此前市场对单一大客户依赖的担忧被事实证伪</td>
+</tr>
+<tr>
+<td align="center"><strong>8</strong></td>
+<td align="left">约 <strong>47%</strong> 的销售收入经由云厂商（AWS/GCP）市场路由</td>
+<td align="left"><strong>2025 年为 47%，2026 上半年微升至 48%</strong></td>
+<td align="center">✅ <strong>确证更新</strong></td>
+<td align="left">云计算巨头的闭环分销体系依然稳固，成为最重要的商业化护城河</td>
+</tr>
+<tr>
+<td align="center"><strong>9</strong></td>
+<td align="left">5 层股权隔离 + Class F 股 50.1% 投票权 + LTBT 长期信托</td>
+<td align="left"><strong>全部白纸黑字坐实</strong>，还披露了向公益基金实发 5% 股权与员工 Class E 股等更多细节</td>
+<td align="center">✅ <strong>完全吻合</strong></td>
+<td align="left">7 位创始人通过一股 Class F 锁定 50.1% 总投票权，商业与伦理的双层防御落地</td>
+</tr>
+</tbody></table></div>
+<h2 id="二、两大硬核翻案：真实经营亏损只有不到-7-亿，客户集中度虚惊一场"><a href="#二、两大硬核翻案：真实经营亏损只有不到-7-亿，客户集中度虚惊一场" class="headerlink" title="二、两大硬核翻案：真实经营亏损只有不到 7 亿，客户集中度虚惊一场"></a>二、两大硬核翻案：真实经营亏损只有不到 7 亿，客户集中度虚惊一场</h2><p>在这份厚重的 S-1 招股书中，最值得所有二级市场分析师与科技观察家重新审视的，是两处彻底推翻此前市场负面叙事的<strong>重大修正</strong>：</p>
+<h3 id="翻案一：真实经营亏损仅-6-93-亿美元，而非传闻中的-87-亿"><a href="#翻案一：真实经营亏损仅-6-93-亿美元，而非传闻中的-87-亿" class="headerlink" title="翻案一：真实经营亏损仅 6.93 亿美元，而非传闻中的 87 亿"></a>翻案一：真实经营亏损仅 6.93 亿美元，而非传闻中的 87 亿</h3><p>草案泄露期，”扣除 720 亿公允价值重估后，Anthropic 上半年的真实亏损依然有 87 亿美元之巨”的说法流传甚广——包括在我们自己的上一篇文章里。</p>
+<p>翻开正式 S-1 损益表，事实水落石出：</p>
+<p>2026 年上半年，Anthropic 的营业总收入为 <strong>162.86 亿美元</strong>，涵盖算力租赁、模型研发、员工薪酬与销售管理的营业总支出（Total Operating Expenses）为 <strong>169.79 亿美元</strong>。</p>
+<p><strong>两项相减，真实的经营亏损（Operating Loss）只有 6.93 亿美元（$693M）——而上年同期的经营亏损还是 21.4 亿美元（$2,135M）。</strong></p>
+<p>招股书正文中白纸黑字写道：</p>
+<blockquote>
+<p><em>“Our operating loss was $693 million for the six months ended June 30, 2026.”</em>（截至 2026 年 6 月 30 日的六个月，我们的经营亏损为 6.93 亿美元。）</p>
+</blockquote>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://files.seeusercontent.com/2026/10/27/iwI5/fig1-h1-2026-pnl-waterfall.png" alt="Anthropic 2026 上半年官方损益瀑布拆解" decoding="async" loading="lazy" width="1000" height="500"><figcaption>Anthropic 2026 上半年官方损益瀑布拆解</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">图 1</span><span class="aden-caption-text">Anthropic 2026 上半年官方损益拆解：营收 162.86 亿美元，真实经营亏损仅 6.93 亿美元；近 90% 的账面巨亏（723.88 亿美元）为可转债公允价值重估。数据来源：SEC EDGAR S-1 正式招股书。</span></p>
+<p>那么此前流传的”87 亿美元”究竟是怎么来的？</p>
+<p>这正是典型的<strong>口径混淆</strong>：</p>
+<p>总净亏损 <strong>$80,748M</strong> 减去可转债公允价值重估 <strong>$72,388M</strong>，差额约为 <strong>83.6 亿美元</strong>。这个差额由三块构成：真实经营亏损 6.93 亿、非经营性净支出约 76.5 亿（利息收入 +11.1 亿，其他非经营净支出 −87.6 亿，后者主要是战略投资与金融工具的公允价值变动），以及所得税约 0.2 亿。把”净亏损刨掉公允价值重估”的整个差额直接说成”经营亏损”，等于把非经营科目也塞进了经营线——这正是当时财经报道（包括我们自己转述时）犯下的口径错误，S-1 正式开牌才把这条线真正画清。</p>
+<p>面对超过 162 亿美元的营收大盘，仅仅不到 7 亿美元的经营亏损意味着：<strong>Anthropic 主营业务的经营亏损率已收窄至约 -4.2%（上年同期约 -184%），距离经营自负盈亏只有一步之遥。</strong></p>
+<h3 id="翻案二：客户集中度恐慌被事实证伪"><a href="#翻案二：客户集中度恐慌被事实证伪" class="headerlink" title="翻案二：客户集中度恐慌被事实证伪"></a>翻案二：客户集中度恐慌被事实证伪</h3><p>草案泄露期，市场曾担忧”前两大客户占上半年 20% 收入”，AI 编程工具 Replit 将默认模型切向 OpenAI 一事也一度引发震荡。</p>
+<p>正式 S-1 给出了颇具说服力的反驳：</p>
+<p>在 2026 年前三季度，<strong>没有任何一家单一客户占总营收的比例达到或超过 10%</strong>（上半年仅 Customer C 一家为 11%），前五大客户合计贡献比例约 25%；S-1 还披露，2026 年第三季度来自前五大客户之外”长尾”的收入占比约 79%，比第一季度的约 64% 进一步上升。</p>
+<p>取而代之的，是一个健康的横向客户漏斗：</p>
+<ul>
+<li>过去 12 个月（TTM）创收超过 <strong>10 万美元</strong> 的企业客户达到 <strong>11,900 多家</strong>（一年前仅 950 多家，增长超 12 倍）；</li>
+<li>TTM 创收超过 <strong>100 万美元</strong> 的大客户超过 <strong>1,900 家</strong>；</li>
+<li>创收超过 <strong>1,000 万美元</strong> 的超级灯塔客户约 <strong>250 家</strong>；</li>
+<li>财富 500 强企业中已有超过半数采购了 Claude 的企业服务，《福布斯》全球 2000 强（Global 2000）渗透率超过 30%。</li>
+</ul>
+<p>所谓”过度依赖一两家头部客户”的结构性软肋，在正式数据面前被彻底瓦解。</p>
+<h2 id="三、比预想更强悍的财务底色：造血转正与充沛现金"><a href="#三、比预想更强悍的财务底色：造血转正与充沛现金" class="headerlink" title="三、比预想更强悍的财务底色：造血转正与充沛现金"></a>三、比预想更强悍的财务底色：造血转正与充沛现金</h2><p>除了两大翻案，正式招股书首次披露的一系列深层财务指标，展现出一家成熟软件巨头级的财务抗风险能力：</p>
+<ol>
+<li><strong>调整后经营利润（Adjusted Operating Income）强势转正</strong>：<br>在剔除股权激励费用（$2,185M）与捐赠匹配计划负债（$126M）等非现金项目后，Anthropic 2026 年上半年的调整后经营利润达到 <strong>+16.18 亿美元</strong>，调整后经营利润率 <strong>10%</strong>（上年同期为 −18.49 亿美元，彻底反转）；调整后净利润同样录得 <strong>+26.71 亿美元</strong>。</li>
+<li><strong>经营现金流（CFO）实现真正造血</strong>：<br>2026 上半年，公司来自经营活动的净现金流达到 <strong>+39.3 亿美元（+$3,929M）</strong>，而上年同期为净流出 15.1 亿美元。这意味着即使不靠外部股权融资，公司的日常运营本身已经在源源不断地产生正向真金白银。</li>
+<li><strong>1,316.5 亿美元的超级现金护城河</strong>：<br>截至 2026 年 6 月 30 日，Anthropic 账面持有的现金、现金等价物及高流动性短期投资总额高达 <strong>1,316.5 亿美元（$131.65B）</strong>，超过绝大多数标普 500 成分股的同类储备，为未来的高强度算力竞赛提供了厚实的流动性缓冲。</li>
+<li><strong>历史融资额的法定口径</strong>：<br>招股书第 15 部分（Item 15）首次披露了近两轮巨额融资的法定数字：<strong>Series G-1 优先股实际募资 235 亿美元、Series H-1 实际募资 457 亿美元、H-2 实际募资 195 亿美元</strong>。</li>
+<li><strong>惊人的净金额留存率（NRR）</strong>：<br>企业级软件行业衡量黏性的核心指标 NRR 录得 <strong>约 900%</strong>。老客户群的平均净营收贡献约为一年前的 9 倍——不是流失，而是近乎爆发式的内生扩张。</li>
+<li><strong>坦诚披露的”营收水分”</strong>：<br>招股书罕见地坦承：2026 年前三季度有约 <strong>5%–7% 的收入来自违反使用政策或商业条款的客户</strong>（S-1 未点名具体类型；风险章节提及外部对模型进行复制、蒸馏、提取的持续尝试）。随着公司 2026 年 8 月至 9 月全面强化检测与执法，这部分流水预计将在后续季度回落——敢于在招股书中主动挤水分，体现了极强的合规定力。</li>
+</ol>
+<h2 id="四、千亿算力锁链的精确拆账：媒体加总-vs-审计底线"><a href="#四、千亿算力锁链的精确拆账：媒体加总-vs-审计底线" class="headerlink" title="四、千亿算力锁链的精确拆账：媒体加总 vs 审计底线"></a>四、千亿算力锁链的精确拆账：媒体加总 vs 审计底线</h2><p>此前我们在系列文章中讨论过的”5,180 亿美元算力采购承诺”，在正式 S-1 的报表附注中得到了有史以来最详尽的法定拆解。</p>
+<p>需要澄清的是，<strong>S-1 正文中并没有直接写着一个单一的”5,180 亿美元”粗体数字</strong>，这是财经媒体对各大云厂商框架合同上限的综合加总：</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://files.seeusercontent.com/2026/10/27/sU2o/fig2-compute-commitments-breakdo.png" alt="Anthropic 算力采购承诺按供应商拆分" decoding="async" loading="lazy" width="1000" height="500"><figcaption>Anthropic 算力采购承诺按供应商拆分</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">图 2</span><span class="aden-caption-text">Anthropic 算力采购承诺拆解：各大供应商框架加总约 5,180 亿美元（$518B），S-1 官方审计口径的固定/保底承诺为 2,656 亿美元（$265.6B）。数据来源：SEC EDGAR S-1 正式招股书。</span></p>
+<h3 id="供应商逐笔合同穿透："><a href="#供应商逐笔合同穿透：" class="headerlink" title="供应商逐笔合同穿透："></a>供应商逐笔合同穿透：</h3><ul>
+<li><strong>博通（Broadcom）</strong>：五年期专用硬件设备租赁协议，总额约 <strong>1,252 亿美元（$125.2B）</strong>，不含利息，不可撤销；租金按季度支付，并配有最高 <strong>420 亿美元</strong>的专项资产担保票据（Infrastructure Partner 2026 NPA）供应链融资额度；</li>
+<li><strong>SpaceXAI（原 X.AI，马斯克系）</strong>：最高可达 <strong>1,205 亿美元（≤$120.5B）</strong> 的集群算力采购协议（NVIDIA GPU），满载运行下月度支出约 31 亿美元；初始不可撤销期至 2027 年 1/3 月，此后任一方可提前 90 天通知取消——较草案期预估有所上调；</li>
+<li><strong>谷歌（Google）</strong>：不可撤销的 TPU 算力保底承诺约 <strong>1,145 亿美元（≥$114.5B）</strong>，期限 2026 年 4 月至 2033 年 7 月，短付须 True-up 补差；另有 2028–2031 年预计 <strong>1,250 亿至 1,500 亿美元</strong> 的额外算力采购（未计入固定承诺表）；</li>
+<li><strong>亚马逊（Amazon）</strong>：不可撤销的算力采购底线 <strong>1,100 亿美元（≥$110.0B）</strong>，期限 2026 年 5 月至 2036 年 4 月，长达十年，同样含 True-up 补差机制；</li>
+<li><strong>微软（Microsoft）</strong>：不可撤销采购底线 <strong>449 亿美元（≥$44.9B）</strong>，期限 2026 年 11 月至 2033 年 5 月，无论实际用量均须支付——Claude 目前可经 AWS、GCP 与 Azure 三大云平台获取；</li>
+<li><strong>AMD</strong>：无固定金额承诺；若全额采购初始算力批次，支出将超过 <strong>200 亿美元（&gt;$20B）</strong>；作为对价，AMD 反向承诺购买最高 <strong>50 亿美元</strong> 的 Class N 无投票权股票（按 GPU 交付里程碑分批解锁）。</li>
+</ul>
+<p><strong>法定审计的硬性底线</strong>：</p>
+<p>剔除所有可选择取消条款、弹性框架与潜在期权后，招股书财务附注（F-59）给出了经审计的硬合同数字——<strong>跨度 1 至 20 年的固定/保底采购承诺总额为 2,656 亿美元（$265.6B）</strong>。</p>
+<p>无论是 5,180 亿的框架上限，还是 2,656 亿的法定义务，Anthropic 已通过这些跨越十年的巨额合同，将全球半导体与云计算巨头的核心产能锁在了自己的战车之上。</p>
+<h2 id="五、顶层治理细节：超级投票权、独立信托与-5-公益基金实股化"><a href="#五、顶层治理细节：超级投票权、独立信托与-5-公益基金实股化" class="headerlink" title="五、顶层治理细节：超级投票权、独立信托与 5% 公益基金实股化"></a>五、顶层治理细节：超级投票权、独立信托与 5% 公益基金实股化</h2><p>在资本市场最关注的治理控制权维度，正式 S-1 展现了这家公益企业在商业利益与伦理自治之间构建的精巧防线：</p>
+<h3 id="1-五层股权结构的设计与绝对控制"><a href="#1-五层股权结构的设计与绝对控制" class="headerlink" title="1. 五层股权结构的设计与绝对控制"></a>1. 五层股权结构的设计与绝对控制</h3><ul>
+<li><strong>Class A 普通股</strong>：每股 1 票投票权，供公开二级市场流通交易；</li>
+<li><strong>Class N 股票</strong>：经济权益与 Class A 相同，但没有投票权，转让给非关联第三方时自动转换为 Class A。亚马逊的可转债设有 12% 转股上限（超出部分转为无额外发行权的滚动票据），谷歌等外部投资方亦主要持有此类股份，防止云巨头过度持股；</li>
+<li><strong>Class E 员工激励股</strong>：正式版首次揭晓的细节——员工每在公司工作满 6 个月自动配发 1 股 Class E 股，每股 1 票投票权；</li>
+<li><strong>Class T 股</strong>：由长期利益信托（LTBT）专门持有，无经济权益，负责选出部分董事（Class T 董事）并参与特定治理安排；</li>
+<li><strong>Class F 创始人专属股</strong>：通过专设的 <strong>Founder LLC</strong> 单独持有<strong>一股</strong>。这股没有经济权益，却锁定全公司 <strong>50.1% 的总投票权</strong>——7 位联合创始人（Dario、Daniela Amodei、Tom Brown、Jack Clark、Jared Kaplan、Sam McCandlish、Christopher Olah）凭此保留了对战略方向的决定性控制权。</li>
+</ul>
+<p>七位创始人的个人经济持股在正式 S-1 的受益所有权表中未以单一数字汇总披露（草案期外界估计约 14%）；确定的是治理安排本身：公司依据纳斯达克”受控公司（Controlled Company）”规则可豁免部分治理要求，但 S-1 表示仅计划在提名委员会一处适用该豁免，董事会多数仍为独立董事。另一个新鲜细节是：<strong>七位创始人已各自承诺将个人所持 Anthropic 股权的 80% 捐赠给公益慈善事业</strong>（自愿、可撤销的长期承诺）。</p>
+<h3 id="2-真正的共益企业：公益基金获-5-实股注入"><a href="#2-真正的共益企业：公益基金获-5-实股注入" class="headerlink" title="2. 真正的共益企业：公益基金获 5% 实股注入"></a>2. 真正的共益企业：公益基金获 5% 实股注入</h3><p>不同于许多企业在招股书中仅写下模糊的慈善承诺，Anthropic 直接完成了真金白银的股权划转：</p>
+<p>公司已向独立的 <strong>Anthropic Public Benefit Fund</strong> 注入 <strong>8.47 亿股（846,840,960 股）Class N 股票，相当于完全稀释后 5% 的真实经济权益</strong>（按可转债全额转股口径）。</p>
+<p>不仅如此，章程中还载明：每当股价较前次上涨 50%，董事会可酌情再向该基金增发最高 2% 的股份，用于支持长期的 AI 治理、对齐研究与公共利益事业。</p>
+<h3 id="3-长达约-94-页的风险警告与保险业承保难题"><a href="#3-长达约-94-页的风险警告与保险业承保难题" class="headerlink" title="3. 长达约 94 页的风险警告与保险业承保难题"></a>3. 长达约 94 页的风险警告与保险业承保难题</h3><p>在整本招股书中，<strong>风险因素（Risk Factors）章节从第 26 页起延续了约 94 页（至第 119 页附近）</strong>——这大概是目前所有 AI 公司招股书中最厚重的一份。</p>
+<p>文件中出现了在商业上市公司招股书中罕见的严厉表述：</p>
+<blockquote>
+<p><em>“…sufficiently advanced AI systems could, if not developed, deployed, and operated with appropriate safeguards, oversight, and security measures, pose catastrophic or existential risks to humanity…”</em><br>（足够先进的 AI 系统，若在开发、部署与运营中缺乏适当的保障、监督与安全措施，可能对人类构成灾难性乃至生存性的风险。）</p>
+</blockquote>
+<blockquote>
+<p><em>“With the scale of harm that could result from a catastrophic AI-related incident, no single insurer, and potentially the insurance industry in the aggregate, may have sufficient capacity or expertise to underwrite insurance commensurate with such exposure.”</em><br>（灾难性 AI 事故可能造成的损害规模之下，没有任何单一保险公司——甚至整个保险行业加总——可能拥有与之相称的承保能力或专业经验。）</p>
+</blockquote>
+<p>将”商业保险可能无法覆盖 AI 灾难”写进正式证券披露，既展现了创始人团队源自有效利他主义（EA）的底色，也在法律层面提前完成了对公众投资者的终极风险告知。</p>
+<h2 id="六、挂牌首日新情景推演（更新-50-35-15）"><a href="#六、挂牌首日新情景推演（更新-50-35-15）" class="headerlink" title="六、挂牌首日新情景推演（更新 50 / 35 / 15）"></a>六、挂牌首日新情景推演（更新 50 / 35 / 15）</h2><p>随着真实财务底色大幅优于预期、客户集中度担忧化解，我们对 Anthropic 挂牌首日的市场博弈概率进行了迭代更新：</p>
+<div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th align="left">演绎情景</th>
+<th align="center">发生概率</th>
+<th align="left">核心触发门槛与宏观条件</th>
+<th align="left">市场与估值含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>情景 A<br>（高开维稳）</strong></td>
+<td align="center"><strong>~50%</strong><br><em>(基准情形)</em></td>
+<td align="left">• 若 11 月初的 S-1/A 修订版把定价区间锚定在市场讨论的 <strong>$1.5T 至 $2.0T</strong> 隐含估值区间（注意：该区间目前仅是媒体讨论，正式文件留空）；<br>• 路演订单获得主权基金与长线公募的数倍超额认购；<br>• 11 月上旬美股宏观流动性维持平稳。</td>
+<td align="left"><strong>大捷奠基</strong>：挂牌首日平稳完成筹码换手，首发涨幅落在 10%–20% 区间。为”企业级 AI 软件”确立公开市场定价锚（具体估值倍数需待 S-1/A 披露 Run-Rate 后才能计算），排在后面的 OpenAI 将直接受益。</td>
+</tr>
+<tr>
+<td align="left"><strong>情景 B<br>（平开微涨）</strong></td>
+<td align="center"><strong>~35%</strong></td>
+<td align="left">• 定价贴近 $1.5T 估值下限发行；<br>• 市场受制于 10 年期美债收益率维持 5% 以上的宏观重压，科技成长股整体交投谨慎；<br>• 机构资金选择在开盘后适度获利了结。</td>
+<td align="left"><strong>温和落地</strong>：上市首日表现相对平淡（涨跌幅在 ±5% 内震荡）。系列商业逻辑依然成立，但”AI 奇迹估值”受到公开市场严格的纪律审视。</td>
+</tr>
+<tr>
+<td align="left"><strong>情景 C<br>（破发惊吓）</strong></td>
+<td align="center"><strong>~15%</strong></td>
+<td align="left">• 二级市场空头资金聚焦其 2,656 亿刚性算力承诺以及 5%–7% 违规流水回落的影响发力做空；<br>• 重演今年 6 月 SpaceX 挂牌后两周内下跌超 30% 的行情。</td>
+<td align="left"><strong>全线受累</strong>：挂牌首周破发跌超 15%，引发科技成长股估值中枢下移；排在后面的 OpenAI 2027 年 IPO 叙事将遭受打击。</td>
+</tr>
+</tbody></table></div>
+<p>（概率为本文的研究判断而非预测结论；触发条件不满足时，概率相应调整。）</p>
+<h2 id="七、数据口径诚实说明（关键事实边界）"><a href="#七、数据口径诚实说明（关键事实边界）" class="headerlink" title="七、数据口径诚实说明（关键事实边界）"></a>七、数据口径诚实说明（关键事实边界）</h2><p>在阅读本份开牌报告时，读者须保持客观严谨的边界认知：</p>
+<ol>
+<li><strong>价格区间与发行规模在首版 S-1 中严格留空</strong>：按照 SEC 惯例，当前提交的属于初步注册声明（Subject to Completion），具体的每股发售价区间、实际增发股数以及老股东套现额度，将在后续提交的 S-1/A 修正案中正式补齐；目前媒体讨论的 1.5 万亿至 2 万亿美元估值属于非公开撮合意向，未进入正式文件；</li>
+<li><strong>第三季度单季数据本文一律不引用</strong>：S-1 的法定审计报表以全年与半年度口径列示，单三季度营收未在报表中单独出现（9 个月口径仅散见于客户集中度、违规收入占比等讨论）；草案期流传的 $16.8B 单季数字未经正式文件核实；</li>
+<li><strong>路演时间表来自多方财经报道</strong>：11 月 9 日当周启动路演、感恩节（11 月 26 日）前挂牌的时间窗口，是彭博社、路透社等媒体报道的共识节奏；S-1 法律文本本身按惯例只写”在注册生效后尽快进行（as soon as practicable）”；</li>
+<li><strong>本文全部财务数字均取自 S-1 审计报表与正文原文</strong>，可在 <a class="link" target="_blank" rel="noopener" href="https://www.sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm">SEC EDGAR 原文<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>逐项复核。</li>
+</ol>
+<h2 id="结语：商业化成人礼的真正答卷"><a href="#结语：商业化成人礼的真正答卷" class="headerlink" title="结语：商业化成人礼的真正答卷"></a>结语：商业化成人礼的真正答卷</h2><p>翻完这份正文 335 页、财务附注至 F-65 的 S-1 招股书，最令人感慨的，是这家由理想主义技术极客创立的公司展现出的进化速度。</p>
+<p>五年多前，当他们离开 OpenAI 创立 Anthropic 时（2021 年 1 月），外界曾质疑他们是一群坐在象牙塔里空谈”模型对齐”与”AI 安全”的书生，认为他们在商业上无法匹敌背靠微软的 ChatGPT 帝国。</p>
+<p>但今天呈现在全球投资者面前的，是一张教科书级的商业报表：</p>
+<p><strong>营业收入暴涨 14 倍跨过 160 亿美元大关，真实经营亏损收窄到不足 7 亿，经营性现金流净流入近 40 亿美元，账面躺着超过 1,300 亿美元的真金白银储备，还制度化地为公益基金注入了 5% 的真实股份。</strong></p>
+<p>当 11 月”ANT”的代码在纳斯达克大屏亮起时，那不仅是属于 Dario Amodei 及其团队的加冕时刻，更是整个生成式 AI 产业的成人礼。</p>
+<p>他们用一份正式账本向世界开牌：<strong>大模型不仅能吞噬资本，也第一次在审计口径下展示了自我造血的速度——至于市场愿意为这份账本定多高的价，答案很快会写在纳斯达克的大屏上。</strong></p>
+<h3 id="主要信息来源与核验索引"><a href="#主要信息来源与核验索引" class="headerlink" title="主要信息来源与核验索引"></a>主要信息来源与核验索引</h3><ul>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.sec.gov/Archives/edgar/data/2130357/000162828026067168/anthropicpbc-sx1.htm">SEC EDGAR 官方原始注册声明：Anthropic, PBC Form S-1 Registration Statement (CIK 0002130357, File No. 333-299633, 2026-10-26)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>（本文全部财务数字的一手来源，发布前已逐项复核）</li>
+<li><a class="link" target="_blank" rel="noopener" href="https://techcrunch.com/2026/10/26/anthropic-officially-files-for-its-public-debut/">TechCrunch 专题深度：Anthropic officially files for its public debut under ticker ANT (2026-10-26)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.cnbc.com/2026/10/26/anthropic-ipo-live-updates-ai-s-1-filing.html">CNBC Live 报道：Anthropic IPO live updates - AI giant files S-1 prospectus<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.bloomberg.com/news/articles/2026-10-26/anthropic-ipo-explained-s-1-filing-nasdaq-listing-and-key-risks">Bloomberg 独家拆解：Anthropic IPO Explained - S-1 Filing, Nasdaq Listing, and Key Risks<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://fortune.com/2026/10/26/anthropics-s-1/">Fortune 专题：Anthropic’s S-1 is out - Inside the financials of the AI giant<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a href="/2026/10/23/2026-10-23-anthropic-loss-ipo/">本系列第一篇：亏损 807 亿的 Anthropic，为什么正处于它历史上最健康的时刻？</a></li>
+<li><a href="/2026/10/24/2026-10-24-openai-vs-anthropic-ipo-race/">本系列第二篇：OpenAI vs Anthropic 的 IPO 竞赛——为什么更大的公司排在后面</a></li>
+</ul>
+<p>封面图片：<a class="link" target="_blank" rel="noopener" href="https://www.pexels.com/photo/stock-market-trading-analysis-on-screen-38358503/">Rafael Minguet Delgado / Pexels<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> Anthropic 正式公开 S-1 招股书大起底：我们一周前押的注，今天全开牌了</li>
+        <li><strong>作者:</strong> AdenXie</li>
+        <li><strong>创建于
+                :</strong> 2026-10-28 03:30:00</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2026-10-28 03:30:00
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://blog.adenxie.com.cn/2026/10/28/2026-10-28-anthropic-s1-open-cards/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                版权所有 © AdenXie，禁止转载。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/Claude/">#Claude</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/Anthropic/">#Anthropic</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/IPO/">#IPO</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">#人工智能</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E8%B4%A2%E6%8A%A5%E5%88%86%E6%9E%90/">#财报分析</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/S-1/">#S-1</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/10/23/2026-10-23-anthropic-loss-ipo/" title="亏损 807 亿的 Anthropic，为什么正处于它历史上最健康的时刻？" rel="bookmark">
+  <img src="https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="亏损 807 亿的 Anthropic，为什么正处于它历史上最健康的时刻？" class="!max-w-none" decoding="async">
+  <span class="title">亏损 807 亿的 Anthropic，为什么正处于它历史上最健康的时刻？</span>
+</a><a class="recommended-article-item" href="/2026/10/24/2026-10-24-openai-vs-anthropic-ipo-race/" title="OpenAI vs Anthropic：为什么体量更大的巨无霸，反而排在后面上市？" rel="bookmark">
+  <img src="https://images.pexels.com/photos/3905827/pexels-photo-3905827.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="OpenAI vs Anthropic：为什么体量更大的巨无霸，反而排在后面上市？" class="!max-w-none" decoding="async">
+  <span class="title">OpenAI vs Anthropic：为什么体量更大的巨无霸，反而排在后面上市？</span>
+</a><a class="recommended-article-item" href="/2026/10/31/2026-10-31-macro-micro-ai-capex-verdict/" title="同一周内，宏观和微观对 AI 资本开支给出了相反的判决" rel="bookmark">
+  <img src="https://images.pexels.com/photos/187041/pexels-photo-187041.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="同一周内，宏观和微观对 AI 资本开支给出了相反的判决" class="!max-w-none" decoding="async">
+  <span class="title">同一周内，宏观和微观对 AI 资本开支给出了相反的判决</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/10/23/2026-10-23-anthropic-loss-ipo/" title="亏损 807 亿的 Anthropic，为什么正处于它历史上最健康的时刻？" rel="bookmark">
+  <img src="https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="亏损 807 亿的 Anthropic，为什么正处于它历史上最健康的时刻？" class="!max-w-none" decoding="async">
+  <span class="title">亏损 807 亿的 Anthropic，为什么正处于它历史上最健康的时刻？</span>
+</a><a class="recommended-article-item" href="/2026/10/24/2026-10-24-openai-vs-anthropic-ipo-race/" title="OpenAI vs Anthropic：为什么体量更大的巨无霸，反而排在后面上市？" rel="bookmark">
+  <img src="https://images.pexels.com/photos/3905827/pexels-photo-3905827.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="OpenAI vs Anthropic：为什么体量更大的巨无霸，反而排在后面上市？" class="!max-w-none" decoding="async">
+  <span class="title">OpenAI vs Anthropic：为什么体量更大的巨无霸，反而排在后面上市？</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2026/10/28/2026-10-28-daily-brief/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">每日简报｜2026-10-28：以色列大选两大阵营均未过半，中国9月工业利润增长14.4%，OpenAI发布GPT-6.1 Terra</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/10/27/2026-10-27-daily-brief/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">每日简报｜2026-10-27：卢拉连任引发巴西股汇暴跌，Anthropic递交上市申请，Meta拟股权融资950亿美元</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">Anthropic 正式公开 S-1 招股书大起底：我们一周前押的注，今天全开牌了</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E5%AD%90%EF%BC%9A%E4%BB%8E%E4%BC%A0%E9%97%BB%E5%88%B0%E5%85%AC%E7%AB%A0%EF%BC%8C%E6%AD%A3%E5%BC%8F%E7%9A%84%E2%80%9D%E9%AA%8C%E9%92%9E%E6%97%B6%E5%88%BB%E2%80%9D"><span class="nav-text">引子：从传闻到公章，正式的”验钞时刻”</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%BC%80%E7%89%8C%E6%80%BB%E8%A7%88%EF%BC%9A%E6%88%91%E4%BB%AC%E4%B9%8B%E5%89%8D%E7%9A%84%E4%B9%9D%E7%BB%84%E6%8E%A8%E6%96%AD%E5%AF%B9%E7%85%A7%E8%A1%A8"><span class="nav-text">一、开牌总览：我们之前的九组推断对照表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%B8%A4%E5%A4%A7%E7%A1%AC%E6%A0%B8%E7%BF%BB%E6%A1%88%EF%BC%9A%E7%9C%9F%E5%AE%9E%E7%BB%8F%E8%90%A5%E4%BA%8F%E6%8D%9F%E5%8F%AA%E6%9C%89%E4%B8%8D%E5%88%B0-7-%E4%BA%BF%EF%BC%8C%E5%AE%A2%E6%88%B7%E9%9B%86%E4%B8%AD%E5%BA%A6%E8%99%9A%E6%83%8A%E4%B8%80%E5%9C%BA"><span class="nav-text">二、两大硬核翻案：真实经营亏损只有不到 7 亿，客户集中度虚惊一场</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BF%BB%E6%A1%88%E4%B8%80%EF%BC%9A%E7%9C%9F%E5%AE%9E%E7%BB%8F%E8%90%A5%E4%BA%8F%E6%8D%9F%E4%BB%85-6-93-%E4%BA%BF%E7%BE%8E%E5%85%83%EF%BC%8C%E8%80%8C%E9%9D%9E%E4%BC%A0%E9%97%BB%E4%B8%AD%E7%9A%84-87-%E4%BA%BF"><span class="nav-text">翻案一：真实经营亏损仅 6.93 亿美元，而非传闻中的 87 亿</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BF%BB%E6%A1%88%E4%BA%8C%EF%BC%9A%E5%AE%A2%E6%88%B7%E9%9B%86%E4%B8%AD%E5%BA%A6%E6%81%90%E6%85%8C%E8%A2%AB%E4%BA%8B%E5%AE%9E%E8%AF%81%E4%BC%AA"><span class="nav-text">翻案二：客户集中度恐慌被事实证伪</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E6%AF%94%E9%A2%84%E6%83%B3%E6%9B%B4%E5%BC%BA%E6%82%8D%E7%9A%84%E8%B4%A2%E5%8A%A1%E5%BA%95%E8%89%B2%EF%BC%9A%E9%80%A0%E8%A1%80%E8%BD%AC%E6%AD%A3%E4%B8%8E%E5%85%85%E6%B2%9B%E7%8E%B0%E9%87%91"><span class="nav-text">三、比预想更强悍的财务底色：造血转正与充沛现金</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%8D%83%E4%BA%BF%E7%AE%97%E5%8A%9B%E9%94%81%E9%93%BE%E7%9A%84%E7%B2%BE%E7%A1%AE%E6%8B%86%E8%B4%A6%EF%BC%9A%E5%AA%92%E4%BD%93%E5%8A%A0%E6%80%BB-vs-%E5%AE%A1%E8%AE%A1%E5%BA%95%E7%BA%BF"><span class="nav-text">四、千亿算力锁链的精确拆账：媒体加总 vs 审计底线</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%9B%E5%BA%94%E5%95%86%E9%80%90%E7%AC%94%E5%90%88%E5%90%8C%E7%A9%BF%E9%80%8F%EF%BC%9A"><span class="nav-text">供应商逐笔合同穿透：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E9%A1%B6%E5%B1%82%E6%B2%BB%E7%90%86%E7%BB%86%E8%8A%82%EF%BC%9A%E8%B6%85%E7%BA%A7%E6%8A%95%E7%A5%A8%E6%9D%83%E3%80%81%E7%8B%AC%E7%AB%8B%E4%BF%A1%E6%89%98%E4%B8%8E-5-%E5%85%AC%E7%9B%8A%E5%9F%BA%E9%87%91%E5%AE%9E%E8%82%A1%E5%8C%96"><span class="nav-text">五、顶层治理细节：超级投票权、独立信托与 5% 公益基金实股化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%BA%94%E5%B1%82%E8%82%A1%E6%9D%83%E7%BB%93%E6%9E%84%E7%9A%84%E8%AE%BE%E8%AE%A1%E4%B8%8E%E7%BB%9D%E5%AF%B9%E6%8E%A7%E5%88%B6"><span class="nav-text">1. 五层股权结构的设计与绝对控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%9C%9F%E6%AD%A3%E7%9A%84%E5%85%B1%E7%9B%8A%E4%BC%81%E4%B8%9A%EF%BC%9A%E5%85%AC%E7%9B%8A%E5%9F%BA%E9%87%91%E8%8E%B7-5-%E5%AE%9E%E8%82%A1%E6%B3%A8%E5%85%A5"><span class="nav-text">2. 真正的共益企业：公益基金获 5% 实股注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E9%95%BF%E8%BE%BE%E7%BA%A6-94-%E9%A1%B5%E7%9A%84%E9%A3%8E%E9%99%A9%E8%AD%A6%E5%91%8A%E4%B8%8E%E4%BF%9D%E9%99%A9%E4%B8%9A%E6%89%BF%E4%BF%9D%E9%9A%BE%E9%A2%98"><span class="nav-text">3. 长达约 94 页的风险警告与保险业承保难题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E6%8C%82%E7%89%8C%E9%A6%96%E6%97%A5%E6%96%B0%E6%83%85%E6%99%AF%E6%8E%A8%E6%BC%94%EF%BC%88%E6%9B%B4%E6%96%B0-50-35-15%EF%BC%89"><span class="nav-text">六、挂牌首日新情景推演（更新 50 / 35 / 15）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E6%95%B0%E6%8D%AE%E5%8F%A3%E5%BE%84%E8%AF%9A%E5%AE%9E%E8%AF%B4%E6%98%8E%EF%BC%88%E5%85%B3%E9%94%AE%E4%BA%8B%E5%AE%9E%E8%BE%B9%E7%95%8C%EF%BC%89"><span class="nav-text">七、数据口径诚实说明（关键事实边界）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AF%AD%EF%BC%9A%E5%95%86%E4%B8%9A%E5%8C%96%E6%88%90%E4%BA%BA%E7%A4%BC%E7%9A%84%E7%9C%9F%E6%AD%A3%E7%AD%94%E5%8D%B7"><span class="nav-text">结语：商业化成人礼的真正答卷</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E4%BF%A1%E6%81%AF%E6%9D%A5%E6%BA%90%E4%B8%8E%E6%A0%B8%E9%AA%8C%E7%B4%A2%E5%BC%95"><span class="nav-text">主要信息来源与核验索引</span></a></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">写下真实体验，也保留观点的棱角。</div><div class="customize-info my-1 aden-status-hint">页面打不开或功能出错？可在 <a href="https://status.adenxie.com.cn/" target="_blank" rel="noopener">status.adenxie.com.cn</a> 查看服务状态</div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 98 篇文章
+                    </span>
+                    
+                        <span>
+                            共 279.8k 字
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js" async=""></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days"></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/scene-loader.js?v=b97b1fce3bd0" defer=""></script>
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="图片查看器">
+	<button class="image-viewer-close" type="button" aria-label="关闭">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="上一页">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="" decoding="async">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="关闭">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="下一页">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="站内搜索您需要的内容..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js?v=509b91971bf2"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js?v=969d65618587"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js?v=193270b6fdb0"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js?v=647d2af612df"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js?v=c9d014a814b8"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js?v=792db0224d6b"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js?v=7e6a109d5509" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js?v=03c1e188b884"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css?v=77a3a9d5a3d0">
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js?v=e98ec22436a5"></script>
+
+
+<script src="/js/build/plugins/aplayer.js?v=d6d3c64af35f"></script>
+
+
+	
+
+
+<button type="button" id="aden-chat-launcher" class="aden-chat-launcher" aria-haspopup="dialog" aria-expanded="false" hidden="" aria-label="打开 AI 聊天" data-script="/js/chat.js?v=750a15ffa2e2" data-style="/css/chat.css?v=286cbaf4025c"><span aria-hidden="true">✳</span><span class="aden-chat-launcher-label">问 AI</span></button></body></html>

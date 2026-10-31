@@ -1,0 +1,1296 @@
+<!DOCTYPE html><html lang="en"><head><script src="/js/language-preference.js?v=29a144036da1" data-english-home="/en/"></script><script src="/js/site-runtime.js?v=0711b6201338" defer=""></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/en/2026/10/29/2026-10-29-daily-brief/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Daily Briefing | 29 October 2026: The Fed holds rates steady but two members vote for a hike; mixed results from Microsoft and Google; SK Hynix says memory chips are sold out until 2029">
+<meta property="og:url" content="https://blog.adenxie.com.cn/en/2026/10/29/2026-10-29-daily-brief/">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-10-29T01:00:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="新闻">
+<meta property="article:tag" content="市场观察">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png?v=fa6db12e9674" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Daily Briefing | 29 October 2026: Fed holds rates steady but two members vote for a hike; mixed results from Microsoft and Google; SK Hynix says memory chips are sold out until 2029 | Aden’s Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/css/site-d4cfb3d087aa.css?v=d4cfb3d087aa">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js?v=258b1afa4680"></script>
+                
+    
+            
+                
+                    
+                
+    
+
+    
+
+
+
+    
+        
+
+
+    
+
+    
+
+
+    
+
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"en","path":"en/search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"17px","line_height":1.85,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"all_rights_reserved"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["Technology, experience and independent thinking","Real experiences. A personal perspective."],"hitokoto":{"enable":false,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Daily Brief":{"path":"/daily/","icon":"fa-regular fa-newspaper"},"archives":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"},"tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"World Time":{"path":"/world-time/","icon":"fa-regular fa-clock"},"about":{"path":"/about/","icon":"fa-regular fa-user"},"links":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":true,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.i18n = {"search":"Search...","toc":"On this page","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"POWERED BY %s","theme":"THEME","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","post":"Post","posts":"Posts","tagcloud":"Tag Cloud","comment":"Comment","comments":"Comments","home":"Home","archive":"Archive","archives":"Archives","top":"TOP","sticky":"Sticky","go-back-home":"Go Back Home","masonry_loading":"Loading photos...","image_viewer":"Image viewer","close":"Close","exif":{"title":"EXIF","cards":{"camera":"Camera","lens":"Lens","exposure":"Exposure","other":"Other"},"fields":{"make":"Brand","model":"Model","date_taken":"Date taken","lens_model":"Lens","focal_length":"Focal length","focus_mode":"Focus mode","shutter":"Shutter","aperture":"Aperture","iso":"ISO","exposure_program":"Exposure program","exposure_compensation":"Exposure compensation","metering_mode":"Metering mode","flash":"Flash","white_balance":"White balance","latitude":"Latitude","longitude":"Longitude","altitude":"Altitude"},"status":{"loading":"Loading...","no_exif":"No EXIF available","library_missing":"EXIF library not loaded","image_source_missing":"Image source unavailable","unavailable":"EXIF unavailable (blocked by CORS or missing metadata)","flag_unavailable":"EXIF unavailable"}},"about":"About","changelog":"Changelog","links":"Links","link":"Link","friends":"Friends","friend":"Friend","timeline":"Timeline","shuoshuo":"Shuoshuo","bookmarks":"Bookmarks","site_uv":"VISITOR COUNT","site_pv":"TOTAL PAGE VIEWS","read_more":"Read more","wordcount":"Words","min2read":"Mins","status":"Status","runtime":"Blog up for","days":"days","hours":"hrs","minutes":"Min","seconds":"Sec","optimized_by":"and Optimized by Evan","rights":"All Rights Reserved","site_posts":"%s posts in total","site_wordcount":"%s words in total","copyright":{"author":"Author","title":"Title","link":"Link","create_time":"Created at","update_time":"Updated at","license_title":"License","license_content":"This work is licensed under %s.","all_rights_reserved":"All Rights Reserved &#169; %s","public_domain":"This work is in the public domain."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"},"create_time":"Created","update_time":"Updated","expired":"This post is written %s days ago, and the content may not be up to date."};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" hreflang="zh-CN" href="https://blog.adenxie.com.cn/2026/10/29/2026-10-29-daily-brief/"><link rel="alternate" hreflang="en" href="https://blog.adenxie.com.cn/en/2026/10/29/2026-10-29-daily-brief/"><script data-aden-analytics="">
+      if (location.hostname === 'blog.adenxie.com.cn' && !window.__adenAnalyticsLoaded) {
+        window.__adenAnalyticsLoaded = true;
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        const script = document.createElement('script');
+        script.defer = true;
+        script.src = '/_vercel/insights/script.js';
+        document.head.append(script);
+      }
+    </script></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/en/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/daily/">
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    DAILY BRIEF
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/categories/">
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    CATEGORIES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    WORLD TIME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    <nav class="aden-language-switch" aria-label="Language"><a lang="zh-CN" href="/2026/10/29/2026-10-29-daily-brief/" aria-current="false" data-no-swup="">中文</a><span> / </span><a lang="en" href="/en/2026/10/29/2026-10-29-daily-brief/" aria-current="page" data-no-swup="">English</a></nav></div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/">
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/daily/">
+                            <span>
+                                DAILY BRIEF
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/archives/">
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/categories/">
+                            <span>
+                                CATEGORIES
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/tags/">
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/world-time/">
+                            <span>
+                                WORLD TIME
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/about/">
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/link/">
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/en/archives/">
+                            <span>Article Archive</span>
+                            <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/en/tags/">
+                            <span>Topic Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/en/about/">
+                            <span>About Aden</span>
+                            <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/tags/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">65</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/categories/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/archives/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">98</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://images.unsplash.com/photo-1758549885423-819fd86e04f0?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 29 October 2026: The Fed holds rates steady but two members vote for a hike; mixed results from Microsoft and Google; SK Hynix says memory chips are sold out until 2029" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" decoding="async">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">Daily Briefing | 29 October 2026: The Fed holds rates steady but two members vote for a hike; mixed results from Microsoft and Google; SK Hynix says memory chips are sold out until 2029</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg?v=93ba7ebfa2ff" decoding="async" width="460" height="460">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-10-29 09:00</span>
+        <span class="mobile">2026-10-29 09:00</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/en/daily/">Daily Briefing</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/en/tags/%E6%96%B0%E9%97%BB/">News</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/">Market Watch</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>3.3k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>11 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8"><p class="aden-translation-notice">Automatically translated. <a href="/2026/10/29/2026-10-29-daily-brief/">Read the Chinese original</a>.</p>
+			<h2 id="今日主线"><a href="#今日主线" class="headerlink" title="Today's main theme"></a>Today's main theme</h2><p>This edition covers Wednesday 28 October. The main themes for the day were ‘interest rates and AI ledgers’. The Federal Reserve kept interest rates at 3.75 per cent to 4 per cent, though two members, Cook and Hammack, voted in favour of a further 25 basis point hike; the futures market now prices in a more than 80 per cent probability of a rate rise in December. In after-hours trading, Microsoft and Alphabet delivered contrasting results: Microsoft’s Azure business grew by 48 per cent and capital expenditure came in below expectations, with the share price rising by around 4 per cent after the close; Alphabet’s cloud revenue doubled, but earnings per share fell significantly short of expectations due to investment losses, whilst free cash flow was negative, leading to a fall of around 8 per cent in after-hours trading. Further upstream, the memory chip sector remained red-hot, with SK Hynix posting a record quarterly operating profit and stating that its DRAM and HBM production capacity is virtually fully booked through to 2029. In the Middle East, vote counts in Israel showed Netanyahu’s bloc with 53 seats and the opposition with 48, neither of which secured a majority; The Wall Street Journal reported that the US has asked Gulf states to prepare for a possible resumption of military action against Iran following the mid-term elections, with Brent crude rebounding to around US$115. Domestically, the China Development Bank announced the completion of the deployment of 365 billion yuan in new policy-based financial instruments, whilst the ChiNext Index on the A-share market surged by 3.4 per cent.</p>
+<span id="more"></span>
+
+<h2 id="重点新闻"><a href="#重点新闻" class="headerlink" title="Key News"></a>Key News</h2><h3 id="1-美联储维持利率不变，库克、哈马克投票主张加息"><a href="#1-美联储维持利率不变，库克、哈马克投票主张加息" class="headerlink" title="1. The Federal Reserve kept interest rates unchanged, whilst Cook and Hamak voted in favour of a rate rise"></a>1. The Federal Reserve kept interest rates unchanged, whilst Cook and Hamak voted in favour of a rate rise</h3><p>On 28 October, the Federal Reserve announced that it would maintain the target range for the federal funds rate at 3.75 per cent to 4 per cent. According to Yahoo Finance, this was the second monetary policy meeting since the first interest rate rise in over three years in September; the vote was 10 to 2, with Governor Cook and Cleveland Fed President Hamack both advocating a further 25 basis point increase; This was Hamack’s second vote in favour of a rate rise since July, and the first time Cook had cast a dissenting vote during his tenure. The statement noted that uncertainty remained high due to factors such as geopolitical tensions, whilst domestic spending remained resilient and productivity and capital investment were strong; it added that “the accumulation of further information” would assist the Committee in determining its policy stance.</p>
+<p>Inflation is at the heart of the disagreement. The CPI rose by 3.7 per cent year-on-year in September, up from 3.4 per cent in August; the core CPI stood at 2.6 per cent. The core PCE, which the Federal Reserve places greater emphasis on, is due to be released on 29 October, and the market expects it to exceed 3 per cent. At a press conference, Governor Wash stated that, following the September rate rise, financial conditions for some businesses and households had already tightened, and that high interest rates were also affecting AI infrastructure, with some credit spreads widening; however, he noted that capital expenditure was “not only robust but also spreading to more sectors”. He added that there had been no discussion of politics or the mid-term elections amongst his colleagues, and that politics had not influenced this decision. Wash also announced that, from 2027, one of the eight annual meetings will be dedicated to discussing monetary policy strategy, with no vote on interest rates and, it is expected, no policy statement issued.</p>
+<p>According to TheStreet, following the announcement of the decision, the futures market priced in a probability of approximately 83 per cent for a rate rise in December. Key points to watch going forward include the core PCE figures on 29 October, Trump’s stance towards the Fed following the mid-term elections on 3 November, and whether there will be another rate rise at the December meeting.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://finance.yahoo.com/economy/policy/article/fed-votes-in-split-decision-to-hold-interest-rates-steady-despite-sticky-inflation-180108960.html">Yahoo Finance<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://tradersagency.com/blog/fed-holds-rates-at-375percent-4percent-as-cook-and-hammack-dissent-warsh-unveils-fewer-rate-setting-meetings-starting-2027">Traders Agency (Key points from the Wash press conference)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://pro.thestreet.com/stock-market-today/2026-10-28">TheStreet<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="2-微软与Alphabet财报：一个盘后涨4-，一个跌8"><a href="#2-微软与Alphabet财报：一个盘后涨4-，一个跌8" class="headerlink" title="2. Microsoft and Alphabet’s earnings reports: one rose by 4 per cent in after-hours trading, the other fell by 8 per cent"></a>2. Microsoft and Alphabet’s earnings reports: one rose by 4 per cent in after-hours trading, the other fell by 8 per cent</h3><p>Microsoft announced its results for the first quarter of the 2027 financial year (ending 30 September) after the market closed on 28 October. According to the company’s announcement, revenue stood at US$92.3 billion, up 19 per cent year-on-year; operating profit was US$45.9 billion, up 21 per cent; Microsoft’s cloud revenue totalled US$63.9 billion, up 30 per cent; Azure revenue grew by 48 per cent, exceeding the company’s previous guidance of 44 per cent to 45 per cent. GAAP net profit rose by 32 per cent, including the impact of the investment in OpenAI; excluding this, adjusted earnings per share stood at $4.89, which, according to FinanceFeeds, exceeded market expectations of $4.73. The most closely watched figure, capital expenditure (including finance leases), stood at approximately US$39.4 billion, below market expectations of around US$45.9 billion; however, adjustments to the lease accounting treatment may affect comparability. Microsoft’s share price rose by nearly 4 per cent in after-hours trading.</p>
+<p>Alphabet announced its third-quarter results on the same day, reporting revenue of US$127.6 billion, up 25 per cent year-on-year, which was slightly below expectations of approximately US$127.9 billion; earnings per share stood at US$2.12, well below expectations of around US$3, primarily due to a book loss of US$8.7 billion on equity investments, which reduced earnings per share by approximately US$0.55. According to XTB, Google Cloud generated revenue of US$30.7 billion, up 103 per cent year-on-year, whilst operating profit rose from US$3.6 billion to US$11.1 billion, representing a margin of 36.2 per cent; however, search revenue stood at US$63.4 billion, growing by only 12 per cent, and YouTube advertising revenue reached US$11.2 billion, up 9 per cent. Capital expenditure in the third quarter reached a record US$51.4 billion, up 114 per cent year-on-year, whilst free cash flow stood at a negative US$9.1 billion. According to CNBC, the company has maintained its capital expenditure guidance for the year at between US$195 billion and US$205 billion, and expects a significant increase in 2027. Alphabet’s share price fell by approximately 8 per cent in after-hours trading.</p>
+<p>The difference between the two sets of financial results lies in the pace of investment and returns: Microsoft’s cloud revenue growth and cost control have demonstrated returns to the market, whilst Alphabet’s cloud business is equally robust; however, with core advertising growth slowing and cash flow turning negative, investors’ tolerance for continued capital expenditure is waning. Key points to watch: AWS growth and capital expenditure in Amazon’s 29 October earnings report, and specific comments regarding expenditure in 2027 during Alphabet’s earnings call.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://news.microsoft.com/source/2026/10/28/microsoft-announces-first-quarter-results-2/">Microsoft Announcement<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://financefeeds.com/microsoft-shares-rise-nearly-4-after-first-quarter-earnings-beat-wall-street-estimates/">FinanceFeeds<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.xtb.com/int/market-analysis/news-and-research/alphabet-disappoints-wall-street-despite-record-results-shares-plunge-over-8-and-test-300">XTB<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://fortune.com/2026/10/28/alphabet-google-stock-drops-cloud-revenue-doubles-free-cash-flow-negative/">Wealth<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.cnbc.com/2026/10/28/alphabet-googl-earnings-q3-2026.html">CNBC<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="3-SK海力士季度营业利润创纪录，称DRAM和HBM到2029年基本售罄"><a href="#3-SK海力士季度营业利润创纪录，称DRAM和HBM到2029年基本售罄" class="headerlink" title="3. SK Hynix posts record quarterly operating profit, stating that DRAM and HBM will be virtually sold out by 2029"></a>3. SK Hynix posts record quarterly operating profit, stating that DRAM and HBM will be virtually sold out by 2029</h3><p>SK Hynix announced its third-quarter results on 28 October. According to the *Seoul Economic Daily*, revenue stood at 104.6 trillion won, a year-on-year increase of 327.9 per cent; operating profit was 83.3 trillion won, up 632 per cent, with an operating profit margin of 79.7 per cent, setting a record for the sixth consecutive quarter. According to the *JoongAng Ilbo*, operating profit exceeded market expectations of 76.96 trillion won as compiled by FnGuide, driven primarily by strong shipments of HBM4, growing demand for server memory and NAND sales fuelled by data centre solid-state drives; however, net profit stood at 39.78 trillion won, falling short of expectations.</p>
+<p>Park Jun-deok, the company’s Executive Vice President of DRAM Marketing, responded to market concerns that demand for memory had peaked by stating that the company’s DRAM and HBM production for the next three years, up to 2029, was “effectively sold out”. The company also announced a new 60 trillion won shareholder return programme; combined with the recently completed 40 trillion won share buyback and cancellation, total shareholder returns this year will reach 100 trillion won, of which cash dividends will exceed 30 trillion won. According to TheStreet, SK Hynix closed 10.9 per cent higher in Seoul that day, whilst Samsung Electronics rose by approximately 9 per cent and the KOSPI index gained 6.6 per cent; US chip stocks also strengthened as a result.</p>
+<p>This financial report indicates that spending on AI infrastructure is flowing heavily into upstream sectors such as storage; even as downstream cloud providers face pressure on their cash flow, order visibility remains high in the upstream sector. Key points to watch: Samsung Electronics’ quarterly results; whether memory prices can remain at high levels; and whether the ‘sold out until 2029’ situation will trigger a new round of capacity expansion.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://en.sedaily.com/finance/2026/10/28/sk-hynix-says-d-ram-hbm-supply-sold-out-through-2029">Seoul Economic Daily<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.koreajoongangdaily.com/business/sk-hynixs-q3-operating-profit-surges-more-than-sevenfold-to-record-628b-beating-forecasts/12941760">The JoongAng Ilbo<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://pro.thestreet.com/stock-market-today/2026-10-28">TheStreet<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="4-以色列计票：内塔尼亚胡阵营53席仍不过半；《华尔街日报》称美国要海湾国家为对伊行动做准备"><a href="#4-以色列计票：内塔尼亚胡阵营53席仍不过半；《华尔街日报》称美国要海湾国家为对伊行动做准备" class="headerlink" title="4. Israeli vote count: Netanyahu’s camp secures 53 seats but still falls short of a majority; *The Wall Street Journal* reports that the US is asking Gulf states to prepare for action against Iran"></a>4. Israeli vote count: Netanyahu’s camp secures 53 seats but still falls short of a majority; *The Wall Street Journal* reports that the US is asking Gulf states to prepare for action against Iran</h3><p>The results announced by Israel’s Central Elections Committee on 28 October showed that Netanyahu’s camp secured 53 seats, an increase on the exit polls, but still eight seats short of the 61-seat majority; the opposition camp led by Eizenkot secured 48 seats, whilst Arab parties collectively won 19 seats, a historic high. According to Ynet, Likud won 26 seats and remains the largest party, whilst Eisenkot’s Yashar! secured 21 seats and Bennett’s Beyachad won 12 seats. There are still over 500,000 double-envelope ballots (mainly from military personnel and others) that will not be counted until the evening of 29 October, which may alter the distribution of seats.</p>
+<p>Statements from all sides suggest that forming a government will be a difficult task. Netanyahu celebrated the Likud’s victory as the largest party and called for unity within the “Zionist camp”; Eizenkot stated that “the public has chosen change”, demanded Netanyahu’s resignation, and refused to serve under him, including in a rotating premiership arrangement. Democratic Party leader Goren has advocated for the opposition bloc to form a government with the support of Arab parties; the Joint List and Ra’am have also expressed their willingness to support this, but there remain divisions within the opposition bloc regarding reliance on Arab parties. According to the *Jerusalem Post*, the deadlock could lead to a prolonged caretaker government or even a repeat election.</p>
+<p>As for Iran, according to *The National*, citing *The Wall Street Journal*, Washington has warned several Arab Gulf states to prepare for the possibility that the US may resume military operations against Iran following the mid-term elections on 3 November; Meanwhile, Qatari mediators have submitted a new draft agreement to Iran to end the war, and Iran is expected to respond by the end of this week. The conflict continues: the Saudi-led coalition claims to have intercepted a Houthi missile fired at Taif, whilst the Houthi rebels claim to have carried out a drone attack on Abha International Airport, a claim not confirmed by Saudi Arabia. Key developments to watch: the final seat allocation following the counting of the double-envelope ballots; Iran’s response to the Qatari draft; and US military decisions following the mid-term elections.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://www.ynetnews.com/article/hjnatbkaml">Ynet<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.jpost.com/israel-election-2026/article-913122">The Jerusalem Post<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.thenationalnews.com/business/energy/2026/10/28/oil-prices-up-due-to-houthi-strikes-and-us-threat-to-renew-iran-war/">The National (citing The Wall Street Journal)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="5-国开行完成3650亿元新型政策性金融工具投放，近半投向AI、数字经济等领域"><a href="#5-国开行完成3650亿元新型政策性金融工具投放，近半投向AI、数字经济等领域" class="headerlink" title="5. The China Development Bank has disbursed 365 billion yuan through new policy-based financial instruments, with nearly half of this amount directed towards sectors such as AI and the digital economy."></a>5. The China Development Bank has disbursed 365 billion yuan through new policy-based financial instruments, with nearly half of this amount directed towards sectors such as AI and the digital economy.</h3><p>According to a Xinhua News Agency report on 27 October, the China Development Bank has completed the disbursement of 365 billion yuan in new policy-based financial instruments, with the funds entirely used to supplement project equity capital, corresponding to a total project investment of approximately 5.5 trillion yuan. In terms of allocation, 127.99 billion yuan was channelled to projects involving private investment and private capital, accounting for 35.1 per cent; 277.86 billion yuan was allocated to 11 major economic provinces, including Anhui, Zhejiang and Sichuan, accounting for 76.1 per cent; 179.01 billion yuan was allocated to projects in sectors such as artificial intelligence, the digital economy, green and low-carbon development, biopharmaceuticals and consumer goods, accounting for 49 per cent. The China Development Bank stated that it will next provide supporting project loans, strengthen post-investment management and work to ensure that tangible progress is made as soon as possible.</p>
+<p>The background to this is that this year’s Government Work Report proposed the issuance of 800 billion yuan in new policy-based financial instruments to leverage more social investment; At the end of August, the National Development and Reform Commission convened a national conference on investment promotion, calling for the accelerated disbursement of funds. These instruments are intended to supplement project equity capital, thereby amplifying matching bank loans and private capital, and provide direct support for investment in infrastructure and emerging industries during the fourth quarter.</p>
+<p>On the market front, according to Sina Finance, A-shares staged a sharp rebound on 28 October: the Shanghai Composite Index rose by 0.91 per cent to close at 3,681.47 points; the Shenzhen Component Index rose by 2.02 per cent; the ChiNext Index rose by 3.40 per cent; trading volume across both markets totalled 1.63 trillion yuan, an increase of 167.5 billion yuan compared with the previous trading day, with over 4,100 individual stocks rising, led by the memory chip, CPO and humanoid robot sectors. Key points to watch: the pace of deployment of the remaining new policy-based financial instruments, the October PMI, and whether supporting loans will drive a rebound in investment during the fourth quarter.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://www.news.cn/fortune/20261027/beadc93d1fdf429cb43b7c7f3e39dfb5/c.html">Xinhua News Agency<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://k.sina.com.cn/article_7857201856_1d45362c001908srwk.html">Sina Finance<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h2 id="市场关联与今日观察"><a href="#市场关联与今日观察" class="headerlink" title="Market Correlation and Today's Observation"></a>Market Correlation and Today's Observation</h2><p>On 28 October, US shares traded within a narrow range. According to Tech Insider, citing Reuters, the S&amp;P 500 rose 0.22 per cent to 7,739.58 points, whilst the Nasdaq gained 0.02 per cent to 26,482.16 points. Chip stocks strengthened on the back of SK Hynix’s earnings report, but blue-chip stocks such as Tesla and Apple traded lower. The market showed little change following the announcement of the Federal Reserve’s decision, though the probability of a rate rise in December was priced in further. On the data front, according to TheStreet, the US goods trade deficit widened to US$134.9 billion in September, primarily as imports of capital goods hit a record high, driven by AI infrastructure. As for oil prices, according to *The National*, at 2.00 pm UAE time, Brent crude rose by 0.87 per cent to US$114.87, whilst WTI climbed by 1.59 per cent to US$101.49; UBS expects Brent to remain around US$110 by the end of the year.</p>
+<p>Looking at several news items together: profits in the AI industry chain are becoming concentrated upstream; the financial results of SK Hynix and Microsoft demonstrate that genuine demand exists, but Alphabet’s negative free cash flow indicates that not every company is able to cover its investments with current revenue. Against a backdrop where the Federal Reserve is likely to continue raising interest rates and the 10-year US Treasury yield has already hovered around 5 per cent this week, the market will place greater emphasis on cash flow rather than merely growth. The situation in the Middle East and oil prices remain the primary external drivers of inflation, which is also one of the reasons for the emergence of ‘hike votes’ within the Federal Reserve. Domestically, policy-driven financial instruments and the rebound in the A-share market indicate that domestic policy is focused on stabilising investment, whilst technology stocks on the A-share market are being driven more by the overseas memory chip market.</p>
+<p>Checklist:</p>
+<ul>
+<li>US core PCE on 29 October, and the monetary policy decisions of the European Central Bank (29 October) and the Bank of Japan (30 October)</li>
+<li>AWS growth and capital expenditure in Amazon’s (29 October) financial results: can Alphabet’s share price hold above $300?</li>
+<li>Final seat allocation and prospects for government formation following the counting of Israel’s double-envelope ballots</li>
+<li>Iran’s response to the draft agreement on Qatar, and whether the US will take military action against Iran following the mid-term elections</li>
+<li>Samsung Electronics’ Financial Results and Trends in Memory Chip Prices</li>
+<li>China’s October PMI and the subsequent roll-out of new policy-based financial instruments</li>
+</ul>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://tech-insider.org/wall-street-flat-sk-hynix-chips-megacaps-fed-oct-28-2026/">Tech Insider (citing Reuters)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://pro.thestreet.com/stock-market-today/2026-10-28">TheStreet<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.thenationalnews.com/business/energy/2026/10/28/oil-prices-up-due-to-houthi-strikes-and-us-threat-to-renew-iran-war/">The National<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>Cover image:<a class="link" target="_blank" rel="noopener" href="https://unsplash.com/photos/close-up-of-a-computer-processor-chip-on-circuit-board-cMoE2tU_BbM">He Junhui / Unsplash<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> Daily Briefing | 29 October 2026: The Fed holds rates steady but two members vote for a hike; mixed results from Microsoft and Google; SK Hynix says memory chips are sold out until 2029</li>
+        <li><strong>Author:</strong> AdenXie</li>
+        <li><strong>Created at
+                :</strong> 2026-10-29 09:00:00</li>
+        
+        <li>
+            <strong>Link:</strong> https://blog.adenxie.com.cn/2026/10/29/2026-10-29-daily-brief/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                All Rights Reserved © AdenXie
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E6%96%B0%E9%97%BB/">#News</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/">#MarketObservation</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/en/2026/10/30/2026-10-30-daily-brief/" title="Daily Briefing | 30 October 2026: Alphabet plummets 12.6 per cent in a single day; US Q3 GDP grows by 3.4 per cent; PCE inflation rises to 3.6 per cent; Iran rejects Qatar’s ceasefire proposal" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1584169417032-d34e8d805e8b?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 30 October 2026: Alphabet plummets 12.6 per cent in a single day; US Q3 GDP grows by 3.4 per cent; PCE inflation rises to 3.6 per cent; Iran rejects Qatar’s ceasefire proposal" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | 30 October 2026: Alphabet plummets 12.6 per cent in a single day; US Q3 GDP grows by 3.4 per cent; PCE inflation rises to 3.6 per cent; Iran rejects Qatar’s ceasefire proposal</span>
+</a><a class="recommended-article-item" href="/en/2026/10/28/2026-10-28-daily-brief/" title="Daily Briefing | 28 October 2026: Neither of the two main blocs secured a majority in the Israeli general election; China’s industrial profits rose by 14.4 per cent in September; OpenAI launched GPT-6.1 Terra" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1730808822974-b21a29d64055?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 28 October 2026: Neither of the two main blocs secured a majority in the Israeli general election; China’s industrial profits rose by 14.4 per cent in September; OpenAI launched GPT-6.1 Terra" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | 28 October 2026: Neither of the two main blocs secured a majority in the Israeli general election; China’s industrial profits rose by 14.4 per cent in September; OpenAI launched GPT-6.1 Terra</span>
+</a><a class="recommended-article-item" href="/en/2026/10/31/2026-10-31-daily-brief/" title="Daily Briefing | 31 October 2026: Intel posts its biggest fall since 1974; the Nasdaq closes October with a sharp drop; the Bank of Japan says inflation has reached target; Binance suffers the largest-ever theft of US$6.3 billion" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 31 October 2026: Intel posts its biggest fall since 1974; the Nasdaq closes October with a sharp drop; the Bank of Japan says inflation has reached target; Binance suffers the largest-ever theft of US$6.3 billion" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | 31 October 2026: Intel posts its biggest fall since 1974; the Nasdaq closes October with a sharp drop; the Bank of Japan says inflation has reached target; Binance suffers the largest-ever theft of US$6.3 billion</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/en/2026/10/30/2026-10-30-daily-brief/" title="Daily Briefing | 30 October 2026: Alphabet plummets 12.6 per cent in a single day; US Q3 GDP grows by 3.4 per cent; PCE inflation rises to 3.6 per cent; Iran rejects Qatar’s ceasefire proposal" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1584169417032-d34e8d805e8b?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 30 October 2026: Alphabet plummets 12.6 per cent in a single day; US Q3 GDP grows by 3.4 per cent; PCE inflation rises to 3.6 per cent; Iran rejects Qatar’s ceasefire proposal" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | 30 October 2026: Alphabet plummets 12.6 per cent in a single day; US Q3 GDP grows by 3.4 per cent; PCE inflation rises to 3.6 per cent; Iran rejects Qatar’s ceasefire proposal</span>
+</a><a class="recommended-article-item" href="/en/2026/10/28/2026-10-28-daily-brief/" title="Daily Briefing | 28 October 2026: Neither of the two main blocs secured a majority in the Israeli general election; China’s industrial profits rose by 14.4 per cent in September; OpenAI launched GPT-6.1 Terra" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1730808822974-b21a29d64055?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 28 October 2026: Neither of the two main blocs secured a majority in the Israeli general election; China’s industrial profits rose by 14.4 per cent in September; OpenAI launched GPT-6.1 Terra" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | 28 October 2026: Neither of the two main blocs secured a majority in the Israeli general election; China’s industrial profits rose by 14.4 per cent in September; OpenAI launched GPT-6.1 Terra</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/en/2026/10/30/2026-10-30-daily-brief/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Daily Briefing | 30 October 2026: Alphabet plummets 12.6 per cent in a single day; US Q3 GDP grows by 3.4 per cent; PCE inflation rises to 3.6 per cent; Iran rejects Qatar’s ceasefire proposal</span>
+						<span class="post-nav-item">Prev posts</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/en/2026/10/29/2026-10-29-serbia-election-economic-crossroads/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Serbia’s Economic Crossroads Amid Political Upheaval: Lithium Mines, Russian Gas and ‘Ironclad Friendship’</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">Daily Briefing | 29 October 2026: The Fed holds rates steady but two members vote for a hike; mixed results from Microsoft and Google; SK Hynix says memory chips are sold out until 2029</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8A%E6%97%A5%E4%B8%BB%E7%BA%BF"><span class="nav-text">Today's main theme</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E7%82%B9%E6%96%B0%E9%97%BB"><span class="nav-text">Key News</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%BE%8E%E8%81%94%E5%82%A8%E7%BB%B4%E6%8C%81%E5%88%A9%E7%8E%87%E4%B8%8D%E5%8F%98%EF%BC%8C%E5%BA%93%E5%85%8B%E3%80%81%E5%93%88%E9%A9%AC%E5%85%8B%E6%8A%95%E7%A5%A8%E4%B8%BB%E5%BC%A0%E5%8A%A0%E6%81%AF"><span class="nav-text">1. The Federal Reserve kept interest rates unchanged, whilst Cook and Hamak voted in favour of a rate rise</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%BE%AE%E8%BD%AF%E4%B8%8EAlphabet%E8%B4%A2%E6%8A%A5%EF%BC%9A%E4%B8%80%E4%B8%AA%E7%9B%98%E5%90%8E%E6%B6%A84-%EF%BC%8C%E4%B8%80%E4%B8%AA%E8%B7%8C8"><span class="nav-text">2. Microsoft and Alphabet’s earnings reports: one rose by 4 per cent in after-hours trading, the other fell by 8 per cent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-SK%E6%B5%B7%E5%8A%9B%E5%A3%AB%E5%AD%A3%E5%BA%A6%E8%90%A5%E4%B8%9A%E5%88%A9%E6%B6%A6%E5%88%9B%E7%BA%AA%E5%BD%95%EF%BC%8C%E7%A7%B0DRAM%E5%92%8CHBM%E5%88%B02029%E5%B9%B4%E5%9F%BA%E6%9C%AC%E5%94%AE%E7%BD%84"><span class="nav-text">3. SK Hynix posts record quarterly operating profit, stating that DRAM and HBM will be virtually sold out by 2029</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E4%BB%A5%E8%89%B2%E5%88%97%E8%AE%A1%E7%A5%A8%EF%BC%9A%E5%86%85%E5%A1%94%E5%B0%BC%E4%BA%9A%E8%83%A1%E9%98%B5%E8%90%A553%E5%B8%AD%E4%BB%8D%E4%B8%8D%E8%BF%87%E5%8D%8A%EF%BC%9B%E3%80%8A%E5%8D%8E%E5%B0%94%E8%A1%97%E6%97%A5%E6%8A%A5%E3%80%8B%E7%A7%B0%E7%BE%8E%E5%9B%BD%E8%A6%81%E6%B5%B7%E6%B9%BE%E5%9B%BD%E5%AE%B6%E4%B8%BA%E5%AF%B9%E4%BC%8A%E8%A1%8C%E5%8A%A8%E5%81%9A%E5%87%86%E5%A4%87"><span class="nav-text">4. Israeli vote count: Netanyahu’s camp secures 53 seats but still falls short of a majority; *The Wall Street Journal* reports that the US is asking Gulf states to prepare for action against Iran</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E5%9B%BD%E5%BC%80%E8%A1%8C%E5%AE%8C%E6%88%903650%E4%BA%BF%E5%85%83%E6%96%B0%E5%9E%8B%E6%94%BF%E7%AD%96%E6%80%A7%E9%87%91%E8%9E%8D%E5%B7%A5%E5%85%B7%E6%8A%95%E6%94%BE%EF%BC%8C%E8%BF%91%E5%8D%8A%E6%8A%95%E5%90%91AI%E3%80%81%E6%95%B0%E5%AD%97%E7%BB%8F%E6%B5%8E%E7%AD%89%E9%A2%86%E5%9F%9F"><span class="nav-text">5. The China Development Bank has disbursed 365 billion yuan through new policy-based financial instruments, with nearly half of this amount directed towards sectors such as AI and the digital economy.</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%82%E5%9C%BA%E5%85%B3%E8%81%94%E4%B8%8E%E4%BB%8A%E6%97%A5%E8%A7%82%E5%AF%9F"><span class="nav-text">Market Correlation and Today's Observation</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">Write down your real experiences while retaining the edges of your viewpoints.</div><div class="customize-info my-1 aden-status-hint">Something not working? Check service status at <a href="https://status.adenxie.com.cn/" target="_blank" rel="noopener">status.adenxie.com.cn</a></div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/en/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        98 posts in total
+                    </span>
+                    
+                        <span>
+                            279.8k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js" async=""></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days"></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/scene-loader.js?v=b97b1fce3bd0" defer=""></script>
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="Image viewer">
+	<button class="image-viewer-close" type="button" aria-label="Close">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="Prev">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="" decoding="async">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="Close">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="Next">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Search..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js?v=509b91971bf2"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js?v=969d65618587"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js?v=193270b6fdb0"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js?v=647d2af612df"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js?v=c9d014a814b8"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js?v=792db0224d6b"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js?v=7e6a109d5509" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js?v=03c1e188b884"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css?v=77a3a9d5a3d0">
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js?v=e98ec22436a5"></script>
+
+
+<script src="/js/build/plugins/aplayer.js?v=d6d3c64af35f"></script>
+
+
+	
+
+
+<button type="button" id="aden-chat-launcher" class="aden-chat-launcher" aria-haspopup="dialog" aria-expanded="false" hidden="" aria-label="Open AI chat" data-script="/js/chat.js?v=750a15ffa2e2" data-style="/css/chat.css?v=286cbaf4025c"><span aria-hidden="true">✳</span><span class="aden-chat-launcher-label">Ask AI</span></button></body></html>

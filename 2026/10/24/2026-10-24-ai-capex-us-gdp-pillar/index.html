@@ -1,0 +1,1554 @@
+<!DOCTYPE html><html lang="zh-CN"><head><script src="/js/language-preference.js?v=29a144036da1" data-english-home="/en/"></script><script src="/js/site-runtime.js?v=0711b6201338" defer=""></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="消费已经不是美国经济的故事了：AI 资本开支如何成为美国 GDP 的“承重柱”">
+<meta property="og:url" content="https://blog.adenxie.com.cn/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/index.html">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-10-24T12:00:00.000Z">
+<meta property="article:modified_time" content="2026-10-24T12:00:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="美联储">
+<meta property="article:tag" content="人工智能">
+<meta property="article:tag" content="美国经济">
+<meta property="article:tag" content="GDP">
+<meta property="article:tag" content="资本开支">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png?v=fa6db12e9674" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <!--- Page Info-->
+    
+    <title>
+        
+            消费已经不是美国经济的故事了：AI 资本开支如何成为美国 GDP 的“承重柱” | Aden's Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/css/site-d4cfb3d087aa.css?v=d4cfb3d087aa">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js?v=258b1afa4680"></script>
+                
+    
+            
+                
+                    
+                
+    
+
+    
+
+
+
+    
+        
+
+
+    
+
+    
+
+
+    
+
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"zh-CN","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"17px","line_height":1.85,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"all_rights_reserved"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["科技、体验与个人判断","写下真实体验，也保留观点的棱角"],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"每日简报":{"path":"/daily/","icon":"fa-regular fa-newspaper"},"归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"分类":{"path":"/categories/","icon":"fa-regular fa-folder"},"标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"世界时间":{"path":"/world-time/","icon":"fa-regular fa-clock"},"关于":{"path":"/about/","icon":"fa-regular fa-user"},"友链":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":true,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.i18n = {"search":"站内搜索您需要的内容...","toc":"目录","prev":"上一页","next":"下一页","prev_posts":"上一篇","next_posts":"下一篇","page":"第 %d 页","recent_posts":"最新文章","share":"分享","powered_by":"由 %s 驱动","theme":"主题","rss_feed":"RSS Feed","category":"分类","categories":"分类","tag":"标签","tags":"标签","post":"文章","posts":"文章","tagcloud":"标签云","comment":"评论","comments":"评论","top":"置顶","sticky":"置顶","go-back-home":"回到首页","masonry_loading":"照片加载中...","image_viewer":"图片查看器","close":"关闭","exif":{"title":"EXIF","cards":{"camera":"相机","lens":"镜头","exposure":"曝光","other":"其他"},"fields":{"make":"品牌","model":"机型","date_taken":"拍摄时间","lens_model":"镜头","focal_length":"焦距","focus_mode":"对焦模式","shutter":"快门","aperture":"光圈","iso":"感光度","exposure_program":"曝光程序","exposure_compensation":"曝光补偿","metering_mode":"测光模式","flash":"闪光灯","white_balance":"白平衡","latitude":"纬度","longitude":"经度","altitude":"海拔"},"status":{"loading":"加载中...","no_exif":"无 EXIF 信息","library_missing":"EXIF 库未加载","image_source_missing":"图片地址不可用","unavailable":"EXIF 不可用（可能被 CORS 阻止或缺少元数据）","flag_unavailable":"EXIF 不可用"}},"home":"首页","archive":"归档","archives":"归档","about":"关于","links":"链接","link":"链接","friends":"友情链接","friend":"友情链接","timeline":"时间轴","shuoshuo":"说说","bookmarks":"书签","site_uv":"访问人数","site_pv":"总访问量","read_more":"阅读全文","wordcount":"字","min2read":"分钟","changelog":"更新日志","status":"状态","runtime":"博客已运行","days":"天","hours":"小时","minutes":"分钟","seconds":"秒","optimized_by":"并由 Evan 进行优化","rights":"版权所有","site_posts":"共撰写了 %s 篇文章","site_wordcount":"共 %s 字","copyright":{"title":"标题","author":"作者","link":"链接","create_time":"创建于","update_time":"更新于","license_title":"版权声明","license_content":"本文章采用 %s 进行许可。","all_rights_reserved":"版权所有 &#169 %s，禁止转载。","public_domain":"本文为公有领域作品，可自由转载、引用。"},"ago":{"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"},"create_time":"创建","update_time":"更新","expired":"这篇文章最后更新于 %s 天前，内容可能已经过时。"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" hreflang="zh-CN" href="https://blog.adenxie.com.cn/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/"><link rel="alternate" hreflang="en" href="https://blog.adenxie.com.cn/en/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/"><script data-aden-analytics="">
+      if (location.hostname === 'blog.adenxie.com.cn' && !window.__adenAnalyticsLoaded) {
+        window.__adenAnalyticsLoaded = true;
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        const script = document.createElement('script');
+        script.defer = true;
+        script.src = '/_vercel/insights/script.js';
+        document.head.append(script);
+      }
+    </script></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/daily/">
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    每日简报
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    归档
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/categories/">
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    分类
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    标签
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    世界时间
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    友链
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    <nav class="aden-language-switch" aria-label="Language"><a lang="zh-CN" href="/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/" aria-current="page">中文</a><span> / </span><a lang="en" href="/en/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/" aria-current="false" data-no-swup="">English</a></nav></div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/">
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/daily/">
+                            <span>
+                                每日简报
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/archives/">
+                            <span>
+                                归档
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/categories/">
+                            <span>
+                                分类
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/tags/">
+                            <span>
+                                标签
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/world-time/">
+                            <span>
+                                世界时间
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/about/">
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/link/">
+                            <span>
+                                友链
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/archives/">
+                            <span>文章归档</span>
+                            <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/tags/">
+                            <span>主题标签</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/about/">
+                            <span>关于 Aden</span>
+                            <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">65</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">98</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://images.pexels.com/photos/5480781/pexels-photo-5480781.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="消费已经不是美国经济的故事了：AI 资本开支如何成为美国 GDP 的“承重柱”" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" decoding="async">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">消费已经不是美国经济的故事了：AI 资本开支如何成为美国 GDP 的“承重柱”</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg?v=93ba7ebfa2ff" decoding="async" width="460" height="460">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-10-24 20:00</span>
+        <span class="mobile">2026-10-24 20:00</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-10-24 20:00</span>
+            <span class="mobile">2026-10-24 20:00</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E7%BB%8F%E6%B5%8E%E8%A7%82%E5%AF%9F/">经济观察</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E7%BE%8E%E8%81%94%E5%82%A8/">美联储</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">人工智能</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E7%BE%8E%E5%9B%BD%E7%BB%8F%E6%B5%8E/">美国经济</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/GDP/">GDP</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E8%B5%84%E6%9C%AC%E5%BC%80%E6%94%AF/">资本开支</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>7k 字</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>24 分钟</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<blockquote>
+<p><strong>导读</strong>：长久以来，全球投资者对美国经济都有一个根深蒂固的共识——“得消费生，失消费死”，个人消费支出（PCE）贡献了美国 GDP 的近七成，只要美国老百姓还在刷信用卡，经济引擎就不会熄火。然而，2026 年最新出炉的宏观经济数据却给出了一个完全颠覆认知的新现实：<strong>消费已经退居次席，撑起美国经济半壁江山的，变成了一座座拔地而起的 AI 数据中心、昂贵的 GPU 集群与漫长的电力电网。</strong> 华尔街测算显示，今年美国近半数的经济增长直接由 AI 资本开支（Capex）拉动；而在最激进的口径下，这一比例甚至被推演到了惊人的 74%。AI 投资究竟贡献了几个点的增速？如果这台庞大的算力碎钞机突然停转，美国经济会发生什么？我们是否正在重演 1990 年代万亿光纤大跃进的历史旧梦？</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="引子：单引擎经济的诞生"><a href="#引子：单引擎经济的诞生" class="headerlink" title="引子：单引擎经济的诞生"></a>引子：单引擎经济的诞生</h2><p>先把目光拉回美国经济分析局（BEA）今年正式敲定的几组宏观数据：</p>
+<ul>
+<li><strong>2025 年第四季度</strong>：美国实际 GDP 年化季环比增速仅录得微弱的 <strong>+0.5%</strong>，几乎滑落至停滞边缘；</li>
+<li><strong>2026 年第一季度</strong>：GDP 增速突然强劲反弹至 <strong>+2.1%</strong>（第三估算修至 +2.5%）；</li>
+<li><strong>2026 年第二季度</strong>：GDP 终值继续稳定在 <strong>+2.2%</strong> 的温和区间。</li>
+</ul>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://storage.ghost.io/c/77/f7/77f78434-a11f-4803-9c04-b15aaa2a8e69/content/images/2026/06/ai-capex-gdp-growth-q1-2026-bea-third-estimate.png" alt="AI 数据中心建设与宏观资本开支" decoding="async" loading="lazy" width="1000" height="500"><figcaption>AI 数据中心建设与宏观资本开支</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">图 1</span><span class="aden-caption-text">AI 资本开支概念示意图（交易终端与数据中心机房）：AI 资本开支已从科技巨头的个别商业行为，上升为拉动美国宏观经济增长的第一引擎。（配图来源：TFTC / Ghost CDN）</span></p>
+<p>表面上看，这是一份标准的美国经济“软着陆”成绩单。但在聚光灯背后，结构性的支柱已经发生了历史性的断裂与重组：<br>过去作为绝对主角的居民消费对经济增长的贡献被大幅挤压，住宅房地产投资受制于 7.5% 的高房贷利率连续数个季度形成负拖累。<strong>让美国经济在 2026 年避免坠入衰退深渊的唯一主力，是科技巨头们不计成本、疯狂下注的 AI 基础设施建设。</strong></p>
+<p>正如桥水基金（Bridgewater）在宏观研报中所下的断言：<strong>美国经济正在变成一艘依靠单引擎驱动的巨轮——这根唯一的承重柱，叫作 AI 资本开支。</strong></p>
+<h2 id="一、“74-”-的争议：AI-到底给美国经济贡献了几个点？"><a href="#一、“74-”-的争议：AI-到底给美国经济贡献了几个点？" class="headerlink" title="一、“74%” 的争议：AI 到底给美国经济贡献了几个点？"></a>一、“74%” 的争议：AI 到底给美国经济贡献了几个点？</h2><p>在财经圈与宏观分析师的论战中，“AI 到底拉动了多少 GDP”是当前分歧最大、也最具信息量的话题。市场上流传的结论从 <strong>30%</strong> 到 <strong>74%</strong> 甚至更高不等。</p>
+<p>这个巨大的数字区间到底是怎么来的？我们必须拆解出四种截然不同的统计口径：</p>
+<h3 id="口径-1：TFTC-的“74-”最宽口径（激进推演）"><a href="#口径-1：TFTC-的“74-”最宽口径（激进推演）" class="headerlink" title="口径 1：TFTC 的“74%”最宽口径（激进推演）"></a>口径 1：TFTC 的“74%”最宽口径（激进推演）</h3><p>今年夏天，知名宏观分析机构 TFTC 依据 BEA 2026 年一季度国民收入和生产账户（NIPA 表 1.5.2）测算出：<strong>AI 数据中心建设与软件投资贡献了美国一季度近 74% 的 GDP 增长。</strong></p>
+<p>其算法极其直接粗暴：<br>一季度美国实际 GDP 年化拉动增量为 2.1 个百分点。TFTC 直接提取了固定资产投资中的两大细分项——<strong>信息处理设备</strong>（包含数据中心服务器、网络硬件、GPU 集群）贡献约 0.65 个百分点，加上<strong>知识产权产品</strong>（主要为 AI 训练与企业级软件研发）贡献约 0.90 个百分点，两项合计达到 <strong>1.55 个百分点</strong>。<br>1.55% ÷ 2.10% ≈ 73.8% ≈ 74%</p>
+<ul>
+<li><strong>合理性</strong>：圣路易斯联储（St. Louis Fed）在今年 1 月的专题报告中也曾采用过相同的子项作为追踪 AI 的代理变量，方法论在央行层面有迹可循；</li>
+<li><strong>瑕疵点</strong>：这两大分类属于“广义 IT 篮子”，不可避免地混入了传统非 AI 软件与普通办公设备采购，属于分析师推演的最宽上限口径。</li>
+</ul>
+<h3 id="口径-2：美联储（Fed）的严谨净贡献口径（30-–50-）"><a href="#口径-2：美联储（Fed）的严谨净贡献口径（30-–50-）" class="headerlink" title="口径 2：美联储（Fed）的严谨净贡献口径（30%–50%）"></a>口径 2：美联储（Fed）的严谨净贡献口径（30%–50%）</h3><p>美联储理事会在 2026 年 7 月 17 日专门发表了一篇里程碑式的研究笔记——《AI 建设与宏观经济》（<em>The AI Buildout and the Economy</em>）。美联储经济学家构建了一套更为精密的代理模型：同时追踪软件、数据中心建筑、电力配套设施及计算设备四大分支，但<strong>重点剔除了暴增的进口零部件对净出口（Net Exports）的负向拖累</strong>。</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://www.federalreserve.gov/econres/notes/feds-notes/figure7-4119.png" alt="美联储 FEDS Notes Figure 7：AI 关键成分对美国 GDP 增长的季度贡献分析" decoding="async" loading="lazy" width="1000" height="500"><figcaption>美联储 FEDS Notes Figure 7：AI 关键成分对美国 GDP 增长的季度贡献分析</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">图 2</span><span class="aden-caption-text">美联储构建的 AI 投资代理指标（软件 + 数据中心建筑 + 电力配套设施 + IT 计算设备）对实际 GDP 的季度拉动率。净效应（黑线）显示其贡献显著，但受服务器进口等净出口拖累扰动波动较大。（数据与图表：Federal Reserve Board / BEA，FEDS Notes 2026-07-17）</span></p>
+<p>美联储得出的结论极具启发性：<br>AI 建设的毛投资拉动确实极其强劲，但由于大量服务器元器件依赖海外供应链，进口激增在部分季度直接抵消了一半的总投资贡献。扣除进口漏损后，<strong>AI 净投资对美国 GDP 增长的实际贡献率大约落在 30% 至 50% 区间</strong>。</p>
+<p>更关键的是，美联储在报告中直言不讳：<strong>“截至 2026 年，宏观总体生产率数据中仍未观察到广泛的技术转型信号。”</strong> 换句话说，现在的 GDP 纯粹是由真金白银的“基建建造”砸出来的，AI 技术本身的降本增效在宏观层面还远未兑现。</p>
+<h3 id="口径-3：桥水基金（Bridgewater）的-1-4-个百分点中枢（约-50-）"><a href="#口径-3：桥水基金（Bridgewater）的-1-4-个百分点中枢（约-50-）" class="headerlink" title="口径 3：桥水基金（Bridgewater）的 1.4 个百分点中枢（约 50%）"></a>口径 3：桥水基金（Bridgewater）的 1.4 个百分点中枢（约 50%）</h3><p>桥水首席投资官 Greg Jensen 等人测算：<strong>AI 资本开支在 2026 年直接贡献了美国全年约 1.4 个百分点的 GDP 增速；在预期 2.8% 的全年增长中，足足占了一半（50%）。</strong> 他们预计到 2027 年，这一拉动还将进一步放大到 1.5 个百分点。这一规模与 1990 年代互联网大繁荣时期的商业投资强度已完全持平。</p>
+<h3 id="口径-4：高盛（Goldman-Sachs）的全球万亿美元视野"><a href="#口径-4：高盛（Goldman-Sachs）的全球万亿美元视野" class="headerlink" title="口径 4：高盛（Goldman Sachs）的全球万亿美元视野"></a>口径 4：高盛（Goldman Sachs）的全球万亿美元视野</h3><p>高盛宏观经济学家 Joseph Briggs 则从资金总量测算：<strong>2026 年全球与 AI 相关的总投资规模将正式突破 1 万亿美元（&gt;$1T），其中仅美国本土就占到 5,810 亿美元（$581B）。</strong></p>
+<div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th align="left">统计与分析口径</th>
+<th align="center">测算出的贡献比例 / 金额</th>
+<th align="left">核心方法论与特征</th>
+<th align="left">关键局限与说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>TFTC 激进上限口径</strong></td>
+<td align="center"><strong>~74%</strong>（Q1 2026）</td>
+<td align="left">NIPA 表 1.5.2 软件与硬件两子项直接加总（拉动 1.55pp / 2.1%）</td>
+<td align="left">包含非 AI 传统 IT 与软件采购，口径偏宽</td>
+</tr>
+<tr>
+<td align="left"><strong>美联储（Fed）严谨净口径</strong></td>
+<td align="center"><strong>30% – 50%</strong>（动态波动）</td>
+<td align="left">四类要素综合测算，剔除服务器与元器件进口漏损对净出口的拖累</td>
+<td align="left">净效应受贸易赤字季度扰动大，指出生产率尚未兑现</td>
+</tr>
+<tr>
+<td align="left"><strong>桥水（Bridgewater）中枢</strong></td>
+<td align="center"><strong>~50%</strong>（全年贡献约 1.4pp）</td>
+<td align="left">包含芯片巨头利润分配与软硬件综合投入，预期占全年增长一半</td>
+<td align="left">市场引用最广的基准锚点，预测 2027 达 1.5pp</td>
+</tr>
+<tr>
+<td align="left"><strong>高盛（Goldman）总量视角</strong></td>
+<td align="center"><strong>美国 $581B</strong>（全球 &gt;$1T）</td>
+<td align="left">全球宏观自上而下资本开支统计</td>
+<td align="left">衡量资金总盘，而非单一季度 GDP 边际差额</td>
+</tr>
+</tbody></table></div>
+<p><strong>给普通读者的客观结论</strong>：<br>关于“AI 到底贡献了几个点”，诚实的答案是一个<strong>区间</strong>——即使按照美联储最保守的净额口径，AI 也在拉动着全美 30% 到 50% 的经济增长；若按广泛引用的中枢测算，<strong>美国今年每 2 美元的增长中，就有 1 美元是来自 AI 资本开支</strong>。</p>
+<p>在非战时、非政府主动四万亿大基建的和平年代，私人部门单靠一个产业的资本开支就扛起大国近半数的增长，这在人类近代经济史上罕见至极。</p>
+<h2 id="二、万亿基建的微观地基：从五大巨头到千亿算力锁链"><a href="#二、万亿基建的微观地基：从五大巨头到千亿算力锁链" class="headerlink" title="二、万亿基建的微观地基：从五大巨头到千亿算力锁链"></a>二、万亿基建的微观地基：从五大巨头到千亿算力锁链</h2><p>这根庞大的宏观承重柱，是由一家家科技巨头在微观层面用一笔笔不可撤销的死合同浇筑而成的。</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://www.federalreserve.gov/econres/notes/feds-notes/figure4-4119.png" alt="美联储 FEDS Notes Figure 4：主要科技巨头季度资本支出爆发式攀升" decoding="async" loading="lazy" width="1000" height="500"><figcaption>美联储 FEDS Notes Figure 4：主要科技巨头季度资本支出爆发式攀升</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">图 3</span><span class="aden-caption-text">主要科技巨头（Hyperscalers）季度资本支出走势：由 2019 年单季度约 30–50 亿美元（$3B–$5B），飙升至如今单家单季数百亿美元的史诗级规模。（数据：SEC 10-Q 文件 / Federal Reserve Board）</span></p>
+<h3 id="1-科技五巨头的开支军备竞赛"><a href="#1-科技五巨头的开支军备竞赛" class="headerlink" title="1. 科技五巨头的开支军备竞赛"></a>1. 科技五巨头的开支军备竞赛</h3><p>据各大科技公司最新披露的财报与指引：</p>
+<ul>
+<li><strong>微软（Microsoft）</strong>：2026 日历年资本开支指引直接拔高到 <strong>约 1,900 亿美元（$190B）</strong>，同比暴增 61%，单家开支就超出市场预期 350 亿美元；</li>
+<li><strong>亚马逊（Amazon）</strong>：年化资本开支同样冲向 <strong>约 2,000 亿美元（$200B）</strong> 高位；</li>
+<li>统计显示，包括 Alphabet（谷歌）、Meta 在内的全球五大云巨头，仅 2026 年一年的资本支出总额就落在 <strong>7,000 亿至 7,250 亿美元（$700B–$725B）</strong> 的天文区间。</li>
+</ul>
+<p>权威智库 <a class="link" target="_blank" rel="noopener" href="https://epoch.ai/data-insights/ai-datacenter-share-gdp">Epoch AI 发布的专项研究<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> 进一步佐证了这一剧变：<strong>当前仅 AI 相关资本形成（数据中心建设 + 硬件设备）占美国 GDP 的比重就达到了约 0.8%，带动整个计算基础设施占 GDP 比重跃升至 1.5%</strong>——相较于 2015 至 2022 年间仅 0.7% 的历史中枢，实现了惊人的“翻倍狂飙”。</p>
+<h3 id="2-联动前篇：微观主体的算力负债锁链"><a href="#2-联动前篇：微观主体的算力负债锁链" class="headerlink" title="2. 联动前篇：微观主体的算力负债锁链"></a>2. 联动前篇：微观主体的算力负债锁链</h3><p>这根宏观承重柱的微观底层，正是我们在前两篇深度分析中拆解过的那两家前沿大模型独角兽：</p>
+<ul>
+<li><strong><a href="/2026/10/23/2026-10-23-anthropic-loss-ipo/">Anthropic</a></strong>：招股书草案披露其背负着跨度约 10 年、高达 <strong>5,180 亿美元（$518B）</strong> 的算力采购硬性承诺，其中近 80%（4,137 亿美元）属于完全不可撤销的死合同；</li>
+<li><strong><a href="/2026/10/24/2026-10-24-openai-vs-anthropic-ipo-race/">OpenAI</a></strong>：仅 2025 年一年付给微软 Azure 的云算力开支就高达 172 亿美元，至 2030 年的算力基建长远规划总盘更是达到了惊人的 <strong>8,560 亿美元（$856B）</strong>，甚至联手牵头推进 5,000 亿美元的“星际门（Stargate）”超级智算项目。</li>
+</ul>
+<p><strong>两家公司锁定的长期算力债务总额，就已经全面超越了全美一年的 AI 总投资规模。</strong> 这种“买方签下天量不可取消承诺 ➔ 云厂商疯狂买地建机房 ➔ 芯片厂开足马力出货”的闭环，直接让这场资本开支具备了极强的刚性惯性——箭在弦上，谁都停不下来。</p>
+<h2 id="三、反事实推演：如果-AI-资本开支停下来会怎样？"><a href="#三、反事实推演：如果-AI-资本开支停下来会怎样？" class="headerlink" title="三、反事实推演：如果 AI 资本开支停下来会怎样？"></a>三、反事实推演：如果 AI 资本开支停下来会怎样？</h2><p>要评估一根柱子到底有多重要，最简单的方法是做一个<strong>反事实推演（Counterfactual Analysis）</strong>：假设明天巨头们不再加码，这根柱子撤掉或打折，美国经济会发生什么？</p>
+<p>基于已经核实的数据模型，我们可以清晰推导出三层机械冲击：</p>
+<div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th align="left">冲击层级</th>
+<th align="left">假设前提</th>
+<th align="left">传导机制与经济后果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>冲击一：增速折损</strong></td>
+<td align="left">增量归零（capex 停止增长）或存量收缩 20%</td>
+<td align="left">桥水测算的 1.4pp 增量拉动直接蒸发；美国当季 GDP 增速抹掉近一半，若收缩 20% 则倒退逾 1 个百分点跌至衰退边缘；2025Q4 的 +0.5% 就是剥离 AI 后的真实底色</td>
+</tr>
+<tr>
+<td align="left"><strong>冲击二：就业与地方休克</strong></td>
+<td align="left">投资退潮传导至实体产业链</td>
+<td align="left">数据中心本质是重工业：电气施工、特种电工、重型暖通全面承压；冲击集中在弗吉尼亚北部、德州、亚利桑那等”算力走廊”，资本密集型退潮演化为地方财政与就业的政治压力</td>
+</tr>
+<tr>
+<td align="left"><strong>冲击三：要素价格棘轮</strong></td>
+<td align="left">即使开支恢复常态</td>
+<td align="left">前期被争抢的电力并网指标、工业用地、水资源价格具有极强黏性；居民和制造业被推高的公用事业账单难快速回落；”增长熄火 + 成本高企”滑向滞胀泥潭</td>
+</tr>
+</tbody></table></div>
+<p>三层冲击自上而下传导：第一层立竿见影（当季数据），第二层滞后 2–4 个季度（项目建设周期），第三层最持久（要素价格的棘轮效应）。</p>
+<ol>
+<li><p><strong>增长瞬间腰斩</strong>：<br>AI 资本开支贡献了全年 1.4 个百分点的增速。<strong>如果 AI Capex 仅仅是“停止增长”（增速归零，绝对投资维持原样），美国当季 GDP 增速就会直接抹掉近一半</strong>；若科技巨头因盈利承压将总预算缩减 20%，美国实际 GDP 将直接倒退逾 1 个百分点，瞬间被推入衰退边缘。2025 年第四季度那个险些见负的 +0.5%，就是剥离掉 AI 狂热后，美国实体经济最真实的失血底色。</p>
+</li>
+<li><p><strong>重工业与地方经济休克</strong>：<br>与很多人以为的“AI 只是写代码的虚拟经济”不同，今天的数据中心本质上是一场<strong>重工业与土木狂欢</strong>。高压变电站、工业冷水机组、备用柴油发电机组的采购，养活了全美大批中游高端制造与特种施工队伍。一旦投资退潮，弗吉尼亚北部“数据中心走廊”等核心枢纽带将立刻面临项目烂尾与施工失业风暴。</p>
+</li>
+<li><p><strong>要素成本的“棘轮效应”</strong>：<br>芝加哥联储主席 Austan Goolsbee 近期发出了一个极其深刻的警告：<strong>数据中心正在全方位挤占普通家庭和制造业所必须的电力、土地与水资源。</strong> 即使未来科技巨头突然缩减开支，被炒高的高峰电价、电网改造附加费和工业用地租金具有极高的刚性，并不会同步下降。实体经济将被迫在没有 AI 繁荣红利的前提下，长期咽下要素涨价的苦果。</p>
+</li>
+</ol>
+<h2 id="四、历史的回响：1990-年代电信光纤大跃进的宿命对照"><a href="#四、历史的回响：1990-年代电信光纤大跃进的宿命对照" class="headerlink" title="四、历史的回响：1990 年代电信光纤大跃进的宿命对照"></a>四、历史的回响：1990 年代电信光纤大跃进的宿命对照</h2><p>今天的 AI 狂热并不是人类第一次将国家宏观命运押注在一场通信与算力基础设施的豪赌上。30 年前，类似的剧本在电信与互联网浪潮中以近乎同构的姿态上演过。</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://fortune.com/img-assets/wp-content/uploads/2026/06/Screenshot-2026-06-11-at-154932.png" alt="ARK Invest：AI 资本开支占 GDP 比重与 1873 年铁路繁荣对比" decoding="async" loading="lazy" width="1000" height="500"><figcaption>ARK Invest：AI 资本开支占 GDP 比重与 1873 年铁路繁荣对比</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">图 4</span><span class="aden-caption-text">前沿科技资本开支占 GDP 比重历史对照：当前 AI 资本开支的扩张斜率已超越 1873 年美国铁路建设周期。（数据来源：ARK Invest via Fortune）</span></p>
+<h3 id="1-1996–2001-光纤泡沫的震撼旧事"><a href="#1-1996–2001-光纤泡沫的震撼旧事" class="headerlink" title="1. 1996–2001 光纤泡沫的震撼旧事"></a>1. 1996–2001 光纤泡沫的震撼旧事</h3><p>在 1990 年代中后期“信息高速公路”的口号下：</p>
+<ul>
+<li>全球电信运营商与光纤巨头在 5 年内累计烧掉了 <strong>约 2 万亿美元（$2T）</strong> 的巨额资本，仅在美国本土就铺设了超过 <strong>8,500 万英里</strong> 的先进光纤电缆；</li>
+<li>美国电信资本开支占 GDP 的比重最高冲到了 <strong>1.0% 至 1.2%</strong>，拉动了克林顿时代后期的经济黄金繁荣。</li>
+</ul>
+<p>然而，当商业化需求未能跟上疯狂的技术供给时，惨烈的退潮随之而来：</p>
+<ul>
+<li>2002 年，当时美国史上最大的财务造假与破产案——<strong>世通（WorldCom）轰然倒塌</strong>，环球电讯（Global Crossing）等巨头相继瓦解，电信板块蒸发了近 2 万亿美元市值；</li>
+<li>泡沫破灭整整四年后，调查显示全美当年铺设的光纤电缆中，<strong>有高达 85% 到 95% 从未被点亮使用过，沦为沉睡在地底的“暗光纤（Dark Fiber）”</strong>。</li>
+</ul>
+<p>但历史最具讽刺意味的转折在于：<br>正是这片被破产资本遗弃、近乎白捡的庞大暗光纤网络，为 2005 年后崛起的高清视频流媒体（YouTube、Netflix）、智能手机移动互联网以及第一代现代云计算服务（AWS），提供了极度廉价且超前的物理地基。<strong>先驱者流血破产，最终造福了后来的创新繁荣。</strong></p>
+<h3 id="2-这一次的同与不同：为什么-AI-比光纤更脆弱？"><a href="#2-这一次的同与不同：为什么-AI-比光纤更脆弱？" class="headerlink" title="2. 这一次的同与不同：为什么 AI 比光纤更脆弱？"></a>2. 这一次的同与不同：为什么 AI 比光纤更脆弱？</h3><div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th align="left">对比维度</th>
+<th align="left">1990 年代电信光纤大跃进</th>
+<th align="left">2020 年代 AI 数据中心大扩建</th>
+<th align="left">潜在风险与机制差异</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>峰值占 GDP 比重</strong></td>
+<td align="left">约 <strong>1.0% – 1.2%</strong></td>
+<td align="left">当前已达 <strong>1.4% – 1.5%</strong></td>
+<td align="left">两者均属于重塑国家级宏观投资结构的超级科技周期</td>
+</tr>
+<tr>
+<td align="left"><strong>底层技术真实性</strong></td>
+<td align="left">真实，互联网彻底改变世界</td>
+<td align="left">真实，大模型正成为新型生产力</td>
+<td align="left">技术本身并非骗局，过度的是超前透支的资本节奏</td>
+</tr>
+<tr>
+<td align="left"><strong>设备商周期放大器</strong></td>
+<td align="left">北电网络（Nortel）、朗讯（Lucent）</td>
+<td align="left">英伟达（Nvidia）、博通（Broadcom）</td>
+<td align="left">设备卖方垄断攫取全行业最大利润，放大资本追逐效应</td>
+</tr>
+<tr>
+<td align="left"><strong>资产物理折旧属性</strong></td>
+<td align="left"><strong>极度耐用</strong>：玻璃光纤埋入地下不磨损，维护成本近乎为零，等待需求跟上</td>
+<td align="left"><strong>极速贬值</strong>：<strong>GPU 芯片折旧周期仅 3 至 5 年</strong>，新一代算力架构迭代迅速，押错注的硬件会面临物理性过时淘汰</td>
+<td align="left"><strong>⚠️ 本轮 AI 基建的资产负债表远比光纤脆弱</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>融资结构模式</strong></td>
+<td align="left">运营商靠大规模发行企业债加杠杆（最终因债滚债断裂）</td>
+<td align="left">早期靠科技巨头充沛的经营现金流与云利润支撑</td>
+<td align="left">正在快速“债化”：Anthropic 与 OpenAI 的数百亿甚至上千亿算力负债正在累积</td>
+</tr>
+<tr>
+<td align="left"><strong>宏观货币环境</strong></td>
+<td align="left">泡沫后期美联储格林斯潘拥有充裕的<strong>降息挽救空间</strong></td>
+<td align="left"><strong>美联储正深陷抗通胀泥潭</strong>（基准利率高企在 3.75%–4.00% 甚至仍存加息预期）</td>
+<td align="left">外部融资成本极高，缺乏低息安全垫救市</td>
+</tr>
+</tbody></table></div>
+<p>最致命的差异恰恰在于<strong>折旧时间窗</strong>：<br>当年铺在地下的光纤哪怕等了八年才迎来 Netflix，管线依旧完好无损；但今天堆在数据中心里的数百万张先进 GPU，<strong>三年内折旧成本就会从利润表上呼啸而过，五年内就会在算力能效比上被下一代工艺无情淘汰</strong>。AI 资本没有从容等待需求自然培育十年的奢侈耐心。</p>
+<h2 id="五、物理天花板与宏观闭环：电力饥渴正在推升通胀"><a href="#五、物理天花板与宏观闭环：电力饥渴正在推升通胀" class="headerlink" title="五、物理天花板与宏观闭环：电力饥渴正在推升通胀"></a>五、物理天花板与宏观闭环：电力饥渴正在推升通胀</h2><p>如果说软件商业化转化慢是商业维度的隐忧，那么当前摆在 AI 资本开支面前最残酷的，是一道道冷酷的<strong>物理与工程上限</strong>。</p>
+<h3 id="1-33-吉瓦的电网天堑与近-3-年的变压器排期"><a href="#1-33-吉瓦的电网天堑与近-3-年的变压器排期" class="headerlink" title="1. 33 吉瓦的电网天堑与近 3 年的变压器排期"></a>1. 33 吉瓦的电网天堑与近 3 年的变压器排期</h3><p>摩根士丹利（Morgan Stanley）在 2026 年 10 月发布的深度专项报告中，测算了一组令硅谷工程师窒息的缺口数字：</p>
+<ul>
+<li>预计到 2028 年，全美数据中心的电力新增需求将高达 <strong>97 GW（吉瓦）</strong>；</li>
+<li>即便把所有就地发电（工业燃气轮机、固体氧化物燃料电池、甚至尝试重启小型核反应堆）的加速方案全额算上，全美电网至多只能勉强挤出 24 GW 增量；</li>
+<li><strong>全美数据中心面临着高达 32 至 33 GW 的不可逾越净电力缺口（相当于总需求的 34% 面临断电短缺）</strong>。</li>
+</ul>
+<p>与电力缺口相伴的是全球重电供应链的断供级拥堵：<br>据 Wood Mackenzie 权威产业调查，目前在北美采购一台<strong>大型电力变压器（LPT）的标准交付周期长达 128 周（近 2.5 年）</strong>，发电机升压变压器更是长达 <strong>144 周（近 3 年）</strong>！而在 2020 年，这一交期仅仅是 6 到 12 周。</p>
+<p>Gartner 调研进一步预测：未来一年内，全美将有 <strong>40% 的新建 AI 数据中心直接受困于电力指标断供</strong>，多达一半的规划项目面临实质性延期。</p>
+<h3 id="2-美联储的闭环警报：“AI-正在推升通胀”"><a href="#2-美联储的闭环警报：“AI-正在推升通胀”" class="headerlink" title="2. 美联储的闭环警报：“AI 正在推升通胀”"></a>2. 美联储的闭环警报：“AI 正在推升通胀”</h3><p>这场对物理资源的争夺，不仅在限制科技公司的扩产步伐，更直接杀入了美联储的政策视线：</p>
+<p>在美联储 9 月 FOMC 议息会议纪要中，有一行字被正式写入了全体货币政策委员会的记录：<br><strong>“地缘政治发展与激增的 AI 相关投资，正在共同推升通胀压力（AI-related investments were pushing up inflation pressures）。”</strong></p>
+<p>美联储官员们的公开表态已不再掩饰担忧：</p>
+<ul>
+<li>克利夫兰联储主席 Beth Hammack 指出，为了抢夺电网接入名额，科技巨头愿意对哪怕性能一般的电力开关设备“开出任何天价支票”；</li>
+<li>芝加哥联储主席 Austan Goolsbee 更是直言，AI 引起的通胀<strong>“正在跳出它原本狭窄的科技车道”</strong>，在水泥、钢铁、特种铜材、电力与劳动力市场上演一场老式的宏观需求过热。</li>
+</ul>
+<p>这就形成了一个荒诞而危险的<strong>宏观死循环</strong>：</p>
+<ol>
+<li>科技巨头为了守住竞争位阶，大举推进数千亿资本开支；</li>
+<li>基建狂飙与能源短缺直接推高了电力与要素通胀；</li>
+<li>通胀黏性迫使美联储维持高利率甚至继续加息（当前已达 3.75%–4.00%）；</li>
+<li>高利率反过来推升了科技巨头发债与实体融资的财务成本；</li>
+<li>最终，这根支撑 GDP 的高成本承重柱变得越来越沉重、越来越难以维系。</li>
+</ol>
+<h2 id="六、未来推演：AI-承重柱的三种命运"><a href="#六、未来推演：AI-承重柱的三种命运" class="headerlink" title="六、未来推演：AI 承重柱的三种命运"></a>六、未来推演：AI 承重柱的三种命运</h2><p>面向即将披露的三季度 GDP 数据以及科技巨头未来一年的资本指引，这根承重柱的演变轨迹呈现出以下三种概率分布：</p>
+<div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th align="left">演绎情景</th>
+<th align="center">发生概率</th>
+<th align="left">宏观与基本面核心触发门槛</th>
+<th align="left">经济与资本市场最终含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>情景 A<br>（承重柱坚挺）</strong></td>
+<td align="center"><strong>~55%</strong><br><em>(基准情形)</em></td>
+<td align="left">• 10 月 29 日公布的 Q3 GDP 确认固定投资依然保持稳健正增长；<br>• 五大科技巨头 11 月财报指引维持 7,000 亿美元级别 Capex 不退缩；<br>• 场内发电与核能技术方案逐步落地，阶段性缓和电力瓶颈。</td>
+<td align="left"><strong>单引擎延续</strong>：美国整体 GDP 维持在 2.0%–2.5% 区间，AI Capex 依然提供近半数拉动。“繁荣与过热并存”的焦虑拉长，但短期无系统性衰退风险。</td>
+</tr>
+<tr>
+<td align="left"><strong>情景 B<br>（引擎骤然熄火）</strong></td>
+<td align="center"><strong>~25%</strong><br><em>(风险情形)</em></td>
+<td align="left">• 大模型企业商业化变现严重低于预期，巨头被迫在下半年缩减资本预算；<br>• 电网接入延期范围超过 50%，导致大量项目陷入停工；<br>• 利率长期高位运行击穿高杠杆算力债务链条。</td>
+<td align="left"><strong>断崖式滑坡</strong>：AI 投资增速转负，全美 GDP 增速迅速跌落至 1.0% 以下，经济失血真相暴露。美联储或将被迫快速调整货币政策转向降息，甚至考虑出台流动性支持工具。</td>
+</tr>
+<tr>
+<td align="left"><strong>情景 C<br>（生产率全面兑现）</strong></td>
+<td align="center"><strong>~20%</strong><br><em>(超预期良性)</em></td>
+<td align="left">• 劳工统计局（BLS）数据首次捕捉到 AI 高暴露行业（如金融、软件、生物医疗）的劳动生产率增速连续数季突破 2.0%；<br>• 智能代理（Agent）与企业工作流全面实现商业化闭环造血。</td>
+<td align="left"><strong>历史性跨越</strong>：当前的万亿资本开支被正式追溯为一次伟大的超前战略奠基，“AI 泡沫论”彻底瓦解，重现当年光纤与互联网的终极繁荣叙事。</td>
+</tr>
+</tbody></table></div>
+<h2 id="七、数据口径诚实说明（关键边界与审慎声明）"><a href="#七、数据口径诚实说明（关键边界与审慎声明）" class="headerlink" title="七、数据口径诚实说明（关键边界与审慎声明）"></a>七、数据口径诚实说明（关键边界与审慎声明）</h2><p>在阅读本篇报告的全部论点时，请读者保持清醒的学术审慎：</p>
+<ol>
+<li><strong>BEA 官方并无独立的“AI 产业统计科目”</strong>：所有文中提到的“AI 贡献 74%”或“贡献 1.4 个百分点”，均属于顶级金融机构和智库通过 NIPA 子项代理变量、供应链自下而上拆解模型推算得出的分析结论，并非美国政府官方给出的法定统计定义；</li>
+<li><strong>桥水（Bridgewater）研报存在商业版权转述属性</strong>：其 2026 年贡献 1.4pp、Big Tech $650B 投资额等关键数据源于权威财经媒体与宏观经济学者的交叉转述核验；</li>
+<li><strong>前瞻时效性约束</strong>：2026 年三季度实际 GDP 的初值（Advance Estimate）将在 10 月 29 日由 BEA 正式向全球发布，届时 AI 资本开支对下半年经济的拉动比重将迎来最新一轮客观数据的压力测试。</li>
+</ol>
+<h2 id="结语：别把脚手架当成大厦本身"><a href="#结语：别把脚手架当成大厦本身" class="headerlink" title="结语：别把脚手架当成大厦本身"></a>结语：别把脚手架当成大厦本身</h2><p>回到那个最初的命题：消费已经不是美国经济的故事了吗？</p>
+<p>从宏观流量的边际增量来看，确实如此。在过去的一年半里，是几家科技巨头的万亿豪赌，生生把滑向减速边缘的美国经济拉了回来。在这个意义上，AI 资本开支确实是当之无愧的“承重柱”。</p>
+<p>但每一位严肃的经济学者都清楚：<strong>资本开支在本质上只是建造大厦时的“脚手架”，它永远无法替代大厦本身。</strong><br>企业之所以愿意每年砸下数千亿美元买芯片、盖电厂，终极目的必须是换来全社会消费端与生产端的真实购买与效率飞跃。如果三年之后，当这座用万亿美元搭建起来的算力大厦完全封顶时，门外依然只有零星的企业付费，门内却是一堆面临 3 年报废周期的发烫硅片，那么这根粗壮的承重柱，就有可能在一夜之间变成砸向美国经济最沉重的一记重锤。</p>
+<p>大模型双雄正奔向公开资本市场，科技巨头正在锁定未来十年的电力契约。这场万亿豪赌究竟是一场重塑世界的产业大革命，还是一场最终留给全美公用事业买单的光纤式悲喜剧？</p>
+<p>答案就在未来两年的账单里。</p>
+<h3 id="主要信息来源与核验索引"><a href="#主要信息来源与核验索引" class="headerlink" title="主要信息来源与核验索引"></a>主要信息来源与核验索引</h3><ul>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.federalreserve.gov/econres/notes/feds-notes/the-ai-buildout-and-the-economy-publicly-available-data-to-assess-ais-impact-20260717.html">美联储官方经济研究笔记 (FEDS Notes, 2026-07-17)：The AI Buildout and the Economy<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.tftc.io/ai-capex-gdp-growth-q1-2026-bea-third-estimate">TFTC 宏观调查深度报道：AI Capex Drove 74% of Q1 2026 GDP Growth (BEA Third Estimate Analysis)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://epoch.ai/data-insights/ai-datacenter-share-gdp">Epoch AI 智库报告 (2026-06-05)：AI datacenter share of GDP<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.edwardconard.com/macro-roundup/bridgewater-forecasts-real-us-gdp-growth-of-2-8-in-2026-with-ai-capex-contributing-1-4pp-50-this-year-and-growing-to-1-5pp-in-2027/">桥水基金（Bridgewater）宏观分析（经 Edward Conard’s Macro Roundup 转引核实）：The Macro Implications of the AI Capex Boom<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.goldmansachs.com/insights/articles/global-investment-is-forecast-to-exceed-1-trillion-in-2026">高盛全球经济研报：Global AI Investment is Forecast to Exceed $1 Trillion in 2026<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.stlouisfed.org/on-the-economy/2026/jan/tracking-ai-contribution-gdp-growth">圣路易斯联储（St. Louis Fed）宏观追踪：Tracking AI’s Contribution to GDP Growth<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://blockspace.media/insight/morgan-stanley-data-center-shortfall/">摩根士丹利（Morgan Stanley）产业电力短缺研究（2026-10-05）：AI Data Center Power Grid Shortfall<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://fortune.com/2026/06/02/ai-bubble-history-railroad-crash-1873-pulitzer-liaquat-ahamed/">财富（Fortune）专栏（Liaquat Ahamed，2026-06-02）：1873 年铁路繁荣泡沫与 AI 大基建对照（ARK Invest 图表出处）<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.federalreserve.gov/monetarypolicy/fomcminutes20260916.htm">美联储 9 月 FOMC 货币政策议息会议纪要（2026-10-07 披露）<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+</ul>
+<p>封面图片：<a class="link" target="_blank" rel="noopener" href="https://www.pexels.com/photo/server-racks-on-data-center-5480781/">Brett Sayles / Pexels<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> 消费已经不是美国经济的故事了：AI 资本开支如何成为美国 GDP 的“承重柱”</li>
+        <li><strong>作者:</strong> AdenXie</li>
+        <li><strong>创建于
+                :</strong> 2026-10-24 20:00:00</li>
+        
+            <li>
+                <strong>更新于
+                    :</strong> 2026-10-24 20:00:00
+            </li>
+        
+        <li>
+            <strong>链接:</strong> https://blog.adenxie.com.cn/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                版权所有 © AdenXie，禁止转载。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E7%BE%8E%E8%81%94%E5%82%A8/">#美联储</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/">#人工智能</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E7%BE%8E%E5%9B%BD%E7%BB%8F%E6%B5%8E/">#美国经济</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/GDP/">#GDP</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E8%B5%84%E6%9C%AC%E5%BC%80%E6%94%AF/">#资本开支</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/10/31/2026-10-31-macro-micro-ai-capex-verdict/" title="同一周内，宏观和微观对 AI 资本开支给出了相反的判决" rel="bookmark">
+  <img src="https://images.pexels.com/photos/187041/pexels-photo-187041.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="同一周内，宏观和微观对 AI 资本开支给出了相反的判决" class="!max-w-none" decoding="async">
+  <span class="title">同一周内，宏观和微观对 AI 资本开支给出了相反的判决</span>
+</a><a class="recommended-article-item" href="/2026/10/24/2026-10-24-openai-vs-anthropic-ipo-race/" title="OpenAI vs Anthropic：为什么体量更大的巨无霸，反而排在后面上市？" rel="bookmark">
+  <img src="https://images.pexels.com/photos/3905827/pexels-photo-3905827.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="OpenAI vs Anthropic：为什么体量更大的巨无霸，反而排在后面上市？" class="!max-w-none" decoding="async">
+  <span class="title">OpenAI vs Anthropic：为什么体量更大的巨无霸，反而排在后面上市？</span>
+</a><a class="recommended-article-item" href="/2026/10/23/2026-10-23-anthropic-loss-ipo/" title="亏损 807 亿的 Anthropic，为什么正处于它历史上最健康的时刻？" rel="bookmark">
+  <img src="https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="亏损 807 亿的 Anthropic，为什么正处于它历史上最健康的时刻？" class="!max-w-none" decoding="async">
+  <span class="title">亏损 807 亿的 Anthropic，为什么正处于它历史上最健康的时刻？</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/10/31/2026-10-31-macro-micro-ai-capex-verdict/" title="同一周内，宏观和微观对 AI 资本开支给出了相反的判决" rel="bookmark">
+  <img src="https://images.pexels.com/photos/187041/pexels-photo-187041.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="同一周内，宏观和微观对 AI 资本开支给出了相反的判决" class="!max-w-none" decoding="async">
+  <span class="title">同一周内，宏观和微观对 AI 资本开支给出了相反的判决</span>
+</a><a class="recommended-article-item" href="/2026/10/24/2026-10-24-openai-vs-anthropic-ipo-race/" title="OpenAI vs Anthropic：为什么体量更大的巨无霸，反而排在后面上市？" rel="bookmark">
+  <img src="https://images.pexels.com/photos/3905827/pexels-photo-3905827.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="OpenAI vs Anthropic：为什么体量更大的巨无霸，反而排在后面上市？" class="!max-w-none" decoding="async">
+  <span class="title">OpenAI vs Anthropic：为什么体量更大的巨无霸，反而排在后面上市？</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2026/10/25/2026-10-25-ai-agent-loss-of-control-era/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">AI Agent 失控元年：第一场由智能体驱动的大规模网络入侵，与被悄悄关掉的监控器</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/10/24/2026-10-24-openai-vs-anthropic-ipo-race/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">OpenAI vs Anthropic：为什么体量更大的巨无霸，反而排在后面上市？</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">消费已经不是美国经济的故事了：AI 资本开支如何成为美国 GDP 的“承重柱”</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E5%AD%90%EF%BC%9A%E5%8D%95%E5%BC%95%E6%93%8E%E7%BB%8F%E6%B5%8E%E7%9A%84%E8%AF%9E%E7%94%9F"><span class="nav-text">引子：单引擎经济的诞生</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E2%80%9C74-%E2%80%9D-%E7%9A%84%E4%BA%89%E8%AE%AE%EF%BC%9AAI-%E5%88%B0%E5%BA%95%E7%BB%99%E7%BE%8E%E5%9B%BD%E7%BB%8F%E6%B5%8E%E8%B4%A1%E7%8C%AE%E4%BA%86%E5%87%A0%E4%B8%AA%E7%82%B9%EF%BC%9F"><span class="nav-text">一、“74%” 的争议：AI 到底给美国经济贡献了几个点？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%A3%E5%BE%84-1%EF%BC%9ATFTC-%E7%9A%84%E2%80%9C74-%E2%80%9D%E6%9C%80%E5%AE%BD%E5%8F%A3%E5%BE%84%EF%BC%88%E6%BF%80%E8%BF%9B%E6%8E%A8%E6%BC%94%EF%BC%89"><span class="nav-text">口径 1：TFTC 的“74%”最宽口径（激进推演）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%A3%E5%BE%84-2%EF%BC%9A%E7%BE%8E%E8%81%94%E5%82%A8%EF%BC%88Fed%EF%BC%89%E7%9A%84%E4%B8%A5%E8%B0%A8%E5%87%80%E8%B4%A1%E7%8C%AE%E5%8F%A3%E5%BE%84%EF%BC%8830-%E2%80%9350-%EF%BC%89"><span class="nav-text">口径 2：美联储（Fed）的严谨净贡献口径（30%–50%）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%A3%E5%BE%84-3%EF%BC%9A%E6%A1%A5%E6%B0%B4%E5%9F%BA%E9%87%91%EF%BC%88Bridgewater%EF%BC%89%E7%9A%84-1-4-%E4%B8%AA%E7%99%BE%E5%88%86%E7%82%B9%E4%B8%AD%E6%9E%A2%EF%BC%88%E7%BA%A6-50-%EF%BC%89"><span class="nav-text">口径 3：桥水基金（Bridgewater）的 1.4 个百分点中枢（约 50%）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%A3%E5%BE%84-4%EF%BC%9A%E9%AB%98%E7%9B%9B%EF%BC%88Goldman-Sachs%EF%BC%89%E7%9A%84%E5%85%A8%E7%90%83%E4%B8%87%E4%BA%BF%E7%BE%8E%E5%85%83%E8%A7%86%E9%87%8E"><span class="nav-text">口径 4：高盛（Goldman Sachs）的全球万亿美元视野</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%B8%87%E4%BA%BF%E5%9F%BA%E5%BB%BA%E7%9A%84%E5%BE%AE%E8%A7%82%E5%9C%B0%E5%9F%BA%EF%BC%9A%E4%BB%8E%E4%BA%94%E5%A4%A7%E5%B7%A8%E5%A4%B4%E5%88%B0%E5%8D%83%E4%BA%BF%E7%AE%97%E5%8A%9B%E9%94%81%E9%93%BE"><span class="nav-text">二、万亿基建的微观地基：从五大巨头到千亿算力锁链</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%A7%91%E6%8A%80%E4%BA%94%E5%B7%A8%E5%A4%B4%E7%9A%84%E5%BC%80%E6%94%AF%E5%86%9B%E5%A4%87%E7%AB%9E%E8%B5%9B"><span class="nav-text">1. 科技五巨头的开支军备竞赛</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%81%94%E5%8A%A8%E5%89%8D%E7%AF%87%EF%BC%9A%E5%BE%AE%E8%A7%82%E4%B8%BB%E4%BD%93%E7%9A%84%E7%AE%97%E5%8A%9B%E8%B4%9F%E5%80%BA%E9%94%81%E9%93%BE"><span class="nav-text">2. 联动前篇：微观主体的算力负债锁链</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%8F%8D%E4%BA%8B%E5%AE%9E%E6%8E%A8%E6%BC%94%EF%BC%9A%E5%A6%82%E6%9E%9C-AI-%E8%B5%84%E6%9C%AC%E5%BC%80%E6%94%AF%E5%81%9C%E4%B8%8B%E6%9D%A5%E4%BC%9A%E6%80%8E%E6%A0%B7%EF%BC%9F"><span class="nav-text">三、反事实推演：如果 AI 资本开支停下来会怎样？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%8E%86%E5%8F%B2%E7%9A%84%E5%9B%9E%E5%93%8D%EF%BC%9A1990-%E5%B9%B4%E4%BB%A3%E7%94%B5%E4%BF%A1%E5%85%89%E7%BA%A4%E5%A4%A7%E8%B7%83%E8%BF%9B%E7%9A%84%E5%AE%BF%E5%91%BD%E5%AF%B9%E7%85%A7"><span class="nav-text">四、历史的回响：1990 年代电信光纤大跃进的宿命对照</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1996%E2%80%932001-%E5%85%89%E7%BA%A4%E6%B3%A1%E6%B2%AB%E7%9A%84%E9%9C%87%E6%92%BC%E6%97%A7%E4%BA%8B"><span class="nav-text">1. 1996–2001 光纤泡沫的震撼旧事</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%BF%99%E4%B8%80%E6%AC%A1%E7%9A%84%E5%90%8C%E4%B8%8E%E4%B8%8D%E5%90%8C%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88-AI-%E6%AF%94%E5%85%89%E7%BA%A4%E6%9B%B4%E8%84%86%E5%BC%B1%EF%BC%9F"><span class="nav-text">2. 这一次的同与不同：为什么 AI 比光纤更脆弱？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E7%89%A9%E7%90%86%E5%A4%A9%E8%8A%B1%E6%9D%BF%E4%B8%8E%E5%AE%8F%E8%A7%82%E9%97%AD%E7%8E%AF%EF%BC%9A%E7%94%B5%E5%8A%9B%E9%A5%A5%E6%B8%B4%E6%AD%A3%E5%9C%A8%E6%8E%A8%E5%8D%87%E9%80%9A%E8%83%80"><span class="nav-text">五、物理天花板与宏观闭环：电力饥渴正在推升通胀</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-33-%E5%90%89%E7%93%A6%E7%9A%84%E7%94%B5%E7%BD%91%E5%A4%A9%E5%A0%91%E4%B8%8E%E8%BF%91-3-%E5%B9%B4%E7%9A%84%E5%8F%98%E5%8E%8B%E5%99%A8%E6%8E%92%E6%9C%9F"><span class="nav-text">1. 33 吉瓦的电网天堑与近 3 年的变压器排期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%BE%8E%E8%81%94%E5%82%A8%E7%9A%84%E9%97%AD%E7%8E%AF%E8%AD%A6%E6%8A%A5%EF%BC%9A%E2%80%9CAI-%E6%AD%A3%E5%9C%A8%E6%8E%A8%E5%8D%87%E9%80%9A%E8%83%80%E2%80%9D"><span class="nav-text">2. 美联储的闭环警报：“AI 正在推升通胀”</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E6%9C%AA%E6%9D%A5%E6%8E%A8%E6%BC%94%EF%BC%9AAI-%E6%89%BF%E9%87%8D%E6%9F%B1%E7%9A%84%E4%B8%89%E7%A7%8D%E5%91%BD%E8%BF%90"><span class="nav-text">六、未来推演：AI 承重柱的三种命运</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E6%95%B0%E6%8D%AE%E5%8F%A3%E5%BE%84%E8%AF%9A%E5%AE%9E%E8%AF%B4%E6%98%8E%EF%BC%88%E5%85%B3%E9%94%AE%E8%BE%B9%E7%95%8C%E4%B8%8E%E5%AE%A1%E6%85%8E%E5%A3%B0%E6%98%8E%EF%BC%89"><span class="nav-text">七、数据口径诚实说明（关键边界与审慎声明）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AF%AD%EF%BC%9A%E5%88%AB%E6%8A%8A%E8%84%9A%E6%89%8B%E6%9E%B6%E5%BD%93%E6%88%90%E5%A4%A7%E5%8E%A6%E6%9C%AC%E8%BA%AB"><span class="nav-text">结语：别把脚手架当成大厦本身</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E4%BF%A1%E6%81%AF%E6%9D%A5%E6%BA%90%E4%B8%8E%E6%A0%B8%E9%AA%8C%E7%B4%A2%E5%BC%95"><span class="nav-text">主要信息来源与核验索引</span></a></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">写下真实体验，也保留观点的棱角。</div><div class="customize-info my-1 aden-status-hint">页面打不开或功能出错？可在 <a href="https://status.adenxie.com.cn/" target="_blank" rel="noopener">status.adenxie.com.cn</a> 查看服务状态</div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 98 篇文章
+                    </span>
+                    
+                        <span>
+                            共 279.8k 字
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js" async=""></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days"></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/scene-loader.js?v=b97b1fce3bd0" defer=""></script>
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="图片查看器">
+	<button class="image-viewer-close" type="button" aria-label="关闭">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="上一页">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="" decoding="async">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="关闭">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="下一页">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="站内搜索您需要的内容..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js?v=509b91971bf2"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js?v=969d65618587"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js?v=193270b6fdb0"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js?v=647d2af612df"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js?v=c9d014a814b8"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js?v=792db0224d6b"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js?v=7e6a109d5509" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js?v=03c1e188b884"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css?v=77a3a9d5a3d0">
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js?v=e98ec22436a5"></script>
+
+
+<script src="/js/build/plugins/aplayer.js?v=d6d3c64af35f"></script>
+
+
+	
+
+
+<button type="button" id="aden-chat-launcher" class="aden-chat-launcher" aria-haspopup="dialog" aria-expanded="false" hidden="" aria-label="打开 AI 聊天" data-script="/js/chat.js?v=750a15ffa2e2" data-style="/css/chat.css?v=286cbaf4025c"><span aria-hidden="true">✳</span><span class="aden-chat-launcher-label">问 AI</span></button></body></html>

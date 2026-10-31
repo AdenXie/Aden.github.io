@@ -1,0 +1,1343 @@
+<!DOCTYPE html><html lang="zh-CN"><head><script src="/js/language-preference.js?v=29a144036da1" data-english-home="/en/"></script><script src="/js/site-runtime.js?v=0711b6201338" defer=""></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/2026/10/18/2026-10-18-claude-opus-5-5-pricing-myth/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Claude Opus 5.5 的降价神话：工程进步，还是 IPO 前的价格战？">
+<meta property="og:url" content="https://blog.adenxie.com.cn/2026/10/18/2026-10-18-claude-opus-5-5-pricing-myth/index.html">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-10-17T17:32:46.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="大模型">
+<meta property="article:tag" content="Claude">
+<meta property="article:tag" content="Anthropic">
+<meta property="article:tag" content="Codex">
+<meta property="article:tag" content="成本分析">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png?v=fa6db12e9674" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Claude Opus 5.5 的降价神话：工程进步，还是 IPO 前的价格战？ | Aden's Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/css/site-d4cfb3d087aa.css?v=d4cfb3d087aa">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js?v=258b1afa4680"></script>
+                
+    
+            
+                
+                    
+                
+    
+
+    
+
+
+
+    
+        
+
+
+    
+
+    
+
+
+    
+
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"zh-CN","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"17px","line_height":1.85,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"all_rights_reserved"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["科技、体验与个人判断","写下真实体验，也保留观点的棱角"],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"每日简报":{"path":"/daily/","icon":"fa-regular fa-newspaper"},"归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"分类":{"path":"/categories/","icon":"fa-regular fa-folder"},"标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"世界时间":{"path":"/world-time/","icon":"fa-regular fa-clock"},"关于":{"path":"/about/","icon":"fa-regular fa-user"},"友链":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":true,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.i18n = {"search":"站内搜索您需要的内容...","toc":"目录","prev":"上一页","next":"下一页","prev_posts":"上一篇","next_posts":"下一篇","page":"第 %d 页","recent_posts":"最新文章","share":"分享","powered_by":"由 %s 驱动","theme":"主题","rss_feed":"RSS Feed","category":"分类","categories":"分类","tag":"标签","tags":"标签","post":"文章","posts":"文章","tagcloud":"标签云","comment":"评论","comments":"评论","top":"置顶","sticky":"置顶","go-back-home":"回到首页","masonry_loading":"照片加载中...","image_viewer":"图片查看器","close":"关闭","exif":{"title":"EXIF","cards":{"camera":"相机","lens":"镜头","exposure":"曝光","other":"其他"},"fields":{"make":"品牌","model":"机型","date_taken":"拍摄时间","lens_model":"镜头","focal_length":"焦距","focus_mode":"对焦模式","shutter":"快门","aperture":"光圈","iso":"感光度","exposure_program":"曝光程序","exposure_compensation":"曝光补偿","metering_mode":"测光模式","flash":"闪光灯","white_balance":"白平衡","latitude":"纬度","longitude":"经度","altitude":"海拔"},"status":{"loading":"加载中...","no_exif":"无 EXIF 信息","library_missing":"EXIF 库未加载","image_source_missing":"图片地址不可用","unavailable":"EXIF 不可用（可能被 CORS 阻止或缺少元数据）","flag_unavailable":"EXIF 不可用"}},"home":"首页","archive":"归档","archives":"归档","about":"关于","links":"链接","link":"链接","friends":"友情链接","friend":"友情链接","timeline":"时间轴","shuoshuo":"说说","bookmarks":"书签","site_uv":"访问人数","site_pv":"总访问量","read_more":"阅读全文","wordcount":"字","min2read":"分钟","changelog":"更新日志","status":"状态","runtime":"博客已运行","days":"天","hours":"小时","minutes":"分钟","seconds":"秒","optimized_by":"并由 Evan 进行优化","rights":"版权所有","site_posts":"共撰写了 %s 篇文章","site_wordcount":"共 %s 字","copyright":{"title":"标题","author":"作者","link":"链接","create_time":"创建于","update_time":"更新于","license_title":"版权声明","license_content":"本文章采用 %s 进行许可。","all_rights_reserved":"版权所有 &#169 %s，禁止转载。","public_domain":"本文为公有领域作品，可自由转载、引用。"},"ago":{"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"},"create_time":"创建","update_time":"更新","expired":"这篇文章最后更新于 %s 天前，内容可能已经过时。"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" hreflang="zh-CN" href="https://blog.adenxie.com.cn/2026/10/18/2026-10-18-claude-opus-5-5-pricing-myth/"><link rel="alternate" hreflang="en" href="https://blog.adenxie.com.cn/en/2026/10/18/2026-10-18-claude-opus-5-5-pricing-myth/"><script data-aden-analytics="">
+      if (location.hostname === 'blog.adenxie.com.cn' && !window.__adenAnalyticsLoaded) {
+        window.__adenAnalyticsLoaded = true;
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        const script = document.createElement('script');
+        script.defer = true;
+        script.src = '/_vercel/insights/script.js';
+        document.head.append(script);
+      }
+    </script></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/daily/">
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    每日简报
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    归档
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/categories/">
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    分类
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    标签
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    世界时间
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    友链
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    <nav class="aden-language-switch" aria-label="Language"><a lang="zh-CN" href="/2026/10/18/2026-10-18-claude-opus-5-5-pricing-myth/" aria-current="page">中文</a><span> / </span><a lang="en" href="/en/2026/10/18/2026-10-18-claude-opus-5-5-pricing-myth/" aria-current="false" data-no-swup="">English</a></nav></div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/">
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/daily/">
+                            <span>
+                                每日简报
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/archives/">
+                            <span>
+                                归档
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/categories/">
+                            <span>
+                                分类
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/tags/">
+                            <span>
+                                标签
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/world-time/">
+                            <span>
+                                世界时间
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/about/">
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/link/">
+                            <span>
+                                友链
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/archives/">
+                            <span>文章归档</span>
+                            <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/tags/">
+                            <span>主题标签</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/about/">
+                            <span>关于 Aden</span>
+                            <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">65</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">98</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://files.seeusercontent.com/2026/10/17/tAr9/pasted-image-1792257149897.webp" alt="Claude Opus 5.5 的降价神话：工程进步，还是 IPO 前的价格战？" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" decoding="async">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">Claude Opus 5.5 的降价神话：工程进步，还是 IPO 前的价格战？</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg?v=93ba7ebfa2ff" decoding="async" width="460" height="460">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-10-18 01:32:46</span>
+        <span class="mobile">2026-10-18 01:32:46</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/AI-%E4%B8%8E%E7%A7%91%E6%8A%80/">AI 与科技</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">大模型</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/Claude/">Claude</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/Anthropic/">Anthropic</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/Codex/">Codex</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E6%88%90%E6%9C%AC%E5%88%86%E6%9E%90/">成本分析</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>4.4k 字</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>15 分钟</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<p>我最初是喜欢 Opus 5.5 的。模型更强，价格又降了，这当然值得高兴。我同时订阅着 Claude Pro 和 ChatGPT Plus，也实际使用 Claude Code 和 Codex，有理由期待竞争最后能给用户带来实惠。</p>
+<p>但看完自己的消耗记录、AA 的测试，再把罗福莉谈推理降本的帖文与 Anthropic 的扩容、故障记录放在一起，我越来越不愿意照单全收“更强又更便宜”这个故事。</p>
+<p>我现在更倾向于把它看作 IPO 窗口前的一场价格竞争：一边用降价争夺用户、展示增长，一边仍要处理昂贵的算力供给和服务交付问题。这是我的判断，不是我掌握了 Anthropic 的内部决策文件。我要追问的是，降价背后的工程账交代了多少，投资者喜欢的增长又有多少会兑现成用户的好处。</p>
+<span id="more"></span>
+
+<h2 id="“便宜-40-”到底在和谁比？"><a href="#“便宜-40-”到底在和谁比？" class="headerlink" title="“便宜 40%”到底在和谁比？"></a>“便宜 40%”到底在和谁比？</h2><p>Anthropic 在 2026 年 9 月 22 日的发布说明中，将 Opus 5.5 描述为能力提升、运行费用下降的新模型。它所说的“典型工作负载下降 40%”，对照对象是 <strong>Opus 5</strong>，条件是其测试中的默认设置；这不等于比所有竞争模型便宜 40%。<a class="link" target="_blank" rel="noopener" href="https://www.anthropic.com/claude-opus-5-5">发布原文<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>官方文档确认，每百万 Token 的普通输入价从 5 美元降到 4 美元，输出从 25 美元降到 20 美元，分别下降 20%；缓存读取从 0.50 美元降到 0.20 美元，下降 60%。Opus 5.5 的五分钟缓存写入为 5 美元，一小时写入为 8 美元。<a class="link" target="_blank" rel="noopener" href="https://platform.claude.com/docs/en/models/opus-5-5/whats-new-opus-5-5">定价与迁移文档<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>所以，40% 不是一张价格表上可以直接读出的统一折扣。它混合了不同 Token 类别的降价和特定任务下的消耗变化。换一个缓存比例，换一个推理档位，换一种任务，这个百分比就可能变化。</p>
+<p>官方原文写出了对照对象和测试条件；我批评的是这套产品叙事的吸引力：上一代是价格基准，优势任务是能力基准，两者合在一起，“更强又更便宜”就成了一个很容易接受的购买理由。可它仍没替我回答，在今天的其他选择面前，Opus 5.5 是否值得这个价。</p>
+<h2 id="我的统计里，最容易被忽略的是缓存"><a href="#我的统计里，最容易被忽略的是缓存" class="headerlink" title="我的统计里，最容易被忽略的是缓存"></a>我的统计里，最容易被忽略的是缓存</h2><p>我买的是 Claude Pro 和 ChatGPT Plus。以下 CC Switch 金额均为 API 等效费用，用来观察消耗结构，不是额外支付的账单。</p>
+<p>最近 30 天，Claude Code 下的 claude-opus-5-5 有 1264 次请求，约 360M Token，等效费用 118.58 美元；Codex 混合多个 GPT 模型，有 4612 次请求，约 623M Token，等效费用 168.75 美元。原先盯着总量，我会觉得 Codex 用得多得多。按请求数一除，画面又变了。</p>
+<p>我的日常设置也要交代：Opus 5.5 主要用 Medium，偶尔 High；GPT-6.1 Sol 主要用 High，部分时候 Medium。Codex 的总数还包含其他 GPT 模型，不能把整张统计表当作 GPT-6.1 Sol 单模型的表现。不同厂商的同名推理档位，也不代表相同计算预算。</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://files.seeusercontent.com/2026/10/17/t6Aa/pasted-image-1792256435566.webp" alt="Claude 的 CC Switch 最近 30 天统计" decoding="async" loading="lazy" width="1000" height="500"><figcaption>Claude 的 CC Switch 最近 30 天统计</figcaption></figure><p></p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://files.seeusercontent.com/2026/10/17/b5Os/pasted-image-1792256422914.webp" alt="Codex 的 CC Switch 最近 30 天统计" decoding="async" loading="lazy" width="1000" height="500"><figcaption>Codex 的 CC Switch 最近 30 天统计</figcaption></figure><p></p>
+<p>Claude 平均每请求约 0.0938 美元，Codex 约 0.0366 美元，前者约为后者的 2.56 倍。平均总 Token 分别约 28.48 万和 13.51 万，比例约 2.11 倍。</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://files.seeusercontent.com/2026/10/17/tAr9/pasted-image-1792257149897.webp" alt="平均每请求 API 等效成本" decoding="async" loading="lazy" width="1000" height="500"><figcaption>平均每请求 API 等效成本</figcaption></figure><p></p>
+<p>但请求不是任务。一次工具调用可能产生请求，一项工作可能拆成很多请求；Claude Code 和 Codex 的工具编排、上下文管理并不相同，后者还混用了多个模型。这组数字描述了我的两套使用组合，不能被改写成“Claude 完成相同任务贵 2.56 倍”。</p>
+<p>这组个人记录没有统一任务、验收结果和返工时间，却清楚显示了我的使用组合如何消耗资源。它给了我继续追问的理由。消费者也有权从自己的工作出发理解产品，而不必永远停留在厂商挑选的成功案例里。</p>
+<h2 id="命中缓存-98-8-，为什么还有这么多费用？"><a href="#命中缓存-98-8-，为什么还有这么多费用？" class="headerlink" title="命中缓存 98.8%，为什么还有这么多费用？"></a>命中缓存 98.8%，为什么还有这么多费用？</h2><p>Claude 的统计显示，缓存命中率为 98.8%，其中缓存读取约 355M、写入约 4.46M，输出约 1.27M。新增普通输入只显示 2682 Token，异常原因尚未确认。</p>
+<p>按已核实的价格、并将写入统一按五分钟档位估算：缓存读取约 71 美元，输出 25.40 美元，缓存写入 22.30 美元，普通输入约 0.01 美元，合计约 118.71 美元。它与软件显示的 118.58 美元相差约 0.13 美元。汇总值舍入可能造成差异，写入时长等细节也需要日志确认。</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://files.seeusercontent.com/2026/10/17/v9Xp/pasted-image-1792257170784.webp" alt="Claude 等效成本构成，按五分钟缓存写入费率重算" decoding="async" loading="lazy" width="1000" height="500"><figcaption>Claude 等效成本构成，按五分钟缓存写入费率重算</figcaption></figure><p></p>
+<p>355M 缓存读取约占显示总 Token 的 98.6%，却仍占重算费用的约 59.8%。前一个比例是我用汇总量相除得到的数，和软件显示的 98.8% 命中率不能混为一谈。</p>
+<p>缓存命中意味着复用已经处理过的内容，通常省去了重复处理的一部分开销。它有折扣，也仍然计费。缓存单价很低，乘上足够大的复用量，就可以成为主要费用来源。</p>
+<p>再把这组用量固定，按 Opus 5 的旧费率重算，费用约为 237.14 美元；按 Opus 5.5 费率则约为 118.71 美元，差不多减半。其中单是缓存读取降价，就节省约 106.50 美元，占这次费率重算总节省的约九成。</p>
+<p>这笔账说明，对我这种缓存占比极高的组合，降价确实有分量。它也把“降价”的结构说清了：大部分节省来自反复读取上下文的折扣。这里固定了 Token 用量，未测量两代模型完成同一任务的消耗变化；我的记录因此既不能验证，也不能推翻官方典型负载的 40% 说法。降价兑现到哪一步、与竞品相比还有多贵，是接下来要分开回答的问题。</p>
+<p>我在两套工具里看到的差异，也集中在这里：Claude 平均每请求读取约 28.09 万缓存 Token，Codex 约 13.01 万；输出分别约 1005 和 449 Token。重复携带的上下文比最终输出大得多。对 Agent 的费用讨论，如果只盯着“回答写了多少字”，会漏掉大量被反复读取的历史内容。</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://files.seeusercontent.com/2026/10/17/1oSu/pasted-image-1792257192011.webp" alt="平均每请求缓存读取与输出 Token，分面显示" decoding="async" loading="lazy" width="1000" height="500"><figcaption>平均每请求缓存读取与输出 Token，分面显示</figcaption></figure><p></p>
+<p>高缓存命中率无法单独证明整套工作流程高效。哪些历史必须保留，哪些调用值得发生，最终产出了多少可验收成果，决定了这些费用花得值不值。</p>
+<p>而对订阅用户，API 等效费用和套餐额度之间也没有一张已经公开、可供我逐项复算的固定换算表。不能拿这 118.58 美元直接推断我会多快触顶。我想知道的是，同样一档订阅，能否稳定做完更多工作，是否需要中断等待或加购额度。这次记录没有覆盖这些结果，所以它提供的是追查线索，还不是一场订阅性价比实验。</p>
+<h2 id="AA-的领先，也带着成本标签"><a href="#AA-的领先，也带着成本标签" class="headerlink" title="AA 的领先，也带着成本标签"></a>AA 的领先，也带着成本标签</h2><p>Artificial Analysis 的页面给出了另一种观察。截至 10 月 18 日检索时，Opus 5.5 的“max with fallback”配置，智能指数为 58、每项智能指数任务成本为 5.98 美元；GPT-6 Astra 的 max 配置为 53、3.26 美元。前者得分更高，成本也约为后者的 1.83 倍。<a class="link" target="_blank" rel="noopener" href="https://artificialanalysis.ai/models/claude-opus-5-5">Opus 页面<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://artificialanalysis.ai/models/gpt-6-astra">Astra 页面<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>在这两项配置之间，Opus 得分领先，测试费用也更高。能力增益值不值差价，要看它解决了什么问题。指数 58 对 53 也不是生产率提高了约 9%，拿分数相除并不能得到我的工作收益。</p>
+<p>AA 测试的是 Max 配置，与我的日常档位不同；Opus 这一行还带有 fallback。这些条件应当跟着数字一起被看见。</p>
+<p>AA 方法页说明，智能指数优先使用厂商 API 报告的 Token 数来计算费用；这与速度测试使用统一 tokenizer 的方式不同。成本也采用基准权重和缓存测量，不能把所有标签里的“max”当作相同的计算预算。<a class="link" target="_blank" rel="noopener" href="https://artificialanalysis.ai/methodology/intelligence-benchmarking">AA 方法说明<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>AA 的输出 Token 图把这层代价展示得更直观：Opus 5.5 Max with fallback 每任务加权平均总输出约 119K，其中推理约 84K；GPT-6 Astra Max 的总输出标注约 27K，GPT-6 Sol Max 约 38K。119K 已经包含推理部分，不能再加一次 84K。</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://files.seeusercontent.com/2026/10/17/hD3q/Output-Tokens-per-Intelligence-I.png" alt="Artificial Analysis 每任务输出 Token 截图；总输出含推理部分" decoding="async" loading="lazy" width="1000" height="500"><figcaption>Artificial Analysis 每任务输出 Token 截图；总输出含推理部分</figcaption></figure><p></p>
+<p>按截图标注总量，Opus 约为 Astra 的 4.4 倍、Sol 的 3.1 倍。截图中的分项与总数存在小幅不一致，可能涉及各自取整，不宜根据这些显示值反推精确原始数；截图也没有显示采集时间和指数版本，不宜与实时页面拼成一张精确的历史实验记录。</p>
+<p>这些倍数衡量的是图中的计费 Token 消耗，并非算力或浪费程度。但当较低单价被当作优势时，更多的消耗同样应当进入讨论。多花的 Token 换来了哪些必须依靠它才能完成的成果？如果这部分收益没有进入我的任务，榜单上的领先就不能抵扣我的使用成本。</p>
+<p>还要正视一组与上述结果方向不同的材料：Anthropic 在同一发布页中，声称 Opus 5.5 默认 Medium 档位在 FrontierCode 上，以约五分之一的任务费用超过 GPT-6 Astra 的最高分。这与 AA 的 Max 综合指数不是同一场测试：基准、推理档位和工作流程都不同。它说明成本优势可能随任务和设置而反转，也说明只摘出一张有利图表，就可以讲出很不一样的产品故事。我希望看到的是自己的典型工作落在哪一边。</p>
+<h2 id="罗福莉这段话，让我更想追问-Anthropic-的工程账"><a href="#罗福莉这段话，让我更想追问-Anthropic-的工程账" class="headerlink" title="罗福莉这段话，让我更想追问 Anthropic 的工程账"></a>罗福莉这段话，让我更想追问 Anthropic 的工程账</h2><p>罗福莉关于 MiMo API 降价的帖文，是我不想漏掉的一块材料。下面的 X 中文译文截图与对应英文存档内容相符：她把最大幅度、最高 99% 的降价放在缓存命中输入上，称推理框架的分层 KV 缓存优化使缓存容量提升约五倍，相当于缓存成本下降约 80%。她还提到原先约 2–3 倍的利润空间，以及新价格下在接近满负荷运行时基本收支平衡的判断。<a class="link" target="_blank" rel="noopener" href="https://ww.twstalker.com/_LuoFuli/status/2059618247553745204">英文存档<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://x.com/_LuoFuli/status/2059618247553745204">原帖地址<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://files.seeusercontent.com/2026/10/17/jo8X/pasted-image-1792256748914.webp" alt="罗福莉关于 MiMo API 降价的 X 中文译文截图，界面标注翻译自英语" decoding="async" loading="lazy" width="1000" height="500"><figcaption>罗福莉关于 MiMo API 降价的 X 中文译文截图，界面标注翻译自英语</figcaption></figure><p></p>
+<p>这段话的价值，在于把降价放回了工程和商业的关系里：缓存如何变便宜，原先定价留了多少空间，为什么现在愿意让出来。这些数字仍是团队负责人的自述，不是审计结论，但至少给出了可以追问的机制。</p>
+<p>小米技术文章进一步解释，Hybrid SWA 可将 KVCache 存储降至全注意力结构的约 1/7；缓存管理、前缀匹配和调度需要一起改，才能兑现架构收益。DeepSeek 更早的 V3/R1 系统说明也公开讨论了预填充与解码分离、专家并行及负载均衡。局部收益不等于整套服务成本，但讨论有了具体对象。<a class="link" target="_blank" rel="noopener" href="https://mimo.xiaomi.com/zh/blog/mimo-v2-5-inference">小米技术原文<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://github.com/deepseek-ai/open-infra-index/blob/main/202502OpenSourceWeek/day_6_one_more_thing_deepseekV3R1_inference_system_overview.md">DeepSeek 系统说明<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>回头看 Anthropic，缓存读取报价降低 60%，并不是 KVCache 的资源成本也下降 60% 的证据。我查到的 Opus 5.5 发布和迁移说明，给出了更低服务计算需求的结论，却没有给出足以让我复核缓存单位成本变化的前后工程账。缺少这份账，不能断言它毫无优化；同样也不能把售价下降直接当成工程突破的证明。</p>
+<p>所以我引入罗福莉，并不是想给另一家公司做广告。我想问 Anthropic：这次降价，有多少来自已实现的工程降本，又有多少来自利润空间的重新分配和抢占市场的需要？后者也是正常商业行为，但消费者不必自动把它当成技术红利，更不必为一张新价目表献上信任。</p>
+<h2 id="算力可以向马斯克买，稳定交付不能靠发布会代替"><a href="#算力可以向马斯克买，稳定交付不能靠发布会代替" class="headerlink" title="算力可以向马斯克买，稳定交付不能靠发布会代替"></a>算力可以向马斯克买，稳定交付不能靠发布会代替</h2><p>所谓“向马斯克借算力”，准确说是算力采购合作。Anthropic 在 5 月 6 日宣布使用 SpaceX Colossus 1 的全部计算容量，称将获得超过 300 兆瓦、22 万块以上 NVIDIA GPU 的新增容量，并把扩容直接与 Claude 用户额度提升联系起来。合作方也发布了相应公告。<a class="link" target="_blank" rel="noopener" href="https://www.anthropic.com/news/higher-limits-spacex">Anthropic 公告<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://x.ai/news/anthropic-compute-partnership">合作方公告<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>采购外部算力本身谈不上丢人。但这说明，服务能给用户多少容量，仍与外部供给密切相关。把计算资源买进来，和把每单位资源用得更有效，是两笔不同的账。扩容公告不能替代效率证明。</p>
+<p>我对 Anthropic 服务工程能力的评价，也没有对它的模型能力那么高。按官方状态页的 UTC 日期，9 月 29 日出现过同时影响网页、Claude Code、Cowork 和 API 的错误率上升；10 月 6 日 Opus 5.5 再次发生错误率上升；10 月 7 日，又有部分组织被错误判定达到消费上限，导致 API 等产品拒绝请求。这些都是需要用户承受的交付问题。<a class="link" target="_blank" rel="noopener" href="https://status.claude.com/incidents/4xvtc2gnq73l">9 月 29 日记录<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://status.claude.com/incidents/ch27pb90bn85">10 月 6 日记录<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://status.claude.com/incidents/vmys9qn874h4">10 月 7 日记录<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://files.seeusercontent.com/2026/10/17/z1dY/pasted-image-1792257963326.webp" alt="Claude 官方状态页过去 90 天快照：API 标注 99.59% 可用率，截图当下为 Operational" decoding="async" loading="lazy" width="1000" height="500"><figcaption>Claude 官方状态页过去 90 天快照：API 标注 99.59% 可用率，截图当下为 Operational</figcaption></figure><p></p>
+<p>这张官方状态页快照也保留了多个产品的异常记录，API 标注的过去 90 天可用率为 99.59%。它不是整个行业的横向排名，更不能证明每次故障都由缺算力造成；控制台报表故障也不该一律算成推理 API 停摆。可这些交付记录，已经足以让我拒绝仅凭模型得分，就给整家公司的工程能力打高分。<a class="link" target="_blank" rel="noopener" href="https://status.claude.com/">官方状态页<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>模型能在测试中解出难题，和付费服务能稳定接住需求，是两种能力。对一家公司而言，前者值得宣传，后者同样应该接受挑剔。便宜一点的 Token，补不回一项工作被错误和中断打散后耗掉的时间。</p>
+<h2 id="IPO-前的降价，我更愿意按价格战理解"><a href="#IPO-前的降价，我更愿意按价格战理解" class="headerlink" title="IPO 前的降价，我更愿意按价格战理解"></a>IPO 前的降价，我更愿意按价格战理解</h2><p>这也是我对“更强又更便宜”保持警惕的商业背景。路透社根据看到的招股材料报道，Anthropic 2025 年收入近 46 亿美元，经营亏损超过 80 亿美元，并承担巨额算力投入承诺；报道还把 Opus 5.5 的推出放在对抗 GPT-6 Astra 的竞争和预期 IPO 之前讨论。<a class="link" target="_blank" rel="noopener" href="https://www.marketscreener.com/news/anthropic-s-ipo-prospectus-shows-sweeping-ai-vision-surging-costs-ce785addd98afe2c">路透社报道<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>到 10 月，路透社又援引投资者活动参与者称，公司第三季度收入达到 168 亿美元，并向投资者表示当季在调整后口径下盈利。旧年度亏损、调整后盈利和未来投入，应当分开读。<a class="link" target="_blank" rel="noopener" href="https://uk.marketscreener.com/news/anthropic-s-q3-revenue-surges-45-to-nearly-17-billion-ce785dd2d08cf221">10 月 14 日报道<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>放在这个时间窗口里，我更愿意把降价理解为争夺市场和维护增长预期的商业动作。更低的价格有机会带来更多调用和客户，也让“需求强劲、规模扩大、效率改善”这个故事更容易讲给投资者听。它不需要先被证明是一场全面的底层工程突破，商业上也有充分理由发生。</p>
+<p>这正是我想指责的地方：用户为什么要替企业把价格竞争自动解释成技术胜利，再把尚未兑现的规模效应提前当成自己的实惠？我没有证据认定 Anthropic 在亏本倾销或故意欺骗，也没有证据证明未来一定砍额度；但我完全可以拒绝用这样的增长叙事替它的服务和价格背书。</p>
+<p>Opus 5.5 的单价确实降了，我这组用量按新费率也确实便宜了。问题在于，降价的参照物是它自己的旧价格；面对竞品的 Token 消耗、用户的任务成本，以及真实的交付稳定性，账远没算完。</p>
+<p>我仍然承认 Claude 的模型能力，也仍愿意为真正好用的产品付钱。但面对这次降价，我想说的是：先别急着把它理解成用户赢了。公司需要一场价格竞争，也需要一个好卖的 IPO 故事；我需要的是能稳定做完工作的工具。两者的利益，没理由被默认成一回事。</p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题:</strong> Claude Opus 5.5 的降价神话：工程进步，还是 IPO 前的价格战？</li>
+        <li><strong>作者:</strong> AdenXie</li>
+        <li><strong>创建于
+                :</strong> 2026-10-18 01:32:46</li>
+        
+        <li>
+            <strong>链接:</strong> https://blog.adenxie.com.cn/2026/10/18/2026-10-18-claude-opus-5-5-pricing-myth/
+        </li>
+        <li>
+            <strong>
+                版权声明:
+            </strong>
+            
+
+            
+                版权所有 © AdenXie，禁止转载。
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/">#大模型</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/Claude/">#Claude</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/Anthropic/">#Anthropic</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/Codex/">#Codex</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E6%88%90%E6%9C%AC%E5%88%86%E6%9E%90/">#成本分析</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/10/01/2026-10-01-gemini-4-argon/" title="Gemini 4 Argon：我喜欢 Gemini 的理由，这一次都写在了 Argon 里" rel="bookmark">
+  <img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/g4_30-09-26_key-art_blog.width-1600.format-webp.webp" alt="Gemini 4 Argon：我喜欢 Gemini 的理由，这一次都写在了 Argon 里" class="!max-w-none" decoding="async">
+  <span class="title">Gemini 4 Argon：我喜欢 Gemini 的理由，这一次都写在了 Argon 里</span>
+</a><a class="recommended-article-item" href="/2026/10/14/2026-10-14-gemini-4-argon-vs-claude-opus-5-5-writing-test/" title="谁更会“说人话”？Gemini 4 Argon 与 Claude Opus 5.5 写作实测" rel="bookmark">
+  <img src="https://files.seeusercontent.com/2026/10/14/Oiu2/pasted-image-1791945672927.webp" alt="谁更会“说人话”？Gemini 4 Argon 与 Claude Opus 5.5 写作实测" class="!max-w-none" decoding="async">
+  <span class="title">谁更会“说人话”？Gemini 4 Argon 与 Claude Opus 5.5 写作实测</span>
+</a><a class="recommended-article-item" href="/2026/09/20/jev-system-one/" title="Jev 为什么火了：当 AI 不再写答案，而是替软件做判断" rel="bookmark">
+  <img src="https://framerusercontent.com/images/z4Uu1YpJeEZPBSMTCMI0CN2PX0.png" alt="Jev 为什么火了：当 AI 不再写答案，而是替软件做判断" class="!max-w-none" decoding="async">
+  <span class="title">Jev 为什么火了：当 AI 不再写答案，而是替软件做判断</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/10/01/2026-10-01-gemini-4-argon/" title="Gemini 4 Argon：我喜欢 Gemini 的理由，这一次都写在了 Argon 里" rel="bookmark">
+  <img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/g4_30-09-26_key-art_blog.width-1600.format-webp.webp" alt="Gemini 4 Argon：我喜欢 Gemini 的理由，这一次都写在了 Argon 里" class="!max-w-none" decoding="async">
+  <span class="title">Gemini 4 Argon：我喜欢 Gemini 的理由，这一次都写在了 Argon 里</span>
+</a><a class="recommended-article-item" href="/2026/10/14/2026-10-14-gemini-4-argon-vs-claude-opus-5-5-writing-test/" title="谁更会“说人话”？Gemini 4 Argon 与 Claude Opus 5.5 写作实测" rel="bookmark">
+  <img src="https://files.seeusercontent.com/2026/10/14/Oiu2/pasted-image-1791945672927.webp" alt="谁更会“说人话”？Gemini 4 Argon 与 Claude Opus 5.5 写作实测" class="!max-w-none" decoding="async">
+  <span class="title">谁更会“说人话”？Gemini 4 Argon 与 Claude Opus 5.5 写作实测</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2026/10/19/2026-10-19-daily-brief/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">每日简报｜2026-10-19：债务、AI与能源安全重定价全球风险</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/10/17/2026-10-17-daily-brief/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">每日简报｜2026-10-17：债市紧缩、AI投资与地缘风险交织</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">Claude Opus 5.5 的降价神话：工程进步，还是 IPO 前的价格战？</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%80%9C%E4%BE%BF%E5%AE%9C-40-%E2%80%9D%E5%88%B0%E5%BA%95%E5%9C%A8%E5%92%8C%E8%B0%81%E6%AF%94%EF%BC%9F"><span class="nav-text">“便宜 40%”到底在和谁比？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%91%E7%9A%84%E7%BB%9F%E8%AE%A1%E9%87%8C%EF%BC%8C%E6%9C%80%E5%AE%B9%E6%98%93%E8%A2%AB%E5%BF%BD%E7%95%A5%E7%9A%84%E6%98%AF%E7%BC%93%E5%AD%98"><span class="nav-text">我的统计里，最容易被忽略的是缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%91%BD%E4%B8%AD%E7%BC%93%E5%AD%98-98-8-%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%98%E6%9C%89%E8%BF%99%E4%B9%88%E5%A4%9A%E8%B4%B9%E7%94%A8%EF%BC%9F"><span class="nav-text">命中缓存 98.8%，为什么还有这么多费用？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AA-%E7%9A%84%E9%A2%86%E5%85%88%EF%BC%8C%E4%B9%9F%E5%B8%A6%E7%9D%80%E6%88%90%E6%9C%AC%E6%A0%87%E7%AD%BE"><span class="nav-text">AA 的领先，也带着成本标签</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%97%E7%A6%8F%E8%8E%89%E8%BF%99%E6%AE%B5%E8%AF%9D%EF%BC%8C%E8%AE%A9%E6%88%91%E6%9B%B4%E6%83%B3%E8%BF%BD%E9%97%AE-Anthropic-%E7%9A%84%E5%B7%A5%E7%A8%8B%E8%B4%A6"><span class="nav-text">罗福莉这段话，让我更想追问 Anthropic 的工程账</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%97%E5%8A%9B%E5%8F%AF%E4%BB%A5%E5%90%91%E9%A9%AC%E6%96%AF%E5%85%8B%E4%B9%B0%EF%BC%8C%E7%A8%B3%E5%AE%9A%E4%BA%A4%E4%BB%98%E4%B8%8D%E8%83%BD%E9%9D%A0%E5%8F%91%E5%B8%83%E4%BC%9A%E4%BB%A3%E6%9B%BF"><span class="nav-text">算力可以向马斯克买，稳定交付不能靠发布会代替</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IPO-%E5%89%8D%E7%9A%84%E9%99%8D%E4%BB%B7%EF%BC%8C%E6%88%91%E6%9B%B4%E6%84%BF%E6%84%8F%E6%8C%89%E4%BB%B7%E6%A0%BC%E6%88%98%E7%90%86%E8%A7%A3"><span class="nav-text">IPO 前的降价，我更愿意按价格战理解</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">写下真实体验，也保留观点的棱角。</div><div class="customize-info my-1 aden-status-hint">页面打不开或功能出错？可在 <a href="https://status.adenxie.com.cn/" target="_blank" rel="noopener">status.adenxie.com.cn</a> 查看服务状态</div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 98 篇文章
+                    </span>
+                    
+                        <span>
+                            共 279.8k 字
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js" async=""></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days"></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/scene-loader.js?v=b97b1fce3bd0" defer=""></script>
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="图片查看器">
+	<button class="image-viewer-close" type="button" aria-label="关闭">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="上一页">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="" decoding="async">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="关闭">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="下一页">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="站内搜索您需要的内容..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js?v=509b91971bf2"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js?v=969d65618587"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js?v=193270b6fdb0"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js?v=647d2af612df"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js?v=c9d014a814b8"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js?v=792db0224d6b"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js?v=7e6a109d5509" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js?v=03c1e188b884"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css?v=77a3a9d5a3d0">
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js?v=e98ec22436a5"></script>
+
+
+<script src="/js/build/plugins/aplayer.js?v=d6d3c64af35f"></script>
+
+
+	
+
+
+<button type="button" id="aden-chat-launcher" class="aden-chat-launcher" aria-haspopup="dialog" aria-expanded="false" hidden="" aria-label="打开 AI 聊天" data-script="/js/chat.js?v=750a15ffa2e2" data-style="/css/chat.css?v=286cbaf4025c"><span aria-hidden="true">✳</span><span class="aden-chat-launcher-label">问 AI</span></button></body></html>

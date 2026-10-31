@@ -1,0 +1,1572 @@
+<!DOCTYPE html><html lang="en"><head><script src="/js/language-preference.js?v=29a144036da1" data-english-home="/en/"></script><script src="/js/site-runtime.js?v=0711b6201338" defer=""></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/en/2026/10/21/2026-10-21-europe-protest-wave-cost-of-living/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Synchronisation of the Wave of Protests Across Europe: How Interest Rate Cycles and the Cost-of-Living Crisis Have Fuelled a Wave of Transnational Protests">
+<meta property="og:url" content="https://blog.adenxie.com.cn/en/2026/10/21/2026-10-21-europe-protest-wave-cost-of-living/">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-10-20T23:00:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="欧洲">
+<meta property="article:tag" content="社会运动">
+<meta property="article:tag" content="通胀">
+<meta property="article:tag" content="欧洲央行">
+<meta property="article:tag" content="生活成本">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png?v=fa6db12e9674" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <!--- Page Info-->
+    
+    <title>
+        
+            The Synchronisation of the Wave of Protests Across Europe: How Interest Rate Cycles and the Cost-of-Living Crisis Are Fuelling a Wave of Transnational Protests | Aden’s Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/css/site-d4cfb3d087aa.css?v=d4cfb3d087aa">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js?v=258b1afa4680"></script>
+                
+    
+            
+                
+                    
+                
+    
+
+    
+
+
+
+    
+        
+
+
+    
+
+    
+
+
+    
+
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"en","path":"en/search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"17px","line_height":1.85,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"all_rights_reserved"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["Technology, experience and independent thinking","Real experiences. A personal perspective."],"hitokoto":{"enable":false,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Daily Brief":{"path":"/daily/","icon":"fa-regular fa-newspaper"},"archives":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"},"tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"World Time":{"path":"/world-time/","icon":"fa-regular fa-clock"},"about":{"path":"/about/","icon":"fa-regular fa-user"},"links":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":true,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.i18n = {"search":"Search...","toc":"On this page","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"POWERED BY %s","theme":"THEME","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","post":"Post","posts":"Posts","tagcloud":"Tag Cloud","comment":"Comment","comments":"Comments","home":"Home","archive":"Archive","archives":"Archives","top":"TOP","sticky":"Sticky","go-back-home":"Go Back Home","masonry_loading":"Loading photos...","image_viewer":"Image viewer","close":"Close","exif":{"title":"EXIF","cards":{"camera":"Camera","lens":"Lens","exposure":"Exposure","other":"Other"},"fields":{"make":"Brand","model":"Model","date_taken":"Date taken","lens_model":"Lens","focal_length":"Focal length","focus_mode":"Focus mode","shutter":"Shutter","aperture":"Aperture","iso":"ISO","exposure_program":"Exposure program","exposure_compensation":"Exposure compensation","metering_mode":"Metering mode","flash":"Flash","white_balance":"White balance","latitude":"Latitude","longitude":"Longitude","altitude":"Altitude"},"status":{"loading":"Loading...","no_exif":"No EXIF available","library_missing":"EXIF library not loaded","image_source_missing":"Image source unavailable","unavailable":"EXIF unavailable (blocked by CORS or missing metadata)","flag_unavailable":"EXIF unavailable"}},"about":"About","changelog":"Changelog","links":"Links","link":"Link","friends":"Friends","friend":"Friend","timeline":"Timeline","shuoshuo":"Shuoshuo","bookmarks":"Bookmarks","site_uv":"VISITOR COUNT","site_pv":"TOTAL PAGE VIEWS","read_more":"Read more","wordcount":"Words","min2read":"Mins","status":"Status","runtime":"Blog up for","days":"days","hours":"hrs","minutes":"Min","seconds":"Sec","optimized_by":"and Optimized by Evan","rights":"All Rights Reserved","site_posts":"%s posts in total","site_wordcount":"%s words in total","copyright":{"author":"Author","title":"Title","link":"Link","create_time":"Created at","update_time":"Updated at","license_title":"License","license_content":"This work is licensed under %s.","all_rights_reserved":"All Rights Reserved &#169; %s","public_domain":"This work is in the public domain."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"},"create_time":"Created","update_time":"Updated","expired":"This post is written %s days ago, and the content may not be up to date."};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" hreflang="zh-CN" href="https://blog.adenxie.com.cn/2026/10/21/2026-10-21-europe-protest-wave-cost-of-living/"><link rel="alternate" hreflang="en" href="https://blog.adenxie.com.cn/en/2026/10/21/2026-10-21-europe-protest-wave-cost-of-living/"><script data-aden-analytics="">
+      if (location.hostname === 'blog.adenxie.com.cn' && !window.__adenAnalyticsLoaded) {
+        window.__adenAnalyticsLoaded = true;
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        const script = document.createElement('script');
+        script.defer = true;
+        script.src = '/_vercel/insights/script.js';
+        document.head.append(script);
+      }
+    </script></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/en/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/daily/">
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    DAILY BRIEF
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/categories/">
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    CATEGORIES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    WORLD TIME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    <nav class="aden-language-switch" aria-label="Language"><a lang="zh-CN" href="/2026/10/21/2026-10-21-europe-protest-wave-cost-of-living/" aria-current="false" data-no-swup="">中文</a><span> / </span><a lang="en" href="/en/2026/10/21/2026-10-21-europe-protest-wave-cost-of-living/" aria-current="page" data-no-swup="">English</a></nav></div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/">
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/daily/">
+                            <span>
+                                DAILY BRIEF
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/archives/">
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/categories/">
+                            <span>
+                                CATEGORIES
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/tags/">
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/world-time/">
+                            <span>
+                                WORLD TIME
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/about/">
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/link/">
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/en/archives/">
+                            <span>Article Archive</span>
+                            <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/en/tags/">
+                            <span>Topic Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/en/about/">
+                            <span>About Aden</span>
+                            <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/tags/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">65</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/categories/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/archives/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">98</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://images.pexels.com/photos/4646818/pexels-photo-4646818.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="The Synchronisation of the Wave of Protests Across Europe: How Interest Rate Cycles and the Cost-of-Living Crisis Have Fuelled a Wave of Transnational Protests" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" decoding="async">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">The Synchronisation of the Wave of Protests Across Europe: How Interest Rate Cycles and the Cost-of-Living Crisis Have Fuelled a Wave of Transnational Protests</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg?v=93ba7ebfa2ff" decoding="async" width="460" height="460">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-10-21 07:00</span>
+        <span class="mobile">2026-10-21 07:00</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/en/categories/%E7%BB%8F%E6%B5%8E%E8%A7%82%E5%AF%9F/">Economic Observer</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/en/tags/%E6%AC%A7%E6%B4%B2/">Europe</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/%E7%A4%BE%E4%BC%9A%E8%BF%90%E5%8A%A8/">Social movements</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/%E9%80%9A%E8%83%80/">Inflation</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/%E6%AC%A7%E6%B4%B2%E5%A4%AE%E8%A1%8C/">European Central Bank</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/%E7%94%9F%E6%B4%BB%E6%88%90%E6%9C%AC/">Cost of living</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>5.3k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>18 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8"><p class="aden-translation-notice">Automatically translated. <a href="/2026/10/21/2026-10-21-europe-protest-wave-cost-of-living/">Read the Chinese original</a>.</p>
+			<p>Around 17 October 2026, large-scale street protests erupted almost simultaneously in several countries, including France, Spain, Italy, Portugal and Belgium, with a partial curfew imposed in certain areas of Paris. Was this simultaneous wave of protests across multiple countries the result of ‘contagion’ via social media, or did everyone receive the same bill? This article examines the September inflation figures for each country, the European Central Bank’s interest rate hikes and fiscal space, to analyse the common causes of this wave of protests, the cases of Spain and France, and possible scenarios for how the situation might unfold this winter.</p>
+<span id="more"></span>
+
+<div class="aden-alert" role="note"><svg class="aden-alert-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 2 21h20Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"></path><path d="M12 10v5m0 2.5v.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg><div class="aden-alert-frame"><p>The data in this article is current as at 20 October 2026; the probabilities of the scenarios are analytical estimates and do not constitute investment advice.</p>
+</div><span class="aden-alert-meta" aria-hidden="true">NOTES</span></div>
+<h2 id="核心结论"><a href="#核心结论" class="headerlink" title="Key Findings"></a>Key Findings</h2><ol>
+<li><strong>Macroeconomic factors share a high degree of commonality:</strong> This wave of cross-border protests did not erupt by chance, but stems from a common broader context. The conflict in the Middle East (escalating tensions between the US and Iran, and the prolonged blockage of the Strait of Hormuz) has pushed Brent crude oil prices to around US$110 (US$110.48 as at 20 October), compounded by the European Central Bank (ECB) resuming interest rate hikes, the pressures from energy, transport and the cost of living all converged simultaneously across many European countries at the end of the third quarter of 2026.</li>
+<li><strong>The weighting of ‘shared triggers’ far exceeds that of ‘emotional contagion’:</strong> Social media has certainly accelerated the cross-border replication of protest forms such as roadblocks, night-time standoffs and student walkouts; however, the timing of people taking to the streets in various countries closely aligns with the surge in consumer price index (CPI) figures in September, and the underlying driver remains the economic burden.</li>
+<li><strong>The ‘asymmetric structure’ of ‘soaring energy prices and stable core inflation’:</strong> Core inflation in France stands at just <strong>1.5%</strong>, Core inflation in the eurozone stood at just <strong>2.5%</strong>… in stark contrast to the widespread inflation of 2022. The cost-of-living squeeze is concentrated on essential expenses such as fuel for commuting, winter heating and rent, directly affecting young people with limited financial reserves; this is the economic rationale behind students taking the lead in this round of protests.</li>
+<li><strong>The European Central Bank is caught in a ‘policy mismatch’:</strong> On 10 September, the ECB raised interest rates by 25 basis points (deposit rate <strong>2.50%</strong>(the first such increase since 2023), with the market pricing in the possibility of a further rise in December. Interest rate rises do not increase oil supply; rather, they push up the cost of mortgages (the overall cost of new housing loans <strong>3.54%</strong>), corporate lending (<strong>3.80%</strong>) and the cost of servicing government debt; all three transmission channels are supported by official ECB data.</li>
+<li><strong>Situational Judgement:</strong> Base-case scenario (probability approximately <strong>50%</strong>) are intermittent protests that have become a regular feature of weekends during the winter months; they are unlikely to topple the government in the short term; the escalation and spread resulting from deteriorating geopolitical conditions, and the natural subsiding of tensions brought about by geopolitical détente, each have their own course. <strong>25%</strong> the possibility that...</li>
+</ol>
+<h2 id="数据缺口与置信度"><a href="#数据缺口与置信度" class="headerlink" title="Data Gaps and Confidence Levels"></a>Data Gaps and Confidence Levels</h2><p>Some data cannot be obtained directly; the data gaps, alternative approaches and levels of confidence are as follows:</p>
+<div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th align="left">Missing items</th>
+<th align="left">Details</th>
+<th align="left">Impact on the analysis</th>
+<th align="left">Alternative Methods and Cross-Validation</th>
+<th align="center">Confidence level</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>The Wikipedia article on ‘2026 European unrest’</strong></td>
+<td align="left">Unable to retrieve the full entry in real time</td>
+<td align="left">It is not possible to verify, on a country-by-country basis, the start times of the protests in each city and the subsequent events</td>
+<td align="left">Cross-referenced with reports from The Guardian (10–18), CNN (10–19) and CNBC (10–20)</td>
+<td align="center"><strong>Chinese</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>Figures on casualties and arrests</strong></td>
+<td align="left">A lack of standardised, real-time and publicly available policing statistics across countries</td>
+<td align="left">It is not possible to quantify precisely the total number of participants in the cross-border demonstrations or the scale of the arrests</td>
+<td align="left">Focus solely on describing widespread phenomena, whilst citing official control measures such as local curfews</td>
+<td align="center">—</td>
+</tr>
+<tr>
+<td align="left"><strong>2011 / 2019 Original Documents on the Protest Wave</strong></td>
+<td align="left">Unable to access the full text of the academic database directly</td>
+<td align="left">The system framework is unable to annotate the page numbers of monographs individually</td>
+<td align="left">Drawing on recognised analytical frameworks in the study of social movements (research by Tufekci, Ortiz and others on the repertoire of struggle and online diffusion)</td>
+<td align="center"><strong>Chinese</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>EU Housing Breakdown Data</strong></td>
+<td align="left">Eurostat’s rent index and house price-to-income ratio are not directly available</td>
+<td align="left">The section on the housing crisis is primarily qualitative in nature, with some countries lacking detailed figures.</td>
+<td align="left">Based on data from the Spanish National Institute of Statistics (INE) by category (housing and utilities: +7.2 per cent) and publicly available reports on holiday rentals; no unverified figures have been included.</td>
+<td align="center"><strong>Low / Qualitative</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>Time series of government budget deficits in selected countries</strong></td>
+<td align="left">Data from non-core countries, such as Austria, where the budget deficit in 2026 exceeded 4 per cent of GDP</td>
+<td align="left">The assessment of fiscal tightening pressures relies in part on reports relayed by the international financial press</td>
+<td align="left">Based primarily on verifiable financial indicators such as French government bond yields (at a 24-year high) and Spanish long-term government bonds</td>
+<td align="center"><strong>Chinese</strong></td>
+</tr>
+</tbody></table></div>
+<h2 id="一、事实基线：抗议潮与宏观数据的时空对齐"><a href="#一、事实基线：抗议潮与宏观数据的时空对齐" class="headerlink" title="I. Factual Background: The Spatio-Temporal Alignment of the Wave of Protests and Macroeconomic Data"></a>I. Factual Background: The Spatio-Temporal Alignment of the Wave of Protests and Macroeconomic Data</h2><h3 id="1-1-抗议时间线与波及范围"><a href="#1-1-抗议时间线与波及范围" class="headerlink" title="1.1 Timeline and Scope of the Protests"></a>1.1 Timeline and Scope of the Protests</h3><p><em>Based on a summary of The Guardian’s explanatory piece of 18 October, and reports by CNN on 19 October and CNBC on 20 October:</em></p>
+<ul>
+<li><strong>Outbreak nodes:</strong> Around 17 October 2026, large-scale street demonstrations broke out simultaneously in several major European economies, with the situation rapidly escalating into riots in some areas.</li>
+<li><strong>Areas affected:</strong> France is at the epicentre of this unrest, with partial curfews already in place in some districts of Paris; coordinated protests have emerged in Belgium, Italy, Portugal, Spain, Albania and other countries.</li>
+<li><strong>Group characteristics:</strong> Secondary school pupils and university students have become a significant force on the streets in France and southern Europe, calling for measures to curb the cost of living, halt rent rises, improve school facilities and oppose cuts to public spending.</li>
+</ul>
+<h3 id="1-2-各国通胀读数对比"><a href="#1-2-各国通胀读数对比" class="headerlink" title="1.2 Comparison of inflation figures across countries"></a>1.2 Comparison of inflation figures across countries</h3><p><em>Data source: Eurostat and national statistical offices, cross-checked by TradingEconomics; data as at September 2026.</em></p>
+<div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th align="left">Country / Region</th>
+<th align="center">September CPI year-on-year</th>
+<th align="center">August (previous figure)</th>
+<th align="left">Core inflation / Key energy sub-components</th>
+<th align="left">Billing Characteristics</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Spain</strong></td>
+<td align="center"><strong>4.9%</strong></td>
+<td align="center">4.3%</td>
+<td align="left">Year-on-year figures for the transport sub-sector <strong>+10.5%</strong>(Of which diesel in August, year-on-year) <strong>+30.3%</strong>); housing and public utilities, year-on-year <strong>+7.2%</strong></td>
+<td align="left">The CPI was the highest among the five samples, with transport and housing costs showing a marked deterioration</td>
+</tr>
+<tr>
+<td align="left"><strong>Italy</strong></td>
+<td align="center"><strong>4.2%</strong></td>
+<td align="center">3.2%</td>
+<td align="left">Inflation jumped by 1.0 percentage points in a single month</td>
+<td align="left">A rebound in fixed expenditure on energy and food</td>
+</tr>
+<tr>
+<td align="left"><strong>The eurozone as a whole</strong></td>
+<td align="center"><strong>3.8%</strong></td>
+<td align="center">3.2%</td>
+<td align="left">Energy breakdown year-on-year <strong>+18.9%</strong>(a new high since January 2023); core inflation stood at just <strong>2.5%</strong></td>
+<td align="left">Typical inflation driven by external energy factors</td>
+</tr>
+<tr>
+<td align="left"><strong>France (HICP)</strong></td>
+<td align="center"><strong>3.4%</strong></td>
+<td align="center">2.6%</td>
+<td align="left">Energy breakdown year-on-year <strong>+21.3%</strong>, petroleum products <strong>+36.2%</strong>；<strong>Core inflation stands at just 1.5 per cent</strong></td>
+<td align="left">Domestic demand is sluggish, and the impact of imported oil prices is severe</td>
+</tr>
+<tr>
+<td align="left"><strong>Germany</strong></td>
+<td align="center"><strong>3.3%</strong></td>
+<td align="center">2.9%</td>
+<td align="left">A general, moderate upward trend</td>
+<td align="left">Industrial energy consumption is under pressure, whilst protests have been slow to emerge</td>
+</tr>
+</tbody></table></div>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://files.seeusercontent.com/2026/10/20/7bsX/fig1-europe-cpi-energy-compariso.png" alt="Inflation figures for major European countries in September 2026, compared with energy and key sub-categories" decoding="async" loading="lazy" width="1000" height="500"><figcaption>Inflation figures for major European countries in September 2026, compared with energy and key sub-categories</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 1</span><span class="aden-caption-text">France and Spain, where protests first broke out, are precisely the countries experiencing the most severe and rapid surge in energy inflation; core inflation in both countries remains relatively stable, with pressure concentrated on energy and essential household bills.</span></p>
+<p><strong>Key insights:</strong> France and Spain, where protests broke out earliest and were most intense, happened to be the countries that experienced the sharpest surge in inflation and the largest increases in the energy sub-index between August and September (France’s HICP rose from 2.6 per cent to 3.4 per cent, whilst Spain’s rose from 4.3 per cent to 4.9 per cent). It should be noted that this observation is based on only two of the five countries in the sample and constitutes evidence that is ‘consistent with the mechanism’, rather than a rigorous statistical test; whilst the rise in energy prices in Germany was relatively moderate, protests also spread there, suggesting that, in addition to common triggers, local factors are also at play in each country. Households’ perception of inflation often stems from their monthly fuel, electricity and water bills, and the timing of the protests aligns with the time lag in these bill shocks.</p>
+<h3 id="1-3-欧洲央行与主权债务收紧"><a href="#1-3-欧洲央行与主权债务收紧" class="headerlink" title="1.3 The European Central Bank and the Sovereign Debt Crisis"></a>1.3 The European Central Bank and the Sovereign Debt Crisis</h3><ul>
+<li><strong>Monetary policy:</strong> The European Central Bank on <strong>10 September 2026</strong>A 25-basis-point interest rate rise was announced, bringing the main refinancing rate to <strong>2.65%</strong>, the interest rate on the deposit facility has risen to <strong>2.50%</strong>This marks the first interest rate rise since 2023 (following eight consecutive rate cuts between June 2024 and June 2025). The minutes of the monetary policy meeting published on 8 October acknowledged upward risks to inflation but, constrained by the conflicts in Ukraine and the Middle East, deliberately avoided providing guidance on the medium-term interest rate path. The interest rate derivatives market has already begun to price in a further rate rise in December.</li>
+<li><strong>Widening sovereign debt spreads:</strong> The yield on 10-year French government bonds is approaching <strong>Highest level in 24 years</strong>, the fiscal deficit widened further between January and August 2026; yields on Spanish 10-year government bonds hovered at their highest levels since 2013. The fiscal manoeuvre room of both peripheral and core European countries is constrained by capital markets.</li>
+</ul>
+<h2 id="二、为什么会“同步”：抗议波的三层机制"><a href="#二、为什么会“同步”：抗议波的三层机制" class="headerlink" title="II. Why does ‘synchronisation’ occur: the three-tier mechanism of protest waves"></a>II. Why does ‘synchronisation’ occur: the three-tier mechanism of protest waves</h2><p>Research into the 2011 Arab Spring, the 15-M movement in Spain, the Occupy Wall Street movement, and the wave of protests that swept across numerous countries in 2019 indicates that the formation of transnational protest waves depends on the coupling of several structural levels:</p>
+<div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th align="left">Level</th>
+<th align="left">Mechanism</th>
+<th align="left">Key elements</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>First floor</strong></td>
+<td align="left">Common macro-level triggers (fuel, leading to simultaneous outbreaks)</td>
+<td align="left">The conflict in the Middle East has kept Brent crude trading at the upper end of the US$100–110 range, with energy bills hitting everyone equally; the European Central Bank has raised interest rates, leading to a general tightening of borrowing and debt-servicing costs</td>
+</tr>
+<tr>
+<td align="left"><strong>Second floor</strong></td>
+<td align="left">The Transnational Replication of Forms of Resistance (Accelerator)</td>
+<td align="left">Social media rapidly disseminated images and tactics relating to roadblocks, localised curfews and student rallies; young people across various countries developed a sense of collective efficacy, feeling that ‘neighbouring countries are also protesting’.</td>
+</tr>
+<tr>
+<td align="left"><strong>Third floor</strong></td>
+<td align="left">Political and Fiscal Vacuum (Amplifier)</td>
+<td align="left">Party divisions and a weak coalition government towards the end of Macron’s term; high government bond yields have left no room for energy subsidies, making it difficult for the government both to foot the bill and to crack down firmly.</td>
+</tr>
+</tbody></table></div>
+<p>A three-tier mechanism operates in a top-down manner: shared bills foster a widespread sense of deprivation, social media provides a means of mobilisation, and the political vacuum allows the protests to persist and continue.</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://files.seeusercontent.com/2026/10/20/6hdO/fig0-mechanism-three-layers.png" alt="The Three-Tiered Drivers and Transmission Mechanisms of the Wave of Transnational Protests in Europe" decoding="async" loading="lazy" width="1000" height="500"><figcaption>The Three-Tiered Drivers and Transmission Mechanisms of the Wave of Transnational Protests in Europe</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 2</span><span class="aden-caption-text">Common macroeconomic factors (oil prices and interest rates) provide the underlying fuel, social media offers a replicable form of protest, and fiscal and political vacuums leave society without a safety net.</span></p>
+<ol>
+<li><strong>Level 1: Common macro-level factors (primary drivers)</strong><br>The 2011 crisis was triggered by the collapse of sovereign credit in certain southern European countries and had a distinctly country-specific character; by 2026, however, Europe will be facing a highly homogeneous form of ‘import-driven energy inflation’. The price premiums resulting from disruptions to crude oil and liquefied natural gas supplies caused by blockades of the Strait of Hormuz have fallen almost indiscriminately on every household in the eurozone. This shared financial burden explains why several countries reacted in unison in mid-October.</li>
+<li><strong>Level Two: The transnational replication of forms of protest (social media as a catalyst)</strong><br>The protests across different countries have been remarkably uniform in form: student walkouts, blocking ring roads, setting fire to roadblocks, and guerrilla-style confrontations with riot police. Driven by algorithmic recommendations and short-form videos, the protest tactics and slogans of one city can be adopted by young people in neighbouring countries within 48 hours. Social media has not only reduced the information costs of transnational mobilisation but also provided psychological support in the form of the reassurance that ‘protests elsewhere have already been recognised’.</li>
+<li><strong>Third layer: Political vacuum and depletion of fiscal space (amplifier)</strong><br>France is undergoing a period of political realignment towards the end of Macron’s term, with the traditional establishment’s grip on power waning; several southern European countries are also hampered by fragile coalition governments. Unlike in 2011, government bond yields in major countries are now very high, and governments are unable to ‘buy stability’ by issuing large-scale bonds to fund full energy subsidies. Lacking the resources for compromise and fearful that heavy-handed suppression might trigger a political backlash, the standoff on the streets has thus reached an impasse.</li>
+</ol>
+<p><em>Note: This article concludes that the current wave of protests is ‘primarily driven by common causes, with cross-border transmission playing a secondary role’. If the spread were primarily driven by social media, the time lag between outbreaks in different countries would typically be eliminated within a matter of days; however, this round of protests has unfolded in waves since 17 October, closely aligned with the timing of CPI data releases and the start of the heating season in various countries.</em></p>
+<h2 id="三、住房危机的政治化：西班牙"><a href="#三、住房危机的政治化：西班牙" class="headerlink" title="III. The Politicisation of the Housing Crisis: Spain"></a>III. The Politicisation of the Housing Crisis: Spain</h2><p>Spain is a prime example for observing ‘how the rising cost of living translates into issues of social class’:</p>
+<ul>
+<li><strong>The combined pressure of rising prices and rents:</strong> Spain’s CPI for September stood at 4.9 per cent, the highest of the five countries surveyed; the housing and utilities sub-index rose year-on-year <strong>7.2%</strong>, with diesel prices rising year-on-year <strong>30.3%</strong>。</li>
+<li><strong>The conflict between the commercialisation of tourism and the housing shortage:</strong> In August 2026, Spain welcomed a record number of international visitors, whilst short-term holiday rentals (such as Airbnb) in cities including Barcelona and Madrid continued to crowd out long-term rental properties. Tenants’ rights organisations have successfully elevated the issue of ‘unaffordable rent’ from a personal financial hardship to a social movement opposing gentrification and the institutional capital monopoly on housing.</li>
+<li>As data on the house price-to-income ratio and the monthly rent index at EU level are not directly available, this section provides only a qualitative overview and does not include any unverified figures.</li>
+</ul>
+<h2 id="四、学运与世代挤压：法国"><a href="#四、学运与世代挤压：法国" class="headerlink" title="IV. Student Protests and Generational Squeeze: France"></a>IV. Student Protests and Generational Squeeze: France</h2><p>Young students have become the driving force behind this round of protests, and the factors behind this are directly linked to the underlying structure of inflation:</p>
+<ul>
+<li><strong>The billing structure is most disadvantageous to young people:</strong> This round of inflation has been driven primarily by energy (France: +21.3 per cent), transport (Spain: +10.5 per cent) and rent, whilst core inflation (France: just 1.5 per cent) has remained subdued. The younger generation, who have no assets to their name and lack tools to protect against inflation, see the majority of their expenditure concentrated on essential costs such as commuting, shared utility bills and cheap takeaway meals; as a result, they are far more severely affected than middle-aged and older people who own property.</li>
+<li><strong>Decentralised methods of mobilisation:</strong> Compared with the ‘May 1968’ protests or the 2006 campaign against the First Employment Contract (CPE), these student demonstrations represent a decentralised, ‘network-based’ mobilisation, with no coordination by traditional trade union leaders. The government is facing a governance impasse with no clear negotiating counterpart, and the imposition of a partial curfew in Paris also reflects the diminishing effectiveness of traditional law-and-order measures.</li>
+</ul>
+<h2 id="五、能源账单与利率的双重挤压"><a href="#五、能源账单与利率的双重挤压" class="headerlink" title="V. The Double Squeeze of Energy Bills and Interest Rates"></a>V. The Double Squeeze of Energy Bills and Interest Rates</h2><p>This section explains the following:<strong>The energy crisis and central bank interest rate rises are putting pressure on the European real economy from two directions simultaneously.</strong></p>
+<h3 id="5-1-输入型能源冲击"><a href="#5-1-输入型能源冲击" class="headerlink" title="5.1 Input-side energy shocks"></a>5.1 Input-side energy shocks</h3><p>The eurozone’s energy sub-index rose year-on-year <strong>18.9%</strong>, with the energy sub-index in France reaching as high as <strong>21.3%</strong>. Europe’s structural vulnerability, stemming from its heavy reliance on fossil fuel imports, has once again been laid bare against the backdrop of turmoil in the Middle East. The blockage of the Strait of Hormuz has now lasted for approximately seven months; although crude oil shipping volumes have partially resumed, shortages of refined petroleum products (particularly diesel and jet fuel) remain severe, directly driving up diesel prices in Spain by 30.3 per cent and petroleum product prices in France by 36.2 per cent.</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://files.seeusercontent.com/2026/10/20/9qiI/fig4-brent-oil-price-timeline.png" alt="Key price movements and timeline of geopolitical events for Brent crude oil in the second half of 2026" decoding="async" loading="lazy" width="1000" height="500"><figcaption>Key price movements and timeline of geopolitical events for Brent crude oil in the second half of 2026</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 3</span><span class="aden-caption-text">With the Strait of Hormuz blocked for around seven months, shortages of refined oil products such as diesel have continued to drive up inflation in Europe.</span></p>
+<h3 id="5-2-欧洲央行加息的三条传导渠道"><a href="#5-2-欧洲央行加息的三条传导渠道" class="headerlink" title="5.2 Three channels through which the ECB’s interest rate rises are transmitted"></a>5.2 Three channels through which the ECB’s interest rate rises are transmitted</h3><p>According to the European Central Bank’s Monetary Policy Interest Rate Statistics (ECB MIR, published on 2 September 2026, covering July data) and financial market data, the policy rate (deposit facility rate of 2.50 per cent) is being transmitted to the real economy along three main channels:</p>
+<div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th align="left">Conduction pathways</th>
+<th align="center">Interest rate levels</th>
+<th align="left">Transmission mechanisms and impacts</th>
+<th align="left">Data sources</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>Base policy rate</strong></td>
+<td align="center"><strong>2.50%</strong>(Interest rates on deposit facilities)</td>
+<td align="left">On 10 September, interest rates were raised by 25 basis points to tighten overall liquidity; the market still expects a further rate rise in December</td>
+<td align="left">European Central Bank Interest Rate Decision</td>
+</tr>
+<tr>
+<td align="left"><strong>Channel 1: Newly granted mortgages</strong></td>
+<td align="center"><strong>3.54%</strong></td>
+<td align="left">Increasing the monthly mortgage repayments for new-build properties and the repayment burden of existing variable-rate mortgages is exacerbating the housing affordability crisis</td>
+<td align="left">ECB Banking Interest Rate Statistics (July data)</td>
+</tr>
+<tr>
+<td align="left"><strong>Channel 2: Loans to non-financial enterprises</strong></td>
+<td align="center"><strong>3.80%</strong></td>
+<td align="left">Increasing the cost of financing for companies’ working capital and investments, thereby limiting scope for pay rises</td>
+<td align="left">ECB Banking Interest Rate Statistics (July data)</td>
+</tr>
+<tr>
+<td align="left"><strong>Channel 3: Micro-enterprises and sole traders</strong></td>
+<td align="center"><strong>4.29%</strong></td>
+<td align="left">Self-employed individuals and micro and small enterprises bear the highest risk premium and have the weakest buffers</td>
+<td align="left">ECB Banking Interest Rate Statistics (July data)</td>
+</tr>
+<tr>
+<td align="left"><strong>Government debt servicing</strong></td>
+<td align="center"><strong>a near 24-year high</strong></td>
+<td align="left">With yields on 10-year French government bonds remaining high and the budget deficit widening, the Treasury is finding it difficult to provide large-scale funding for a comprehensive price-cap subsidy scheme.</td>
+<td align="left">Benchmark yields on the French government bond market</td>
+</tr>
+</tbody></table></div>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://files.seeusercontent.com/2026/10/20/Mrm0/fig3-ecb-rate-transmission.png" alt="The transmission of the European Central Bank’s policy interest rates to the real economy and financing costs" decoding="async" loading="lazy" width="1000" height="500"><figcaption>The transmission of the European Central Bank’s policy interest rates to the real economy and financing costs</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 4</span><span class="aden-caption-text">The policy interest rate rose to 2.50 per cent, driving up mortgage rates (3.54 per cent) and small business loan rates (4.29 per cent) across the board.</span></p>
+<h3 id="5-3-货币政策错配与滞胀困境"><a href="#5-3-货币政策错配与滞胀困境" class="headerlink" title="5.3 Monetary Policy Mismatch and the Stagflation Dilemma"></a>5.3 Monetary Policy Mismatch and the Stagflation Dilemma</h3><p>Interest rate rises fail to curb sea freight rates and tanker war risk premiums (Brent crude, 20 October) <strong>US$110.48</strong>). In the face of a supply shock, monetary policy can only curb demand; it cannot increase supply. I wrote in<a href="/en/2026/10/21/2026-10-21-fed-rate-hike-oil-stagflation/">Federal Reserve Interest Rate Hikes and Oil Prices</a>The ‘failure of policy instruments in the face of supply shocks’ discussed in the article also holds true in Europe, where dependence on energy imports is even higher, making the situation there even more precarious.</p>
+<h2 id="六、紧缩压力与政治收割（展望）"><a href="#六、紧缩压力与政治收割（展望）" class="headerlink" title="VI. Austerity Pressures and Political Capitalisation (Outlook)"></a>VI. Austerity Pressures and Political Capitalisation (Outlook)</h2><ul>
+<li><strong>The ‘Austerity 2.0’ standoff with the trade unions:</strong> As the European Union has re-tightened the deficit thresholds under the Stability and Growth Pact (with Austria’s budget deficit, for example, already exceeding 4 per cent of GDP), countries face strict constraints when drawing up their budgets this winter, forcing them to cut education spending and postpone pay rises in the public sector. The winter protests by trade unions and public-sector employees are likely to converge with student demonstrations.</li>
+<li><strong>The political gains of the far right and populist forces:</strong> Experience in Europe suggests that the social anger fuelled by street protests typically translates into votes after 6–12 months. Far-right opposition parties are exploiting the cost-of-living crisis and anti-austerity sentiment to attack the establishment government. As opinion polls remain volatile, this article offers only a tracking outlook and refrains from drawing political conclusions.</li>
+</ul>
+<h2 id="七、情景分析与前瞻指标"><a href="#七、情景分析与前瞻指标" class="headerlink" title="VII. Scenario Analysis and Forward-Looking Indicators"></a>VII. Scenario Analysis and Forward-Looking Indicators</h2><p><em>Note: The probabilities are analytical estimates based on macroeconomic variables and political constraints; they are not definitive forecasts.</em></p>
+<div class="aden-table-scroll"><table>
+<thead>
+<tr>
+<th align="left">Scenario</th>
+<th align="left">Pathways to Development</th>
+<th align="center">Probability</th>
+<th align="left">Trigger conditions</th>
+<th align="left">Market and Social Implications</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>A: Base-case scenario</strong></td>
+<td align="left"><strong>Intermittent and persistent during winter</strong></td>
+<td align="center"><strong>Approximately 50 per cent</strong></td>
+<td align="left">Brent crude is fluctuating within the $100–$110 range;<br>The ECB raised interest rates by 25 basis points in December, but its statement adopted a wait-and-see stance;<br>France and Spain have only introduced small-scale, targeted relief measures, with no large-scale, universal subsidies;<br>The demonstrations did not escalate into an indefinite, cross-sector strike</td>
+<td align="left">The protests have developed into regular weekend demonstrations, causing localised disturbances;<br>The current government is under pressure, but is unlikely to collapse in the short term;<br>The euro and European sovereign debt continue to trade at a moderate political risk discount</td>
+</tr>
+<tr>
+<td align="left"><strong>B: Worsening circumstances</strong></td>
+<td align="left"><strong>Escalation of protests and transnational spread</strong></td>
+<td align="center"><strong>Approximately 25 per cent</strong></td>
+<td align="left">The Strait of Hormuz has once again been subject to an armed blockade, with oil prices soaring to over $115;<br>Confrontations between the police and the public in key cities have escalated, resulting in serious casualties;<br>Joint strike by transport, energy and school trade unions;<br>The austerity budget was rammed through Parliament, fuelling a backlash</td>
+<td align="left">The protests have spread to more countries in Central and Northern Europe;<br>France faces a crisis over a vote of no confidence in the government or early general elections;<br>European bond spreads widened involuntarily, causing European share markets to fall</td>
+</tr>
+<tr>
+<td align="left"><strong>C: Mitigating circumstances</strong></td>
+<td align="left"><strong>Geopolitical Tensions Easing and Gradually Abating</strong></td>
+<td align="center"><strong>Approximately 25 per cent</strong></td>
+<td align="left">A ceasefire framework has been agreed in the Middle East, and oil prices have fallen back below US$90;<br>Demand for heating peaks in the latter half of winter, and the base effect in energy prices causes inflation to ease;<br>The government has allocated special funds to provide rent subsidies to young people and tenants;<br>The ECB’s December decision sent a clear signal of a pause</td>
+<td align="left">As the bitter cold and the cost-of-living crisis eased, the street protests naturally subsided;<br>The political crisis has been temporarily resolved;<br>Public sentiment is shifting towards the next election cycle</td>
+</tr>
+</tbody></table></div>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://files.seeusercontent.com/2026/10/20/6etQ/fig2-protest-scenarios-framework.png" alt="Three Possible Scenarios for the Evolution of the Wave of Protests in Europe and Key Indicators to Monitor" decoding="async" loading="lazy" width="1000" height="500"><figcaption>Three Possible Scenarios for the Evolution of the Wave of Protests in Europe and Key Indicators to Monitor</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 5</span><span class="aden-caption-text">The baseline scenario (50 per cent) is that the protests will evolve into intermittent demonstrations that become a regular feature of weekends during the winter; key factors to watch are the trend in oil prices, the ECB’s December monetary policy guidance and the negotiations over the French budget.</span></p>
+<h3 id="跟踪与证伪清单"><a href="#跟踪与证伪清单" class="headerlink" title="Tracking and Falsification Checklist"></a>Tracking and Falsification Checklist</h3><p>When assessing the direction of the wave of protests, the three most telling indicators are:</p>
+<ol>
+<li><strong>International oil prices:</strong> If Brent crude falls back below US$90, the energy-import-driven logic will rapidly weaken, and the probability of Scenario C will rise significantly; if it breaks through US$115, the risk associated with Scenario B will surge.</li>
+<li><strong>ECB December decision:</strong> If the ECB were to pause its rate rises under pressure from stagflation and adopt a neutral stance, expectations of a further tightening of financial conditions would cool significantly.</li>
+<li><strong>Budget deliberations in the French National Assembly:</strong> Keep an eye on the vote on public expenditure and energy taxes in the 2027 Budget. If the government invokes constitutional provisions to force the bill through, leading to the collapse of the Cabinet, the political crisis will rapidly spill over into the economy.</li>
+</ol>
+<h2 id="主要信息来源"><a href="#主要信息来源" class="headerlink" title="Main sources of information"></a>Main sources of information</h2><ol>
+<li><strong>International media reports:</strong><ul>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.theguardian.com/world/2026/oct/18/europe-protests-france-spain-portugal-2026-explainer">The Guardian: Explanatory Note (18 October 2026)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.cnbc.com/2026/10/20/france-protests-europe-cost-living-violence.html">CNBC report on cost-of-living protests in Europe (20 October 2026)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://edition.cnn.com/2026/10/19/europe/france-protests-violence-wwk-intl-hnk">CNN report on the situation regarding protests and violence in Europe (19 October 2026)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+</ul>
+</li>
+<li><strong>Official statistics and macroeconomic data (sourced via TradingEconomics):</strong><ul>
+<li><a class="link" target="_blank" rel="noopener" href="https://tradingeconomics.com/euro-area/interest-rate">ECB Interest Rate Decision and Monetary Policy Minutes of 8 October<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://tradingeconomics.com/france/inflation-cpi">National Institute of Statistics and Economic Studies (INSEE) Consumer Price Index<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://tradingeconomics.com/spain/inflation-cpi">Spanish National Statistics Institute (INE) – Consumer Prices and Transport Sub-index<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li>Eurostat Harmonised Index of Consumer Prices (HICP) for the euro area</li>
+</ul>
+</li>
+<li><strong>Sovereign bond market data:</strong><ul>
+<li>Yield on 10-year French government bonds</li>
+<li>Yield on 10-year Spanish government bonds</li>
+</ul>
+</li>
+<li><strong>Monetary Policy Transmission and Oil Prices:</strong><ul>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.ecb.europa.eu/press/stats/mfi/html/ecb.mir260902~d54675e442.en.html">ECB Banking Interest Rate Statistics (2 September 2026): The average cost of new mortgage loans in July was 3.54 per cent, whilst that for business loans was 3.80 per cent<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.europarl.europa.eu/RegData/etudes/ATAG/2026/795851/ECTI_ATA%282026%29795851_EN.pdf">European Parliament Research Service: Monetary Policy Overview – Third Quarter 2026 (25 basis point rate rise on 10 September, bringing the deposit rate to 2.5 per cent)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://convextrade.com/metrics/brent">Convex: Brent crude oil was quoted at US$110.48 on 20 October 2026<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.vantagemarkets.com/market-news/strait-of-hormuz-oil-traffic-pre-war-levels-october-5-2026/">Vantage: Crude oil flows through the Strait of Hormuz have resumed, but refined product shortages persist (5 October)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+</ul>
+</li>
+</ol>
+<p>Cover image:<a class="link" target="_blank" rel="noopener" href="https://www.pexels.com/photo/unrecognizable-policemen-standing-on-city-street-4646818/">Mathias Reding / Pexels<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> The Synchronisation of the Wave of Protests Across Europe: How Interest Rate Cycles and the Cost-of-Living Crisis Have Fuelled a Wave of Transnational Protests</li>
+        <li><strong>Author:</strong> AdenXie</li>
+        <li><strong>Created at
+                :</strong> 2026-10-21 07:00:00</li>
+        
+        <li>
+            <strong>Link:</strong> https://blog.adenxie.com.cn/2026/10/21/2026-10-21-europe-protest-wave-cost-of-living/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                All Rights Reserved © AdenXie
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E6%AC%A7%E6%B4%B2/">#Europe</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E7%A4%BE%E4%BC%9A%E8%BF%90%E5%8A%A8/">#Social Movements</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E9%80%9A%E8%83%80/">#Inflation</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E6%AC%A7%E6%B4%B2%E5%A4%AE%E8%A1%8C/">#European Central Bank</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E7%94%9F%E6%B4%BB%E6%88%90%E6%9C%AC/">#Cost of Living</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/en/2026/10/25/2026-10-25-daily-brief/" title="Daily Briefing | 25 October 2026: Trump suggests he may strike Iran again; over 400,000 protest in France; OpenAI switches to offline training for cutting-edge models" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1508530786855-dfea35260b8d?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 25 October 2026: Trump suggests he may strike Iran again; over 400,000 protest in France; OpenAI switches to offline training for cutting-edge models" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | 25 October 2026: Trump suggests he may strike Iran again; over 400,000 protest in France; OpenAI switches to offline training for cutting-edge models</span>
+</a><a class="recommended-article-item" href="/en/2026/10/21/2026-10-21-fed-rate-hike-oil-stagflation/" title="Fed Rate Hikes and Oil Prices: Why This ‘Stagflation’ Has Left the Fed in a Tight Spot" rel="bookmark">
+  <img src="https://images.pexels.com/photos/16862261/pexels-photo-16862261.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Fed Rate Hikes and Oil Prices: Why This ‘Stagflation’ Has Left the Fed in a Tight Spot" class="!max-w-none" decoding="async">
+  <span class="title">Fed Rate Hikes and Oil Prices: Why This ‘Stagflation’ Has Left the Fed in a Tight Spot</span>
+</a><a class="recommended-article-item" href="/en/2026/10/21/2026-10-21-rba-rate-hikes-aud-cny/" title="Australia Rate Hikes and the AUD/CNY Exchange Rate: RBA 2026 Tightening Cycle and AUD/CNY Scenario Analysis" rel="bookmark">
+  <img src="https://images.pexels.com/photos/4359064/pexels-photo-4359064.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Australia Rate Hikes and the AUD/CNY Exchange Rate: RBA 2026 Tightening Cycle and AUD/CNY Scenario Analysis" class="!max-w-none" decoding="async">
+  <span class="title">Australia Rate Hikes and the AUD/CNY Exchange Rate: RBA 2026 Tightening Cycle and AUD/CNY Scenario Analysis</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/en/2026/10/25/2026-10-25-daily-brief/" title="Daily Briefing | 25 October 2026: Trump suggests he may strike Iran again; over 400,000 protest in France; OpenAI switches to offline training for cutting-edge models" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1508530786855-dfea35260b8d?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 25 October 2026: Trump suggests he may strike Iran again; over 400,000 protest in France; OpenAI switches to offline training for cutting-edge models" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | 25 October 2026: Trump suggests he may strike Iran again; over 400,000 protest in France; OpenAI switches to offline training for cutting-edge models</span>
+</a><a class="recommended-article-item" href="/en/2026/10/21/2026-10-21-fed-rate-hike-oil-stagflation/" title="Fed Rate Hikes and Oil Prices: Why This ‘Stagflation’ Has Left the Fed in a Tight Spot" rel="bookmark">
+  <img src="https://images.pexels.com/photos/16862261/pexels-photo-16862261.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Fed Rate Hikes and Oil Prices: Why This ‘Stagflation’ Has Left the Fed in a Tight Spot" class="!max-w-none" decoding="async">
+  <span class="title">Fed Rate Hikes and Oil Prices: Why This ‘Stagflation’ Has Left the Fed in a Tight Spot</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/en/2026/10/21/2026-10-21-daily-brief/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Daily Briefing | 21 October 2026: Attacks on Black Sea shipping, a new proposal for Russia-Ukraine, and the deepening integration of AI into industry</span>
+						<span class="post-nav-item">Prev posts</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/en/2026/10/21/2026-10-21-fed-rate-hike-oil-stagflation/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Fed Rate Hikes and Oil Prices: Why This ‘Stagflation’ Has Left the Fed in a Tight Spot</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">The Synchronisation of the Wave of Protests Across Europe: How Interest Rate Cycles and the Cost-of-Living Crisis Have Fuelled a Wave of Transnational Protests</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E7%BB%93%E8%AE%BA"><span class="nav-text">Key Findings</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BC%BA%E5%8F%A3%E4%B8%8E%E7%BD%AE%E4%BF%A1%E5%BA%A6"><span class="nav-text">Data Gaps and Confidence Levels</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E4%BA%8B%E5%AE%9E%E5%9F%BA%E7%BA%BF%EF%BC%9A%E6%8A%97%E8%AE%AE%E6%BD%AE%E4%B8%8E%E5%AE%8F%E8%A7%82%E6%95%B0%E6%8D%AE%E7%9A%84%E6%97%B6%E7%A9%BA%E5%AF%B9%E9%BD%90"><span class="nav-text">I. Factual Background: The Spatio-Temporal Alignment of the Wave of Protests and Macroeconomic Data</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E6%8A%97%E8%AE%AE%E6%97%B6%E9%97%B4%E7%BA%BF%E4%B8%8E%E6%B3%A2%E5%8F%8A%E8%8C%83%E5%9B%B4"><span class="nav-text">1.1 Timeline and Scope of the Protests</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E5%90%84%E5%9B%BD%E9%80%9A%E8%83%80%E8%AF%BB%E6%95%B0%E5%AF%B9%E6%AF%94"><span class="nav-text">1.2 Comparison of inflation figures across countries</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E6%AC%A7%E6%B4%B2%E5%A4%AE%E8%A1%8C%E4%B8%8E%E4%B8%BB%E6%9D%83%E5%80%BA%E5%8A%A1%E6%94%B6%E7%B4%A7"><span class="nav-text">1.3 The European Central Bank and the Sovereign Debt Crisis</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E2%80%9C%E5%90%8C%E6%AD%A5%E2%80%9D%EF%BC%9A%E6%8A%97%E8%AE%AE%E6%B3%A2%E7%9A%84%E4%B8%89%E5%B1%82%E6%9C%BA%E5%88%B6"><span class="nav-text">II. Why does ‘synchronisation’ occur: the three-tier mechanism of protest waves</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E4%BD%8F%E6%88%BF%E5%8D%B1%E6%9C%BA%E7%9A%84%E6%94%BF%E6%B2%BB%E5%8C%96%EF%BC%9A%E8%A5%BF%E7%8F%AD%E7%89%99"><span class="nav-text">III. The Politicisation of the Housing Crisis: Spain</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%AD%A6%E8%BF%90%E4%B8%8E%E4%B8%96%E4%BB%A3%E6%8C%A4%E5%8E%8B%EF%BC%9A%E6%B3%95%E5%9B%BD"><span class="nav-text">IV. Student Protests and Generational Squeeze: France</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E8%83%BD%E6%BA%90%E8%B4%A6%E5%8D%95%E4%B8%8E%E5%88%A9%E7%8E%87%E7%9A%84%E5%8F%8C%E9%87%8D%E6%8C%A4%E5%8E%8B"><span class="nav-text">V. The Double Squeeze of Energy Bills and Interest Rates</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1-%E8%BE%93%E5%85%A5%E5%9E%8B%E8%83%BD%E6%BA%90%E5%86%B2%E5%87%BB"><span class="nav-text">5.1 Input-side energy shocks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2-%E6%AC%A7%E6%B4%B2%E5%A4%AE%E8%A1%8C%E5%8A%A0%E6%81%AF%E7%9A%84%E4%B8%89%E6%9D%A1%E4%BC%A0%E5%AF%BC%E6%B8%A0%E9%81%93"><span class="nav-text">5.2 Three channels through which the ECB’s interest rate rises are transmitted</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-%E8%B4%A7%E5%B8%81%E6%94%BF%E7%AD%96%E9%94%99%E9%85%8D%E4%B8%8E%E6%BB%9E%E8%83%80%E5%9B%B0%E5%A2%83"><span class="nav-text">5.3 Monetary Policy Mismatch and the Stagflation Dilemma</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E7%B4%A7%E7%BC%A9%E5%8E%8B%E5%8A%9B%E4%B8%8E%E6%94%BF%E6%B2%BB%E6%94%B6%E5%89%B2%EF%BC%88%E5%B1%95%E6%9C%9B%EF%BC%89"><span class="nav-text">VI. Austerity Pressures and Political Capitalisation (Outlook)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E6%83%85%E6%99%AF%E5%88%86%E6%9E%90%E4%B8%8E%E5%89%8D%E7%9E%BB%E6%8C%87%E6%A0%87"><span class="nav-text">VII. Scenario Analysis and Forward-Looking Indicators</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%9F%E8%B8%AA%E4%B8%8E%E8%AF%81%E4%BC%AA%E6%B8%85%E5%8D%95"><span class="nav-text">Tracking and Falsification Checklist</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E4%BF%A1%E6%81%AF%E6%9D%A5%E6%BA%90"><span class="nav-text">Main sources of information</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">Write down your real experiences while retaining the edges of your viewpoints.</div><div class="customize-info my-1 aden-status-hint">Something not working? Check service status at <a href="https://status.adenxie.com.cn/" target="_blank" rel="noopener">status.adenxie.com.cn</a></div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/en/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        98 posts in total
+                    </span>
+                    
+                        <span>
+                            279.8k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js" async=""></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days"></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/scene-loader.js?v=b97b1fce3bd0" defer=""></script>
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="Image viewer">
+	<button class="image-viewer-close" type="button" aria-label="Close">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="Prev">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="" decoding="async">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="Close">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="Next">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Search..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js?v=509b91971bf2"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js?v=969d65618587"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js?v=193270b6fdb0"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js?v=647d2af612df"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js?v=c9d014a814b8"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js?v=792db0224d6b"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js?v=7e6a109d5509" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js?v=03c1e188b884"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css?v=77a3a9d5a3d0">
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js?v=e98ec22436a5"></script>
+
+
+<script src="/js/build/plugins/aplayer.js?v=d6d3c64af35f"></script>
+
+
+	
+
+
+<button type="button" id="aden-chat-launcher" class="aden-chat-launcher" aria-haspopup="dialog" aria-expanded="false" hidden="" aria-label="Open AI chat" data-script="/js/chat.js?v=750a15ffa2e2" data-style="/css/chat.css?v=286cbaf4025c"><span aria-hidden="true">✳</span><span class="aden-chat-launcher-label">Ask AI</span></button></body></html>
