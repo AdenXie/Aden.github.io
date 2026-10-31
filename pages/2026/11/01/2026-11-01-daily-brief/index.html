@@ -1,0 +1,1276 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/2026/11/01/2026-11-01-daily-brief/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Daily Briefing | 1 November 2026: China’s October manufacturing PMI falls back to 49.3; OpenAI lowers its funding target; S&amp;P issues a negative outlook on Meta; Iranian delegation heads to Doha; RBA expected to raise interest rates on Tuesday">
+<meta property="og:url" content="https://blog.adenxie.com.cn/2026/11/01/2026-11-01-daily-brief/index.html">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-11-01T01:00:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="新闻">
+<meta property="article:tag" content="市场观察">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Daily Briefing | 1 November 2026: China’s October Manufacturing PMI falls back to 49.3; OpenAI lowers fundraising target; S&amp;P issues negative outlook on Meta; Iranian delegation heads to Doha; RBA expected to raise interest rates on Tuesday | Aden’s Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/site-runtime.js" defer=""></script>
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js"></script>
+                
+    
+            
+                
+                    <link rel="stylesheet" href="/css/custom.css">
+                
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+    
+<link rel="stylesheet" href="/fonts/Geist/geist.css">
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"en","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"17px","line_height":1.85,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"all_rights_reserved"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["科技、体验与个人判断","写下真实体验，也保留观点的棱角"],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Daily Brief":{"path":"/daily/","icon":"fa-regular fa-newspaper"},"archives":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"},"tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"World Time":{"path":"/world-time/","icon":"fa-regular fa-clock"},"about":{"path":"/about/","icon":"fa-regular fa-user"},"links":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":true,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.i18n = {"search":"Search...","toc":"On this page","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"POWERED BY %s","theme":"THEME","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","post":"Post","posts":"Posts","tagcloud":"Tag Cloud","comment":"Comment","comments":"Comments","home":"Home","archive":"Archive","archives":"Archives","top":"TOP","sticky":"Sticky","go-back-home":"Go Back Home","masonry_loading":"Loading photos...","image_viewer":"Image viewer","close":"Close","exif":{"title":"EXIF","cards":{"camera":"Camera","lens":"Lens","exposure":"Exposure","other":"Other"},"fields":{"make":"Brand","model":"Model","date_taken":"Date taken","lens_model":"Lens","focal_length":"Focal length","focus_mode":"Focus mode","shutter":"Shutter","aperture":"Aperture","iso":"ISO","exposure_program":"Exposure program","exposure_compensation":"Exposure compensation","metering_mode":"Metering mode","flash":"Flash","white_balance":"White balance","latitude":"Latitude","longitude":"Longitude","altitude":"Altitude"},"status":{"loading":"Loading...","no_exif":"No EXIF available","library_missing":"EXIF library not loaded","image_source_missing":"Image source unavailable","unavailable":"EXIF unavailable (blocked by CORS or missing metadata)","flag_unavailable":"EXIF unavailable"}},"about":"About","changelog":"Changelog","links":"Links","link":"Link","friends":"Friends","friend":"Friend","timeline":"Timeline","shuoshuo":"Shuoshuo","bookmarks":"Bookmarks","site_uv":"VISITOR COUNT","site_pv":"TOTAL PAGE VIEWS","read_more":"Read more","wordcount":"Words","min2read":"Mins","status":"Status","runtime":"Blog up for","days":"days","hours":"hrs","minutes":"Min","seconds":"Sec","optimized_by":"and Optimized by Evan","rights":"All Rights Reserved","site_posts":"%s posts in total","site_wordcount":"%s words in total","copyright":{"author":"Author","title":"Title","link":"Link","create_time":"Created at","update_time":"Updated at","license_title":"License","license_content":"This work is licensed under %s.","all_rights_reserved":"All Rights Reserved &#169; %s","public_domain":"This work is in the public domain."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"},"create_time":"Created","update_time":"Updated","expired":"This post is written %s days ago, and the content may not be up to date."};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/daily/">
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    DAILY BRIEF
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/categories/">
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    CATEGORIES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    WORLD TIME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>
+                
+                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/">
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/daily/">
+                            <span>
+                                DAILY BRIEF
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/archives/">
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/categories/">
+                            <span>
+                                CATEGORIES
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/tags/">
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/world-time/">
+                            <span>
+                                WORLD TIME
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/about/">
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/link/">
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/archives/">
+                            <span>Article Archive</span>
+                            <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/tags/">
+                            <span>Topic Tags</span>
+                            <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+                    
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full active" href="/about/">
+                            <span>About Aden</span>
+                            <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                        </a>
+                    </li>
+                
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">65</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">98</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://images.unsplash.com/photo-1647427060118-4911c9821b82?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 1 November 2026: China’s October manufacturing PMI falls back to 49.3; OpenAI lowers its funding target; S&amp;P issues a negative outlook on Meta; Iranian delegation heads to Doha; RBA expected to raise interest rates on Tuesday" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">Daily Briefing | 1 November 2026: China’s October manufacturing PMI falls back to 49.3; OpenAI lowers its funding target; S&amp;P issues a negative outlook on Meta; Iranian delegation heads to Doha; RBA expected to raise interest rates on Tuesday</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-11-01 09:00</span>
+        <span class="mobile">2026-11-01 09:00</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/daily/">Daily Briefing</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E6%96%B0%E9%97%BB/">News</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/">Market Watch</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>3.3k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>11 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h2 id="今日主线"><a href="#今日主线" class="headerlink" title="Today's main theme"></a>Today's main theme</h2><p>This edition covers Saturday 31 October; some of the news items were released on the evening of Friday 30 October (US time). Whilst there was no trading on the major markets over the weekend, several news items pointed to the same issue: both demand and liquidity are tightening, whilst two key events next week remain unresolved. On the domestic front, the official manufacturing PMI for October fell from 50.1 to 49.3, returning to contractionary territory, with both new orders and new export orders declining, and the downturn being more pronounced among small and medium-sized enterprises. On the AI front, according to the *Financial Times*, OpenAI has scaled back its fundraising target for a new round from US$30 billion to approximately US$20 billion, whilst its expected valuation has also been reduced from US$1.4 trillion to US$1.25 trillion; Meanwhile, S&amp;P has downgraded Meta’s credit outlook to ‘negative’, citing AI investments that have pushed free cash flow into negative territory. In the Middle East, an Iranian delegation continued negotiations with Qatari mediators in Doha on 31 October, whilst US Secretary of State Rubio stated that Trump had not yet decided whether to resume strikes. Next Tuesday (3 November) marks both the US mid-term elections and the Reserve Bank of Australia’s monetary policy meeting; the market widely expects the RBA to raise interest rates by 25 basis points.</p>
+<span id="more"></span>
+
+<h2 id="重点新闻"><a href="#重点新闻" class="headerlink" title="Key News"></a>Key News</h2><h3 id="1-中国10月制造业PMI降至49-3-，新出口订单跌至48-7"><a href="#1-中国10月制造业PMI降至49-3-，新出口订单跌至48-7" class="headerlink" title="1. China’s manufacturing PMI fell to 49.3 per cent in October, whilst new export orders dropped to 48.7 per cent"></a>1. China’s manufacturing PMI fell to 49.3 per cent in October, whilst new export orders dropped to 48.7 per cent</h3><p>The National Bureau of Statistics announced on 31 October that the Manufacturing Purchasing Managers’ Index (PMI) for October stood at 49.3 per cent, down 0.8 percentage points from September, falling back below the boom-bust line. Looking at the sub-indices, the production index stood at 49.8 per cent, down 1.9 percentage points; the new orders index was 49.4 per cent, down 1.1 percentage points; and according to Yicai, the new export orders index was 48.7 per cent, down 1.3 percentage points. By enterprise size, the PMI for large enterprises stood at 50.2 per cent, remaining in expansionary territory, whilst those for medium-sized and small enterprises were 48.4 per cent and 47.5 per cent respectively, down by 1.3 and 1.4 percentage points. The PMI for high-tech manufacturing stood at 51.3 per cent, whilst that for equipment manufacturing was 50.6 per cent, both remaining above the threshold.</p>
+<p>In terms of prices, the raw materials purchase price index and the ex-factory price index stood at 56.8 per cent and 51.7 per cent respectively, down by 4.0 and 2.3 percentage points on the previous month. Huo Lihui, Chief Statistician at the National Bureau of Statistics, explained that the recent decline in commodity prices, such as non-ferrous metals, has led to a fall in the price indices; however, both indices remain within the expansionary range. With international oil prices continuing to rise, the price indices for sectors such as petroleum and coal processing, chemical fibres, and rubber and plastics remain above 60 per cent. She attributed the slowdown in the manufacturing sector to the front-loading of demand ahead of the National Day holiday and the complex external environment.</p>
+<p>The non-manufacturing sector also showed signs of weakness. The Non-manufacturing Business Activity Index stood at 49.7 per cent, down 0.5 percentage points; within this, the services sector stood at 50.0 per cent, whilst the construction sector stood at 48.0 per cent, down 2.3 percentage points, and was the main factor dragging down the index. The Composite PMI Output Index stood at 49.7 per cent, down 1.0 percentage points. Wen Tao, an expert at the China Logistics Information Centre, believes that the early release of overseas Christmas orders, the levelling off of post-holiday consumption and the raw materials sector entering its off-season have all contributed to the decline in new orders; Wu Wei, meanwhile, has suggested accelerating the disbursement of funds from special-purpose bonds and ultra-long-term special government bonds to facilitate the early commencement of infrastructure projects.</p>
+<p>These figures indicate that, although the 800 billion yuan in new policy-based financial instruments has been fully deployed, it has not yet translated into actual construction activity, whilst external demand is also cooling. Key developments to watch for include: the October import and export figures due in early November; industrial output and fixed-asset investment figures due in mid-November; and whether any new measures to stabilise growth will be introduced.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://www.news.cn/fortune/20261031/2653616255d249e3807be987c25b8e7b/c.html">Xinhua News Agency<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.yicai.com/news/103419537.html">Yicai<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.globaltimes.cn/page/202610/1373360.shtml">Global Times<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="http://global.chinadaily.com.cn/a/202610/31/WS6ae561fbe4b06d4aa05663b0.html">China Daily<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="2-OpenAI下调融资目标至200亿美元，标普把Meta信用展望调为“负面”"><a href="#2-OpenAI下调融资目标至200亿美元，标普把Meta信用展望调为“负面”" class="headerlink" title="2. OpenAI has lowered its funding target to US$20 billion, whilst S&amp;P has revised Meta’s credit outlook to ‘negative’"></a>2. OpenAI has lowered its funding target to US$20 billion, whilst S&amp;P has revised Meta’s credit outlook to ‘negative’</h3><p>According to TechCrunch, citing the Financial Times, OpenAI has lowered its target for its latest funding round from US$30 billion to around US$20 billion, with the amount raised in the first tranche likely to be even lower; this round is being led by investors from the United Arab Emirates, and may be followed by a retail offering aimed at high-net-worth individuals. According to *Fortune*, citing the *Financial Times*, the expected valuation has also fallen from $1.4 trillion to $1.25 trillion. The Wall Street Journal previously reported that OpenAI has so far secured only around $11 billion in commitments, with some major investors responding “lukewarmly”. *Fortune* believes that Anthropic, which plans to go public next month and recorded positive cash flow in the first half of the year, has diverted some of the investors’ attention.</p>
+<p>On the same day, S&amp;P Global downgraded Meta’s rating outlook from ‘stable’ to ‘negative’ on the evening of 30 October (US time), whilst maintaining its AA- rating. According to *Fortune*, S&amp;P forecasts that Meta’s capital expenditure will be approximately US$140 billion this year, exceeding US$225 billion in 2027 and reaching approximately US$252 billion in 2028; free operating cash flow is expected to be approximately US$22 billion in the red this year and approximately US$71 billion in the red in 2027. S&amp;P warned that, due to the large-scale leasing of data centres, Meta’s leverage ratio could exceed 1.0 times as early as 2027, reaching the threshold for a downgrade; it also believes that Meta’s ability to monetise its AI investments is weaker than that of its peers. Meta disagreed, stating that the company has “significant product and commercial opportunities”.</p>
+<p>Taken together with this week’s financial results from Alphabet and Amazon, which showed negative free cash flow, these two pieces of news indicate that the funding pressures associated with AI investment have spread from the stock market to private equity financing and credit ratings. Key points to watch going forward include: the scale of OpenAI’s first funding round, Anthropic’s roadshow and pricing ahead of its IPO, and whether other rating agencies will follow suit in adjusting their outlooks for major tech companies.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://techcrunch.com/2026/10/31/openai-reportedly-lowers-funding-target-for-new-round">TechCrunch<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://fortune.com/2026/10/31/ai-boom-bust-openai-fundraising-target-meta-credit-warning-cash-flow-capex">Wealth<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="3-伊朗代表团赴多哈继续谈判，鲁比奥称特朗普尚未决定是否恢复打击"><a href="#3-伊朗代表团赴多哈继续谈判，鲁比奥称特朗普尚未决定是否恢复打击" class="headerlink" title="3. The Iranian delegation has travelled to Doha to continue negotiations; Rubio says Trump has not yet decided whether to resume sanctions"></a>3. The Iranian delegation has travelled to Doha to continue negotiations; Rubio says Trump has not yet decided whether to resume sanctions</h3><p>According to Reuters, Iranian negotiators held talks with Qatari mediators in Doha on 31 October, following more than 12 hours of discussions between the two sides in Tehran on 30 October; sources familiar with the matter said the negotiations were coordinated with Washington. Iranian senior officials deemed the seven-day confidence-building proposal put forward by Qatar about a week ago to be “unsatisfactory”; Iran’s own seven-day proposal requires the US first to lift the blockade on Iranian ports, unfreeze assets and recognise the Iran-backed shipping route through the Strait of Hormuz, before the strait is reopened. According to Al Jazeera, Qatar proposed shortening the implementation period for reopening the Strait in Iran’s proposal to five days, whilst Iran’s latest proposal reduces this to two days; Iran has also demanded the release of US$6 billion in frozen funds held in Qatar.</p>
+<p>Iranian Foreign Minister Araghchi told Al Jazeera that the US attempt to open the door to dialogue was a “positive step”; Iran is currently studying the letter from US Vice-President Vance, but sees no need at present to meet with US officials, and whether negotiations take place directly or indirectly will depend on whether Iran’s conditions are met. US Secretary of State Rubio, whilst chairing the G20 Foreign Ministers’ Meeting in Atlanta, stated that President Trump had not yet decided whether to launch a new strike and was more inclined towards a diplomatic solution, adding that “negotiations have, in fact, never ceased”.</p>
+<p>Military tensions have not eased. Iran’s Supreme Leader, Mojtaba Khamenei, has called on the armed forces to respond to any attack with a response that knows ‘no geographical limits’. According to Fox News, the Iranian Revolutionary Guard stated that on 30 October, a very large crude carrier (VLCC) carrying more than 2 million barrels of crude oil struck a mine and caught fire; this was the fourth tanker that day to suffer an incident whilst ‘sailing on an unauthorised route’. Meanwhile, US Central Command stated that Iranian mines in the main shipping lanes had been cleared. Key developments to watch: Iran’s formal response to the Qatari proposal; US military decisions following the midterm elections on 3 November; and the state of navigation through the Strait of Hormuz.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://theprint.in/world/iranian-envoys-meet-qatari-mediators-as-threat-looms-of-us-strikes-after-midterms-2/3087299/">Reuters (reprinted from ThePrint)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.aljazeera.com/news/2026/10/31/iran-fm-says-us-outreach-a-positive-step-as-delegation-in-qatar-for-talks">Al Jazeera<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.foxnews.com/live-news/us-iran-war-trump-israel-strait-hormuz-10-31-26">Fox News<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="4-澳储行11月3日议息，主要银行一致预计加息25个基点至4-85"><a href="#4-澳储行11月3日议息，主要银行一致预计加息25个基点至4-85" class="headerlink" title="4. The Reserve Bank of Australia is due to hold its monetary policy meeting on 3 November; the major banks are unanimously forecasting a 25-basis-point rate rise to 4.85 per cent."></a>4. The Reserve Bank of Australia is due to hold its monetary policy meeting on 3 November; the major banks are unanimously forecasting a 25-basis-point rate rise to 4.85 per cent.</h3><p>The Reserve Bank of Australia is due to announce its interest rate decision on 3 November (Melbourne Cup Day). According to data compiled by Savings.com.au, the four major banks – Commonwealth Bank, National Australia Bank, Westpac and ANZ – all expect a 25-basis-point rate rise, raising the cash rate from 4.60 per cent to 4.85 per cent; this would be the fourth rate rise this year. As of 29 October, financial markets were pricing in an approximately 80 per cent probability of a rate rise in November, whilst the Commonwealth Bank stated that the market was pricing in a probability of around 90 per cent.</p>
+<p>Inflation figures for the third quarter are fuelling expectations of an interest rate rise. According to Savings.com.au, the headline CPI rose by 1.3 per cent quarter-on-quarter and 4.3 per cent year-on-year in the third quarter; the trimmed mean inflation rate rose by 1.0 per cent quarter-on-quarter, exceeding the Reserve Bank of Australia’s August forecast of 0.8 per cent. Economists at the Commonwealth Bank noted that the RBA’s recent comments were more hawkish than in September, arguing that global energy prices, AI-related demand and extreme weather were driving up certain prices, whilst the labour market was tighter than previously assessed; they therefore described this rate rise as a “precautionary hike”. Views among banks on the future path differ: Commonwealth Bank and National Australia Bank expect a pause after November, Westpac believes the risk of a further rate rise in February next year is increasing, whilst ANZ believes there is a “substantial risk” that the cash rate could rise to 5.10 per cent.</p>
+<p>The Commonwealth Bank also cautions that, with household spending slowing, house prices falling and new lending declining, the effects of interest rate rises will gradually manifest as slower growth and rising unemployment. Key events to watch: the policy statement and the Governor’s press conference on 3 November, the inflation forecasts in the monetary policy statement to be released at the same time, and the reaction of the Australian dollar against the US dollar and the renminbi.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://www.savings.com.au/news/economists-debate-whether-november-rate-hike-will-be-the-last">Savings.com.au<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.commbank.com.au/articles/newsroom/2026/10/commbank-november-rba-rate-hike-inflation-risks.html">Federal Bank<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="5-美国中期选举进入最后冲刺，提前投票已超4480万张"><a href="#5-美国中期选举进入最后冲刺，提前投票已超4480万张" class="headerlink" title="5. The US mid-term elections are entering the final stretch, with early voting already exceeding 44.8 million ballots"></a>5. The US mid-term elections are entering the final stretch, with early voting already exceeding 44.8 million ballots</h3><p>The US mid-term elections will take place on 3 November. According to CBS News, citing data from the University of Florida’s Election Lab, as of the evening of 29 October, 44.8 million Americans had cast their votes early, comprising approximately 23.6 million in-person early votes and approximately 21.3 million postal votes. The latest CBS poll indicates that the Democrats hold the advantage in the House of Representatives race; control of the Senate may hinge on several closely contested states, including Maine, Michigan, Ohio, Texas and Alaska. Of the 11 key Senate states tracked by CBS, Georgia, North Carolina and New Hampshire lean Democratic, whilst Iowa, Kansas and South Carolina lean towards the Republicans.</p>
+<p>Trump held a rally in Daytona Beach, Florida, on 30 October and plans to hold telephone rallies in 19 states; he had previously cancelled rallies in Kansas and Iowa, but later decided to go ahead with them as scheduled on Sunday. Controversy surrounding the conduct of the election continues: a federal judge in California has rejected the Department of Justice’s request to set aside votes cast by so-called ‘non-citizens’, whilst the Ninth Circuit Court of Appeals has also refused the Department of Justice’s request to set aside disputed votes in California.</p>
+<p>This election is about more than just control of Congress. Several media outlets have reported that the US may resume military action against Iran following the election, whilst the Federal Reserve’s interest rate hikes, oil prices, and controversies surrounding electricity costs and data centres fuelled by AI investment are all economic issues of concern to voters. Key points to watch: the results for the House of Representatives and the Senate on election night; whether vote counting in certain states will be delayed; and the impact of the results on policy towards Iran, fiscal matters and Federal Reserve appointments.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://www.cbsnews.com/live-updates/2026-midterm-elections-campaigns-weekend-before/">CBS News<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h2 id="市场关联与今日观察"><a href="#市场关联与今日观察" class="headerlink" title="Market Correlation and Today's Observation"></a>Market Correlation and Today's Observation</h2><p>There was no trading on the major stock markets over the weekend, but the cryptocurrency market was still reeling from the Binance hack. According to Yahoo Finance, Binance stated that it had covered approximately 90 per cent of the affected amount using company funds, part of the User Security Asset Fund (SAFU) and the Futures Insurance Fund—an increase from the 80 per cent reported in the previous update—and that users would not bear any losses; Balances for ten assets, including Bitcoin, Ethereum and USDT, have been “100 per cent fully restored”, whilst withdrawals remain suspended. The company stated that these will resume according to the previously announced timetable, and a complete zero-knowledge proof of reserves is expected to be published on Tuesday. According to Forbes Africa, preliminary investigations indicate that an engineer’s laptop was compromised, and no leakage of wallet private keys has been detected.</p>
+<p>Looking at several news items together: China’s manufacturing sector has contracted once again, external demand is weakening, and raw material prices are falling—this will ease cost pressures upstream, but also indicates insufficient demand; as for the A-share market, technology stocks have already experienced a significant correction in October, and weak data will heighten market expectations for a new round of growth-stabilising policies. The issue facing the AI sector has shifted from ‘excessive investment’ to ‘who will foot the bill’; OpenAI’s reduction of its funding target and Meta’s downgraded credit outlook will draw greater attention to Anthropic’s IPO pricing. Next Tuesday, the US mid-term elections and the RBA’s monetary policy meeting will take place on the same day; the former will influence the likelihood of military action against Iran and oil prices, whilst the latter will have a direct impact on the Australian dollar and Australian mortgage rates.</p>
+<p>Checklist:</p>
+<ul>
+<li>RBA Interest Rate Decision and Monetary Policy Statement, 3 November</li>
+<li>The results of the US mid-term elections on 3 November, and the post-election military decisions regarding Iran</li>
+<li>Iran’s response to the Qatar proposal and shipping through the Strait of Hormuz</li>
+<li>Apple’s Financial Results (2 November) and Whether US Tech Shares Can Stabilise</li>
+<li>Progress on Binance’s withdrawal resumption and Tuesday’s proof of reserves</li>
+<li>China’s October import and export figures, and whether any new measures to stabilise growth will be introduced</li>
+</ul>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://finance.yahoo.com/markets/crypto/articles/binance-says-90-hack-impact-191513226.html">Yahoo Finance<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.forbesafrica.com/current-affairs/2026/10/31/binance-says-it-plans-to-resume-withdrawals-this-weekend-after-6-3-billion-hack">Forbes Africa<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>Cover image:<a class="link" target="_blank" rel="noopener" href="https://unsplash.com/photos/a-factory-filled-with-lots-of-orange-machines-8gr6bObQLOI">Simon Kadula / Unsplash<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> Daily Briefing | 1 November 2026: China’s October manufacturing PMI falls back to 49.3; OpenAI lowers its funding target; S&amp;P issues a negative outlook on Meta; Iranian delegation heads to Doha; RBA expected to raise interest rates on Tuesday</li>
+        <li><strong>Author:</strong> AdenXie</li>
+        <li><strong>Created at
+                :</strong> 2026-11-01 09:00:00</li>
+        
+        <li>
+            <strong>Link:</strong> https://blog.adenxie.com.cn/2026/11/01/2026-11-01-daily-brief/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                All Rights Reserved © AdenXie
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E6%96%B0%E9%97%BB/">#News</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/">#MarketObservation</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/10/30/2026-10-30-daily-brief/" title="Daily Briefing | 30 October 2026: Alphabet plummets 12.6 per cent in a single day; US Q3 GDP grows by 3.4 per cent; PCE inflation rises to 3.6 per cent; Iran rejects Qatar’s ceasefire proposal" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1584169417032-d34e8d805e8b?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 30 October 2026: Alphabet plummets 12.6 per cent in a single day; US Q3 GDP grows by 3.4 per cent; PCE inflation rises to 3.6 per cent; Iran rejects Qatar’s ceasefire proposal" class="!max-w-none">
+  <span class="title">Daily Briefing | 30 October 2026: Alphabet plummets 12.6 per cent in a single day; US Q3 GDP grows by 3.4 per cent; PCE inflation rises to 3.6 per cent; Iran rejects Qatar’s ceasefire proposal</span>
+</a><a class="recommended-article-item" href="/2026/10/31/2026-10-31-daily-brief/" title="Daily Briefing | 31 October 2026: Intel posts its biggest fall since 1974; the Nasdaq closes October with a sharp drop; the Bank of Japan says inflation has reached target; Binance suffers the largest-ever theft of US$6.3 billion" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 31 October 2026: Intel posts its biggest fall since 1974; the Nasdaq closes October with a sharp drop; the Bank of Japan says inflation has reached target; Binance suffers the largest-ever theft of US$6.3 billion" class="!max-w-none">
+  <span class="title">Daily Briefing | 31 October 2026: Intel posts its biggest fall since 1974; the Nasdaq closes October with a sharp drop; the Bank of Japan says inflation has reached target; Binance suffers the largest-ever theft of US$6.3 billion</span>
+</a><a class="recommended-article-item" href="/2026/10/27/2026-10-27-daily-brief/" title="Daily Briefing | 27 October 2026: Lula’s re-election triggers sharp falls in Brazilian shares and currency; Anthropic files for an IPO; Meta plans to raise US$95 billion through an equity offering" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1745509267699-1b1db256601e?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 27 October 2026: Lula’s re-election triggers sharp falls in Brazilian shares and currency; Anthropic files for an IPO; Meta plans to raise US$95 billion through an equity offering" class="!max-w-none">
+  <span class="title">Daily Briefing | 27 October 2026: Lula’s re-election triggers sharp falls in Brazilian shares and currency; Anthropic files for an IPO; Meta plans to raise US$95 billion through an equity offering</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/10/30/2026-10-30-daily-brief/" title="Daily Briefing | 30 October 2026: Alphabet plummets 12.6 per cent in a single day; US Q3 GDP grows by 3.4 per cent; PCE inflation rises to 3.6 per cent; Iran rejects Qatar’s ceasefire proposal" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1584169417032-d34e8d805e8b?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 30 October 2026: Alphabet plummets 12.6 per cent in a single day; US Q3 GDP grows by 3.4 per cent; PCE inflation rises to 3.6 per cent; Iran rejects Qatar’s ceasefire proposal" class="!max-w-none">
+  <span class="title">Daily Briefing | 30 October 2026: Alphabet plummets 12.6 per cent in a single day; US Q3 GDP grows by 3.4 per cent; PCE inflation rises to 3.6 per cent; Iran rejects Qatar’s ceasefire proposal</span>
+</a><a class="recommended-article-item" href="/2026/10/31/2026-10-31-daily-brief/" title="Daily Briefing | 31 October 2026: Intel posts its biggest fall since 1974; the Nasdaq closes October with a sharp drop; the Bank of Japan says inflation has reached target; Binance suffers the largest-ever theft of US$6.3 billion" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 31 October 2026: Intel posts its biggest fall since 1974; the Nasdaq closes October with a sharp drop; the Bank of Japan says inflation has reached target; Binance suffers the largest-ever theft of US$6.3 billion" class="!max-w-none">
+  <span class="title">Daily Briefing | 31 October 2026: Intel posts its biggest fall since 1974; the Nasdaq closes October with a sharp drop; the Bank of Japan says inflation has reached target; Binance suffers the largest-ever theft of US$6.3 billion</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/10/31/2026-10-31-daily-brief/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Daily Briefing | 31 October 2026: Intel posts its biggest fall since 1974; the Nasdaq closes October with a sharp drop; the Bank of Japan says inflation has reached target; Binance suffers the largest-ever theft of US$6.3 billion</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">Daily Briefing | 1 November 2026: China’s October manufacturing PMI falls back to 49.3; OpenAI lowers its funding target; S&amp;P issues a negative outlook on Meta; Iranian delegation heads to Doha; RBA expected to raise interest rates on Tuesday</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8A%E6%97%A5%E4%B8%BB%E7%BA%BF"><span class="nav-text">Today's main theme</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E7%82%B9%E6%96%B0%E9%97%BB"><span class="nav-text">Key News</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%B8%AD%E5%9B%BD10%E6%9C%88%E5%88%B6%E9%80%A0%E4%B8%9APMI%E9%99%8D%E8%87%B349-3-%EF%BC%8C%E6%96%B0%E5%87%BA%E5%8F%A3%E8%AE%A2%E5%8D%95%E8%B7%8C%E8%87%B348-7"><span class="nav-text">1. China’s manufacturing PMI fell to 49.3 per cent in October, whilst new export orders dropped to 48.7 per cent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-OpenAI%E4%B8%8B%E8%B0%83%E8%9E%8D%E8%B5%84%E7%9B%AE%E6%A0%87%E8%87%B3200%E4%BA%BF%E7%BE%8E%E5%85%83%EF%BC%8C%E6%A0%87%E6%99%AE%E6%8A%8AMeta%E4%BF%A1%E7%94%A8%E5%B1%95%E6%9C%9B%E8%B0%83%E4%B8%BA%E2%80%9C%E8%B4%9F%E9%9D%A2%E2%80%9D"><span class="nav-text">2. OpenAI has lowered its funding target to US$20 billion, whilst S&amp;P has revised Meta’s credit outlook to ‘negative’</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E4%BC%8A%E6%9C%97%E4%BB%A3%E8%A1%A8%E5%9B%A2%E8%B5%B4%E5%A4%9A%E5%93%88%E7%BB%A7%E7%BB%AD%E8%B0%88%E5%88%A4%EF%BC%8C%E9%B2%81%E6%AF%94%E5%A5%A5%E7%A7%B0%E7%89%B9%E6%9C%97%E6%99%AE%E5%B0%9A%E6%9C%AA%E5%86%B3%E5%AE%9A%E6%98%AF%E5%90%A6%E6%81%A2%E5%A4%8D%E6%89%93%E5%87%BB"><span class="nav-text">3. The Iranian delegation has travelled to Doha to continue negotiations; Rubio says Trump has not yet decided whether to resume sanctions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%BE%B3%E5%82%A8%E8%A1%8C11%E6%9C%883%E6%97%A5%E8%AE%AE%E6%81%AF%EF%BC%8C%E4%B8%BB%E8%A6%81%E9%93%B6%E8%A1%8C%E4%B8%80%E8%87%B4%E9%A2%84%E8%AE%A1%E5%8A%A0%E6%81%AF25%E4%B8%AA%E5%9F%BA%E7%82%B9%E8%87%B34-85"><span class="nav-text">4. The Reserve Bank of Australia is due to hold its monetary policy meeting on 3 November; the major banks are unanimously forecasting a 25-basis-point rate rise to 4.85 per cent.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E7%BE%8E%E5%9B%BD%E4%B8%AD%E6%9C%9F%E9%80%89%E4%B8%BE%E8%BF%9B%E5%85%A5%E6%9C%80%E5%90%8E%E5%86%B2%E5%88%BA%EF%BC%8C%E6%8F%90%E5%89%8D%E6%8A%95%E7%A5%A8%E5%B7%B2%E8%B6%854480%E4%B8%87%E5%BC%A0"><span class="nav-text">5. The US mid-term elections are entering the final stretch, with early voting already exceeding 44.8 million ballots</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%82%E5%9C%BA%E5%85%B3%E8%81%94%E4%B8%8E%E4%BB%8A%E6%97%A5%E8%A7%82%E5%AF%9F"><span class="nav-text">Market Correlation and Today's Observation</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">Write down your real experiences while retaining the edges of your viewpoints.</div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        98 posts in total
+                    </span>
+                    
+                        <span>
+                            279.8k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days"></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/cyber-weather.js" defer=""></script>
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/cyber-exchange.js" defer=""></script>
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/scene-loader.js" defer=""></script>
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="Image viewer">
+	<button class="image-viewer-close" type="button" aria-label="Close">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="Prev">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="Close">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="Next">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Search..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js"></script>
+
+
+<script src="/js/build/plugins/aplayer.js"></script>
+
+
+	
+
+
+</body></html>
