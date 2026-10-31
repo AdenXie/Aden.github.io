@@ -101,7 +101,7 @@
   }
 
   // Rotating globe on a 2D canvas (orthographic). It reuses the land path already
-  // in the SVG, draws at most 15 frames a second, and runs only while shown and on screen.
+  // in the SVG, draws up to 60 frames a second, and runs only while shown and on screen.
   // With reduced motion it does not spin; dragging still turns it.
   function createGlobe(root, markers, onPick, signal) {
     const canvas = root.querySelector('.wt-globe');
@@ -116,7 +116,8 @@
     for (const marker of markers) marker.unit = unit(marker.lon, marker.lat);
     const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
     let lon0 = 0, lat0 = 20, zoom = 1, goal = null, hold = 0, sunUnit = null, selectedId = null;
-    let colors = {}, size = 0, scale = 1, frame = 0, last = 0, onScreen = false, dirty = true, drag = null;
+    let colors = {}, size = 0, scale = 1, frame = 0, last = 0, next = 0, onScreen = false, dirty = true, drag = null;
+    const interval = 1000 / 60;
 
     // Fixed starfield and an inclined orbit, both in view space around the globe.
     let seed = 7;
@@ -358,12 +359,14 @@
     function tick(time) {
       frame = 0;
       if (!onScreen || !root.isConnected) return;
-      const elapsed = Math.min(time - last, 200);
-      if (elapsed >= 66) {
+      if (time >= next - 1) {
+        next = next + interval < time ? time + interval : next + interval;
+        const elapsed = Math.min(time - last, 200);
         last = time;
         if (goal) {
           const delta = ((goal[0] - lon0) % 360 + 540) % 360 - 180;
-          lon0 += delta * 0.18; lat0 += (goal[1] - lat0) * 0.18;
+          const step = 1 - (1 - 0.18) ** (elapsed / 66);
+          lon0 += delta * step; lat0 += (goal[1] - lat0) * step;
           if (Math.abs(delta) < 0.2 && Math.abs(goal[1] - lat0) < 0.2) goal = null;
         } else if (!still && !drag && time > hold) lon0 -= elapsed * 0.004;
         if (dirty || goal || drag || !still) draw(time);

@@ -33,7 +33,7 @@ float noise3(vec3 p) {
 float fbm(vec3 p) { float a = 0.5, s = 0.0; for (int i = 0; i < 5; i++) { s += a * noise3(p); p *= 2.03; a *= 0.5; } return s; }`;
 const PASS_POS = 'varying vec3 vPos; void main() { vPos = position; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }';
 
-export function mount(container, { fps = 30, maxDpr = 1.5, lite = false } = {}) {
+export function mount(container, { fps = 60, maxDpr = 1.5, lite = false } = {}) {
   const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
   renderer.setPixelRatio(Math.min(devicePixelRatio, maxDpr));
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -205,13 +205,16 @@ export function mount(container, { fps = 30, maxDpr = 1.5, lite = false } = {}) 
 
   // Runs only while the banner is on screen and the tab is visible; capped frame rate.
   const inverse = new THREE.Matrix4();
-  let last = 0, onScreen = true, shown = false;
+  let last = 0, next = 0, onScreen = true, shown = false;
   function frame(now) {
-    if (now - last < 1000 / fps - 2) return;
-    uniforms.uTime.value += Math.min(now - last, 100) / 1000;
+    if (now < next - 1) return;
+    next = next + 1000 / fps < now ? now + 1000 / fps : next + 1000 / fps;
+    const dt = Math.min(now - last, 100);
+    uniforms.uTime.value += dt / 1000;
     last = now;
-    camera.position.x += (home.x + pointer.x * 3 - camera.position.x) * 0.05;
-    camera.position.y += (home.y - pointer.y * 1.2 - camera.position.y) * 0.05;
+    const follow = 1 - (1 - 0.05) ** (dt / 33.3);
+    camera.position.x += (home.x + pointer.x * 3 - camera.position.x) * follow;
+    camera.position.y += (home.y - pointer.y * 1.2 - camera.position.y) * follow;
     camera.lookAt(target);
     system.updateMatrixWorld();
     inverse.copy(system.matrixWorld).invert();
