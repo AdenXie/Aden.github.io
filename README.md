@@ -58,6 +58,14 @@ node tools/benchmark.cjs public after
 
 每日简报不再定时发布。需要发布时，在 Codex 中调用本机的 `$aden-blog-daily-publish` Skill，选择使用已有新闻/汇率报告，或重新检索生成报告；检查草稿并确认后才会写入 GitHub。
 
+## 许可
+
+- **原创文字与原创图片：** 除另有标注外，AdenXie 的原创文字与原创图片采用 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans)，允许在署名、非商业性使用和相同方式共享等条件下分享、改编。
+- **代码：** 本站代码沿用 Redefine 的 [GPL-3.0](LICENSE)（SPDX：`GPL-3.0-only`）；源码、样式、模板、构建脚本、测试及原创代码示例适用此许可。
+- **第三方素材与依赖：** 保留原有版权与许可，不纳入上述原创内容授权。内容许可的非商业限制不适用于 GPL 代码。
+
+完整适用范围、署名方式和例外见 [LICENSE-CONTENT.md](LICENSE-CONTENT.md)。生成的 `main` 分支也会附带这些声明及完整许可文本。
+
 ## 写新文章
 
 ```bash

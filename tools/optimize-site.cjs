@@ -111,6 +111,25 @@ async function optimize(directory = 'public') {
     $('.aden-font-credit').remove();
     const fontCredit = $('html').attr('lang')?.startsWith('en') ? 'Typeface' : '字体';
     $('footer .info-container').append(`<div class="aden-font-credit text-sm my-1">${fontCredit}: <a href="https://hyperos.mi.com/font/zh/download/" target="_blank" rel="noopener">MiSans</a></div>`);
+    // Set the current policy after translation, including older English snapshots.
+    {
+      const english = $('html').attr('lang')?.startsWith('en');
+      const contentLicense = '<a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>';
+      const codeLicense = '<a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE" target="_blank" rel="noopener">GPL-3.0</a>';
+      const scope = '<a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE-CONTENT.md" target="_blank" rel="noopener">' + (english ? 'Scope &amp; exceptions' : '范围与例外') + '</a>';
+      $('.aden-license-notice').remove();
+      $('footer .info-container').append(`<div class="aden-license-notice text-sm my-1">${english ? 'Original text &amp; images' : '原创文字与图片'}: ${contentLicense} · ${english ? 'Code' : '代码'}: ${codeLicense} · ${scope}</div>`);
+      $('.article-copyright-info-container').each((_, el) => {
+        if ($(el).is('[data-aden-custom-license]')) return;
+        const item = $(el).find('li').last();
+        const siteDefault = item.find('a.license[href^="https://creativecommons.org/licenses/by-nc-sa/4.0"]').length || /版权所有 © AdenXie，禁止转载。|All Rights Reserved © AdenXie/.test(item.text());
+        // Preserve explicit per-article custom licences instead of relabelling them.
+        if (!siteDefault) return;
+        item.attr('data-aden-content-license', '').html(english
+          ? `<strong>License:</strong> Unless otherwise noted, original text and images by AdenXie: ${contentLicense}; original code: ${codeLicense}. Third-party material retains its original rights and licenses. ${scope}.`
+          : `<strong>版权声明:</strong> 除另有标注外，AdenXie 的原创文字与原创图片采用 ${contentLicense}，原创代码采用 ${codeLicense}。引用及第三方素材保留原有权利与许可。${scope}。`);
+      });
+    }
     $('script:not([src])').each((_, el) => {
       let text = $(el).html() || '';
       if (text.includes('runTwikoo')) { $(el).remove(); return; }

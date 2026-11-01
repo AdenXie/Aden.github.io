@@ -22,6 +22,8 @@ async function main() {
   injectBriefStrip(path.join(ROOT, 'public'));
   buildLatestPosts(path.join(ROOT, 'public'));
   fs.copyFileSync(path.join(ROOT, 'lib/README.main.md'), path.join(ROOT, 'public/README.md'));
+  for (const file of ['LICENSE', 'LICENSE-CONTENT.md']) fs.copyFileSync(path.join(ROOT, file), path.join(ROOT, 'public', file));
+  fs.cpSync(path.join(ROOT, 'LICENSES'), path.join(ROOT, 'public/LICENSES'), { recursive: true });
   // Lets tools/purge-esa-cache.cjs tell when Vercel serves this build before purging the ESA edge.
   fs.writeFileSync(path.join(ROOT, 'public/build-id.txt'), `${process.env.GITHUB_SHA || 'local'}\n`);
   // Scheduled workflows must exist on GitHub's default (generated main) branch.

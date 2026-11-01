@@ -40,6 +40,12 @@ Aden's Space 创建于 2021 年，并在 2026 年完成了一次全面重建。�
 
 ## 许可说明
 
-博客文章与原创图片的版权归作者所有；引用或转载前请先联系作者。项目所使用的开源组件遵循其各自许可证。
+本站采用分项许可：
+
+- **原创文字与原创图片：** 除另有标注外，AdenXie 的原创文字与原创图片采用 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans)，可在署名、非商业性使用和相同方式共享等条件下分享、改编。
+- **代码：** 继续采用上游 Redefine 的 [GPL-3.0](LICENSE)（SPDX：`GPL-3.0-only`），对应源码位于 [`source` 分支](https://github.com/AdenXie/Aden.github.io/tree/source)。内容许可的非商业限制不适用于 GPL 代码。
+- **第三方作品：** 引用文字、第三方图片与截图、字体、音乐、依赖及外部数据仍遵循原有权利与许可。
+
+完整适用范围和例外见 [LICENSE-CONTENT.md](LICENSE-CONTENT.md)，CC 完整法律文本见 [LICENSES/CC-BY-NC-SA-4.0.txt](LICENSES/CC-BY-NC-SA-4.0.txt)。
 
 正文、标题与导航使用小米 [MiSans](https://hyperos.mi.com/font/zh/)，品牌字保留主题自带的 Chillax；代码等宽字体与图标字体保留。MiSans 使用官方 Unicode 分包，由小米字体服务按需提供，字体文件未作裁剪、改名或修改；使用遵循 [MiSans 字体许可协议](https://hyperos.mi.com/font/zh/download/)，各页页脚均有字体来源说明。

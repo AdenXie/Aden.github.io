@@ -56,6 +56,7 @@ async function prepare() {
   // __() runs titles through sprintf, so a post title containing "%" (e.g. "增长14.4%，") throws and
   // Hexo writes an empty page. Translate only titles that are safe to format.
   replace('layout/components/header/head.ejs', '        title = __(page.title);', "        title = String(page.title ?? '').includes('%') ? page.title : __(page.title);");
+  replace('layout/pages/post/article-copyright.ejs', '<div class="article-copyright-info-container">', '<div class="article-copyright-info-container"<% if (page.copyright || page.license) { %> data-aden-custom-license="true"<% } %>>');
   // MiSans covers prose and UI; keep Chillax branding, code and icon fonts.
   for (const file of ['common/variables.styl', 'layout/home-sidebar.styl', 'layout/_partials/home-banner.styl', 'layout/_partials/navbar.styl']) {
     const dest = path.join(target, 'source/css', file);

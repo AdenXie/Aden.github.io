@@ -7,6 +7,7 @@ const { postFiles, readPosts } = require('./build-latest-posts.cjs');
 function checkOutput(directory = 'public') {
   const root = path.resolve(directory);
   assert(fs.existsSync(path.join(root, 'README.md')), 'Missing generated main-branch README');
+  for (const file of ['LICENSE', 'LICENSE-CONTENT.md', 'LICENSES/CC-BY-NC-SA-4.0.txt']) assert(fs.existsSync(path.join(root, file)), `Missing licence document: ${file}`);
   const files = dir => fs.readdirSync(dir, { withFileTypes: true }).flatMap(e => e.isDirectory() ? files(path.join(dir, e.name)) : [path.join(dir, e.name)]);
   assert.equal(files(root).filter(file => file.endsWith('.map')).length, 0, 'Production output contains source maps');
   const exists = url => {
@@ -54,6 +55,10 @@ function checkOutput(directory = 'public') {
     assert.equal($('script[src*="/js/language-preference.js"]').length, 1, file);
     assert.equal($('script[data-aden-analytics]').length, 1, file);
     assert.equal($('.aden-font-credit a[href="https://hyperos.mi.com/font/zh/download/"]').length, 1, `${file}: missing MiSans credit`);
+    assert.equal($('.aden-license-notice a[rel="license"][href="https://creativecommons.org/licenses/by-nc-sa/4.0/"]').length, 1, `${file}: missing content licence`);
+    assert.equal($('.aden-license-notice a[href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE"]').length, 1, `${file}: missing code licence`);
+    const copyright = $('.article-copyright-info-container').not('[data-aden-custom-license]');
+    if (copyright.length) assert(!/版权所有 © AdenXie，禁止转载。|All Rights Reserved © AdenXie/.test(copyright.text()), `${file}: stale all-rights-reserved notice`);
     assert.equal($('link[rel="preconnect"][href="https://cdn-file.hyperos.mi.com"][crossorigin]').length, 1, `${file}: missing font preconnect`);
     assert(!/"preload":true/.test($.html()), `Eager search in ${file}`);
     if (!$('#world-time').length) assert.equal($('script[src*="/world-time.js"]').length, 0);
