@@ -2,7 +2,6 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
-const { spawnSync } = require('node:child_process');
 const cheerio = require('cheerio');
 const sharp = require('sharp');
 const CleanCSS = require('clean-css');
@@ -54,6 +53,9 @@ function pruneOutput(out) {
     if (!references(pathname)) bytes += remove(path.join(out, pathname));
   }
   if (!references('/fontawesome/')) bytes += remove(path.join(out, 'fontawesome'));
+  for (const family of ['Geist']) {
+    if (!references(`/fonts/${family}/`)) bytes += remove(path.join(out, 'fonts', family));
+  }
 
   // Only the solid, regular and brand icon styles occur in generated HTML/JS.
   // If a future page uses another style, keep all fonts so that build remains safe.
@@ -71,8 +73,6 @@ function pruneOutput(out) {
 }
 async function optimize(directory = 'public') {
   const out = path.resolve(ROOT, directory);
-  const fonts = spawnSync(process.env.FONTTOOLS_PYTHON || 'python', [path.join(__dirname, 'subset-fonts.py'), out], { cwd: ROOT, stdio: 'inherit' });
-  if (fonts.status !== 0) throw new Error('Font build failed. Install tools/font-requirements.txt with Python, or set FONTTOOLS_PYTHON to that Python executable.');
   for (const file of walk(out)) {
     if (file.endsWith('.map')) fs.rmSync(file);
   }
@@ -104,6 +104,13 @@ async function optimize(directory = 'public') {
       const attr = el.tagName === 'link' ? 'href' : 'src';
       if ($(el).attr(attr)) $(el).attr(attr, localize($(el).attr(attr)));
     });
+    // Cached English pages can still reference the retired theme typefaces.
+    $('link[href*="/fonts/Geist/"]').remove();
+    $('link[data-aden-font-connect]').remove();
+    $('head').append('<link rel="preconnect" href="https://cdn-file.hyperos.mi.com" crossorigin data-aden-font-connect>');
+    $('.aden-font-credit').remove();
+    const fontCredit = $('html').attr('lang')?.startsWith('en') ? 'Typeface' : '字体';
+    $('footer .info-container').append(`<div class="aden-font-credit text-sm my-1">${fontCredit}: <a href="https://hyperos.mi.com/font/zh/download/" target="_blank" rel="noopener">MiSans</a></div>`);
     $('script:not([src])').each((_, el) => {
       let text = $(el).html() || '';
       if (text.includes('runTwikoo')) { $(el).remove(); return; }

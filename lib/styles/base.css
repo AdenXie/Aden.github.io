@@ -9,19 +9,12 @@
   --aden-on-signal: #070a0f;
   --aden-ink: #e8edf2;
   --aden-muted: #8e99a8;
-  --aden-sans-stack: "Plus Jakarta Sans", "Aden Han Sans", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
-  --aden-serif-stack: "Newsreader", "Aden Han Serif", "Songti SC", "SimSun", serif;
+  --aden-sans-stack: "MiSans VF", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
   --aden-interface-font: var(--aden-sans-stack);
   --aden-display-font: "Chillax-Variable", var(--aden-interface-font);
   --aden-body-font: var(--aden-interface-font);
-  --aden-reading-font: var(--aden-serif-stack);
+  --aden-reading-font: var(--aden-interface-font);
   --aden-mono-font: "Geist Mono", "Cascadia Code", "SFMono-Regular", "Microsoft YaHei", monospace;
-}
-
-/* Chinese pages use full-width quotes, dashes and ellipses; English pages keep the Latin glyphs. */
-html[lang^="zh"] {
-  --aden-interface-font: "Aden Han Sans Punctuation", var(--aden-sans-stack);
-  --aden-reading-font: "Aden Han Serif Punctuation", var(--aden-serif-stack);
 }
 
 html.light {
@@ -77,6 +70,7 @@ html.dark {
 
 html body {
   font-family: var(--aden-body-font);
+  font-weight: 330;
   text-rendering: optimizeLegibility;
 }
 
@@ -96,6 +90,12 @@ html body {
 .home-article-meta-info-container,
 .article-meta-info {
   font-family: var(--aden-interface-font);
+}
+
+html .navbar-container .navbar-item > a,
+html .navbar-container .drawer-navbar-item > a,
+html .navbar-container .aden-language-switch {
+  font-weight: 380;
 }
 
 .navbar-container .logo-title {
@@ -131,6 +131,29 @@ html .navbar-container .right .desktop .navbar-item > a {
   }
 }
 
+/* MiSans English labels need a tighter desktop menu and an earlier drawer. */
+@media (max-width: 1535px) {
+  html[lang^="en"] .navbar-container .right .desktop .navbar-list {
+    gap: 8px;
+  }
+
+  html[lang^="en"] .navbar-container .right .desktop .navbar-item > a > i.fa-fw {
+    display: none;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1199px) {
+  html[lang^="en"] .navbar-container .right .desktop .navbar-list {
+    display: none;
+  }
+
+  html[lang^="en"] .navbar-container .right .mobile .icon-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
 @media (min-width: 769px) and (max-width: 1023px) {
   html .navbar-container .right .desktop .navbar-list {
     display: none;
@@ -160,7 +183,7 @@ html .navbar-container .right .desktop .navbar-item > a {
   background: var(--primary-color);
   box-shadow: var(--redefine-box-shadow);
   color: var(--background-color);
-  font: 600 0.9rem var(--aden-interface-font);
+  font: 520 0.9rem var(--aden-interface-font);
   white-space: nowrap;
   cursor: pointer;
   transition: opacity 0.2s ease;
@@ -272,7 +295,7 @@ body:has(.home-banner-container):has(.right-side-tools-container.hide) .aden-cha
   margin-top: 0.9rem;
   color: #f5f5ee;
   font-family: var(--aden-body-font) !important;
-  font-weight: 500;
+  font-weight: 380;
   letter-spacing: 0.1em;
 }
 
@@ -311,7 +334,7 @@ body:has(.home-banner-container):has(.right-side-tools-container.hide) .aden-cha
   color: #e8edf2;
   font-family: var(--aden-body-font);
   font-size: 0.9rem;
-  font-weight: 650;
+  font-weight: 520;
   white-space: nowrap;
   transition: border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
 }

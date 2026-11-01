@@ -6,11 +6,10 @@
 
 ## 本地预览
 
-需要 Node.js 22、Python 3.12 或更高版本：
+需要 Node.js 22：
 
 ```bash
 npm ci
-python -m pip install -r tools/font-requirements.txt
 npm run build:site
 npm run preview
 ```
@@ -37,14 +36,14 @@ git push origin source
 
 - `source/_posts`：文章；`source/api`：天气及汇率接口，接口约定未变。
 - `lib/README.main.md`：成品分支首页说明；生产构建会把它复制为 `main` 分支的 `README.md`，不要直接修改生成文件。
-- `lib/styles/fonts.css`：本地网页字体声明；`base.css`：颜色、字体、导航和首页基础外观；`home-cards.css`：天气及汇率卡片；`pages.css`：正文样式及最后生效的响应式规则。四份样式按此顺序合并，保留原有优先级。不要在生成的 `public/css` 中改样式。
+- `lib/styles/fonts.css`：MiSans 官方网页字体声明快照；`base.css`：颜色、字体、导航和首页基础外观；`home-cards.css`：天气及汇率卡片；`pages.css`：正文样式及响应式规则；`cyber.css`：科技风格组件。五份样式按此顺序合并。不要在生成的 `public/css` 中改样式。
 - `source/js/site-runtime.js`：组件挂载、销毁、可见时钟、可取消延迟及评论按需加载。各组件保留自己的数据校验、缓存期限和错误文案。
 - `tools/prepare-site.cjs`、`lib/theme`：针对 Redefine 2.9.0 的小范围适配。上游安装包不修改，生成的 `themes/redefine` 不入库。升级主题需先审阅差异、调整适配代码及 `lib/theme-adapter-checksums.json`，再测试；校验失败不能直接绕过。
 - `lib/images/home-hero-original.jpg`：当前首页原图，构建产生 640、960、1280、1920 像素宽的 WebP。来源是原有图床地址；`source/images/home-hero.jpg` 是另一张旧照片，不作为新背景输入。
 - `tools/optimize-site.cjs`：双语生成后的统一资源处理；`tools/subset-icons.cjs`：从 HTML 和脚本收集常用图标，生成小字体，完整字体继续保留作其他图标的回退。
-- `lib/fonts`：从 `AdenXie/everyday-economics` 沿用的字体原文件和 SIL OFL 1.1 许可证。标题与界面用 Plus Jakarta Sans／思源黑体，正文用 Newsreader（含 Google Fonts 同版本 v1.003 拉丁斜体，仅页面出现拉丁斜体时下载）／思源宋体；首页与顶部品牌字保留 Chillax。`tools/subset-fonts.py` 在每次构建中收集生成页面和组件脚本的字符，裁切中文可变字体，完整字库不会复制到 `main`。裁切后的字体内部名称为 Aden Han Sans／Serif，以遵守 Adobe 的保留字体名称约定。字体工具使用 `python`，也可通过 `FONTTOOLS_PYTHON` 指定已安装依赖的 Python 路径。中文页面的 “”、——、…… 由思源字体绘制为全角（`fonts.css` 的 Punctuation 字族，与 `subset-fonts.py` 的 `CJK_PUNCTUATION` 同步维护），英文页面仍用拉丁字形。带 `?v=` 的字体请求由 `build-site.cjs` 生成的 `vercel.json` 设为一年 immutable 缓存；新文章带来新汉字时哈希变化，回访者才会重新下载。字库外的汉字会在构建日志中列出，使用系统字体回退。
+- 正文、标题、导航使用 MiSans VF，品牌字保留主题自带的 Chillax。正文 18px、330 字重、1.8 行高；导航 380，文章大标题和卡片标题 520，正文小标题 450，加粗 520。代码与数据标签保留 Geist Mono，图标字体不变。注意官方 VF 文件的字重轴为 150–700，Regular=330、Medium=380、Semibold=520、Bold=630，不能把常见 CSS 400/500/700 标签直接套用。`fonts.css` 固定了小米官方分包声明（含来源地址与获取日期），浏览器按 `unicode-range` 从 `cdn-file.hyperos.mi.com` 下载所需分包；配置包含 Chinese_Simplify 与 Latin，英文和数字使用 MiSans 自带西文字形，没有额外引入 MiSans Latin VF。构建无需联网获取字体，也不再需要 Python/fontTools。字体文件不做裁剪、改名或修改，未覆盖的字使用系统字体，斜体由浏览器合成。页脚中英文页面均注明 MiSans 并链接到官方许可说明。更新字体声明时应核对官方来源，并实测中英文、手机与桌面的实际渲染。
 
-搜索首次打开才取索引，评论接近屏幕才初始化，播放器保持原界面且点击后才下载音频。主题与评论客户端脚本、字体和背景从同域加载；评论数据、音乐、统计和一言仍使用原服务。首页缩略图接近屏幕再加载，并保留无 JavaScript 的图片回退。
+搜索首次打开才取索引，评论接近屏幕才初始化，播放器保持原界面且点击后才下载音频。主题与评论客户端脚本、代码及图标字体和背景从同域加载，MiSans 字体文件由小米官方提供；评论数据、音乐、统计和一言仍使用原服务。首页缩略图接近屏幕再加载，并保留无 JavaScript 的图片回退。
 
 ## 验证
 

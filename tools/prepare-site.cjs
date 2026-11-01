@@ -56,6 +56,14 @@ async function prepare() {
   // __() runs titles through sprintf, so a post title containing "%" (e.g. "增长14.4%，") throws and
   // Hexo writes an empty page. Translate only titles that are safe to format.
   replace('layout/components/header/head.ejs', '        title = __(page.title);', "        title = String(page.title ?? '').includes('%') ? page.title : __(page.title);");
+  // MiSans covers prose and UI; keep Chillax branding, code and icon fonts.
+  for (const file of ['common/variables.styl', 'layout/home-sidebar.styl', 'layout/_partials/home-banner.styl', 'layout/_partials/navbar.styl']) {
+    const dest = path.join(target, 'source/css', file);
+    fs.writeFileSync(dest, fs.readFileSync(dest, 'utf8').replaceAll('Geist Variable', 'MiSans VF'));
+  }
+  for (const font of ['Geist/geist']) {
+    replace('layout/components/header/head.ejs', `    <%- renderCSS('fonts/${font}.css') %>`, '');
+  }
   fs.copyFileSync(path.join(ROOT, 'lib/theme/twikoo.ejs'), path.join(target, 'layout/components/comments/twikoo.ejs'));
   // Keep the complete upstream source in the generated theme; bundle only its entry graph.
   await build({ entryPoints: [path.join(target, 'source/js/main.js')], outfile: path.join(target, 'source/js/build/main.js'), bundle: true, minify: true, format: 'esm', target: 'es2020' });

@@ -42,4 +42,4 @@ Aden's Space 创建于 2021 年，并在 2026 年完成了一次全面重建。�
 
 博客文章与原创图片的版权归作者所有；引用或转载前请先联系作者。项目所使用的开源组件遵循其各自许可证。
 
-标题与界面使用 Plus Jakarta Sans／思源黑体，正文使用 Newsreader／思源宋体；品牌字沿用 Chillax。新增四种字体遵循 SIL Open Font License 1.1，许可文本随站点保存在 `fonts/reading/`。中文网页字体由思源字体原文件按本站字符生成子集，内部名称为 Aden Han Sans／Serif。
+正文、标题与导航使用小米 [MiSans](https://hyperos.mi.com/font/zh/)，品牌字保留主题自带的 Chillax；代码等宽字体与图标字体保留。MiSans 使用官方 Unicode 分包，由小米字体服务按需提供，字体文件未作裁剪、改名或修改；使用遵循 [MiSans 字体许可协议](https://hyperos.mi.com/font/zh/download/)，各页页脚均有字体来源说明。

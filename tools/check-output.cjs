@@ -53,6 +53,8 @@ function checkOutput(directory = 'public') {
     assert.equal($('script[src*="/js/site-runtime.js"]').length, 1, file);
     assert.equal($('script[src*="/js/language-preference.js"]').length, 1, file);
     assert.equal($('script[data-aden-analytics]').length, 1, file);
+    assert.equal($('.aden-font-credit a[href="https://hyperos.mi.com/font/zh/download/"]').length, 1, `${file}: missing MiSans credit`);
+    assert.equal($('link[rel="preconnect"][href="https://cdn-file.hyperos.mi.com"][crossorigin]').length, 1, `${file}: missing font preconnect`);
     assert(!/"preload":true/.test($.html()), `Eager search in ${file}`);
     if (!$('#world-time').length) assert.equal($('script[src*="/world-time.js"]').length, 0);
     // Chat: one launcher per page, assets deferred until it is used, no trace of the retired page.
@@ -89,16 +91,17 @@ function checkOutput(directory = 'public') {
   for (const file of siteCSS) {
     for (const match of fs.readFileSync(file, 'utf8').matchAll(/url\(["']?(\/[^)'"\s]+)/g)) exists(match[1]);
   }
-  // Reading fonts: generated subsets only, versioned for the immutable cache rule in vercel.json.
-  const fontDir = path.join(root, 'fonts/reading');
-  const fontFiles = ['plus-jakarta-sans-latin.woff2', 'newsreader-latin.woff2', 'newsreader-italic-latin.woff2', 'aden-han-sans.woff2', 'aden-han-serif.woff2'];
-  for (const name of fontFiles) {
-    assert(fs.existsSync(path.join(fontDir, name)), `Missing reading font: ${name}`);
-    if (name.startsWith('aden-han-')) assert(fs.statSync(path.join(fontDir, name)).size < 3 * 1024 * 1024, `${name} looks like an unsubset font`);
-    assert(siteCSS.some(file => new RegExp(`/fonts/reading/${name.replace(/\./g, '\\.')}\\?v=[a-f0-9]{12}`).test(fs.readFileSync(file, 'utf8'))), `Stylesheets do not load a versioned ${name}`);
+  // MiSans uses the official, content-addressed Unicode slices without modifying font files.
+  for (const file of siteCSS) {
+    const css = fs.readFileSync(file, 'utf8');
+    assert(/font-family:["']?MiSans VF/.test(css), `${file}: missing MiSans`);
+    assert(css.includes('https://cdn-file.hyperos.mi.com/mi-font-service/misans_vf/'), `${file}: missing official MiSans slices`);
+    assert(css.includes('unicode-range:'), `${file}: missing on-demand font ranges`);
+    assert(!/Newsreader|Plus Jakarta Sans|Aden Han|Geist Variable/.test(css), `${file}: retired prose font remains`);
+    assert(css.includes('Chillax-Variable'), `${file}: missing theme branding font`);
   }
-  assert.equal(fs.readdirSync(fontDir).filter(name => name.startsWith('source-han-')).length, 0, 'Full Source Han fonts copied to output');
-  assert.equal(fs.readdirSync(fontDir).filter(name => name.startsWith('OFL-')).length, 4, 'Missing font licence files');
+  for (const family of ['reading', 'Geist']) assert(!fs.existsSync(path.join(root, 'fonts', family)), `Retired font directory: ${family}`);
+  assert(fs.existsSync(path.join(root, 'fonts/Chillax/Chillax-Variable.woff2')), 'Missing theme branding font');
   console.log(`Verified ${pages} pages: local asset paths, scoped scripts, lazy search, comment wiring and reading fonts.`);
   return pages;
 }
