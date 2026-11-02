@@ -22,12 +22,34 @@
 }
 #world-time .wt-map-caption { align-items: center; }
 #world-time .wt-map { display: block; width: 100%; height: auto; overflow: hidden; }
-#world-time .wt-globe { display: none; width: 100%; aspect-ratio: 1 / .62; cursor: grab; touch-action: pan-y; }
+#world-time .wt-globe-stage { display: none; position: relative; width: 100%; aspect-ratio: 1 / .62; overflow: hidden; contain: layout paint; background: radial-gradient(ellipse at 50% 45%, #122d3c 0, #050d16 56%, #03070c 100%); }
+html.light #world-time .wt-globe-stage { background: radial-gradient(ellipse at 50% 45%, #f0f7fa 0, #d9e8ef 60%, #d0e0e8 100%); }
+#world-time .wt-globe { display: block; width: 100%; height: 100%; position: absolute; inset: 0; cursor: grab; touch-action: pan-y; }
+#world-time .wt-globe:focus-visible { outline: 2px solid var(--aden-cyan); outline-offset: -3px; }
+#world-time .wt-globe-labels { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+#world-time .wt-globe-label { position: absolute; top: 0; left: 0; min-height: 20px; color: #75d5ef; background: transparent; padding: 1px 2px; margin: 0; border: 0; border-radius: 2px; font: 500 11px/18px var(--aden-interface-font); text-shadow: 0 1px 2px #030c16, 1px 0 2px #030c16, -1px 0 2px #030c16; white-space: nowrap; pointer-events: auto; }
+#world-time .wt-globe-label:focus-visible { outline: 2px solid var(--aden-signal); outline-offset: 2px; }
+#world-time .wt-globe-label.is-selected { color: var(--aden-signal); font-weight: 650; }
+#world-time .wt-globe-label[aria-pressed="true"] { border-color: transparent; background: transparent; }
+#world-time .wt-globe-label:hover { background: rgb(3 12 22 / 65%); }
+html.light #world-time .wt-globe-label { color: #75d5ef; }
+html.light #world-time .wt-globe-label.is-selected { color: #f2e94e; }
+#world-time .wt-globe-label[hidden] { display: none; }
+#world-time .wt-globe-status { padding: .4rem 1.1rem; margin: 0; color: var(--second-text-color); font-size: .8rem; }
+#world-time .wt-globe-status[hidden] { display: none; }
+#world-time .wt-globe-toolbar { display: none; align-items: center; justify-content: space-between; gap: .6rem; padding: .25rem 1.1rem; }
+#world-time .wt-globe-toolbar .wt-zoom { padding: 0; flex: 1; min-width: 0; }
+#world-time .wt-globe-toolbar button { flex: none; min-height: 44px; border-color: var(--border-color); font-size: .77rem; }
+#world-time .wt-globe-toolbar button:disabled { opacity: .5; cursor: wait; }
+#world-time .wt-globe-hint { display: none; padding: .2rem 1.1rem .9rem; margin: 0; color: var(--third-text-color); font-size: .77rem; }
+#world-time.wt-globe-on .wt-globe-toolbar { display: flex; }
+#world-time.wt-globe-on .wt-globe-hint { display: block; }
+#world-time:not(.wt-globe-on) .wt-globe-credit { display: none; }
 #world-time .wt-zoom { display: none; align-items: center; gap: .7rem; padding: .2rem 1.1rem .9rem; color: var(--third-text-color); font: 500 .72rem var(--aden-mono-font); letter-spacing: .08em; }
 #world-time.wt-globe-on .wt-zoom { display: flex; }
 #world-time .wt-zoom input { flex: 1; max-width: 260px; height: 24px; margin: 0; accent-color: var(--aden-cyan); cursor: pointer; }
 #world-time .wt-globe:active { cursor: grabbing; }
-#world-time.wt-globe-on .wt-globe { display: block; }
+#world-time.wt-globe-on .wt-globe-stage { display: block; }
 #world-time.wt-globe-on .wt-map { display: none; }
 #world-time .wt-views { display: inline-flex; gap: .2rem; }
 #world-time .wt-views button { min-height: 26px; padding: .15rem .6rem; font: 500 .77rem var(--aden-mono-font); letter-spacing: .08em; }
@@ -78,6 +100,9 @@
 @media (max-width: 640px) {
   #world-time .wt-intro { font-size: .85rem; margin-bottom: 1rem; }
   #world-time .wt-map-caption { padding: .7rem; font-size: .77rem; letter-spacing: .02em; }
+  #world-time .wt-globe-stage { aspect-ratio: 1 / .9; }
+  #world-time .wt-globe-toolbar { padding-right: .7rem; padding-left: .7rem; }
+  #world-time .wt-globe-hint { padding-right: .7rem; padding-left: .7rem; }
   #world-time .wt-subsolar { display: none; }
   #world-time .wt-marker text, #world-time .wt-leader { display: none; }
   #world-time .wt-dot { r: 4; }

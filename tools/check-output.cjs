@@ -41,12 +41,14 @@ function checkOutput(directory = 'public') {
   assert(briefPaths.size > 0, 'No daily briefs found');
   // 3D scenes load by URL from scene-loader.js and import three.js by URL, so a
   // renamed file or a three.js upgrade would only fail in the browser.
-  for (const scene of ['saturn', 'store']) {
+  for (const scene of ['saturn', 'store', 'world-globe']) {
     const file = path.join(root, 'js/scenes', `${scene}.js`);
     assert(fs.existsSync(file), `Missing scene ${scene}`);
     for (const [, url] of fs.readFileSync(file, 'utf8').matchAll(/from '([^']+)'/g)) exists(url);
   }
   exists('/js/scene-loader.js');
+  for (const size of [1024, 2048]) for (const kind of ['day', 'night']) exists(`/images/earth/${kind}-${size}-v1.webp`);
+  exists('/images/earth/NOTICE.txt');
   let pages = 0;
   for (const file of files(root).filter(f => f.endsWith('.html'))) {
     const $ = cheerio.load(fs.readFileSync(file, 'utf8')); pages++;
