@@ -289,9 +289,11 @@ body:has(.right-side-tools-container.hide) .aden-chat-launcher {
 }
 
 /* On phones the launcher also steps aside while an article's previous/next links are on screen
-   (site-runtime.js sets data-yield), so it does not cover the end of the text or the links. */
+   (data-yield) and while the reader is scrolling the article (data-scrolling), so it does not
+   cover the end of the text, the links, or the line being read. */
 @media (max-width: 768px) {
-  .aden-chat-launcher[data-yield] {
+  .aden-chat-launcher[data-yield],
+  .aden-chat-launcher[data-scrolling] {
     opacity: 0;
     pointer-events: none;
   }

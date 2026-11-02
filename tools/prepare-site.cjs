@@ -54,6 +54,9 @@ async function prepare() {
   // Phone and tablet articles: the theme sets H2 at 1.6rem and H3 at 1.5rem, which read as one size.
   // Step H2 up in the theme source itself, so the cascade is untouched and the rule stays an adapter change.
   replace('source/css/common/markdown.styl', '      font-size 1.6rem\n      line-height 1.1\n', '      font-size 1.9rem\n      line-height 1.1\n');
+  // The theme removes the outline from every article link, which also hides keyboard focus. Drop that
+  // one line from the theme source, so the browser's focus-visible ring (lib/styles/pages.css) shows.
+  replace('source/css/common/markdown.styl', '  a:not(.not-markdown)\n    position relative\n    outline 0\n', '  a:not(.not-markdown)\n    position relative\n');
   // The fixed home banner blurs on scroll only at config.root; the English homepage lives at /en/.
   replace('source/js/utils/scroll.js', 'location.pathname === config.root', 'ctx.homeBanner_dom');
   // __() runs titles through sprintf, so a post title containing "%" (e.g. "增长14.4%，") throws and

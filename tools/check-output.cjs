@@ -103,6 +103,12 @@ function checkOutput(directory = 'public') {
       const drawerText = $('#navbar-drawer .drawer-navbar-list').text();
       for (const duplicate of ['文章归档', '主题标签', '关于 Aden']) assert(!drawerText.includes(duplicate), `${file}: duplicate menu row ${duplicate}`);
     }
+    // The Chinese brief list (cards view) gets its own visually hidden section heading. The English
+    // copy of this page is a cached snapshot when no translation key is set, so it is not asserted here.
+    if (path.relative(root, file).split(path.sep).join('/') === 'daily/index.html' && $('#home-articles').length) {
+      assert.equal($('h2.aden-sr-only').length, 1, `${file}: brief list section heading`);
+      assert.equal($('h2.aden-sr-only').text().trim(), '全部简报', `${file}: brief list heading text`);
+    }
     // Outline: the card titles (h3) sit under a section heading (h2) that leads the post list, so the
     // page goes h1 -> h2 -> h3 instead of skipping a level. The heading is visually hidden.
     if ($('.home-banner-container').length && $('#home-articles').length) {

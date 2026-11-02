@@ -172,6 +172,24 @@
     }, { signal: scope.signal });
     return () => observer.disconnect();
   });
+  // On phones the chat launcher fades while an article is being scrolled and returns once the reader
+  // pauses, so it is not sitting over the line being read. Its position and look do not change.
+  register('article-reading', '.article-content', () => {
+    const launcher = document.getElementById('aden-chat-launcher');
+    if (!launcher || !window.matchMedia('(max-width: 768px)').matches) return;
+    let timer = 0;
+    const onScroll = () => {
+      launcher.setAttribute('data-scrolling', '');
+      clearTimeout(timer);
+      timer = setTimeout(() => launcher.removeAttribute('data-scrolling'), 900);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      clearTimeout(timer);
+      launcher.removeAttribute('data-scrolling');
+    };
+  });
   // On phones the chat launcher steps aside while the previous/next links of an article are on screen.
   register('article-end', '.article-nav', nav => {
     const launcher = document.getElementById('aden-chat-launcher');
