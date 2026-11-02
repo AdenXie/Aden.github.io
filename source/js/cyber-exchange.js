@@ -51,14 +51,33 @@
       <div class="cyber-exchange-footer">
         <span data-exchange="status">正在连接中国银行牌价…</span>
         <a href="https://www.bankofchina.com/sourcedb/whpj/" target="_blank" rel="noopener noreferrer">数据来源于中国银行 ↗</a>
+        <button type="button" class="aden-widget-toggle" aria-controls="aud-cny-exchange-card" aria-expanded="false"></button>
       </div>
       <p class="cyber-exchange-notice">现汇买入价与现汇卖出价均为中国银行每100澳元折合人民币的官方牌价。仅供个人非商业展示；实际交易以中国银行网上银行、手机银行、智能柜台或网点柜台价格为准。未经中国银行许可，不得用于商业转载。</p>`;
     return card;
   }
 
+  // Phones show the rates and freshness; the notice opens on demand. Desktop always shows it.
+  function setDetails(card, expanded) {
+    const toggle = card.querySelector(".aden-widget-toggle");
+    card.classList.toggle("is-expanded", expanded);
+    toggle.setAttribute("aria-expanded", String(expanded));
+    toggle.textContent = pick(expanded ? "收起详情" : "展开详情", expanded ? "Hide details" : "Show details");
+  }
+
   function formatRate(value) {
     const number = Number(value);
     return Number.isFinite(number) ? `¥${number.toFixed(2)}` : "---.--";
+  }
+
+  // Interface copy is written in both languages here; the English page reads the English branch.
+  const english = () => document.documentElement.lang.startsWith("en");
+  const pick = (zh, en) => (english() ? en : zh);
+
+  // Weekends usually bring no new quote, so an older Beijing-time quote is the expected snapshot.
+  function isBeijingWeekend() {
+    const day = new Intl.DateTimeFormat("en-US", { timeZone: "Asia/Shanghai", weekday: "short" }).format(new Date());
+    return day === "Sat" || day === "Sun";
   }
 
   function formatPublishedAt(value) {
@@ -84,12 +103,18 @@
     card.querySelector('[data-exchange="buy"]').textContent = formatRate(payload.spotBuy);
     card.querySelector('[data-exchange="sell"]').textContent = formatRate(payload.spotSell);
 
-    const updated = formatPublishedAt(payload.publishedAt);
+    const updated = `${formatPublishedAt(payload.publishedAt)} ${pick("北京时间", "Beijing time")}`;
     const status = card.querySelector('[data-exchange="status"]');
-    if (state === "syncing") status.textContent = `正在同步最新快照 · 暂显示缓存牌价 · 中行更新 ${updated}`;
-    else if (state === "stale" || payload.stale) status.textContent = `${errorMessage(error || { code: payload.fetchError || "source_unavailable" })} · 显示缓存牌价 · 中行更新 ${updated}`;
-    else if (state === "cache") status.textContent = `缓存牌价 · 中行更新 ${updated}`;
-    else status.textContent = `中行更新 ${updated} · 三小时缓存`;
+    const code = error?.code || payload.fetchError || "source_unavailable";
+    if (state === "syncing") status.textContent = pick(`正在同步最新快照 · 暂显示缓存牌价 · 中行更新 ${updated}`, `Syncing the latest quote · showing the cached rate · BOC updated ${updated}`);
+    else if (state === "stale" || payload.stale) {
+      // An older quote is not a failure: say what is shown and when BOC last published it.
+      if (code === "snapshot_stale" && isBeijingWeekend()) status.textContent = pick(`周末暂无新牌价 · 显示最近一次牌价 · 中行更新 ${updated}`, `No new rate on weekends · showing the latest rate · BOC updated ${updated}`);
+      else if (code === "snapshot_stale") status.textContent = pick(`暂未收到新牌价 · 显示最近一次牌价 · 中行更新 ${updated}`, `No new rate yet · showing the latest rate · BOC updated ${updated}`);
+      else status.textContent = `${errorMessage({ code })} · 显示缓存牌价 · 中行更新 ${updated}`;
+    }
+    else if (state === "cache") status.textContent = pick(`缓存牌价 · 中行更新 ${updated}`, `Cached rate · BOC updated ${updated}`);
+    else status.textContent = pick(`中行更新 ${updated} · 三小时缓存`, `BOC updated ${updated} · cached for 3 hours`);
 
     card.classList.remove("is-loading", "is-offline", "is-stale", "is-online");
     card.classList.add(state === "syncing" ? "is-loading" : state === "stale" || payload.stale ? "is-stale" : "is-online");
@@ -216,6 +241,8 @@
       if (weatherCard) weatherCard.insertAdjacentElement("afterend", card);
       else homeContent.prepend(card);
     }
+    setDetails(card, card.classList.contains("is-expanded"));
+    card.querySelector(".aden-widget-toggle").addEventListener("click", () => setDetails(card, !card.classList.contains("is-expanded")), { signal: scope.signal });
     const fresh = readCachedQuote(false);
     const cached = fresh || readCachedQuote(true);
     if (cached) renderQuote(card, cached, fresh ? "cache" : "syncing");

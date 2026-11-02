@@ -135,6 +135,43 @@
     button.addEventListener('click', toggle, { signal: scope.signal });
     if (new URLSearchParams(location.search).get('chat') === 'open' && button.getAttribute('aria-expanded') !== 'true') toggle();
   });
+  // The menu button mirrors the theme's drawer state; Escape closes the drawer through the
+  // theme's own toggle and returns focus to the button, as it does for the search popup.
+  register('navbar-menu', '.navbar-container', (header, scope) => {
+    const bar = header.querySelector('.navbar-bar'), drawer = header.querySelector('#navbar-drawer');
+    if (!bar || !drawer) return;
+    let wasOpen = false;
+    const sync = () => {
+      const open = document.body.classList.contains('navbar-drawer-show');
+      bar.setAttribute('aria-expanded', String(open));
+      if (open && !wasOpen) drawer.querySelector('a')?.focus({ preventScroll: true });
+      if (wasOpen && !open && drawer.contains(document.activeElement)) bar.focus({ preventScroll: true });
+      wasOpen = open;
+    };
+    const observer = new MutationObserver(sync);
+    observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    document.addEventListener('keydown', event => {
+      if (event.key !== 'Escape' || !document.body.classList.contains('navbar-drawer-show')) return;
+      bar.click();
+      bar.focus({ preventScroll: true });
+    }, { signal: scope.signal });
+    sync();
+    return () => observer.disconnect();
+  });
+  register('search-popup', '.search-pop-overlay', (overlay, scope) => {
+    let opener = null;
+    const observer = new MutationObserver(() => {
+      if (overlay.classList.contains('active')) { if (!overlay.contains(document.activeElement)) opener = document.activeElement; return; }
+      if (opener?.isConnected) opener.focus({ preventScroll: true });
+    });
+    observer.observe(overlay, { attributes: true, attributeFilter: ['class'] });
+    // The theme focuses the input 500ms after opening, which can land after a quick Escape while
+    // the overlay is still fading out; send that focus back to the control that opened the popup.
+    document.addEventListener('focusin', event => {
+      if (!overlay.classList.contains('active') && opener?.isConnected && overlay.contains(event.target)) opener.focus({ preventScroll: true });
+    }, { signal: scope.signal });
+    return () => observer.disconnect();
+  });
   register('comments', '#twikoo-comment', (root, scope) => {
     let started = false;
     const start = async () => {

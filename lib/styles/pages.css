@@ -94,7 +94,7 @@ button:focus-visible {
   outline-offset: 3px;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 1023px) {
   .cyber-weather-grid {
     grid-template-columns: minmax(0, 1fr) minmax(190px, 0.85fr);
   }
@@ -117,12 +117,17 @@ button:focus-visible {
     gap: 0.5rem;
   }
 
-  /* Icon-only here: the same 46px square as the scroll-down button beside it. */
-  .home-banner-container [onclick="scrollToMain()"],
+  /* Icon-only here: the same 46px square as the route's neighbour. */
   .home-banner-actions .home-project-link {
     width: 46px;
     height: 46px;
     min-height: 0;
+  }
+
+  .home-banner-container .aden-read-route {
+    min-height: 46px;
+    padding: 0 0.75rem;
+    font-size: 0.82rem;
   }
 
   .home-banner-actions .home-project-link {
@@ -169,8 +174,13 @@ button:focus-visible {
   .cyber-weather-footer {
     padding-right: 0.8rem;
     padding-left: 0.8rem;
-    font-size: 0.56rem;
-    letter-spacing: 0.08em;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* The data freshness gets a row of its own; the source link and toggle share the next row. */
+  .cyber-weather-footer [data-weather="status"] {
+    flex: 1 1 100%;
   }
 
   .cyber-weather-live [data-location="name"] {
@@ -204,18 +214,25 @@ button:focus-visible {
     max-width: 9rem;
   }
 
-  .cyber-exchange-header,
-  .cyber-exchange-footer {
-    align-items: flex-start;
+  .cyber-exchange-header {
+    align-items: center;
     padding-right: 0.8rem;
     padding-left: 0.8rem;
     font-size: 0.56rem;
     letter-spacing: 0.08em;
+    white-space: nowrap;
   }
 
-  .cyber-exchange-header {
+  .cyber-exchange-footer {
     align-items: center;
-    white-space: nowrap;
+    padding-right: 0.8rem;
+    padding-left: 0.8rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+  }
+
+  .cyber-exchange-footer [data-exchange="status"] {
+    flex: 1 1 100%;
   }
 
   .cyber-exchange-body {
@@ -236,15 +253,11 @@ button:focus-visible {
     font-size: clamp(1.65rem, 9vw, 2.5rem);
   }
 
-  .cyber-exchange-footer {
-    flex-direction: column;
-    gap: 0.35rem;
-  }
 
   .cyber-exchange-notice {
     padding-right: 0.8rem;
     padding-left: 0.8rem;
-    font-size: 0.62rem;
+    font-size: 0.78rem;
   }
 }
 
@@ -256,5 +269,54 @@ button:focus-visible {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* Narrow phones: the route, project link and social pill still sit inside the banner footer. */
+@media (max-width: 360px) {
+  .home-banner-container .aden-read-route {
+    gap: 0.4rem;
+    padding: 0 0.55rem;
+  }
+
+  .home-banner-footer .social-contacts {
+    gap: 0.3rem;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+}
+
+/* Phones: the weather and exchange cards open to their compact summary. The footer keeps the
+   data freshness and source either way; the clock, metrics and notice open on demand. */
+@media (max-width: 640px) {
+  .aden-widget-toggle {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    margin-left: auto;
+    padding: 0 0.5rem;
+    border: 0;
+    background: none;
+    color: var(--link-color);
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .cyber-weather-footer,
+  .cyber-exchange-footer {
+    flex-wrap: wrap;
+    gap: 0.25rem 0.75rem;
+  }
+
+  .cyber-weather-card:not(.is-expanded) :is(.cyber-clock-block, .cyber-weather-metrics),
+  .cyber-exchange-card:not(.is-expanded) .cyber-exchange-notice {
+    display: none;
+  }
+
+  .cyber-weather-card:not(.is-expanded) .cyber-weather-grid {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

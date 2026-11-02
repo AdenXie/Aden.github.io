@@ -122,6 +122,7 @@
             <span class="cyber-temperature">--°</span>
             <span class="cyber-condition">正在识别访客地区…</span>
             <span class="cyber-feels-like">体感温度 --°C</span>
+            <span class="cyber-observed" data-weather="observed" hidden></span>
           </div>
         </div>
         <dl class="cyber-weather-metrics">
@@ -133,13 +134,28 @@
       <div class="cyber-weather-footer">
         <span data-weather="status">LOCATION LINK / CONNECTING</span>
         <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">DATA / OPEN-METEO</a>
+        <button type="button" class="aden-widget-toggle" aria-controls="visitor-status-hud" aria-expanded="false"></button>
       </div>`;
     return card;
   }
 
+  // Interface copy is written in both languages here; the English page reads the English branch.
+  const english = () => document.documentElement.lang.startsWith("en");
+  const pick = (zh, en) => (english() ? en : zh);
+
+  // Phones show a compact card; the clock and metrics open on demand. Desktop always shows them.
+  function setDetails(card, expanded) {
+    const toggle = card.querySelector(".aden-widget-toggle");
+    card.classList.toggle("is-expanded", expanded);
+    toggle.setAttribute("aria-expanded", String(expanded));
+    toggle.textContent = pick(expanded ? "收起详情" : "展开详情", expanded ? "Hide details" : "Show details");
+  }
+
   function getDeviceLocation() {
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    return { label: "设备时间", timezone: isValidTimeZone(timezone) ? timezone : "UTC" };
+    // Runs at load, before pick() exists, so it checks the language itself.
+    const label = document.documentElement.lang.startsWith("en") ? "Device time" : "设备时间";
+    return { label, timezone: isValidTimeZone(timezone) ? timezone : "UTC" };
   }
 
   function applyLocation(card, location = getDeviceLocation()) {
@@ -183,10 +199,16 @@
     card.querySelector(".cyber-weather-icon").textContent = icon;
     card.querySelector(".cyber-temperature").textContent = `${formatNumber(current.temperature_2m)}°`;
     card.querySelector(".cyber-condition").textContent = `${condition} / ${codeLabel}`;
-    card.querySelector(".cyber-feels-like").textContent = `体感温度 ${formatNumber(current.apparent_temperature)}°C`;
+    const feelsLike = formatNumber(current.apparent_temperature);
+    card.querySelector(".cyber-feels-like").textContent = pick(`体感温度 ${feelsLike}°C`, `Feels like ${feelsLike}°C`);
     card.querySelector('[data-weather="humidity"]').textContent = `${formatNumber(current.relative_humidity_2m)}%`;
     card.querySelector('[data-weather="wind"]').textContent = `${formatNumber(current.wind_speed_10m)} km/h`;
     card.querySelector('[data-weather="sunset"]').textContent = sunset;
+    // The running clock above is this visitor's device time; this is when the weather was observed.
+    const observedAt = typeof current.time === "string" ? current.time.slice(11, 16) : "";
+    const observed = card.querySelector('[data-weather="observed"]');
+    observed.hidden = !/^\d{2}:\d{2}$/.test(observedAt);
+    observed.textContent = observed.hidden ? "" : pick(`天气观测 ${observedAt}（当地时间）`, `Weather observed ${observedAt} local time`);
 
     const status = card.querySelector('[data-weather="status"]');
     if (source === "cache") status.textContent = "LOCATION LINK / CACHED";
@@ -326,7 +348,7 @@
           card.querySelector(`[data-weather="${key}"]`).textContent = value;
         }
         card.querySelector(".cyber-condition").textContent = errorMessage(error);
-        card.querySelector('[data-weather="status"]').textContent = "LOCATION LINK / OFFLINE · 设备时间";
+        card.querySelector('[data-weather="status"]').textContent = pick("LOCATION LINK / OFFLINE · 设备时间", "LOCATION LINK / OFFLINE · device time");
         card.classList.remove("is-online");
         card.classList.add("is-offline");
         return;
@@ -346,6 +368,8 @@
       homeContent.prepend(card);
     }
 
+    setDetails(card, card.classList.contains("is-expanded"));
+    card.querySelector(".aden-widget-toggle").addEventListener("click", () => setDetails(card, !card.classList.contains("is-expanded")), { signal: scope.signal });
     applyLocation(card, {
       ...getDeviceLocation(),
       label: "定位中",

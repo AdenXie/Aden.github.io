@@ -91,6 +91,20 @@ function checkOutput(directory = 'public') {
       assert.deepEqual($('.home-banner-actions .home-project-link').map((_, el) => $(el).attr('aria-label')).get(),
         [english ? 'Visit my homepage' : '访问我的主页'], file);
     }
+    // Keyboard entry points: the hero route, search and menu are real controls with names.
+    if ($('.home-banner-container').length) {
+      assert.equal($('.home-banner-container a.aden-read-route[href="#home-articles"]').length, 1, `${file}: hero route to the post list`);
+      assert.equal($('#home-articles').length, 1, `${file}: post list anchor`);
+      assert.equal($('button.navbar-bar[aria-controls="navbar-drawer"][aria-expanded="false"][aria-label]').length, 1, `${file}: menu button`);
+      assert.equal($('#navbar-drawer').length, 1, `${file}: menu drawer`);
+      assert.equal($('.search-popup-trigger').not('button').length, 0, `${file}: search trigger is not a button`);
+      assert.equal($('.search-popup-trigger[aria-label]').length, 2, `${file}: named search buttons`);
+      // The sidebar copies (文章归档, 主题标签, 关于 Aden) repeat navbar pages on the mobile menu.
+      const drawerText = $('#navbar-drawer .drawer-navbar-list').text();
+      for (const duplicate of ['文章归档', '主题标签', '关于 Aden']) assert(!drawerText.includes(duplicate), `${file}: duplicate menu row ${duplicate}`);
+    }
+    // Excerpt headings stay below the card title (h3) on the home list only.
+    for (const heading of $('.aden-home-list .home-article-content h1, .aden-home-list .home-article-content h2, .aden-home-list .home-article-content h3').toArray()) assert.fail(`${file}: excerpt heading above card title level`);
   }
   const siteCSS = files(path.join(root, 'css')).filter(f => /site-.*\.css$/.test(f));
   for (const file of siteCSS) {

@@ -189,15 +189,22 @@ async function optimize(directory = 'public') {
     }
     // Wide article tables scroll inside their own frame instead of overflowing the article panel.
     $('.markdown-body > table:not(.not-markdown)').wrap('<div class="aden-table-scroll"></div>');
+    // Home card list: headings inside an excerpt step below the card title (h3), so the title leads.
+    // Only the excerpt copy changes; post pages keep their headings. Daily cards keep their markup.
+    const homeList = $('.home-article-list').not('.aden-daily .home-article-list').addClass('aden-home-list');
+    homeList.find('.home-article-content h1, .home-article-content h2, .home-article-content h3, .home-article-content h4, .home-article-content h5, .home-article-content h6').each((_, el) => {
+      const level = Math.min(6, Math.max(4, Number(el.name.slice(1)) + 2));
+      el.name = `h${level}`;
+    });
     $('script[src*="vercount"]').attr('async', '');
-    const scrollButton = $('.home-banner-container [onclick="scrollToMain()"]');
-    if (scrollButton.length) {
+    const routeLink = $('.home-banner-container .aden-read-route');
+    if (routeLink.length) {
       if (!$('.home-banner-actions').length) {
-        scrollButton.parent().addClass('home-banner-footer');
-        scrollButton.wrap('<div class="home-banner-actions flex items-center gap-3"></div>');
+        routeLink.parent().addClass('home-banner-footer');
+        routeLink.wrap('<div class="home-banner-actions flex items-center gap-3"></div>');
       }
       // Replace cached buttons too: these links are added after translation.
-      const actions = scrollButton.closest('.home-banner-actions');
+      const actions = routeLink.closest('.home-banner-actions');
       actions.find('.home-project-link').remove();
       const template = $('html').attr('lang')?.startsWith('en') ? 'home-project-links-en.ejs' : 'home-project-links.ejs';
       actions.append(fs.readFileSync(path.join(ROOT, 'lib/theme', template), 'utf8'));

@@ -65,6 +65,29 @@ async function prepare() {
   for (const font of ['Geist/geist']) {
     replace('layout/components/header/head.ejs', `    <%- renderCSS('fonts/${font}.css') %>`, '');
   }
+  // Search and the mobile menu were clickable <div>s. Make them buttons so keyboards can reach and
+  // activate them; the theme's handlers match these classes and still apply.
+  const label = (zh, en) => `<%= (config.language || '').startsWith('en') ? ${JSON.stringify(en)} : ${JSON.stringify(zh)} %>`;
+  replace('layout/components/header/navbar.ejs', `                        <li class="navbar-item search search-popup-trigger">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </li>`, `                        <li class="navbar-item search">
+                            <button type="button" class="search-popup-trigger" aria-label="${label('搜索', 'Search')}"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                        </li>`);
+  replace('layout/components/header/navbar.ejs', `                    <div class="icon-item search search-popup-trigger"><i class="fa-solid fa-magnifying-glass"></i>
+                    </div>`, `                    <button type="button" class="icon-item search search-popup-trigger" aria-label="${label('搜索', 'Search')}"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>`);
+  replace('layout/components/header/navbar.ejs', `                <div class="icon-item navbar-bar">
+                    <div class="navbar-bar-middle"></div>
+                </div>`, `                <button type="button" class="icon-item navbar-bar" aria-label="${label('菜单', 'Menu')}" aria-controls="navbar-drawer" aria-expanded="false"><span class="navbar-bar-middle"></span></button>`);
+  replace('layout/components/header/navbar.ejs', '    <div class="navbar-drawer h-dvh', '    <div id="navbar-drawer" class="navbar-drawer h-dvh');
+  // The hero's bottom control is a link to the post list: a native link works with the keyboard,
+  // with Swup, and with no script, and its text says where it goes.
+  replace('layout/pages/home/home-banner.ejs', `                <div class="<%- display %> p-3 bg-gray-300/50 dark:bg-gray-500/40 backdrop-blur-lg border border-white/20 dark:border-gray-500/30 group rounded-full cursor-pointer flex justify-center items-center aspect-square h-full shadow-redefine-flat hover:shadow-redefine-flat-hover transition-shadow" onclick="scrollToMain()" >
+                    <i class="fa-solid fa-arrow-down fa-fw fa-lg group-hover:translate-y-1 transition-transform"></i>
+                </div>`, `                <a class="aden-read-route" href="#home-articles">
+                    <i class="fa-solid fa-arrow-down fa-fw" aria-hidden="true"></i>
+                    <span>${label('阅读文章', 'Read articles')}</span>
+                </a>`);
+  replace('layout/pages/home/home-content.ejs', '<ul class="home-article-list">', '<ul id="home-articles" class="home-article-list">');
   fs.copyFileSync(path.join(ROOT, 'lib/theme/twikoo.ejs'), path.join(target, 'layout/components/comments/twikoo.ejs'));
   // Keep the complete upstream source in the generated theme; bundle only its entry graph.
   await build({ entryPoints: [path.join(target, 'source/js/main.js')], outfile: path.join(target, 'source/js/build/main.js'), bundle: true, minify: true, format: 'esm', target: 'es2020' });

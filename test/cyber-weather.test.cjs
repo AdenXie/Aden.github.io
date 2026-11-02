@@ -14,7 +14,7 @@ const fixture = () => ({
   daily: { sunset: ['2026-08-31T18:30'] }
 });
 
-function harness({ cached = null, blocked = false, responses = [fixture()], deviceTimeZone = 'Asia/Shanghai' } = {}) {
+function harness({ cached = null, blocked = false, responses = [fixture()], deviceTimeZone = 'Asia/Shanghai', lang = 'zh-CN' } = {}) {
   const calls = [];
   const removed = [];
   const nodes = new Map();
@@ -34,7 +34,7 @@ function harness({ cached = null, blocked = false, responses = [fixture()], devi
     Intl: { DateTimeFormat: function (locale, options) { return new Intl.DateTimeFormat(locale, { timeZone: deviceTimeZone, ...options }); } }, Date, AbortController,
     console: { warn() {} },
     window: { setTimeout(fn, ms) { timers.push(ms); return setTimeout(fn, ms === 1500 ? 0 : 30); }, clearTimeout, addEventListener() {} },
-    document: { readyState: 'loading', addEventListener() {} },
+    document: { readyState: 'loading', addEventListener() {}, documentElement: { lang } },
     sessionStorage: {
       getItem() { if (blocked) throw new Error('Storage blocked'); return stored; },
       setItem(_, value) { if (blocked) throw new Error('Storage blocked'); stored = value; },
@@ -193,4 +193,26 @@ test('response body timeout retries once and preserves the device timezone', asy
   assert.deepEqual(h.timers, [15000, 1500, 15000]);
   assert.equal(h.text('.cyber-condition'), '连接天气服务超时');
   assert.equal(h.text('[data-location="timezone"]'), 'Asia/Shanghai');
+});
+
+test('weather shows its observation time apart from the device clock, and hides it when the API omits it', async () => {
+  const withTime = fixture();
+  withTime.current.time = '2026-08-31T18:45';
+  const timed = harness({ responses: [withTime] });
+  await timed.run(new AbortController().signal);
+  assert.equal(timed.text('[data-weather="observed"]'), '天气观测 18:45（当地时间）');
+
+  const untimed = harness({ responses: [fixture()] });
+  await untimed.run(new AbortController().signal);
+  assert.equal(untimed.text('[data-weather="observed"]'), '');
+  assert.equal(untimed.classes.has('is-online'), true);
+});
+
+test('feels-like and observation copy follow the page language', async () => {
+  const payload = fixture();
+  payload.current.time = '2026-08-31T18:45';
+  const h = harness({ responses: [payload], lang: 'en-GB' });
+  await h.run(new AbortController().signal);
+  assert.equal(h.text('.cyber-feels-like'), 'Feels like 26°C');
+  assert.equal(h.text('[data-weather="observed"]'), 'Weather observed 18:45 local time');
 });

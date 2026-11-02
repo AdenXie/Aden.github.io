@@ -166,6 +166,64 @@ html .navbar-container .right .desktop .navbar-item > a {
   }
 }
 
+/* Search and the menu are buttons (adapter: tools/prepare-site.cjs). Reset the browser's button
+   chrome, keep the drawn size, and widen the hit area to 44px. */
+html .navbar-container button.icon-item,
+html .navbar-container .navbar-item > button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+html .navbar-container button.icon-item::after {
+  content: "";
+  position: absolute;
+  inset: -12px;
+}
+
+html .navbar-container .navbar-bar-middle {
+  display: block;
+}
+
+/* A closed drawer is only moved off-screen; hide it so its links cannot take focus. */
+html .navbar-container .navbar-drawer {
+  visibility: hidden;
+  transition: transform 0.38s ease, visibility 0s linear 0.38s;
+}
+
+body.navbar-drawer-show .navbar-drawer {
+  visibility: visible;
+  transition: transform 0.38s ease, visibility 0s;
+}
+
+/* Home columns: the 240px profile column needs ~316px of gutters beside the article column,
+   which 641-1279px cannot spare. The profile leaves at 1023px (as it already does on phones) and
+   the article column may shrink below its longest unbreakable label. Scoped to the home column
+   so post and daily pages keep Redefine's widths. */
+.main-content:has(> .home-content-container) {
+  min-width: 0;
+}
+
+@media (max-width: 1023px) {
+  .home-sidebar-container {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .home-sidebar-container {
+    margin: 0 19px;
+  }
+
+  .main-content:has(> .home-content-container) {
+    width: auto;
+    flex: 1 1 0;
+  }
+}
+
 /* AI chat launcher: a wider sibling of Redefine's tool buttons (same radius, shadow
    and colour-swap hover, no movement), fixed where that column used to end; the column sits above it. */
 .aden-chat-launcher {
@@ -300,7 +358,7 @@ body:has(.home-banner-container):has(.right-side-tools-container.hide) .aden-cha
 }
 
 .home-banner-container .social-contacts,
-.home-banner-container [onclick="scrollToMain()"] {
+.home-banner-container .aden-read-route {
   border-color: color-mix(in srgb, var(--aden-signal) 42%, transparent) !important;
   border-radius: 8px !important;
   background: rgb(7 10 15 / 68%) !important;
@@ -309,16 +367,38 @@ body:has(.home-banner-container):has(.right-side-tools-container.hide) .aden-cha
 
 .home-banner-container .social-contact-item a,
 .home-banner-container .social-contact-item a i,
-.home-banner-container [onclick="scrollToMain()"],
-.home-banner-container [onclick="scrollToMain()"] i {
+.home-banner-container .aden-read-route,
+.home-banner-container .aden-read-route i {
   color: #d5dce3 !important;
 }
 
 .home-banner-container .social-contact-item a:hover,
 .home-banner-container .social-contact-item a:hover i,
-.home-banner-container [onclick="scrollToMain()"]:hover,
-.home-banner-container [onclick="scrollToMain()"]:hover i {
+.home-banner-container .aden-read-route:hover,
+.home-banner-container .aden-read-route:hover i {
   color: var(--aden-signal) !important;
+}
+
+/* Hero route to the post list; sized like the project link beside it. */
+.home-banner-container .aden-read-route {
+  display: inline-flex;
+  min-height: 52px;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 520;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+html[lang^="en"] .home-banner-container .aden-read-route {
+  letter-spacing: 0;
+}
+
+/* Redefine's fixed header covers the top of the list; keep the first card in view. */
+#home-articles {
+  scroll-margin-top: 84px;
 }
 
 .home-banner-actions .home-project-link {
@@ -411,6 +491,28 @@ img.aden-image-in {
 html .home-content-container .home-article-list .home-article-item .home-article-title {
   font-family: var(--aden-interface-font);
   letter-spacing: -0.025em;
+}
+
+/* Home card hierarchy: the post title leads, and headings inside the excerpt step below it
+   (optimize-site marks the home list .aden-home-list and lowers those headings by two levels). */
+html .home-content-container .aden-home-list .home-article-item .home-article-title {
+  font-size: clamp(1.4rem, 2.2vw, 1.6rem);
+  font-weight: 520;
+  line-height: 1.35;
+}
+
+html .home-content-container .aden-home-list .home-article-content :is(h1, h2, h3, h4, h5, h6) {
+  margin: 1.4em 0 0.6em;
+  font-size: 1.0625rem;
+  font-weight: 450;
+  line-height: 1.5;
+}
+
+/* The lead headings (former h1/h2, now h4) keep the site's h2 bar and rule at their smaller size. */
+html .home-content-container .aden-home-list .home-article-content h4 {
+  padding: 0.1em 0 0.1em 0.72rem;
+  border-left: 3px solid var(--aden-signal);
+  border-bottom: 2px solid var(--fourth-text-color);
 }
 
 .home-sidebar-container .sidebar-links .announcement {

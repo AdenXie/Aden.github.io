@@ -8,15 +8,22 @@ const script = fs.readFileSync(path.join(__dirname, '../source/js/cyber-exchange
 const quote = () => ({ currency: 'AUD', officialUnit: 'CNY per 100 AUD', spotBuy: 480.69,
   spotSell: 484.51, publishedAt: '2026-08-30 10:30:00', stale: false });
 
-function harness({ responses = [quote()], cached = null, blocked = false } = {}) {
+// Dates are fixed so the weekend wording is tested on a known Beijing day.
+const RealDate = Date;
+const fixedDate = now => class extends RealDate {
+  constructor(...args) { if (args.length) super(...args); else super(now); }
+  static now() { return new RealDate(now).getTime(); }
+};
+
+function harness({ responses = [quote()], cached = null, blocked = false, now = null, lang = 'zh-CN' } = {}) {
   let stored = cached;
   const calls = [], timers = [], nodes = new Map(), classes = new Set();
   const card = { isConnected: true, querySelector(selector) {
     if (!nodes.has(selector)) nodes.set(selector, { textContent: '' });
     return nodes.get(selector);
   }, classList: { add: (...values) => values.forEach(v => classes.add(v)), remove: (...values) => values.forEach(v => classes.delete(v)) } };
-  const context = vm.createContext({ Date, AbortController,
-    document: { readyState: 'loading', addEventListener() {} },
+  const context = vm.createContext({ Date: now ? fixedDate(now) : Date, AbortController,
+    document: { readyState: 'loading', addEventListener() {}, documentElement: { lang } },
     window: { addEventListener() {}, clearTimeout, setTimeout(fn, ms) {
       timers.push(ms); return setTimeout(fn, ms === 1500 ? 0 : 30);
     } },
@@ -123,4 +130,26 @@ test('response body timeout uses the extended budget and only one retry', async 
   const h = harness({ responses: [stalled, stalled] }); await h.run();
   assert.deepEqual(h.timers, [15000, 1500, 15000]);
   assert.match(h.text('status'), /连接汇率服务超时/);
+});
+
+test('the exchange time is labelled as Beijing time, and cached weekday snapshots are not failures', async () => {
+  const live = harness();
+  await live.run();
+  assert.match(live.text('status'), /中行更新 2026-08-30 10:30 北京时间 · 三小时缓存/);
+
+  const stale = { ...quote(), stale: true, fetchError: 'snapshot_stale' };
+  const weekday = harness({ responses: [stale], now: '2026-11-03T04:00:00Z' });
+  await weekday.run();
+  assert.match(weekday.text('status'), /暂未收到新牌价 · 显示最近一次牌价 · 中行更新 2026-08-30 10:30 北京时间/);
+
+  const weekend = harness({ responses: [stale], now: '2026-11-07T04:00:00Z' });
+  await weekend.run();
+  assert.match(weekend.text('status'), /周末暂无新牌价 · 显示最近一次牌价/);
+  assert.equal(weekend.classes.has('is-stale'), true);
+});
+
+test('English status copy uses the English branch and the same Beijing-time label', async () => {
+  const h = harness({ lang: 'en-GB' });
+  await h.run();
+  assert.match(h.text('status'), /BOC updated 2026-08-30 10:30 Beijing time · cached for 3 hours/);
 });
