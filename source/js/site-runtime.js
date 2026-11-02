@@ -172,6 +172,32 @@
     }, { signal: scope.signal });
     return () => observer.disconnect();
   });
+  // APlayer draws its icon-only buttons without names. Name them in the page language; the play
+  // button says "Pause" while playing (APlayer marks the container with aplayer-play / aplayer-pause).
+  const APLAYER_NAMES = {
+    'volume-down': ['音量', 'Volume'],
+    'volume-up': ['音量', 'Volume'],
+    order: ['播放顺序', 'Play order'],
+    loop: ['循环', 'Loop'],
+    menu: ['播放列表', 'Playlist'],
+    lrc: ['歌词', 'Lyrics'],
+    forward: ['下一首', 'Next track'],
+    back: ['上一首', 'Previous track'],
+  };
+  register('aplayer-names', '#aplayer', (player, scope) => {
+    const en = document.documentElement.lang.startsWith('en');
+    const name = () => {
+      for (const button of player.querySelectorAll('button.aplayer-icon')) {
+        const kind = [...button.classList].find(item => item.startsWith('aplayer-icon-'))?.slice('aplayer-icon-'.length);
+        const label = kind ? APLAYER_NAMES[kind] : (player.classList.contains('aplayer-play') ? ['暂停', 'Pause'] : ['播放', 'Play']);
+        if (label) button.setAttribute('aria-label', en ? label[1] : label[0]);
+      }
+    };
+    const observer = new MutationObserver(name);
+    observer.observe(player, { childList: true, subtree: true, attributes: true, attributeFilter: ['class'] });
+    name();
+    return () => observer.disconnect();
+  });
   register('comments', '#twikoo-comment', (root, scope) => {
     let started = false;
     const start = async () => {

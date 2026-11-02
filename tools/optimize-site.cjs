@@ -188,7 +188,11 @@ async function optimize(directory = 'public') {
       $('.nf-container').after(`<p class="aden-status-hint aden-nf-status">${english ? `If other pages fail too, check ${link}` : `其他页面也打不开？可在 ${link} 查看服务状态`}</p>`);
     }
     // Wide article tables scroll inside their own frame instead of overflowing the article panel.
-    $('.markdown-body > table:not(.not-markdown)').wrap('<div class="aden-table-scroll"></div>');
+    // The frame is a focusable region, so keyboard users can scroll a wide table too.
+    {
+      const english = $('html').attr('lang')?.startsWith('en');
+      $('.markdown-body > table:not(.not-markdown)').wrap(`<div class="aden-table-scroll" role="region" tabindex="0" aria-label="${english ? 'Scrollable table' : '可横向滚动的表格'}"></div>`);
+    }
     // Home card list: headings inside an excerpt step below the card title (h3), so the title leads.
     // Only the excerpt copy changes; post pages keep their headings. Daily cards keep their markup.
     const homeList = $('.home-article-list').not('.aden-daily .home-article-list').addClass('aden-home-list');
