@@ -4,6 +4,7 @@ const path = require('node:path');
 const assert = require('node:assert/strict');
 const cheerio = require('cheerio');
 const { postFiles, readPosts } = require('./build-latest-posts.cjs');
+const { splitBriefPrefix } = require('./lib/brief-prefix.cjs');
 function checkOutput(directory = 'public') {
   const root = path.resolve(directory);
   assert(fs.existsSync(path.join(root, 'README.md')), 'Missing generated main-branch README');
@@ -108,6 +109,49 @@ function checkOutput(directory = 'public') {
     if (path.relative(root, file).split(path.sep).join('/') === 'daily/index.html' && $('#home-articles').length) {
       assert.equal($('h2.aden-sr-only').length, 1, `${file}: brief list section heading`);
       assert.equal($('h2.aden-sr-only').text().trim(), '全部简报', `${file}: brief list heading text`);
+    }
+    // Archive and category pages (scripts/archive-view.js): one title, one section per year and month,
+    // one line per post, and every post reachable from its category card.
+    const relative = path.relative(root, file).split(path.sep).join('/');
+    const shanghai = date => new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit' }).formatToParts(new Date(date)).filter(part => part.type !== 'literal').map(part => part.value).join('-');
+    // An English page that has not been regenerated (no translation key locally) still holds the old
+    // markup; its new structure is checked once the bilingual build rewrites it.
+    const staleEnglish = relative.startsWith('en/') && !$('.aden-archive-header, .aden-category-grid').length;
+    if (!staleEnglish && (relative === 'archives/index.html' || relative === 'en/archives/index.html')) {
+      const english = relative.startsWith('en/');
+      const posts = readPosts(english ? path.join(root, 'en') : root, english ? '/en' : '').filter(post => post.url.includes('/en/') === english);
+      const linked = $('a.aden-archive-link').map((_, link) => decodeURI($(link).attr('href'))).get();
+      const years = new Set(posts.map(post => shanghai(post.date).slice(0, 4)));
+      const months = new Set(posts.map(post => shanghai(post.date)));
+      assert.equal($('h1').length, 1, `${file}: one page title`);
+      assert.equal(linked.length, posts.length, `${file}: one line per post`);
+      assert.deepEqual([...linked].sort(), posts.map(post => decodeURI(new URL(post.url).pathname)).sort(), `${file}: every post listed once`);
+      assert.equal($('h2.aden-archive-year-title').length, years.size, `${file}: one heading per year`);
+      assert.equal($('.aden-archive-year').length, years.size, `${file}: one section per year`);
+      assert.equal($('.aden-archive-month').length, months.size, `${file}: one section per month`);
+      // Brief lines show no date prefix (the date column has it) and carry a tag; the total is unchanged.
+      const lines = $('a.aden-archive-link').map((_, link) => $(link).clone().find('.aden-sr-only, .aden-entry-brief').remove().end().text().trim()).get();
+      assert.equal(lines.filter(text => splitBriefPrefix(text, english)).length, 0, `${file}: no date prefix left on a brief line`);
+      assert.equal($('.aden-entry-brief').length, posts.filter(post => post.brief).length, `${file}: one tag per brief line`);
+      assert.equal(lines.length, posts.length, `${file}: total entries unchanged`);
+    }
+    if (!staleEnglish && (relative === 'categories/index.html' || relative === 'en/categories/index.html')) {
+      const cards = $('.aden-category-card');
+      const counts = cards.map((_, card) => Number($(card).find('.aden-category-number').text())).get();
+      assert(cards.length > 0, `${file}: category cards`);
+      assert.deepEqual(counts, [...counts].sort((a, b) => b - a), `${file}: largest category first`);
+      const english = relative.startsWith('en/');
+      const recent = $('.aden-category-recent a').map((_, link) => $(link).clone().find('.aden-sr-only, .aden-entry-brief').remove().end().text().trim()).get();
+      assert.equal(recent.filter(text => splitBriefPrefix(text, english)).length, 0, `${file}: no date prefix in recent posts`);
+      for (const card of cards.toArray()) {
+        const href = $(card).find('h2.aden-category-name a').attr('href');
+        exists(href);
+        const total = Number($(card).find('.aden-category-number').text());
+        const detail = cheerio.load(fs.readFileSync(path.join(root, decodeURI(href), 'index.html'), 'utf8'));
+        // The daily category links to the brief cards (the home card markup), every other one to an archive-style list.
+        const listed = detail('.aden-archive-entry').length || detail('#home-articles > .home-article-item').length;
+        assert.equal(listed, total, `${file}: ${href} lists every post`);
+      }
     }
     // Outline: the card titles (h3) sit under a section heading (h2) that leads the post list, so the
     // page goes h1 -> h2 -> h3 instead of skipping a level. The heading is visually hidden.

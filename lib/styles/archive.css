@@ -1,0 +1,337 @@
+/* Archive and category pages (lib/views/archive.ejs, categories.ejs, category-detail.ejs, post-index.ejs).
+   Own class names (aden-*) so the theme's shared post lists, which tags and the daily list still use, are untouched. */
+
+.aden-archive-header {
+  margin: 0 0 1.6rem;
+}
+
+.aden-archive-back {
+  margin: 0 0 0.3rem;
+  font: 0.8rem var(--aden-mono-font);
+  letter-spacing: 0.08em;
+}
+
+.aden-archive-back a {
+  color: var(--link-color);
+}
+
+.aden-archive-summary {
+  margin: 0;
+  color: var(--third-text-color);
+  font: 0.8rem var(--aden-mono-font);
+  letter-spacing: 0.06em;
+}
+
+.aden-archive-count {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 1px 7px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--third-text-color);
+  font: 600 0.77rem var(--aden-mono-font);
+  letter-spacing: 0.04em;
+  vertical-align: middle;
+}
+
+/* Year jump: short chips with each year's count; they wrap on phones. */
+.aden-archive-jump {
+  margin: 0 0 2.2rem;
+}
+
+.aden-archive-jump ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.aden-archive-jump a {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid color-mix(in srgb, var(--aden-signal) 35%, var(--border-color));
+  border-radius: 6px;
+  color: var(--first-text-color);
+  font: 500 0.95rem var(--aden-mono-font);
+  text-decoration: none;
+}
+
+.aden-archive-jump a:hover {
+  border-color: var(--aden-signal);
+  color: var(--aden-signal);
+}
+
+.aden-archive-jump .aden-archive-count {
+  margin-left: 0.4rem;
+}
+
+/* Year sections: the anchor clears the fixed navbar when a chip jumps to it. */
+.aden-archive-year {
+  margin: 0 0 3rem;
+  scroll-margin-top: 90px;
+}
+
+.aden-archive-year-title {
+  display: flex;
+  align-items: center;
+  margin: 0 0 1.1rem;
+  padding: 0 0 0.6rem;
+  border-bottom: 2px solid var(--border-color);
+  color: var(--first-text-color);
+  font: 450 2rem/1.1 var(--aden-interface-font);
+  letter-spacing: -0.02em;
+}
+
+.aden-archive-month {
+  margin: 0 0 1.6rem;
+}
+
+.aden-archive-month-title {
+  display: flex;
+  align-items: center;
+  margin: 0 0 0.4rem;
+  color: var(--third-text-color);
+  font: 600 0.8rem/1.4 var(--aden-mono-font);
+  letter-spacing: 0.08em;
+}
+
+/* One line per post: date, short title, and (wide screens) the category, shown on hover or focus. */
+.aden-archive-entries {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-left: 1px solid var(--border-color);
+}
+
+.aden-archive-entry {
+  display: grid;
+  grid-template-columns: 3.4rem minmax(0, 1fr);
+  column-gap: 0.9rem;
+  align-items: baseline;
+  padding: 0.55rem 0 0.55rem 1.1rem;
+  border-bottom: 1px dashed color-mix(in srgb, var(--border-color) 60%, transparent);
+}
+
+.aden-archive-date {
+  color: var(--aden-cyan);
+  font: 600 0.8rem var(--aden-mono-font);
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Long headlines (a daily brief runs several news items) show two lines; the full text stays in the
+   page for search and screen readers, and the tooltip shows it in full. */
+.aden-archive-link {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--first-text-color);
+  font: 400 1rem/1.55 var(--aden-reading-font);
+  text-decoration: none;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.aden-archive-link:hover {
+  color: var(--aden-signal);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--aden-cyan) 55%, transparent);
+  text-underline-offset: 0.18em;
+}
+
+.aden-archive-meta {
+  display: none;
+  color: var(--third-text-color);
+  font: 0.77rem var(--aden-mono-font);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+@media (min-width: 900px) {
+  .aden-archive-entry {
+    grid-template-columns: 3.4rem minmax(0, 1fr) auto;
+  }
+
+  .aden-archive-meta {
+    display: inline;
+  }
+
+  .aden-archive-entry:hover .aden-archive-meta,
+  .aden-archive-entry:focus-within .aden-archive-meta {
+    opacity: 1;
+  }
+}
+
+/* A brief line: the date column already shows the day, so the prefix is gone from the line and a small
+   tag marks the brief instead (tools/optimize-site.cjs). 11px or larger, so it stays readable. */
+.aden-entry-brief {
+  display: inline-block;
+  margin-right: 0.45rem;
+  padding: 0 0.4rem;
+  border: 1px solid var(--aden-cyan);
+  border-radius: 4px;
+  color: var(--aden-cyan);
+  font: 600 0.77rem/1.5 var(--aden-mono-font);
+  letter-spacing: 0.08em;
+  vertical-align: 0.12em;
+  white-space: nowrap;
+}
+
+/* Category index: a card grid, largest category first; cards with 10 or more posts span two columns. */
+.aden-category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 640px) {
+  .aden-category-card.is-major {
+    grid-column: span 2;
+  }
+}
+
+.aden-category-body {
+  position: relative;
+  box-sizing: border-box;
+  height: 100%;
+  padding: 1.05rem 1.15rem 0.9rem;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid color-mix(in srgb, var(--aden-signal) 30%, var(--border-color));
+  border-radius: 12px;
+  background:
+    linear-gradient(112deg, color-mix(in srgb, var(--aden-signal) 5%, transparent), transparent 42%),
+    var(--second-background-color);
+  box-shadow: 0 14px 34px rgb(0 0 0 / 12%);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+html.dark .aden-category-body {
+  background:
+    linear-gradient(112deg, rgb(242 233 78 / 7%), transparent 42%),
+    linear-gradient(145deg, rgb(16 24 33 / 98%), rgb(7 10 15 / 98%));
+  box-shadow: 0 18px 50px rgb(0 0 0 / 28%);
+}
+
+/* The same 3px top bar as the weather and exchange cards. */
+.aden-category-body::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 3px;
+  content: "";
+  background: linear-gradient(90deg, var(--aden-signal) 0 62%, var(--aden-cyan) 62% 72%, transparent 72%);
+}
+
+.aden-category-card:hover .aden-category-body,
+.aden-category-card:focus-within .aden-category-body {
+  border-color: var(--aden-signal);
+  transform: translateY(-2px);
+}
+
+.aden-category-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+.aden-category-index {
+  color: var(--aden-cyan);
+  font: 600 0.77rem var(--aden-mono-font);
+  letter-spacing: 0.08em;
+}
+
+.aden-category-name {
+  margin: 0;
+  font: 500 1.2rem/1.25 var(--aden-interface-font);
+}
+
+.aden-category-name a {
+  color: var(--first-text-color);
+  text-decoration: none;
+}
+
+.aden-category-name a:hover {
+  color: var(--aden-signal);
+}
+
+.aden-category-card.is-major .aden-category-name {
+  font-size: 1.5rem;
+}
+
+.aden-category-count {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  margin: 0.35rem 0 0.6rem;
+  color: var(--third-text-color);
+  font: 0.77rem var(--aden-mono-font);
+  letter-spacing: 0.06em;
+}
+
+.aden-category-number {
+  color: var(--aden-signal);
+  font: 500 2rem/1 var(--aden-mono-font);
+  font-variant-numeric: tabular-nums;
+}
+
+.aden-category-card.is-major .aden-category-number {
+  font-size: 2.6rem;
+}
+
+.aden-category-recent {
+  margin: 0 0 0.6rem;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--border-color);
+}
+
+.aden-category-recent li {
+  display: grid;
+  grid-template-columns: 3.1rem minmax(0, 1fr);
+  gap: 0.6rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px dashed color-mix(in srgb, var(--border-color) 60%, transparent);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.aden-category-recent a {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--second-text-color);
+  text-decoration: none;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.aden-category-recent a:hover {
+  color: var(--aden-signal);
+}
+
+.aden-category-updated {
+  margin: 0;
+  color: var(--third-text-color);
+  font: 0.77rem var(--aden-mono-font);
+  letter-spacing: 0.06em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aden-category-body,
+  .aden-archive-meta {
+    transition: none;
+  }
+
+  .aden-category-card:hover .aden-category-body,
+  .aden-category-card:focus-within .aden-category-body {
+    transform: none;
+  }
+}

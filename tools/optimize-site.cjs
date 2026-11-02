@@ -3,6 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const cheerio = require('cheerio');
+const { splitBriefPrefix } = require('./lib/brief-prefix.cjs');
 const sharp = require('sharp');
 const CleanCSS = require('clean-css');
 const { transform } = require('esbuild');
@@ -192,6 +193,22 @@ async function optimize(directory = 'public') {
     {
       const english = $('html').attr('lang')?.startsWith('en');
       $('.markdown-body > table:not(.not-markdown)').wrap(`<div class="aden-table-scroll" role="region" tabindex="0" aria-label="${english ? 'Scrollable table' : '可横向滚动的表格'}"></div>`);
+    }
+    // Archive and category lines: a brief's "每日简报｜日期：" prefix repeats the date column, so it moves
+    // out of the visible line. A small tag marks the brief; the prefix stays in a screen-reader span and
+    // the title attribute keeps the full title. Runs after translation, so no title segment changes.
+    if (/^(?:en\/)?(?:archives|categories)\//.test(path.relative(out, file).split(path.sep).join('/'))) {
+      const english = $('html').attr('lang')?.startsWith('en');
+      $('a.aden-archive-link, .aden-category-recent a').each((_, link) => {
+        const line = $(link);
+        if (line.find('.aden-entry-brief').length) return;
+        const split = splitBriefPrefix(line.text(), english);
+        if (!split) return;
+        line.empty()
+          .append($('<span class="aden-entry-brief"></span>').text(english ? 'Brief' : '简报'))
+          .append($('<span class="aden-sr-only"></span>').text(split.prefix))
+          .append($('<span class="aden-entry-title"></span>').text(split.rest));
+      });
     }
     // Home card list: headings inside an excerpt step below the card title (h3), so the title leads.
     // Only the excerpt copy changes; post pages keep their headings. Daily cards keep their markup.
