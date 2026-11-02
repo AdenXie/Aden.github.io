@@ -172,6 +172,19 @@
     }, { signal: scope.signal });
     return () => observer.disconnect();
   });
+  // On phones the chat launcher steps aside while the previous/next links of an article are on screen.
+  register('article-end', '.article-nav', nav => {
+    const launcher = document.getElementById('aden-chat-launcher');
+    if (!launcher || !('IntersectionObserver' in window)) return;
+    const observer = new IntersectionObserver(entries => {
+      launcher.toggleAttribute('data-yield', entries.some(entry => entry.isIntersecting));
+    }, { rootMargin: '0px 0px -90px 0px' });
+    observer.observe(nav);
+    return () => {
+      observer.disconnect();
+      launcher.removeAttribute('data-yield');
+    };
+  });
   // APlayer draws its icon-only buttons without names. Name them in the page language; the play
   // button says "Pause" while playing (APlayer marks the container with aplayer-play / aplayer-pause).
   const APLAYER_NAMES = {

@@ -113,6 +113,10 @@ html .navbar-container .aden-language-switch a::after {
   font-family: var(--aden-display-font);
   font-weight: 500;
   letter-spacing: -0.025em;
+  /* A 20px text link is too short to press on a phone. The padding makes the link 44px tall; the
+     negative margin cancels it, so the header keeps its size and the drawn logo does not move. */
+  padding: 12px 0;
+  margin: -12px 0;
 }
 
 .navbar-container .navbar-item a.active,
@@ -277,10 +281,20 @@ html .page-container .right-side-tools-container {
   bottom: calc(5% + 47px);
 }
 
-/* The theme hides its tools over the home banner, where phones show the social buttons. */
-body:has(.home-banner-container):has(.right-side-tools-container.hide) .aden-chat-launcher {
+/* The theme hides its tools over the home banner (where phones show the social buttons) and at the
+   very bottom of any page; the launcher follows the same rule. */
+body:has(.right-side-tools-container.hide) .aden-chat-launcher {
   opacity: 0;
   pointer-events: none;
+}
+
+/* On phones the launcher also steps aside while an article's previous/next links are on screen
+   (site-runtime.js sets data-yield), so it does not cover the end of the text or the links. */
+@media (max-width: 768px) {
+  .aden-chat-launcher[data-yield] {
+    opacity: 0;
+    pointer-events: none;
+  }
 }
 
 @media (max-width: 768px) {

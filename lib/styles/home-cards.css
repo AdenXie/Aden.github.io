@@ -488,21 +488,32 @@ html.light .cyber-exchange-card {
 }
 
 
-/* Latest daily brief, above the article list (tools/lib/brief-strip.cjs).
-   Home pages keep the theme's rounded corners. */
+/* Latest daily brief, above the article list (tools/lib/brief-strip.cjs). A full hairline frame
+   with the same 3px top bar as the widget cards, instead of a one-sided stripe on a rounded box. */
 .aden-brief-strip {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 0.45rem 0.9rem;
   margin-bottom: 1.15rem;
   padding: 0.7rem 1rem;
+  overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--aden-cyan) 35%, var(--border-color));
-  border-left: 3px solid var(--aden-cyan);
   border-radius: 12px;
   background: linear-gradient(100deg, color-mix(in srgb, var(--aden-cyan) 9%, var(--second-background-color)), var(--second-background-color) 55%);
   color: var(--second-text-color);
   font-size: 0.86rem;
+}
+
+.aden-brief-strip::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 3px;
+  content: "";
+  background: linear-gradient(90deg, var(--aden-cyan) 0 62%, var(--aden-signal) 62% 72%, transparent 72%);
 }
 
 .aden-brief-tag {

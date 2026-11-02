@@ -51,6 +51,9 @@ async function prepare() {
   replace('source/js/tools/runtime.js', '  const startDate = new Date(startTime);', '  if (document.hidden) return;\n  const startDate = new Date(startTime);');
   // optimize-site.cjs wraps article tables in a scroll frame; keep the theme's table styles on them.
   replace('source/css/common/markdown.styl', '  & > table:not(.not-markdown),\n', '  & > table:not(.not-markdown),\n  & > .aden-table-scroll > table:not(.not-markdown),\n');
+  // Phone and tablet articles: the theme sets H2 at 1.6rem and H3 at 1.5rem, which read as one size.
+  // Step H2 up in the theme source itself, so the cascade is untouched and the rule stays an adapter change.
+  replace('source/css/common/markdown.styl', '      font-size 1.6rem\n      line-height 1.1\n', '      font-size 1.9rem\n      line-height 1.1\n');
   // The fixed home banner blurs on scroll only at config.root; the English homepage lives at /en/.
   replace('source/js/utils/scroll.js', 'location.pathname === config.root', 'ctx.homeBanner_dom');
   // __() runs titles through sprintf, so a post title containing "%" (e.g. "增长14.4%，") throws and
@@ -87,7 +90,10 @@ async function prepare() {
                     <i class="fa-solid fa-arrow-down fa-fw" aria-hidden="true"></i>
                     <span>${label('阅读文章', 'Read articles')}</span>
                 </a>`);
-  replace('layout/pages/home/home-content.ejs', '<ul class="home-article-list">', '<ul id="home-articles" class="home-article-list">');
+  // The home post list has no visible title; a visually hidden h2 gives its card titles (h3) a section
+  // above them, so the outline reads page title, section, cards. The daily list shares this partial
+  // and keeps its own markup.
+  replace('layout/pages/home/home-content.ejs', '<ul class="home-article-list">', `<% if (is_home()) { %><h2 class="aden-sr-only">${label('最新文章', 'Latest posts')}</h2><% } %>\n<ul id="home-articles" class="home-article-list">`);
   // Pagination arrows are icon-only links; the visually hidden words give them a name in both languages.
   replace('layout/utils/paginator.ejs', `    prev_text: '<i class="fa-regular fa-angle-left"></i>',`, `    prev_text: '<i class="fa-regular fa-angle-left" aria-hidden="true"></i><span class="aden-sr-only">' + ((config.language || '').startsWith('en') ? 'Previous page' : '上一页') + '</span>',`);
   replace('layout/utils/paginator.ejs', `    next_text: '<i class="fa-regular fa-angle-right"></i>',`, `    next_text: '<i class="fa-regular fa-angle-right" aria-hidden="true"></i><span class="aden-sr-only">' + ((config.language || '').startsWith('en') ? 'Next page' : '下一页') + '</span>',`);

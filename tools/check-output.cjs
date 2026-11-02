@@ -103,6 +103,15 @@ function checkOutput(directory = 'public') {
       const drawerText = $('#navbar-drawer .drawer-navbar-list').text();
       for (const duplicate of ['文章归档', '主题标签', '关于 Aden']) assert(!drawerText.includes(duplicate), `${file}: duplicate menu row ${duplicate}`);
     }
+    // Outline: the card titles (h3) sit under a section heading (h2) that leads the post list, so the
+    // page goes h1 -> h2 -> h3 instead of skipping a level. The heading is visually hidden.
+    if ($('.home-banner-container').length && $('#home-articles').length) {
+      const section = $('h2.aden-sr-only');
+      assert.equal(section.length, 1, `${file}: post list section heading`);
+      assert.equal(section.nextAll('#home-articles').length, 1, `${file}: section heading leads the post list`);
+      assert.ok($('#home-articles .home-article-title').length > 0, `${file}: post list has cards`);
+      assert.equal($('#home-articles h3.home-article-title').length, $('#home-articles .home-article-title').length, `${file}: card titles are h3`);
+    }
     // Excerpt headings stay below the card title (h3) on the home list only.
     for (const heading of $('.aden-home-list .home-article-content h1, .aden-home-list .home-article-content h2, .aden-home-list .home-article-content h3').toArray()) assert.fail(`${file}: excerpt heading above card title level`);
   }
