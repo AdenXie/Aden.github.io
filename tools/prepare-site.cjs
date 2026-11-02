@@ -88,6 +88,13 @@ async function prepare() {
                     <span>${label('阅读文章', 'Read articles')}</span>
                 </a>`);
   replace('layout/pages/home/home-content.ejs', '<ul class="home-article-list">', '<ul id="home-articles" class="home-article-list">');
+  // Pagination arrows are icon-only links; the visually hidden words give them a name in both languages.
+  replace('layout/utils/paginator.ejs', `    prev_text: '<i class="fa-regular fa-angle-left"></i>',`, `    prev_text: '<i class="fa-regular fa-angle-left" aria-hidden="true"></i><span class="aden-sr-only">' + ((config.language || '').startsWith('en') ? 'Previous page' : '上一页') + '</span>',`);
+  replace('layout/utils/paginator.ejs', `    next_text: '<i class="fa-regular fa-angle-right"></i>',`, `    next_text: '<i class="fa-regular fa-angle-right" aria-hidden="true"></i><span class="aden-sr-only">' + ((config.language || '').startsWith('en') ? 'Next page' : '下一页') + '</span>',`);
+  // Icon-only social links need a name for screen readers; the icon itself stays aria-hidden by default.
+  replace('layout/pages/home/home-banner.ejs', `                                    <a target="_blank" href="<%- resolvedUrl %>">
+                                        <i class="<%= icon %> fa-fw fa-lg"></i>`, `                                    <a target="_blank" href="<%- resolvedUrl %>" aria-label="<%= name || url %>">
+                                        <i class="<%= icon %> fa-fw fa-lg" aria-hidden="true"></i>`);
   fs.copyFileSync(path.join(ROOT, 'lib/theme/twikoo.ejs'), path.join(target, 'layout/components/comments/twikoo.ejs'));
   // Keep the complete upstream source in the generated theme; bundle only its entry graph.
   await build({ entryPoints: [path.join(target, 'source/js/main.js')], outfile: path.join(target, 'source/js/build/main.js'), bundle: true, minify: true, format: 'esm', target: 'es2020' });

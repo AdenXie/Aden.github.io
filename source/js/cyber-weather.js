@@ -1,6 +1,11 @@
 (() => {
   "use strict";
 
+  // Interface copy is written in both languages here; the English page reads the English branch.
+  // Defined first because getDeviceLocation() runs while the script loads.
+  const english = () => document.documentElement.lang.startsWith("en");
+  const pick = (zh, en) => (english() ? en : zh);
+
   // The blog sits behind Alibaba Cloud ESA, so Vercel would locate every visitor at the
   // edge node; geo.adenxie.com.cn points straight at Vercel and sees the visitor's IP.
   const VISITOR_WEATHER_URL = globalThis.location?.hostname === "blog.adenxie.com.cn"
@@ -11,16 +16,16 @@
   const REQUEST_TIMEOUT_MS = 15000;
   const RETRY_DELAY_MS = 1500;
   const ERROR_MESSAGES = {
-    connection_timeout: "连接天气服务超时",
-    connection_failed: "无法连接天气服务，请检查网络",
-    location_unavailable: "暂时无法识别 IP 所在地区",
-    weather_timeout: "天气数据源响应超时",
-    weather_unavailable: "天气数据源暂不可用",
-    invalid_response: "天气服务返回的数据异常",
-    not_found: "天气接口不存在（404）",
-    access_denied: "天气请求被拒绝",
-    rate_limited: "天气请求过于频繁，请稍后再试",
-    service_unavailable: "天气接口暂不可用"
+    connection_timeout: ["连接天气服务超时", "Weather service connection timed out"],
+    connection_failed: ["无法连接天气服务，请检查网络", "Cannot reach the weather service. Check your network"],
+    location_unavailable: ["暂时无法识别 IP 所在地区", "Could not determine your IP location for now"],
+    weather_timeout: ["天气数据源响应超时", "Weather data source timed out"],
+    weather_unavailable: ["天气数据源暂不可用", "Weather data source is unavailable"],
+    invalid_response: ["天气服务返回的数据异常", "Weather service returned invalid data"],
+    not_found: ["天气接口不存在（404）", "Weather endpoint not found (404)"],
+    access_denied: ["天气请求被拒绝", "Weather request was refused"],
+    rate_limited: ["天气请求过于频繁，请稍后再试", "Too many weather requests. Try again later"],
+    service_unavailable: ["天气接口暂不可用", "Weather service is unavailable"]
   };
 
   let activeTimeZone = getDeviceLocation().timezone;
@@ -28,34 +33,34 @@
   let dateFormatter = createDateFormatter(activeTimeZone);
 
   const weatherCodes = {
-    0: ["晴朗", "SUN", "☀"],
-    1: ["大致晴朗", "CLEAR", "◒"],
-    2: ["局部多云", "CLOUD", "◑"],
-    3: ["阴天", "OVERCAST", "☁"],
-    45: ["有雾", "FOG", "≋"],
-    48: ["雾凇", "RIME", "≋"],
-    51: ["小毛毛雨", "DRIZZLE", "⋰"],
-    53: ["毛毛雨", "DRIZZLE", "⋰"],
-    55: ["较强毛毛雨", "DRIZZLE", "⋰"],
-    56: ["冻毛毛雨", "ICE RAIN", "❄"],
-    57: ["较强冻毛毛雨", "ICE RAIN", "❄"],
-    61: ["小雨", "RAIN", "⌁"],
-    63: ["中雨", "RAIN", "⌁"],
-    65: ["大雨", "HEAVY RAIN", "⌁"],
-    66: ["冻雨", "ICE RAIN", "❄"],
-    67: ["较强冻雨", "ICE RAIN", "❄"],
-    71: ["小雪", "SNOW", "✦"],
-    73: ["中雪", "SNOW", "✦"],
-    75: ["大雪", "HEAVY SNOW", "✦"],
-    77: ["米雪", "SNOW", "✦"],
-    80: ["局部阵雨", "SHOWERS", "⌁"],
-    81: ["阵雨", "SHOWERS", "⌁"],
-    82: ["强阵雨", "SHOWERS", "⌁"],
-    85: ["阵雪", "SNOW", "✦"],
-    86: ["强阵雪", "SNOW", "✦"],
-    95: ["雷暴", "STORM", "ϟ"],
-    96: ["雷暴伴冰雹", "STORM", "ϟ"],
-    99: ["强雷暴伴冰雹", "STORM", "ϟ"]
+    0: ["晴朗", "Clear", "SUN", "☀"],
+    1: ["大致晴朗", "Mainly clear", "CLEAR", "◒"],
+    2: ["局部多云", "Partly cloudy", "CLOUD", "◑"],
+    3: ["阴天", "Overcast", "OVERCAST", "☁"],
+    45: ["有雾", "Fog", "FOG", "≋"],
+    48: ["雾凇", "Rime fog", "RIME", "≋"],
+    51: ["小毛毛雨", "Light drizzle", "DRIZZLE", "⋰"],
+    53: ["毛毛雨", "Drizzle", "DRIZZLE", "⋰"],
+    55: ["较强毛毛雨", "Heavy drizzle", "DRIZZLE", "⋰"],
+    56: ["冻毛毛雨", "Freezing drizzle", "ICE RAIN", "❄"],
+    57: ["较强冻毛毛雨", "Heavy freezing drizzle", "ICE RAIN", "❄"],
+    61: ["小雨", "Light rain", "RAIN", "⌁"],
+    63: ["中雨", "Rain", "RAIN", "⌁"],
+    65: ["大雨", "Heavy rain", "HEAVY RAIN", "⌁"],
+    66: ["冻雨", "Freezing rain", "ICE RAIN", "❄"],
+    67: ["较强冻雨", "Heavy freezing rain", "ICE RAIN", "❄"],
+    71: ["小雪", "Light snow", "SNOW", "✦"],
+    73: ["中雪", "Snow", "SNOW", "✦"],
+    75: ["大雪", "Heavy snow", "HEAVY SNOW", "✦"],
+    77: ["米雪", "Snow grains", "SNOW", "✦"],
+    80: ["局部阵雨", "Light showers", "SHOWERS", "⌁"],
+    81: ["阵雨", "Showers", "SHOWERS", "⌁"],
+    82: ["强阵雨", "Heavy showers", "SHOWERS", "⌁"],
+    85: ["阵雪", "Snow showers", "SNOW", "✦"],
+    86: ["强阵雪", "Heavy snow showers", "SNOW", "✦"],
+    95: ["雷暴", "Thunderstorm", "STORM", "ϟ"],
+    96: ["雷暴伴冰雹", "Thunderstorm with hail", "STORM", "ϟ"],
+    99: ["强雷暴伴冰雹", "Severe thunderstorm with hail", "STORM", "ϟ"]
   };
 
   function createTimeFormatter(timeZone) {
@@ -104,7 +109,7 @@
     const card = document.createElement("section");
     card.className = "cyber-weather-card";
     card.id = "visitor-status-hud";
-    card.setAttribute("aria-label", "访客所在地时间与天气");
+    card.setAttribute("aria-label", pick("访客所在地时间与天气", "Visitor location time and weather"));
     card.innerHTML = `
       <div class="cyber-weather-header">
         <span class="cyber-weather-live"><i aria-hidden="true"></i> LIVE // <span data-location="name">LOCATING</span></span>
@@ -114,14 +119,14 @@
         <div class="cyber-clock-block">
           <span class="cyber-data-label" data-location="clock-label">LOCAL TIME / CALIBRATING</span>
           <time class="cyber-clock" datetime="">--:--:--</time>
-          <span class="cyber-date">正在校准时间…</span>
+          <span class="cyber-date">${pick("正在校准时间…", "Calibrating time…")}</span>
         </div>
         <div class="cyber-current-weather" aria-live="polite">
           <span class="cyber-weather-icon" aria-hidden="true">◌</span>
           <div>
             <span class="cyber-temperature">--°</span>
-            <span class="cyber-condition">正在识别访客地区…</span>
-            <span class="cyber-feels-like">体感温度 --°C</span>
+            <span class="cyber-condition">${pick("正在识别访客地区…", "Locating you…")}</span>
+            <span class="cyber-feels-like">${pick("体感温度 --°C", "Feels like --°C")}</span>
             <span class="cyber-observed" data-weather="observed" hidden></span>
           </div>
         </div>
@@ -139,10 +144,6 @@
     return card;
   }
 
-  // Interface copy is written in both languages here; the English page reads the English branch.
-  const english = () => document.documentElement.lang.startsWith("en");
-  const pick = (zh, en) => (english() ? en : zh);
-
   // Phones show a compact card; the clock and metrics open on demand. Desktop always shows them.
   function setDetails(card, expanded) {
     const toggle = card.querySelector(".aden-widget-toggle");
@@ -153,14 +154,13 @@
 
   function getDeviceLocation() {
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    // Runs at load, before pick() exists, so it checks the language itself.
-    const label = document.documentElement.lang.startsWith("en") ? "Device time" : "设备时间";
+    const label = pick("设备时间", "Device time");
     return { label, timezone: isValidTimeZone(timezone) ? timezone : "UTC" };
   }
 
   function applyLocation(card, location = getDeviceLocation()) {
     const timeZone = isValidTimeZone(location.timezone) ? location.timezone : getDeviceLocation().timezone;
-    const label = String(location.label || location.city || location.region || location.country || "当前位置");
+    const label = String(location.label || location.city || location.region || location.country || pick("当前位置", "Current location"));
     activeTimeZone = timeZone;
     timeFormatter = createTimeFormatter(activeTimeZone);
     dateFormatter = createDateFormatter(activeTimeZone);
@@ -168,7 +168,7 @@
     card.querySelector('[data-location="name"]').textContent = label.toLocaleUpperCase();
     card.querySelector('[data-location="timezone"]').textContent = timeZone;
     card.querySelector('[data-location="clock-label"]').textContent = `LOCAL TIME / ${getTimeZoneName(timeZone)}`;
-    card.setAttribute("aria-label", `${label}时间与天气`);
+    card.setAttribute("aria-label", pick(`${label}时间与天气`, `Time and weather: ${label}`));
   }
 
   function updateClock(card) {
@@ -192,13 +192,13 @@
     updateClock(card);
 
     const current = payload.current;
-    const [condition, codeLabel, icon] = weatherCodes[current.weather_code] || ["天气未知", "UNKNOWN", "◇"];
+    const [condition, conditionEn, codeLabel, icon] = weatherCodes[current.weather_code] || ["天气未知", "Unknown weather", "UNKNOWN", "◇"];
     const sunsetValue = payload.daily?.sunset?.[0];
     const sunset = typeof sunsetValue === "string" ? sunsetValue.slice(11, 16) : "--:--";
 
     card.querySelector(".cyber-weather-icon").textContent = icon;
     card.querySelector(".cyber-temperature").textContent = `${formatNumber(current.temperature_2m)}°`;
-    card.querySelector(".cyber-condition").textContent = `${condition} / ${codeLabel}`;
+    card.querySelector(".cyber-condition").textContent = `${pick(condition, conditionEn)} / ${codeLabel}`;
     const feelsLike = formatNumber(current.apparent_temperature);
     card.querySelector(".cyber-feels-like").textContent = pick(`体感温度 ${feelsLike}°C`, `Feels like ${feelsLike}°C`);
     card.querySelector('[data-weather="humidity"]').textContent = `${formatNumber(current.relative_humidity_2m)}%`;
@@ -269,7 +269,8 @@
   }
 
   function errorMessage(error) {
-    return ERROR_MESSAGES[error?.code] || ERROR_MESSAGES.service_unavailable;
+    const [zh, en] = ERROR_MESSAGES[error?.code] || ERROR_MESSAGES.service_unavailable;
+    return pick(zh, en);
   }
 
   function canRetry(error) {
@@ -333,7 +334,7 @@
       } catch (error) {
         if (signal?.aborted || !card?.isConnected) return;
         if (attempt === 0 && canRetry(error)) {
-          card.querySelector(".cyber-condition").textContent = `${errorMessage(error)}，正在重试…`;
+          card.querySelector(".cyber-condition").textContent = `${errorMessage(error)}${pick("，正在重试…", ", retrying…")}`;
           card.querySelector('[data-weather="status"]').textContent = "LOCATION LINK / RETRY 1/1";
           await (window.AdenSite?.delay(RETRY_DELAY_MS, signal) || new Promise(resolve => window.setTimeout(resolve, RETRY_DELAY_MS)));
           if (signal?.aborted || !card.isConnected) return;
@@ -343,7 +344,7 @@
         updateClock(card);
         card.querySelector(".cyber-temperature").textContent = "--°";
         card.querySelector(".cyber-weather-icon").textContent = "!";
-        card.querySelector(".cyber-feels-like").textContent = "已保留设备时区 · 可稍后刷新重试";
+        card.querySelector(".cyber-feels-like").textContent = pick("已保留设备时区 · 可稍后刷新重试", "Device time zone kept · try again later");
         for (const [key, value] of [["humidity", "--%"], ["wind", "-- km/h"], ["sunset", "--:--"]]) {
           card.querySelector(`[data-weather="${key}"]`).textContent = value;
         }
@@ -372,7 +373,7 @@
     card.querySelector(".aden-widget-toggle").addEventListener("click", () => setDetails(card, !card.classList.contains("is-expanded")), { signal: scope.signal });
     applyLocation(card, {
       ...getDeviceLocation(),
-      label: "定位中",
+      label: pick("定位中", "Locating"),
     });
     updateClock(card);
     scope.clock(() => updateClock(card));

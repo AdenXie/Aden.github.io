@@ -23,7 +23,7 @@ function harness({ responses = [quote()], cached = null, blocked = false, now = 
     return nodes.get(selector);
   }, classList: { add: (...values) => values.forEach(v => classes.add(v)), remove: (...values) => values.forEach(v => classes.delete(v)) } };
   const context = vm.createContext({ Date: now ? fixedDate(now) : Date, AbortController,
-    document: { readyState: 'loading', addEventListener() {}, documentElement: { lang } },
+    document: { readyState: 'loading', addEventListener() {}, documentElement: { lang }, createElement: () => ({ setAttribute() {} }) },
     window: { addEventListener() {}, clearTimeout, setTimeout(fn, ms) {
       timers.push(ms); return setTimeout(fn, ms === 1500 ? 0 : 30);
     } },
@@ -40,8 +40,8 @@ function harness({ responses = [quote()], cached = null, blocked = false, now = 
       return { ok: true, json: async () => result };
     }
   });
-  vm.runInContext(script.replace(/\}\)\(\);\s*$/, 'globalThis.loadQuoteForTest = loadQuote; })();'), context);
-  return { run: () => context.loadQuoteForTest(card), calls, timers, classes,
+  vm.runInContext(script.replace(/\}\)\(\);\s*$/, 'globalThis.loadQuoteForTest = loadQuote; globalThis.createCardForTest = createCard; })();'), context);
+  return { run: () => context.loadQuoteForTest(card), createCard: () => context.createCardForTest(), calls, timers, classes,
     text: key => card.querySelector(`[data-exchange="${key}"]`).textContent };
 }
 
@@ -118,6 +118,23 @@ test('stale server fallback is retried on the next mount rather than cached as f
   await h.run(); await h.run(); assert.equal(h.calls.length, 2); assert.ok(h.classes.has('is-online'));
 });
 
+test('initial card markup reads in English on English pages and keeps Chinese on Chinese pages', () => {
+  const en = harness({ lang: 'en-GB' }).createCard().innerHTML;
+  assert.match(en, /AUD spot rates/);
+  assert.match(en, /CNY per 100 AUD/);
+  assert.match(en, /Spot buy <span>BUY<\/span>/);
+  assert.match(en, /Connecting to Bank of China rates…/);
+  assert.match(en, /Source: Bank of China/);
+  assert.doesNotMatch(en, /[一-鿿]/);
+  const zh = harness({ lang: 'zh-CN' }).createCard().innerHTML;
+  assert.match(zh, /澳元现汇牌价/);
+  assert.match(zh, /现汇买入价 <span>BUY<\/span>/);
+});
+test('English error copy reads the English branch on English pages', async () => {
+  const h = harness({ lang: 'en-GB', responses: [{}] }); await h.run();
+  assert.equal(h.calls.length, 1); assert.match(h.text('status'), /^Exchange service returned invalid data · /);
+  assert.doesNotMatch(h.text('status'), /[一-鿿]/);
+});
 test('invalid quote produces a data error without retrying', async () => {
   const h = harness({ responses: [{}] }); await h.run();
   assert.equal(h.calls.length, 1); assert.match(h.text('status'), /返回的数据异常/);

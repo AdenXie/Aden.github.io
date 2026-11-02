@@ -34,7 +34,7 @@ function harness({ cached = null, blocked = false, responses = [fixture()], devi
     Intl: { DateTimeFormat: function (locale, options) { return new Intl.DateTimeFormat(locale, { timeZone: deviceTimeZone, ...options }); } }, Date, AbortController,
     console: { warn() {} },
     window: { setTimeout(fn, ms) { timers.push(ms); return setTimeout(fn, ms === 1500 ? 0 : 30); }, clearTimeout, addEventListener() {} },
-    document: { readyState: 'loading', addEventListener() {}, documentElement: { lang } },
+    document: { readyState: 'loading', addEventListener() {}, documentElement: { lang }, createElement: () => ({ setAttribute() {} }) },
     sessionStorage: {
       getItem() { if (blocked) throw new Error('Storage blocked'); return stored; },
       setItem(_, value) { if (blocked) throw new Error('Storage blocked'); stored = value; },
@@ -50,9 +50,9 @@ function harness({ cached = null, blocked = false, responses = [fixture()], devi
     }
   });
   // Expose private functions only inside this test VM; the shipped file stays an IIFE.
-  vm.runInContext(script.replace(/\}\)\(\);\s*$/, 'globalThis.loadWeatherForTest = loadWeather; })();'), context);
+  vm.runInContext(script.replace(/\}\)\(\);\s*$/, 'globalThis.loadWeatherForTest = loadWeather; globalThis.createCardForTest = createCard; })();'), context);
   return {
-    run: signal => context.loadWeatherForTest(card, signal), calls, removed, classes, timers,
+    run: signal => context.loadWeatherForTest(card, signal), createCard: () => context.createCardForTest(), calls, removed, classes, timers,
     text: selector => card.querySelector(selector).textContent,
     stored: () => stored
   };
@@ -147,6 +147,29 @@ test('invalid response renders a data error without retrying or changing device 
   assert.equal(h.text('[data-location="timezone"]'), 'Asia/Shanghai');
   assert.equal(h.text('[data-location="name"]'), '设备时间');
   assert.ok(h.classes.has('is-offline'));
+});
+
+test('English pages show English weather labels and error copy instead of the Chinese source text', async () => {
+  const live = harness({ lang: 'en-US' });
+  await live.run();
+  assert.equal(live.text('.cyber-condition'), 'Overcast / OVERCAST');
+  assert.equal(live.text('.cyber-temperature'), '25°');
+
+  const invalid = harness({ lang: 'en-US', responses: [{}] });
+  await invalid.run();
+  assert.equal(invalid.text('.cyber-condition'), 'Weather service returned invalid data');
+  assert.equal(invalid.text('[data-weather="status"]'), 'LOCATION LINK / OFFLINE · device time');
+});
+
+test('initial HUD markup reads in English on English pages and keeps Chinese on Chinese pages', () => {
+  const en = harness({ lang: 'en-US' }).createCard().innerHTML;
+  assert.match(en, /Calibrating time…/);
+  assert.match(en, /Locating you…/);
+  assert.match(en, /Feels like --°C/);
+  assert.doesNotMatch(en, /[一-鿿]/);
+  const zh = harness({ lang: 'zh-CN' }).createCard().innerHTML;
+  assert.match(zh, /正在识别访客地区…/);
+  assert.match(zh, /体感温度 --°C/);
 });
 
 test('blocked storage plus both network failures still renders offline', async () => {
