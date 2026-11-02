@@ -1,0 +1,103 @@
+/* Tag index (lib/views/tags.ejs). Tag detail pages reuse the archive styles (archive.css). Own aden-* names. */
+
+.aden-tag-section {
+  margin: 0 0 2.4rem;
+}
+
+.aden-tag-heading {
+  display: flex;
+  align-items: center;
+  margin: 0 0 1rem;
+  padding: 0 0 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--first-text-color);
+  font: 450 1.3rem/1.2 var(--aden-interface-font);
+}
+
+/* Common tags: chips with their count. Ten or more posts get the signal colour. */
+.aden-tag-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.aden-tag-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--aden-cyan) 35%, var(--border-color));
+  border-radius: 6px;
+  background: var(--second-background-color);
+  color: var(--first-text-color);
+  font: 500 0.98rem/1.3 var(--aden-interface-font);
+  text-decoration: none;
+  transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.aden-tag-chip:hover {
+  border-color: var(--aden-signal);
+  color: var(--aden-signal);
+  transform: translateY(-1px);
+}
+
+.aden-tag-chip.is-major {
+  border-color: color-mix(in srgb, var(--aden-signal) 60%, var(--border-color));
+}
+
+.aden-tag-hash {
+  color: var(--aden-cyan);
+  font: 600 0.85rem var(--aden-mono-font);
+}
+
+.aden-tag-number {
+  color: var(--third-text-color);
+  font: 600 0.77rem var(--aden-mono-font);
+  font-variant-numeric: tabular-nums;
+}
+
+.aden-tag-chip.is-major .aden-tag-number {
+  color: var(--aden-signal);
+}
+
+/* Other tags: a column list, so the many one- and two-post tags stay scannable. */
+.aden-tag-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  column-width: 11rem;
+  column-gap: 1.2rem;
+}
+
+.aden-tag-list li {
+  break-inside: avoid;
+  border-bottom: 1px dashed color-mix(in srgb, var(--border-color) 60%, transparent);
+}
+
+.aden-tag-list a {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.4rem 0;
+  color: var(--second-text-color);
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+
+.aden-tag-list a:hover {
+  color: var(--aden-signal);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aden-tag-chip {
+    transition: none;
+  }
+
+  .aden-tag-chip:hover {
+    transform: none;
+  }
+}

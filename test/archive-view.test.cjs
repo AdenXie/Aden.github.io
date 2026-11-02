@@ -1,7 +1,7 @@
 'use strict';
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const { groupPosts, categoryCards, monthName } = require('../scripts/archive-view.js');
+const { groupPosts, categoryCards, tagTiers, monthName } = require('../scripts/archive-view.js');
 
 const post = (title, date, categories = []) => ({ title, date: new Date(date), path: `/${title}/`, categories: categories.map(name => ({ name })) });
 
@@ -47,4 +47,20 @@ test('category cards are largest first, keep three newest posts, and mark large 
   assert.equal(cards[0].major, true);
   assert.equal(cards[1].major, false);
   assert.deepEqual(cards[1].recent.map(p => p.title), ['p2', 'p4', 'p3']);
+});
+
+test('tags split into common (3 or more posts) and the rest, each sorted by count then name', () => {
+  const tag = (name, count) => ({ name, path: `/tags/${name}/`, posts: { length: count } });
+  const tiers = tagTiers([tag('一', 1), tag('AI', 4), tag('新闻', 66), tag('汇率', 6), tag('二', 2), tag('empty', 0), tag('教程', 3)]);
+  assert.deepEqual(tiers.common.map(item => item.name), ['新闻', '汇率', 'AI', '教程']);
+  assert.deepEqual(tiers.other.map(item => item.name), ['二', '一']);
+  assert.equal(tiers.total, 6, 'a tag without posts is not listed');
+  assert.equal(tiers.common[0].major, true);
+  assert.equal(tiers.common[1].major, false);
+});
+
+test('English tag tiers use English collation', () => {
+  const tag = (name, count) => ({ name, path: `/en/tags/${name}/`, posts: { length: count } });
+  const tiers = tagTiers([tag('Zeta', 1), tag('alpha', 1), tag('Beta', 1)], true);
+  assert.deepEqual(tiers.other.map(item => item.name), ['alpha', 'Beta', 'Zeta']);
 });

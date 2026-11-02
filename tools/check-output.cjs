@@ -153,6 +153,28 @@ function checkOutput(directory = 'public') {
         assert.equal(listed, total, `${file}: ${href} lists every post`);
       }
     }
+    // Tags (scripts/archive-view.js): every tag is linked once, and its pages together list every post.
+    if (!staleEnglish && (relative === 'tags/index.html' || relative === 'en/tags/index.html')) {
+      const links = $('a.aden-tag-chip, .aden-tag-list a').map((_, a) => ({ href: $(a).attr('href'), count: Number($(a).find('.aden-tag-number').text().trim().split(/\s/)[0]) })).get();
+      assert.equal($('h1').length, 1, `${file}: one page title`);
+      assert(links.length > 0, `${file}: tag links`);
+      assert.equal(new Set(links.map(link => link.href)).size, links.length, `${file}: each tag linked once`);
+      for (const link of links) {
+        const dir = path.join(root, decodeURI(link.href));
+        let listed = 0;
+        for (let number = 1; ; number++) {
+          const pageFile = number === 1 ? path.join(dir, 'index.html') : path.join(dir, 'page', String(number), 'index.html');
+          if (!fs.existsSync(pageFile)) break;
+          const detail = cheerio.load(fs.readFileSync(pageFile, 'utf8'));
+          // A stale English detail page (see above) keeps the old markup; its entries are checked once regenerated.
+          if (relative.startsWith('en/') && !detail('.aden-archive-header').length) { listed = link.count; break; }
+          listed += detail('.aden-archive-entry').length;
+          const lines = detail('a.aden-archive-link').map((_, a) => detail(a).clone().find('.aden-sr-only, .aden-entry-brief').remove().end().text().trim()).get();
+          assert.equal(lines.filter(text => splitBriefPrefix(text, relative.startsWith('en/'))).length, 0, `${pageFile}: no date prefix on a brief line`);
+        }
+        assert.equal(listed, link.count, `${file}: ${link.href} lists every post`);
+      }
+    }
     // Outline: the card titles (h3) sit under a section heading (h2) that leads the post list, so the
     // page goes h1 -> h2 -> h3 instead of skipping a level. The heading is visually hidden.
     if ($('.home-banner-container').length && $('#home-articles').length) {

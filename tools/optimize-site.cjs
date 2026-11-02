@@ -194,10 +194,10 @@ async function optimize(directory = 'public') {
       const english = $('html').attr('lang')?.startsWith('en');
       $('.markdown-body > table:not(.not-markdown)').wrap(`<div class="aden-table-scroll" role="region" tabindex="0" aria-label="${english ? 'Scrollable table' : '可横向滚动的表格'}"></div>`);
     }
-    // Archive and category lines: a brief's "每日简报｜日期：" prefix repeats the date column, so it moves
-    // out of the visible line. A small tag marks the brief; the prefix stays in a screen-reader span and
-    // the title attribute keeps the full title. Runs after translation, so no title segment changes.
-    if (/^(?:en\/)?(?:archives|categories)\//.test(path.relative(out, file).split(path.sep).join('/'))) {
+    // Archive, category and tag lines: a brief's "每日简报｜日期：" prefix repeats the date column, so it
+    // moves out of the visible line. A small tag marks the brief; the prefix stays in a screen-reader span
+    // and the title attribute keeps the full title. Runs after translation, so no title segment changes.
+    if (/^(?:en\/)?(?:archives|categories|tags)\//.test(path.relative(out, file).split(path.sep).join('/'))) {
       const english = $('html').attr('lang')?.startsWith('en');
       $('a.aden-archive-link, .aden-category-recent a').each((_, link) => {
         const line = $(link);

@@ -12,9 +12,12 @@ const VIEWS = {
   'pages/archive/post-index.ejs': 'post-index.ejs',
   'pages/category/categories.ejs': 'categories.ejs',
   'pages/category/category-detail.ejs': 'category-detail.ejs',
+  'pages/tag/tags.ejs': 'tags.ejs',
+  'pages/tag/tag-detail.ejs': 'tag-detail.ejs',
 };
 const TIME_ZONE = 'Asia/Shanghai';
 const MAJOR_CATEGORY = 10;
+const COMMON_TAG = 3;
 
 const toDate = value => (value && typeof value.toDate === 'function' ? value.toDate() : new Date(value));
 const list = value => (Array.isArray(value) ? value : value.toArray());
@@ -59,9 +62,22 @@ function categoryCards(categories) {
     .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
 }
 
+// Tags split into common (3 or more posts) and the rest (1 or 2), each sorted by count, then by name.
+function tagTiers(tags, english = false) {
+  const collator = new Intl.Collator(english ? 'en' : 'zh-Hans-CN', { sensitivity: 'base', numeric: true });
+  const all = list(tags).filter(tag => tag.posts.length > 0).map(tag => ({ name: tag.name, path: tag.path, count: tag.posts.length, major: tag.posts.length >= MAJOR_CATEGORY }));
+  const byCount = (a, b) => b.count - a.count || collator.compare(a.name, b.name);
+  return {
+    common: all.filter(tag => tag.count >= COMMON_TAG).sort(byCount),
+    other: all.filter(tag => tag.count < COMMON_TAG).sort(byCount),
+    total: all.length,
+  };
+}
+
 if (typeof hexo !== 'undefined') {
   hexo.extend.helper.register('aden_archive_groups', groupPosts);
   hexo.extend.helper.register('aden_category_cards', categoryCards);
+  hexo.extend.helper.register('aden_tag_tiers', tagTiers);
   hexo.extend.filter.register('before_generate', function () {
     for (const [target, file] of Object.entries(VIEWS)) {
       this.theme.setView(target, fs.readFileSync(path.join(__dirname, '../lib/views', file), 'utf8'));
@@ -69,4 +85,4 @@ if (typeof hexo !== 'undefined') {
   });
 }
 
-module.exports = { VIEWS, groupPosts, categoryCards, monthName, sortPosts };
+module.exports = { VIEWS, groupPosts, categoryCards, tagTiers, monthName, sortPosts };
