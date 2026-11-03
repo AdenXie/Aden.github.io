@@ -1,0 +1,1244 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/2026/11/04/2026-11-04-daily-brief/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Daily Briefing | 4 November 2026: RBA raises interest rates to 4.85 per cent by a 6–3 vote; 100 billion swap facility comes into effect but A-share optical module stocks plummet; Apple’s gross margin guidance falls; AMD posts record quarterly revenue; US military airstrike on Geshum Island">
+<meta property="og:url" content="https://blog.adenxie.com.cn/2026/11/04/2026-11-04-daily-brief/index.html">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-11-04T01:00:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="新闻">
+<meta property="article:tag" content="市场观察">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Daily Briefing | 4 November 2026: RBA raises interest rates to 4.85 per cent by a 6–3 vote; 100 billion swap facility implemented but A-share optical module stocks plunge; Apple’s gross margin guidance falls; AMD posts record quarterly revenue; US military airstrike on Geshem Island | Aden’s Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/site-runtime.js" defer=""></script>
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js"></script>
+                
+    
+            
+                
+                    <link rel="stylesheet" href="/css/custom.css">
+                
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"en","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"18px","line_height":1.8,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["科技、体验与个人判断","写下真实体验，也保留观点的棱角"],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie","name":"GitHub"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847","name":"YouTube"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie","name":"X"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Daily Brief":{"path":"/daily/","icon":"fa-regular fa-newspaper"},"archives":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"},"tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"World Time":{"path":"/world-time/","icon":"fa-regular fa-clock"},"about":{"path":"/about/","icon":"fa-regular fa-user"},"links":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":false,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.i18n = {"search":"Search...","toc":"On this page","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"POWERED BY %s","theme":"THEME","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","post":"Post","posts":"Posts","tagcloud":"Tag Cloud","comment":"Comment","comments":"Comments","home":"Home","archive":"Archive","archives":"Archives","top":"TOP","sticky":"Sticky","go-back-home":"Go Back Home","masonry_loading":"Loading photos...","image_viewer":"Image viewer","close":"Close","exif":{"title":"EXIF","cards":{"camera":"Camera","lens":"Lens","exposure":"Exposure","other":"Other"},"fields":{"make":"Brand","model":"Model","date_taken":"Date taken","lens_model":"Lens","focal_length":"Focal length","focus_mode":"Focus mode","shutter":"Shutter","aperture":"Aperture","iso":"ISO","exposure_program":"Exposure program","exposure_compensation":"Exposure compensation","metering_mode":"Metering mode","flash":"Flash","white_balance":"White balance","latitude":"Latitude","longitude":"Longitude","altitude":"Altitude"},"status":{"loading":"Loading...","no_exif":"No EXIF available","library_missing":"EXIF library not loaded","image_source_missing":"Image source unavailable","unavailable":"EXIF unavailable (blocked by CORS or missing metadata)","flag_unavailable":"EXIF unavailable"}},"about":"About","changelog":"Changelog","links":"Links","link":"Link","friends":"Friends","friend":"Friend","timeline":"Timeline","shuoshuo":"Shuoshuo","bookmarks":"Bookmarks","site_uv":"VISITOR COUNT","site_pv":"TOTAL PAGE VIEWS","read_more":"Read more","wordcount":"Words","min2read":"Mins","status":"Status","runtime":"Blog up for","days":"days","hours":"hrs","minutes":"Min","seconds":"Sec","optimized_by":"and Optimized by Evan","rights":"All Rights Reserved","site_posts":"%s posts in total","site_wordcount":"%s words in total","copyright":{"author":"Author","title":"Title","link":"Link","create_time":"Created at","update_time":"Updated at","license_title":"License","license_content":"This work is licensed under %s.","all_rights_reserved":"All Rights Reserved &#169; %s","public_domain":"This work is in the public domain."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"},"create_time":"Created","update_time":"Updated","expired":"This post is written %s days ago, and the content may not be up to date."};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/daily/">
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    DAILY BRIEF
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/categories/">
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    CATEGORIES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    WORLD TIME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search">
+                            <button type="button" class="search-popup-trigger" aria-label="Search"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <button type="button" class="icon-item search search-popup-trigger" aria-label="Search"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                
+                <button type="button" class="icon-item navbar-bar" aria-label="Menu" aria-controls="navbar-drawer" aria-expanded="false"><span class="navbar-bar-middle"></span></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div id="navbar-drawer" class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/">
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/daily/">
+                            <span>
+                                DAILY BRIEF
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/archives/">
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/categories/">
+                            <span>
+                                CATEGORIES
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/tags/">
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/world-time/">
+                            <span>
+                                WORLD TIME
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/about/">
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/link/">
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">65</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">101</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://images.unsplash.com/photo-1728042153273-8f9eefe78590?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 4 November 2026: RBA raises interest rates to 4.85 per cent by a 6–3 vote; 100 billion swap facility comes into effect but A-share optical module stocks plummet; Apple’s gross margin guidance falls; AMD posts record quarterly revenue; US military airstrike on Geshum Island" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">Daily Briefing | 4 November 2026: RBA raises interest rates to 4.85 per cent by a 6–3 vote; 100 billion swap facility comes into effect but A-share optical module stocks plummet; Apple’s gross margin guidance falls; AMD posts record quarterly revenue; US military airstrike on Geshum Island</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-11-04 09:00</span>
+        <span class="mobile">2026-11-04 09:00</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/daily/">Daily Briefing</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E6%96%B0%E9%97%BB/">News</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/">Market Watch</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>3.6k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>12 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h2 id="今日主线"><a href="#今日主线" class="headerlink" title="Today's main theme"></a>Today's main theme</h2><p>This edition covers Tuesday, 3 November. Several news items on this day were related to ‘costs’. The Reserve Bank of Australia voted 6–3 to raise the cash rate by 25 basis points to 4.85 per cent—the highest level since late 2008—whilst pushing back the timeline for inflation to subside by approximately three quarters. Domestically, the central bank’s third swap facility operation was implemented, with a volume of 100 billion yuan and a winning bid rate of 10 basis points; however, the A-share market failed to sustain the previous day’s rebound, with optical module and AI hardware stocks plunging – Zhongji Xuchuang fell nearly 13 per cent after Goldman Sachs downgraded its revenue forecast, citing component supply shortages. In the US stock market, Apple provided guidance for a gross margin of 45 per cent to 46 per cent for the December quarter; CEO Tenus described the memory chip market as “unprecedented”, leading to a two-day slide in the share price. AMD announced record third-quarter results after the close, with data centre revenue nearly doubling and fourth-quarter revenue guidance of approximately US$17 billion. In the Middle East, US forces carried out a “limited strike” on an air defence facility on Qeshm Island, Iran, on the night of 2 November; President Trump described it as a “minor attack”, whilst a Qatari mediator travelled to Tehran overnight to discuss a draft agreement. At the time of writing, voting is still underway in the US mid-term elections, with results not expected to become clear until Wednesday (Eastern Time) at the earliest.</p>
+<span id="more"></span>
+
+<h2 id="重点新闻"><a href="#重点新闻" class="headerlink" title="Key News"></a>Key News</h2><h3 id="1-澳储行以6比3投票加息至4-85-，通胀回落时间推迟约三个季度"><a href="#1-澳储行以6比3投票加息至4-85-，通胀回落时间推迟约三个季度" class="headerlink" title="1. The Reserve Bank of Australia voted 6–3 to raise interest rates to 4.85 per cent, whilst the timing of the easing of inflation has been pushed back by approximately three quarters"></a>1. The Reserve Bank of Australia voted 6–3 to raise interest rates to 4.85 per cent, whilst the timing of the easing of inflation has been pushed back by approximately three quarters</h3><p>On 3 November, the Monetary Policy Committee of the Reserve Bank of Australia announced that it was raising the cash rate target by 25 basis points from 4.60 per cent to 4.85 per cent. According to the RBA’s statement, the decision was passed by six votes to three, with the remaining three members favouring no change. According to the ABC, this marks the Reserve Bank’s fifth interest rate rise this year, bringing the rate to its highest level since the end of 2008.</p>
+<p>The reasons given in the statement were as follows: underlying inflation is broad-based, as confirmed by recent data; capacity pressures are slightly tighter than previously estimated; fuel prices, driven up by the conflict in the Middle East, are being passed on to other goods and services; AI-related investment is also pushing up prices for technology-related goods; and some measures of inflation expectations have risen recently, increasing the risk of inflation expectations becoming entrenched. The RBA expects inflation to remain above 3 per cent over the coming year and not to return to the upper end of the 2 per cent to 3 per cent target range until the end of 2027, approximately three quarters later than previously forecast. The statement also acknowledged that this year’s interest rate rises have tightened financial conditions, the economy is slowing, house prices are falling significantly, and the unemployment rate is rising.</p>
+<p>According to the ABC, the Reserve Bank of Australia has raised its forecast for the average unemployment rate in the quarter ending December 2028 from 4.8 per cent in August to 5.1 per cent; the current unemployment rate stands at 4.7 per cent. Governor Block said at a press conference that the RBA did not wish to push the economy into recession, and that its baseline forecast did not envisage a recession, but that growth would slow significantly; she emphasised that inflation must come down, as there is currently excess demand.</p>
+<p>Opinions are divided on the next steps. According to ABC, David Bassanis of BetaShares’ baseline scenario is for one further rate rise in February 2027, whilst Sherrell Murphy of Ernst &amp; Young expects the bank to adopt a wait-and-see approach over the summer. The Reuters column ‘Morning Bid’ suggests that the 6-3 split in the vote and the shift in the statement’s wording indicate that this cycle of rate rises may be drawing to a close. Key points to watch going forward include the employment figures due in mid-November and the October monthly CPI, as well as the pace at which the four major banks adjust their mortgage rates.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://www.rba.gov.au/media-releases/2026/mr-26-30.html">Reserve Bank of Australia<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.abc.net.au/news/2026-11-03/rba-lifts-interest-rates-november-2026-highest-rate-in-18-years/107340050">ABC<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://finance.yahoo.com/news/morning-bid-midterms-mediation-113627553.html">Reuters (reprinted by Yahoo Finance)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="2-千亿互换便利落地、中标费率10个基点，A股光模块重挫拖累创业板指跌2-73"><a href="#2-千亿互换便利落地、中标费率10个基点，A股光模块重挫拖累创业板指跌2-73" class="headerlink" title="2. A 100-billion swap facility was launched with a winning bid rate of 10 basis points; a sharp fall in A-share optical module stocks dragged the ChiNext Index down by 2.73 per cent."></a>2. A 100-billion swap facility was launched with a winning bid rate of 10 basis points; a sharp fall in A-share optical module stocks dragged the ChiNext Index down by 2.73 per cent.</h3><p>According to The Paper, on 3 November, the People’s Bank of China conducted its third swap facility operation for securities, fund and insurance companies, with a total volume of 100 billion yuan. The operation was conducted via a rate tender, with a winning rate of 10 basis points; 31 securities and fund companies participated in the tender. The securities firms disclosed as successful bidders include Guotai Haitong, CITIC Securities, China Merchants Securities, GF Securities, Orient Securities, Guolian Minsheng, Dongwu Securities and Great Wall Securities. Among these, Guotai Haitong and CITIC Securities were each awarded 10 billion yuan, Dongwu Securities 5 billion yuan, and Great Wall Securities 2 billion yuan. The Chairman of Guotai Haitong stated that the funds would be deployed as soon as possible. The scale of this operation is double that of the first operation in October 2024 (50 billion yuan) and represents the first concrete measure to be implemented following the symposium held by the three departments on 2 November.</p>
+<p>However, the market failed to sustain the previous day’s rebound. According to the 21st Century Business Herald, on 3 November, the Shanghai Composite Index fell by 0.82 per cent to 3,608.1 points, whilst the Shenzhen Component Index dropped by 1.21 per cent to 10,876.99 points, the ChiNext Index fell by 2.73 per cent to 2,391.65 points, and the STAR 50 Index fell by 3.81 per cent; trading volume across both markets totalled approximately 1.7 trillion yuan, down from the previous day’s figure of approximately 1.8 trillion yuan, with 2,108 stocks rising and 3,309 falling. The shipbuilding and aquaculture sectors performed strongly, whilst CPO, semiconductors, PCBs and AI chips led the declines; the telecommunications sector fell by nearly 7 per cent, and the electronics sector by nearly 5 per cent. Zhongji Xuchuang fell 12.69 per cent to 480.2 yuan, with a trading volume of 29.3 billion yuan, ranking first across both markets; New Ease fell 9.46 per cent, whilst Cambricon fell nearly 11 per cent.</p>
+<p>There are two direct reasons for the decline in optical modules. Firstly, external factors: the Philadelphia Semiconductor Index fell by more than 3 per cent on 2 November, and Mawell’s high-value acquisition of Lumentum triggered a revaluation of the industry chain. Secondly, individual stocks: According to Sina Finance, Goldman Sachs has revised down its revenue forecast for Zhongji Xuchuang for 2026 from 131.87 billion yuan to 104.914 billion yuan, with further downward revisions of 10 per cent and 7 per cent for 2027 and 2028 respectively. The rationale for this was not insufficient demand, but rather that supply constraints on key components had impacted production and delivery; Goldman Sachs also forecasts a 27 per cent quarter-on-quarter increase in revenue for the fourth quarter, with the company stating that orders from major clients have largely covered the full year of 2027. Several fund managers believe that this correction is primarily due to a combination of overseas market sentiment and the vulnerability of overvalued sectors, rather than a deterioration in domestic fundamentals or liquidity. Key points to watch: the actual pace at which swap facility funds enter the market; Nvidia’s financial results in mid-November; and the October import, export and financial data.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://www.thepaper.cn/newsDetail_forward_34398013">The Paper<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://m.21jingji.com/article/20261103/herald/c5a5ebd5ec18cd01d7f3728e518fb0ac.html">21st Century Business Herald (Market Close)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://m.21jingji.com/article/20261103/herald/dabcf6fed4def798682d4d4a55e6a9ca.html">21st Century Business Herald (CPO)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://k.sina.cn/article_5953189932_162d6782c067052vsq.html">Sina Finance<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="3-美军“有限打击”伊朗格什姆岛，卡塔尔调停人连夜赴德黑兰"><a href="#3-美军“有限打击”伊朗格什姆岛，卡塔尔调停人连夜赴德黑兰" class="headerlink" title="3. The US military carried out a ‘limited strike’ on Iran’s Qeshm Island, whilst a Qatari mediator travelled to Tehran overnight"></a>3. The US military carried out a ‘limited strike’ on Iran’s Qeshm Island, whilst a Qatari mediator travelled to Tehran overnight</h3><p>According to Al Jazeera, explosions were heard on Iran’s Qeshm Island late on 2 November, marking the first attack on the island since June. A US official told the Associated Press that the strike targeted Iranian personnel who had used surface-to-air missiles to attack US assets; Sources cited by *The Wall Street Journal* stated that the strike was limited in scope and did not signify a resumption of large-scale military operations. Iran’s official news agency reported that the Islamic Revolutionary Guard Corps had shot down a US MQ-9 drone east of the Strait of Hormuz prior to the strike. Trump confirmed the strike during a telephone interview with Fox News on 3 November, stating that Iran had built an air-defence facility which the US had been monitoring for about two months: “As soon as it was completed, we took it out beautifully last night,” he said, adding that it was merely a “small-scale attack”.</p>
+<p>Diplomatic channels have not been severed. According to Al Jazeera, a Qatari mediator travelled to Tehran on the evening of 2 November to discuss a draft US-Iran agreement with Iranian Foreign Minister Araghchi; Iranian Foreign Ministry spokesperson Baghai stated that “the ball is in Washington’s court”, adding that the proposal put forward by Iran in September could be implemented within “two days”, including the reopening of the Strait of Hormuz. Iranian President Pezeshizyan stated that the Supreme Leader had granted the government certain powers to negotiate with the US, adding that Tehran would seek to resolve the conflict through dialogue. US Vice-President Vance said, hours before the strike, that negotiations had “indeed made some progress”; Trump told Axios that he was “in no hurry” to decide whether to resume the strikes. Iranian Parliament Speaker Kalibaf, meanwhile, warned that Iran’s response to any “miscalculation” by the US would be unpredictable.</p>
+<p>According to XTB, on 3 November, Brent crude fell below US$103 per barrel, whilst WTI hovered around US$96, marking a second consecutive day of declines; the negative news briefly caused oil prices to rebound in early trading. Voting in the US mid-term elections was underway on the same day. According to Reuters’ “Morning Bid”, the prediction markets view a Democratic victory in both the Senate and the House of Representatives as the most likely outcome, though the Senate result may take several days to be confirmed, and the composition of the new Congress will not be clear until Wednesday at the earliest. Key developments to watch: the results of the mid-term elections; President Trump’s post-election decisions regarding Iran; and whether the Qatari draft proposal will lead to the reopening of the Strait of Hormuz.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://www.aljazeera.com/news/2026/11/3/us-hits-qeshm-island-pezeshkian-signals-more-diplomacy-iran-war-latest">Al Jazeera<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.newsofbahrain.com/en/article/trump-confirms-us-strike-on-irans-qeshm-island">News of Bahrain<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.xtb.com/cy/market-analysis/news-and-research/daily-summary-chips-lift-wall-street-on-election-day-oil-drops-amid-progress-in-negotiations-03-11-2026">XTB<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://finance.yahoo.com/news/morning-bid-midterms-mediation-113627553.html">Reuters (reprinted by Yahoo Finance)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="4-苹果12月季度毛利率指引45-至46-，特努斯称存储市场“前所未有”"><a href="#4-苹果12月季度毛利率指引45-至46-，特努斯称存储市场“前所未有”" class="headerlink" title="4. Apple forecasts a gross margin of 45 per cent to 46 per cent for the December quarter; Tenus describes the storage market as ‘unprecedented’"></a>4. Apple forecasts a gross margin of 45 per cent to 46 per cent for the December quarter; Tenus describes the storage market as ‘unprecedented’</h3><p>Apple provided guidance for the December quarter during its after-hours earnings call on 2 November. According to Yahoo Finance, the company expects revenue to grow by 7 per cent to 10 per cent year-on-year, which is set to be a record for a single quarter; services revenue is forecast to rise by 8 per cent to 9 per cent; gross margin guidance stands at 45 per cent to 46 per cent, which is below analysts’ expectations of approximately 46.7 per cent to 47.5 per cent, and also lower than the 47.9 per cent recorded in the September quarter. According to The Tech Portal, based on the midpoint of the range, this would represent Apple’s lowest gross margin since the fourth quarter of the 2023 financial year.</p>
+<p>The pressure stems primarily from memory chips. According to The Tech Portal, Apple attributed most of the decline in gross margin to rising memory costs, whilst CFO Parekh also mentioned the costs associated with launching the new version of Siri AI. Tenus described the current memory market as “unprecedented” and predicted that prices would continue to rise after December; Apple’s advantage from previously procured low-cost memory stock is diminishing, with more purchases now being made at current contract prices. The gross margin for the September quarter also included a tariff refund of approximately one percentage point, a factor that is not expected to continue.</p>
+<p>The market reaction was largely negative. Apple’s share price fell by around 4 per cent at one point during trading on 3 November; according to The Tech Portal, it stood at US$331.58 at around 22:00 Indian Standard Time, down 1.99 per cent; TheStreet reported that Apple was one of the main factors dragging down the Dow Jones Industrial Average that day. This marks the second cause for concern amongst investors regarding Apple, following the company’s revenue in Greater China falling short of expectations. From a broader perspective, the demand for memory chips from AI data centres is driving up costs in the consumer electronics sector, benefiting memory manufacturers whilst squeezing the profits of end-product manufacturers. Key points to watch: whether other mobile phone and PC manufacturers will follow suit with price rises, and how sales in China perform following the integration of Qianwen.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://finance.yahoo.com/markets/stocks/articles/apple-stock-slides-ceo-john-114606048.html">Yahoo Finance<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://thetechportal.com/2026/11/03/apple-stock-falls-nearly-4-as-ternus-guides-down-q326-margin-to-45-46-on-rising-memory-costs/">The Tech Portal<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-nov-03-2026">TheStreet<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="5-AMD三季度营收133-8亿美元创纪录，数据中心收入增长97-，芯片股反弹"><a href="#5-AMD三季度营收133-8亿美元创纪录，数据中心收入增长97-，芯片股反弹" class="headerlink" title="5. AMD posts record third-quarter revenue of US$13.38 billion, with data centre revenue up 97 per cent; chip stocks rebound"></a>5. AMD posts record third-quarter revenue of US$13.38 billion, with data centre revenue up 97 per cent; chip stocks rebound</h3><p>AMD announced its results for the third quarter of 2026 after the close of trading on the US stock market on 3 November. According to the company’s financial report, revenue stood at US$13.377 billion, representing a year-on-year increase of 45 per cent and a quarter-on-quarter rise of 16 per cent; non-GAAP gross margin stood at 56 per cent, whilst non-GAAP earnings per share were US$2.09, representing a 74 per cent increase. Revenue from the data centre business totalled US$8.5 billion, up 97 per cent year-on-year, accounting for just over 60 per cent of total revenue; client revenue was US$2.9 billion, up 7 per cent; gaming revenue was US$773 million, down 40 per cent; embedded revenue stood at US$1.1 billion, up 29 per cent. Under GAAP, the company recognised a revaluation charge of approximately US$1.097 billion relating to warrant liabilities; as this charge is linked to AMD’s share price, GAAP earnings per share amounted to just US$1.46.</p>
+<p>The guidance has attracted greater attention: AMD expects fourth-quarter revenue of approximately US$17 billion (plus or minus 3 per cent), which, based on the mid-point, represents a year-on-year increase of approximately 66 per cent and a quarter-on-quarter increase of approximately 27 per cent, with a non-GAAP gross margin of approximately 55 per cent. According to CNBC, AMD’s share price rose by approximately 7 per cent in after-hours trading; during regular trading hours, it had closed up 3.65 per cent at US$483.90.</p>
+<p>Chip shares had already rebounded ahead of AMD’s earnings release. According to Yahoo Finance, the Philadelphia Semiconductor Index entered bear market territory on 2 November, with memory and chip equipment stocks leading the rebound on 3 November; according to XTB, ON Semiconductor’s third-quarter data centre sales rose by 175 per cent year-on-year, and its share price rose by approximately 3 per cent. Major US stock indices closed mixed: the Dow Jones fell 0.38 per cent to 51,786.72 points, the S&amp;P 500 rose 0.36 per cent to 7,568.92 points, and the Nasdaq rose 0.83 per cent to 25,372.01 points. Palantir reported third-quarter revenue of US$2.31 billion, a 96 per cent increase, but warned of a slowdown in growth for the next quarter, causing its share price to fall. On the macroeconomic front, US JOLTS job openings in September rose to 7.52 million, exceeding the expected 7.16 million, whilst the yield on the 10-year US Treasury note rose to approximately 4.95 per cent. Key events to watch: AMD’s comments on the MI series accelerators and 2027 data centre revenue during its earnings call, as well as Nvidia’s financial results in mid-November.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://www.stocktitan.net/news/AMD/amd-reports-third-quarter-2026-financial-7j6jzo29buqw.html">AMD Financial Results (Reposted by StockTitan)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.cnbc.com/2026/11/03/amd-amd-q3-earnings-report-2026-.html">CNBC<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://finance.yahoo.com/markets/live/stock-market-today-tuesday-november-3-dow-sp-500-nasdaq-midterms-amd-earnings-141143244.html">Yahoo Finance<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.xtb.com/cy/market-analysis/news-and-research/daily-summary-chips-lift-wall-street-on-election-day-oil-drops-amid-progress-in-negotiations-03-11-2026">XTB<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h2 id="市场关联与今日观察"><a href="#市场关联与今日观察" class="headerlink" title="Market Correlation and Today's Observation"></a>Market Correlation and Today's Observation</h2><p>Looking at several news reports together, the divergence within the AI industry chain is becoming increasingly apparent. Upstream demand remains strong: AMD’s data centre revenue has doubled, with fourth-quarter guidance approaching US$17 billion, whilst Goldman Sachs’ downward revision of its forecast for Zhongji Xuchuang was also due to a shortage of components rather than a lack of orders. However, costs are shifting downstream: rising storage prices have squeezed Apple’s gross profit margin, whilst AI investment is driving up the prices of high-tech goods – a factor even cited by the Reserve Bank of Australia as a reason for raising interest rates. For the A-share market, the decline in optical modules is largely attributable to overseas sentiment and valuation adjustments. Whilst policy-driven capital can prop up the index, it is difficult for it to determine the direction of individual sectors; AMD’s after-hours performance may provide some support for today’s computing power sector.</p>
+<p>On the interest rate front, whilst the Reserve Bank of Australia has continued to raise rates, the 6-to-3 split in the vote suggests that the bar for further rate rises is rising; the stronger-than-expected US JOLTS data pushed the 10-year US Treasury yield to around 4.95 per cent, which continues to weigh on highly valued technology stocks. Oil prices have fallen for two consecutive days, but the attack on Ghosh Island indicates that military risks have not disappeared; decisions following the mid-term elections will be the key factor.</p>
+<p>Checklist:</p>
+<ul>
+<li>The results of the US mid-term elections, and in particular when control of the Senate will be decided</li>
+<li>US decisions on Iran following the election, progress on the Qatar draft, and whether Brent crude can hold above $100</li>
+<li>AMD’s share price performance today, and whether the optical module and computing power sectors on the A-share market can stabilise</li>
+<li>The pace at which swap facility funds enter the market and trading volumes on the two exchanges</li>
+<li>AUD Exchange Rate Trends and Mortgage Rate Adjustments by Australia’s Big Four Banks</li>
+<li>Will the yield on 10-year US Treasuries remain below 5 per cent?</li>
+</ul>
+<p>Cover image:<a class="link" target="_blank" rel="noopener" href="https://unsplash.com/photos/a-close-up-of-a-computer-chip-in-a-dark-room-hHg_oVpuVpo">Steve A Johnson / Unsplash<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> Daily Briefing | 4 November 2026: RBA raises interest rates to 4.85 per cent by a 6–3 vote; 100 billion swap facility comes into effect but A-share optical module stocks plummet; Apple’s gross margin guidance falls; AMD posts record quarterly revenue; US military airstrike on Geshum Island</li>
+        <li><strong>Author:</strong> AdenXie</li>
+        <li><strong>Created at
+                :</strong> 2026-11-04 09:00:00</li>
+        
+        <li>
+            <strong>Link:</strong> https://blog.adenxie.com.cn/2026/11/04/2026-11-04-daily-brief/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E6%96%B0%E9%97%BB/">#News</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/">#MarketObservation</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/11/03/2026-11-03-daily-brief/" title="Daily Briefing | 3 November 2026: Repurchase and share buyback programmes converted to long-term arrangements; interest rates cut to 1 per cent; A-shares regain the 3,600-point mark; oil prices fall by over 7 per cent in a single day; Apple posts record revenue; Marvell to acquire Lumentum for US$115 billion" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1767187571489-e2499f056f74?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 3 November 2026: Repurchase and share buyback programmes converted to long-term arrangements; interest rates cut to 1 per cent; A-shares regain the 3,600-point mark; oil prices fall by over 7 per cent in a single day; Apple posts record revenue; Marvell to acquire Lumentum for US$115 billion" class="!max-w-none">
+  <span class="title">Daily Briefing | 3 November 2026: Repurchase and share buyback programmes converted to long-term arrangements; interest rates cut to 1 per cent; A-shares regain the 3,600-point mark; oil prices fall by over 7 per cent in a single day; Apple posts record revenue; Marvell to acquire Lumentum for US$115 billion</span>
+</a><a class="recommended-article-item" href="/2026/10/30/2026-10-30-daily-brief/" title="Daily Briefing | 30 October 2026: Alphabet plummets 12.6 per cent in a single day; US Q3 GDP grows by 3.4 per cent; PCE inflation rises to 3.6 per cent; Iran rejects Qatar’s ceasefire proposal" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1584169417032-d34e8d805e8b?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 30 October 2026: Alphabet plummets 12.6 per cent in a single day; US Q3 GDP grows by 3.4 per cent; PCE inflation rises to 3.6 per cent; Iran rejects Qatar’s ceasefire proposal" class="!max-w-none">
+  <span class="title">Daily Briefing | 30 October 2026: Alphabet plummets 12.6 per cent in a single day; US Q3 GDP grows by 3.4 per cent; PCE inflation rises to 3.6 per cent; Iran rejects Qatar’s ceasefire proposal</span>
+</a><a class="recommended-article-item" href="/2026/10/31/2026-10-31-daily-brief/" title="Daily Briefing | 31 October 2026: Intel posts its biggest fall since 1974; the Nasdaq closes October with a sharp drop; the Bank of Japan says inflation has reached target; Binance suffers the largest-ever theft of US$6.3 billion" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 31 October 2026: Intel posts its biggest fall since 1974; the Nasdaq closes October with a sharp drop; the Bank of Japan says inflation has reached target; Binance suffers the largest-ever theft of US$6.3 billion" class="!max-w-none">
+  <span class="title">Daily Briefing | 31 October 2026: Intel posts its biggest fall since 1974; the Nasdaq closes October with a sharp drop; the Bank of Japan says inflation has reached target; Binance suffers the largest-ever theft of US$6.3 billion</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/11/03/2026-11-03-daily-brief/" title="Daily Briefing | 3 November 2026: Repurchase and share buyback programmes converted to long-term arrangements; interest rates cut to 1 per cent; A-shares regain the 3,600-point mark; oil prices fall by over 7 per cent in a single day; Apple posts record revenue; Marvell to acquire Lumentum for US$115 billion" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1767187571489-e2499f056f74?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 3 November 2026: Repurchase and share buyback programmes converted to long-term arrangements; interest rates cut to 1 per cent; A-shares regain the 3,600-point mark; oil prices fall by over 7 per cent in a single day; Apple posts record revenue; Marvell to acquire Lumentum for US$115 billion" class="!max-w-none">
+  <span class="title">Daily Briefing | 3 November 2026: Repurchase and share buyback programmes converted to long-term arrangements; interest rates cut to 1 per cent; A-shares regain the 3,600-point mark; oil prices fall by over 7 per cent in a single day; Apple posts record revenue; Marvell to acquire Lumentum for US$115 billion</span>
+</a><a class="recommended-article-item" href="/2026/10/30/2026-10-30-daily-brief/" title="Daily Briefing | 30 October 2026: Alphabet plummets 12.6 per cent in a single day; US Q3 GDP grows by 3.4 per cent; PCE inflation rises to 3.6 per cent; Iran rejects Qatar’s ceasefire proposal" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1584169417032-d34e8d805e8b?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 30 October 2026: Alphabet plummets 12.6 per cent in a single day; US Q3 GDP grows by 3.4 per cent; PCE inflation rises to 3.6 per cent; Iran rejects Qatar’s ceasefire proposal" class="!max-w-none">
+  <span class="title">Daily Briefing | 30 October 2026: Alphabet plummets 12.6 per cent in a single day; US Q3 GDP grows by 3.4 per cent; PCE inflation rises to 3.6 per cent; Iran rejects Qatar’s ceasefire proposal</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/11/03/2026-11-03-daily-brief/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Daily Briefing | 3 November 2026: Repurchase and share buyback programmes converted to long-term arrangements; interest rates cut to 1 per cent; A-shares regain the 3,600-point mark; oil prices fall by over 7 per cent in a single day; Apple posts record revenue; Marvell to acquire Lumentum for US$115 billion</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">Daily Briefing | 4 November 2026: RBA raises interest rates to 4.85 per cent by a 6–3 vote; 100 billion swap facility comes into effect but A-share optical module stocks plummet; Apple’s gross margin guidance falls; AMD posts record quarterly revenue; US military airstrike on Geshum Island</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8A%E6%97%A5%E4%B8%BB%E7%BA%BF"><span class="nav-text">Today's main theme</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E7%82%B9%E6%96%B0%E9%97%BB"><span class="nav-text">Key News</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%BE%B3%E5%82%A8%E8%A1%8C%E4%BB%A56%E6%AF%943%E6%8A%95%E7%A5%A8%E5%8A%A0%E6%81%AF%E8%87%B34-85-%EF%BC%8C%E9%80%9A%E8%83%80%E5%9B%9E%E8%90%BD%E6%97%B6%E9%97%B4%E6%8E%A8%E8%BF%9F%E7%BA%A6%E4%B8%89%E4%B8%AA%E5%AD%A3%E5%BA%A6"><span class="nav-text">1. The Reserve Bank of Australia voted 6–3 to raise interest rates to 4.85 per cent, whilst the timing of the easing of inflation has been pushed back by approximately three quarters</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%8D%83%E4%BA%BF%E4%BA%92%E6%8D%A2%E4%BE%BF%E5%88%A9%E8%90%BD%E5%9C%B0%E3%80%81%E4%B8%AD%E6%A0%87%E8%B4%B9%E7%8E%8710%E4%B8%AA%E5%9F%BA%E7%82%B9%EF%BC%8CA%E8%82%A1%E5%85%89%E6%A8%A1%E5%9D%97%E9%87%8D%E6%8C%AB%E6%8B%96%E7%B4%AF%E5%88%9B%E4%B8%9A%E6%9D%BF%E6%8C%87%E8%B7%8C2-73"><span class="nav-text">2. A 100-billion swap facility was launched with a winning bid rate of 10 basis points; a sharp fall in A-share optical module stocks dragged the ChiNext Index down by 2.73 per cent.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%BE%8E%E5%86%9B%E2%80%9C%E6%9C%89%E9%99%90%E6%89%93%E5%87%BB%E2%80%9D%E4%BC%8A%E6%9C%97%E6%A0%BC%E4%BB%80%E5%A7%86%E5%B2%9B%EF%BC%8C%E5%8D%A1%E5%A1%94%E5%B0%94%E8%B0%83%E5%81%9C%E4%BA%BA%E8%BF%9E%E5%A4%9C%E8%B5%B4%E5%BE%B7%E9%BB%91%E5%85%B0"><span class="nav-text">3. The US military carried out a ‘limited strike’ on Iran’s Qeshm Island, whilst a Qatari mediator travelled to Tehran overnight</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E8%8B%B9%E6%9E%9C12%E6%9C%88%E5%AD%A3%E5%BA%A6%E6%AF%9B%E5%88%A9%E7%8E%87%E6%8C%87%E5%BC%9545-%E8%87%B346-%EF%BC%8C%E7%89%B9%E5%8A%AA%E6%96%AF%E7%A7%B0%E5%AD%98%E5%82%A8%E5%B8%82%E5%9C%BA%E2%80%9C%E5%89%8D%E6%89%80%E6%9C%AA%E6%9C%89%E2%80%9D"><span class="nav-text">4. Apple forecasts a gross margin of 45 per cent to 46 per cent for the December quarter; Tenus describes the storage market as ‘unprecedented’</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-AMD%E4%B8%89%E5%AD%A3%E5%BA%A6%E8%90%A5%E6%94%B6133-8%E4%BA%BF%E7%BE%8E%E5%85%83%E5%88%9B%E7%BA%AA%E5%BD%95%EF%BC%8C%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83%E6%94%B6%E5%85%A5%E5%A2%9E%E9%95%BF97-%EF%BC%8C%E8%8A%AF%E7%89%87%E8%82%A1%E5%8F%8D%E5%BC%B9"><span class="nav-text">5. AMD posts record third-quarter revenue of US$13.38 billion, with data centre revenue up 97 per cent; chip stocks rebound</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%82%E5%9C%BA%E5%85%B3%E8%81%94%E4%B8%8E%E4%BB%8A%E6%97%A5%E8%A7%82%E5%AF%9F"><span class="nav-text">Market Correlation and Today's Observation</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">Write down your real experiences while retaining the edges of your viewpoints.</div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        101 posts in total
+                    </span>
+                    
+                        <span>
+                            290.5k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days"></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/cyber-weather.js" defer=""></script>
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/cyber-exchange.js" defer=""></script>
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/scene-loader.js" defer=""></script>
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="Image viewer">
+	<button class="image-viewer-close" type="button" aria-label="Close">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="Prev">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="Close">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="Next">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Search..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js"></script>
+
+
+<script src="/js/build/plugins/aplayer.js"></script>
+
+
+	
+
+
+</body></html>
