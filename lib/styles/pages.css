@@ -39,8 +39,9 @@ html[lang^="en"] .markdown-body :is(p, ul, ol):not(.not-markdown) {
 /* Chinese text reads best at about 40 characters a line (720px at the 18px body size); on a wide
    screen the column runs to about 48. Paragraphs, lists, quotes and headings share one measure, so
    rules and list edges line up. Images, figures, tables, code and display formulas keep the full
-   column. A fixed length, not em, because headings set a larger font. */
-html:not([lang^="en"]) .markdown-body > :is(p, ul, ol, blockquote, h2, h3, h4, h5, h6):not(.not-markdown):not(:has(img, figure, table, pre, .highlight, .aden-table-scroll, .katex-display, .MathJax_Display, mjx-container[display="true"], math[display="block"])) {
+   column. A fixed length, not em, because headings set a larger font. Article bodies only: home card
+   excerpts are .markdown-body too, and a capped excerpt under a full-width title leaves a blank strip. */
+html:not([lang^="en"]) .article-content.markdown-body > :is(p, ul, ol, blockquote, h2, h3, h4, h5, h6):not(.not-markdown):not(:has(img, figure, table, pre, .highlight, .aden-table-scroll, .katex-display, .MathJax_Display, mjx-container[display="true"], math[display="block"])) {
   max-width: 720px;
 }
 
