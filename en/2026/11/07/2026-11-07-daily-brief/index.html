@@ -1,0 +1,1260 @@
+<!DOCTYPE html><html lang="en"><head><script src="/js/language-preference.js?v=29a144036da1" data-english-home="/en/"></script><script src="/js/site-runtime.js?v=3ed792e13d4c" defer=""></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/en/2026/11/07/2026-11-07-daily-brief/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Daily Briefing | 7 November 2026: US October non-farm payrolls rose by 165,000, far exceeding expectations; the probability of a December interest rate hike has risen to 78 per cent; the AI sell-off has spread to Asia, triggering a circuit breaker on the South Korean stock market; China’s ChiNext Index fell by nearly 4 per cent; the China Securities Regulatory Commission plans to relax restrictions on share buybacks aimed at stabilising the market; and the expected valuation for Anthropic’s IPO has been revised downwards.">
+<meta property="og:url" content="https://blog.adenxie.com.cn/en/2026/11/07/2026-11-07-daily-brief/">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-11-07T01:00:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="新闻">
+<meta property="article:tag" content="市场观察">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png?v=fa6db12e9674" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Daily Briefing | 7 November 2026: US October non-farm payrolls rose by 165,000, far exceeding expectations; the probability of a rate hike in December has risen to 78 per cent; the AI sell-off has spread to Asia, triggering a circuit breaker on the South Korean stock market; China’s ChiNext Index fell by nearly 4 per cent; the China Securities Regulatory Commission plans to relax restrictions on share buybacks aimed at stabilising the market; and the expected valuation for Anthropic’s IPO has been revised downwards | Aden’s Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/css/site-e1d961ec5a40.css?v=e1d961ec5a40">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js?v=258b1afa4680"></script>
+                
+    
+            
+                
+                    
+                
+    
+
+    
+
+
+
+    
+        
+
+
+    
+
+    
+
+
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"en","path":"en/search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"18px","line_height":1.8,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["Technology, experience and independent thinking","Real experiences. A personal perspective."],"hitokoto":{"enable":false,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie","name":"GitHub"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847","name":"YouTube"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie","name":"X"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Daily Brief":{"path":"/daily/","icon":"fa-regular fa-newspaper"},"archives":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"},"tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"World Time":{"path":"/world-time/","icon":"fa-regular fa-clock"},"about":{"path":"/about/","icon":"fa-regular fa-user"},"links":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":false,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.i18n = {"search":"Search...","toc":"On this page","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"POWERED BY %s","theme":"THEME","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","post":"Post","posts":"Posts","tagcloud":"Tag Cloud","comment":"Comment","comments":"Comments","home":"Home","archive":"Archive","archives":"Archives","top":"TOP","sticky":"Sticky","go-back-home":"Go Back Home","masonry_loading":"Loading photos...","image_viewer":"Image viewer","close":"Close","exif":{"title":"EXIF","cards":{"camera":"Camera","lens":"Lens","exposure":"Exposure","other":"Other"},"fields":{"make":"Brand","model":"Model","date_taken":"Date taken","lens_model":"Lens","focal_length":"Focal length","focus_mode":"Focus mode","shutter":"Shutter","aperture":"Aperture","iso":"ISO","exposure_program":"Exposure program","exposure_compensation":"Exposure compensation","metering_mode":"Metering mode","flash":"Flash","white_balance":"White balance","latitude":"Latitude","longitude":"Longitude","altitude":"Altitude"},"status":{"loading":"Loading...","no_exif":"No EXIF available","library_missing":"EXIF library not loaded","image_source_missing":"Image source unavailable","unavailable":"EXIF unavailable (blocked by CORS or missing metadata)","flag_unavailable":"EXIF unavailable"}},"about":"About","changelog":"Changelog","links":"Links","link":"Link","friends":"Friends","friend":"Friend","timeline":"Timeline","shuoshuo":"Shuoshuo","bookmarks":"Bookmarks","site_uv":"VISITOR COUNT","site_pv":"TOTAL PAGE VIEWS","read_more":"Read more","wordcount":"Words","min2read":"Mins","status":"Status","runtime":"Blog up for","days":"days","hours":"hrs","minutes":"Min","seconds":"Sec","optimized_by":"and Optimized by Evan","rights":"All Rights Reserved","site_posts":"%s posts in total","site_wordcount":"%s words in total","copyright":{"author":"Author","title":"Title","link":"Link","create_time":"Created at","update_time":"Updated at","license_title":"License","license_content":"This work is licensed under %s.","all_rights_reserved":"All Rights Reserved &#169; %s","public_domain":"This work is in the public domain."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"},"create_time":"Created","update_time":"Updated","expired":"This post is written %s days ago, and the content may not be up to date."};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" hreflang="zh-CN" href="https://blog.adenxie.com.cn/2026/11/07/2026-11-07-daily-brief/"><link rel="alternate" hreflang="en" href="https://blog.adenxie.com.cn/en/2026/11/07/2026-11-07-daily-brief/"><link rel="preconnect" href="https://cdn-file.hyperos.mi.com" crossorigin="" data-aden-font-connect=""><script data-aden-analytics="">
+      if (location.hostname === 'blog.adenxie.com.cn' && !window.__adenAnalyticsLoaded) {
+        window.__adenAnalyticsLoaded = true;
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        const script = document.createElement('script');
+        script.defer = true;
+        script.src = '/_vercel/insights/script.js';
+        document.head.append(script);
+      }
+    </script></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/en/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/daily/">
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    DAILY BRIEF
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/categories/">
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    CATEGORIES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    WORLD TIME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search">
+                            <button type="button" class="search-popup-trigger" aria-label="Search"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <button type="button" class="icon-item search search-popup-trigger" aria-label="Search"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                
+                <button type="button" class="icon-item navbar-bar" aria-label="Menu" aria-controls="navbar-drawer" aria-expanded="false"><span class="navbar-bar-middle"></span></button>
+            </div>
+        </div>
+    <nav class="aden-language-switch" aria-label="Language"><a lang="zh-CN" href="/2026/11/07/2026-11-07-daily-brief/" aria-current="false" data-no-swup="">中文</a><span> / </span><a lang="en" href="/en/2026/11/07/2026-11-07-daily-brief/" aria-current="page" data-no-swup="">English</a></nav></div>
+
+    <!-- Mobile sheet -->
+    <div id="navbar-drawer" class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/">
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/daily/">
+                            <span>
+                                DAILY BRIEF
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/archives/">
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/categories/">
+                            <span>
+                                CATEGORIES
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/tags/">
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/world-time/">
+                            <span>
+                                WORLD TIME
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/about/">
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/link/">
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/tags/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">72</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/categories/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/archives/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">106</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://images.unsplash.com/photo-1641236709008-1b30ad669194?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 7 November 2026: US October non-farm payrolls rose by 165,000, far exceeding expectations; the probability of a December interest rate hike has risen to 78 per cent; the AI sell-off has spread to Asia, triggering a circuit breaker on the South Korean stock market; China’s ChiNext Index fell by nearly 4 per cent; the China Securities Regulatory Commission plans to relax restrictions on share buybacks aimed at stabilising the market; and the expected valuation for Anthropic’s IPO has been revised downwards." class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" decoding="async">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">Daily Briefing | 7 November 2026: US October non-farm payrolls rose by 165,000, far exceeding expectations; the probability of a December interest rate hike has risen to 78 per cent; the AI sell-off has spread to Asia, triggering a circuit breaker on the South Korean stock market; China’s ChiNext Index fell by nearly 4 per cent; the China Securities Regulatory Commission plans to relax restrictions on share buybacks aimed at stabilising the market; and the expected valuation for Anthropic’s IPO has been revised downwards.</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg?v=93ba7ebfa2ff" decoding="async" width="460" height="460">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-11-07 09:00</span>
+        <span class="mobile">2026-11-07 09:00</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/en/daily/">Daily Briefing</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/en/tags/%E6%96%B0%E9%97%BB/">News</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/">Market Watch</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>4k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>14 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8"><p class="aden-translation-notice">Automatically translated. <a href="/2026/11/07/2026-11-07-daily-brief/">Read the Chinese original</a>.</p>
+			<h2 id="今日主线"><a href="#今日主线" class="headerlink" title="Today's main theme"></a>Today's main theme</h2><p>This edition covers Friday, 6 November. The sell-off in the US AI sector the previous day continued to take its toll during the Asian trading session: South Korea’s KOSPI plunged by around 8 per cent within minutes of opening, triggering a circuit breaker and falling below the 5,000-point mark; All three major A-share indices fell across the board, with the ChiNext Index dropping 3.96 per cent, led by declines in computing hardware, whilst trading volume across both markets contracted to approximately 460 billion yuan. There was a flurry of domestic policy announcements that day: several leading technology firms announced at midday their intention to utilise special loans for share buybacks and share purchases, whilst brokerages such as Guotai Haitong and CITIC Securities announced that they had used swap facility funds to purchase shares; the CSRC’s earlier proposal to relax the rules on ‘market-stabilising buybacks’ was also gaining traction. In the US, non-farm payrolls rose by 165,000 in October, far exceeding expectations of around 65,000 to 70,000, whilst the unemployment rate fell to 4.1 per cent; the market now prices in a roughly 78 per cent probability of a Federal Reserve rate hike in December; US equities diverged following the release of the data, with the Nasdaq rebounding by 1.09 per cent whilst the Dow Jones Industrial Average continued to fall by 0.46 per cent. The revaluation of the AI sector has also spilled over into the private equity market: according to Bloomberg and The Wall Street Journal, the expected valuation for Anthropic’s planned IPO has been revised down to approximately US$1 trillion to US$1.3 trillion. In the Middle East, Trump stated that a decision on Iran would be made “soon”, whilst also speaking on the phone with the Emir of Qatar; Iran reported that another oil tanker had struck a mine, causing Brent crude to return to around US$100 per barrel, though it still fell by approximately 12 per cent over the week.</p>
+<span id="more"></span>
+
+<h2 id="重点新闻"><a href="#重点新闻" class="headerlink" title="Key News"></a>Key News</h2><h3 id="1-美国10月非农新增16-5万人远超预期，失业率降至4-1-，12月加息概率升至78"><a href="#1-美国10月非农新增16-5万人远超预期，失业率降至4-1-，12月加息概率升至78" class="headerlink" title="1. US non-farm payrolls rose by 165,000 in October, far exceeding expectations; the unemployment rate fell to 4.1 per cent; and the probability of a rate rise in December has risen to 78 per cent"></a>1. US non-farm payrolls rose by 165,000 in October, far exceeding expectations; the unemployment rate fell to 4.1 per cent; and the probability of a rate rise in December has risen to 78 per cent</h3><p>The US Bureau of Labour Statistics announced on 6 November that non-farm payrolls rose by 165,000 in October, significantly higher than the average monthly increase of 48,000 over the previous 12 months; according to Yahoo Finance, the consensus forecast in a Reuters survey was 65,000. The unemployment rate fell from 4.2 per cent to 4.1 per cent, having fluctuated between 4.1 per cent and 4.3 per cent since March. The figures for the previous two months were also revised upwards: August’s figure was revised from 133,000 to 186,000, and September’s from 29,000 to 60,000, representing a combined upward revision of 84,000 for the two months.</p>
+<p>By sector, professional and business services saw an increase of 70,000 jobs, healthcare 42,000, transport and warehousing 25,000, and manufacturing 19,000, whilst other major sectors saw little change. The average hourly wage stood at US$38.00, up 0.4 per cent month-on-month and 3.1 per cent year-on-year. According to Yahoo Finance, real wages have fallen due to higher inflation. The report also revealed some weaker aspects: the number of people working part-time for economic reasons rose by 339,000 to 4.8 million; the number of long-term unemployed (27 weeks or more) stood at approximately 2 million, accounting for 27.6 per cent of the unemployed population.</p>
+<p>The market’s initial reaction was a rise in expectations of an interest rate hike. According to Yahoo Finance, following the release of the data, the yield on 2-year US Treasuries rose by approximately 6 basis points to 4.52 per cent, whilst the 10-year yield rose by approximately 3 basis points to 4.87 per cent; the US Dollar Index rose by approximately 0.7 per cent; Market pricing for a Fed rate rise in December rose from 70 per cent to 78 per cent. Peter Cardillo of Spartan Capital believes the economy is already at full employment and that the Fed has “no choice” but to raise rates in December; Joe Saluzzi of Themis Trading, however, expressed doubts as to whether the Fed would actually take action amidst such severe market volatility. Key developments to watch: the forthcoming October CPI figures, as well as statements from Fed officials following the stock market sell-off; the next jobs report is scheduled for release on 4 December.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://www.bls.gov/news.release/empsit.nr0.htm">U.S. Bureau of Labor Statistics<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://finance.yahoo.com/economy/policy/articles/strong-october-jobs-report-sends-134858909.html">Yahoo Finance<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="2-美股周五分化：纳指反弹1-09-、道指续跌，标普500录得6月以来最差一周"><a href="#2-美股周五分化：纳指反弹1-09-、道指续跌，标普500录得6月以来最差一周" class="headerlink" title="2. US shares were mixed on Friday: the Nasdaq rebounded by 1.09 per cent, whilst the Dow Jones continued to fall; the S&amp;P 500 recorded its worst week since June"></a>2. US shares were mixed on Friday: the Nasdaq rebounded by 1.09 per cent, whilst the Dow Jones continued to fall; the S&amp;P 500 recorded its worst week since June</h3><p>According to Yahoo Finance’s closing figures, on 6 November the S&amp;P 500 rose by 23.13 points, or 0.31 per cent, to close at 7,376.86; the Nasdaq rose by 264.43 points, or 1.09 per cent, to close at 24,579.42; the Dow fell by 237.33 points, or 0.46 per cent, to close at 51,285.73; and the Russell 2000 rose by approximately 0.9 per cent. The VIX index, which measures market volatility, fell by around 9 per cent to 25.64. Despite Friday’s rebound, the S&amp;P 500 still recorded its worst week since June, with the technology sector ETF (XLK) falling by around 7 per cent over the week and the energy sector ETF (XLE) falling by around 11 per cent.</p>
+<p>The previous day saw a massive sell-off. According to Yahoo Finance, US stock markets lost approximately US$3 trillion in market capitalisation on Thursday, with the S&amp;P 500 falling by over 4 per cent and the Nasdaq 100 by 6.3 per cent – marking the worst single-day performance since April 2025. On Friday, chip stocks rebounded somewhat: According to Yahoo Finance, the Philadelphia Semiconductor Index rebounded by around 4 per cent, though it remains down by approximately 18 per cent over the past six months; according to TheStreet, AMD rose by more than 10 per cent at one point during early trading, whilst data centre operator IREN surged by around 17 per cent on the back of strong quarterly results, and Cloudflare rose by around 13 per cent.</p>
+<p>The point of contention lies in how stringent the regulation of data centres will be. According to Yahoo Finance, Goldman Sachs estimates that approximately 45 per cent of planned data centre capacity in the US may face restrictions; Yardeni Research, however, believes that political resistance is more like a ‘speed bump than a roadblock’. Strong employment figures have added another layer of pressure on high-valuation tech stocks: the stronger the economy, the greater the likelihood of the Federal Reserve raising interest rates. Key events to watch: Nvidia’s earnings report in mid-November, the forthcoming CPI figures, and the new Congress’s initial statements on data centres.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://finance.yahoo.com/markets/live/stock-market-today-friday-november-6-dow-sp-500-nasdaq-jobs-report-earnings-135953863.html">Yahoo Finance (Market Close)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-nov-06-2026">TheStreet<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="3-AI抛售蔓延亚洲：韩国KOSPI暴跌约8-触发熔断，A股创业板指跌3-96"><a href="#3-AI抛售蔓延亚洲：韩国KOSPI暴跌约8-触发熔断，A股创业板指跌3-96" class="headerlink" title="3. AI-driven sell-off spreads across Asia: South Korea’s KOSPI plunges by around 8 per cent, triggering a circuit breaker; China’s ChiNext Index falls by 3.96 per cent"></a>3. AI-driven sell-off spreads across Asia: South Korea’s KOSPI plunges by around 8 per cent, triggering a circuit breaker; China’s ChiNext Index falls by 3.96 per cent</h3><p>The impact of the sharp fall in US chip stocks was felt in full force at the opening of Asian markets on 6 November. According to Reuters (as reported by The Star), the Korea Exchange triggered a Level 1 circuit breaker at 09:03 local time, suspending trading in shares and derivatives for 20 minutes; The KOSPI index fell by around 500 points, or approximately 8.6 per cent, to 4,923.47, dropping below the 5,000-point mark for the first time in nine months. Samsung Electronics fell by around 10 per cent, SK Hynix by around 13 per cent, and Hyundai Motor by 6.9 per cent. Jeon Gwang-woo of the Korea Institute for Global Economic Studies said that whilst it was time for a correction, the market may have overreacted to the results of the mid-term elections.</p>
+<p>A-shares were also under pressure. According to Sina Finance, the Shanghai Composite Index fell by 1.1 per cent to 3,649.18 points, whilst the Shenzhen Component Index dropped by 2.57 per cent to 11,175.78 points, the ChiNext Index fell 3.96 per cent to 2,465.23 points, whilst the STAR 50 Index rose before retreating; trading volume across both markets totalled 1.66 trillion yuan, down by approximately 460 billion yuan from the previous day. According to Wind statistics, 757 stocks across the market rose, whilst 4,739 fell. Computing hardware led the decline, with Cambridge Technology and Aohong Electronics hitting their daily lower limits, whilst Foxconn Industrial Internet and Shengyi Technology suffered sharp falls; according to the 21st Century Business Herald, the components, telecommunications equipment and semiconductor sectors recorded the steepest declines. Defensive and thematic sectors bucked the trend: the power sector led the way with a net inflow of 940 million yuan from major investors, whilst banking shares strengthened; individual stocks in the AI animation, agriculture and photovoltaic sectors also hit the daily price limit.</p>
+<p>Wang Sheng of Shenwan Hongyuan believes that the technology sector has been oversold since July; coupled with a weakening overseas investment environment since August and diverging fundamentals across the AI industry chain, the correction has been ongoing for some time. Key points to watch going forward: whether A-shares will stabilise next Monday, buoyed by Friday’s rebound in US equities, and whether trading volume will return to around 2 trillion yuan.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://thestar.com.my/business/business-news/2026/11/06/south-korea-stocks-plunge-8-circuit-breaker-triggered-as-chip-shares-tumble">Reuters (reprinted by The Star)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://k.sina.com.cn/article_7857201856_1d45362c001908tv8u.html">Sina Finance<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://finance.cnr.cn/gundong/20261106/t20261106_527864311.shtml">China National Radio Network<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://m.21jingji.com/article/20261106/herald/32352bbea1ec843fa787ba1341a44097.html">21st Century Business Herald<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="4-稳市场措施密集落地：科技龙头公告回购增持，券商用互换便利资金入市，证监会拟放宽护盘式回购"><a href="#4-稳市场措施密集落地：科技龙头公告回购增持，券商用互换便利资金入市，证监会拟放宽护盘式回购" class="headerlink" title="4. A flurry of market-stabilisation measures are being rolled out: leading technology firms have announced share buybacks and increased holdings, brokerages are using swap facilities to inject funds into the market, and the China Securities Regulatory Commission is planning to relax restrictions on market-stabilising buybacks"></a>4. A flurry of market-stabilisation measures are being rolled out: leading technology firms have announced share buybacks and increased holdings, brokerages are using swap facilities to inject funds into the market, and the China Securities Regulatory Commission is planning to relax restrictions on market-stabilising buybacks</h3><p>Whilst the A-share market was falling, measures to stabilise the market were implemented en masse on 6 November. According to the 21st Century Business Herald, by midday that day, companies including Zhongji Xuchuang, Tianfu Communications, New E-Sun, Shenghong Technology, Han’s Laser, Luxshare Precision, Dongshan Precision, Pengding Holdings, Sanhuan Group and Robotech, amongst more than a dozen other companies, announced their intention to carry out share buybacks or increase their holdings in line with the policy on share buybacks and shareholding increases; according to Sina Finance, approximately 23 companies listed on the STAR Market and ChiNext announced new share buyback and shareholding increase plans, whilst a further 10 companies listed on the Shanghai Stock Exchange issued related announcements at midday.</p>
+<p>As regards securities firms, according to Phoenix Finance, Guotai Haitong has completed its repurchase financing and the purchase of its first batch of shares; CITIC Securities purchased shares on the 6th following the receipt of the third tranche of swap facility funds; and Galaxy Securities, China Merchants Securities and Caitong Securities have also stated that they have completed their first round of investments; China Merchants Securities stated that it would continue to utilise the 5 billion yuan from the third tranche of funds awarded to it to invest in A-shares. These funds originate from the third swap facility operation, totalling 100 billion yuan, which took place on 3 November, and may only be used for investments in shares, equity ETFs and market-making activities.</p>
+<p>At the regulatory level, according to the 21st Century Business Herald, on 2 November the China Securities Regulatory Commission (CSRC) proposed adjustments to the rules governing ‘market-stabilisation share buybacks’: adding a share price ‘breaking below the issue price’ as a new circumstance under which such buybacks may be implemented; removing the restriction that companies must have been listed for at least six months; and lifting the ban on submitting buyback orders during the opening and closing auction phases; Companies listed for less than 36 months must strictly fulfil their commitments to stabilise share prices, and those with surplus raised capital should carry out buybacks promptly when the relevant conditions are met; they are also required to allocate a certain proportion of funds from their annual cash dividend plans to a dedicated buyback fund. The China Securities Regulatory Commission (CSRC) will amend the ‘Rules on Share Repurchases by Listed Companies’; prior to the amendment, it will urge companies that are constituents of major indices and leading technology firms to actively carry out share repurchases. Furthermore, the “State Council Report on Financial Work” published on the People’s Bank of China’s official website on 5 November proposed supporting Central Huijin Investment Co., Ltd. in playing the role of a quasi-stabilisation fund to consolidate and improve the capital market’s stabilisation mechanisms. In the first ten months of this year, companies listed on the Shanghai and Shenzhen stock exchanges carried out actual share buybacks totalling 134.5 billion yuan, with the planned buyback amount, the actual buyback amount and the amount of shares cancelled all reaching record highs.</p>
+<p>However, the announcement that day did not immediately reverse the market trend, as the market is still awaiting details of the actual scale of purchases. Key points to watch going forward include when the revised draft of the ‘Rules on Share Buybacks by Listed Companies’ will be published, and the pace at which funds for buybacks and share acquisitions are actually deployed.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://m.21jingji.com/article/20261106/herald/32352bbea1ec843fa787ba1341a44097.html">21st Century Business Herald<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://finance.ifeng.com/c/8xq68nEWiD8">Phoenix Finance<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://k.sina.com.cn/article_7857201856_1d45362c001908tv8u.html">Sina Finance<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="5-Anthropic-IPO估值预期下调至约1万亿至1-3万亿美元"><a href="#5-Anthropic-IPO估值预期下调至约1万亿至1-3万亿美元" class="headerlink" title="5. Anthropic’s IPO valuation forecast has been revised down to between approximately US$1 trillion and US$1.3 trillion"></a>5. Anthropic’s IPO valuation forecast has been revised down to between approximately US$1 trillion and US$1.3 trillion</h3><p>The revaluation of AI stocks is also affecting companies preparing for an initial public offering. According to Bloomberg (as reported by Yahoo Finance), following the sharp fall in AI share prices, potential buyers for Anthropic’s IPO are discussing a valuation of between US$1.2 trillion and US$1.3 trillion, lower than the US$1.4 trillion to US$1.5 trillion that some investors previously considered reasonable; the formal roadshow is expected to begin next week, though a final decision has yet to be made. According to Decrypt, citing The Wall Street Journal, Anthropic’s target valuation for the IPO is US$1.5 trillion, but several major investors believe it needs to be lowered, with one suggesting a figure of around US$1 trillion; a draft prospectus leaked in September indicated that the company was seeking a valuation of approximately US$2 trillion.</p>
+<p>According to a report by Decrypt, Anthropic filed for a listing on the Nasdaq last month under the ticker symbol ‘ANT’. The company had originally planned to go public in the week before Thanksgiving, with a target to raise up to US$100 billion, although some investors believe the actual figure may be closer to US$80 billion; The company’s annualised revenue at the end of October exceeded US$80 billion, and it held US$146.6 billion in cash as at 30 September. Some investors have suggested postponing the listing to await improved market conditions. Max Ketterner of HSBC believes that a valuation of close to $1 trillion might be more prudent, as it would reduce the risk of significant share price volatility following the listing; Stefan Kemper of BNP Paribas Wealth Management believes the valuation may need to be lowered to the lower end of the previously cited range of $1.5 trillion to $2 trillion, or even 10 per cent to 15 per cent lower than that.</p>
+<p>The significance of this lies in the fact that scepticism regarding returns on AI investments in the secondary market has begun to spill over into the primary market and IPO pricing. As one of the largest tech IPOs of the year, Anthropic’s final pricing and timetable will serve as key indicators for gauging risk appetite within the AI sector. Key points to watch: whether the roadshow commences as scheduled, the final valuation range, and whether other AI companies, such as OpenAI, will adjust their listing plans.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://finance.yahoo.com/technology/ai/articles/anthropic-ipo-valuation-expectations-fall-154900027.html">Bloomberg (reprinted from Yahoo Finance)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://finance.yahoo.com/markets/stocks/articles/anthropic-ipo-valuation-could-fall-162858848.html">Decrypt (reprinted from Yahoo Finance)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="6-特朗普称对伊朗“很快”做决定，伊朗称又有油轮触雷，油价全周跌约12"><a href="#6-特朗普称对伊朗“很快”做决定，伊朗称又有油轮触雷，油价全周跌约12" class="headerlink" title="6. Trump said a decision on Iran would be made ‘soon’; Iran reported that another oil tanker had struck a mine; oil prices fell by around 12 per cent over the week"></a>6. Trump said a decision on Iran would be made ‘soon’; Iran reported that another oil tanker had struck a mine; oil prices fell by around 12 per cent over the week</h3><p>According to CBS News, Trump said at the White House on 5 November that a decision on whether to resume strikes against Iran would be known ‘very soon’, whilst adding that, if possible, he would ‘prefer not to destroy what remains of that country’, and stating that it would take Iran around 25 years to recover from the war. According to the Office of the Emir of Qatar, Trump spoke by telephone with the Emir of Qatar, Tamim, on 6 November to discuss efforts to end the war; the White House did not release any details. According to Al Jazeera, Iran has submitted a proposal on the nuclear issue to the US via Qatari mediators, which the US is currently reviewing; the Iranian side, however, has stated that it will wait until its seven demands are met.</p>
+<p>The risks at sea remain unresolved. According to CBS, the Iranian Revolutionary Guard stated on 6 November that two further oil tankers had struck mines in or near the Strait of Hormuz, claiming that they had switched off their navigation systems and were travelling along ‘unauthorised’ routes; Previously, Iranian media had reported that five oil tankers and a tugboat had caught fire; none of these claims have been confirmed by maritime authorities, whilst Mr Trump has accused Iran of fabricating the attacks to drive up oil prices. The Houthi rebels continued to fire missiles at Saudi Arabia, whilst the Saudi-led coalition stated that it had intercepted two ballistic missiles aimed at Najran.</p>
+<p>Oil prices have been fluctuating as a result. According to the UAE’s *The National*, Brent rose by 1.68 per cent to US$99.94 and WTI by 1.33 per cent to US$91.72 during early trading on Friday; according to Oilprice.com (as reported by Yahoo Finance), both benchmarks fell by approximately 12 per cent over the week. Tim Watler of KCM Trade said that oil prices would find support every time they fell until credible safe shipping routes were established in the Gulf; Alex Kupczewski of FXPro, meanwhile, pointed out that US policy on Iraq did not change after the Democrats won control of Congress in 2006. According to GasBuddy, the average price of petrol in the US stands at approximately $4.06 per gallon and may fall below $4 next week. Key developments to watch: Trump’s final decision on Iran, the details of the Iranian nuclear deal and the US response, as well as whether reports of attacks on oil tankers can be independently verified.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://www.cbsnews.com/live-updates/iran-war-trump-us-strait-hormuz-persian-gulf/">CBS News<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.aljazeera.com/news/liveblog/2026/11/6/iran-war-live-trump-warns-us-may-have-to-destroy-rest-of-iran">Al Jazeera<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.thenationalnews.com/business/energy/2026/11/06/oil-prices-set-for-weekly-drop-on-trumps-election-rout/">The National<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://finance.yahoo.com/energy/articles/oil-prices-head-12-weekly-060500517.html">Oilprice.com (reprinted from Yahoo Finance)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h2 id="市场关联与今日观察"><a href="#市场关联与今日观察" class="headerlink" title="Market Correlation and Today's Observation"></a>Market Correlation and Today's Observation</h2><p>Taking a few news items together, the market has been digesting two developments simultaneously this week: firstly, the repricing of regulatory risks surrounding AI data centres following the mid-term elections; and secondly, the continued strength of the US economy and the prospect of further interest rate rises by the Federal Reserve. Friday’s jobs report reinforced the second point: with 165,000 new jobs created and an upward revision to the previous figure, a December rate rise has become virtually the market’s baseline scenario, which is not favourable for already heavily sold-off, high-valuation technology stocks; the Nasdaq’s rebound on Friday appeared more like a technical recovery following an oversold condition, whilst the Dow’s continued decline indicates that investors remain generally cautious.</p>
+<p>The fallout from the AI sector is spreading from the US stock market to Asia and the private equity market. The circuit breaker triggered in South Korea, the price limit down for AI computing hardware on the A-share market, and the downward revision of Anthropic’s IPO valuation all point to the same issue: the market is reassessing the returns on AI investments and the associated policy risks. In the A-share market, share buybacks, additional lending, swap facilities and market-stabilising repurchase rules have collectively provided a floor for the market; however, whilst these measures can stabilise the indices, they are unlikely to determine the direction of the technology sector. The strength shown by dividend-paying sectors such as utilities and banking indicates that capital is shifting towards defensive positions. As for oil prices, Brent crude fell by approximately 12 per cent over the week, with the war premium retreating significantly; however, the attacks on oil tankers indicate that risks have not disappeared, and Trump’s decision regarding Iran remains the biggest wildcard.</p>
+<p>Checklist:</p>
+<ul>
+<li>Will the A-share and South Korean stock markets stabilise next Monday following Friday’s rebound in US shares, and will the mining hardware sector halt its decline?</li>
+<li>US October CPI, and market pricing for the extent of the Fed’s December rate rise (25 or 50 basis points)</li>
+<li>NVIDIA’s mid-November earnings report, and whether the Philadelphia Semiconductor Index can hold above Thursday’s low</li>
+<li>Will Anthropic’s IPO roadshow go ahead as scheduled, and what will the final valuation range be?</li>
+<li>Given Trump’s decision on Iran, will Brent crude return to $100?</li>
+<li>The actual volume of funds injected into the market through share buybacks and securities firm swap facilities, as well as China’s October import and export figures</li>
+</ul>
+<p>Cover image:<a class="link" target="_blank" rel="noopener" href="https://unsplash.com/photos/a-sign-that-says-help-wanted-on-a-glass-door-xRb4O75uymo">Nathan Dumlao / Unsplash<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> Daily Briefing | 7 November 2026: US October non-farm payrolls rose by 165,000, far exceeding expectations; the probability of a December interest rate hike has risen to 78 per cent; the AI sell-off has spread to Asia, triggering a circuit breaker on the South Korean stock market; China’s ChiNext Index fell by nearly 4 per cent; the China Securities Regulatory Commission plans to relax restrictions on share buybacks aimed at stabilising the market; and the expected valuation for Anthropic’s IPO has been revised downwards.</li>
+        <li><strong>Author:</strong> AdenXie</li>
+        <li><strong>Created at
+                :</strong> 2026-11-07 09:00:00</li>
+        
+        <li>
+            <strong>Link:</strong> https://blog.adenxie.com.cn/2026/11/07/2026-11-07-daily-brief/
+        </li>
+        <li data-aden-content-license=""><strong>License:</strong> Unless otherwise noted, original text and images by AdenXie: <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a>; original code: <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE" target="_blank" rel="noopener">GPL-3.0</a>. Third-party material retains its original rights and licenses. <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE-CONTENT.md" target="_blank" rel="noopener">Scope &amp; exceptions</a>.</li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E6%96%B0%E9%97%BB/">#News</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/">#MarketObservation</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/en/2026/11/06/2026-11-06-daily-brief/" title="Daily Briefing | 6 November 2026: AI-driven sell-off sends the Nasdaq down 5.5 per cent into a correction; the Philadelphia Semiconductor Index plummets 12 per cent; the Bank of England raises interest rates to 4 per cent; oil prices rebound; the A-share market is led higher by the solar sector; the 9th China International Import Expo opens" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 6 November 2026: AI-driven sell-off sends the Nasdaq down 5.5 per cent into a correction; the Philadelphia Semiconductor Index plummets 12 per cent; the Bank of England raises interest rates to 4 per cent; oil prices rebound; the A-share market is led higher by the solar sector; the 9th China International Import Expo opens" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | 6 November 2026: AI-driven sell-off sends the Nasdaq down 5.5 per cent into a correction; the Philadelphia Semiconductor Index plummets 12 per cent; the Bank of England raises interest rates to 4 per cent; oil prices rebound; the A-share market is led higher by the solar sector; the 9th China International Import Expo opens</span>
+</a><a class="recommended-article-item" href="/en/2026/11/04/2026-11-04-daily-brief/" title="Daily Briefing | 4 November 2026: RBA raises interest rates to 4.85 per cent by a 6–3 vote; 100 billion swap facility comes into effect but A-share optical module stocks plummet; Apple’s gross margin guidance falls; AMD posts record quarterly revenue; US military airstrike on Geshum Island" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1728042153273-8f9eefe78590?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 4 November 2026: RBA raises interest rates to 4.85 per cent by a 6–3 vote; 100 billion swap facility comes into effect but A-share optical module stocks plummet; Apple’s gross margin guidance falls; AMD posts record quarterly revenue; US military airstrike on Geshum Island" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | 4 November 2026: RBA raises interest rates to 4.85 per cent by a 6–3 vote; 100 billion swap facility comes into effect but A-share optical module stocks plummet; Apple’s gross margin guidance falls; AMD posts record quarterly revenue; US military airstrike on Geshum Island</span>
+</a><a class="recommended-article-item" href="/en/2026/10/31/2026-10-31-daily-brief/" title="Daily Briefing | 31 October 2026: Intel posts its biggest fall since 1974; the Nasdaq closes October with a sharp drop; the Bank of Japan says inflation has reached target; Binance suffers the largest-ever theft of US$6.3 billion" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 31 October 2026: Intel posts its biggest fall since 1974; the Nasdaq closes October with a sharp drop; the Bank of Japan says inflation has reached target; Binance suffers the largest-ever theft of US$6.3 billion" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | 31 October 2026: Intel posts its biggest fall since 1974; the Nasdaq closes October with a sharp drop; the Bank of Japan says inflation has reached target; Binance suffers the largest-ever theft of US$6.3 billion</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/en/2026/11/06/2026-11-06-daily-brief/" title="Daily Briefing | 6 November 2026: AI-driven sell-off sends the Nasdaq down 5.5 per cent into a correction; the Philadelphia Semiconductor Index plummets 12 per cent; the Bank of England raises interest rates to 4 per cent; oil prices rebound; the A-share market is led higher by the solar sector; the 9th China International Import Expo opens" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 6 November 2026: AI-driven sell-off sends the Nasdaq down 5.5 per cent into a correction; the Philadelphia Semiconductor Index plummets 12 per cent; the Bank of England raises interest rates to 4 per cent; oil prices rebound; the A-share market is led higher by the solar sector; the 9th China International Import Expo opens" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | 6 November 2026: AI-driven sell-off sends the Nasdaq down 5.5 per cent into a correction; the Philadelphia Semiconductor Index plummets 12 per cent; the Bank of England raises interest rates to 4 per cent; oil prices rebound; the A-share market is led higher by the solar sector; the 9th China International Import Expo opens</span>
+</a><a class="recommended-article-item" href="/en/2026/11/04/2026-11-04-daily-brief/" title="Daily Briefing | 4 November 2026: RBA raises interest rates to 4.85 per cent by a 6–3 vote; 100 billion swap facility comes into effect but A-share optical module stocks plummet; Apple’s gross margin guidance falls; AMD posts record quarterly revenue; US military airstrike on Geshum Island" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1728042153273-8f9eefe78590?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 4 November 2026: RBA raises interest rates to 4.85 per cent by a 6–3 vote; 100 billion swap facility comes into effect but A-share optical module stocks plummet; Apple’s gross margin guidance falls; AMD posts record quarterly revenue; US military airstrike on Geshum Island" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | 4 November 2026: RBA raises interest rates to 4.85 per cent by a 6–3 vote; 100 billion swap facility comes into effect but A-share optical module stocks plummet; Apple’s gross margin guidance falls; AMD posts record quarterly revenue; US military airstrike on Geshum Island</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/en/2026/11/08/2026-11-08-three-pricings-crash-payrolls-nvidia/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Three Key Price Moves This Week: The Plunge, the Non-Farm Payrolls Report, and the Link to Nvidia</span>
+						<span class="post-nav-item">Prev posts</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/en/2026/11/06/2026-11-06-daily-brief/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Daily Briefing | 6 November 2026: AI-driven sell-off sends the Nasdaq down 5.5 per cent into a correction; the Philadelphia Semiconductor Index plummets 12 per cent; the Bank of England raises interest rates to 4 per cent; oil prices rebound; the A-share market is led higher by the solar sector; the 9th China International Import Expo opens</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">Daily Briefing | 7 November 2026: US October non-farm payrolls rose by 165,000, far exceeding expectations; the probability of a December interest rate hike has risen to 78 per cent; the AI sell-off has spread to Asia, triggering a circuit breaker on the South Korean stock market; China’s ChiNext Index fell by nearly 4 per cent; the China Securities Regulatory Commission plans to relax restrictions on share buybacks aimed at stabilising the market; and the expected valuation for Anthropic’s IPO has been revised downwards.</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8A%E6%97%A5%E4%B8%BB%E7%BA%BF"><span class="nav-text">Today's main theme</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E7%82%B9%E6%96%B0%E9%97%BB"><span class="nav-text">Key News</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%BE%8E%E5%9B%BD10%E6%9C%88%E9%9D%9E%E5%86%9C%E6%96%B0%E5%A2%9E16-5%E4%B8%87%E4%BA%BA%E8%BF%9C%E8%B6%85%E9%A2%84%E6%9C%9F%EF%BC%8C%E5%A4%B1%E4%B8%9A%E7%8E%87%E9%99%8D%E8%87%B34-1-%EF%BC%8C12%E6%9C%88%E5%8A%A0%E6%81%AF%E6%A6%82%E7%8E%87%E5%8D%87%E8%87%B378"><span class="nav-text">1. US non-farm payrolls rose by 165,000 in October, far exceeding expectations; the unemployment rate fell to 4.1 per cent; and the probability of a rate rise in December has risen to 78 per cent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%BE%8E%E8%82%A1%E5%91%A8%E4%BA%94%E5%88%86%E5%8C%96%EF%BC%9A%E7%BA%B3%E6%8C%87%E5%8F%8D%E5%BC%B91-09-%E3%80%81%E9%81%93%E6%8C%87%E7%BB%AD%E8%B7%8C%EF%BC%8C%E6%A0%87%E6%99%AE500%E5%BD%95%E5%BE%976%E6%9C%88%E4%BB%A5%E6%9D%A5%E6%9C%80%E5%B7%AE%E4%B8%80%E5%91%A8"><span class="nav-text">2. US shares were mixed on Friday: the Nasdaq rebounded by 1.09 per cent, whilst the Dow Jones continued to fall; the S&amp;P 500 recorded its worst week since June</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-AI%E6%8A%9B%E5%94%AE%E8%94%93%E5%BB%B6%E4%BA%9A%E6%B4%B2%EF%BC%9A%E9%9F%A9%E5%9B%BDKOSPI%E6%9A%B4%E8%B7%8C%E7%BA%A68-%E8%A7%A6%E5%8F%91%E7%86%94%E6%96%AD%EF%BC%8CA%E8%82%A1%E5%88%9B%E4%B8%9A%E6%9D%BF%E6%8C%87%E8%B7%8C3-96"><span class="nav-text">3. AI-driven sell-off spreads across Asia: South Korea’s KOSPI plunges by around 8 per cent, triggering a circuit breaker; China’s ChiNext Index falls by 3.96 per cent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E7%A8%B3%E5%B8%82%E5%9C%BA%E6%8E%AA%E6%96%BD%E5%AF%86%E9%9B%86%E8%90%BD%E5%9C%B0%EF%BC%9A%E7%A7%91%E6%8A%80%E9%BE%99%E5%A4%B4%E5%85%AC%E5%91%8A%E5%9B%9E%E8%B4%AD%E5%A2%9E%E6%8C%81%EF%BC%8C%E5%88%B8%E5%95%86%E7%94%A8%E4%BA%92%E6%8D%A2%E4%BE%BF%E5%88%A9%E8%B5%84%E9%87%91%E5%85%A5%E5%B8%82%EF%BC%8C%E8%AF%81%E7%9B%91%E4%BC%9A%E6%8B%9F%E6%94%BE%E5%AE%BD%E6%8A%A4%E7%9B%98%E5%BC%8F%E5%9B%9E%E8%B4%AD"><span class="nav-text">4. A flurry of market-stabilisation measures are being rolled out: leading technology firms have announced share buybacks and increased holdings, brokerages are using swap facilities to inject funds into the market, and the China Securities Regulatory Commission is planning to relax restrictions on market-stabilising buybacks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-Anthropic-IPO%E4%BC%B0%E5%80%BC%E9%A2%84%E6%9C%9F%E4%B8%8B%E8%B0%83%E8%87%B3%E7%BA%A61%E4%B8%87%E4%BA%BF%E8%87%B31-3%E4%B8%87%E4%BA%BF%E7%BE%8E%E5%85%83"><span class="nav-text">5. Anthropic’s IPO valuation forecast has been revised down to between approximately US$1 trillion and US$1.3 trillion</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E7%89%B9%E6%9C%97%E6%99%AE%E7%A7%B0%E5%AF%B9%E4%BC%8A%E6%9C%97%E2%80%9C%E5%BE%88%E5%BF%AB%E2%80%9D%E5%81%9A%E5%86%B3%E5%AE%9A%EF%BC%8C%E4%BC%8A%E6%9C%97%E7%A7%B0%E5%8F%88%E6%9C%89%E6%B2%B9%E8%BD%AE%E8%A7%A6%E9%9B%B7%EF%BC%8C%E6%B2%B9%E4%BB%B7%E5%85%A8%E5%91%A8%E8%B7%8C%E7%BA%A612"><span class="nav-text">6. Trump said a decision on Iran would be made ‘soon’; Iran reported that another oil tanker had struck a mine; oil prices fell by around 12 per cent over the week</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%82%E5%9C%BA%E5%85%B3%E8%81%94%E4%B8%8E%E4%BB%8A%E6%97%A5%E8%A7%82%E5%AF%9F"><span class="nav-text">Market Correlation and Today's Observation</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">Write down your real experiences while retaining the edges of your viewpoints.</div><div class="customize-info my-1 aden-status-hint">Something not working? Check service status at <a href="https://status.adenxie.com.cn/" target="_blank" rel="noopener">status.adenxie.com.cn</a></div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/en/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        106 posts in total
+                    </span>
+                    
+                        <span>
+                            315.8k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js" async=""></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days"></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/scene-loader.js?v=b97b1fce3bd0" defer=""></script>
+                    
+        
+        
+    <div class="aden-font-credit text-sm my-1">Typeface: <a href="https://hyperos.mi.com/font/zh/download/" target="_blank" rel="noopener">MiSans</a></div><div class="aden-license-notice text-sm my-1">Original text &amp; images: <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> · Code: <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE" target="_blank" rel="noopener">GPL-3.0</a> · <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE-CONTENT.md" target="_blank" rel="noopener">Scope &amp; exceptions</a></div></div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="Image viewer">
+	<button class="image-viewer-close" type="button" aria-label="Close">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="Prev">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="" decoding="async">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="Close">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="Next">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Search..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js?v=509b91971bf2"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js?v=969d65618587"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js?v=193270b6fdb0"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js?v=647d2af612df"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js?v=c9d014a814b8"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js?v=792db0224d6b"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js?v=7e6a109d5509" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js?v=03c1e188b884"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css?v=77a3a9d5a3d0">
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js?v=e98ec22436a5"></script>
+
+
+<script src="/js/build/plugins/aplayer.js?v=d6d3c64af35f"></script>
+
+
+	
+
+
+<button type="button" id="aden-chat-launcher" class="aden-chat-launcher" aria-haspopup="dialog" aria-expanded="false" hidden="" aria-label="Open AI chat" data-script="/js/chat.js?v=750a15ffa2e2" data-style="/css/chat.css?v=8859605e90e8"><span aria-hidden="true">✳</span><span class="aden-chat-launcher-label">Ask AI</span></button></body></html>

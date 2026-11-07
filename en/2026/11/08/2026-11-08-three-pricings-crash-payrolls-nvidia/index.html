@@ -1,0 +1,1623 @@
+<!DOCTYPE html><html lang="en"><head><script src="/js/language-preference.js?v=29a144036da1" data-english-home="/en/"></script><script src="/js/site-runtime.js?v=3ed792e13d4c" defer=""></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/en/2026/11/08/2026-11-08-three-pricings-crash-payrolls-nvidia/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Three Key Price Moves This Week: The Plunge, the Non-Farm Payrolls Report, and the Link to Nvidia">
+<meta property="og:url" content="https://blog.adenxie.com.cn/en/2026/11/08/2026-11-08-three-pricings-crash-payrolls-nvidia/">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-11-07T17:30:00.000Z">
+<meta property="article:modified_time" content="2026-11-07T17:30:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="美联储">
+<meta property="article:tag" content="美国经济">
+<meta property="article:tag" content="AI 资本开支">
+<meta property="article:tag" content="非农就业">
+<meta property="article:tag" content="英伟达">
+<meta property="article:tag" content="信用风险">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png?v=fa6db12e9674" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Three Key Events This Week: Market Plunge, Non-Farm Payrolls, and the Link to Nvidia | Aden’s Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/css/site-e1d961ec5a40.css?v=e1d961ec5a40">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js?v=258b1afa4680"></script>
+                
+    
+            
+                
+                    
+                
+    
+
+    
+
+
+
+    
+        
+
+
+    
+
+    
+
+
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"en","path":"en/search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"18px","line_height":1.8,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["Technology, experience and independent thinking","Real experiences. A personal perspective."],"hitokoto":{"enable":false,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie","name":"GitHub"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847","name":"YouTube"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie","name":"X"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Daily Brief":{"path":"/daily/","icon":"fa-regular fa-newspaper"},"archives":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"},"tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"World Time":{"path":"/world-time/","icon":"fa-regular fa-clock"},"about":{"path":"/about/","icon":"fa-regular fa-user"},"links":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":false,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.i18n = {"search":"Search...","toc":"On this page","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"POWERED BY %s","theme":"THEME","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","post":"Post","posts":"Posts","tagcloud":"Tag Cloud","comment":"Comment","comments":"Comments","home":"Home","archive":"Archive","archives":"Archives","top":"TOP","sticky":"Sticky","go-back-home":"Go Back Home","masonry_loading":"Loading photos...","image_viewer":"Image viewer","close":"Close","exif":{"title":"EXIF","cards":{"camera":"Camera","lens":"Lens","exposure":"Exposure","other":"Other"},"fields":{"make":"Brand","model":"Model","date_taken":"Date taken","lens_model":"Lens","focal_length":"Focal length","focus_mode":"Focus mode","shutter":"Shutter","aperture":"Aperture","iso":"ISO","exposure_program":"Exposure program","exposure_compensation":"Exposure compensation","metering_mode":"Metering mode","flash":"Flash","white_balance":"White balance","latitude":"Latitude","longitude":"Longitude","altitude":"Altitude"},"status":{"loading":"Loading...","no_exif":"No EXIF available","library_missing":"EXIF library not loaded","image_source_missing":"Image source unavailable","unavailable":"EXIF unavailable (blocked by CORS or missing metadata)","flag_unavailable":"EXIF unavailable"}},"about":"About","changelog":"Changelog","links":"Links","link":"Link","friends":"Friends","friend":"Friend","timeline":"Timeline","shuoshuo":"Shuoshuo","bookmarks":"Bookmarks","site_uv":"VISITOR COUNT","site_pv":"TOTAL PAGE VIEWS","read_more":"Read more","wordcount":"Words","min2read":"Mins","status":"Status","runtime":"Blog up for","days":"days","hours":"hrs","minutes":"Min","seconds":"Sec","optimized_by":"and Optimized by Evan","rights":"All Rights Reserved","site_posts":"%s posts in total","site_wordcount":"%s words in total","copyright":{"author":"Author","title":"Title","link":"Link","create_time":"Created at","update_time":"Updated at","license_title":"License","license_content":"This work is licensed under %s.","all_rights_reserved":"All Rights Reserved &#169; %s","public_domain":"This work is in the public domain."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"},"create_time":"Created","update_time":"Updated","expired":"This post is written %s days ago, and the content may not be up to date."};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" hreflang="zh-CN" href="https://blog.adenxie.com.cn/2026/11/08/2026-11-08-three-pricings-crash-payrolls-nvidia/"><link rel="alternate" hreflang="en" href="https://blog.adenxie.com.cn/en/2026/11/08/2026-11-08-three-pricings-crash-payrolls-nvidia/"><link rel="preconnect" href="https://cdn-file.hyperos.mi.com" crossorigin="" data-aden-font-connect=""><script data-aden-analytics="">
+      if (location.hostname === 'blog.adenxie.com.cn' && !window.__adenAnalyticsLoaded) {
+        window.__adenAnalyticsLoaded = true;
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        const script = document.createElement('script');
+        script.defer = true;
+        script.src = '/_vercel/insights/script.js';
+        document.head.append(script);
+      }
+    </script></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/en/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/daily/">
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    DAILY BRIEF
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/categories/">
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    CATEGORIES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    WORLD TIME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search">
+                            <button type="button" class="search-popup-trigger" aria-label="Search"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <button type="button" class="icon-item search search-popup-trigger" aria-label="Search"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                
+                <button type="button" class="icon-item navbar-bar" aria-label="Menu" aria-controls="navbar-drawer" aria-expanded="false"><span class="navbar-bar-middle"></span></button>
+            </div>
+        </div>
+    <nav class="aden-language-switch" aria-label="Language"><a lang="zh-CN" href="/2026/11/08/2026-11-08-three-pricings-crash-payrolls-nvidia/" aria-current="false" data-no-swup="">中文</a><span> / </span><a lang="en" href="/en/2026/11/08/2026-11-08-three-pricings-crash-payrolls-nvidia/" aria-current="page" data-no-swup="">English</a></nav></div>
+
+    <!-- Mobile sheet -->
+    <div id="navbar-drawer" class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/">
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/daily/">
+                            <span>
+                                DAILY BRIEF
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/archives/">
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/categories/">
+                            <span>
+                                CATEGORIES
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/tags/">
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/world-time/">
+                            <span>
+                                WORLD TIME
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/about/">
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/en/link/">
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/tags/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">72</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/categories/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/archives/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">106</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://images.pexels.com/photos/210607/pexels-photo-210607.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Three Key Price Moves This Week: The Plunge, the Non-Farm Payrolls Report, and the Link to Nvidia" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" decoding="async">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">Three Key Price Moves This Week: The Plunge, the Non-Farm Payrolls Report, and the Link to Nvidia</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg?v=93ba7ebfa2ff" decoding="async" width="460" height="460">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-11-08 01:30</span>
+        <span class="mobile">2026-11-08 01:30</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-11-08 01:30</span>
+            <span class="mobile">2026-11-08 01:30</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/en/categories/%E7%BB%8F%E6%B5%8E%E8%A7%82%E5%AF%9F/">Economic Observer</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/en/tags/%E7%BE%8E%E8%81%94%E5%82%A8/">The Federal Reserve</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/%E7%BE%8E%E5%9B%BD%E7%BB%8F%E6%B5%8E/">The US economy</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/AI-%E8%B5%84%E6%9C%AC%E5%BC%80%E6%94%AF/">AI capital expenditure</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/%E9%9D%9E%E5%86%9C%E5%B0%B1%E4%B8%9A/">Non-farm employment</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/%E8%8B%B1%E4%BC%9F%E8%BE%BE/">NVIDIA</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/%E4%BF%A1%E7%94%A8%E9%A3%8E%E9%99%A9/">Credit risk</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>7.1k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>26 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8"><p class="aden-translation-notice">Automatically translated. <a href="/2026/11/08/2026-11-08-three-pricings-crash-payrolls-nvidia/">Read the Chinese original</a>.</p>
+			<blockquote>
+<p><strong>Introduction</strong>: This is our fourth article on AI capital expenditure. The first article<a href="/en/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/">‘AI: The Mainstay of Capital Expenditure’</a>A discussion on how computing infrastructure drives macroeconomic growth in the US; Part Two<a href="/en/2026/10/31/2026-10-31-macro-micro-ai-capex-verdict/">‘In the same week, macro and micro perspectives delivered conflicting verdicts on AI capital expenditure’</a>This piece documents the dichotomy between the view that GDP is ‘very strong’ and the view that, during the earnings season, shares are ‘too expensive’; Part Three<a href="/en/2026/11/05/2026-11-05-midterms-ai-capex-politics/">‘The Political Calculus of AI Capital Expenditure in the Wake of the Mid-Term Elections’</a>The impact of political factors is felt at state level rather than at federal level. On 5 and 6 November 2026, these three factors were simultaneously priced in by the market within a 24-hour period:<strong>The stock market is being valued on the basis of liquidation, the bond market on the basis of solvency, and the non-farm payrolls data has dashed any hopes of an interest rate cut.</strong>This article seeks to answer the question of whether this sharp fall is the result of a bubble bursting, or whether something else has simply been priced for the first time.</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="一、11-05：不是泡沫破了，是政治风险第一次有了百分比"><a href="#一、11-05：不是泡沫破了，是政治风险第一次有了百分比" class="headerlink" title="I. 5 November: It is not that the bubble has burst, but that political risk has been quantified for the first time"></a>I. 5 November: It is not that the bubble has burst, but that political risk has been quantified for the first time</h2><p>First, explain clearly what happened that day, and then explain why.</p>
+<p><strong>US stock market close on Thursday, 5 November 2026:</strong></p>
+<div class="aden-table-scroll" role="region" tabindex="0" aria-label="Scrollable table"><table>
+<thead>
+<tr>
+<th>Index</th>
+<th>decline</th>
+<th>Closing Prices and Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Nasdaq Composite Index</td>
+<td><strong>-5.52%</strong></td>
+<td>Closed at 24,315.00, entering a technical correction zone</td>
+</tr>
+<tr>
+<td>S&amp;P 500 Index</td>
+<td><strong>-4.36%</strong></td>
+<td>Worst single day since the tariff shock on ‘Liberation Day’ in April 2025</td>
+</tr>
+<tr>
+<td>Dow Jones Industrial Average</td>
+<td><strong>-3.44%</strong></td>
+<td>It closed at 51,523.06, down by more than 1,800 points</td>
+</tr>
+</tbody></table></div>
+<p>There are two distinct methods of calculating market capitalisation; both must be considered in parallel rather than choosing one over the other:<strong>The *Wall Street Journal* and CNN cite a figure of $2.5 trillion, described as a single-day record; Reuters cites a figure of $3 trillion, but this only includes S&amp;P 500 constituents.</strong> The composition of the two differs, so they cannot be added together nor can they be used as substitutes for one another. Yahoo Finance provides a historical context: this is <strong>The worst trading day following a mid-term election since 1896</strong>。</p>
+<p>Safe-haven assets moved in the opposite direction to equities: on the day, the bond market and gold both rose, the yield on the 10-year US Treasury fell to its lowest level since September, and the VIX closed at 24.23.</p>
+<h3 id="引爆的不是需求，是一个百分比的数字"><a href="#引爆的不是需求，是一个百分比的数字" class="headerlink" title="It wasn’t demand that triggered the surge, but a percentage figure"></a>It wasn’t demand that triggered the surge, but a percentage figure</h3><p>This is the most important conclusion of this article, and it is also the point that has been widely misreported by the media this week.</p>
+<p>The vast majority of reports described 11-05 as ‘the AI bubble has finally burst’. But the figure that really set things alight was an estimate that emerged after the election results were announced—<strong>For the first time, a percentage has been put on the data centre capacity that can be deferred for political reasons.</strong></p>
+<ul>
+<li><strong>Goldman Sachs: approximately 45 per cent. Published on 4 November, the day before the sharp fall.</strong> It is estimated that Democratic victories at state and local levels could lead to temporary project suspensions, affecting approximately 45 per cent of the planned expansion in US data centre capacity.</li>
+<li><strong>Bloomberg: approximately 40 per cent. Published on 6 November, the day after the sharp fall.</strong> The scope is narrower, counting only the capacity in schemes ‘located in states where the new governor has pledged to halt or suspend them’.</li>
+</ul>
+<p><strong>It is essential to get the chronology right here, otherwise the cause and effect will be reversed: Goldman Sachs’ 45 per cent figure, which came before the crash, was the trigger; Bloomberg’s 40 per cent figure, which came after the crash, was the review.</strong> It is not strictly accurate to describe the two figures as having ‘triggered the crash together’—on 5 November, the figure circulating in the market was the one from Goldman Sachs.</p>
+<p>However, the two figures are worth mentioning side by side, as they point to the same conclusion:<strong>It is not that demand has disappeared; rather, this is the first time that the notion that ‘this portion of demand may have been postponed due to political processes’ has been quantified.</strong> The difference between 45 per cent and 40 per cent is not down to a calculation error, but rather to a difference in the denominators: Goldman Sachs included the risk of shutdowns in the next tier down, whilst Bloomberg only counted those for which the governor had made a public commitment. The day after the sharp fall, Bloomberg carried out an independent calculation using a narrower scope, arriving at 40 per cent—<strong>This means that even using the most conservative calculation, 40 per cent of the planned capacity falls within the political risk zone.</strong> Which version is closer to reality will depend on how the State Parliament formulates the provisions.</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://files.seeusercontent.com/2026/11/07/Quw7/fig1-crash-transmission-chain.png" alt="5 November: The Chain Reaction of the Plunge" decoding="async" loading="lazy" width="1000" height="500"><figcaption>5 November: The Chain Reaction of the Plunge</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 1</span><span class="aden-caption-text">5 November: The chain of events leading to the crash. The trigger was the first quantification of political risk—Goldman Sachs’ estimate of approximately 45 per cent, published the day before the crash (4 November), served as the trigger, whilst Bloomberg’s estimate of approximately 40 per cent, published the following day (6 November), constituted an independent review; The transmission stage involved a simultaneous drain of resources across the computing power and electricity supply chains; at the close, all three indices fell in the same direction, whilst the scale of the market capitalisation loss is reported under two distinct statistical methodologies—$2.5 trillion and $3 trillion—which are not interchangeable.</span></p>
+<h3 id="传导顺序暴露了市场的真实担忧"><a href="#传导顺序暴露了市场的真实担忧" class="headerlink" title="The chain of events has laid bare the market’s genuine concerns"></a>The chain of events has laid bare the market’s genuine concerns</h3><p>The ranking of the declines is, in itself, a diagnostic report:</p>
+<div class="aden-table-scroll" role="region" tabindex="0" aria-label="Scrollable table"><table>
+<thead>
+<tr>
+<th>Subject matter</th>
+<th>5 November: Decline</th>
+<th>Stage in the process</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Philadelphia Semiconductor Index</td>
+<td><strong>-12 per cent or more</strong></td>
+<td>Computing chips</td>
+</tr>
+<tr>
+<td>NVIDIA</td>
+<td><strong>-9 per cent or more</strong></td>
+<td>Computing chips</td>
+</tr>
+<tr>
+<td>GE Vernova</td>
+<td><strong>-7.5%</strong></td>
+<td>Electrical equipment</td>
+</tr>
+<tr>
+<td>Constellation Energy</td>
+<td><strong>-2.5%</strong></td>
+<td>Electricity supply</td>
+</tr>
+</tbody></table></div>
+<p><strong>The closer the sector is to computing chips, the steeper the decline; the power and equipment sectors saw the next steepest declines.</strong> This trend suggests that the market is squeezing valuations, not orders—if the market truly believed that demand was set to disappear, the power sector should have fallen even more sharply than the chip sector, as power stations follow the lead of data centres. Yet this has not been the case.</p>
+<p>As an aside, here is a piece of secondary data: figures cited by Yahoo Finance show that retail investors made net sales of approximately US$358 million ($358M) on that day, the largest single-day figure since 2020. We have been unable to locate a primary source for this figure; it is provided solely as an indication of market sentiment and is not intended to support any specific argument.</p>
+<h3 id="两种读法，都得摆出来"><a href="#两种读法，都得摆出来" class="headerlink" title="Both interpretations must be presented."></a>Both interpretations must be presented.</h3><p>On the same day, there were two completely opposing interpretations circulating in the market; this article does not take sides on behalf of the reader:</p>
+<p><strong>First interpretation: This is a speed bump, not a roadblock.</strong> Yardeni Research has maintained its year-end target of 7,900 points for the S&amp;P 500 and described Thursday’s sharp fall as a ‘buying opportunity’. Its reasoning is that no data points on the demand side for AI have deteriorated; the decline is merely a valuation reset caused by political noise.</p>
+<p><strong>A second interpretation: the language of the credit market is ‘no mas’ (that’s it).</strong> This school of thought focuses not on price-to-earnings ratios, but on Neocloud’s funding costs, CDS spreads and the availability of project finance. In their view, 11-05 simply marks the point at which the stock market finally acknowledged what the bond market had been saying for three months.</p>
+<p><strong>This journal’s view is that these two interpretations describe two sides of the same issue, but the market has conflated them into a single matter.</strong> Please refer to Section 3 for further details.</p>
+<h2 id="二、11-06：一小时的就业数据，关掉了降息幻想"><a href="#二、11-06：一小时的就业数据，关掉了降息幻想" class="headerlink" title="II. 6 November: The hourly employment figures put an end to hopes of an interest rate cut"></a>II. 6 November: The hourly employment figures put an end to hopes of an interest rate cut</h2><p>On the morning of Friday, 6 November, the US Bureau of Labour Statistics released the October employment figures. The impact of this one-hour period was of greater structural significance than the sharp fall seen the previous day.</p>
+<div class="aden-table-scroll" role="region" tabindex="0" aria-label="Scrollable table"><table>
+<thead>
+<tr>
+<th>Indicators</th>
+<th>Actual value</th>
+<th>Expected value</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>New jobs added in October’s non-farm payrolls</td>
+<td><strong>+165,000</strong></td>
+<td>+65,000</td>
+<td>This figure significantly exceeded expectations and was also well above the monthly average of +48,000 over the past 12 months</td>
+</tr>
+<tr>
+<td>Unemployment rate</td>
+<td><strong>4.1%</strong></td>
+<td>—</td>
+<td>It has been fluctuating within a narrow range of 4.1 per cent to 4.3 per cent since March</td>
+</tr>
+<tr>
+<td>New cases in August (revised upwards)</td>
+<td><strong>+186,000</strong></td>
+<td>Original value: +133,000</td>
+<td>Revised upwards by 53,000</td>
+</tr>
+<tr>
+<td>New cases in September (revised upwards)</td>
+<td><strong>+60,000</strong></td>
+<td>Original value: +29,000</td>
+<td>Revised upwards by 31,000</td>
+</tr>
+</tbody></table></div>
+<p>Market pricing for the FOMC meeting on 8–9 December immediately shifted:<strong>The probability of a 25-basis-point interest rate rise rose from around 67 per cent on Thursday to around 80 per cent on Friday</strong>(Reuters, citing market pricing). Reuters’ exact wording was: “A strengthening labour market has kept the Federal Reserve on track for a rate rise in December.”</p>
+<p>Another Reuters report published on the same day had an even more straightforward headline – ‘Dollar surges after strong non-farm payrolls figures’ – with the subheading stating that ‘the probability of a rate rise in December has risen to nearly 80 per cent’.</p>
+<p>Kathy Bostjancic, Chief Economist at Nationwide, has also publicly expressed her support for a rate rise in December.</p>
+<p><strong>Here is a detail that is easily overlooked:</strong> The figure of 165,000 in October not only exceeded expectations, but also<strong>well above the average of 48,000 new cases per month over the past 12 months</strong>(According to the BLS’s original terminology). In other words, this is not merely ‘slightly better than expected’, but a figure that has suddenly emerged from a labour market that was verging on stagnation. The combined figures for August and September were revised upwards by 84,000, further reinforcing the view that ‘the summer slump was temporary’.</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://files.seeusercontent.com/2026/11/07/j0cT/fig2-three-pricings.png" alt="Two repricing events following the 6 November non-farm payrolls report" decoding="async" loading="lazy" width="1000" height="500"><figcaption>Two repricing events following the 6 November non-farm payrolls report</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 2</span><span class="aden-caption-text">6 November: Two repricing events following the non-farm payrolls report. Left: Market pricing for a 25-basis-point rate hike at the December FOMC meeting rose from approximately 67 per cent on 5 November to approximately 80 per cent on 6 November; Right: The CoreWeave 5-year CDS spread has crossed the 1,000 basis point threshold at which S&amp;P Global defines a ‘credit distress’.</span></p>
+<h3 id="这一次，我们的旧判断被证实，但增量在别处"><a href="#这一次，我们的旧判断被证实，但增量在别处" class="headerlink" title="On this occasion, our previous assessment has been confirmed, but the growth is coming from elsewhere."></a>On this occasion, our previous assessment has been confirmed, but the growth is coming from elsewhere.</h3><p>We are in<a href="/en/2026/10/31/2026-10-31-macro-micro-ai-capex-verdict/">‘In the same week, macro and micro perspectives delivered conflicting verdicts on AI capital expenditure’</a>It says: ‘Quarterly inflation has fallen to 2.1 per cent, but stood at 3.6 per cent in September alone; GDP growth was 3.4 per cent, and investment in AI remains robust—’<strong>There is no reason to cut interest rates, but there are two reasons to raise them further.</strong> The non-farm payrolls data on 6 November turned this assessment from ‘analysis’ into ‘pricing’.</p>
+<p>But<strong>The real significance lies not in the probability of a rate rise itself, but in whose costs will be driven up as a result of such a rise</strong>. If interest rates are indeed raised in December, it will not be the giants that rely on operating cash flow to stay afloat that will be hardest hit, but rather the ‘neocloud’ companies that must continually tap the bond market for refinancing—their funding costs have already risen ahead of the policy rate. This will be covered in the next section.</p>
+<h2 id="三、信用市场比股市更早、更狠地投了不信任票"><a href="#三、信用市场比股市更早、更狠地投了不信任票" class="headerlink" title="III. The credit market cast a vote of no confidence earlier and more decisively than the stock market"></a>III. The credit market cast a vote of no confidence earlier and more decisively than the stock market</h2><p>If 5 November marked a reckoning for the stock market, then the credit market had already undergone its own reckoning back in October; it’s just that nobody took any notice.</p>
+<h3 id="CoreWeave：一个正在被重估的对照物"><a href="#CoreWeave：一个正在被重估的对照物" class="headerlink" title="CoreWeave: A benchmark undergoing reassessment"></a>CoreWeave: A benchmark undergoing reassessment</h3><div class="aden-table-scroll" role="region" tabindex="0" aria-label="Scrollable table"><table>
+<thead>
+<tr>
+<th>Indicators</th>
+<th>Value</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>5-year CDS spreads (mid-October)</td>
+<td><strong>Approximately 1,038 bp</strong></td>
+<td>Week-on-week: +16 per cent; year-on-year: +164 per cent</td>
+</tr>
+<tr>
+<td>5-year CDS spread (peak)</td>
+<td><strong>Breakthrough of 1,140bp</strong></td>
+<td>all-time high</td>
+</tr>
+<tr>
+<td>Yield to maturity on the 9.75 per cent bond maturing in 2031</td>
+<td><strong>15.78%</strong></td>
+<td>Coupon rate: 9.75 per cent; market yield: 15.78 per cent</td>
+</tr>
+<tr>
+<td>Total debt and lease obligations</td>
+<td><strong>Over US$51 billion ($51B)</strong></td>
+<td>Its scale has now reached the level of a major issuer</td>
+</tr>
+<tr>
+<td>Quarterly interest expense (Q2)</td>
+<td><strong>US$640 million ($640M)</strong></td>
+<td>More than double year-on-year</td>
+</tr>
+<tr>
+<td>Debt / Annualised EBITDA</td>
+<td><strong>approximately 5.8 times</strong></td>
+<td>Leverage is on the high side</td>
+</tr>
+<tr>
+<td>Share price</td>
+<td><strong>US$65.78</strong></td>
+<td>65 per cent below its 52-week high</td>
+</tr>
+</tbody></table></div>
+<p><strong>Gavan Nolan of S&amp;P Global has provided a practical benchmark: when CDS spreads exceed 1,000 basis points, the issuer enters the ‘distressed’ category.</strong> CoreWeave has crossed the line.</p>
+<p>This is not an isolated case. Nebius holds $8 billion ($8B) in cash whilst carrying $8.5 billion ($8.5B) in debt; Applied Digital has debts of approximately $6.4 billion ($6.4B). CoreWeave is due to publish its Q3 results on 10 November; its previously provided guidance for interest expense was between US$860 million and US$940 million, with capital expenditure guidance of US$35 billion to US$39 billion ($35B–$39B).</p>
+<h3 id="德意志银行看到的结构性风险"><a href="#德意志银行看到的结构性风险" class="headerlink" title="Structural risks identified by Deutsche Bank"></a>Structural risks identified by Deutsche Bank</h3><p>Reid, a credit research analyst at Deutsche Bank, highlighted a point that is even more cause for concern than the CDS figures: CoreWeave’s order backlog exceeds US$100 billion ($100B), whilst<strong>Around two-thirds of the counterparties are investment-grade companies</strong>— Microsoft, Meta, IBM, Caterpillar.</p>
+<p>Whilst this structure may sound like a good thing, it actually conceals a transmission mechanism:<strong>If CoreWeave’s rating were downgraded to below BBB, funds that are restricted to holding investment-grade bonds (such as insurance companies, pension funds and some money market funds) would be forced to sell.</strong> It is not because they believe CoreWeave will default, but because their investment mandates do not permit the holding of non-investment-grade bonds. This is a mechanical sell-off, unrelated to any judgement.</p>
+<h3 id="巨头这一侧的融资也在变贵，只是还没到痛的位置"><a href="#巨头这一侧的融资也在变贵，只是还没到痛的位置" class="headerlink" title="Funding is also becoming more expensive for the tech giants, though it hasn’t yet reached a critical point."></a>Funding is also becoming more expensive for the tech giants, though it hasn’t yet reached a critical point.</h3><p>During the same week, the funding moves by the industry giants were also noteworthy:</p>
+<ul>
+<li><strong>Meta</strong>: The market had originally expected a bond issue of between US$20 billion and US$25 billion ($20B–$25B), but the actual five-tranche issue totalled US$15 billion ($15B) (Reuters figures; the target range reported by CNBC on 3 November was US$20 billion to US$25 billion; both figures are presented side by side). The 2026 capital expenditure guidance remains at US$135 billion to US$145 billion ($135B–$145B).</li>
+<li><strong>Amazon</strong>: A supplier financing facility of up to US$80 billion ($80B) was disclosed in the 10-Q filing, with funds available for drawdown from the first quarter of 2027; a credit facility of US$17.5 billion ($17.5B) was secured in June.</li>
+</ul>
+<h3 id="本刊的判断（标注为推断）"><a href="#本刊的判断（标注为推断）" class="headerlink" title="This journal’s assessment (marked as ‘inference’)"></a>This journal’s assessment (marked as ‘inference’)</h3><p><strong>Existing cash flows remain unaffected, whilst the cost of additional funding has risen; yet the market is pricing the latter as if it were the former.</strong></p>
+<p>This statement needs to be broken down and explained clearly:</p>
+<ol>
+<li><strong>Existing stock</strong>: Long-term contracts already signed, projects already under construction, and electricity prices already locked in—these cash flows are unaffected by the interest rate rises on 5 November or in December. In this respect, Yardeni is correct when he says that ‘demand has not changed’.</li>
+<li><strong>Incremental portion</strong>: The cost of financing new projects, the pricing of newly signed contracts, and the cost of maturing debt requiring rollover refinancing—these costs are already rising, and interest rate rises will push them even higher.</li>
+<li><strong>What the market is doing</strong>: Factor in the bad news from point 2 in a single instalment, using the valuation method set out in point 1.<strong>This is a revaluation, not a collapse in fundamentals.</strong> Conversely, the opposite is also true: if the bad news mentioned in point 2 proves not to have trickled down to point 1 (for example, if the giants absorb all the new demand using their own cash flow), then this downturn is an overshoot—which is precisely what Yardeni is betting on.</li>
+</ol>
+<p>Which of the two is correct? The results from 11–10 and 11–17 will provide the first set of answers.</p>
+<h2 id="四、选举是扳机，不是子弹"><a href="#四、选举是扳机，不是子弹" class="headerlink" title="IV. Elections are the trigger, not the bullet"></a>IV. Elections are the trigger, not the bullet</h2><p>It is essential to describe the chain of cause and effect accurately:<strong>The results of the mid-term elections provided the reason to pull the trigger, but they were not the bullet itself.</strong></p>
+<p>These four factors are all at play; had any one of them been missing, the fall would not have been so steep:</p>
+<ol>
+<li><strong>Political constraints have been quantified for the first time</strong>(Goldman Sachs: approximately 45 per cent, published on 4 November). Prior to this, the statement that ‘data centres might be halted for political reasons’ was a qualitative assessment that could be diluted by the discount rate; with the introduction of a percentage figure, it became a variable that could be modelled. Bloomberg’s review the following day, using a narrower scope, arrived at a figure of 40 per cent, indicating that this was not a conclusion derived solely from Goldman Sachs’ calculations.</li>
+<li><strong>Positions are extremely crowded following the earnings season</strong>. Throughout the third quarter, capital flowed unidirectionally into the AI computing power sector, meaning that the marginal impact of any negative news would be magnified.</li>
+<li><strong>The credit market has priced this in ahead of time</strong>. CDS spreads and bond yields had already turned as early as October; the stock market merely made up for this gap on 5 November.</li>
+<li><strong>The buffer provided by low-cost funding has been eliminated</strong>. The probability of a rate rise in December has jumped from 67 per cent to 80 per cent, meaning that the option of ‘just holding out for a while, as funding is cheap anyway’ is no longer on the table.</li>
+</ol>
+<p><strong>It is only when these four are placed side by side that they form 11-05.</strong> Attributing this fall solely to the election would lead to erroneous conclusions—such as the belief that the market will automatically recover once the political furore has subsided.</p>
+<p>Texas provides the most direct evidence:<strong>Republican Governor Abbott had already ordered a suspension of data centre licences back in September</strong>(Source: Announcement by the Office of the Governor of Texas, 21 September 2026), which was two months before the Democrats’ election victory. Meanwhile, the newly elected Governor of Texas, Hinojosa, stated in an interview with CNN’s Jake Tapper on the afternoon of 5 November that projects which had already been approved would be allowed to be completed – according to him, these projects account for ‘almost all’ of Texas’s planned capacity for 2027; Hinojosa also stated that he would push for Abbott’s suspension order to be extended until the state legislature’s session next year (Texas Tribune, 4 November 2026).</p>
+<p><strong>In other words: opposition to data centres is a well-established, cross-party reality, not an issue exclusive to the Democratic Party.</strong> As for this point, we will<a href="/en/2026/11/05/2026-11-05-midterms-ai-capex-politics/">The article on the mid-term elections</a>As has already been demonstrated, this week’s market has simply taken this on board.</p>
+<h2 id="五、英伟达：11-17-的观察清单"><a href="#五、英伟达：11-17-的观察清单" class="headerlink" title="V. NVIDIA: Watchlist for 11–17"></a>V. NVIDIA: Watchlist for 11–17</h2><p>On 17 November, NVIDIA released its financial results for the third quarter of the 2027 financial year. This marks the first key milestone following this article that could either confirm or refute the aforementioned assessment, and is therefore worth listing separately.</p>
+<h3 id="先看上一季的官方数字（Q2-FY2027）"><a href="#先看上一季的官方数字（Q2-FY2027）" class="headerlink" title="Let’s first look at the official figures for the previous quarter (Q2 FY2027)"></a>Let’s first look at the official figures for the previous quarter (Q2 FY2027)</h3><div class="aden-table-scroll" role="region" tabindex="0" aria-label="Scrollable table"><table>
+<thead>
+<tr>
+<th>Indicators</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Total revenue for the period</td>
+<td><strong>US$96.2 billion ($96.2B)</strong>, up 106 per cent year-on-year</td>
+</tr>
+<tr>
+<td>Revenue from data centre operations</td>
+<td><strong>US$89 billion ($89B)</strong>, representing a year-on-year increase of 117 per cent and accounting for approximately 92 per cent of total revenue (89.0 ÷ 96.2 ≈ 92.5 per cent)</td>
+</tr>
+<tr>
+<td>Q3 Revenue Guidance</td>
+<td><strong>US$108 billion ($108B)</strong>, with a fluctuation of 2 per cent either way</td>
+</tr>
+<tr>
+<td>Gross Profit Margin Guidance</td>
+<td>Both GAAP and non-GAAP are <strong>74.0%</strong>, fluctuating by 50 basis points either way</td>
+</tr>
+<tr>
+<td>Chinese terminology</td>
+<td>Guidance<strong>Excludes</strong>Revenue from computing power in any Chinese data centre</td>
+</tr>
+</tbody></table></div>
+<h3 id="11-17-要看的四件事"><a href="#11-17-要看的四件事" class="headerlink" title="11–17: Four things to look out for"></a>11–17: Four things to look out for</h3><ol>
+<li><strong>Will total revenue reach the guidance range of US$108 billion (plus or minus 2 per cent), and will data centre revenue continue to account for more than 90 per cent of the total?</strong> This is the easiest to quantify and the one on which there is the least disagreement.</li>
+<li><strong>Will the non-GAAP gross profit margin hold steady at around 74 per cent?</strong> This factor is more important than revenue: if the gross profit margin falls, it indicates that pricing power is waning, and pricing power is the very foundation of this round of valuations.</li>
+<li><strong>Has China revised its revenue guidance?</strong> Last quarter’s guidance explicitly excluded revenue from computing power at data centres in China. If this revenue is included again this quarter, it would be a signal of a shift in direction—regardless of the amount included, it would indicate a change in the scope of export controls.</li>
+<li><strong>Concerns regarding customer concentration and recurring transactions.</strong> This is the most difficult question to answer, and also the one most likely to be probed further. If the share of revenue accounted for by the top few customers continues to rise, and if these include entities with investment ties to Nvidia itself, the market will interpret this as ‘demand being artificially inflated’.</li>
+</ol>
+<p><strong>It should be noted in all honesty that we have been unable to obtain the specific figures for the market consensus on the financial results for 11–17; therefore, this article does not make any judgements as to whether the results ‘exceeded or fell short of expectations’, but merely lists items for observation.</strong> This item will be added following the publication of the financial results.</p>
+<h3 id="11-18：紧接其后的另一场考试"><a href="#11-18：紧接其后的另一场考试" class="headerlink" title="11–18: Another exam immediately following this one"></a>11–18: Another exam immediately following this one</h3><p>On the day following the financial results announcement (18 November), Jensen Huang is due to give a closed-door briefing to the Republican chairmen of three House committees regarding his relationship with Megaspeed executive Alice Huang and the company’s counter-espionage security protocols. The three chairmen who jointly requested the briefing are from the Committee on Foreign Affairs (Mast), the Select Committee on China (Moolenaar) and the Committee on Intelligence (Crawford). NVIDIA’s response was that the meeting between Jensen Huang and Alice Huang was no different from meetings with executives from other clients.</p>
+<p>Three possible outcomes, with probabilities and triggering conditions:</p>
+<div class="aden-table-scroll" role="region" tabindex="0" aria-label="Scrollable table"><table>
+<thead>
+<tr>
+<th>Towards</th>
+<th>Probability</th>
+<th>Trigger conditions</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>A technical finish</strong>: The closed-door briefing has concluded; the committee will not take any further action in private.</td>
+<td><strong>55%</strong></td>
+<td>The content of the briefing was deemed to fall within the scope of standard security compliance; no new evidence of related-party transactions has come to light.</td>
+</tr>
+<tr>
+<td><strong>Upgraded to a public hearing</strong></td>
+<td><strong>30%</strong></td>
+<td>The Committee considers the briefing to be inadequate, or the media has disclosed new records of meetings or investments during this period</td>
+</tr>
+<tr>
+<td><strong>Prompt legislative action</strong>(such as provisions on export controls or investment screening)</td>
+<td><strong>15%</strong></td>
+<td>The briefing contains specific facts that could be incorporated into legislative provisions and are likely to be included in the 2027 legislative programme</td>
+</tr>
+</tbody></table></div>
+<p>The sum of the three probabilities is 100 per cent, but this does not constitute a prediction of the outcome.<strong>If the 11–17 financial results fall short of expectations and the 11–18 briefing is escalated to a public hearing, these two events will coincide within 24 hours, and the impact will be greater than the sum of the two occurring separately.</strong> This is precisely why this article lists the two dates consecutively.</p>
+<h2 id="六、Anthropic-定价：未来两周信息量最大的单一事件"><a href="#六、Anthropic-定价：未来两周信息量最大的单一事件" class="headerlink" title="VI. Anthropic’s pricing: the single most newsworthy event of the next two weeks"></a>VI. Anthropic’s pricing: the single most newsworthy event of the next two weeks</h2><p>If one were to pick a single event over the past fortnight that was ‘most likely to change all valuations without a word being said’, it would not be Nvidia’s earnings report, but Anthropic’s IPO pricing.</p>
+<p><strong>First-hand facts (SEC EDGAR)</strong>: Anthropic’s S-1/A-1 was filed on <strong>2 November 2026</strong>Submitted. However, the cover sheet still bears the notation ‘Subject to Completion’,<strong>Both the ‘Price Range’ and ‘Number of Shares Issued’ fields have been left blank</strong>. This means that the pricing range will appear in subsequent amendments to the S-1/A filing, rather than in this version.</p>
+<p><strong>Timetable</strong>: The roadshow is set to begin as early as 10 November (as reported by Yahoo), and the target of listing before Thanksgiving remains unchanged.</p>
+<p><strong>Valuation range (all figures are media estimates and do not represent the company’s official figures)</strong>: The *Wall Street Journal* reported that the range under discussion for the valuation was between 1.5 trillion and 2 trillion US dollars ($1.5T–$2.0T); On 1 October, Bloomberg cited a reasonable valuation from the investor side of between 1.8 trillion and 2 trillion US dollars ($1.8T–$2.0T).<strong>Neither of these figures was released by Anthropic or the underwriters; they are labelled as media estimates.</strong></p>
+<p><strong>Why does it contain more information than Nvidia’s financial results?</strong>: Nvidia’s financial results confirm existing demand, whilst Anthropic’s pricing represents a public auction addressing the question of ‘just how much are AI assets actually worth?’.<strong>If the price rises to the upper end of the range, indicating that the primary market’s bids for AI assets have not been reduced as a result of the 5 November event, then the decline in the secondary market represents a localised revaluation; If the price settles at the lower end of the range or even falls below it, then the 5 November event is not an isolated incident, but rather the start of a broader revaluation.</strong></p>
+<h2 id="七、情景迭代：从-45-40-15-到-40-45-15"><a href="#七、情景迭代：从-45-40-15-到-40-45-15" class="headerlink" title="VII. Scenario Iteration: From 45/40/15 to 40/45/15"></a>VII. Scenario Iteration: From 45/40/15 to 40/45/15</h2><p>We are in<a href="/en/2026/10/31/2026-10-31-macro-micro-ai-capex-verdict/">‘In the same week, macro and micro perspectives delivered conflicting verdicts on AI capital expenditure’</a>The three scenarios provided are<strong>Continue 45 per cent / Slow down 40 per cent / Break 15 per cent</strong>. Over the course of this week, we have fine-tuned them as follows:</p>
+<div class="aden-table-scroll" role="region" tabindex="0" aria-label="Scrollable table"><table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Old probability</th>
+<th>New Probability</th>
+<th>Trigger Conditions and Monitoring Indicators</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Continuation</strong>: Capital expenditure continues, with growth remaining steady</td>
+<td>45%</td>
+<td><strong>40%</strong></td>
+<td>11–17: NVIDIA’s data centre revenue met expectations and gross margin held steady at 74 per cent; Anthropic’s pricing came in at the upper end of the range; credit spreads ceased to widen following the December interest rate hike</td>
+</tr>
+<tr>
+<td><strong>slow down</strong>: Growth has slowed, but the absolute figure has not decreased</td>
+<td>40%</td>
+<td><strong>45%</strong></td>
+<td>Substantial delays in obtaining state-level licences; financing costs for neocloud companies such as CoreWeave continue to rise; capital expenditure guidance for 2027 has been revised downwards but remains positive</td>
+</tr>
+<tr>
+<td><strong>Rupture</strong>: A decline in the absolute amount of capital expenditure</td>
+<td>15%</td>
+<td><strong>15%</strong></td>
+<td>Neocloud defaults or undergoes debt restructuring; a major player publicly cuts its absolute capital expenditure for 2027; Nvidia revises its guidance downwards for the second consecutive quarter</td>
+</tr>
+</tbody></table></div>
+<h3 id="为什么改，理由只有三条"><a href="#为什么改，理由只有三条" class="headerlink" title="There are only three reasons for the change"></a>There are only three reasons for the change</h3><ol>
+<li><strong>Political constraints have been quantified for the first time.</strong> Before the figures 45 per cent and 40 per cent were introduced, ‘political risk’ was a qualitative description that could not be incorporated into the model; once they were introduced, it became a growth rate assumption that could be revised downwards.</li>
+<li><strong>The credit market has already priced this in.</strong> Before the stock market’s catch-up fall on 5 November, CDS spreads and bond yields had already been trending downwards for a month. The credit market is usually an earlier and more accurate indicator than the stock market, and this occasion was no exception.</li>
+<li><strong>The pricing in of an 80 per cent interest rate rise has eliminated the buffer provided by low-cost funding.</strong> In addition to the first two reasons, this one completely rules out the option of ‘just gritting your teeth and getting through it’.</li>
+</ol>
+<h3 id="必须把话说明白：放缓在增量，不在存量"><a href="#必须把话说明白：放缓在增量，不在存量" class="headerlink" title="Let us be clear: the slowdown relates to new growth, not existing levels."></a>Let us be clear: the slowdown relates to new growth, not existing levels.</h3><p><strong>The ‘slowdown’ scenario does not imply that any company will reduce the investment it has already committed to.</strong> This refers to: a slower pace of commencement for new projects, less favourable pricing terms for new orders, and incremental capital expenditure in 2027 being lower than previously guided. Data centres already under construction will not be halted as a result.</p>
+<p><strong>If NVIDIA’s results on 11–17 exceed expectations, or if Anthropic’s valuation rises to the upper end of the range, we will adjust the probabilities to 45/40/15.</strong> Either of these two events is sufficient to demonstrate that we have overestimated the speed at which political factors take effect.</p>
+<h2 id="八、未来两周：五个已经排好日期的观察点"><a href="#八、未来两周：五个已经排好日期的观察点" class="headerlink" title="VIII. The next two weeks: five observation points with scheduled dates"></a>VIII. The next two weeks: five observation points with scheduled dates</h2><p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://files.seeusercontent.com/2026/11/07/w7Fz/fig3-next-two-weeks-timeline.png" alt="Five key milestones over the next two weeks" decoding="async" loading="lazy" width="1000" height="500"><figcaption>Five key milestones over the next two weeks</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 3</span><span class="aden-caption-text">Five key dates over the next two weeks. 10 November: CoreWeave Q3 earnings report (Anthropic’s roadshow may begin on the same day), 17 November: NVIDIA Q3 earnings report; 18 November: Jensen Huang’s closed-door briefing; 23 November: Oracle’s New Mexico air permit ruling; 8–9 December: December FOMC meeting. Of these, 17 November and 18 November are linked, forming the first and second halves of the same event.</span></p>
+<div class="aden-table-scroll" role="region" tabindex="0" aria-label="Scrollable table"><table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Event</th>
+<th>What to focus on</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>11-10</strong></td>
+<td>CoreWeave Q3 financial results; Anthropic roadshow to begin as early as possible</td>
+<td>Will interest expense exceed the guidance of US$860 million–US$940 million; will CDS spreads continue to rise?</td>
+</tr>
+<tr>
+<td><strong>11-17</strong></td>
+<td>NVIDIA Q3 Financial Results</td>
+<td>Data centre revenue, 74 per cent gross profit margin, China-based figures, customer concentration</td>
+</tr>
+<tr>
+<td><strong>11-18</strong></td>
+<td>Jensen Huang’s closed-door briefing</td>
+<td>Whether the three committees are satisfied, or whether the matter should be escalated to a public hearing</td>
+</tr>
+<tr>
+<td><strong>11-23</strong></td>
+<td>Oracle’s New Mexico Air Permit Ruling</td>
+<td>Can a provincial-level licence really halt a project that has already been planned?</td>
+</tr>
+<tr>
+<td><strong>12-08/09</strong></td>
+<td>December FOMC meeting</td>
+<td>Will the 25bp rate rise materialise (currently priced in at around 80 per cent)?</td>
+</tr>
+</tbody></table></div>
+<h2 id="九、数据缺口与口径说明"><a href="#九、数据缺口与口径说明" class="headerlink" title="IX. Explanation of Data Gaps and Definitions"></a>IX. Explanation of Data Gaps and Definitions</h2><p>There are several gaps in this article that must be clearly indicated; readers are advised to bear this in mind when using the data contained herein:</p>
+<ol>
+<li><strong>The text of the original BLS release (USDL-26-1632) for the October non-farm payrolls data has been obtained.</strong>, with figures such as +165,000, 4.1 per cent, the upward revision for August to +186,000, the upward revision for September to +60,000, the monthly average over the past 12 months of +48,000, and the year-on-year increase in hourly wages of +3.1 per cent all taken directly from the article; However, the original databases for Tables A-1, B-1 and B-3 have not yet been cross-checked on a table-by-table basis.</li>
+<li><strong>11-06: The closing price for that day was not recorded.</strong> This article only records the closing figures for 5 November and the changes in the probability of an interest rate rise on 6 November; it does not include the specific closing levels of the three major indices on 6 November.</li>
+<li><strong>As regards the discrepancy between Goldman Sachs’ 45 per cent and Bloomberg’s 40 per cent in their calculation methods, we are only aware of the information reported by the media.</strong> As the full modelling frameworks of the two organisations have not been made public, this article merely presents the figures and descriptions of the data scope side by side, without comparing the merits of their respective methodologies.<strong>The release dates of the two reports were two days apart (Goldman Sachs on 4 November, Bloomberg on 6 November), so they cannot be combined as a ‘joint trigger’.</strong></li>
+<li><strong>‘Retail investors sold off US$358 million in a single day’, ‘VIX at 24.23’ and ‘the worst since 1896’ – all three are second-hand accounts.</strong>(Source: Yahoo Finance and The Wall Street Journal’s intraday reports); no first-hand statistics were obtained.</li>
+<li><strong>CoreWeave’s CDS data relates to figures from around 15 October; no updates have been received since 5 November.</strong> This is one of the most crucial figures cited in this article, and also the one most in need of updating.</li>
+<li><strong>NVIDIA’s Q3 results fell short of market consensus expectations</strong>, therefore Section 5 lists only the items to be observed and does not make any predictions as to whether the results will exceed or fall short of expectations.</li>
+<li><strong>With the exception of the ‘price’ and ‘number of shares’ fields, no chapter-by-chapter comparison has been carried out for Anthropic’s S-1/A-1.</strong> The conclusions drawn in this article regarding Anthropic are limited to the fact that ‘the pricing range has not yet been announced’ and do not involve a re-examination of its financial data.</li>
+</ol>
+<h3 id="主要信息来源与核验索引"><a href="#主要信息来源与核验索引" class="headerlink" title="Main Sources of Information and Verification Index"></a>Main Sources of Information and Verification Index</h3><ul>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.reuters.com/business/sp-500-futures-steady-after-midterm-rally-nasdaq-lags-chip-weakness-2026-11-05/">Reuters Market Close Report (Reuters 5 November 2026): Nasdaq posts biggest daily drop in 19 months on fears of AI …; including Nasdaq 24,315.00, S&amp;P down 4.36 per cent, Dow 51,523.06<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.wsj.com/livecoverage/stock-market-today-dow-sp-500-nasdaq-11-05-2026">The Wall Street Journal Live (WSJ 5 November 2026): Stock Market News, 5 November 2026 — Nasdaq Plunges 5.5 per cent; includes “lost $2.5 trillion in market capitalisation, a single-day record” and 10-year yield falls to its lowest level since 9 September<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.reuters.com/business/us-job-growth-beats-expectations-october-unemployment-rate-falls-41-2026-11-06/">Reuters report on non-farm payrolls (Reuters, 6 November 2026): US labour market regains ground as job growth surges; unemployment rate falls to 4.1 per cent, with the Federal Reserve on track for a rate rise in December<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.reuters.com/world/asia-pacific/dollar-holds-yen-gains-equity-rout-saps-risk-appetite-ahead-payrolls-2026-11-06/">Reuters: US Dollar and Non-Farm Payrolls (Reuters 6 November 2026): Dollar jumps after strong US payrolls report; probability of a rate rise in December rises to nearly 80 per cent<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.bls.gov/news.release/empsit.nr0.htm">US Bureau of Labour Statistics (BLS, 6 November 2026): The Employment Situation — October 2026 (USDL-26-1632) Original source<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.cnbc.com/2026/11/05/nvidia-jensen-huang-china-spy-congress.html">CNBC (5 November 2026): Nvidia’s Huang asked to brief Congress on Chinese espionage report; Mast, Moolenaar and Crawford, chairs of three committees, sign joint letter<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://foreignaffairs.house.gov/news/press-releases/chairmen-mast-moolenaar-and-crawford-request-jensen-huang-brief-congress-on-link-to-chinese-intelligence-asset">Press release from the US House of Representatives Committee on Foreign Affairs (November 2026): Chairmen Mast, Moolenaar and Crawford Request Jensen Huang to Brief Congress on Links to a Chinese Intelligence Asset (primary source for the closed-door briefing on 18 November)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.cnbc.com/2026/10/15/coreweave-credit-default-swaps-hit-distress-levels.html">CNBC Credit Market Tracker (15 October 2026): CoreWeave credit default swaps hit distress levels<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.cnbc.com/2026/11/03/meta-bond-sale-ai-funding.html">CNBC (2026-11-03)：Meta prepares multi-billion dollar bond sale to fund AI expansion<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.businesstimes.com.sg/companies-markets/telcos-media-tech/meta-raises-us15-billion-five-part-us-bond-sale-fund-ai-expansion">The Business Times (Singapore, 4 November 2026): Meta raises US$15 billion in a five-part bond sale<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://nvidianews.nvidia.com/news/nvidia-announces-financial-results-for-second-quarter-fiscal-2027">Official NVIDIA Financial Results Release (NVIDIA Newsroom 2026): NVIDIA Announces Financial Results for the Second Quarter of Fiscal Year 2027; Data Centre: $89B, Q3 guidance: $108B<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.reuters.com/world/us/trumps-midterm-drubbing-demonstrates-power-data-centre-opponents-2026-11-04/">Reuters report on Texas and opposition to data centres (Reuters 4 November 2026): Trump’s mid-term drubbing demonstrates the power of data centre opponents; includes an estimate of approximately 45 per cent from Goldman Sachs<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://gov.texas.gov/news/post/governor-abbott-directs-tceq-to-halt-data-center-permits">Official Announcement from the Office of the Governor of Texas (21 September 2026): Governor Abbott Directs the TCEQ to Halt Data Centre Permits<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.sec.gov/Archives/edgar/data/2130357/000162828026068676/anthropicpbc-sx1ax1.htm">SEC EDGAR: Anthropic S-1/A-1 original text (filed on 2 November 2026; the cover page states ‘Subject to Completion’; the price range and number of shares are left blank)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.bloomberg.com/news/articles/2026-11-06/new-governors-set-to-challenge-big-swath-of-data-center-capacity">Bloomberg (6 November 2026): New governors set to challenge a large portion of data centre capacity (approximately 40 per cent, revised the day after the sharp fall)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://finance.yahoo.com/markets/live/stock-market-today-friday-november-6-dow-sp-500-nasdaq-jobs-report-091927729.html">Yahoo Finance Live Broadcast (6 November 2026): Stock market today — featuring “Wall Street is overreacting to data centre backlash, says Yardeni” and Yardeni maintaining his year-end target of 7,900 points for the S&amp;P 500<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.texastribune.org/2026/11/04/data-center-texas-pause-gina-hinojosa-governor-policies/">Texas Tribune (4 November 2026): The suspension order on Texas data centres and Hinojosa’s proposals for the 2027 legislative session<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+</ul>
+<p><em>The two sets of estimates cited in this article—45 per cent from Goldman Sachs and 40 per cent from Bloomberg—are both publicly available calculations by third-party organisations and do not represent the views of this publication; All scenario probabilities, trend assessments and observation lists contained in this article are conditional inferences based on publicly available information as at 6 November 2026; they do not constitute forecasts of any outcomes, prices or policy trends, nor do they constitute investment advice. All probabilities are subject to specific trigger conditions, and should be adjusted accordingly should those conditions change.</em></p>
+<p><em>Cover image:<a class="link" target="_blank" rel="noopener" href="https://www.pexels.com/photo/stock-exchange-board-210607/">Stock Exchange Board<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> — Photo by Pixabay on Pexels (licensed for free commercial use)</em></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> Three Key Price Moves This Week: The Plunge, the Non-Farm Payrolls Report, and the Link to Nvidia</li>
+        <li><strong>Author:</strong> AdenXie</li>
+        <li><strong>Created at
+                :</strong> 2026-11-08 01:30:00</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2026-11-08 01:30:00
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://blog.adenxie.com.cn/2026/11/08/2026-11-08-three-pricings-crash-payrolls-nvidia/
+        </li>
+        <li data-aden-content-license=""><strong>License:</strong> Unless otherwise noted, original text and images by AdenXie: <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a>; original code: <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE" target="_blank" rel="noopener">GPL-3.0</a>. Third-party material retains its original rights and licenses. <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE-CONTENT.md" target="_blank" rel="noopener">Scope &amp; exceptions</a>.</li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E7%BE%8E%E8%81%94%E5%82%A8/">#Federal Reserve</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E7%BE%8E%E5%9B%BD%E7%BB%8F%E6%B5%8E/">#The US Economy</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/AI-%E8%B5%84%E6%9C%AC%E5%BC%80%E6%94%AF/">#AI Capital Expenditure</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E9%9D%9E%E5%86%9C%E5%B0%B1%E4%B8%9A/">#Non-farm Employment</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E8%8B%B1%E4%BC%9F%E8%BE%BE/">#NVIDIA</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E4%BF%A1%E7%94%A8%E9%A3%8E%E9%99%A9/">#Credit Risk</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/en/2026/11/05/2026-11-05-midterms-ai-capex-politics/" title="The political calculus of AI capital expenditure following the mid-term elections: the federal government is toothless, whilst the states hold the knife" rel="bookmark">
+  <img src="https://images.pexels.com/photos/129112/pexels-photo-129112.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600" alt="The political calculus of AI capital expenditure following the mid-term elections: the federal government is toothless, whilst the states hold the knife" class="!max-w-none" decoding="async">
+  <span class="title">The political calculus of AI capital expenditure following the mid-term elections: the federal government is toothless, whilst the states hold the knife</span>
+</a><a class="recommended-article-item" href="/en/2026/10/31/2026-10-31-macro-micro-ai-capex-verdict/" title="In the same week, macro and micro perspectives delivered conflicting assessments of AI capital expenditure" rel="bookmark">
+  <img src="https://images.pexels.com/photos/187041/pexels-photo-187041.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="In the same week, macro and micro perspectives delivered conflicting assessments of AI capital expenditure" class="!max-w-none" decoding="async">
+  <span class="title">In the same week, macro and micro perspectives delivered conflicting assessments of AI capital expenditure</span>
+</a><a class="recommended-article-item" href="/en/2026/10/28/2026-10-28-anthropic-s1-open-cards/" title="Anthropic officially unveils its S-1 prospectus: a deep dive – the bets we placed a week ago have all been revealed today" rel="bookmark">
+  <img src="https://images.pexels.com/photos/38358503/pexels-photo-38358503.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Anthropic officially unveils its S-1 prospectus: a deep dive – the bets we placed a week ago have all been revealed today" class="!max-w-none" decoding="async">
+  <span class="title">Anthropic officially unveils its S-1 prospectus: a deep dive – the bets we placed a week ago have all been revealed today</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/en/2026/11/05/2026-11-05-midterms-ai-capex-politics/" title="The political calculus of AI capital expenditure following the mid-term elections: the federal government is toothless, whilst the states hold the knife" rel="bookmark">
+  <img src="https://images.pexels.com/photos/129112/pexels-photo-129112.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600" alt="The political calculus of AI capital expenditure following the mid-term elections: the federal government is toothless, whilst the states hold the knife" class="!max-w-none" decoding="async">
+  <span class="title">The political calculus of AI capital expenditure following the mid-term elections: the federal government is toothless, whilst the states hold the knife</span>
+</a><a class="recommended-article-item" href="/en/2026/10/31/2026-10-31-macro-micro-ai-capex-verdict/" title="In the same week, macro and micro perspectives delivered conflicting assessments of AI capital expenditure" rel="bookmark">
+  <img src="https://images.pexels.com/photos/187041/pexels-photo-187041.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="In the same week, macro and micro perspectives delivered conflicting assessments of AI capital expenditure" class="!max-w-none" decoding="async">
+  <span class="title">In the same week, macro and micro perspectives delivered conflicting assessments of AI capital expenditure</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/en/2026/11/07/2026-11-07-daily-brief/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Daily Briefing | 7 November 2026: US October non-farm payrolls rose by 165,000, far exceeding expectations; the probability of a December interest rate hike has risen to 78 per cent; the AI sell-off has spread to Asia, triggering a circuit breaker on the South Korean stock market; China’s ChiNext Index fell by nearly 4 per cent; the China Securities Regulatory Commission plans to relax restrictions on share buybacks aimed at stabilising the market; and the expected valuation for Anthropic’s IPO has been revised downwards.</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">Three Key Price Moves This Week: The Plunge, the Non-Farm Payrolls Report, and the Link to Nvidia</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%8111-05%EF%BC%9A%E4%B8%8D%E6%98%AF%E6%B3%A1%E6%B2%AB%E7%A0%B4%E4%BA%86%EF%BC%8C%E6%98%AF%E6%94%BF%E6%B2%BB%E9%A3%8E%E9%99%A9%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%9C%89%E4%BA%86%E7%99%BE%E5%88%86%E6%AF%94"><span class="nav-text">I. 5 November: It is not that the bubble has burst, but that political risk has been quantified for the first time</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%95%E7%88%86%E7%9A%84%E4%B8%8D%E6%98%AF%E9%9C%80%E6%B1%82%EF%BC%8C%E6%98%AF%E4%B8%80%E4%B8%AA%E7%99%BE%E5%88%86%E6%AF%94%E7%9A%84%E6%95%B0%E5%AD%97"><span class="nav-text">It wasn’t demand that triggered the surge, but a percentage figure</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%A0%E5%AF%BC%E9%A1%BA%E5%BA%8F%E6%9A%B4%E9%9C%B2%E4%BA%86%E5%B8%82%E5%9C%BA%E7%9A%84%E7%9C%9F%E5%AE%9E%E6%8B%85%E5%BF%A7"><span class="nav-text">The chain of events has laid bare the market’s genuine concerns</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%A4%E7%A7%8D%E8%AF%BB%E6%B3%95%EF%BC%8C%E9%83%BD%E5%BE%97%E6%91%86%E5%87%BA%E6%9D%A5"><span class="nav-text">Both interpretations must be presented.</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%8111-06%EF%BC%9A%E4%B8%80%E5%B0%8F%E6%97%B6%E7%9A%84%E5%B0%B1%E4%B8%9A%E6%95%B0%E6%8D%AE%EF%BC%8C%E5%85%B3%E6%8E%89%E4%BA%86%E9%99%8D%E6%81%AF%E5%B9%BB%E6%83%B3"><span class="nav-text">II. 6 November: The hourly employment figures put an end to hopes of an interest rate cut</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%99%E4%B8%80%E6%AC%A1%EF%BC%8C%E6%88%91%E4%BB%AC%E7%9A%84%E6%97%A7%E5%88%A4%E6%96%AD%E8%A2%AB%E8%AF%81%E5%AE%9E%EF%BC%8C%E4%BD%86%E5%A2%9E%E9%87%8F%E5%9C%A8%E5%88%AB%E5%A4%84"><span class="nav-text">On this occasion, our previous assessment has been confirmed, but the growth is coming from elsewhere.</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E4%BF%A1%E7%94%A8%E5%B8%82%E5%9C%BA%E6%AF%94%E8%82%A1%E5%B8%82%E6%9B%B4%E6%97%A9%E3%80%81%E6%9B%B4%E7%8B%A0%E5%9C%B0%E6%8A%95%E4%BA%86%E4%B8%8D%E4%BF%A1%E4%BB%BB%E7%A5%A8"><span class="nav-text">III. The credit market cast a vote of no confidence earlier and more decisively than the stock market</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CoreWeave%EF%BC%9A%E4%B8%80%E4%B8%AA%E6%AD%A3%E5%9C%A8%E8%A2%AB%E9%87%8D%E4%BC%B0%E7%9A%84%E5%AF%B9%E7%85%A7%E7%89%A9"><span class="nav-text">CoreWeave: A benchmark undergoing reassessment</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%B7%E6%84%8F%E5%BF%97%E9%93%B6%E8%A1%8C%E7%9C%8B%E5%88%B0%E7%9A%84%E7%BB%93%E6%9E%84%E6%80%A7%E9%A3%8E%E9%99%A9"><span class="nav-text">Structural risks identified by Deutsche Bank</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A8%E5%A4%B4%E8%BF%99%E4%B8%80%E4%BE%A7%E7%9A%84%E8%9E%8D%E8%B5%84%E4%B9%9F%E5%9C%A8%E5%8F%98%E8%B4%B5%EF%BC%8C%E5%8F%AA%E6%98%AF%E8%BF%98%E6%B2%A1%E5%88%B0%E7%97%9B%E7%9A%84%E4%BD%8D%E7%BD%AE"><span class="nav-text">Funding is also becoming more expensive for the tech giants, though it hasn’t yet reached a critical point.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E5%88%8A%E7%9A%84%E5%88%A4%E6%96%AD%EF%BC%88%E6%A0%87%E6%B3%A8%E4%B8%BA%E6%8E%A8%E6%96%AD%EF%BC%89"><span class="nav-text">This journal’s assessment (marked as ‘inference’)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E9%80%89%E4%B8%BE%E6%98%AF%E6%89%B3%E6%9C%BA%EF%BC%8C%E4%B8%8D%E6%98%AF%E5%AD%90%E5%BC%B9"><span class="nav-text">IV. Elections are the trigger, not the bullet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E8%8B%B1%E4%BC%9F%E8%BE%BE%EF%BC%9A11-17-%E7%9A%84%E8%A7%82%E5%AF%9F%E6%B8%85%E5%8D%95"><span class="nav-text">V. NVIDIA: Watchlist for 11–17</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%88%E7%9C%8B%E4%B8%8A%E4%B8%80%E5%AD%A3%E7%9A%84%E5%AE%98%E6%96%B9%E6%95%B0%E5%AD%97%EF%BC%88Q2-FY2027%EF%BC%89"><span class="nav-text">Let’s first look at the official figures for the previous quarter (Q2 FY2027)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-17-%E8%A6%81%E7%9C%8B%E7%9A%84%E5%9B%9B%E4%BB%B6%E4%BA%8B"><span class="nav-text">11–17: Four things to look out for</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-18%EF%BC%9A%E7%B4%A7%E6%8E%A5%E5%85%B6%E5%90%8E%E7%9A%84%E5%8F%A6%E4%B8%80%E5%9C%BA%E8%80%83%E8%AF%95"><span class="nav-text">11–18: Another exam immediately following this one</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81Anthropic-%E5%AE%9A%E4%BB%B7%EF%BC%9A%E6%9C%AA%E6%9D%A5%E4%B8%A4%E5%91%A8%E4%BF%A1%E6%81%AF%E9%87%8F%E6%9C%80%E5%A4%A7%E7%9A%84%E5%8D%95%E4%B8%80%E4%BA%8B%E4%BB%B6"><span class="nav-text">VI. Anthropic’s pricing: the single most newsworthy event of the next two weeks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E6%83%85%E6%99%AF%E8%BF%AD%E4%BB%A3%EF%BC%9A%E4%BB%8E-45-40-15-%E5%88%B0-40-45-15"><span class="nav-text">VII. Scenario Iteration: From 45/40/15 to 40/45/15</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%94%B9%EF%BC%8C%E7%90%86%E7%94%B1%E5%8F%AA%E6%9C%89%E4%B8%89%E6%9D%A1"><span class="nav-text">There are only three reasons for the change</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%85%E9%A1%BB%E6%8A%8A%E8%AF%9D%E8%AF%B4%E6%98%8E%E7%99%BD%EF%BC%9A%E6%94%BE%E7%BC%93%E5%9C%A8%E5%A2%9E%E9%87%8F%EF%BC%8C%E4%B8%8D%E5%9C%A8%E5%AD%98%E9%87%8F"><span class="nav-text">Let us be clear: the slowdown relates to new growth, not existing levels.</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E6%9C%AA%E6%9D%A5%E4%B8%A4%E5%91%A8%EF%BC%9A%E4%BA%94%E4%B8%AA%E5%B7%B2%E7%BB%8F%E6%8E%92%E5%A5%BD%E6%97%A5%E6%9C%9F%E7%9A%84%E8%A7%82%E5%AF%9F%E7%82%B9"><span class="nav-text">VIII. The next two weeks: five observation points with scheduled dates</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B9%9D%E3%80%81%E6%95%B0%E6%8D%AE%E7%BC%BA%E5%8F%A3%E4%B8%8E%E5%8F%A3%E5%BE%84%E8%AF%B4%E6%98%8E"><span class="nav-text">IX. Explanation of Data Gaps and Definitions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E4%BF%A1%E6%81%AF%E6%9D%A5%E6%BA%90%E4%B8%8E%E6%A0%B8%E9%AA%8C%E7%B4%A2%E5%BC%95"><span class="nav-text">Main Sources of Information and Verification Index</span></a></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">Write down your real experiences while retaining the edges of your viewpoints.</div><div class="customize-info my-1 aden-status-hint">Something not working? Check service status at <a href="https://status.adenxie.com.cn/" target="_blank" rel="noopener">status.adenxie.com.cn</a></div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/en/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        106 posts in total
+                    </span>
+                    
+                        <span>
+                            315.8k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js" async=""></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days"></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/scene-loader.js?v=b97b1fce3bd0" defer=""></script>
+                    
+        
+        
+    <div class="aden-font-credit text-sm my-1">Typeface: <a href="https://hyperos.mi.com/font/zh/download/" target="_blank" rel="noopener">MiSans</a></div><div class="aden-license-notice text-sm my-1">Original text &amp; images: <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> · Code: <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE" target="_blank" rel="noopener">GPL-3.0</a> · <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE-CONTENT.md" target="_blank" rel="noopener">Scope &amp; exceptions</a></div></div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="Image viewer">
+	<button class="image-viewer-close" type="button" aria-label="Close">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="Prev">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="" decoding="async">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="Close">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="Next">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Search..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js?v=509b91971bf2"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js?v=969d65618587"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js?v=193270b6fdb0"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js?v=647d2af612df"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js?v=c9d014a814b8"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js?v=792db0224d6b"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js?v=7e6a109d5509" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js?v=03c1e188b884"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css?v=77a3a9d5a3d0">
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js?v=e98ec22436a5"></script>
+
+
+<script src="/js/build/plugins/aplayer.js?v=d6d3c64af35f"></script>
+
+
+	
+
+
+<button type="button" id="aden-chat-launcher" class="aden-chat-launcher" aria-haspopup="dialog" aria-expanded="false" hidden="" aria-label="Open AI chat" data-script="/js/chat.js?v=750a15ffa2e2" data-style="/css/chat.css?v=8859605e90e8"><span aria-hidden="true">✳</span><span class="aden-chat-launcher-label">Ask AI</span></button></body></html>
