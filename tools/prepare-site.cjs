@@ -57,6 +57,8 @@ async function prepare() {
   // The theme removes the outline from every article link, which also hides keyboard focus. Drop that
   // one line from the theme source, so the browser's focus-visible ring (lib/styles/pages.css) shows.
   replace('source/css/common/markdown.styl', '  a:not(.not-markdown)\n    position relative\n    outline 0\n', '  a:not(.not-markdown)\n    position relative\n');
+  // Keep article pages aligned with the 1080px navbar instead of expanding to 1.2x (1296px).
+  replace('source/css/common/variables.styl', '$has-toc-content-max-width = $content-max-width * 1.2', '$has-toc-content-max-width = $content-max-width');
   // The fixed home banner blurs on scroll only at config.root; the English homepage lives at /en/.
   replace('source/js/utils/scroll.js', 'location.pathname === config.root', 'ctx.homeBanner_dom');
   // __() runs titles through sprintf, so a post title containing "%" (e.g. "增长14.4%，") throws and

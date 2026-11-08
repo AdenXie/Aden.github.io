@@ -32,17 +32,26 @@ html[lang^="en"] .home-content-container .home-article-list .home-article-item .
 }
 
 html[lang^="en"] .markdown-body :is(p, ul, ol):not(.not-markdown) {
-  max-width: 75ch;
   line-height: 1.75;
 }
 
-/* Chinese text reads best at about 40 characters a line (720px at the 18px body size); on a wide
-   screen the column runs to about 48. Paragraphs, lists, quotes and headings share one measure, so
-   rules and list edges line up. Images, figures, tables, code and display formulas keep the full
-   column. A fixed length, not em, because headings set a larger font. Article bodies only: home card
-   excerpts are .markdown-body too, and a capped excerpt under a full-width title leaves a blank strip. */
-html:not([lang^="en"]) .article-content.markdown-body > :is(p, ul, ol, blockquote, h2, h3, h4, h5, h6):not(.not-markdown):not(:has(img, figure, table, pre, .highlight, .aden-table-scroll, .katex-display, .MathJax_Display, mjx-container[display="true"], math[display="block"])) {
-  max-width: 720px;
+/* Narrow the article box itself (820px box -> 756px content column inside md:px-8) instead of capping
+   only text elements, so prose, headings, tables, images and captions share one aligned column. */
+@media (min-width: 641px) {
+  .post-page-container .article-content-container {
+    max-width: 820px;
+    min-width: 0;
+  }
+
+  .post-page-container:not(.show-toc) .article-content-container {
+    margin-inline: auto;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+  .post-page-container.show-toc .article-content-container {
+    margin-inline: auto;
+  }
 }
 
 .markdown-body a {
