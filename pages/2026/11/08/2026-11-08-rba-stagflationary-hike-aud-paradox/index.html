@@ -1,0 +1,1708 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/2026/11/08/2026-11-08-rba-stagflationary-hike-aud-paradox/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Interest Rate Hikes Cannot Save the Australian Dollar: The Exchange Rate Paradox of a ‘Stagflationary Rate Hike’">
+<meta property="og:url" content="https://blog.adenxie.com.cn/2026/11/08/2026-11-08-rba-stagflationary-hike-aud-paradox/index.html">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-11-08T10:00:00.000Z">
+<meta property="article:modified_time" content="2026-11-08T10:00:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="汇率">
+<meta property="article:tag" content="RBA">
+<meta property="article:tag" content="澳元">
+<meta property="article:tag" content="澳大利亚">
+<meta property="article:tag" content="铁矿石">
+<meta property="article:tag" content="美元">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Interest Rate Hikes Cannot Save the Australian Dollar: The Exchange Rate Paradox of a ‘Stagflationary Rate Hike’ | Aden’s Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/site-runtime.js" defer=""></script>
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js"></script>
+                
+    
+            
+                
+                    <link rel="stylesheet" href="/css/custom.css">
+                
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+    
+<link rel="stylesheet" href="/fonts/GeistMono/geist-mono.css">
+
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"en","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"18px","line_height":1.8,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["科技、体验与个人判断","写下真实体验，也保留观点的棱角"],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie","name":"GitHub"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847","name":"YouTube"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie","name":"X"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Daily Brief":{"path":"/daily/","icon":"fa-regular fa-newspaper"},"archives":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"},"tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"World Time":{"path":"/world-time/","icon":"fa-regular fa-clock"},"about":{"path":"/about/","icon":"fa-regular fa-user"},"links":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":false,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.i18n = {"search":"Search...","toc":"On this page","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"POWERED BY %s","theme":"THEME","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","post":"Post","posts":"Posts","tagcloud":"Tag Cloud","comment":"Comment","comments":"Comments","home":"Home","archive":"Archive","archives":"Archives","top":"TOP","sticky":"Sticky","go-back-home":"Go Back Home","masonry_loading":"Loading photos...","image_viewer":"Image viewer","close":"Close","exif":{"title":"EXIF","cards":{"camera":"Camera","lens":"Lens","exposure":"Exposure","other":"Other"},"fields":{"make":"Brand","model":"Model","date_taken":"Date taken","lens_model":"Lens","focal_length":"Focal length","focus_mode":"Focus mode","shutter":"Shutter","aperture":"Aperture","iso":"ISO","exposure_program":"Exposure program","exposure_compensation":"Exposure compensation","metering_mode":"Metering mode","flash":"Flash","white_balance":"White balance","latitude":"Latitude","longitude":"Longitude","altitude":"Altitude"},"status":{"loading":"Loading...","no_exif":"No EXIF available","library_missing":"EXIF library not loaded","image_source_missing":"Image source unavailable","unavailable":"EXIF unavailable (blocked by CORS or missing metadata)","flag_unavailable":"EXIF unavailable"}},"about":"About","changelog":"Changelog","links":"Links","link":"Link","friends":"Friends","friend":"Friend","timeline":"Timeline","shuoshuo":"Shuoshuo","bookmarks":"Bookmarks","site_uv":"VISITOR COUNT","site_pv":"TOTAL PAGE VIEWS","read_more":"Read more","wordcount":"Words","min2read":"Mins","status":"Status","runtime":"Blog up for","days":"days","hours":"hrs","minutes":"Min","seconds":"Sec","optimized_by":"and Optimized by Evan","rights":"All Rights Reserved","site_posts":"%s posts in total","site_wordcount":"%s words in total","copyright":{"author":"Author","title":"Title","link":"Link","create_time":"Created at","update_time":"Updated at","license_title":"License","license_content":"This work is licensed under %s.","all_rights_reserved":"All Rights Reserved &#169; %s","public_domain":"This work is in the public domain."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"},"create_time":"Created","update_time":"Updated","expired":"This post is written %s days ago, and the content may not be up to date."};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/daily/">
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    DAILY BRIEF
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/categories/">
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    CATEGORIES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    WORLD TIME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search">
+                            <button type="button" class="search-popup-trigger" aria-label="Search"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <button type="button" class="icon-item search search-popup-trigger" aria-label="Search"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                
+                <button type="button" class="icon-item navbar-bar" aria-label="Menu" aria-controls="navbar-drawer" aria-expanded="false"><span class="navbar-bar-middle"></span></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div id="navbar-drawer" class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/">
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/daily/">
+                            <span>
+                                DAILY BRIEF
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/archives/">
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/categories/">
+                            <span>
+                                CATEGORIES
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/tags/">
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/world-time/">
+                            <span>
+                                WORLD TIME
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/about/">
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/link/">
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">74</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">108</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://images.pexels.com/photos/26840167/pexels-photo-26840167.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Interest Rate Hikes Cannot Save the Australian Dollar: The Exchange Rate Paradox of a ‘Stagflationary Rate Hike’" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">Interest Rate Hikes Cannot Save the Australian Dollar: The Exchange Rate Paradox of a ‘Stagflationary Rate Hike’</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-11-08 18:00</span>
+        <span class="mobile">2026-11-08 18:00</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-11-08 18:00</span>
+            <span class="mobile">2026-11-08 18:00</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E7%BB%8F%E6%B5%8E%E8%A7%82%E5%AF%9F/">Economic Observer</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E6%B1%87%E7%8E%87/">Exchange rate</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/RBA/">RBA</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E6%BE%B3%E5%85%83/">Australian dollar</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E6%BE%B3%E5%A4%A7%E5%88%A9%E4%BA%9A/">Australia</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E9%93%81%E7%9F%BF%E7%9F%B3/">Iron ore</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E7%BE%8E%E5%85%83/">US dollar</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>6.2k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>23 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<blockquote>
+<p><strong>Introduction</strong>: This is our second article on the Australian dollar. On 21 October 2026, we<a href="/2026/10/21/2026-10-21-rba-rate-hikes-aud-cny/">‘Australian Interest Rate Hikes and the AUD/CNY Exchange Rate: The RBA’s 2026 Tightening Cycle and AUD/CNY Scenario Analysis’</a>A question was raised here: will this round of interest rate hikes by the RBA be enough to prop up the Australian dollar? Half a month later, the market provided the answer—<strong>No. And it is not because the rate rises were not aggressive enough; on the contrary, it is precisely because they were too aggressive, too late and too half-hearted.</strong>This article aims to address three points: why the Australian dollar fell in isolation on 5 November; just how significant a role iron ore played in this downturn; and whether the currency is likely to continue its downward trend.</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="一、先看一组反常的数字"><a href="#一、先看一组反常的数字" class="headerlink" title="I. Let us first look at a set of unusual figures"></a>I. Let us first look at a set of unusual figures</h2><p>On 3 November 2026, the Reserve Bank of Australia (RBA) raised the cash rate by 25 basis points to <strong>4.85%</strong>—This is <strong>The highest level since 2008</strong>, and also marks the start of this tightening cycle<strong>The fifth interest rate rise</strong>。</p>
+<p>According to textbook theory, an interest rate rise should be beneficial for the domestic currency. What actually happened was:</p>
+<table>
+<thead>
+<tr>
+<th>Point in time</th>
+<th>AUD/USD</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>3 November (RBA decision day)</td>
+<td><strong>0.6968</strong></td>
+<td>Down 0.4 per cent during trading; shares fell immediately following the interest rate hike</td>
+</tr>
+<tr>
+<td>4 November (following the US election)</td>
+<td>A slight recovery</td>
+<td>The US dollar fell across the board, with the Australian dollar benefiting as a result</td>
+</tr>
+<tr>
+<td><strong>5 November (the day of the US stock market crash)</strong></td>
+<td><strong>-1.0%</strong></td>
+<td><strong>The biggest single-day fall since 10–15</strong></td>
+</tr>
+<tr>
+<td>6 November (US Non-Farm Payrolls)</td>
+<td>Continue to fall</td>
+<td>The US dollar surged, whilst the Australian dollar came under pressure</td>
+</tr>
+<tr>
+<td>8 November (at the time of writing)</td>
+<td><strong>Approximately 0.6867</strong></td>
+<td>The 0.6895 support level has been breached; the next support level is 0.6865</td>
+</tr>
+</tbody></table>
+<p><strong>Within five days, following a 25-basis-point interest rate rise, the Australian dollar fell from 0.6968 to 0.6867—a drop of around 1.5 per cent—which effectively wiped out all the interest rate differential advantage that this rise should theoretically have provided, and even left a shortfall.</strong></p>
+<p>This is not a policy failure. It is the market pricing in something else:<strong>Stagflation</strong>。</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://files.seeusercontent.com/2026/11/08/Y8uf/fig1-risk-beta-vs-weights.png" alt="5 November: Evidence of a Solo Decline and the Weighting of the Four Factors"><figcaption>5 November: Evidence of a Solo Decline and the Weighting of the Four Factors</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 1</span><span class="aden-caption-text">On the left is the performance of the three major currencies against the US dollar on 5 November—the Australian dollar fell by 1.0 per cent, the euro remained flat, and the pound fell by just 0.1 per cent; On the right is this publication’s assessment of the relative contributions of four factors to the current downturn (risk sentiment approximately 40 per cent, the US dollar and interest rate differentials approximately 35 per cent, the RBA’s positive news having run its course approximately 15 per cent, and the terms of trade for commodities approximately 10 per cent). These weightings are based on analytical judgement and do not represent official estimates.</span></p>
+<h2 id="二、11-05-那天：澳元为什么独自下跌"><a href="#二、11-05-那天：澳元为什么独自下跌" class="headerlink" title="II. 5 November: Why did the Australian dollar fall on its own?"></a>II. 5 November: Why did the Australian dollar fall on its own?</h2><p>To understand the nature of this downturn, one need only look at a single point of comparison.</p>
+<p><strong>On 5 November 2026, US shares plummeted due to a sell-off in the AI sector (the Nasdaq fell by 5.52 per cent), and a highly asymmetrical pattern emerged in the foreign exchange market that day:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Currency pairs</th>
+<th>5 November: Changes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>AUD/USD</strong></td>
+<td><strong>-1.0%</strong></td>
+</tr>
+<tr>
+<td>EUR/USD</td>
+<td><strong>Unchanged (0.0%)</strong></td>
+</tr>
+<tr>
+<td>GBP/USD</td>
+<td><strong>-0.1%</strong></td>
+</tr>
+</tbody></table>
+<p>The significance of these figures lies in the fact that:<strong>If the dollar were simply to ‘strengthen’ on that day, there would be no reason for the euro and the pound to remain unchanged.</strong> If the US dollar were to strengthen across the board, the three major currency pairs should have fallen in the same direction and by similar margins. In reality, the euro remained completely unchanged, the pound barely moved, and only the Australian dollar fell by a full one per cent.</p>
+<p><strong>It is not the US dollar longs that are being sold, but the Australian dollar’s own risk profile.</strong></p>
+<p>The Australian dollar plays a unique role in the global foreign exchange market: it is<strong>High-beta proxies for risk appetite</strong>. When global investors are willing to take on risk, the Australian dollar is one of the preferred assets for long positions (high-yielding, commodity-linked and highly liquid); when risk appetite wanes, it is also among the first to be liquidated. On 5 November, the collapse of the US AI sector triggered a deleveraging of global risk assets, and the Australian dollar, as a high-beta asset, was mechanically sold off—<strong>This has no direct connection with what is happening to the Australian economy itself.</strong></p>
+<p>This is important because it determines the focus of subsequent observations:<strong>If this downturn is primarily driven by risk beta, then its recovery will also depend mainly on global risk sentiment rather than domestic policy in Australia.</strong> 11–17: NVIDIA’s earnings report may have a greater impact on the Australian dollar than the RBA meeting in December.</p>
+<h2 id="三、11-03-的加息，为什么是负资产"><a href="#三、11-03-的加息，为什么是负资产" class="headerlink" title="III. The interest rate rise on 3 November: why is it a negative asset?"></a>III. The interest rate rise on 3 November: why is it a negative asset?</h2><p>Judging by the wording of the statement, the RBA’s decision on 3 November was a typical<strong>“Dovish rate rise”</strong>—One might even say it was an<strong>“Stagflationary interest rate rises”</strong>。</p>
+<h3 id="加息本身，早就被-100-定价了"><a href="#加息本身，早就被-100-定价了" class="headerlink" title="The interest rate rise itself has long been 100 per cent priced in."></a>The interest rate rise itself has long been 100 per cent priced in.</h3><p>The ASX’s RBA Rate Tracker shows that, prior to the announcement of the decision, the market had already priced in a 25-basis-point rate rise of <strong>100%</strong>. In other words,<strong>The moment the interest rate hike was announced, all the positive news had already been priced in, leaving no ‘surprises’ to trade on.</strong></p>
+<p>The pricing following the meeting speaks volumes: the market believes that the December meeting<strong>to hold one’s ground</strong>The probability is as high as <strong>95-100%</strong>. In other words, the market believes this marks the end of this cycle, with no further interest rate rises to be expected.</p>
+<h3 id="声明的措辞，比加息本身更关键"><a href="#声明的措辞，比加息本身更关键" class="headerlink" title="The wording of the statement is more important than the interest rate rise itself"></a>The wording of the statement is more important than the interest rate rise itself</h3><p>A few sentences in the original text of the RBA statement (mr-26-30) encapsulate the full awkwardness of this interest rate rise:</p>
+<table>
+<thead>
+<tr>
+<th>Key Points of the Statement</th>
+<th>Meaning of the original text</th>
+<th>The role of exchange rates</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Vote: 6 to 3</strong></td>
+<td>Three votes in favour of maintaining the rate at 4.60 per cent; there was a clear divergence of opinion</td>
+<td>Bearish — indicates a lack of resolve to raise interest rates</td>
+</tr>
+<tr>
+<td>The economy is slowing down</td>
+<td>Weakening growth momentum</td>
+<td>bearish</td>
+</tr>
+<tr>
+<td><strong>House prices have fallen significantly</strong></td>
+<td>Interest rate rises have already had a tangible impact on household balance sheets</td>
+<td>bearish</td>
+</tr>
+<tr>
+<td><strong>The unemployment rate has risen, and the increase is expected to exceed the August forecast</strong></td>
+<td>The labour market is deteriorating</td>
+<td>bearish</td>
+</tr>
+<tr>
+<td>Inflation remained high for most of 2027,<strong>End of 2027</strong>It has only just returned to the upper end of the 2–3 per cent target range</td>
+<td>About later than previously forecast<strong>three quarters</strong>; moreover, some of the expected indicators have risen</td>
+<td>Headwinds – inflation is proving more stubborn, whilst growth is weaker</td>
+</tr>
+<tr>
+<td>Conflict in the Middle East is driving up fuel and commodity prices</td>
+<td>Imported inflation</td>
+<td>Neutral to bearish</td>
+</tr>
+</tbody></table>
+<p>If you read this table as a whole, it boils down to one sentence:<strong>With economic growth already slowing, house prices falling significantly and unemployment rising, the RBA has been forced to continue raising interest rates, even though there is no sign that inflation will ease any time soon.</strong> This is the standard definition of stagflation. And stagflation is nothing but bad news for a currency—it robs the country of both its growth prospects and its real interest rate advantage.</p>
+<h3 id="一个容易被忽略的细节"><a href="#一个容易被忽略的细节" class="headerlink" title="An easily overlooked detail"></a>An easily overlooked detail</h3><p>The statement also noted that:<strong>“Investment in AI is driving a rapid rise in the prices of technology-related commodities.”</strong></p>
+<p>This statement is worth noting in its own right. It implies that part of this round of inflation is<strong>Structural</strong>—It is driven neither by overheating demand nor by a wage spiral, but rather by rising prices for capital goods resulting from AI infrastructure investment. This type of inflation is insensitive to interest rate rises:<strong>It is difficult to persuade data centres to buy fewer servers simply by raising interest rates.</strong> This also goes some way towards explaining why the RBA’s inflation forecast has been pushed back to the end of 2027.</p>
+<h2 id="四、四个因素的真实权重"><a href="#四、四个因素的真实权重" class="headerlink" title="IV. The actual weights of the four factors"></a>IV. The actual weights of the four factors</h2><p>Breaking down this round of falls, we believe it is the result of four interrelated factors. The weightings are based on this publication’s assessment of the day’s asset performance (labelled as<strong>Analysis</strong>(unofficial estimates):</p>
+<table>
+<thead>
+<tr>
+<th>factors</th>
+<th>Weights for this round</th>
+<th>On the basis of</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>① Risk sentiment beta</strong></td>
+<td><strong>Approximately 40 per cent</strong></td>
+<td>5 November: The Australian dollar fell by 1.0 per cent, whilst the euro remained flat and the pound fell by 0.1 per cent—a textbook example of pure risk beta</td>
+</tr>
+<tr>
+<td><strong>② US dollar / interest rate differential expectations</strong></td>
+<td><strong>Approximately 35 per cent</strong></td>
+<td>Following the release of the non-farm payrolls figure of +165,000 (against an expected 65,000) on 6 November, the probability of a rate rise at the December FOMC meeting jumped from 67 per cent to 80 per cent, and the US dollar surged.</td>
+</tr>
+<tr>
+<td><strong>③ The positive impact of the RBA’s policy has run its course</strong></td>
+<td><strong>Approximately 15 per cent</strong></td>
+<td>A rate rise has been 100 per cent priced in; a hold in December is priced in at 95–100 per cent; the vote is 6:3; and the statement acknowledges the economic slowdown.</td>
+</tr>
+<tr>
+<td><strong>④ Goods / Terms of trade</strong></td>
+<td><strong>Approximately 10 per cent (this month)</strong></td>
+<td>Iron ore prices have fallen, but the RBA describes the decline as ‘slight’; this is a slow-moving factor rather than a trigger for this month</td>
+</tr>
+</tbody></table>
+<h3 id="关于第-②③-项：一条预期曲线串起三个市场"><a href="#关于第-②③-项：一条预期曲线串起三个市场" class="headerlink" title="Regarding points ② and ③: a single forecast curve links the three markets"></a>Regarding points ② and ③: a single forecast curve links the three markets</h3><p>Point ② is worth elaborating on, as it forms the link between this article and the previous three.</p>
+<p>The US non-farm payrolls data released on 6 November pushed the probability of a rate rise in December from 67 per cent to 80 per cent.<strong>Pricing along the same expected return curve across three markets simultaneously:</strong> In the US stock market, it has reduced the valuation tolerance for AI capital expenditure (see<a href="/2026/11/08/2026-11-08-three-pricings-crash-payrolls-nvidia/">‘Pricing Three Times a Week: The Plunge, the Non-Farm Payrolls, and the Link to Nvidia’</a>); in the US bond market, it pushed up long-end yields; in the foreign exchange market, it drove up the US dollar and weighed on all non-US currencies—with the Australian dollar, due to its risk beta, suffering the sharpest fall.</p>
+<p><strong>So half the reason for this downturn in the Australian dollar lies outside Australia.</strong> This is why an interest rate rise by the RBA alone cannot save it.</p>
+<h3 id="两种读法，并列而不是择一"><a href="#两种读法，并列而不是择一" class="headerlink" title="Two interpretations, which are parallel rather than mutually exclusive"></a>Two interpretations, which are parallel rather than mutually exclusive</h3><p>There is a clear divergence of views in the market regarding the factors driving the Australian dollar, so both interpretations must be presented:</p>
+<p><strong>Interpretation 1 (SocGen, 3 November 2026)</strong>：<strong>“AUD/USD is essentially a bet on industrial metals, rather than a bet on the RBA/Fed interest rate differential.”</strong> The bank noted that the 200-day moving average at 0.7050/0.7080 has shifted from support to resistance; meanwhile, short positions in the Australian dollar account for <strong>39.5%</strong>, marking the most bearish level since February 2025.</p>
+<p><strong>Alternative Reading (NAB, Report dated 3 July 2026)</strong>: The main driver of the Australian dollar is <strong>The RBA’s cycle of interest rate cuts</strong>—The bank expects the RBA to cut interest rates by 75 basis points from the second quarter of 2027, corresponding to the AUD/USD target for the end of 2027 <strong>0.67</strong>, and believes that prices may fall in the second half of the year <strong>0.65</strong>。</p>
+<p><strong>These two interpretations are not contradictory; they refer to two different time scales:</strong> The short term (1–3 months) is driven by interest rate differentials and risk sentiment, whilst the medium term (12 months or more) is driven by commodity terms of trade and the RBA’s policy cycle. SocGen describes the long-term nature of the Australian dollar, whilst NAB describes its path over the coming year. To pit the two against each other is to conflate different time horizons.</p>
+<h2 id="五、铁矿石：地板在下沉，但不是这轮下跌的扳机"><a href="#五、铁矿石：地板在下沉，但不是这轮下跌的扳机" class="headerlink" title="V. Iron ore: The market is on a downward trend, but this was not the trigger for the current downturn"></a>V. Iron ore: The market is on a downward trend, but this was not the trigger for the current downturn</h2><p>This is the first question this article aims to address:<strong>Is this recent fall in the Australian dollar linked to the fact that iron ore prices are failing to rise?</strong></p>
+<p>The answer is:<strong>It is relevant, but it is not the cause of this fall. Iron ore explains ‘why the Australian dollar cannot recover’, but it does not explain ‘why it has fallen so sharply over the past five days’.</strong></p>
+<h3 id="先看分量：铁矿石在澳洲出口里有多重"><a href="#先看分量：铁矿石在澳洲出口里有多重" class="headerlink" title="Let’s start by looking at the figures: how significant is iron ore within Australia’s exports?"></a>Let’s start by looking at the figures: how significant is iron ore within Australia’s exports?</h3><table>
+<thead>
+<tr>
+<th>Indicators</th>
+<th>Value</th>
+<th>Calibre</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Revenue from iron ore exports (Financial Year 2025–26)</td>
+<td><strong>A$123 billion (A$123B)</strong></td>
+<td>Official ‘Quarterly Report on Resources and Energy’, September 2026</td>
+</tr>
+<tr>
+<td>Export revenue (forecast for 2026–27)</td>
+<td><strong>A$107 billion (A$107B)</strong></td>
+<td>Ibid., down 13 per cent year-on-year</td>
+</tr>
+<tr>
+<td>Export revenue (forecast for 2030–31)</td>
+<td><strong>A$79 billion (A$79B)</strong></td>
+<td>Ibid., down 36 per cent compared with 2025–26</td>
+</tr>
+<tr>
+<td>as a proportion of total revenue from the export of resources and energy</td>
+<td><strong>More than 25 per cent</strong></td>
+<td>Ibid.</td>
+</tr>
+<tr>
+<td>Dependence on exports to China</td>
+<td><strong>Approximately 80–85 per cent</strong></td>
+<td>S&amp;P Global (830.9 million tonnes of the 977.2 million tonnes in 2025 were shipped to China); 80–85 per cent according to IEEFA figures</td>
+</tr>
+</tbody></table>
+<p><strong>Iron ore is Australia’s largest single export commodity, accounting for more than a quarter of the country’s export revenue from natural resources, with over 80 per cent of it sold to a single buyer.</strong> This concentration implies that iron ore prices and Sino-Australian relations are two variables that cannot be ignored in the long-term valuation of the Australian dollar.</p>
+<h3 id="历史相关性：高，但不是因果"><a href="#历史相关性：高，但不是因果" class="headerlink" title="Historical correlation: high, but not causal"></a>Historical correlation: high, but not causal</h3><p>AUD/USD and iron ore prices<strong>The historical correlation coefficient is approximately 0.76</strong>(MacroMicro calibre).</p>
+<p>0.76 is quite a high figure, but<strong>A correlation does not imply causation</strong>.0.76 reflects the fact that when global industrial demand (particularly in China) strengthens, iron ore prices rise, Australia’s terms of trade improve and the Australian dollar appreciates—<strong>These three things are driven by the same cause, rather than by one another.</strong> Interpreting 0.76 as ‘when iron ore prices rise, the Australian dollar must rise’ is to mistake a common cause for a transmission mechanism.</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://files.seeusercontent.com/2026/11/08/i8Jb/fig2-iron-ore-floor-sinking.png" alt="Three pieces of evidence pointing to a slump in the iron ore market"><figcaption>Three pieces of evidence pointing to a slump in the iron ore market</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 2</span><span class="aden-caption-text">Three pieces of evidence pointing to a ‘sliding floor’ for iron ore. Top: Australian iron ore export revenue is projected to fall from A$123 billion in the 2025–26 financial year to A$107 billion in 2026–27, and A$79 billion forecast for 2030–31 (based on the official ‘Resources and Energy Quarterly’ report, September 2026); bottom left: the forecast for the 61 per cent Fe FOB price has fallen from US$83/t to US$72/t; bottom right: Simandou’s shipment ramp-up in 2026 is outpacing the guidance provided at the start of the year (Q3 exports of 8.9 million tonnes, with the full-year total likely to reach approximately 28 million tonnes).</span></p>
+<h3 id="看价格：在跌，但这个月跌得不急"><a href="#看价格：在跌，但这个月跌得不急" class="headerlink" title="Looking at the price: it’s falling, but the decline hasn’t been steep this month"></a>Looking at the price: it’s falling, but the decline hasn’t been steep this month</h3><table>
+<thead>
+<tr>
+<th>Calibre</th>
+<th>Value</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Average price of 62% Fe in September</td>
+<td><strong>US$98.3/t</strong>(Month-on-month <strong>+0.7%</strong>）</td>
+<td>REQ 2026-09</td>
+</tr>
+<tr>
+<td>2 November Spot</td>
+<td><strong>Approximately US$91.2 per tonne</strong>(Approximately year-on-year <strong>-10.8%</strong>）</td>
+<td>TradingEconomics</td>
+</tr>
+<tr>
+<td>Forecast of the average quarterly price for December 2026</td>
+<td><strong>US$95/t</strong></td>
+<td>Westpac Commodities Forecast October 2026</td>
+</tr>
+<tr>
+<td>Forecast average price for the quarter ending December 2027</td>
+<td><strong>US$83/t</strong></td>
+<td>Ibid.</td>
+</tr>
+<tr>
+<td>61% Fe FOB Medium-Term Forecast</td>
+<td>2026–27 <strong>US$83/t</strong> → 2030–31 <strong>US$72/t</strong></td>
+<td>REQ 2026-09</td>
+</tr>
+</tbody></table>
+<p><strong>The most crucial piece of evidence comes from the RBA itself.</strong> In its Monetary Policy Statement of November 2026, the RBA stated the following regarding iron ore: prices<strong>“A slight fall”</strong>(slightly lower), and<strong>“Price pressures remain moderate, as supplies are still plentiful”</strong>（price pressures remain subdued as supply remains abundant）。</p>
+<p><strong>If iron ore were the main cause of this round of declines in the Australian dollar, the RBA would not have used the term ‘slight decline’ in its statement, nor would it have emphasised that price pressures were moderate.</strong> The central bank’s assessment of the price of the country’s largest export commodity is closer to the truth than any second-hand commentary.</p>
+<h3 id="真正的问题在结构，不在本月"><a href="#真正的问题在结构，不在本月" class="headerlink" title="The real problem lies in the structure, not in this month"></a>The real problem lies in the structure, not in this month</h3><p>The pressure on the Australian dollar from iron ore is<strong>Structural, slow</strong>, three lines of inquiry:</p>
+<ol>
+<li><strong>Demand in China has peaked.</strong> China’s crude steel output peaked in 2020 and has since entered a period of structural decline (according to IEEFA); the Australian Government’s own forecasts also indicate that iron ore exports<strong>Quantity</strong>It will peak and then decline over the next two years.</li>
+<li><strong>New supply is gradually increasing, and at a faster rate than expected.</strong> Total exports from the Simandou project in Guinea in the third quarter of 2026 <strong>8.9 million metric tonnes</strong>(Baowu 6.55 million metric tonnes + Simfer 2.16 million metric tonnes); if shipments continue at the same rate in October, full-year exports will amount to approximately <strong>28 million tonnes</strong>—Whereas the guidance at the start of the year was 15–20 million metric tonnes (S&amp;P Global, January 2026). Macquarie’s commentary was blunt:<strong>“Simandou single-handedly sustained the volume of maritime shipments.”</strong> The shipping market is expected to face a surplus of approximately in 2026 <strong>16 million tonnes</strong>。</li>
+<li><strong>The balance of bargaining power is shifting.</strong> China Mineral Resources Group (CMRG) has adopted a tougher stance in its negotiations with BHP and Fortescue by leveraging alternative supplies from Simandou (according to IEEFA).</li>
+</ol>
+<p>Added to this is China’s official manufacturing PMI for October <strong>49.3</strong>, non-manufacturing sector <strong>49.7</strong>, both falling below the boom-bust line (Reuters, 31 October 2026) — there are no signs of any improvement on the demand side.</p>
+<h3 id="本刊的判断"><a href="#本刊的判断" class="headerlink" title="This journal’s assessment"></a>This journal’s assessment</h3><p><strong>Iron ore is ‘hitting rock bottom’, not ‘the trigger for this downturn’.</strong></p>
+<p>To break it down:</p>
+<ul>
+<li><strong>It explains why the Australian dollar’s pivot point is shifting downwards.</strong> Export revenue is forecast to fall by around 30 per cent over five years (A$123 billion → A$79 billion, 2025–26 to 2030–31), downward revisions to price forecasts, Chinese demand peaking, and a surge in new supply—these four factors have determined that the Australian dollar’s long-term equilibrium exchange rate is lower than it was three years ago.</li>
+<li><strong>It does not account for the -1.0 per cent on 5 November.</strong> On that day, iron ore prices did not plummet, nor did the euro fall. It was the Australian dollar’s risk profile that took a hit.</li>
+<li><strong>The implications of the operation differ.</strong> If the move is driven by commodity factors, the buying opportunity should be sought when iron ore prices stabilise; if it is driven by risk beta, the buying opportunity should be sought when global risk sentiment recovers.<strong>The timelines for these two events are completely different</strong>—The former is on a quarterly basis, whilst the latter is on a weekly basis.</li>
+</ul>
+<h2 id="六、后市会不会继续下探"><a href="#六、后市会不会继续下探" class="headerlink" title="VI. Will the market continue to fall?"></a>VI. Will the market continue to fall?</h2><p>This is the second question, and also the most difficult one to answer. Let me begin by setting out a methodological premise:<strong>The wide divergence in institutional forecasts is, in itself, the clearest evidence of the highest level of uncertainty.</strong></p>
+<h3 id="机构目标价：从-0-66-到-0-72"><a href="#机构目标价：从-0-66-到-0-72" class="headerlink" title="Analysts’ target price: from 0.66 to 0.72"></a>Analysts’ target price: from 0.66 to 0.72</h3><table>
+<thead>
+<tr>
+<th>Organisation</th>
+<th>AUD/USD Target</th>
+<th>Point in time</th>
+<th>Logic</th>
+<th>Calibre</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>NAB</strong></td>
+<td><strong>0.67</strong>(H2 or a potential dip to 0.65)</td>
+<td>End of 2027</td>
+<td>The RBA will cut interest rates by 75 basis points from Q2 2027</td>
+<td><strong>3 July 2026 Report</strong>, part of the July forecast</td>
+</tr>
+<tr>
+<td><strong>CBA</strong></td>
+<td><strong>0.66</strong></td>
+<td>March 2027</td>
+<td>Slightly bearish</td>
+<td>Second-hand account</td>
+</tr>
+<tr>
+<td><strong>Westpac</strong></td>
+<td><strong>0.72</strong></td>
+<td>December 2026</td>
+<td>Support from commodity prices and interest rate differentials</td>
+<td>Second-hand account</td>
+</tr>
+<tr>
+<td>Retail Consensus (24 firms)</td>
+<td>0.7126</td>
+<td>2026 Q4</td>
+<td>87% are optimistic</td>
+<td>The methodology is geared towards the retail sector,<strong>Low weighting</strong></td>
+</tr>
+<tr>
+<td><strong>SocGen</strong></td>
+<td>No price predictions</td>
+<td>—</td>
+<td>The 200-day moving average at 0.7050–0.7080 acts as resistance</td>
+<td>—</td>
+</tr>
+</tbody></table>
+<p><strong>The current price is approximately 0.6867. CBA’s target of 0.66 lies approximately 3.9 per cent below this level, whilst Westpac’s target of 0.72 lies approximately 4.9 per cent above it; the spread between the two is approximately 8.7 per cent.</strong> In other words, even amongst professional institutions, the divergence in views on where the Australian dollar will stand at the end of the same year is nearly 9 percentage points—and the time points covered by these five forecasts are not the same (December 2026, March 2027, end of 2027); strictly speaking, they are not even fully comparable. Any assertion that ‘the Australian dollar is bound to fall below a certain level’ goes beyond what is supported by currently available market information.</p>
+<h3 id="技术位：区分机构口径与零售口径"><a href="#技术位：区分机构口径与零售口径" class="headerlink" title="Technical Perspective: Distinguishing between institutional and retail perspectives"></a>Technical Perspective: Distinguishing between institutional and retail perspectives</h3><ul>
+<li><strong>Institutional definition</strong>: 0.6895 – The key support level has been breached; the next level is <strong>0.6865</strong>(Convera 5 November 2026); above <strong>0.7050-0.7080</strong> At the 200-day moving average resistance level (SocGen).</li>
+<li><strong>Retail Technical Analysis Criteria</strong>(TradingView individual analyst,<strong>For information only; not to be relied upon</strong>): The support zone of 0.68565–0.68807 has been breached; the next support levels are 0.66047–0.66647, followed by 0.64517.</li>
+</ul>
+<p><strong>Holding a position is a double-edged sword:</strong> Australian dollar short positions account for of open interest <strong>39.5%</strong>, marking the most bearish sentiment since February 2025 (as reported by SocGen). Extreme short positions could either fuel a rebound (short squeeze) or provide momentum for a further decline (as trend traders increase their positions) —<strong>As the direction is uncertain, this should only be interpreted as a signal that ‘volatility may increase’ and should not be used on its own to determine the direction of the market.</strong></p>
+<h3 id="三情景（概率为本刊判断，每档带触发条件）"><a href="#三情景（概率为本刊判断，每档带触发条件）" class="headerlink" title="Three scenarios (probabilities are based on this journal’s assessment; each scenario is subject to specific trigger conditions)"></a>Three scenarios (probabilities are based on this journal’s assessment; each scenario is subject to specific trigger conditions)</h3><p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://files.seeusercontent.com/2026/11/08/lcH8/fig3-targets-and-scenarios.png" alt="Comparison of Current Price with Analysts’ Target Prices and Three Scenarios for the Future Market"><figcaption>Comparison of Current Price with Analysts’ Target Prices and Three Scenarios for the Future Market</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 3</span><span class="aden-caption-text">The chart above shows a comparison of the current AUD/USD price with the target prices set by four institutions (current price: 0.6867; NAB: 0.67, CBA: 0.66, Westpac: 0.72, retail consensus: 0.7126; the respective dates and methodologies are indicated in the chart); Below are three scenarios for the future market outlook, along with their corresponding key levels and trigger conditions.</span></p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Probability</th>
+<th>Key positions</th>
+<th>Trigger conditions</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Continue to fall</strong></td>
+<td><strong>40%</strong></td>
+<td>Break below 0.6865 → 0.67 → 0.66–0.665</td>
+<td>8–9 December: FOMC raises interest rates as expected, with a hawkish dot plot; iron ore falls below US$85/t; China’s November data continues to weaken; US equities test their lows for a second time</td>
+</tr>
+<tr>
+<td><strong>Consolidating at low levels to form a bottom</strong></td>
+<td><strong>45%</strong></td>
+<td>Fluctuating within the 0.68–0.70 range</td>
+<td>Interest rate hike implemented but pause signalled; iron ore at US$90–95/t; China rolls out stimulus measures; short covering</td>
+</tr>
+<tr>
+<td><strong>Recovery rebound</strong></td>
+<td><strong>15%</strong></td>
+<td>Recover to 0.6895 → Target 0.7050–0.7080</td>
+<td>No interest rate rise in December (due to weaker data); the RBA to raise rates once more in December; strong stimulus in China; the US dollar weakens due to fiscal and political risks</td>
+</tr>
+</tbody></table>
+<p><strong>Why is ‘bottoming out’ the base-case scenario?</strong> This is because there are three bearish factors already partially priced in on the downside (a December rate rise, weakness in iron ore and Chinese demand), whilst on the upside there is one possibility that has yet to be priced in (a short squeeze driven by extreme short positions); At the same time, the RBA is nearing the end of its rate-hiking cycle (the market is pricing in a 95–100 per cent probability of no change in December), which means<strong>The point at which the bad news has run its course is drawing near</strong>。</p>
+<p><strong>However, there is one asymmetry to bear in mind:</strong> If the FOMC does indeed raise interest rates in December and the dot plot takes a hawkish tone, the Australian dollar’s decline will be faster and deeper than in the ‘bottom-forming’ scenario—because the US-Australia interest rate differential will worsen in two ways simultaneously (US rate hikes and a pause in Australian rate rises). This is why the probability of a ‘continued decline’ is set at 40 per cent, rather than a lower figure.</p>
+<h2 id="七、换算到人民币"><a href="#七、换算到人民币" class="headerlink" title="VII. Conversion to Renminbi"></a>VII. Conversion to Renminbi</h2><p>All of the above relate to AUD/USD. Readers holding Renminbi should also refer to AUD/CNY.</p>
+<p><strong>Let’s first look at the actual quotes from the last few days (the source must be specified):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Calibre</th>
+<th>Value</th>
+<th>Date</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>China Merchants Bank Mid-Market Rate</td>
+<td><strong>4.65456</strong> → <strong>4.56635</strong></td>
+<td>11-05 → 11-06</td>
+</tr>
+<tr>
+<td>Wise hits a low</td>
+<td><strong>4.5824</strong></td>
+<td>11-07</td>
+</tr>
+</tbody></table>
+<p><strong>There is a price difference of 1–2 fen between different platforms</strong>(Spot, mid-market and bank rates are calculated differently); if readers see a figure such as 4.55 during trading hours, this represents a normal fluctuation in spot quotes and is not an anomaly.</p>
+<p><strong>Mechanical conversions (including explicit assumptions):</strong> AUD/CNY = AUD/USD × USD/CNY. Assuming that USD/CNY ≈ 6.68:</p>
+<table>
+<thead>
+<tr>
+<th>AUD/USD</th>
+<th>Corresponding to AUD/CNY (USD/CNY = 6.68)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0.686 (current)</td>
+<td><strong>Approx. 4.58</strong></td>
+</tr>
+<tr>
+<td>0.66 (CBA target)</td>
+<td><strong>Approx. 4.41</strong></td>
+</tr>
+<tr>
+<td>0.65 (in the event of a NAB dip)</td>
+<td><strong>Approx. 4.34</strong></td>
+</tr>
+</tbody></table>
+<p><strong>This conversion is based on one key assumption: that the exchange rate between the renminbi and the US dollar remains unchanged.</strong> If the renminbi also weakens during the same period, the fall in the Australian dollar against the renminbi will be cushioned; if the renminbi strengthens, the fall will be exacerbated.<strong>Please do not treat the table above as a standalone forecast for AUD/CNY</strong>… it simply applies the AUD/USD scenario to a fixed USD/CNY assumption.</p>
+<h2 id="八、未来四到六周看什么"><a href="#八、未来四到六周看什么" class="headerlink" title="VIII. What to look out for over the next four to six weeks"></a>VIII. What to look out for over the next four to six weeks</h2><table>
+<thead>
+<tr>
+<th>Observation items</th>
+<th>Time</th>
+<th>Why is it important?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>December FOMC</strong></td>
+<td>12-08/09</td>
+<td>Will the interest rate hike materialise (currently priced in at around 80 per cent) + the dot plot; this is the key driver for the US dollar</td>
+</tr>
+<tr>
+<td><strong>December RBA meeting</strong></td>
+<td>December</td>
+<td>Whether to halt trading (current price remains unchanged at 95–100 per cent) + whether the wording of the statement has shifted</td>
+</tr>
+<tr>
+<td><strong>China’s November figures</strong></td>
+<td>mid-December</td>
+<td>PMI, crude steel output, property investment; direct indicators of iron ore demand</td>
+</tr>
+<tr>
+<td><strong>Iron ore prices</strong></td>
+<td>Continuous</td>
+<td>Can 62% Fe hold the US$90/t level?; Stockpiles at Chinese ports</td>
+</tr>
+<tr>
+<td><strong>Shipping from Simandou</strong></td>
+<td>Continuous</td>
+<td>Whether the 2027 shipment guidance will be revised upwards again; the pace at which the expected surplus materialises</td>
+</tr>
+<tr>
+<td><strong>Short positions in the Australian dollar</strong></td>
+<td>Every week</td>
+<td>Is 39.5 per cent extreme enough to trigger a short squeeze?</td>
+</tr>
+<tr>
+<td><strong>Risk sentiment in the US stock market</strong></td>
+<td>From 11–17</td>
+<td><strong>NVIDIA’s earnings report is the next trigger for this round of risk beta</strong>… the impact on the Australian dollar may be greater than that of the RBA’s December meeting</td>
+</tr>
+</tbody></table>
+<p>One final point is worth emphasising: as demonstrated in Section 2 of this paper, approximately 40 per cent of this downturn is attributable to risk beta.<strong>It is therefore highly likely that any short-term recovery in the Australian dollar will not stem from Canberra, but rather from a rebound in global risk appetite.</strong> NVIDIA’s earnings report on 11–17 may have a greater impact on AUD/USD than the RBA meeting in December.</p>
+<h2 id="九、与前文的衔接"><a href="#九、与前文的衔接" class="headerlink" title="IX. Continuity with the preceding text"></a>IX. Continuity with the preceding text</h2><ul>
+<li><strong>10–21 <a href="/2026/10/21/2026-10-21-rba-rate-hikes-aud-cny/">‘Australian Interest Rate Hikes and the AUD/CNY Exchange Rate: The RBA’s 2026 Tightening Cycle and AUD/CNY Scenario Analysis’</a>A continuation of...</strong>: The question at the time was ‘Can raising interest rates save the exchange rate?’, and now we have the answer—<strong>It can’t be saved, because these are stagflation-driven interest rate rises.</strong> By acknowledging that the economy is slowing, house prices have fallen significantly and the unemployment rate has risen—and is expected to rise further than forecast in August—these three factors have completely offset the benefits of the interest rate rise.</li>
+<li><strong>with<a href="/2026/10/31/2026-10-31-macro-micro-ai-capex-verdict/">‘In the same week, macro and micro perspectives delivered conflicting verdicts on AI capital expenditure’</a>、<a href="/2026/11/08/2026-11-08-three-pricings-crash-payrolls-nvidia/">‘Pricing Three Times a Week: The Plunge, the Non-Farm Payrolls, and the Link to Nvidia’</a>the main storyline</strong>: The pricing in of a rate rise at the December FOMC meeting (67 per cent → 80 per cent) follows the same macroeconomic trajectory. In the US equity market, this manifests as valuation pressure on AI-related capital expenditure; in the US bond market, as rising long-end yields; and in the foreign exchange market, as a strengthening US dollar and a solo decline in the Australian dollar.<strong>A single forecast curve links three markets.</strong></li>
+<li><strong>The next point of interest in this series</strong>: 11–17 On the day of Nvidia’s earnings report, monitor the reactions of both the Nasdaq and AUD/USD—if both move in tandem, this will validate the assessment that ‘risk beta is the dominant factor’.</li>
+</ul>
+<h2 id="十、数据缺口与口径说明"><a href="#十、数据缺口与口径说明" class="headerlink" title="X. Explanation of Data Gaps and Definitions"></a>X. Explanation of Data Gaps and Definitions</h2><ol>
+<li><strong>The year-to-date high for AUD/USD of “around 0.71” is based on the team’s baseline; this article has not independently verified the specific date or price level.</strong></li>
+<li><strong>No intraday prices have been obtained since 8 November</strong>, The figure of 0.6867 cited in this article is the morning quote for 11 August.</li>
+<li><strong>There is a mix of four different measurement standards for iron ore prices</strong>: Spot vs Futures, 62% Fe vs 61% Fe, CFR vs FOB. This article has been annotated accordingly; readers must retain the same terminology when citing it.</li>
+<li><strong>Both the CBA’s 0.66 and Westpac’s 0.72 are second-hand figures</strong>(According to aggregated media reports), the original reports from the two banks could not be obtained.</li>
+<li><strong>39.5 per cent of positions are short on the Australian dollar, according to SocGen</strong>, the original position report (CFTC / ASX) was not readily comprehensible.</li>
+<li><strong>Retail technical levels (0.66047–0.66647, 0.64517) are provided by individual analysts on TradingView and should not be cited as institutional forecasts.</strong></li>
+<li><strong>China’s November figures have not yet been released</strong>, The relevant trigger conditions in the scenario table are subject to verification.</li>
+<li><strong>NAB’s target of 0.67 is taken from the report dated 3 July 2026</strong>, which was part of the July forecast; market conditions have since changed.</li>
+</ol>
+<h3 id="主要信息来源与核验索引"><a href="#主要信息来源与核验索引" class="headerlink" title="Main Sources of Information and Verification Index"></a>Main Sources of Information and Verification Index</h3><ul>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.rba.gov.au/media-releases/2026/mr-26-30.html">RBA Monetary Policy Decision (3 November 2026, mr-26-30) – Original text<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.rba.gov.au/publications/smp/2026/nov/economic-conditions.html">RBA Monetary Policy Statement, November 2026: Economic Conditions (including the description of iron ore prices as having ‘fallen slightly’)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.industry.gov.au/publications/resources-and-energy-quarterly-september-2026">The September 2026 issue of the ‘Resources and Energy Quarterly’ published by the Australian Department of Industry, Science and Resources (the primary source for forecasts of iron ore export revenue and prices)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.spglobal.com/energy/en/news-research/latest-news/metals/071026-global-iron-ore-trade-hits-record-high-driven-by-chinese-demand-australian-exports">S&amp;P Global (10 July 2026): Global iron ore trade hits a record high, driven by Chinese demand and Australian exports<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://ieefa.org/resources/green-iron-exports-australia-must-look-beyond-china">IEEFA (October 2026): Australia’s green iron ore exports must break free from their reliance on China<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://convera.com/blog/market-insights/fx-research/daily-market-updates/aussie-dollar-us-stock-sell-off/">Convera (5 November 2026): Intraday update on the Australian dollar’s decline following the sell-off in US equities (AUD -1.0%, support at 0.6865)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://fxstreet.com/news/australian-dollar-rba-limits-gains-against-us-dollar-societe-generale-202611030850">SocGen view (as reported by FXStreet, 3 November 2026): AUD/USD is a bet on industrial metals; the 200-day moving average at 0.7050/0.7080 has turned into resistance; short positions account for 39.5 per cent<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://nab.com.au/content/dam/nab-email-composer/nabmarketsresearch/fx-strategy/pdf/Global%20FX%20Strategist_Forecast%20Update%20-%2020260703.pdf">NAB Global FX Strategy Forecast Update (3 July 2026): AUD/USD 0.67; RBA to cut rates by 75 basis points in 2027<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://library.westpaciq.com.au/content/dam/public/westpaciq/secure/economics/documents/aus/2026/10/Westpac%20Commodity%20Forecasts%20October%202026.pdf">Westpac Commodities Forecast (October 2026): Iron ore at US$95/t for the quarter ending December 2026 and US$83/t for the quarter ending December 2027<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://en.macromicro.me/charts/215/aud-iron-ore">MacroMicro: Chart showing the correlation between AUD/USD and iron ore prices (approximately 0.76)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.spglobal.com/energy/en/news-research/latest-news/metals/010526-iron-ore-industry-challenges-simandous-pilbara-killer-status">S&amp;P Global (5 January 2026): Simandou’s challenges for the iron ore industry (year-to-date shipment guidance: 15–20 million metric tonnes)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.reuters.com/world/asia-pacific/dollar-under-pressure-oil-prices-slump-australia-rate-decision-awaited-2026-11-03/">Reuters (3 November 2026): The Australian dollar and oil prices on the day of the RBA decision<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.reuters.com/world/asia-pacific/chinas-october-factory-activity-contracts-fastest-pace-3-months-pmi-survey-shows-2026-10-31/">Reuters (31 October 2026): China’s October manufacturing PMI stands at 49.3, marking the sharpest contraction in three months<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+</ul>
+<p><em>The three-scenario probabilities regarding future market trends presented in this article (further decline: 40 per cent; consolidation at low levels to form a bottom: 45 per cent; recovery and rebound: 15 per cent), the weighting of the four factors, and the interpretation of various ‘key levels’ are all conditional inferences made by this publication based on publicly available information as at 8 November 2026. They do not constitute a forecast of exchange rate movements, nor do they constitute any investment or foreign exchange advice. All probabilities are accompanied by specific trigger conditions; should these conditions change, the probabilities should be adjusted accordingly. The target prices cited from various institutions in this article represent third-party views and do not reflect the position of this publication.</em></p>
+<p><em>Cover image:<a class="link" target="_blank" rel="noopener" href="https://www.pexels.com/photo/sydney-opera-house-26840167/">Sydney Opera House<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> — Photo by Adrian Rubiales on Pexels (licensed for free commercial use)</em></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> Interest Rate Hikes Cannot Save the Australian Dollar: The Exchange Rate Paradox of a ‘Stagflationary Rate Hike’</li>
+        <li><strong>Author:</strong> AdenXie</li>
+        <li><strong>Created at
+                :</strong> 2026-11-08 18:00:00</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2026-11-08 18:00:00
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://blog.adenxie.com.cn/2026/11/08/2026-11-08-rba-stagflationary-hike-aud-paradox/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E6%B1%87%E7%8E%87/">#Exchange Rate</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/RBA/">#RBA</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E6%BE%B3%E5%85%83/">#Australian dollar</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E6%BE%B3%E5%A4%A7%E5%88%A9%E4%BA%9A/">#Australia</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E9%93%81%E7%9F%BF%E7%9F%B3/">#Iron ore</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E7%BE%8E%E5%85%83/">#US dollar</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/10/21/2026-10-21-rba-rate-hikes-aud-cny/" title="Australia Rate Hikes and the AUD/CNY Exchange Rate: RBA 2026 Tightening Cycle and AUD/CNY Scenario Analysis" rel="bookmark">
+  <img src="https://images.pexels.com/photos/4359064/pexels-photo-4359064.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Australia Rate Hikes and the AUD/CNY Exchange Rate: RBA 2026 Tightening Cycle and AUD/CNY Scenario Analysis" class="!max-w-none">
+  <span class="title">Australia Rate Hikes and the AUD/CNY Exchange Rate: RBA 2026 Tightening Cycle and AUD/CNY Scenario Analysis</span>
+</a><a class="recommended-article-item" href="/2026/11/08/2026-11-08-three-pricings-crash-payrolls-nvidia/" title="Three Key Price Moves This Week: The Plunge, the Non-Farm Payrolls Report, and the Link to Nvidia" rel="bookmark">
+  <img src="https://images.pexels.com/photos/210607/pexels-photo-210607.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Three Key Price Moves This Week: The Plunge, the Non-Farm Payrolls Report, and the Link to Nvidia" class="!max-w-none">
+  <span class="title">Three Key Price Moves This Week: The Plunge, the Non-Farm Payrolls Report, and the Link to Nvidia</span>
+</a><a class="recommended-article-item" href="/2026/10/21/2026-10-21-fed-rate-hike-oil-stagflation/" title="Fed Rate Hikes and Oil Prices: Why This ‘Stagflation’ Has Left the Fed in a Tight Spot" rel="bookmark">
+  <img src="https://images.pexels.com/photos/16862261/pexels-photo-16862261.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Fed Rate Hikes and Oil Prices: Why This ‘Stagflation’ Has Left the Fed in a Tight Spot" class="!max-w-none">
+  <span class="title">Fed Rate Hikes and Oil Prices: Why This ‘Stagflation’ Has Left the Fed in a Tight Spot</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/10/21/2026-10-21-rba-rate-hikes-aud-cny/" title="Australia Rate Hikes and the AUD/CNY Exchange Rate: RBA 2026 Tightening Cycle and AUD/CNY Scenario Analysis" rel="bookmark">
+  <img src="https://images.pexels.com/photos/4359064/pexels-photo-4359064.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Australia Rate Hikes and the AUD/CNY Exchange Rate: RBA 2026 Tightening Cycle and AUD/CNY Scenario Analysis" class="!max-w-none">
+  <span class="title">Australia Rate Hikes and the AUD/CNY Exchange Rate: RBA 2026 Tightening Cycle and AUD/CNY Scenario Analysis</span>
+</a><a class="recommended-article-item" href="/2026/11/08/2026-11-08-three-pricings-crash-payrolls-nvidia/" title="Three Key Price Moves This Week: The Plunge, the Non-Farm Payrolls Report, and the Link to Nvidia" rel="bookmark">
+  <img src="https://images.pexels.com/photos/210607/pexels-photo-210607.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Three Key Price Moves This Week: The Plunge, the Non-Farm Payrolls Report, and the Link to Nvidia" class="!max-w-none">
+  <span class="title">Three Key Price Moves This Week: The Plunge, the Non-Farm Payrolls Report, and the Link to Nvidia</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/11/08/2026-11-08-daily-brief/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Daily Briefing | 8 November 2026: US military carries out ‘small-scale’ strike on Iran’s Qeshm Island; Trump says progress has been made in negotiations; Israeli President appoints Eisenkot to form a government; OpenAI raises US$11 billion at a valuation of US$1.25 trillion; Microsoft scales back its computing power lease with Oracle; China’s central bank increases its gold reserves for the 24th consecutive month</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">Interest Rate Hikes Cannot Save the Australian Dollar: The Exchange Rate Paradox of a ‘Stagflationary Rate Hike’</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%85%88%E7%9C%8B%E4%B8%80%E7%BB%84%E5%8F%8D%E5%B8%B8%E7%9A%84%E6%95%B0%E5%AD%97"><span class="nav-text">I. Let us first look at a set of unusual figures</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%8111-05-%E9%82%A3%E5%A4%A9%EF%BC%9A%E6%BE%B3%E5%85%83%E4%B8%BA%E4%BB%80%E4%B9%88%E7%8B%AC%E8%87%AA%E4%B8%8B%E8%B7%8C"><span class="nav-text">II. 5 November: Why did the Australian dollar fall on its own?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%8111-03-%E7%9A%84%E5%8A%A0%E6%81%AF%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E8%B4%9F%E8%B5%84%E4%BA%A7"><span class="nav-text">III. The interest rate rise on 3 November: why is it a negative asset?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E6%81%AF%E6%9C%AC%E8%BA%AB%EF%BC%8C%E6%97%A9%E5%B0%B1%E8%A2%AB-100-%E5%AE%9A%E4%BB%B7%E4%BA%86"><span class="nav-text">The interest rate rise itself has long been 100 per cent priced in.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A3%B0%E6%98%8E%E7%9A%84%E6%8E%AA%E8%BE%9E%EF%BC%8C%E6%AF%94%E5%8A%A0%E6%81%AF%E6%9C%AC%E8%BA%AB%E6%9B%B4%E5%85%B3%E9%94%AE"><span class="nav-text">The wording of the statement is more important than the interest rate rise itself</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E5%AE%B9%E6%98%93%E8%A2%AB%E5%BF%BD%E7%95%A5%E7%9A%84%E7%BB%86%E8%8A%82"><span class="nav-text">An easily overlooked detail</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%9B%9B%E4%B8%AA%E5%9B%A0%E7%B4%A0%E7%9A%84%E7%9C%9F%E5%AE%9E%E6%9D%83%E9%87%8D"><span class="nav-text">IV. The actual weights of the four factors</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E7%AC%AC-%E2%91%A1%E2%91%A2-%E9%A1%B9%EF%BC%9A%E4%B8%80%E6%9D%A1%E9%A2%84%E6%9C%9F%E6%9B%B2%E7%BA%BF%E4%B8%B2%E8%B5%B7%E4%B8%89%E4%B8%AA%E5%B8%82%E5%9C%BA"><span class="nav-text">Regarding points ② and ③: a single forecast curve links the three markets</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%A4%E7%A7%8D%E8%AF%BB%E6%B3%95%EF%BC%8C%E5%B9%B6%E5%88%97%E8%80%8C%E4%B8%8D%E6%98%AF%E6%8B%A9%E4%B8%80"><span class="nav-text">Two interpretations, which are parallel rather than mutually exclusive</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E9%93%81%E7%9F%BF%E7%9F%B3%EF%BC%9A%E5%9C%B0%E6%9D%BF%E5%9C%A8%E4%B8%8B%E6%B2%89%EF%BC%8C%E4%BD%86%E4%B8%8D%E6%98%AF%E8%BF%99%E8%BD%AE%E4%B8%8B%E8%B7%8C%E7%9A%84%E6%89%B3%E6%9C%BA"><span class="nav-text">V. Iron ore: The market is on a downward trend, but this was not the trigger for the current downturn</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%88%E7%9C%8B%E5%88%86%E9%87%8F%EF%BC%9A%E9%93%81%E7%9F%BF%E7%9F%B3%E5%9C%A8%E6%BE%B3%E6%B4%B2%E5%87%BA%E5%8F%A3%E9%87%8C%E6%9C%89%E5%A4%9A%E9%87%8D"><span class="nav-text">Let’s start by looking at the figures: how significant is iron ore within Australia’s exports?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%86%E5%8F%B2%E7%9B%B8%E5%85%B3%E6%80%A7%EF%BC%9A%E9%AB%98%EF%BC%8C%E4%BD%86%E4%B8%8D%E6%98%AF%E5%9B%A0%E6%9E%9C"><span class="nav-text">Historical correlation: high, but not causal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9C%8B%E4%BB%B7%E6%A0%BC%EF%BC%9A%E5%9C%A8%E8%B7%8C%EF%BC%8C%E4%BD%86%E8%BF%99%E4%B8%AA%E6%9C%88%E8%B7%8C%E5%BE%97%E4%B8%8D%E6%80%A5"><span class="nav-text">Looking at the price: it’s falling, but the decline hasn’t been steep this month</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9C%9F%E6%AD%A3%E7%9A%84%E9%97%AE%E9%A2%98%E5%9C%A8%E7%BB%93%E6%9E%84%EF%BC%8C%E4%B8%8D%E5%9C%A8%E6%9C%AC%E6%9C%88"><span class="nav-text">The real problem lies in the structure, not in this month</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E5%88%8A%E7%9A%84%E5%88%A4%E6%96%AD"><span class="nav-text">This journal’s assessment</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E5%90%8E%E5%B8%82%E4%BC%9A%E4%B8%8D%E4%BC%9A%E7%BB%A7%E7%BB%AD%E4%B8%8B%E6%8E%A2"><span class="nav-text">VI. Will the market continue to fall?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%BA%E6%9E%84%E7%9B%AE%E6%A0%87%E4%BB%B7%EF%BC%9A%E4%BB%8E-0-66-%E5%88%B0-0-72"><span class="nav-text">Analysts’ target price: from 0.66 to 0.72</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E4%BD%8D%EF%BC%9A%E5%8C%BA%E5%88%86%E6%9C%BA%E6%9E%84%E5%8F%A3%E5%BE%84%E4%B8%8E%E9%9B%B6%E5%94%AE%E5%8F%A3%E5%BE%84"><span class="nav-text">Technical Perspective: Distinguishing between institutional and retail perspectives</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E6%83%85%E6%99%AF%EF%BC%88%E6%A6%82%E7%8E%87%E4%B8%BA%E6%9C%AC%E5%88%8A%E5%88%A4%E6%96%AD%EF%BC%8C%E6%AF%8F%E6%A1%A3%E5%B8%A6%E8%A7%A6%E5%8F%91%E6%9D%A1%E4%BB%B6%EF%BC%89"><span class="nav-text">Three scenarios (probabilities are based on this journal’s assessment; each scenario is subject to specific trigger conditions)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E6%8D%A2%E7%AE%97%E5%88%B0%E4%BA%BA%E6%B0%91%E5%B8%81"><span class="nav-text">VII. Conversion to Renminbi</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E6%9C%AA%E6%9D%A5%E5%9B%9B%E5%88%B0%E5%85%AD%E5%91%A8%E7%9C%8B%E4%BB%80%E4%B9%88"><span class="nav-text">VIII. What to look out for over the next four to six weeks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B9%9D%E3%80%81%E4%B8%8E%E5%89%8D%E6%96%87%E7%9A%84%E8%A1%94%E6%8E%A5"><span class="nav-text">IX. Continuity with the preceding text</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%81%E3%80%81%E6%95%B0%E6%8D%AE%E7%BC%BA%E5%8F%A3%E4%B8%8E%E5%8F%A3%E5%BE%84%E8%AF%B4%E6%98%8E"><span class="nav-text">X. Explanation of Data Gaps and Definitions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E4%BF%A1%E6%81%AF%E6%9D%A5%E6%BA%90%E4%B8%8E%E6%A0%B8%E9%AA%8C%E7%B4%A2%E5%BC%95"><span class="nav-text">Main Sources of Information and Verification Index</span></a></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">Write down your real experiences while retaining the edges of your viewpoints.</div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        108 posts in total
+                    </span>
+                    
+                        <span>
+                            325.4k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days"></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/cyber-weather.js" defer=""></script>
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/cyber-exchange.js" defer=""></script>
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/scene-loader.js" defer=""></script>
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="Image viewer">
+	<button class="image-viewer-close" type="button" aria-label="Close">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="Prev">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="Close">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="Next">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Search..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js"></script>
+
+
+<script src="/js/build/plugins/aplayer.js"></script>
+
+
+	
+
+
+</body></html>
