@@ -26,6 +26,13 @@ test('English has matching original link, canonical URL and isolated widget scri
   assert.equal($('.aden-language-switch [lang="zh-CN"]').attr('href'), '/world-time/');
   assert.equal($('script').attr('src'), '/en/js/world-time.js');
 });
+test('cached English Notes become plain paragraphs without losing translated text or links', () => {
+  const $ = cheerio.load('<article class="article-content"><div class="aden-alert" role="note"><svg></svg><div class="aden-alert-frame"><p>Data through <a href="/data/">20 October</a>.</p><p>Second paragraph.</p></div><span class="aden-alert-meta">NOTES</span></div></article>');
+  decorate($, '/post/', true, true);
+  assert.equal($('.aden-alert').length, 0);
+  assert.deepEqual($('.article-content > p').not('.aden-translation-notice').map((_, el) => $(el).text()).get(), ['Data through 20 October.', 'Second paragraph.']);
+  assert.equal($('.article-content a[href="/data/"]').text(), '20 October');
+});
 test('Swup handles same-language page links; other languages and resources reload fully', () => {
   const html = '<html><head></head><body><div class="navbar-content"></div><a href="/2026/10/21/post/">post</a><a href="/en/2026/10/21/post/">en post</a><a href="/en/">en home</a><a href="/archives/?q=1#top">archives</a><a href="/atom.xml">feed</a><a href="/api/chat">api</a><a href="#section">toc</a><a href="https://example.org/">ext</a></body></html>';
   const reloads = $ => $('body > a[data-no-swup]').map((_, el) => $(el).attr('href')).get();

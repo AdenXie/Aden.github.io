@@ -53,7 +53,7 @@ async function main() {
         await page.screenshot({path:`.perf/chat-launcher-${width}-${lang?'en':'zh'}.png`});
         await open();
         assert.equal(await launcher.getAttribute('aria-expanded'), 'true');
-        assert.match(await page.locator('#aden-chat h2').innerText(),lang?/What/:/想聊/);
+        assert.match(await page.locator('#aden-chat h2').innerText(),lang?/Ask AI/:/问 AI/);
         const title = (await page.locator('.post-page-container .article-title').innerText()).trim();
         assert((await page.locator('[data-chat="context"]').innerText()).includes(title));
         const box = await panel.boundingBox();
@@ -96,11 +96,14 @@ async function main() {
         mode='quota'; await input.fill('quota'); await send.click();
         await page.waitForFunction(()=>document.querySelector('[data-chat="status"]').dataset.error==='true');
         assert.match(await status.innerText(),/一分钟|minute/);
+        assert.match(await send.innerText(),/重试|Retry/);
+        assert.equal(await input.inputValue(),'quota');
         mode='broken'; await input.fill('broken'); await send.click();
         await page.waitForFunction(()=>document.querySelector('[data-chat="status"]').textContent.includes('中断')||document.querySelector('[data-chat="status"]').textContent.includes('interrupted'));
         assert.match(await page.locator('.chat-message-progress').last().innerText(),/中断|interrupted/);
         mode='slow'; await input.fill('stop-me'); await send.click();
         assert.match(await page.locator('.chat-message-progress').last().innerText(),/正在等待模型|Waiting for the model/);
+        assert(await send.isHidden(), 'stop replaces send while generating');
         await page.locator('[data-chat="stop"]').click();
         await page.waitForFunction(()=>document.querySelector('[data-chat="stop"]').hidden);
         assert.match(await status.innerText(),/停止|Stopped/);

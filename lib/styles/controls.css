@@ -1,0 +1,107 @@
+/* Shared controls for list navigation and disclosures. Theme colors follow html.light/dark. */
+:root {
+  --aden-control-height: 44px;
+  --aden-control-radius: 9px;
+  --aden-control-duration: 140ms;
+}
+
+:is(.paginator a, .paginator .current, .aden-daily-views a, .aden-archive-back a, .aden-widget-toggle) {
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--aden-control-height);
+  border: 1px solid transparent;
+  border-radius: var(--aden-control-radius);
+  color: var(--first-text-color);
+  font: 500 .85rem/1.25 var(--aden-interface-font);
+  text-decoration: none;
+  transition: background-color var(--aden-control-duration) ease;
+}
+
+.paginator {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: .3rem;
+  margin-top: 30px;
+}
+
+.paginator :is(a, .current) {
+  display: inline-flex;
+  min-width: var(--aden-control-height);
+  padding-inline: .5rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.paginator a.extend,
+.aden-archive-back a,
+.aden-widget-toggle {
+  border-color: var(--border-color);
+  background-color: var(--second-background-color);
+}
+
+/* The fixed hero's inline rules read these two variables on pagination links. */
+.paginator a {
+  --background-color-transparent-80: transparent;
+  --primary-color: var(--third-background-color);
+}
+
+.paginator a.extend { --background-color-transparent-80: var(--second-background-color); }
+.paginator .space { padding-inline: .15rem; color: var(--third-text-color); }
+.paginator .current {
+  background-color: var(--aden-signal);
+  color: var(--aden-on-signal);
+  font-weight: 630;
+}
+
+.aden-daily-views {
+  display: inline-grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background-color: var(--second-background-color);
+}
+
+.aden-daily-views a {
+  display: inline-flex;
+  gap: .4rem;
+  padding-inline: .75rem;
+}
+
+.aden-daily-views a[aria-current="page"] {
+  border-color: var(--border-color);
+  background-color: var(--background-color);
+  color: var(--aden-signal);
+}
+
+.aden-archive-back a {
+  display: inline-flex;
+  padding-inline: .8rem;
+}
+
+.aden-widget-toggle {
+  margin-inline-start: auto;
+  padding-inline: .75rem;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+:is(.paginator a, .aden-daily-views a:not([aria-current="page"]), .aden-archive-back a, .aden-widget-toggle):hover {
+  background-color: var(--third-background-color);
+}
+
+@media (max-width: 640px) {
+  .aden-widget-toggle { display: inline-flex; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :is(.paginator a, .aden-daily-views a, .aden-archive-back a, .aden-widget-toggle) { transition: none; }
+}
+
+@media (forced-colors: active) {
+  .paginator .current,
+  .aden-daily-views a[aria-current="page"] { border-color: Highlight; }
+}

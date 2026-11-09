@@ -33,34 +33,34 @@
   let dateFormatter = createDateFormatter(activeTimeZone);
 
   const weatherCodes = {
-    0: ["晴朗", "Clear", "SUN", "☀"],
-    1: ["大致晴朗", "Mainly clear", "CLEAR", "◒"],
-    2: ["局部多云", "Partly cloudy", "CLOUD", "◑"],
-    3: ["阴天", "Overcast", "OVERCAST", "☁"],
-    45: ["有雾", "Fog", "FOG", "≋"],
-    48: ["雾凇", "Rime fog", "RIME", "≋"],
-    51: ["小毛毛雨", "Light drizzle", "DRIZZLE", "⋰"],
-    53: ["毛毛雨", "Drizzle", "DRIZZLE", "⋰"],
-    55: ["较强毛毛雨", "Heavy drizzle", "DRIZZLE", "⋰"],
-    56: ["冻毛毛雨", "Freezing drizzle", "ICE RAIN", "❄"],
-    57: ["较强冻毛毛雨", "Heavy freezing drizzle", "ICE RAIN", "❄"],
-    61: ["小雨", "Light rain", "RAIN", "⌁"],
-    63: ["中雨", "Rain", "RAIN", "⌁"],
-    65: ["大雨", "Heavy rain", "HEAVY RAIN", "⌁"],
-    66: ["冻雨", "Freezing rain", "ICE RAIN", "❄"],
-    67: ["较强冻雨", "Heavy freezing rain", "ICE RAIN", "❄"],
-    71: ["小雪", "Light snow", "SNOW", "✦"],
-    73: ["中雪", "Snow", "SNOW", "✦"],
-    75: ["大雪", "Heavy snow", "HEAVY SNOW", "✦"],
-    77: ["米雪", "Snow grains", "SNOW", "✦"],
-    80: ["局部阵雨", "Light showers", "SHOWERS", "⌁"],
-    81: ["阵雨", "Showers", "SHOWERS", "⌁"],
-    82: ["强阵雨", "Heavy showers", "SHOWERS", "⌁"],
-    85: ["阵雪", "Snow showers", "SNOW", "✦"],
-    86: ["强阵雪", "Heavy snow showers", "SNOW", "✦"],
-    95: ["雷暴", "Thunderstorm", "STORM", "ϟ"],
-    96: ["雷暴伴冰雹", "Thunderstorm with hail", "STORM", "ϟ"],
-    99: ["强雷暴伴冰雹", "Severe thunderstorm with hail", "STORM", "ϟ"]
+    0: ["晴朗", "Clear", "☀"],
+    1: ["大致晴朗", "Mainly clear", "◒"],
+    2: ["局部多云", "Partly cloudy", "◑"],
+    3: ["阴天", "Overcast", "☁"],
+    45: ["有雾", "Fog", "≋"],
+    48: ["雾凇", "Rime fog", "≋"],
+    51: ["小毛毛雨", "Light drizzle", "⋰"],
+    53: ["毛毛雨", "Drizzle", "⋰"],
+    55: ["较强毛毛雨", "Heavy drizzle", "⋰"],
+    56: ["冻毛毛雨", "Freezing drizzle", "❄"],
+    57: ["较强冻毛毛雨", "Heavy freezing drizzle", "❄"],
+    61: ["小雨", "Light rain", "⌁"],
+    63: ["中雨", "Rain", "⌁"],
+    65: ["大雨", "Heavy rain", "⌁"],
+    66: ["冻雨", "Freezing rain", "❄"],
+    67: ["较强冻雨", "Heavy freezing rain", "❄"],
+    71: ["小雪", "Light snow", "✦"],
+    73: ["中雪", "Snow", "✦"],
+    75: ["大雪", "Heavy snow", "✦"],
+    77: ["米雪", "Snow grains", "✦"],
+    80: ["局部阵雨", "Light showers", "⌁"],
+    81: ["阵雨", "Showers", "⌁"],
+    82: ["强阵雨", "Heavy showers", "⌁"],
+    85: ["阵雪", "Snow showers", "✦"],
+    86: ["强阵雪", "Heavy snow showers", "✦"],
+    95: ["雷暴", "Thunderstorm", "ϟ"],
+    96: ["雷暴伴冰雹", "Thunderstorm with hail", "ϟ"],
+    99: ["强雷暴伴冰雹", "Severe thunderstorm with hail", "ϟ"]
   };
 
   function createTimeFormatter(timeZone) {
@@ -74,7 +74,7 @@
   }
 
   function createDateFormatter(timeZone) {
-    return new Intl.DateTimeFormat("zh-CN", {
+    return new Intl.DateTimeFormat(pick("zh-CN", "en-AU"), {
       timeZone,
       year: "numeric",
       month: "long",
@@ -112,15 +112,10 @@
     card.setAttribute("aria-label", pick("访客所在地时间与天气", "Visitor location time and weather"));
     card.innerHTML = `
       <div class="cyber-weather-header">
-        <span class="cyber-weather-live"><i aria-hidden="true"></i> LIVE // <span data-location="name">LOCATING</span></span>
-        <span class="cyber-weather-coords" data-location="timezone">LOCAL NODE</span>
+        <span class="cyber-weather-live"><i aria-hidden="true"></i><span data-location="name">${pick("当地天气", "Local weather")}</span></span>
+        <span class="cyber-weather-coords" data-location="timezone"></span>
       </div>
       <div class="cyber-weather-grid">
-        <div class="cyber-clock-block">
-          <span class="cyber-data-label" data-location="clock-label">LOCAL TIME / CALIBRATING</span>
-          <time class="cyber-clock" datetime="">--:--:--</time>
-          <span class="cyber-date">${pick("正在校准时间…", "Calibrating time…")}</span>
-        </div>
         <div class="cyber-current-weather" aria-live="polite">
           <span class="cyber-weather-icon" aria-hidden="true">◌</span>
           <div>
@@ -130,15 +125,20 @@
             <span class="cyber-observed" data-weather="observed" hidden></span>
           </div>
         </div>
+        <div class="cyber-clock-block">
+          <span class="cyber-data-label" data-location="clock-label">${pick("当地时间", "Local time")}</span>
+          <time class="cyber-clock" datetime="">--:--:--</time>
+          <span class="cyber-date">${pick("正在校准时间…", "Calibrating time…")}</span>
+        </div>
         <dl class="cyber-weather-metrics">
-          <div><dt>HUMIDITY</dt><dd data-weather="humidity">--%</dd></div>
-          <div><dt>WIND</dt><dd data-weather="wind">-- km/h</dd></div>
-          <div><dt>SUNSET</dt><dd data-weather="sunset">--:--</dd></div>
+          <div><dt>${pick("湿度", "Humidity")}</dt><dd data-weather="humidity">--%</dd></div>
+          <div><dt>${pick("风速", "Wind")}</dt><dd data-weather="wind">-- km/h</dd></div>
+          <div><dt>${pick("日落", "Sunset")}</dt><dd data-weather="sunset">--:--</dd></div>
         </dl>
       </div>
       <div class="cyber-weather-footer">
-        <span data-weather="status">LOCATION LINK / CONNECTING</span>
-        <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">DATA / OPEN-METEO</a>
+        <span data-weather="status">${pick("正在读取天气…", "Loading weather…")}</span>
+        <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a>
         <button type="button" class="aden-widget-toggle" aria-controls="visitor-status-hud" aria-expanded="false"></button>
       </div>`;
     return card;
@@ -167,7 +167,7 @@
 
     card.querySelector('[data-location="name"]').textContent = label.toLocaleUpperCase();
     card.querySelector('[data-location="timezone"]').textContent = timeZone;
-    card.querySelector('[data-location="clock-label"]').textContent = `LOCAL TIME / ${getTimeZoneName(timeZone)}`;
+    card.querySelector('[data-location="clock-label"]').textContent = `${pick("当地时间", "Local time")} · ${getTimeZoneName(timeZone)}`;
     card.setAttribute("aria-label", pick(`${label}时间与天气`, `Time and weather: ${label}`));
   }
 
@@ -192,27 +192,28 @@
     updateClock(card);
 
     const current = payload.current;
-    const [condition, conditionEn, codeLabel, icon] = weatherCodes[current.weather_code] || ["天气未知", "Unknown weather", "UNKNOWN", "◇"];
+    const [condition, conditionEn, icon] = weatherCodes[current.weather_code] || ["天气未知", "Unknown weather", "◇"];
     const sunsetValue = payload.daily?.sunset?.[0];
     const sunset = typeof sunsetValue === "string" ? sunsetValue.slice(11, 16) : "--:--";
 
     card.querySelector(".cyber-weather-icon").textContent = icon;
     card.querySelector(".cyber-temperature").textContent = `${formatNumber(current.temperature_2m)}°`;
-    card.querySelector(".cyber-condition").textContent = `${pick(condition, conditionEn)} / ${codeLabel}`;
+    card.querySelector(".cyber-condition").textContent = pick(condition, conditionEn);
     const feelsLike = formatNumber(current.apparent_temperature);
     card.querySelector(".cyber-feels-like").textContent = pick(`体感温度 ${feelsLike}°C`, `Feels like ${feelsLike}°C`);
     card.querySelector('[data-weather="humidity"]').textContent = `${formatNumber(current.relative_humidity_2m)}%`;
     card.querySelector('[data-weather="wind"]').textContent = `${formatNumber(current.wind_speed_10m)} km/h`;
     card.querySelector('[data-weather="sunset"]').textContent = sunset;
-    // The running clock above is this visitor's device time; this is when the weather was observed.
+    // The running clock and the weather observation are separate timestamps.
     const observedAt = typeof current.time === "string" ? current.time.slice(11, 16) : "";
     const observed = card.querySelector('[data-weather="observed"]');
     observed.hidden = !/^\d{2}:\d{2}$/.test(observedAt);
     observed.textContent = observed.hidden ? "" : pick(`天气观测 ${observedAt}（当地时间）`, `Weather observed ${observedAt} local time`);
 
     const status = card.querySelector('[data-weather="status"]');
-    if (source === "cache") status.textContent = "LOCATION LINK / CACHED";
-    else status.textContent = "LOCATION LINK / IP APPROX";
+    status.textContent = source === "cache"
+      ? pick("显示缓存天气", "Showing cached weather")
+      : pick("位置按 IP 估算", "Location estimated from IP");
     card.classList.remove("is-offline");
     card.classList.add("is-online");
   }
@@ -335,7 +336,7 @@
         if (signal?.aborted || !card?.isConnected) return;
         if (attempt === 0 && canRetry(error)) {
           card.querySelector(".cyber-condition").textContent = `${errorMessage(error)}${pick("，正在重试…", ", retrying…")}`;
-          card.querySelector('[data-weather="status"]').textContent = "LOCATION LINK / RETRY 1/1";
+          card.querySelector('[data-weather="status"]').textContent = pick("正在重试天气请求…", "Retrying weather…");
           await (window.AdenSite?.delay(RETRY_DELAY_MS, signal) || new Promise(resolve => window.setTimeout(resolve, RETRY_DELAY_MS)));
           if (signal?.aborted || !card.isConnected) return;
           continue;
@@ -349,7 +350,7 @@
           card.querySelector(`[data-weather="${key}"]`).textContent = value;
         }
         card.querySelector(".cyber-condition").textContent = errorMessage(error);
-        card.querySelector('[data-weather="status"]').textContent = pick("LOCATION LINK / OFFLINE · 设备时间", "LOCATION LINK / OFFLINE · device time");
+        card.querySelector('[data-weather="status"]').textContent = pick("天气暂不可用 · 显示设备时间", "Weather unavailable · showing device time");
         card.classList.remove("is-online");
         card.classList.add("is-offline");
         return;

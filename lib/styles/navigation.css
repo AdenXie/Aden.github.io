@@ -1,0 +1,188 @@
+/* Site navigation and search. The theme keeps routing, breakpoints and drawer positioning. */
+.navbar-list > .navbar-item > a,
+.aden-drawer-link {
+  border-radius: var(--aden-control-radius);
+}
+
+.navbar-list > .navbar-item > a:hover,
+.aden-drawer-link:hover {
+  background-color: var(--third-background-color);
+}
+
+.aden-drawer-link {
+  min-height: var(--aden-control-height);
+  padding: .5rem .75rem;
+  color: var(--first-text-color);
+  font: 520 1rem/1.4 var(--aden-interface-font);
+}
+
+.aden-drawer-link[aria-current="page"] {
+  background-color: var(--second-background-color);
+  color: var(--aden-signal);
+}
+
+.aden-language-switch {
+  padding: 2px;
+  border-radius: var(--aden-control-radius);
+  background: var(--second-background-color);
+}
+
+.aden-language-switch a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding-inline: .3rem;
+  border-radius: 6px;
+}
+
+.aden-language-switch a[aria-current="page"] { background: var(--background-color); }
+
+/* The links now have their own hit area rather than overlapping pseudo-elements. */
+html .navbar-container .aden-language-switch a::after { content: none; }
+
+@media (max-width: 768px) {
+  .navbar-content > .right,
+  .navbar-content > .right > .mobile {
+    height: 100%;
+  }
+
+  /* Leave room inside the fixed header as it shrinks on scroll. */
+  .navbar-container .aden-language-switch,
+  .navbar-container .right .mobile button.icon-item {
+    box-sizing: border-box;
+    height: var(--aden-control-height);
+    max-height: calc(100% - 4px);
+  }
+
+  .navbar-container .aden-language-switch a {
+    align-self: stretch;
+    min-height: 0;
+  }
+}
+
+@media (max-width: 360px) {
+  .navbar-container.px-6 { padding-inline: .35rem; }
+  .navbar-container .aden-language-switch { gap: 0; margin-inline-start: .2rem; font-size: 11px; }
+  .navbar-container .aden-language-switch a { padding-inline: .22rem; }
+}
+
+.search-pop-overlay {
+  position: fixed;
+  z-index: 1008;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  box-sizing: border-box;
+  padding: min(10dvh, 6rem) .7rem .7rem;
+  background: rgb(0 0 0 / 48%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 160ms ease, visibility 0s linear 160ms;
+}
+
+.search-pop-overlay.active {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+
+.search-popup {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+  width: min(100%, 40rem);
+  max-height: 100%;
+  padding: .75rem;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  background: var(--background-color);
+  box-shadow: 0 14px 45px rgb(0 0 0 / 27%);
+  color: var(--first-text-color);
+  transform: translateY(6px);
+  transition: transform 160ms ease-out;
+}
+
+.search-pop-overlay.active .search-popup { transform: none; }
+
+.aden-search-heading,
+.search-header {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: .5rem;
+}
+
+.aden-search-heading { justify-content: space-between; padding-left: .3rem; }
+.aden-search-heading h2 { margin: 0; font: 560 1rem/1.25 var(--aden-interface-font); }
+.search-header {
+  padding: 0 .25rem 0 .65rem;
+  border: 1px solid var(--border-color);
+  border-radius: 11px;
+  background: var(--second-background-color);
+}
+
+.search-header:focus-within { border-color: var(--aden-cyan); }
+.aden-search-icon { color: var(--third-text-color); }
+.search-input-container { flex: 1; min-width: 0; }
+.search-input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: var(--aden-control-height);
+  border: 0;
+  background: transparent;
+  color: var(--first-text-color);
+  font: 500 1rem var(--aden-interface-font);
+}
+
+.search-input::placeholder { color: var(--third-text-color); opacity: 1; }
+.search-input::-webkit-search-cancel-button { display: none; }
+.search-input:focus-visible { outline: 2px solid var(--aden-cyan); outline-offset: -2px; border-radius: 6px; }
+
+.search-popup :is(.popup-btn-close, .search-input-field-pre) {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: var(--aden-control-height);
+  height: var(--aden-control-height);
+  border: 0;
+  border-radius: var(--aden-control-radius);
+  background: transparent;
+  color: var(--second-text-color);
+  cursor: pointer;
+}
+
+.search-popup :is(.popup-btn-close, .search-input-field-pre):hover { background: var(--third-background-color); }
+.search-popup .search-input-field-pre[hidden] { display: none; }
+#search-result { min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+#no-result { margin: 0; padding: .8rem .4rem; color: var(--second-text-color); font-size: .88rem; }
+.search-result-list { margin: 0; padding: 0 3px 3px; list-style: none; }
+.search-result-list li + li { border-top: 1px solid var(--border-color); }
+.aden-search-hit {
+  display: block;
+  padding: .7rem .65rem;
+  border-radius: var(--aden-control-radius);
+  color: var(--first-text-color);
+  overflow-wrap: anywhere;
+}
+
+.aden-search-hit:is(:hover, :focus-visible) { background: var(--second-background-color); }
+.aden-search-hit:focus-visible { outline-offset: -2px; }
+.search-result-title { display: block; font: 550 .95rem/1.45 var(--aden-interface-font); }
+.search-result { margin: .25rem 0 0; color: var(--second-text-color); font-size: .85rem; line-height: 1.55; }
+.search-keyword { color: var(--aden-signal); font-weight: 650; }
+
+@media (max-width: 640px) {
+  .search-pop-overlay { padding-top: max(.65rem, env(safe-area-inset-top)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .search-pop-overlay,
+  .search-popup,
+  html .navbar-container .navbar-drawer,
+  body.navbar-drawer-show .navbar-drawer { transition: none; }
+}

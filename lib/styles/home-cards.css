@@ -1,60 +1,11 @@
-.cyber-weather-card {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
+.cyber-weather-card,
+.cyber-exchange-card {
   margin-bottom: 1.15rem;
-  border: 1px solid color-mix(in srgb, var(--aden-signal) 38%, var(--border-color));
-  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  background: var(--second-background-color);
   color: var(--second-text-color);
-  background:
-    linear-gradient(112deg, color-mix(in srgb, var(--aden-signal) 5%, transparent), transparent 42%),
-    var(--second-background-color);
-  box-shadow: 0 16px 42px rgb(0 0 0 / 14%);
   font-family: var(--aden-interface-font);
-}
-
-html.dark .cyber-weather-card {
-  background:
-    linear-gradient(112deg, rgb(242 233 78 / 7%), transparent 42%),
-    linear-gradient(145deg, rgb(16 24 33 / 98%), rgb(7 10 15 / 98%));
-  box-shadow: 0 18px 50px rgb(0 0 0 / 28%);
-}
-
-html.light .cyber-weather-card {
-  border-color: rgb(117 104 0 / 34%);
-  background:
-    linear-gradient(112deg, rgb(117 104 0 / 5%), transparent 42%),
-    linear-gradient(145deg, #f8f7ed, #e9eadf);
-  box-shadow: 0 14px 34px rgb(17 24 33 / 10%);
-}
-
-html.light .cyber-weather-icon {
-  text-shadow: none;
-}
-
-.cyber-weather-card::before {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  z-index: 2;
-  height: 3px;
-  content: "";
-  background: linear-gradient(90deg, var(--aden-signal) 0 62%, var(--aden-cyan) 62% 72%, transparent 72%);
-}
-
-.cyber-weather-card::after {
-  position: absolute;
-  top: 3px;
-  bottom: 0;
-  left: -35%;
-  z-index: -1;
-  width: 32%;
-  content: "";
-  pointer-events: none;
-  background: linear-gradient(90deg, transparent, rgb(24 213 232 / 7%), transparent);
-  transform: skewX(-18deg);
-  animation: aden-weather-scan 9s ease-in-out infinite;
 }
 
 .cyber-weather-header,
@@ -65,9 +16,7 @@ html.light .cyber-weather-icon {
   padding: 0.7rem 1rem;
   color: var(--third-text-color);
   font-size: 0.77rem;
-  font-weight: 650;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
+  font-weight: 550;
 }
 
 .cyber-weather-header {
@@ -79,6 +28,20 @@ html.light .cyber-weather-icon {
   border-top: 1px solid var(--border-color);
   font-size: 0.77rem;
 }
+
+.cyber-weather-footer,
+.cyber-exchange-footer { flex-wrap: wrap; gap: .35rem .8rem; }
+
+.cyber-weather-footer [data-weather="status"],
+.cyber-exchange-footer [data-exchange="status"] { flex: 1 1 16rem; min-width: 0; }
+
+.cyber-weather-card.is-offline,
+.cyber-exchange-card.is-offline { border-color: color-mix(in srgb, var(--aden-alert) 45%, var(--border-color)); }
+
+.cyber-weather-card.is-offline :is([data-weather="status"], .cyber-weather-icon),
+.cyber-exchange-card.is-offline [data-exchange="status"] { color: var(--aden-alert); }
+
+.cyber-exchange-card.is-stale [data-exchange="status"] { color: var(--first-text-color); }
 
 /* Weather observation time sits under the temperature; the clock above stays device time. */
 .cyber-observed {
@@ -130,22 +93,19 @@ html.light .cyber-weather-icon {
   flex-shrink: 0;
   border-radius: 50%;
   background: var(--aden-amber);
-  box-shadow: 0 0 0 4px rgb(255 184 0 / 10%), 0 0 13px rgb(255 184 0 / 46%);
 }
 
 .cyber-weather-card.is-online .cyber-weather-live i {
   background: var(--aden-cyan);
-  box-shadow: 0 0 0 4px rgb(24 213 232 / 10%), 0 0 13px rgb(24 213 232 / 52%);
 }
 
 .cyber-weather-card.is-offline .cyber-weather-live i {
   background: var(--aden-alert);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--aden-alert) 10%, transparent), 0 0 13px color-mix(in srgb, var(--aden-alert) 48%, transparent);
 }
 
 .cyber-weather-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(190px, 0.85fr) minmax(210px, 0.8fr);
+  grid-template-columns: minmax(0, 1.15fr) minmax(190px, 1fr) minmax(165px, .85fr);
   min-height: 138px;
 }
 
@@ -177,12 +137,11 @@ html.light .cyber-weather-icon {
 
 .cyber-clock {
   color: var(--first-text-color);
-  font-size: clamp(2.25rem, 5vw, 4.45rem);
+  font-size: clamp(1.65rem, 3vw, 2.35rem);
   font-variant-numeric: tabular-nums;
   font-weight: 520;
   line-height: 0.96;
-  letter-spacing: -0.075em;
-  text-shadow: 0 0 26px rgb(24 213 232 / 10%);
+  letter-spacing: -0.035em;
 }
 
 .cyber-clock::first-letter {
@@ -210,7 +169,6 @@ html.light .cyber-weather-icon {
   font-size: 2.4rem;
   line-height: 1;
   text-align: center;
-  text-shadow: 0 0 22px rgb(242 233 78 / 22%);
 }
 
 .cyber-current-weather > div {
@@ -221,9 +179,9 @@ html.light .cyber-weather-icon {
 
 .cyber-temperature {
   color: var(--first-text-color);
-  font-size: 2rem;
+  font-size: clamp(2.1rem, 4vw, 3.1rem);
   font-variant-numeric: tabular-nums;
-  font-weight: 650;
+  font-weight: 600;
   line-height: 1;
 }
 
@@ -277,65 +235,6 @@ html.light .cyber-weather-icon {
   font-weight: 650;
 }
 
-@keyframes aden-weather-scan {
-  0%,
-  58% {
-    left: -35%;
-    opacity: 0;
-  }
-
-  65% {
-    opacity: 1;
-  }
-
-  88%,
-  100% {
-    left: 115%;
-    opacity: 0;
-  }
-}
-
-.cyber-exchange-card {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  margin-bottom: 1.15rem;
-  border: 1px solid color-mix(in srgb, var(--aden-cyan) 30%, var(--border-color));
-  border-radius: 12px;
-  color: var(--second-text-color);
-  background:
-    linear-gradient(100deg, color-mix(in srgb, var(--aden-cyan) 5%, transparent), transparent 45%),
-    var(--second-background-color);
-  box-shadow: 0 16px 42px rgb(0 0 0 / 14%);
-  font-family: var(--aden-interface-font);
-}
-
-html.dark .cyber-exchange-card {
-  background:
-    linear-gradient(100deg, rgb(24 213 232 / 6%), transparent 45%),
-    linear-gradient(145deg, rgb(16 24 33 / 98%), rgb(7 10 15 / 98%));
-  box-shadow: 0 18px 50px rgb(0 0 0 / 28%);
-}
-
-html.light .cyber-exchange-card {
-  border-color: rgb(12 102 114 / 28%);
-  background:
-    linear-gradient(100deg, rgb(12 102 114 / 5%), transparent 45%),
-    linear-gradient(145deg, #f8f7ed, #e9eadf);
-  box-shadow: 0 14px 34px rgb(17 24 33 / 10%);
-}
-
-.cyber-exchange-card::before {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  z-index: 2;
-  height: 3px;
-  content: "";
-  background: linear-gradient(90deg, var(--aden-cyan) 0 34%, transparent 34% 38%, var(--aden-signal) 38% 72%, transparent 72%);
-}
-
 .cyber-exchange-header,
 .cyber-exchange-footer {
   display: flex;
@@ -345,9 +244,7 @@ html.light .cyber-exchange-card {
   padding: 0.7rem 1rem;
   color: var(--third-text-color);
   font-size: 0.77rem;
-  font-weight: 650;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
+  font-weight: 550;
 }
 
 .cyber-exchange-header {
@@ -377,22 +274,18 @@ html.light .cyber-exchange-card {
   height: 0.46rem;
   border-radius: 50%;
   background: var(--aden-amber);
-  box-shadow: 0 0 0 4px rgb(255 184 0 / 10%), 0 0 13px rgb(255 184 0 / 46%);
 }
 
 .cyber-exchange-card.is-online .cyber-exchange-pair i {
   background: var(--aden-cyan);
-  box-shadow: 0 0 0 4px rgb(24 213 232 / 10%), 0 0 13px rgb(24 213 232 / 52%);
 }
 
 .cyber-exchange-card.is-stale .cyber-exchange-pair i {
   background: var(--aden-signal);
-  box-shadow: 0 0 0 4px rgb(242 233 78 / 10%), 0 0 13px rgb(242 233 78 / 36%);
 }
 
 .cyber-exchange-card.is-offline .cyber-exchange-pair i {
   background: var(--aden-alert);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--aden-alert) 10%, transparent), 0 0 13px color-mix(in srgb, var(--aden-alert) 48%, transparent);
 }
 
 .cyber-exchange-body {
@@ -412,7 +305,7 @@ html.light .cyber-exchange-card {
 .cyber-exchange-intro strong {
   color: var(--first-text-color);
   font-family: var(--aden-interface-font);
-  font-size: clamp(1.25rem, 2.7vw, 2rem);
+  font-size: 1rem;
   font-weight: 520;
   letter-spacing: -0.035em;
 }
@@ -439,7 +332,7 @@ html.light .cyber-exchange-card {
 }
 
 .cyber-exchange-quotes > div + div {
-  border-left: 1px dashed color-mix(in srgb, var(--border-color) 78%, transparent);
+  border-left: 1px solid var(--border-color);
 }
 
 .cyber-exchange-quotes dt {
@@ -461,7 +354,7 @@ html.light .cyber-exchange-card {
   font-variant-numeric: tabular-nums;
   font-weight: 600;
   line-height: 1;
-  letter-spacing: -0.065em;
+  letter-spacing: -0.035em;
 }
 
 .cyber-exchange-quotes .is-buy dd {
@@ -559,6 +452,8 @@ html.light .cyber-exchange-card {
 
 /* Daily brief section (scripts/brief-split.js, lib/views/daily.ejs): /daily/ reuses
    the home card list, /daily/list/ the archive timeline. */
+.aden-daily-sliding { overflow-x: clip; }
+
 .aden-daily-header {
   display: flex;
   flex-wrap: wrap;
@@ -592,35 +487,6 @@ html.light .cyber-exchange-card {
   color: var(--aden-cyan);
   font: 600 0.77rem var(--aden-mono-font);
   letter-spacing: 0.16em;
-}
-
-.aden-daily-views {
-  display: inline-flex;
-  gap: 3px;
-  padding: 3px;
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  background: var(--second-background-color);
-}
-
-.aden-daily-views a {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.35rem 0.85rem;
-  border-radius: 7px;
-  color: var(--third-text-color);
-  font-size: 0.85rem;
-}
-
-.aden-daily-views a:hover {
-  color: var(--first-text-color);
-}
-
-.aden-daily-views a.active {
-  background: var(--aden-cyan);
-  color: var(--aden-on-signal);
-  font-weight: 600;
 }
 
 /* All briefs fit on one page; the theme still prints a lone "1" pager. */

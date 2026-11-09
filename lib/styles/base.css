@@ -181,8 +181,7 @@ html .navbar-container .right .desktop .navbar-item > a {
   }
 }
 
-/* Search and the menu are buttons (adapter: tools/prepare-site.cjs). Reset the browser's button
-   chrome, keep the drawn size, and widen the hit area to 44px. */
+/* Search and the menu use the theme adapter's full-size hit area. */
 html .navbar-container button.icon-item,
 html .navbar-container .navbar-item > button {
   padding: 0;
@@ -193,10 +192,12 @@ html .navbar-container .navbar-item > button {
   cursor: pointer;
 }
 
-html .navbar-container button.icon-item::after {
-  content: "";
-  position: absolute;
-  inset: -12px;
+html .navbar-container button.icon-item:hover,
+html .navbar-container .navbar-item > button:hover,
+html .navbar-container button.icon-item[aria-expanded="true"],
+html .navbar-container .navbar-item > button[aria-expanded="true"] {
+  border-radius: var(--aden-control-radius);
+  background: var(--second-background-color);
 }
 
 html .navbar-container .navbar-bar-middle {

@@ -176,6 +176,39 @@ async function optimize(directory = 'public') {
     $('a[href$="/categories/daily/"]').each((_, el) => { $(el).attr('href', $(el).attr('href').replace(/categories\/daily\/$/, 'daily/')); });
     if (!$('.essay-date').length) $('script[src*="moment-with-locales.min.js"]').remove();
     if (!$('#subtitle').length) $('script[src*="Typed.min.js"]').remove();
+    // Apply after translation so cached English pages receive the same pager semantics.
+    $('.paginator:has(a)').attr({ role: 'navigation', 'aria-label': $('html').attr('lang')?.startsWith('en') ? 'Pagination' : '分页' });
+    $('.paginator .page-number.current').attr('aria-current', 'page');
+    // A notice in the fixed navbar overlaps the first controls on narrow translated pages.
+    $('.main-content').first().prepend($('.main-content-header > .aden-translation-notice'));
+    // Normalize both new output and cached English snapshots.
+    {
+      const english = $('html').attr('lang')?.startsWith('en');
+      const search = $('.search-pop-overlay');
+      if (search.length) {
+        const title = english ? 'Search the blog' : '站内搜索';
+        search.attr('inert', '');
+        search.find('.search-popup').attr({ id: 'aden-search-dialog', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': 'aden-search-title' });
+        search.find('.search-header').before('<div class="aden-search-heading"><h2 id="aden-search-title"></h2></div>');
+        search.find('#aden-search-title').text(title);
+        search.find('.popup-btn-close').replaceWith($('<button type="button" class="popup-btn-close"><i class="fa-solid fa-times" aria-hidden="true"></i></button>').attr('aria-label', english ? 'Close search' : '关闭搜索'));
+        search.find('.aden-search-heading').append(search.find('.popup-btn-close'));
+        search.find('.search-input-field-pre').replaceWith('<i class="fa-solid fa-magnifying-glass aden-search-icon" aria-hidden="true"></i>');
+        search.find('.search-input').attr({ 'aria-label': title, placeholder: english ? 'Search titles and text' : '搜索文章标题和正文' });
+        search.find('.search-header').append($('<button type="button" class="search-input-field-pre" hidden><i class="fa-solid fa-times" aria-hidden="true"></i></button>').attr('aria-label', english ? 'Clear search' : '清空搜索'));
+        search.find('#no-result').attr('role', 'status').text(english ? 'Search article titles and text.' : '输入关键词，搜索文章标题和正文。');
+        $('.search-popup-trigger').attr({ 'aria-haspopup': 'dialog', 'aria-controls': 'aden-search-dialog', 'aria-expanded': 'false' });
+      }
+      $('.drawer-navbar-list > li > a').each((_, el) => {
+        const link = $(el);
+        link.removeClass('py-1.5 px-2 text-2xl font-semibold border-b border-border-color hover:border-primary hover:!text-primary active:!text-primary').addClass('aden-drawer-link');
+      });
+      const pathname = '/' + path.relative(out, file).split(path.sep).join('/').replace(/index\.html$/, '');
+      $('.navbar-list > .navbar-item > a, .aden-drawer-link').each((_, el) => {
+        const link = $(el);
+        if (link.attr('href') === pathname) link.attr('aria-current', 'page');
+      });
+    }
     // 404 "signal lost" screen (lib/styles/cyber.css) shows just the code.
     $('.nf-text h1').text('404');
     $('.nf-container').not(':has(.aden-nf-frame)').append('<span class="aden-nf-frame" aria-hidden="true"></span>');

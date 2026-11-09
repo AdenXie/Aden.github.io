@@ -126,12 +126,26 @@
     if (!toolbar) {
       toolbar = document.createElement('div'); toolbar.className = 'wt-globe-toolbar';
       const zoom = root.querySelector('.wt-zoom'); zoom.before(toolbar); toolbar.append(zoom);
+      const value = document.createElement('span'); value.className = 'wt-zoom-value';
+      value.setAttribute('aria-hidden', 'true'); zoom.append(value);
       const pause = document.createElement('button'); pause.type = 'button'; pause.dataset.globePause = '';
       pause.textContent = pick('暂停旋转', 'Pause rotation'); pause.disabled = true; toolbar.append(pause);
       const hint = document.createElement('p'); hint.className = 'wt-globe-hint';
       hint.textContent = pick('拖动旋转 · 方向键调整 · + / − 缩放 · 空格暂停', 'Drag or arrow keys to rotate · + / − to zoom · Space to pause');
       toolbar.after(hint);
     }
+    const zoomInput = toolbar.querySelector('input[type="range"]');
+    const zoomValue = toolbar.querySelector('.wt-zoom-value');
+    function updateZoom() {
+      const value = Number(zoomInput.value);
+      const progress = (value - Number(zoomInput.min)) / (Number(zoomInput.max) - Number(zoomInput.min));
+      const label = `${value.toFixed(2)}×`;
+      zoomInput.style.setProperty('--wt-zoom-progress', `${progress * 100}%`);
+      zoomInput.setAttribute('aria-valuetext', pick(`${value.toFixed(2)} 倍`, `${value.toFixed(2)} times`));
+      zoomValue.textContent = label;
+    }
+    zoomInput.addEventListener('input', updateZoom, { signal });
+    updateZoom();
     if (!root.querySelector('.wt-globe-credit')) {
       const credit = document.createElement('span'); credit.className = 'wt-globe-credit';
       credit.innerHTML = pick(' 地球影像：', ' Globe imagery: ') + '<a href="https://svs.gsfc.nasa.gov/2915/" target="_blank" rel="noopener noreferrer">NASA Blue Marble</a> / <a href="https://science.nasa.gov/earth/earth-observatory/earth-at-night/maps/" target="_blank" rel="noopener noreferrer">Black Marble 2016</a>.' + pick(' 云层与灯光为历史合成影像；昼夜按当前时间计算。', ' Clouds and night lights are historical composites; daylight follows the current time.');
@@ -143,6 +157,7 @@
       generation++; clearTimeout(timeout); timeout = null;
       request?.abort(); request = null; instance?.dispose(); instance = null;
       stage.removeAttribute('aria-busy');
+      zoomInput.disabled = true;
       root.querySelector('[data-globe-pause]').disabled = true;
     }
     function fail() {
@@ -164,6 +179,7 @@
         const scene = await module.mount(root, markers, onPick, loading.signal);
         if (loading.signal.aborted || signal.aborted || current !== generation) { scene.dispose(); return; }
         instance = scene;
+        zoomInput.disabled = false;
         if (sunState) instance.sun(sunState);
         if (selectedId) instance.focus(selectedId, true);
         clearTimeout(timeout); timeout = null;

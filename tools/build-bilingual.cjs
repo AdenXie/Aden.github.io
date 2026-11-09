@@ -80,6 +80,11 @@ function decorate($, original, english, available) {
   $('link[rel="alternate"][hreflang]').remove();
   if (available) $('head').append(`<link rel="alternate" hreflang="zh-CN" href="https://blog.adenxie.com.cn${original}"><link rel="alternate" hreflang="en" href="https://blog.adenxie.com.cn/en${original}">`);
   if (english) {
+    // Cached pages can still contain the retired Notes markup. Keep the translated paragraphs.
+    $('.aden-alert[role="note"]:has(> .aden-alert-frame)').each((_, el) => {
+      const note = $(el);
+      note.replaceWith(note.children('.aden-alert-frame').contents());
+    });
     $('html').attr('lang', 'en');
     $('link[rel="canonical"]').attr('href', 'https://blog.adenxie.com.cn/en' + original);
     $('meta[property="og:url"]').attr('content', 'https://blog.adenxie.com.cn/en' + original);

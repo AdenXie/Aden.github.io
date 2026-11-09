@@ -14,12 +14,20 @@ function harness() {
   const drawerLink = element('link');
   const drawer = element('drawer', { contains: el => el === drawerLink, querySelector: selector => (selector === 'a' ? drawerLink : null) });
   const bar = element('bar', { click() { toggle(); } });
-  const overlay = element('overlay', { classList: classList(new Set()), contains: () => false });
+  const searchInput = element('search input', { value: '', addEventListener() {} });
+  const clear = element('clear search', { addEventListener() {} });
+  const close = element('close search');
+  const trigger = Object.assign(new EventTarget(), element('search trigger'));
+  const overlay = element('overlay', {
+    classList: classList(new Set()),
+    querySelector: selector => ({ '.search-input': searchInput, 'button.search-input-field-pre': clear, 'button.popup-btn-close': close })[selector],
+    addEventListener() {}
+  });
   const header = { querySelector: selector => ({ '.navbar-bar': bar, '#navbar-drawer': drawer })[selector] };
   const toggle = () => { if (body.classList.has('navbar-drawer-show')) body.classList.delete('navbar-drawer-show'); else body.classList.add('navbar-drawer-show'); observers.forEach(o => o.callback()); };
   document.activeElement = null;
   const roots = new Map([['.navbar-container', header], ['.search-pop-overlay', overlay]]);
-  Object.assign(document, { readyState: 'complete', hidden: false, body: { classList: { contains: v => body.classList.has(v), add: v => body.classList.add(v), remove: v => body.classList.delete(v) } }, querySelector: selector => roots.get(selector) });
+  Object.assign(document, { readyState: 'complete', hidden: false, body: { classList: { contains: v => body.classList.has(v), add: v => body.classList.add(v), remove: v => body.classList.delete(v) } }, querySelector: selector => roots.get(selector), querySelectorAll: () => [trigger] });
   class MutationObserver {
     constructor(callback) { this.callback = callback; this.disconnected = false; observers.push(this); }
     observe() {}
@@ -27,7 +35,7 @@ function harness() {
   }
   const context = vm.createContext({ window, document, AbortController, console, MutationObserver, requestAnimationFrame: fn => fn(), setTimeout, clearTimeout, setInterval, clearInterval });
   vm.runInContext(fs.readFileSync('source/js/site-runtime.js', 'utf8'), context);
-  return { document, window, bar, drawer, drawerLink, overlay, body, observers, open: () => toggle(), key: key => document.dispatchEvent(Object.assign(new Event('keydown'), { key })), api: window.AdenSite };
+  return { document, window, bar, drawer, drawerLink, overlay, trigger, searchInput, body, observers, open: () => toggle(), key: key => document.dispatchEvent(Object.assign(new Event('keydown'), { key })), api: window.AdenSite };
 }
 
 test('the menu button mirrors the drawer state in aria-expanded', () => {
@@ -78,12 +86,13 @@ test('closing the drawer while focus is inside it moves focus back to the menu b
 
 test('the search popup returns focus to the control that opened it', () => {
   const h = harness();
-  const trigger = { name: 'trigger', isConnected: true, focus() { this.focused = true; } };
-  h.document.activeElement = trigger;
+  h.trigger.dispatchEvent(new Event('click'));
   h.overlay.classList.add('active');
   h.observers.at(-1).callback();
-  h.document.activeElement = null;
+  assert.equal(h.document.activeElement, h.searchInput);
+  assert.equal(h.trigger.attributes['aria-expanded'], 'true');
   h.overlay.classList.remove('active');
   h.observers.at(-1).callback();
-  assert.equal(trigger.focused, true);
+  assert.equal(h.document.activeElement, h.trigger);
+  assert.equal(h.trigger.attributes['aria-expanded'], 'false');
 });

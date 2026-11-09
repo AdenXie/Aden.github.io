@@ -73,7 +73,7 @@ test('blocked reads, removals and writes still fetch and render live weather', a
   await h.run();
   assert.deepEqual(h.calls, ['/api/visitor-weather']);
   assert.equal(h.text('.cyber-temperature'), '25°');
-  assert.equal(h.text('[data-weather="status"]'), 'LOCATION LINK / IP APPROX');
+  assert.equal(h.text('[data-weather="status"]'), '位置按 IP 估算');
 });
 
 const corruptEntries = [
@@ -93,7 +93,7 @@ for (const [name, cached] of corruptEntries) {
     await h.run();
     assert.equal(h.calls.length, 1);
     assert.equal(h.removed.length, 1);
-    assert.equal(h.text('[data-weather="status"]'), 'LOCATION LINK / IP APPROX');
+    assert.equal(h.text('[data-weather="status"]'), '位置按 IP 估算');
     assert.ok(JSON.parse(h.stored()).payload.current);
   });
 }
@@ -102,7 +102,7 @@ test('valid fresh cache renders without a network request', async () => {
   const h = harness({ cached: JSON.stringify({ savedAt: Date.now(), payload: fixture() }) });
   await h.run();
   assert.equal(h.calls.length, 0);
-  assert.equal(h.text('[data-weather="status"]'), 'LOCATION LINK / CACHED');
+  assert.equal(h.text('[data-weather="status"]'), '显示缓存天气');
   assert.equal(h.text('[data-location="timezone"]'), 'Asia/Shanghai');
 });
 
@@ -128,14 +128,14 @@ test('malformed optional sunset does not interrupt cached rendering', async () =
   await h.run();
   assert.equal(h.calls.length, 0);
   assert.equal(h.text('[data-weather="sunset"]'), '--:--');
-  assert.equal(h.text('[data-weather="status"]'), 'LOCATION LINK / CACHED');
+  assert.equal(h.text('[data-weather="status"]'), '显示缓存天气');
 });
 
 test('temporary network failure retries the same IP weather endpoint once', async () => {
   const h = harness({ responses: [new Error('network'), fixture()] });
   await h.run();
   assert.deepEqual(h.calls, ['/api/visitor-weather', '/api/visitor-weather']);
-  assert.equal(h.text('[data-weather="status"]'), 'LOCATION LINK / IP APPROX');
+  assert.equal(h.text('[data-weather="status"]'), '位置按 IP 估算');
   assert.deepEqual(h.timers, [15000, 1500, 15000]);
 });
 
@@ -152,13 +152,13 @@ test('invalid response renders a data error without retrying or changing device 
 test('English pages show English weather labels and error copy instead of the Chinese source text', async () => {
   const live = harness({ lang: 'en-US' });
   await live.run();
-  assert.equal(live.text('.cyber-condition'), 'Overcast / OVERCAST');
+  assert.equal(live.text('.cyber-condition'), 'Overcast');
   assert.equal(live.text('.cyber-temperature'), '25°');
 
   const invalid = harness({ lang: 'en-US', responses: [{}] });
   await invalid.run();
   assert.equal(invalid.text('.cyber-condition'), 'Weather service returned invalid data');
-  assert.equal(invalid.text('[data-weather="status"]'), 'LOCATION LINK / OFFLINE · device time');
+  assert.equal(invalid.text('[data-weather="status"]'), 'Weather unavailable · showing device time');
 });
 
 test('initial HUD markup reads in English on English pages and keeps Chinese on Chinese pages', () => {
@@ -176,7 +176,7 @@ test('blocked storage plus both network failures still renders offline', async (
   const h = harness({ blocked: true, responses: [new Error('timeout'), new Error('offline')] });
   await h.run();
   assert.equal(h.calls.length, 2);
-  assert.equal(h.text('[data-weather="status"]'), 'LOCATION LINK / OFFLINE · 设备时间');
+  assert.equal(h.text('[data-weather="status"]'), '天气暂不可用 · 显示设备时间');
   assert.equal(h.text('.cyber-condition'), '无法连接天气服务，请检查网络');
 });
 
@@ -204,7 +204,7 @@ test('old Sydney fallback cache is ignored', async () => {
   const h = harness({ cached: JSON.stringify({ savedAt: Date.now(), payload }) });
   await h.run();
   assert.equal(h.calls.length, 1);
-  assert.equal(h.text('[data-weather="status"]'), 'LOCATION LINK / IP APPROX');
+  assert.equal(h.text('[data-weather="status"]'), '位置按 IP 估算');
 });
 
 test('response body timeout retries once and preserves the device timezone', async () => {

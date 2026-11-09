@@ -36,8 +36,23 @@ async function prepare() {
   replace(search, '      cachedData = normalizeData(cachedData);', '      cachedData = normalizeData(cachedData);\n      isFetched = true;');
   replace(search, '    })\n    .catch((error) => {', '      renderSearchResult(document.querySelector(".search-input"));\n    })\n    .catch((error) => {');
   replace(search, '      console.error("Failed to load search data:", error);', `      console.error("Failed to load search data:", error);
-      if (status) status.textContent = document.documentElement.lang.startsWith('en') ? 'Search unavailable. Close and reopen to retry.' : '搜索暂不可用，请关闭后重新打开重试。';`);
+      const currentStatus = document.querySelector('#no-result');
+      if (currentStatus) currentStatus.textContent = document.documentElement.lang.startsWith('en') ? 'Search unavailable. Close and reopen to retry.' : '搜索暂不可用，请关闭后重新打开重试。';`);
   replace(search, '    });\n};\n\nconst getSearchDom', '    }).finally(() => { clearTimeout(timeout); pendingFetch = null; });\n};\n\nconst getSearchDom');
+  // The site runtime focuses the input as soon as the dialog opens.
+  replace(search, '  setTimeout(() => searchInputDom.focus(), 500);\n', '');
+  const searchText = (zh, en) => `document.documentElement.lang.startsWith('en') ? ${JSON.stringify(en)} : ${JSON.stringify(zh)}`;
+  replace(search, `'<div id="no-result"><i class="fa-solid fa-magnifying-glass fa-5x"></i></div>'`, `'<p id="no-result" role="status">' + (${searchText('输入关键词，搜索文章标题和正文。', 'Search article titles and text.')}) + '</p>'`);
+  replace(search, `'<div id="no-result"><i class="fa-solid fa-box-open fa-5x"></i></div>'`, `'<p id="no-result" role="status">' + (${searchText('没有找到相关文章。试试其他关键词。', 'No matching articles. Try another keyword.')}) + '</p>'`);
+  // One link per result keeps the title and preview together and gives each result one tab stop.
+  replace(search, '        if (slicesOfTitle.length !== 0) {', '        resultItem += `<li><a href="${url}" class="aden-search-hit">`;\n        if (slicesOfTitle.length !== 0) {');
+  replace(search, '<li><a href="${url}" class="search-result-title">${highlightKeyword(', '<span class="search-result-title">${highlightKeyword(');
+  replace(search, '          )}</a>`;', '          )}</span>`;');
+  replace(search, '<li><a href="${url}" class="search-result-title">${title}</a>', '<span class="search-result-title">${title}</span>');
+  replace(search, '<a href="${url}"><p class="search-result">${highlightKeyword(', '<p class="search-result">${highlightKeyword(');
+  replace(search, ')}...</p></a>`;', ')}...</p>`;');
+  replace(search, '        resultItem += "</li>";', '        resultItem += "</a></li>";');
+  replace(search, 'if (event.key === "Escape") {\n    closePopup();', 'if (event.key === "Escape" && !event.isComposing && getSearchDom().overlay?.classList.contains("active")) {\n    closePopup();');
   // APlayer defaults to preload:auto; preserve its UI but never download audio before play.
   for (const marker of ['      mini: true,', '      fixed: true,']) replace('source/js/plugins/aplayer.js', marker, marker + '\n      preload: "none",');
   replace('source/js/plugins/aplayer.js', '      lrcType: 3,', '      lrcType: audioList.some(audio => audio.lrc) ? 3 : 0,');
@@ -87,6 +102,7 @@ async function prepare() {
                     <div class="navbar-bar-middle"></div>
                 </div>`, `                <button type="button" class="icon-item navbar-bar" aria-label="${label('菜单', 'Menu')}" aria-controls="navbar-drawer" aria-expanded="false"><span class="navbar-bar-middle"></span></button>`);
   replace('layout/components/header/navbar.ejs', '    <div class="navbar-drawer h-dvh', '    <div id="navbar-drawer" class="navbar-drawer h-dvh');
+  replace('source/css/layout/_partials/navbar.styl', '          margin-left 12px\n          width 20px\n          height 20px', '          margin-left 0\n          width var(--aden-control-height)\n          height var(--aden-control-height)');
   // The hero's bottom control is a link to the post list: a native link works with the keyboard,
   // with Swup, and with no script, and its text says where it goes.
   replace('layout/pages/home/home-banner.ejs', `                <div class="<%- display %> p-3 bg-gray-300/50 dark:bg-gray-500/40 backdrop-blur-lg border border-white/20 dark:border-gray-500/30 group rounded-full cursor-pointer flex justify-center items-center aspect-square h-full shadow-redefine-flat hover:shadow-redefine-flat-hover transition-shadow" onclick="scrollToMain()" >
@@ -111,7 +127,10 @@ async function prepare() {
   await build({ entryPoints: [path.join(target, 'source/js/main.js')], outfile: path.join(target, 'source/js/build/main.js'), bundle: true, minify: true, format: 'esm', target: 'es2020' });
   await build({ entryPoints: [path.join(target, 'source/js/plugins/aplayer.js')], outfile: path.join(target, 'source/js/build/plugins/aplayer.js'), minify: true, target: 'es2020' });
   const css = require('clean-css');
-  const parts = ['fonts', 'base', 'home-cards', 'pages', 'cyber', 'archive', 'tags'];
+  // The upstream paginator sheet is checksum-guarded. Use the shared site styles for its markup.
+  fs.writeFileSync(path.join(target, 'source/css/layout/_partials/paginator.styl'), '// Styled in lib/styles/controls.css\n');
+  fs.writeFileSync(path.join(target, 'source/css/layout/_partials/local-search.styl'), '// Styled in lib/styles/navigation.css\n');
+  const parts = ['fonts', 'base', 'home-cards', 'pages', 'cyber', 'archive', 'tags', 'controls', 'navigation'];
   const result = new css({ level: 1 }).minify(parts.map(name => fs.readFileSync(path.join(ROOT, `lib/styles/${name}.css`), 'utf8')).join('\n'));
   if (result.errors.length) throw new Error(result.errors.join('\n'));
   fs.mkdirSync(path.join(target, 'source/css'), { recursive: true });

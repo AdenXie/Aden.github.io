@@ -429,7 +429,8 @@ export async function mount(root, markers, onPick, signal) {
       if (['+', '=', '-'].includes(event.key)) {
         const input = root.querySelector('.wt-zoom input');
         zoom = Math.max(Number(input.min), Math.min(Number(input.max), zoom + (event.key === '-' ? -0.1 : 0.1)));
-        input.value = String(zoom); resize();
+        input.value = String(zoom);
+        input.dispatchEvent(new Event('input'));
       }
       hold = performance.now() + 4500; nextLabels = 0; loop.wake();
     }, { signal });

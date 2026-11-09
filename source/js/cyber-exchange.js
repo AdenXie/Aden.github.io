@@ -33,11 +33,10 @@
     card.innerHTML = `
       <div class="cyber-exchange-header">
         <span class="cyber-exchange-pair"><i aria-hidden="true"></i> AUD / CNY</span>
-        <span>BANK OF CHINA // SPOT FX</span>
+        <span>${pick("中国银行现汇", "Bank of China spot rates")}</span>
       </div>
       <div class="cyber-exchange-body" aria-live="polite">
         <div class="cyber-exchange-intro">
-          <span class="cyber-data-label">FOREIGN EXCHANGE TAPE</span>
           <strong>${pick("澳元现汇牌价", "AUD spot rates")}</strong>
           <span>${pick("人民币 / 100澳元", "CNY per 100 AUD")}</span>
         </div>

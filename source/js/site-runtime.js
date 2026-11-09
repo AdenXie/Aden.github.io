@@ -87,12 +87,44 @@
   document.addEventListener('DOMContentLoaded', mountAll, { once: true });
   window.addEventListener('pageshow', mountAll);
   window.addEventListener('pagehide', () => widgets.forEach(destroy));
+  const briefView = url => new URL(url, location.href).pathname.match(/^\/(en\/)?daily\/(list\/)?$/);
+  const slideBrief = (offset, entering) => {
+    const daily = document.querySelector('.aden-daily');
+    const pane = daily?.querySelector(':scope > :is(.home-content-container, .archive-container)');
+    if (!pane?.animate || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const rest = { transform: 'translateX(0)', opacity: 1 };
+    const edge = { transform: `translateX(${offset}px)`, opacity: .35 };
+    daily.classList.add('aden-daily-sliding');
+    const animation = pane.animate(entering ? [edge, rest] : [rest, edge], {
+      duration: entering ? 180 : 100,
+      easing: entering ? 'ease-out' : 'ease-in'
+    });
+    return animation.finished.catch(() => {}).finally(() => daily.classList.remove('aden-daily-sliding'));
+  };
   let bound;
   const bind = swup => {
     if (!swup?.hooks || bound === swup) return;
     bound = swup;
-    swup.hooks.before('content:replace', () => widgets.forEach(destroy));
-    swup.hooks.on('page:view', mountAll);
+    const briefSwitches = new WeakMap();
+    swup.hooks.before('visit:start', visit => {
+      const from = briefView(visit.from.url), to = briefView(visit.to.url);
+      if (!from || !to || from[1] !== to[1] || from[2] === to[2]) return;
+      visit.animation.animate = false;
+      visit.scroll.reset = false;
+      briefSwitches.set(visit, { direction: to[2] ? 1 : -1, focus: !!visit.trigger.el?.closest('.aden-daily-views') });
+    });
+    swup.hooks.before('content:replace', async visit => {
+      const change = briefSwitches.get(visit);
+      if (change) await slideBrief(-24 * change.direction, false);
+      widgets.forEach(destroy);
+    });
+    swup.hooks.on('page:view', visit => {
+      mountAll();
+      const change = briefSwitches.get(visit);
+      if (!change) return;
+      if (change.focus) document.querySelector('.aden-daily-views [aria-current="page"]')?.focus({ preventScroll: true });
+      slideBrief(24 * change.direction, true);
+    });
   };
   bind(window.swup);
   window.addEventListener('redefine:swup:ready', event => bind(event.detail?.swup || window.swup));
@@ -144,14 +176,19 @@
     const sync = () => {
       const open = document.body.classList.contains('navbar-drawer-show');
       bar.setAttribute('aria-expanded', String(open));
+      const focusWasInDrawer = drawer.contains(document.activeElement);
+      drawer.inert = !open;
       if (open && !wasOpen) drawer.querySelector('a')?.focus({ preventScroll: true });
-      if (wasOpen && !open && drawer.contains(document.activeElement)) bar.focus({ preventScroll: true });
+      if (wasOpen && !open && focusWasInDrawer) bar.focus({ preventScroll: true });
       wasOpen = open;
     };
     const observer = new MutationObserver(sync);
     observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    window.addEventListener('resize', () => {
+      if (!bar.getClientRects().length) document.body.classList.remove('navbar-drawer-show');
+    }, { signal: scope.signal });
     document.addEventListener('keydown', event => {
-      if (event.key !== 'Escape' || !document.body.classList.contains('navbar-drawer-show')) return;
+      if (event.key !== 'Escape' || !document.body.classList.contains('navbar-drawer-show') || document.querySelector('.search-pop-overlay.active')) return;
       bar.click();
       bar.focus({ preventScroll: true });
     }, { signal: scope.signal });
@@ -159,17 +196,53 @@
     return () => observer.disconnect();
   });
   register('search-popup', '.search-pop-overlay', (overlay, scope) => {
+    const input = overlay.querySelector('.search-input');
+    const clear = overlay.querySelector('button.search-input-field-pre');
+    const close = overlay.querySelector('button.popup-btn-close');
+    if (!input || !clear || !close) return;
+    const triggers = [...document.querySelectorAll('button.search-popup-trigger')];
     let opener = null;
-    const observer = new MutationObserver(() => {
-      if (overlay.classList.contains('active')) { if (!overlay.contains(document.activeElement)) opener = document.activeElement; return; }
-      if (opener?.isConnected) opener.focus({ preventScroll: true });
-    });
+    let wasOpen = false;
+    const syncClear = () => { clear.hidden = !input.value; };
+    const sync = () => {
+      const open = overlay.classList.contains('active');
+      overlay.inert = !open;
+      for (const trigger of triggers) trigger.setAttribute('aria-expanded', String(open));
+      if (open && !wasOpen) {
+        document.body.classList.remove('navbar-drawer-show');
+        syncClear();
+        input.focus({ preventScroll: true });
+      }
+      if (!open && wasOpen && opener?.isConnected) opener.focus({ preventScroll: true });
+      wasOpen = open;
+    };
+    for (const trigger of triggers) trigger.addEventListener('click', () => { opener = trigger; }, { signal: scope.signal });
+    const observer = new MutationObserver(sync);
     observer.observe(overlay, { attributes: true, attributeFilter: ['class'] });
-    // The theme focuses the input 500ms after opening, which can land after a quick Escape while
-    // the overlay is still fading out; send that focus back to the control that opened the popup.
-    document.addEventListener('focusin', event => {
-      if (!overlay.classList.contains('active') && opener?.isConnected && overlay.contains(event.target)) opener.focus({ preventScroll: true });
+    input.addEventListener('input', syncClear, { signal: scope.signal });
+    clear.addEventListener('click', () => { clear.hidden = true; }, { signal: scope.signal });
+    overlay.addEventListener('keydown', event => {
+      if (!wasOpen || event.isComposing || event.altKey || event.metaKey || event.ctrlKey) return;
+      const hits = [...overlay.querySelectorAll('.aden-search-hit')];
+      const index = hits.indexOf(document.activeElement);
+      if (event.key === 'Tab') {
+        const items = [close, input, ...(!clear.hidden ? [clear] : []), ...hits];
+        if (event.shiftKey && document.activeElement === items[0]) {
+          event.preventDefault();
+          items.at(-1).focus();
+        } else if (!event.shiftKey && document.activeElement === items.at(-1)) {
+          event.preventDefault();
+          items[0].focus();
+        }
+      } else if (event.key === 'ArrowDown' && (event.target === input || index >= 0) && hits[index + 1]) {
+        event.preventDefault();
+        hits[index + 1].focus();
+      } else if (event.key === 'ArrowUp' && index >= 0) {
+        event.preventDefault();
+        (hits[index - 1] || input).focus();
+      }
     }, { signal: scope.signal });
+    sync();
     return () => observer.disconnect();
   });
   // On phones the chat launcher fades while an article is being scrolled and returns once the reader

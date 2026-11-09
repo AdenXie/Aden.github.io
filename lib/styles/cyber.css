@@ -120,88 +120,6 @@ html.light .markdown-body {
    gradient over the corner square, drawn from the border box: transparent on the
    clipped half, then exactly 1px of frame colour along the cut. */
 
-/* 7. Notes bar from "> [!NOTE]" (or "> [!WARNING]"), built by scripts/interface-blocks.js:
-   one cyan style, protocol block of uneven rules on the right, NOTES tag below. */
-.aden-alert {
-  --aden-tone: var(--aden-cyan);
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  column-gap: 0.75rem;
-  align-items: start;
-  margin: 1.4rem 0;
-}
-
-.aden-alert-icon {
-  align-self: center;
-  width: 1.9rem;
-  height: 1.9rem;
-  color: var(--aden-tone);
-  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--aden-tone) 55%, transparent));
-}
-
-.aden-alert-frame {
-  --aden-frame: color-mix(in srgb, var(--aden-tone) 70%, var(--background-color));
-  position: relative;
-  /* The theme gives article paragraphs a 1rem bottom margin; the extra top padding balances it. */
-  padding: calc(0.6rem + 1rem) 5.6rem 0.6rem 1rem;
-  border: 1px solid var(--aden-frame);
-  border-top-width: 3px;
-  background:
-    linear-gradient(to top left, transparent 50%, var(--aden-frame) 50% calc(50% + 1px), transparent calc(50% + 1px)) right bottom / 12px 12px no-repeat border-box,
-    linear-gradient(90deg, color-mix(in srgb, var(--aden-tone) 13%, transparent), color-mix(in srgb, var(--aden-tone) 4%, transparent)) border-box;
-  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%);
-}
-
-/* Uneven rules of different lengths, weights and offsets, like a data glyph. */
-.aden-alert-frame::after {
-  --aden-rule: color-mix(in srgb, var(--aden-tone) 65%, transparent);
-  position: absolute;
-  top: 6px;
-  right: 8px;
-  bottom: 14px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  width: 4.3rem;
-  padding-left: 0.5rem;
-  border-left: 1px solid var(--aden-frame);
-  background:
-    linear-gradient(var(--aden-rule), var(--aden-rule)) 0 2px / 100% 2px,
-    linear-gradient(var(--aden-rule), var(--aden-rule)) 0 7px / 58% 1px,
-    linear-gradient(var(--aden-rule), var(--aden-rule)) 100% 7px / 22% 1px,
-    linear-gradient(var(--aden-rule), var(--aden-rule)) 35% 11px / 48% 1px,
-    linear-gradient(var(--aden-rule), var(--aden-rule)) 0 15px / 82% 2px,
-    linear-gradient(var(--aden-rule), var(--aden-rule)) 100% 20px / 36% 1px,
-    linear-gradient(var(--aden-rule), var(--aden-rule)) 0 20px / 30% 1px,
-    linear-gradient(var(--aden-rule), var(--aden-rule)) 20% 24px / 64% 1px;
-  background-origin: content-box;
-  background-repeat: no-repeat;
-  color: color-mix(in srgb, var(--aden-tone) 85%, transparent);
-  font: 600 0.5rem/1.3 var(--aden-mono-font);
-  letter-spacing: 0.12em;
-  white-space: pre;
-  content: "PROTOCOL\A NT-0451";
-}
-
-@media (max-width: 520px) {
-  .aden-alert-frame {
-    padding-right: 1rem;
-  }
-
-  .aden-alert-frame::after {
-    display: none;
-  }
-}
-
-.aden-alert-meta {
-  grid-column: 2;
-  justify-self: end;
-  margin-top: 0.3rem;
-  color: color-mix(in srgb, var(--aden-tone) 80%, transparent);
-  font: 600 0.6rem var(--aden-mono-font);
-  letter-spacing: 0.22em;
-}
-
 /* 8. Figure captions as dialogue subtitles: speaker-style label, cyan line, dark strip. */
 .aden-caption {
   text-align: center;
@@ -279,38 +197,6 @@ html[lang^="en"] .aden-caption-label::after {
   display: block;
   padding: 10px 0;
   margin: -10px 0;
-}
-
-/* Home pagination keeps its rounded buttons; the current page reads as the selected option. */
-.home-paginator .paginator .page-number {
-  font-family: var(--aden-mono-font);
-}
-
-.home-paginator .paginator .page-number.current {
-  background: var(--aden-signal);
-  color: var(--aden-on-signal);
-}
-
-/* 11. "Blackwall" state: offline widgets turn to a crimson, interference-striped panel. */
-html .cyber-weather-card.is-offline,
-html .cyber-exchange-card.is-offline {
-  /* The panel stays dark in both themes, so its text follows the panel, not the page theme. */
-  --first-text-color: #f1f4f8;
-  --second-text-color: #d3dae3;
-  --third-text-color: #b3bcc8;
-  --link-color: #7ff3ff;
-  border-color: color-mix(in srgb, var(--aden-alert) 55%, transparent);
-  background:
-    linear-gradient(90deg, transparent 8%, color-mix(in srgb, var(--aden-alert) 55%, transparent) 50%, transparent 92%) center / 100% 1px no-repeat,
-    radial-gradient(ellipse 55% 16% at 50% 50%, color-mix(in srgb, var(--aden-alert) 22%, transparent), transparent 70%),
-    repeating-linear-gradient(90deg, color-mix(in srgb, var(--aden-alert) 8%, transparent) 0 1px, transparent 1px 7px, color-mix(in srgb, var(--aden-alert) 4%, transparent) 7px 10px, transparent 10px 23px),
-    linear-gradient(160deg, #1d070d, #0a0306);
-  box-shadow: 0 0 32px color-mix(in srgb, var(--aden-alert) 12%, transparent);
-}
-
-.cyber-weather-card.is-offline::before,
-.cyber-exchange-card.is-offline::before {
-  background: linear-gradient(90deg, var(--aden-alert) 0 46%, transparent 46%);
 }
 
 /* 12. 404 page as a crimson "signal lost" screen. */

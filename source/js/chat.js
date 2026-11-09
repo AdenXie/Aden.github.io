@@ -10,15 +10,15 @@
     panel.id = 'aden-chat'; panel.hidden = true;
     panel.setAttribute('translate', 'no'); panel.setAttribute('role', 'dialog'); panel.setAttribute('aria-labelledby', 'aden-chat-title');
     // Static interface text only; article titles and model output are added as text nodes.
-    panel.innerHTML = `<header class="chat-heading"><div><span class="chat-label">ADEN'S SPACE / AI CHAT</span><h2 id="aden-chat-title">${t('想聊点什么？', 'What’s on your mind?')}</h2></div><div class="chat-heading-actions"><button type="button" data-chat="clear">${t('清空', 'Clear')}</button><button type="button" data-chat="close" aria-label="${t('关闭聊天', 'Close chat')}"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div></header>
+    panel.innerHTML = `<header class="chat-heading"><h2 id="aden-chat-title">${t('问 AI', 'Ask AI')}</h2><div class="chat-heading-actions"><button type="button" data-chat="clear">${t('清空', 'Clear')}</button><button type="button" data-chat="close" aria-label="${t('关闭聊天', 'Close chat')}"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div></header>
   <label class="chat-context" data-chat="context" hidden><span data-chat="context-text"></span><input type="checkbox" data-chat="attach" checked></label>
   <div class="chat-transcript" data-chat="messages" role="region" aria-label="${t('对话内容', 'Conversation')}" tabindex="0">
-    <div class="chat-empty" data-chat="empty"><span class="chat-spark" aria-hidden="true">✳</span><p>${t('从你的第一个问题开始', 'Start with your first question')}</p><span data-chat="hint"></span></div>
+    <div class="chat-empty" data-chat="empty"><p>${t('想聊点什么？', 'What’s on your mind?')}</p><span data-chat="hint"></span></div>
   </div>
   <form data-chat="form" class="chat-composer">
     <label for="chat-input" class="chat-input-label">${t('你的消息', 'Your message')}</label>
     <textarea id="chat-input" data-chat="input" rows="2" maxlength="4000" autocomplete="off" placeholder="${t('在这里输入问题…', 'Type your question here…')}"></textarea>
-    <div class="chat-composer-footer"><span class="chat-key-hint">${t('Enter 发送 · Shift + Enter 换行', 'Enter to send · Shift + Enter for a new line')}</span><div><button type="button" data-chat="stop" hidden>${t('停止生成', 'Stop')}</button><button type="submit" data-chat="send" disabled>${t('发送', 'Send')} <span aria-hidden="true">↑</span></button></div></div>
+    <div class="chat-composer-footer"><span class="chat-key-hint">${t('Enter 发送 · Shift + Enter 换行', 'Enter to send · Shift + Enter for a new line')}</span><div><button type="button" data-chat="stop" hidden>${t('停止生成', 'Stop')}</button><button type="submit" data-chat="send" disabled>${t('发送', 'Send')}</button></div></div>
   </form>
   <p data-chat="status" class="chat-status" role="status" aria-live="polite">${t('正在连接聊天服务…', 'Connecting to chat…')}</p>
   <p class="chat-privacy">${t('本站不保存对话。消息会发送至 AMD Radeon Cloud，数据处理以其政策为准。AI 回答可能有误，请核对重要信息。', 'This site does not save conversations. Messages are sent to AMD Radeon Cloud under its data policies. AI can make mistakes; check important information.')}</p>`;
@@ -43,7 +43,7 @@
     find('hint').textContent = page
       ? t('可以直接问这篇文章的内容，也可以聊别的。刷新或离开页面后，对话即清空。', 'Ask about this article or anything else. Refreshing or leaving clears this chat.')
       : t('可以连续追问。刷新或离开页面后，对话即清空。', 'Ask follow-up questions. Refreshing or leaving clears this chat.');
-    let history = [], active = null, available = false, assistantLabel = 'AI ASSISTANT';
+    let history = [], active = null, available = false, assistantLabel = 'AI ASSISTANT', retryPrompt = null;
     const errors = {
       not_configured: t('聊天暂未开放，请稍后再来。', 'Chat is not available yet. Please check back later.'),
       rate_limited: t('请求较多，请稍等一分钟再发送。', 'Too many requests. Wait a minute before sending again.'),
@@ -57,6 +57,8 @@
     function setStatus(text, error = false) { status.textContent = text; status.dataset.error = String(error); }
     function controls() {
       send.disabled = !available || !!active || !input.value.trim();
+      send.hidden = !!active;
+      send.textContent = retryPrompt && input.value.trim() === retryPrompt ? t('重试', 'Retry') : t('发送', 'Send');
       input.disabled = !available;
       stop.hidden = !active;
       input.readOnly = !!active;
@@ -114,14 +116,18 @@
         setStatus(errors.invalid_request, true); return;
       }
       const controller = new AbortController(); active = controller;
+      retryPrompt = null;
       const timeout = setTimeout(() => { controller.timedOut = true; controller.abort(); }, 70000);
       message('user', prompt); const reply = message('assistant', '');
       const progress = document.createElement('div'); progress.className = 'chat-message-progress';
       progress.setAttribute('role', 'status');
+      progress.dataset.pending = '';
       progress.textContent = t('正在等待模型回答…', 'Waiting for the model…');
       reply.article.insertBefore(progress, reply.body);
+      const sendHadFocus = document.activeElement === send;
       input.value = ''; controls(); scroll();
-      setStatus(t('正在连接模型…', 'Connecting to the model…'));
+      if (sendHadFocus) stop.focus({ preventScroll: true });
+      setStatus('');
       let answer = '', shown = 0, complete = false, truncated = false, reader, frame = null, drained = null;
       const update = () => {
         frame = null;
@@ -162,8 +168,7 @@
             if (typeof data.text === 'string') {
               answer += data.text;
               if (answer.length > 16000) throw new Error('interrupted');
-              if (answer.trim()) progress.textContent = t('正在生成回答…', 'Writing the answer…');
-              setStatus(progress.textContent);
+              if (answer.trim() && !shown) progress.textContent = t('正在生成回答…', 'Writing the answer…');
               schedule();
             }
             if (data.done) {
@@ -188,11 +193,14 @@
         progress.textContent = stopped ? t('已停止生成', 'Generation stopped') : text;
         progress.dataset.error = String(!stopped);
         reply.article.append(progress);
+        retryPrompt = prompt;
         input.value = prompt;
       } finally {
         clearTimeout(timeout); if (frame !== null) cancelAnimationFrame(frame);
         await reader?.cancel().catch(() => {});
         if (active === controller && !scope.signal.aborted) {
+          const stopHadFocus = document.activeElement === stop;
+          delete progress.dataset.pending;
           if (answer) {
             markdown(reply.body, answer);
             const copy = document.createElement('button'); copy.type = 'button'; copy.textContent = t('复制回答', 'Copy response');
@@ -203,11 +211,15 @@
             reply.article.append(copy);
           }
           active = null; controls();
+          if (stopHadFocus && !root.hidden) {
+            const next = retryPrompt ? send : (matchMedia('(pointer: coarse)').matches ? transcript : input);
+            next.focus({ preventScroll: true });
+          }
         }
       }
     }
     function reset() {
-      const previous = active; active = null; previous?.abort(); history = [];
+      const previous = active; active = null; previous?.abort(); history = []; retryPrompt = null;
       transcript.querySelectorAll('.chat-message').forEach(el => el.remove());
       empty.hidden = false; input.value = ''; controls();
       setStatus(available ? t('对话仅在当前页面保留。', 'This conversation stays only on this page.') : errors.not_configured);
