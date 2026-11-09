@@ -74,6 +74,10 @@ async function prepare() {
   replace('source/css/common/markdown.styl', '  a:not(.not-markdown)\n    position relative\n    outline 0\n', '  a:not(.not-markdown)\n    position relative\n');
   // Keep article pages aligned with the 1080px navbar instead of expanding to 1.2x (1296px).
   replace('source/css/common/variables.styl', '$has-toc-content-max-width = $content-max-width * 1.2', '$has-toc-content-max-width = $content-max-width');
+  // Bottom dock: the theme hides its tools at the very bottom of every page and over the banner only at
+  // config.root. The dock stays at the bottom (the footer leaves room for it) and hides over either home banner.
+  replace('source/js/utils/sideTools.js', '      if (location.pathname === config.root) {', '      if (document.querySelector(".home-banner-container")) {');
+  replace('source/js/utils/sideTools.js', '    } else if (y + windowHeight >= height - 20) {\n      tools.classList.add("hide");\n      if (aplayer !== null) {\n        aplayer.classList.add("hide");\n      }\n    } else {', '    } else {');
   // The fixed home banner blurs on scroll only at config.root; the English homepage lives at /en/.
   replace('source/js/utils/scroll.js', 'location.pathname === config.root', 'ctx.homeBanner_dom');
   // __() runs titles through sprintf, so a post title containing "%" (e.g. "增长14.4%，") throws and

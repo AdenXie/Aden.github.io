@@ -1,16 +1,22 @@
-/* Floating tools as one glass dock: the theme's settings and scroll-progress buttons share a single
-   translucent capsule (BoardUI Button Group structure: one frame, hairline dividers, rounded outer
-   corners), and the Ask AI launcher below it uses the same material. The theme's side-tools.styl is
-   replaced by this file (tools/prepare-site.cjs), so its behaviour rules are restated here. */
+/* Bottom dock: Redefine's floating tools, the Ask AI launcher and (on phones) the menu button share one
+   translucent capsule centred at the bottom of the window. BoardUI Button Group structure (one frame,
+   hairline dividers, rounded outer corners) in Apple's glass material. The theme's side-tools.styl is
+   replaced by this file (tools/prepare-site.cjs); tools/optimize-site.cjs moves the launcher and adds the
+   menu button inside the tools container; source/js/site-runtime.js runs the dock (keys, menu, autohide). */
 :root {
-  --aden-glass-bg: color-mix(in srgb, var(--background-color) 62%, transparent);
+  --aden-glass-bg: color-mix(in srgb, var(--background-color) 72%, transparent);
+  /* Popovers sit over running text, so they keep more of the page colour. */
+  --aden-glass-popover: color-mix(in srgb, var(--background-color) 88%, transparent);
   --aden-glass-solid: var(--background-color);
   --aden-glass-border: rgb(255 255 255 / 14%);
   --aden-glass-divider: rgb(255 255 255 / 16%);
   --aden-glass-highlight: inset 0 1px 0 rgb(255 255 255 / 10%);
   --aden-glass-shadow: 0 10px 30px rgb(0 0 0 / 28%);
   --aden-glass-hover: color-mix(in srgb, var(--aden-signal) 16%, transparent);
+  --aden-glass-field: rgb(255 255 255 / 6%);
   --aden-glass-blur: blur(18px) saturate(1.6);
+  --aden-dock-gap: calc(14px + env(safe-area-inset-bottom, 0px));
+  --aden-dock-item: 42px;
 }
 
 html.light {
@@ -19,10 +25,12 @@ html.light {
   --aden-glass-highlight: inset 0 1px 0 rgb(255 255 255 / 60%);
   --aden-glass-shadow: 0 10px 30px rgb(0 0 0 / 12%);
   --aden-glass-hover: color-mix(in srgb, var(--aden-signal) 14%, transparent);
+  --aden-glass-field: rgb(0 0 0 / 5%);
 }
 
-.side-tools-container :is(.hidden-tools-list, .visible-tools-list),
-.aden-chat-launcher {
+/* Glass surfaces: the dock itself and the settings popover above it. */
+html .page-container .right-side-tools-container,
+.side-tools-container .hidden-tools-list {
   border: 1px solid var(--aden-glass-border);
   background: var(--aden-glass-bg);
   box-shadow: var(--aden-glass-shadow), var(--aden-glass-highlight);
@@ -30,84 +38,137 @@ html.light {
   backdrop-filter: var(--aden-glass-blur);
 }
 
-/* Without backdrop blur, or when the visitor asks for less transparency, the dock is solid. */
+/* Without backdrop blur, or when the visitor asks for less transparency, the glass is solid. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .side-tools-container :is(.hidden-tools-list, .visible-tools-list),
-  .aden-chat-launcher { background: var(--aden-glass-solid); }
+  html .page-container .right-side-tools-container,
+  .side-tools-container .hidden-tools-list { background: var(--aden-glass-solid); }
 }
 
 @media (prefers-reduced-transparency: reduce) {
-  .side-tools-container :is(.hidden-tools-list, .visible-tools-list),
-  .aden-chat-launcher {
+  html .page-container .right-side-tools-container,
+  .side-tools-container .hidden-tools-list {
     background: var(--aden-glass-solid);
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
   }
 }
 
+/* The dock: centred above the bottom edge (and the phone's home indicator). The theme fades it out
+   over the home banner (.hide); on phones site-runtime.js slides it away while reading on (.aden-dock-away). */
+html .page-container .right-side-tools-container {
+  right: auto;
+  bottom: var(--aden-dock-gap);
+  left: 50%;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 18px;
+  transform: translateX(-50%);
+  transition: opacity .2s ease, transform .28s cubic-bezier(.2, .8, .2, 1);
+}
+
+html .page-container .right-side-tools-container.aden-dock-away {
+  transform: translate(-50%, calc(100% + var(--aden-dock-gap) + 8px));
+}
+
+/* The footer keeps its last lines clear of the dock. */
+.main-content-footer {
+  padding-bottom: calc(var(--aden-dock-item) + 2 * var(--aden-dock-gap));
+}
+
+.side-tools-container {
+  position: relative;
+  display: flex;
+}
+
 .side-tools-container :is(.hidden-tools-list, .visible-tools-list) {
   display: flex;
-  flex-direction: column;
   margin: 0;
-  padding: 3px;
-  border-radius: 15px;
+  padding: 0;
   list-style: none;
 }
 
-/* The buttons sit inside the capsule: only the icon and a grey hairline between neighbours, no fill,
-   border or shadow of their own; hover lights the icon in signal yellow on a faint yellow tint. With the
-   fixed home banner, Redefine's inline style paints these buttons with !important colour variables, so
-   the variables are set here instead of the background itself. */
-.side-tools-container .right-bottom-tools {
+/* Buttons: only the icon and a grey hairline between neighbours, no fill, border or shadow of their own;
+   hover lights the icon in signal yellow on a faint yellow tint. With the fixed home banner, Redefine's
+   inline style paints these buttons with !important colour variables, so the variables are set here
+   instead of the background itself. */
+.side-tools-container .right-bottom-tools,
+.right-side-tools-container .aden-dock-menu {
   --background-color-transparent-80: transparent;
   --primary-color: var(--aden-glass-hover);
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--aden-dock-item);
+  height: var(--aden-dock-item);
+  padding: 0;
   border: 0;
+  border-radius: 13px;
   background: transparent;
   box-shadow: none;
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
   color: var(--default-text-color);
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   cursor: pointer;
-  transition: background-color var(--aden-control-duration) ease, transform var(--aden-control-duration) ease;
+  transition: background-color var(--aden-control-duration) ease, color var(--aden-control-duration) ease, transform var(--aden-control-duration) ease;
 }
 
 .side-tools-container .right-bottom-tools i {
   color: inherit;
 }
 
-.side-tools-container .right-bottom-tools + .right-bottom-tools::before {
+.side-tools-container .right-bottom-tools + .right-bottom-tools::before,
+.right-side-tools-container > :is(.aden-chat-launcher, .aden-dock-menu)::before {
   position: absolute;
-  top: -1px;
-  right: 9px;
-  left: 9px;
-  height: 1px;
+  top: 11px;
+  bottom: 11px;
+  left: -3px;
+  width: 1px;
   background: var(--aden-glass-divider);
   content: "";
 }
 
-.side-tools-container .right-bottom-tools:hover {
+.side-tools-container .right-bottom-tools:hover,
+.right-side-tools-container .aden-dock-menu:hover,
+.right-side-tools-container .aden-dock-menu[aria-expanded="true"],
+.side-tools-container .toggle-tools-list[aria-expanded="true"] {
   background: var(--aden-glass-hover);
   color: var(--aden-signal);
 }
 
-.side-tools-container .right-bottom-tools:active {
+.side-tools-container .right-bottom-tools:active,
+.right-side-tools-container .aden-dock-menu:active {
   transform: scale(.94);
 }
 
-/* Settings open the hidden tools above the dock; they slide in from the right edge. */
+.side-tools-container .right-bottom-tools:focus-visible,
+.right-side-tools-container .aden-dock-menu:focus-visible {
+  outline: 2px solid var(--aden-signal);
+  outline-offset: -2px;
+}
+
+/* Settings open a small popover above the gear: the theme toggles .show on the hidden list. */
 .side-tools-container .hidden-tools-list {
-  margin-bottom: 8px;
+  --aden-glass-bg: var(--aden-glass-popover);
+  position: absolute;
+  bottom: calc(100% + 14px);
+  left: -4px;
+  padding: 4px;
+  border-radius: 18px;
   opacity: 0;
-  transform: translateX(250%);
-  transition: transform .2s ease, opacity .2s ease;
+  visibility: hidden;
+  transform: translateY(8px) scale(.96);
+  transform-origin: bottom left;
+  transition: opacity .18s ease, transform .18s ease, visibility 0s linear .18s;
 }
 
 .side-tools-container .hidden-tools-list.show {
   opacity: 1;
-  transform: translateX(0);
+  visibility: visible;
+  transform: none;
+  transition: opacity .18s ease, transform .18s ease, visibility 0s;
 }
 
 /* Scroll progress: hidden at the top of the page, the percentage at rest, the arrow on hover. */
@@ -116,24 +177,98 @@ html.light {
 .side-tools-container .tool-scroll-to-top .arrow-up { display: none; }
 .side-tools-container .tool-scroll-to-top .percent {
   display: flex;
-  font: 520 .9rem var(--aden-mono-font);
+  font: 520 .85rem var(--aden-mono-font);
   font-variant-numeric: tabular-nums;
 }
 .side-tools-container .tool-scroll-to-top:hover .percent { display: none; }
 .side-tools-container .tool-scroll-to-top:hover .arrow-up { display: flex; }
 
+/* Ask AI: a field-like pill on wide screens (the input itself arrives with the new chat), a compact button
+   on phones. The yellow stays on the icon. */
+.right-side-tools-container .aden-chat-launcher {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  min-width: 13.5rem;
+  height: var(--aden-dock-item);
+  margin-left: 4px;
+  padding: 0 1rem 0 .85rem;
+  border: 0;
+  border-radius: 13px;
+  background: var(--aden-glass-field);
+  color: var(--second-text-color);
+  font: 450 .9rem var(--aden-interface-font);
+  white-space: nowrap;
+  cursor: text;
+  transition: background-color var(--aden-control-duration) ease, color var(--aden-control-duration) ease, transform var(--aden-control-duration) ease;
+}
+
+.right-side-tools-container .aden-chat-launcher[hidden] { display: none; }
+.right-side-tools-container .aden-chat-launcher > span[aria-hidden] { color: var(--aden-signal); font-size: 1rem; }
+
+.right-side-tools-container .aden-chat-launcher:hover,
+.right-side-tools-container .aden-chat-launcher[aria-expanded="true"] {
+  background: var(--aden-glass-hover);
+  color: var(--first-text-color);
+}
+
+.right-side-tools-container .aden-chat-launcher[aria-busy="true"] { opacity: .6; }
+.right-side-tools-container .aden-chat-launcher:active { transform: scale(.98); }
+
+/* The phone menu button stands in for the header's three bars (hidden there on phones). */
+.right-side-tools-container .aden-dock-menu { display: none; margin-left: 4px; }
+
+.aden-dock-bars,
+.aden-dock-bars::before,
+.aden-dock-bars::after {
+  display: block;
+  width: 17px;
+  height: 2px;
+  border-radius: 1px;
+  background: currentColor;
+}
+
+.aden-dock-bars { position: relative; transition: background-color .2s ease; }
+.aden-dock-bars::before,
+.aden-dock-bars::after { position: absolute; left: 0; content: ""; }
+.aden-dock-bars::before { top: -6px; }
+.aden-dock-bars::after { top: 6px; }
+.aden-dock-bars::before,
+.aden-dock-bars::after { transition: top .2s ease, transform .2s ease; }
+
+/* While the drawer is open the dock rises above it (the header sits at z-index 1005) and the bars turn
+   into a close mark, so the same button takes the reader back. */
+html body.navbar-drawer-show .page-container .right-side-tools-container { z-index: 1006; }
+.aden-dock-menu[aria-expanded="true"] .aden-dock-bars { background: transparent; }
+.aden-dock-menu[aria-expanded="true"] .aden-dock-bars::before { top: 0; transform: rotate(45deg); }
+.aden-dock-menu[aria-expanded="true"] .aden-dock-bars::after { top: 0; transform: rotate(-45deg); }
+
 @media (max-width: 768px) {
-  .side-tools-container .right-bottom-tools {
-    width: 38px;
-    height: 38px;
-    font-size: 1.05rem;
-  }
+  :root { --aden-dock-item: 40px; }
+
+  .right-side-tools-container .aden-dock-menu { display: flex; }
+  .navbar-container .right .mobile button.navbar-bar { display: none; }
 
   .side-tools-container .tool-expand-width,
   .side-tools-container .tool-aplayer { display: none; }
 }
 
+@media (max-width: 640px) {
+  .right-side-tools-container .aden-chat-launcher {
+    min-width: 0;
+    padding: 0 .85rem;
+    cursor: pointer;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .side-tools-container :is(.hidden-tools-list, .right-bottom-tools) { transition: none; }
-  .side-tools-container .right-bottom-tools:active { transform: none; }
+  html .page-container .right-side-tools-container,
+  .side-tools-container :is(.hidden-tools-list, .right-bottom-tools),
+  .right-side-tools-container :is(.aden-chat-launcher, .aden-dock-menu),
+  .aden-dock-bars,
+  .aden-dock-bars::before,
+  .aden-dock-bars::after { transition: none; }
+  .side-tools-container .right-bottom-tools:active,
+  .right-side-tools-container :is(.aden-chat-launcher, .aden-dock-menu):active { transform: none; }
 }

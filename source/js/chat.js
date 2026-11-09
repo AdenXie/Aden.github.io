@@ -36,7 +36,8 @@
     const find = name => root.querySelector(`[data-chat="${name}"]`);
     const input = find('input'), form = find('form'), send = find('send'), stop = find('stop');
     const transcript = find('messages'), empty = find('empty'), status = find('status');
-    const launcher = document.getElementById('aden-chat-launcher');
+    // The launcher sits in the bottom dock, which Swup replaces on every page: look it up when needed.
+    const launcher = () => document.getElementById('aden-chat-launcher');
     const page = readArticle(), attach = find('attach');
     find('context').hidden = !page;
     if (page) find('context-text').textContent = t('AI 可读取本文：', 'AI can read this article: ') + page.title;
@@ -231,8 +232,8 @@
     function setOpen(open) {
       root.hidden = !open;
       document.documentElement.classList.toggle('aden-chat-open', open);
-      launcher?.setAttribute('aria-expanded', String(open));
-      if (!open) launcher?.focus();
+      launcher()?.setAttribute('aria-expanded', String(open));
+      if (!open) launcher()?.focus();
       else { scroll(); if (!matchMedia('(pointer: coarse)').matches) input.focus(); }
     }
     document.addEventListener('aden-chat:toggle', () => setOpen(root.hidden), { signal: scope.signal });

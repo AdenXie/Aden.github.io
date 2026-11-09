@@ -68,7 +68,9 @@ function checkOutput(directory = 'public') {
     // Chat: one launcher per page, assets deferred until it is used, no trace of the retired page.
     assert.equal($('script[src*="/js/chat.js"],link[href*="/css/chat.css"],#aden-chat').length, 0, file);
     assert.equal($('a[href$="/chat/"]').length, 0, file);
-    const launcher = $('body > #aden-chat-launcher[hidden]');
+    // The launcher lives in the bottom dock with the theme's tools (tools/optimize-site.cjs).
+    const launcher = $('.right-side-tools-container > #aden-chat-launcher[hidden]');
+    assert.equal($('.right-side-tools-container li.right-bottom-tools:not([role="button"][tabindex="0"][aria-label])').length, 0, `${file}: dock tools need button semantics and names`);
     assert.equal(launcher.length, 1, file);
     assert.equal(launcher.attr('aria-label'), $('html').attr('lang')?.startsWith('en') ? 'Open AI chat' : '打开 AI 聊天', file);
     assert.match(launcher.attr('data-script'), /^\/js\/chat\.js\?v=[a-f0-9]{12}$/, file);

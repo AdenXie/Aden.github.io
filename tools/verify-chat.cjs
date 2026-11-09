@@ -50,6 +50,8 @@ async function main() {
         assert.equal(await page.locator('.navbar-list a[href$="/chat/"], .drawer-navbar-list a[href$="/chat/"]').count(), 0);
         assert.equal(await launcher.getAttribute('aria-expanded'), 'false');
         await page.mouse.wheel(0, 600); await page.waitForTimeout(400);
+        // The phone dock slides away while reading on and returns when the reader scrolls back.
+        await page.mouse.wheel(0, -150); await page.waitForTimeout(400);
         await page.screenshot({path:`.perf/chat-launcher-${width}-${lang?'en':'zh'}.png`});
         await open();
         assert.equal(await launcher.getAttribute('aria-expanded'), 'true');

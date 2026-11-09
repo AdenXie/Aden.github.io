@@ -157,6 +157,36 @@ async function optimize(directory = 'public') {
     $('body').append($('<button type="button" id="aden-chat-launcher" class="aden-chat-launcher" aria-haspopup="dialog" aria-expanded="false" hidden><span aria-hidden="true">✳</span><span class="aden-chat-launcher-label"></span></button>')
       .attr({ 'aria-label': $('html').attr('lang')?.startsWith('en') ? 'Open AI chat' : '打开 AI 聊天', 'data-script': version('/js/chat.js'), 'data-style': version('/css/chat.css') }));
     $('#aden-chat-launcher .aden-chat-launcher-label').text($('html').attr('lang')?.startsWith('en') ? 'Ask AI' : '问 AI');
+    // Bottom dock (lib/styles/dock.css): the launcher and a phone menu button join the theme's tools in one
+    // container. The theme's tool items are <li>s with click handlers; give them button semantics and names
+    // so keyboards and screen readers can use them (site-runtime.js maps Enter and Space to click).
+    {
+      const english = $('html').attr('lang')?.startsWith('en');
+      const dock = $('.right-side-tools-container').first();
+      if (dock.length) {
+        dock.attr({ role: 'toolbar', 'aria-label': english ? 'Quick tools' : '快捷工具' });
+        dock.append($('#aden-chat-launcher'));
+        dock.find('.aden-dock-menu').remove();
+        if ($('#navbar-drawer').length) dock.append(`<button type="button" class="aden-dock-menu" aria-controls="navbar-drawer" aria-expanded="false" aria-label="${english ? 'Menu' : '菜单'}"><span class="aden-dock-bars" aria-hidden="true"></span></button>`);
+        const names = {
+          'toggle-tools-list': ['更多设置', 'More settings'],
+          'tool-scroll-to-top': ['回到顶部', 'Back to top'],
+          'tool-font-adjust-plus': ['放大字号', 'Larger text'],
+          'tool-font-adjust-minus': ['缩小字号', 'Smaller text'],
+          'tool-dark-light-toggle': ['切换深浅色', 'Toggle dark mode'],
+          'tool-scroll-to-bottom': ['到页面底部', 'Go to bottom'],
+          'tool-expand-width': ['切换页面宽度', 'Toggle page width'],
+          'tool-aplayer': ['音乐播放器', 'Music player']
+        };
+        dock.find('li.right-bottom-tools').each((_, el) => {
+          const item = $(el), key = Object.keys(names).find(name => item.hasClass(name));
+          item.attr({ role: 'button', tabindex: '0' });
+          item.find('i').attr('aria-hidden', 'true');
+          if (key) item.attr('aria-label', names[key][english ? 1 : 0]);
+        });
+        dock.find('.toggle-tools-list').attr({ 'aria-expanded': 'false', 'aria-haspopup': 'true' });
+      }
+    }
     // Web Analytics is enabled on Vercel. Load it only on the public blog domain
     // so local previews and alternate deployment URLs do not count as visitors.
     $('script[data-aden-analytics]').remove();

@@ -172,25 +172,32 @@
   register('navbar-menu', '.navbar-container', (header, scope) => {
     const bar = header.querySelector('.navbar-bar'), drawer = header.querySelector('#navbar-drawer');
     if (!bar || !drawer) return;
+    // On phones the header's bars are hidden and the dock's menu button opens the drawer instead.
+    const triggers = () => [bar, document.querySelector('.aden-dock-menu')].filter(Boolean);
+    const shown = button => typeof button.getClientRects !== 'function' || button.getClientRects().length > 0;
+    const visibleTrigger = () => triggers().find(shown) || bar;
     let wasOpen = false;
     const sync = () => {
       const open = document.body.classList.contains('navbar-drawer-show');
-      bar.setAttribute('aria-expanded', String(open));
+      for (const button of triggers()) button.setAttribute('aria-expanded', String(open));
+      // The dock's button doubles as the way back out of the drawer on phones.
+      const dockMenu = document.querySelector('.aden-dock-menu'), english = document.documentElement?.lang?.startsWith('en');
+      dockMenu?.setAttribute('aria-label', open ? (english ? 'Close menu' : '关闭菜单') : (english ? 'Menu' : '菜单'));
       const focusWasInDrawer = drawer.contains(document.activeElement);
       drawer.inert = !open;
       if (open && !wasOpen) drawer.querySelector('a')?.focus({ preventScroll: true });
-      if (wasOpen && !open && focusWasInDrawer) bar.focus({ preventScroll: true });
+      if (wasOpen && !open && focusWasInDrawer) visibleTrigger().focus({ preventScroll: true });
       wasOpen = open;
     };
     const observer = new MutationObserver(sync);
     observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
     window.addEventListener('resize', () => {
-      if (!bar.getClientRects().length) document.body.classList.remove('navbar-drawer-show');
+      if (!triggers().some(shown)) document.body.classList.remove('navbar-drawer-show');
     }, { signal: scope.signal });
     document.addEventListener('keydown', event => {
       if (event.key !== 'Escape' || !document.body.classList.contains('navbar-drawer-show') || document.querySelector('.search-pop-overlay.active')) return;
       bar.click();
-      bar.focus({ preventScroll: true });
+      visibleTrigger().focus({ preventScroll: true });
     }, { signal: scope.signal });
     sync();
     return () => observer.disconnect();
@@ -245,36 +252,47 @@
     sync();
     return () => observer.disconnect();
   });
-  // On phones the chat launcher fades while an article is being scrolled and returns once the reader
-  // pauses, so it is not sitting over the line being read. Its position and look do not change.
-  register('article-reading', '.article-content', () => {
-    const launcher = document.getElementById('aden-chat-launcher');
-    if (!launcher || !window.matchMedia('(max-width: 768px)').matches) return;
-    let timer = 0;
-    const onScroll = () => {
-      launcher.setAttribute('data-scrolling', '');
-      clearTimeout(timer);
-      timer = setTimeout(() => launcher.removeAttribute('data-scrolling'), 900);
+  // Bottom dock (lib/styles/dock.css). The theme's tool items are <li role="button">: Enter and Space click
+  // them. The menu button opens the header drawer through the theme's own toggle. The settings toggle
+  // reports the popover state. On phones the dock slides away while the reader moves on through the page
+  // and comes back when they scroll back up; it stays while it holds keyboard focus, a popover or the drawer is open,
+  // or the chat is open. Desktop keeps it in place.
+  register('dock', '.right-side-tools-container', (dock, scope) => {
+    const signal = scope.signal;
+    const settings = dock.querySelector('.toggle-tools-list'), popover = dock.querySelector('.hidden-tools-list');
+    dock.addEventListener('keydown', event => {
+      const item = event.target.closest?.('li[role="button"]');
+      if (!item || (event.key !== 'Enter' && event.key !== ' ')) return;
+      event.preventDefault();
+      item.click();
+    }, { signal });
+    dock.querySelector('.aden-dock-menu')?.addEventListener('click', () => document.querySelector('.navbar-container .navbar-bar')?.click(), { signal });
+    let popoverObserver;
+    if (settings && popover) {
+      const syncSettings = () => settings.setAttribute('aria-expanded', String(popover.classList.contains('show')));
+      popoverObserver = new MutationObserver(syncSettings);
+      popoverObserver.observe(popover, { attributes: true, attributeFilter: ['class'] });
+      syncSettings();
+      document.addEventListener('keydown', event => {
+        if (event.key !== 'Escape' || !popover.classList.contains('show')) return;
+        settings.click();
+        settings.focus({ preventScroll: true });
+      }, { signal });
+    }
+    const phone = window.matchMedia('(max-width: 768px)');
+    const pinned = () => Boolean(dock.querySelector(':focus-visible')) || popover?.classList.contains('show') || document.body.classList.contains('navbar-drawer-show') || document.getElementById('aden-chat-launcher')?.getAttribute('aria-expanded') === 'true';
+    // Browsers already deliver scroll events at most once per frame, and the work here is one class toggle.
+    let lastY = window.scrollY;
+    const update = () => {
+      const y = window.scrollY, delta = y - lastY;
+      if (!phone.matches || pinned() || y < 120) { dock.classList.remove('aden-dock-away'); lastY = y; return; }
+      if (Math.abs(delta) < 8) return;
+      dock.classList.toggle('aden-dock-away', delta > 0);
+      lastY = y;
     };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      clearTimeout(timer);
-      launcher.removeAttribute('data-scrolling');
-    };
-  });
-  // On phones the chat launcher steps aside while the previous/next links of an article are on screen.
-  register('article-end', '.article-nav', nav => {
-    const launcher = document.getElementById('aden-chat-launcher');
-    if (!launcher || !('IntersectionObserver' in window)) return;
-    const observer = new IntersectionObserver(entries => {
-      launcher.toggleAttribute('data-yield', entries.some(entry => entry.isIntersecting));
-    }, { rootMargin: '0px 0px -90px 0px' });
-    observer.observe(nav);
-    return () => {
-      observer.disconnect();
-      launcher.removeAttribute('data-yield');
-    };
+    window.addEventListener('scroll', update, { passive: true, signal });
+    dock.addEventListener('focusin', () => dock.classList.remove('aden-dock-away'), { signal });
+    return () => { popoverObserver?.disconnect(); dock.classList.remove('aden-dock-away'); };
   });
   // APlayer draws its icon-only buttons without names. Name them in the page language; the play
   // button says "Pause" while playing (APlayer marks the container with aplayer-play / aplayer-pause).
