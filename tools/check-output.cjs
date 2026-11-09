@@ -65,14 +65,17 @@ function checkOutput(directory = 'public') {
     assert.equal($('link[rel="preconnect"][href="https://cdn-file.hyperos.mi.com"][crossorigin]').length, 1, `${file}: missing font preconnect`);
     assert(!/"preload":true/.test($.html()), `Eager search in ${file}`);
     if (!$('#world-time').length) assert.equal($('script[src*="/world-time.js"]').length, 0);
-    // Chat: one launcher per page, assets deferred until it is used, no trace of the retired page.
+    // Chat: one field per page, assets deferred until it is used, no trace of the retired page.
     assert.equal($('script[src*="/js/chat.js"],link[href*="/css/chat.css"],#aden-chat').length, 0, file);
     assert.equal($('a[href$="/chat/"]').length, 0, file);
-    // The launcher lives in the bottom dock with the theme's tools (tools/optimize-site.cjs).
-    const launcher = $('.right-side-tools-container > #aden-chat-launcher[hidden]');
+    // Ask AI is a field in the bottom dock with the theme's tools, plus the phone button that opens it.
+    const launcher = $('.right-side-tools-container > form#aden-ask');
     assert.equal($('.right-side-tools-container li.right-bottom-tools:not([role="button"][tabindex="0"][aria-label])').length, 0, `${file}: dock tools need button semantics and names`);
     assert.equal(launcher.length, 1, file);
-    assert.equal(launcher.attr('aria-label'), $('html').attr('lang')?.startsWith('en') ? 'Open AI chat' : '打开 AI 聊天', file);
+    assert.equal(launcher.attr('aria-label'), $('html').attr('lang')?.startsWith('en') ? 'Ask AI' : '问 AI', file);
+    assert.equal(launcher.find('input#aden-ask-input[maxlength="4000"]').length, 1, file);
+    assert.equal(launcher.find('label[for="aden-ask-input"]').length, 1, file);
+    assert.equal($('.right-side-tools-container > button.aden-ask-open[aria-controls="aden-ask"]').length, 1, file);
     assert.match(launcher.attr('data-script'), /^\/js\/chat\.js\?v=[a-f0-9]{12}$/, file);
     assert.match(launcher.attr('data-style'), /^\/css\/chat\.css\?v=[a-f0-9]{12}$/, file);
     exists(launcher.attr('data-script')); exists(launcher.attr('data-style'));

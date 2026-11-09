@@ -1,67 +1,107 @@
-/* Floating chat panel, loaded with chat.js on first use; reuses the blog's fonts and light/dark palette.
-   The launcher button itself is styled in lib/styles/base.css. */
-#aden-chat { position: fixed; right: 38px; bottom: calc(var(--aden-dock-item, 42px) + 2 * var(--aden-dock-gap, 14px) + 10px); z-index: 1000; display: flex; flex-direction: column; box-sizing: border-box; width: min(400px, calc(100vw - 76px)); height: min(600px, calc(95dvh - 138px)); padding: 1rem 1rem .8rem; border: 1px solid var(--border-color); border-radius: 16px; background: var(--background-color); box-shadow: 0 24px 64px rgb(0 0 0 / 38%); color: var(--default-text-color); font-family: var(--aden-body-font); line-height: 1.65; animation: aden-chat-in .16s ease-out; }
-#aden-chat[hidden], #aden-chat [hidden] { display: none !important; }
-@keyframes aden-chat-in { from { opacity: 0; transform: translateY(8px); } }
-#aden-chat .chat-heading { display: flex; align-items: center; justify-content: space-between; gap: .65rem; padding-bottom: .55rem; margin-bottom: .6rem; border-bottom: 1px solid var(--border-color); }
-#aden-chat .chat-heading-actions { display: flex; gap: .4rem; }
-#aden-chat h2 { margin: .2rem 0 0; padding: 0; border: 0; font: 520 1.15rem/1.3 var(--aden-interface-font); color: var(--first-text-color); }
-#aden-chat h2::before, #aden-chat h2::after { display: none; }
-#aden-chat button { min-height: var(--aden-control-height); border: 1px solid var(--border-color); border-radius: var(--aden-control-radius); padding: .4rem .75rem; background: var(--second-background-color); color: var(--first-text-color); font: 500 .8rem var(--aden-interface-font); cursor: pointer; white-space: nowrap; }
-#aden-chat button:hover:not(:disabled) { background: var(--third-background-color); }
-#aden-chat button:disabled { opacity: .5; cursor: not-allowed; }
-#aden-chat :is(button,input,.chat-transcript):focus-visible { outline: 2px solid var(--aden-cyan); outline-offset: 2px; }
-/* The textarea sits inside the rounded composer, which shows focus for it (:focus-within below); a second square ring would overlap the frame. */
-#aden-chat textarea:focus { outline: none; }
-#aden-chat .chat-context { display: flex; align-items: center; gap: .6rem; min-height: var(--aden-control-height); margin: 0 0 .5rem; padding: .35rem .6rem; border: 1px solid var(--border-color); border-radius: var(--aden-control-radius); background: var(--second-background-color); color: var(--second-text-color); font-size: .78rem; cursor: pointer; }
-#aden-chat .chat-context span { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-#aden-chat .chat-context input { flex: none; width: 15px; height: 15px; margin: 0; accent-color: var(--aden-signal); cursor: pointer; }
-#aden-chat .chat-transcript { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: .3rem .5rem .3rem 0; scrollbar-width: thin; }
-#aden-chat .chat-empty { min-height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: .6rem; box-sizing: border-box; }
-#aden-chat .chat-empty p { margin: .7rem 0 .3rem; font-size: 1rem; }
-#aden-chat .chat-empty > span:last-child { color: var(--second-text-color); font-size: .78rem; max-width: 20rem; }
-#aden-chat .chat-message { margin: .6rem 0 1.2rem; overflow-wrap: anywhere; min-width: 0; }
-#aden-chat .chat-message[data-role="user"] { margin-left: 10%; padding: .65rem .8rem; border-radius: 12px 12px 4px 12px; background: var(--second-background-color); }
-#aden-chat .chat-message[data-role="assistant"] { padding: .6rem .25rem; }
+/* Ask AI conversation panel (source/js/chat.js), loaded with the chat on first use. It rises above the bottom
+   dock in the same glass; the question field stays in the dock (lib/styles/dock.css). */
+@keyframes aden-chat-in { from { opacity: 0; transform: translate(-50%, 12px) scale(.98); } }
+
+#aden-chat {
+  --chat-bottom: calc(var(--aden-dock-gap, 14px) + var(--aden-keyboard, 0px) + var(--aden-dock-item, 42px) + 22px);
+  position: fixed;
+  bottom: var(--chat-bottom);
+  left: 50%;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: min(560px, calc(100vw - 32px));
+  height: min(640px, 72dvh, calc(100dvh - var(--chat-bottom) - 72px));
+  padding: .9rem 1rem .7rem;
+  border: 1px solid var(--aden-glass-border, var(--border-color));
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--background-color) 90%, transparent);
+  box-shadow: var(--aden-glass-shadow, 0 24px 64px rgb(0 0 0 / 38%)), var(--aden-glass-highlight, none);
+  -webkit-backdrop-filter: var(--aden-glass-blur, none);
+  backdrop-filter: var(--aden-glass-blur, none);
+  color: var(--default-text-color);
+  font-family: var(--aden-body-font);
+  line-height: 1.65;
+  transform: translateX(-50%);
+  animation: aden-chat-in .22s cubic-bezier(.2, .8, .2, 1);
+}
+
+#aden-chat[hidden] { display: none; }
+
+@media (prefers-reduced-transparency: reduce) {
+  #aden-chat { background: var(--background-color); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+
+#aden-chat .chat-heading { display: flex; align-items: center; gap: .6rem; padding-bottom: .5rem; margin-bottom: .5rem; border-bottom: 1px solid var(--aden-glass-divider, var(--border-color)); }
+#aden-chat h2 { margin: 0; padding: 0; border: 0; color: var(--first-text-color); font: 520 1.05rem/1.3 var(--aden-interface-font); }
+#aden-chat .chat-model { overflow: hidden; color: var(--third-text-color); font: .72rem var(--aden-mono-font); text-overflow: ellipsis; white-space: nowrap; }
+#aden-chat .chat-heading-actions { display: flex; gap: .4rem; margin-left: auto; }
+#aden-chat button { min-height: 36px; padding: .3rem .7rem; border: 1px solid var(--aden-glass-border, var(--border-color)); border-radius: var(--aden-control-radius); background: transparent; color: var(--first-text-color); font: 500 .8rem var(--aden-interface-font); cursor: pointer; white-space: nowrap; }
+#aden-chat button:hover { background: var(--aden-glass-hover, var(--third-background-color)); color: var(--aden-signal); }
+#aden-chat [data-chat="close"] { min-width: 36px; }
+#aden-chat :is(button, input, .chat-transcript):focus-visible { outline: 2px solid var(--aden-signal); outline-offset: 2px; }
+
+#aden-chat .chat-context { display: flex; align-items: center; gap: .5rem; margin: 0 0 .4rem; color: var(--second-text-color); font-size: .78rem; cursor: pointer; }
+#aden-chat .chat-context input { accent-color: var(--aden-signal); }
+
+#aden-chat .chat-transcript { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding-right: .3rem; }
+#aden-chat .chat-message { margin: .6rem 0 1.1rem; overflow-wrap: anywhere; min-width: 0; }
+#aden-chat .chat-message[data-role="user"] { margin-left: 12%; padding: .6rem .8rem; border-radius: 14px 14px 4px 14px; background: var(--aden-glass-field, var(--second-background-color)); }
+#aden-chat .chat-message[data-role="assistant"] { padding: .4rem .2rem; }
+#aden-chat .chat-message-label { display: block; margin-bottom: .15rem; color: var(--second-text-color); font: 550 .72rem var(--aden-interface-font); }
 #aden-chat .chat-message[data-role="user"] .chat-message-label { color: var(--aden-signal); }
 #aden-chat .chat-message[data-role="assistant"] .chat-message-label { color: var(--aden-cyan); }
-#aden-chat .chat-message-label { color: var(--second-text-color); font: 550 .72rem var(--aden-interface-font); }
-#aden-chat .chat-message-progress { margin: .4rem 0; color: var(--second-text-color); font-size: .78rem; }
-#aden-chat .chat-message-body { white-space: pre-wrap; font-family: var(--aden-reading-font); font-optical-sizing: auto; font-size: .92rem; }
+#aden-chat .chat-message-body { white-space: pre-wrap; font-family: var(--aden-reading-font); font-size: .92rem; }
 #aden-chat .chat-message-body p { margin: .5rem 0; }
-#aden-chat .chat-message-body ul, #aden-chat .chat-message-body ol { padding-left: 1.4rem; margin: .5rem 0; }
-#aden-chat .chat-message-body pre { white-space: pre; overflow-x: auto; max-width: 100%; padding: .8rem; background: var(--third-background-color); border-radius: 8px; }
-#aden-chat .chat-message-body code { font-family: var(--aden-mono-font); font-size: .85em; }
-#aden-chat .chat-message button { margin-top: .5rem; padding: .2rem .5rem; font-size: .7rem; }
-#aden-chat .chat-composer { margin-top: .6rem; padding: .5rem .65rem; border: 1px solid var(--border-color); border-radius: 12px; background: var(--second-background-color); }
-#aden-chat .chat-input-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
-#aden-chat textarea { display: block; box-sizing: border-box; width: 100%; min-height: 44px; max-height: 140px; resize: vertical; border: 0; background: transparent; color: var(--first-text-color); font: 330 16px/1.5 var(--aden-body-font); padding: .2rem 0; }
-#aden-chat textarea::placeholder { color: var(--second-text-color); }
-#aden-chat .chat-composer-footer { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-top: .3rem; }
-#aden-chat .chat-composer-footer > div { display: flex; gap: .5rem; }
-#aden-chat .chat-key-hint { font-size: .62rem; color: var(--second-text-color); }
-#aden-chat [data-chat="send"] { background: var(--aden-signal); border-color: var(--aden-signal); color: var(--aden-on-signal); font-weight: 600; }
-#aden-chat .chat-status { margin: .5rem 0 .2rem; font-size: .78rem; color: var(--second-text-color); }
-#aden-chat .chat-status[data-error="true"] { padding: .45rem .6rem; border-radius: var(--aden-control-radius); background: color-mix(in srgb, var(--aden-alert) 8%, var(--background-color)); color: var(--first-text-color); }
-#aden-chat .chat-privacy { margin: .35rem 0 0; font-size: .68rem; line-height: 1.45; color: var(--second-text-color); }
-#aden-chat [data-chat="close"] { min-width: var(--aden-control-height); }
-#aden-chat [data-chat="send"]:hover:not(:disabled) { background: color-mix(in srgb, var(--aden-signal) 85%, var(--background-color)); }
-#aden-chat .chat-composer:focus-within { border-color: var(--aden-cyan); box-shadow: 0 0 0 1px var(--aden-cyan); }
-#aden-chat .chat-status:empty { display: none; }
-#aden-chat .chat-message-progress[data-pending]::before {
-  content: ""; display: inline-block; width: 6px; height: 6px; margin-inline-end: .45rem;
-  border-radius: 50%; background: var(--aden-cyan); vertical-align: .1em;
-  animation: aden-chat-pending 1.25s ease-in-out infinite alternate;
+#aden-chat .chat-message-body :is(ul, ol) { margin: .5rem 0; padding-left: 1.4rem; }
+#aden-chat .chat-message-body pre { max-width: 100%; overflow-x: auto; padding: .8rem; border-radius: 10px; background: var(--third-background-color); white-space: pre; }
+#aden-chat .chat-message-body code { color: var(--first-text-color); font-family: var(--aden-mono-font); font-size: .85em; }
+#aden-chat .chat-message[data-pending] .chat-message-body:empty::before { color: var(--third-text-color); content: "…"; }
+#aden-chat .chat-message-note { margin: .4rem 0 0; color: var(--second-text-color); font-size: .8rem; }
+#aden-chat .chat-message-note[data-error="true"] { padding: .45rem .6rem; border-radius: var(--aden-control-radius); background: color-mix(in srgb, var(--aden-alert) 10%, transparent); color: var(--first-text-color); }
+#aden-chat .chat-copy { min-height: 30px; margin-top: .4rem; padding: .15rem .55rem; font-size: .72rem; }
+#aden-chat .chat-privacy { margin: .4rem 0 0; color: var(--third-text-color); font-size: .68rem; line-height: 1.45; }
+
+/* Notices above the dock: privacy on first use, errors while the panel is closed. */
+.aden-ask-toast {
+  position: fixed;
+  bottom: calc(var(--aden-dock-gap, 14px) + var(--aden-keyboard, 0px) + var(--aden-dock-item, 42px) + 22px);
+  left: 50%;
+  z-index: 999;
+  box-sizing: border-box;
+  width: max-content;
+  max-width: min(520px, calc(100vw - 32px));
+  margin: 0;
+  padding: .55rem .85rem;
+  border: 1px solid var(--aden-glass-border, var(--border-color));
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--background-color) 90%, transparent);
+  box-shadow: var(--aden-glass-shadow, none);
+  -webkit-backdrop-filter: var(--aden-glass-blur, none);
+  backdrop-filter: var(--aden-glass-blur, none);
+  color: var(--second-text-color);
+  font: .78rem/1.5 var(--aden-interface-font);
+  transform: translateX(-50%);
 }
-@keyframes aden-chat-pending { to { opacity: .35; } }
+
+.aden-ask-toast[hidden] { display: none; }
+.aden-ask-toast[data-error="true"] { border-color: color-mix(in srgb, var(--aden-alert) 45%, transparent); color: var(--first-text-color); }
+html.aden-chat-open .aden-ask-toast { display: none; }
+
 @media (max-width: 640px) {
-  /* Full screen above the site header; chat.js tracks the visual viewport so the keyboard cannot cover the composer. */
-  #aden-chat { top: var(--chat-top, 0); right: 0; bottom: auto; left: 0; z-index: 1006; width: auto; height: var(--chat-height, 100dvh); border: 0; border-radius: 0; }
-  html.aden-chat-open { overflow: hidden; }
-  #aden-chat .chat-key-hint { display: none; }
-  #aden-chat .chat-composer-footer { justify-content: flex-end; }
-  #aden-chat .chat-message[data-role="user"] { margin-left: 5%; }
+  /* Phones: half to three quarters of the screen, above the dock and the keyboard. */
+  #aden-chat {
+    width: calc(100vw - 16px);
+    height: auto;
+    min-height: min(50dvh, calc(100dvh - var(--chat-bottom) - 64px));
+    max-height: min(75dvh, calc(100dvh - var(--chat-bottom) - 64px));
+    padding: .8rem .85rem .6rem;
+    border-radius: 18px;
+  }
+  #aden-chat .chat-message[data-role="user"] { margin-left: 6%; }
 }
+
 @media (prefers-reduced-motion: reduce) {
-  #aden-chat, #aden-chat .chat-message-progress[data-pending]::before { animation: none; }
+  #aden-chat { animation: none; }
 }

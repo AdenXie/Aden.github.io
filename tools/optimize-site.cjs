@@ -153,10 +153,23 @@ async function optimize(directory = 'public') {
     // Chat is a floating launcher on every page; its panel, script and styles load on first use.
     // Added after translation, and cached English snapshots may still list the retired chat page.
     $('.navbar-list a, .drawer-navbar-list a').filter((_, el) => /^\/(?:en\/)?chat\/$/.test($(el).attr('href') || '')).closest('li').remove();
-    $('#aden-chat-launcher').remove();
-    $('body').append($('<button type="button" id="aden-chat-launcher" class="aden-chat-launcher" aria-haspopup="dialog" aria-expanded="false" hidden><span aria-hidden="true">✳</span><span class="aden-chat-launcher-label"></span></button>')
-      .attr({ 'aria-label': $('html').attr('lang')?.startsWith('en') ? 'Open AI chat' : '打开 AI 聊天', 'data-script': version('/js/chat.js'), 'data-style': version('/css/chat.css') }));
-    $('#aden-chat-launcher .aden-chat-launcher-label').text($('html').attr('lang')?.startsWith('en') ? 'Ask AI' : '问 AI');
+    // Ask AI lives in the bottom dock as a real text field (lib/styles/dock.css). The chat script and its
+    // styles load on first use (data-script / data-style, site-runtime.js); until then the field is a plain
+    // form. Phones show a compact button that opens the field over the dock.
+    $('#aden-chat-launcher, #aden-ask, .aden-ask-open').remove();
+    {
+      const english = $('html').attr('lang')?.startsWith('en');
+      const label = english ? 'Ask AI' : '问 AI';
+      $('body').append($(`<form id="aden-ask" class="aden-ask" novalidate>
+  <span class="aden-ask-mark" aria-hidden="true">✳</span>
+  <label class="aden-sr-only" for="aden-ask-input">${label}</label>
+  <input id="aden-ask-input" class="aden-ask-input" type="text" maxlength="4000" autocomplete="off" enterkeyhint="send" placeholder="${english ? 'Ask AI…' : '问 AI…'}">
+  <span class="aden-ask-thinking" role="status" hidden><span class="aden-ask-dots" aria-hidden="true">${'<i></i>'.repeat(9)}</span><span class="aden-ask-thinking-label"></span></span>
+  <button type="submit" class="aden-ask-send" aria-label="${english ? 'Send' : '发送'}" disabled><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></button>
+  <button type="button" class="aden-ask-stop" aria-label="${english ? 'Stop' : '停止生成'}" hidden><i class="fa-solid fa-stop" aria-hidden="true"></i></button>
+</form>`).attr({ 'aria-label': label, 'data-script': version('/js/chat.js'), 'data-style': version('/css/chat.css') }));
+      $('body').append(`<button type="button" class="aden-ask-open" aria-controls="aden-ask" aria-expanded="false"><span aria-hidden="true">✳</span><span>${label}</span></button>`);
+    }
     // Bottom dock (lib/styles/dock.css): the launcher and a phone menu button join the theme's tools in one
     // container. The theme's tool items are <li>s with click handlers; give them button semantics and names
     // so keyboards and screen readers can use them (site-runtime.js maps Enter and Space to click).
@@ -165,7 +178,7 @@ async function optimize(directory = 'public') {
       const dock = $('.right-side-tools-container').first();
       if (dock.length) {
         dock.attr({ role: 'toolbar', 'aria-label': english ? 'Quick tools' : '快捷工具' });
-        dock.append($('#aden-chat-launcher'));
+        dock.append($('#aden-ask'), $('.aden-ask-open'));
         dock.find('.aden-dock-menu').remove();
         if ($('#navbar-drawer').length) dock.append(`<button type="button" class="aden-dock-menu" aria-controls="navbar-drawer" aria-expanded="false" aria-label="${english ? 'Menu' : '菜单'}"><span class="aden-dock-bars" aria-hidden="true"></span></button>`);
         const names = {

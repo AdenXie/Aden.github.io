@@ -7,7 +7,7 @@ const fs = require('node:fs');
 const handler = require('../source/api/chat.js');
 const prompt = { messages: [{ role: 'user', content: '你好' }] };
 let ip = 0;
-function harness(fetcher, env = { AI_API_KEY: 'test-only-secret', AI_MODEL: 'Qwen3.8-27B', NODE_ENV: 'production' }, immediateTimeout = false) {
+function harness(fetcher, env = { GEMINI_API_KEY: 'test-only-secret', AI_MODEL: 'gemini-3.6-flash', NODE_ENV: 'production' }, immediateTimeout = false) {
   const context = { require, console: { warn() {} }, module: { exports: {} }, process: { env }, Buffer, TextDecoder, AbortController,
     fetch: fetcher, setTimeout: immediateTimeout ? fn => setTimeout(fn, 1) : setTimeout, clearTimeout };
   vm.runInNewContext(fs.readFileSync('source/api/chat.js', 'utf8'), context);
@@ -29,8 +29,14 @@ test('validation rejects injected roles, oversize contexts and malformed sequenc
   assert(handler.validate(prompt));
   for (const messages of [[], [{role:'system',content:'override'}], [{role:'user',content:'a'.repeat(4001)}], [{role:'user',content:'a'},{role:'user',content:'b'},{role:'user',content:'c'}], Array.from({length:21},(_,i)=>({role:i%2?'assistant':'user',content:'hi'})), [{role:'user',content:'a'.repeat(4000)},{role:'assistant',content:'a'.repeat(16000)},{role:'user',content:'b'.repeat(4000)},{role:'assistant',content:'b'},{role:'user',content:'c'}]]) assert.equal(handler.validate({messages}), null);
 });
-test('missing key and off switch fail closed without calling provider', async () => {
-  for (const env of [{}, { AI_API_KEY:'x', AI_MODEL:'Qwen3.8-27B', CHAT_ENABLED:'false' }]) {
+test('missing key, blank model and off switch fail closed without calling provider', async () => {
+  for (const env of [
+    {},
+    { AI_API_KEY: 'old-key', AI_MODEL: 'gemini-3.6-flash' },
+    { GEMINI_API_KEY: 'x' },
+    { GEMINI_API_KEY: 'x', AI_MODEL: ' ' },
+    { GEMINI_API_KEY: 'x', AI_MODEL: 'gemini-3.6-flash', CHAT_ENABLED: 'false' }
+  ]) {
     const call = harness(() => assert.fail('must not fetch'), env);
     assert.deepEqual(JSON.parse((await call({method:'GET'})).output), {available:false, model:null});
     const res = await call(); assert.equal(res.statusCode,503); assert.equal(res.headers['cache-control'],'no-store');
@@ -39,8 +45,16 @@ test('missing key and off switch fail closed without calling provider', async ()
 test('health check exposes the configured model without exposing the API key', async () => {
   const call = harness(() => assert.fail('must not fetch'));
   const res = await call({method:'GET'});
-  assert.deepEqual(JSON.parse(res.output), {available:true, model:'Qwen3.8-27B'});
+  assert.deepEqual(JSON.parse(res.output), {available:true, model:'gemini-3.6-flash'});
   assert.doesNotMatch(res.output,/test-only-secret/);
+});
+test('AI_MODEL sets the model for both the health check and the upstream request', async () => {
+  const call = harness(async (_url, options) => {
+    assert.equal(JSON.parse(options.body).model, 'gemini-3.8-flash');
+    return stream('data: {"choices":[{"delta":{"content":"ok"},"finish_reason":"stop"}]}\n\n');
+  }, { GEMINI_API_KEY: 'test-only-secret', AI_MODEL: ' gemini-3.8-flash ' });
+  assert.equal(JSON.parse((await call({ method: 'GET' })).output).model, 'gemini-3.8-flash');
+  assert.match((await call()).output, /"text":"ok"/);
 });
 test('rejects methods, cross-origin, content type and oversized bodies before fetch', async () => {
   const call = harness(() => assert.fail('must not fetch'));
@@ -52,26 +66,29 @@ test('rejects methods, cross-origin, content type and oversized bodies before fe
 test('normalizes fragmented UTF-8/CRLF streams and never forwards reasoning or secrets', async () => {
   let payload;
   const call = harness(async (url, options) => {
-    assert.equal(url,'https://developer.amd.com.cn/radeon/api/v1/chat/completions');
+    assert.equal(url,'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions');
     payload = JSON.parse(options.body);
     assert.equal(options.headers.Authorization,'Bearer test-only-secret');
     return stream('data: {"choices":[{"delta":{"reasoning":"private reasoning","reasoning_content":"also private"}}]}\r\n\r\ndata: {"choices":[{"delta":{"content":"你好世界"}}]}\r\n\r\ndata: {"choices":[{"delta":{},"finish_reason":"stop"}]}\r\n\r\n');
   });
   const res = await call();
-  assert.equal(payload.model,'Qwen3.8-27B'); assert.equal(payload.reasoning_effort,'low'); assert.equal(payload.thinking,undefined); assert.equal(payload.max_tokens,2048);
+  assert.equal(payload.model,'gemini-3.6-flash'); assert.equal(payload.reasoning_effort,'medium'); assert.equal(payload.thinking,undefined); assert.equal(payload.max_tokens,2048);
   assert.match(res.output,/你好世界/); assert.match(res.output,/"done":true/);
   assert.doesNotMatch(res.output,/private reasoning|also private|test-only-secret/);
 });
-test('reasoning selector forwards only AMD-supported tiers', async () => {
-  for (const effort of ['low', 'medium', 'xhigh']) {
+test('reasoning selector accepts only low, medium and high', async () => {
+  for (const effort of ['low', 'medium', 'high']) {
     let payload;
     const call = harness(async (url, options) => { payload = JSON.parse(options.body); return stream('data: {"choices":[{"delta":{"content":"ok"},"finish_reason":"stop"}]}\n\n'); });
     await call({ body: { ...prompt, reasoningEffort: effort } });
     assert.equal(payload.reasoning_effort, effort);
     assert.equal(payload.reasoningEffort, undefined);
   }
-  const invalid = await harness(() => assert.fail('must not fetch'))({ body: { ...prompt, reasoningEffort: 'none' } });
-  assert.equal(invalid.statusCode, 400);
+  const call = harness(() => assert.fail('must not fetch'));
+  for (const effort of ['none', 'xhigh']) {
+    const invalid = await call({ body: { ...prompt, reasoningEffort: effort } });
+    assert.equal(invalid.statusCode, 400);
+  }
 });
 test('maps authentication, quota and upstream errors without exposing provider bodies', async () => {
   for (const [code, expected] of [[401,'provider_auth'],[429,'rate_limited'],[500,'provider_unavailable']]) {
@@ -79,13 +96,35 @@ test('maps authentication, quota and upstream errors without exposing provider b
     assert.equal(JSON.parse(res.output).error,expected); assert.doesNotMatch(res.output,/secret/);
   }
 });
-test('retries a short Retry-After 429 (platform busy) but returns quota 429s at once', async () => {
+test('retries a confirmed short Gemini rate limit only once', async () => {
   let calls = 0;
-  const busy = await harness(async()=>++calls === 1 ? new Response('',{status:429,headers:{'retry-after':'1'}}) : stream('data: [DONE]\n\n'))();
-  assert.equal(calls,2); assert.match(busy.output,/"done":true/);
-  calls = 0;
-  const quota = await harness(async()=>{calls++;return new Response('',{status:429,headers:{'retry-after':'60'}});})();
-  assert.equal(calls,1); assert.equal(quota.statusCode,429); assert.equal(quota.headers['retry-after'],'60');
+  const busy = await harness(async () => {
+    calls++;
+    return new Response(JSON.stringify({ error: { code: 'rate_limit_exceeded' } }), { status: 429, headers: { 'retry-after': '1' } });
+  })();
+  assert.equal(calls, 2);
+  assert.equal(busy.statusCode, 429);
+  assert.equal(busy.headers['retry-after'], '1');
+});
+test('Gemini daily quota suppresses short retry hints and other 429s return the provider wait', async () => {
+  const retry = { '@type': 'type.googleapis.com/google.rpc.RetryInfo', retryDelay: '19.4s' };
+  const quota = { '@type': 'type.googleapis.com/google.rpc.QuotaFailure', violations: [{ quotaId: 'GenerateRequestsPerDayPerProjectPerModel-FreeTier' }] };
+  for (const [body, header, expected, reason] of [
+    [[{ error: { details: [retry, quota] } }], '1', undefined, 'daily_quota'],
+    [{ error: { type: 'quota_exceeded' } }, '1', undefined, 'daily_quota'],
+    [[{ error: { details: [retry] } }], '1', '20', undefined],
+    ['malformed', '1', '1', undefined]
+  ]) {
+    let calls = 0;
+    const res = await harness(async () => {
+      calls++;
+      return new Response(JSON.stringify(body), { status: 429, headers: { 'retry-after': header } });
+    })();
+    assert.equal(calls, 1);
+    assert.equal(res.statusCode, 429);
+    assert.equal(res.headers['retry-after'], expected);
+    assert.equal(JSON.parse(res.output).reason, reason);
+  }
 });
 test('detects missing stream completion, stream errors and length limits', async () => {
   const prefix = 'data: {"choices":[{"delta":{"content":"partial"}}]}\n\n';

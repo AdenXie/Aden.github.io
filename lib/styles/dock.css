@@ -120,7 +120,7 @@ html .page-container .right-side-tools-container.aden-dock-away {
 }
 
 .side-tools-container .right-bottom-tools + .right-bottom-tools::before,
-.right-side-tools-container > :is(.aden-chat-launcher, .aden-dock-menu)::before {
+.right-side-tools-container > :is(.aden-ask, .aden-ask-open, .aden-dock-menu)::before {
   position: absolute;
   top: 11px;
   bottom: 11px;
@@ -183,38 +183,143 @@ html .page-container .right-side-tools-container.aden-dock-away {
 .side-tools-container .tool-scroll-to-top:hover .percent { display: none; }
 .side-tools-container .tool-scroll-to-top:hover .arrow-up { display: flex; }
 
-/* Ask AI: a field-like pill on wide screens (the input itself arrives with the new chat), a compact button
-   on phones. The yellow stays on the icon. */
-.right-side-tools-container .aden-chat-launcher {
+/* Ask AI: a real text field in the dock (source/js/chat.js loads on first focus). A rainbow beam rides its
+   border: static at rest, travelling while the reader types or the model works (the Border Beam idea, in
+   CSS only). While the model thinks, a 3x3 dot wave (BoardUI Agent Thinking) replaces the send button. */
+@property --aden-beam-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes aden-beam { to { --aden-beam-angle: 360deg; } }
+@keyframes aden-dot-wave { 0%, 100% { opacity: .15; } 30% { opacity: 1; } }
+@keyframes aden-shimmer { to { background-position: -200% 0; } }
+
+.right-side-tools-container .aden-ask {
   position: relative;
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: .5rem;
-  min-width: 13.5rem;
+  gap: .45rem;
+  width: 19rem;
+  height: var(--aden-dock-item);
+  margin: 0 0 0 4px;
+  padding: 0 4px 0 .8rem;
+  border-radius: 13px;
+  background: var(--aden-glass-field);
+  isolation: isolate;
+}
+
+/* The beam: a conic rainbow masked to a 1.5px ring. At rest the whole ring shows faintly; in motion a bright
+   arc travels round it over a faint ring. */
+.right-side-tools-container .aden-ask::after {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  padding: 1.5px;
+  border-radius: inherit;
+  background: conic-gradient(from var(--aden-beam-angle), #ff5f6d, #ffc371, #f2e94e, #47e891, #18d5e8, #6b8cff, #c86bff, #ff5f6d);
+  opacity: .38;
+  content: "";
+  pointer-events: none;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+}
+
+.right-side-tools-container .aden-ask:is(.is-typing, .is-working)::after {
+  background:
+    conic-gradient(from var(--aden-beam-angle), transparent 0 58%, #ff5f6d 66%, #f2e94e 74%, #47e891 82%, #18d5e8 90%, #c86bff 97%, transparent 100%),
+    conic-gradient(from var(--aden-beam-angle), rgb(255 95 109 / 30%), rgb(242 233 78 / 30%), rgb(24 213 232 / 30%), rgb(200 107 255 / 30%), rgb(255 95 109 / 30%));
+  opacity: 1;
+  animation: aden-beam 2.2s linear infinite;
+}
+
+.right-side-tools-container .aden-ask:is(.is-typing, .is-working) {
+  box-shadow: 0 0 18px -6px rgb(24 213 232 / 45%), 0 0 22px -8px rgb(242 233 78 / 40%);
+}
+
+.aden-ask-mark { flex: none; color: var(--aden-signal); font-size: 1rem; }
+
+.aden-ask-input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--first-text-color);
+  font: 400 16px/1 var(--aden-interface-font);
+}
+
+.aden-ask-input::placeholder { color: var(--second-text-color); }
+.aden-ask-input:disabled { cursor: not-allowed; }
+
+.aden-ask :is(.aden-ask-send, .aden-ask-stop) {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--aden-dock-item) - 8px);
+  height: calc(var(--aden-dock-item) - 8px);
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: var(--aden-signal);
+  color: var(--aden-on-signal);
+  font-size: .85rem;
+  cursor: pointer;
+  transition: opacity var(--aden-control-duration) ease, transform var(--aden-control-duration) ease;
+}
+
+.aden-ask :is(.aden-ask-send, .aden-ask-stop)[hidden] { display: none; }
+.aden-ask .aden-ask-send:disabled { background: var(--aden-glass-hover); color: var(--third-text-color); cursor: default; }
+.aden-ask .aden-ask-stop { background: var(--aden-glass-hover); color: var(--first-text-color); }
+.aden-ask :is(.aden-ask-send, .aden-ask-stop):active:not(:disabled) { transform: scale(.92); }
+.aden-ask :is(.aden-ask-send, .aden-ask-stop):focus-visible { outline: 2px solid var(--aden-signal); outline-offset: 2px; }
+
+.aden-ask-thinking { display: flex; flex: none; align-items: center; gap: .45rem; color: var(--second-text-color); font: 450 .8rem var(--aden-interface-font); white-space: nowrap; }
+.aden-ask-thinking[hidden] { display: none; }
+.aden-ask-dots { display: grid; grid-template-columns: repeat(3, 4px); gap: 2px; }
+.aden-ask-dots i { width: 4px; height: 4px; border-radius: 1px; background: currentColor; opacity: .15; animation: aden-dot-wave 1.1s ease-in-out infinite; }
+/* Diagonal wavefront from top left to bottom right. */
+.aden-ask-dots i:nth-child(2), .aden-ask-dots i:nth-child(4) { animation-delay: .14s; }
+.aden-ask-dots i:nth-child(3), .aden-ask-dots i:nth-child(5), .aden-ask-dots i:nth-child(7) { animation-delay: .28s; }
+.aden-ask-dots i:nth-child(6), .aden-ask-dots i:nth-child(8) { animation-delay: .42s; }
+.aden-ask-dots i:nth-child(9) { animation-delay: .56s; }
+.aden-ask-thinking-label {
+  background: linear-gradient(90deg, var(--second-text-color) 0 40%, var(--first-text-color) 50%, var(--second-text-color) 60% 100%) 0 0 / 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: aden-shimmer 1.6s linear infinite;
+}
+
+/* Phones: a compact button in the dock; tapping it opens the field over the whole dock. */
+.right-side-tools-container .aden-ask-open {
+  position: relative;
+  display: none;
+  align-items: center;
+  gap: .4rem;
   height: var(--aden-dock-item);
   margin-left: 4px;
-  padding: 0 1rem 0 .85rem;
+  padding: 0 .85rem;
   border: 0;
   border-radius: 13px;
   background: var(--aden-glass-field);
-  color: var(--second-text-color);
-  font: 450 .9rem var(--aden-interface-font);
-  white-space: nowrap;
-  cursor: text;
-  transition: background-color var(--aden-control-duration) ease, color var(--aden-control-duration) ease, transform var(--aden-control-duration) ease;
-}
-
-.right-side-tools-container .aden-chat-launcher[hidden] { display: none; }
-.right-side-tools-container .aden-chat-launcher > span[aria-hidden] { color: var(--aden-signal); font-size: 1rem; }
-
-.right-side-tools-container .aden-chat-launcher:hover,
-.right-side-tools-container .aden-chat-launcher[aria-expanded="true"] {
-  background: var(--aden-glass-hover);
   color: var(--first-text-color);
+  font: 560 .85rem var(--aden-interface-font);
+  cursor: pointer;
 }
 
-.right-side-tools-container .aden-chat-launcher[aria-busy="true"] { opacity: .6; }
-.right-side-tools-container .aden-chat-launcher:active { transform: scale(.98); }
+.right-side-tools-container .aden-ask-open > span[aria-hidden] { color: var(--aden-signal); }
+.right-side-tools-container .aden-ask-open:hover { background: var(--aden-glass-hover); color: var(--aden-signal); }
+
+/* A request keeps going when the field is closed: the button shows a cyan ring meanwhile. */
+.right-side-tools-container:has(.aden-ask.is-working) .aden-ask-open {
+  box-shadow: inset 0 0 0 1.5px rgb(24 213 232 / 55%);
+}
 
 /* The phone menu button stands in for the header's three bars (hidden there on phones). */
 .right-side-tools-container .aden-dock-menu { display: none; margin-left: 4px; }
@@ -255,20 +360,29 @@ html body.navbar-drawer-show .page-container .right-side-tools-container { z-ind
 }
 
 @media (max-width: 640px) {
-  .right-side-tools-container .aden-chat-launcher {
-    min-width: 0;
-    padding: 0 .85rem;
-    cursor: pointer;
-  }
+  .right-side-tools-container .aden-ask-open { display: inline-flex; }
+  .right-side-tools-container .aden-ask { display: none; }
+
+  /* Open: the field covers the dock; the other buttons step aside until a tap outside or Escape. */
+  html .page-container .right-side-tools-container.is-asking { width: calc(100vw - 24px); }
+  .right-side-tools-container.is-asking > :not(.aden-ask) { display: none; }
+  .right-side-tools-container.is-asking .aden-ask { display: flex; flex: 1; width: auto; margin: 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html .page-container .right-side-tools-container,
   .side-tools-container :is(.hidden-tools-list, .right-bottom-tools),
-  .right-side-tools-container :is(.aden-chat-launcher, .aden-dock-menu),
+  .right-side-tools-container :is(.aden-ask-open, .aden-dock-menu),
+  .right-side-tools-container .aden-ask::after,
+  .aden-ask-dots i,
+  .aden-ask-thinking-label,
   .aden-dock-bars,
   .aden-dock-bars::before,
   .aden-dock-bars::after { transition: none; }
   .side-tools-container .right-bottom-tools:active,
-  .right-side-tools-container :is(.aden-chat-launcher, .aden-dock-menu):active { transform: none; }
+  .right-side-tools-container :is(.aden-ask-open, .aden-dock-menu):active { transform: none; }
+  .right-side-tools-container .aden-ask::after,
+  .aden-ask-dots i,
+  .aden-ask-thinking-label { animation: none; }
+  .aden-ask-dots i { opacity: .6; }
 }

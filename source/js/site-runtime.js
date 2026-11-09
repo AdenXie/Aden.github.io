@@ -149,23 +149,58 @@
     scope.signal.addEventListener('abort', restore, { once: true });
     return restore;
   });
-  register('chat-launcher', '#aden-chat-launcher', (button, scope) => {
-    const label = button.getAttribute('aria-label');
-    let loading = false;
-    const toggle = async () => {
-      if (loading) return;
-      loading = true; button.setAttribute('aria-busy', 'true');
-      try {
-        await Promise.all([loadStyle(button.dataset.style), loadScript(button.dataset.script)]);
-        button.setAttribute('aria-label', label);
-        if (!scope.signal.aborted) document.dispatchEvent(new CustomEvent('aden-chat:toggle'));
-      } catch {
-        button.setAttribute('aria-label', document.documentElement.lang.startsWith('en') ? 'Chat failed to load. Click to retry.' : '聊天加载失败，点击重试');
-      } finally { loading = false; button.removeAttribute('aria-busy'); }
+  // Ask AI in the dock. The field works before the chat script arrives: the first focus loads the chat's
+  // script and styles, and a question sent before then waits in the form (data-queued) until the chat
+  // script mounts and sends it. On phones a compact button opens the field over the dock; a tap outside
+  // the dock and the chat panel, or Escape, closes it again and keeps the draft.
+  register('ask', '#aden-ask', (form, scope) => {
+    const signal = scope.signal;
+    const input = form.querySelector('.aden-ask-input'), send = form.querySelector('.aden-ask-send');
+    const dock = form.closest('.right-side-tools-container'), opener = dock?.querySelector('.aden-ask-open');
+    if (!input || !send) return;
+    const english = document.documentElement.lang.startsWith('en');
+    const placeholder = input.placeholder, failed = english ? 'Chat failed to load. Try again.' : '聊天加载失败，请重试';
+    let loading = null;
+    // After a failed load, a later successful one restores the hint (the chat may set its own on mount).
+    const load = () => loading ||= Promise.all([loadStyle(form.dataset.style), loadScript(form.dataset.script)]).then(() => {
+      if (input.placeholder === failed) input.placeholder = placeholder;
+    }, error => {
+      loading = null;
+      input.placeholder = failed;
+      throw error;
+    });
+    const sync = () => { if (!form.classList.contains('is-working')) send.disabled = !input.value.trim(); };
+    input.addEventListener('input', sync, { signal });
+    form.addEventListener('focusin', () => { load().catch(() => {}); }, { signal });
+    form.addEventListener('submit', event => {
+      if (window.AdenChat) return;
+      event.preventDefault();
+      if (!input.value.trim()) return;
+      form.dataset.queued = '';
+      load().catch(() => { delete form.dataset.queued; });
+    }, { signal });
+    const setAsking = asking => {
+      if (!dock) return;
+      dock.classList.toggle('is-asking', asking);
+      opener?.setAttribute('aria-expanded', String(asking));
+      if (asking) input.focus({ preventScroll: true });
     };
-    button.hidden = false;
-    button.addEventListener('click', toggle, { signal: scope.signal });
-    if (new URLSearchParams(location.search).get('chat') === 'open' && button.getAttribute('aria-expanded') !== 'true') toggle();
+    opener?.addEventListener('click', () => setAsking(true), { signal });
+    document.addEventListener('pointerdown', event => {
+      if (!dock?.classList.contains('is-asking') || dock.contains(event.target) || event.target.closest?.('#aden-chat')) return;
+      setAsking(false);
+    }, { signal });
+    form.addEventListener('keydown', event => {
+      if (event.key !== 'Escape' || !dock?.classList.contains('is-asking') || document.querySelector('#aden-chat:not([hidden])')) return;
+      setAsking(false);
+      opener?.focus({ preventScroll: true });
+    }, { signal });
+    sync();
+    if (new URLSearchParams(location.search).get('chat') === 'open') {
+      if (opener?.getClientRects().length) setAsking(true);
+      else input.focus({ preventScroll: true });
+    }
+    return () => dock?.classList.remove('is-asking');
   });
   // The menu button mirrors the theme's drawer state; Escape closes the drawer through the
   // theme's own toggle and returns focus to the button, as it does for the search popup.
@@ -280,7 +315,7 @@
       }, { signal });
     }
     const phone = window.matchMedia('(max-width: 768px)');
-    const pinned = () => Boolean(dock.querySelector(':focus-visible')) || popover?.classList.contains('show') || document.body.classList.contains('navbar-drawer-show') || document.getElementById('aden-chat-launcher')?.getAttribute('aria-expanded') === 'true';
+    const pinned = () => Boolean(dock.querySelector(':focus-visible, .aden-ask-input:focus, .aden-ask.is-working')) || dock.classList.contains('is-asking') || popover?.classList.contains('show') || document.body.classList.contains('navbar-drawer-show') || document.documentElement.classList.contains('aden-chat-open');
     // Browsers already deliver scroll events at most once per frame, and the work here is one class toggle.
     let lastY = window.scrollY;
     const update = () => {
