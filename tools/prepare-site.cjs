@@ -130,7 +130,8 @@ async function prepare() {
   // The upstream paginator sheet is checksum-guarded. Use the shared site styles for its markup.
   fs.writeFileSync(path.join(target, 'source/css/layout/_partials/paginator.styl'), '// Styled in lib/styles/controls.css\n');
   fs.writeFileSync(path.join(target, 'source/css/layout/_partials/local-search.styl'), '// Styled in lib/styles/navigation.css\n');
-  const parts = ['fonts', 'base', 'home-cards', 'pages', 'cyber', 'archive', 'tags', 'controls', 'navigation'];
+  fs.writeFileSync(path.join(target, 'source/css/layout/_partials/side-tools.styl'), '// Styled in lib/styles/dock.css\n');
+  const parts = ['fonts', 'base', 'home-cards', 'pages', 'cyber', 'archive', 'tags', 'controls', 'navigation', 'dock'];
   const result = new css({ level: 1 }).minify(parts.map(name => fs.readFileSync(path.join(ROOT, `lib/styles/${name}.css`), 'utf8')).join('\n'));
   if (result.errors.length) throw new Error(result.errors.join('\n'));
   fs.mkdirSync(path.join(target, 'source/css'), { recursive: true });

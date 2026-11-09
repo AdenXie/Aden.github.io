@@ -240,8 +240,8 @@ body.navbar-drawer-show .navbar-drawer {
   }
 }
 
-/* AI chat launcher: a wider sibling of Redefine's tool buttons (same radius, shadow
-   and colour-swap hover, no movement), fixed where that column used to end; the column sits above it. */
+/* AI chat launcher: the dock's last piece (lib/styles/dock.css gives it the glass), fixed below the
+   settings and progress capsule. The icon carries the signal yellow; the label stays in text colour. */
 .aden-chat-launcher {
   position: fixed;
   right: 38px;
@@ -249,29 +249,37 @@ body.navbar-drawer-show .navbar-drawer {
   z-index: 1000;
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  height: 42px;
-  padding: 0 0.9rem;
-  border: 0;
-  border-radius: 12px;
-  background: var(--primary-color);
-  box-shadow: var(--redefine-box-shadow);
-  color: var(--background-color);
-  font: 520 0.9rem var(--aden-interface-font);
+  gap: 0.45rem;
+  height: 44px;
+  padding: 0 1rem;
+  border-radius: 15px;
+  color: var(--first-text-color);
+  font: 560 0.9rem var(--aden-interface-font);
   white-space: nowrap;
   cursor: pointer;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease, transform var(--aden-control-duration) ease;
+}
+
+.aden-chat-launcher > span[aria-hidden] {
+  color: var(--aden-signal);
+  font-size: 1rem;
 }
 
 .aden-chat-launcher[hidden] {
   display: none;
 }
 
-/* Yellow at rest so it stands out; hovering swaps the two colours, as the theme's tools do. */
-.aden-chat-launcher:hover,
+.aden-chat-launcher:hover {
+  color: var(--aden-signal);
+  background-color: color-mix(in srgb, var(--aden-signal) 12%, var(--aden-glass-bg));
+}
+
 .aden-chat-launcher[aria-expanded="true"] {
-  background: var(--background-color);
-  color: var(--primary-color);
+  border-color: color-mix(in srgb, var(--aden-signal) 70%, transparent);
+}
+
+.aden-chat-launcher:active {
+  transform: scale(.97);
 }
 
 .aden-chat-launcher[aria-busy="true"] {
@@ -279,7 +287,7 @@ body.navbar-drawer-show .navbar-drawer {
 }
 
 html .page-container .right-side-tools-container {
-  bottom: calc(5% + 47px);
+  bottom: calc(5% + 52px);
 }
 
 /* The theme hides its tools over the home banner (where phones show the social buttons) and at the
@@ -302,13 +310,13 @@ body:has(.right-side-tools-container.hide) .aden-chat-launcher {
 
 @media (max-width: 768px) {
   .aden-chat-launcher {
-    height: 37.8px;
-    padding: 0 0.75rem;
+    height: 40px;
+    padding: 0 0.85rem;
     font-size: 0.82rem;
   }
 
   html .page-container .right-side-tools-container {
-    bottom: calc(5% + 39.8px);
+    bottom: calc(5% + 48px);
   }
 }
 

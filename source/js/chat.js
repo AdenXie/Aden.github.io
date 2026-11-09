@@ -49,7 +49,7 @@
       rate_limited: t('请求较多，请稍等一分钟再发送。', 'Too many requests. Wait a minute before sending again.'),
       provider_auth: t('聊天服务配置异常，请稍后再试。', 'Chat configuration needs attention. Please try again later.'),
       provider_unavailable: t('模型暂时无法响应，请稍后再试。', 'The model is unavailable. Please try again later.'),
-      provider_connect_timeout: t('网站暂时无法连接模型服务，请稍后再试。', 'The site could not connect to the model service. Please try again later.'),
+      provider_connect_timeout: t('AI 服务商暂时无法连接，请稍后再试。', 'The AI provider can’t be reached right now. Please try again later.'),
       timeout: t('等待超时，请稍后重试。', 'The request timed out. Please try again later.'),
       interrupted: t('连接中断，已收到的内容保留在下方。可重新发送问题。', 'Connection interrupted. Received text is kept below. You can send your question again.'),
       invalid_request: t('对话过长或消息格式有误，请清空后重新开始。', 'The conversation is too long or invalid. Clear it to start again.')
@@ -124,6 +124,8 @@
       progress.dataset.pending = '';
       progress.textContent = t('正在等待模型回答…', 'Waiting for the model…');
       reply.article.insertBefore(progress, reply.body);
+      // A slow connection usually means the provider is struggling; say so instead of a silent wait.
+      const slow = setTimeout(() => { if (!answer) progress.textContent = t('仍在连接 AI 服务商…', 'Still connecting to the AI provider…'); }, 6000);
       const sendHadFocus = document.activeElement === send;
       input.value = ''; controls(); scroll();
       if (sendHadFocus) stop.focus({ preventScroll: true });
@@ -196,7 +198,7 @@
         retryPrompt = prompt;
         input.value = prompt;
       } finally {
-        clearTimeout(timeout); if (frame !== null) cancelAnimationFrame(frame);
+        clearTimeout(timeout); clearTimeout(slow); if (frame !== null) cancelAnimationFrame(frame);
         await reader?.cancel().catch(() => {});
         if (active === controller && !scope.signal.aborted) {
           const stopHadFocus = document.activeElement === stop;
@@ -222,7 +224,9 @@
       const previous = active; active = null; previous?.abort(); history = []; retryPrompt = null;
       transcript.querySelectorAll('.chat-message').forEach(el => el.remove());
       empty.hidden = false; input.value = ''; controls();
-      setStatus(available ? t('对话仅在当前页面保留。', 'This conversation stays only on this page.') : errors.not_configured);
+      // Sending stays possible when the probe fails: the provider may be back by the time the visitor asks.
+      if (available && data.reachable === false) setStatus(errors.provider_connect_timeout, true);
+      else setStatus(available ? t('对话仅在当前页面保留。', 'This conversation stays only on this page.') : errors.not_configured);
     }
     function setOpen(open) {
       root.hidden = !open;
@@ -250,7 +254,7 @@
     const check = new AbortController();
     const checkTimeout = setTimeout(() => check.abort(), 10000);
     scope.signal.addEventListener('abort', () => check.abort(), { once: true });
-    fetch('/api/chat', { signal: check.signal, cache: 'no-store' }).then(async response => {
+    fetch('/api/chat?probe=1', { signal: check.signal, cache: 'no-store' }).then(async response => {
       if (!response.ok) throw new Error('unavailable');
       const data = await response.json();
       if (scope.signal.aborted) return;

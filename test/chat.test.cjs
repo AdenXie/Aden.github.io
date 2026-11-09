@@ -138,3 +138,21 @@ test('rate limit blocks sixth request for the same source on an instance', async
   for(let i=0;i<5;i++) await call({headers});
   const res = await call({headers}); assert.equal(calls,5); assert.equal(res.statusCode,429); assert.equal(res.headers['retry-after'],'60');
 });
+test('probe reports provider reachability and is cached', async () => {
+  let calls = 0;
+  const call = harness(async (_url, init) => { calls++; assert.equal(init.method, 'HEAD'); throw Object.assign(new Error('fetch failed'), { cause: { code: 'UND_ERR_CONNECT_TIMEOUT' } }); });
+  const first = JSON.parse((await call({ method: 'GET', url: '/api/chat?probe=1' })).output);
+  assert.equal(first.reachable, false);
+  assert.equal(JSON.parse((await call({ method: 'GET', url: '/api/chat?probe=1' })).output).reachable, false);
+  assert.equal(calls, 1);
+  assert.equal('reachable' in JSON.parse((await call({ method: 'GET', url: '/api/chat' })).output), false);
+});
+test('a recent connection timeout fails new requests at once', async () => {
+  let calls = 0;
+  const call = harness(async () => { calls++; throw Object.assign(new Error('fetch failed'), { cause: { code: 'UND_ERR_CONNECT_TIMEOUT', message: 'Connect Timeout Error (attempted address: 143.64.80.214:443)' } }); });
+  assert.equal(JSON.parse((await call()).output).error, 'provider_connect_timeout');
+  const again = await call();
+  assert.equal(again.statusCode, 502);
+  assert.equal(JSON.parse(again.output).error, 'provider_connect_timeout');
+  assert.equal(calls, 1);
+});

@@ -8,6 +8,19 @@ const SYSTEM_WITH_ARTICLE = 'You are a helpful assistant on Aden’s Space. Repl
 const REASONING_EFFORTS = new Set(['low', 'medium', 'xhigh']);
 const apiKey = () => process.env.AI_API_KEY?.trim() || process.env.BIGMODEL_API_KEY?.trim();
 const model = () => process.env.AI_MODEL?.trim();
+// Provider reachability, remembered per instance: a reachability probe (GET ?probe=1, cached 30 s) and
+// the latest connection timeout. While the provider failed to connect in the last 20 s, new requests fail
+// at once instead of waiting out another 10 s connection timeout.
+let provider = { at: 0, ok: true, failedAt: 0 };
+async function reachable() {
+  if (Date.now() - provider.at < 30000) return provider.ok;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 4000);
+  let ok = false;
+  try { const head = await fetch(ENDPOINT, { method: 'HEAD', signal: controller.signal }); await head.body?.cancel(); ok = true; } catch {} finally { clearTimeout(timer); }
+  provider = { ...provider, at: Date.now(), ok };
+  return ok;
+}
 // Best-effort per-instance protection; WAF is the cross-instance rate limiter.
 // Only short-lived hashed IP counters are kept, never message content.
 const buckets = new Map();
@@ -71,7 +84,11 @@ async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
   res.setHeader('X-Content-Type-Options', 'nosniff');
   const configured = Boolean(apiKey() && model()) && process.env.CHAT_ENABLED !== 'false';
-  if (req.method === 'GET') return json(res, 200, { available: configured, model: configured ? model() : null });
+  if (req.method === 'GET') {
+    const body = { available: configured, model: configured ? model() : null };
+    if (configured && /[?&]probe=1(?:&|$)/.test(req.url || '')) body.reachable = await reachable();
+    return json(res, 200, body);
+  }
   if (req.method !== 'POST') { res.setHeader('Allow', 'GET, POST'); return json(res, 405, { error: 'method_not_allowed' }); }
   const host = req.headers.host;
   if (req.headers.origin && req.headers.origin !== `https://${host}` && !(process.env.NODE_ENV !== 'production' && req.headers.origin === `http://${host}`)) return json(res, 403, { error: 'forbidden' });
@@ -89,6 +106,7 @@ async function handler(req, res) {
   // Behind Alibaba Cloud ESA, Vercel sees the edge node; ESA's managed transform adds the visitor's address.
   const ip = String(req.headers['ali-real-client-ip'] || req.headers['x-vercel-forwarded-for'] || req.socket?.remoteAddress || 'unknown').split(',')[0].trim();
   if (!allowed(ip)) { res.setHeader('Retry-After', '60'); return json(res, 429, { error: 'rate_limited' }); }
+  if (Date.now() - provider.failedAt < 20000) return json(res, 502, { error: 'provider_connect_timeout' });
   const controller = new AbortController();
   const abort = () => controller.abort();
   req.once('aborted', abort); res.once('close', abort);
@@ -108,6 +126,7 @@ async function handler(req, res) {
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey()}` },
         body
       });
+      provider = { at: Date.now(), ok: true, failedAt: 0 };
       const retryAfter = Number(upstream.headers.get('retry-after') ?? NaN);
       if (upstream.status !== 429 || attempt >= 2 || !(retryAfter <= 5)) break;
       await upstream.body?.cancel();
@@ -168,6 +187,7 @@ async function handler(req, res) {
     const connectionTimeout = code === 'UND_ERR_CONNECT_TIMEOUT';
     // Log only an allowlisted failure code; never prompts, credentials or bodies.
     const safeCode = ['UND_ERR_CONNECT_TIMEOUT', 'ENOTFOUND', 'EAI_AGAIN', 'ECONNRESET', 'ECONNREFUSED', 'CERT_HAS_EXPIRED', 'UNABLE_TO_VERIFY_LEAF_SIGNATURE'].includes(code) ? code : 'UNKNOWN';
+    if (connectionTimeout) provider = { at: Date.now(), ok: false, failedAt: Date.now() };
     const addresses = connectionTimeout ? [...new Set((cause?.cause?.message || '').match(/\b(?:\d{1,3}\.){3}\d{1,3}\b/g) || [])] : [];
     console.warn(JSON.stringify({ event: 'chat_upstream_failure', phase: res.headersSent ? 'stream' : 'connect', code: safeCode, addresses }));
     const error = timedOut ? 'timeout' : res.headersSent ? 'interrupted' : connectionTimeout ? 'provider_connect_timeout' : 'provider_unavailable';

@@ -1,0 +1,139 @@
+/* Floating tools as one glass dock: the theme's settings and scroll-progress buttons share a single
+   translucent capsule (BoardUI Button Group structure: one frame, hairline dividers, rounded outer
+   corners), and the Ask AI launcher below it uses the same material. The theme's side-tools.styl is
+   replaced by this file (tools/prepare-site.cjs), so its behaviour rules are restated here. */
+:root {
+  --aden-glass-bg: color-mix(in srgb, var(--background-color) 62%, transparent);
+  --aden-glass-solid: var(--background-color);
+  --aden-glass-border: rgb(255 255 255 / 14%);
+  --aden-glass-divider: rgb(255 255 255 / 16%);
+  --aden-glass-highlight: inset 0 1px 0 rgb(255 255 255 / 10%);
+  --aden-glass-shadow: 0 10px 30px rgb(0 0 0 / 28%);
+  --aden-glass-hover: color-mix(in srgb, var(--aden-signal) 16%, transparent);
+  --aden-glass-blur: blur(18px) saturate(1.6);
+}
+
+html.light {
+  --aden-glass-border: rgb(0 0 0 / 10%);
+  --aden-glass-divider: rgb(0 0 0 / 12%);
+  --aden-glass-highlight: inset 0 1px 0 rgb(255 255 255 / 60%);
+  --aden-glass-shadow: 0 10px 30px rgb(0 0 0 / 12%);
+  --aden-glass-hover: color-mix(in srgb, var(--aden-signal) 14%, transparent);
+}
+
+.side-tools-container :is(.hidden-tools-list, .visible-tools-list),
+.aden-chat-launcher {
+  border: 1px solid var(--aden-glass-border);
+  background: var(--aden-glass-bg);
+  box-shadow: var(--aden-glass-shadow), var(--aden-glass-highlight);
+  -webkit-backdrop-filter: var(--aden-glass-blur);
+  backdrop-filter: var(--aden-glass-blur);
+}
+
+/* Without backdrop blur, or when the visitor asks for less transparency, the dock is solid. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .side-tools-container :is(.hidden-tools-list, .visible-tools-list),
+  .aden-chat-launcher { background: var(--aden-glass-solid); }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .side-tools-container :is(.hidden-tools-list, .visible-tools-list),
+  .aden-chat-launcher {
+    background: var(--aden-glass-solid);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+.side-tools-container :is(.hidden-tools-list, .visible-tools-list) {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 3px;
+  border-radius: 15px;
+  list-style: none;
+}
+
+/* The buttons sit inside the capsule: only the icon and a grey hairline between neighbours, no fill,
+   border or shadow of their own; hover lights the icon in signal yellow on a faint yellow tint. With the
+   fixed home banner, Redefine's inline style paints these buttons with !important colour variables, so
+   the variables are set here instead of the background itself. */
+.side-tools-container .right-bottom-tools {
+  --background-color-transparent-80: transparent;
+  --primary-color: var(--aden-glass-hover);
+  position: relative;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  color: var(--default-text-color);
+  font-size: 1.15rem;
+  cursor: pointer;
+  transition: background-color var(--aden-control-duration) ease, transform var(--aden-control-duration) ease;
+}
+
+.side-tools-container .right-bottom-tools i {
+  color: inherit;
+}
+
+.side-tools-container .right-bottom-tools + .right-bottom-tools::before {
+  position: absolute;
+  top: -1px;
+  right: 9px;
+  left: 9px;
+  height: 1px;
+  background: var(--aden-glass-divider);
+  content: "";
+}
+
+.side-tools-container .right-bottom-tools:hover {
+  background: var(--aden-glass-hover);
+  color: var(--aden-signal);
+}
+
+.side-tools-container .right-bottom-tools:active {
+  transform: scale(.94);
+}
+
+/* Settings open the hidden tools above the dock; they slide in from the right edge. */
+.side-tools-container .hidden-tools-list {
+  margin-bottom: 8px;
+  opacity: 0;
+  transform: translateX(250%);
+  transition: transform .2s ease, opacity .2s ease;
+}
+
+.side-tools-container .hidden-tools-list.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Scroll progress: hidden at the top of the page, the percentage at rest, the arrow on hover. */
+.side-tools-container .tool-scroll-to-top { display: none; }
+.side-tools-container .tool-scroll-to-top.show { display: flex; }
+.side-tools-container .tool-scroll-to-top .arrow-up { display: none; }
+.side-tools-container .tool-scroll-to-top .percent {
+  display: flex;
+  font: 520 .9rem var(--aden-mono-font);
+  font-variant-numeric: tabular-nums;
+}
+.side-tools-container .tool-scroll-to-top:hover .percent { display: none; }
+.side-tools-container .tool-scroll-to-top:hover .arrow-up { display: flex; }
+
+@media (max-width: 768px) {
+  .side-tools-container .right-bottom-tools {
+    width: 38px;
+    height: 38px;
+    font-size: 1.05rem;
+  }
+
+  .side-tools-container .tool-expand-width,
+  .side-tools-container .tool-aplayer { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .side-tools-container :is(.hidden-tools-list, .right-bottom-tools) { transition: none; }
+  .side-tools-container .right-bottom-tools:active { transform: none; }
+}
