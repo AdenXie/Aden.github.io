@@ -99,6 +99,48 @@ footer.footer-container {
   border-top: 1px solid rgb(242 233 78 / 18%);
 }
 
+/* Footer: one quiet size for the motto, status line, copyright and counters; links read as links
+   on hover only, so the block stays a single grey paragraph. */
+footer.footer .info-container {
+  padding-inline: 1rem;
+  font-size: .85rem;
+  line-height: 1.8;
+}
+
+footer.footer .info-container a {
+  color: var(--second-text-color);
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+}
+
+footer.footer .info-container a:hover {
+  color: var(--aden-signal);
+}
+
+/* Friends page: titles on the same scale as the archive pages, cards on the shared panel (12px radius,
+   hairline border, second background) instead of the theme's flat shadow. */
+.friends-link-container > h1 {
+  margin-bottom: 1rem;
+  font: 450 2rem/1.1 var(--aden-interface-font);
+  letter-spacing: -0.02em;
+}
+
+.friends-link-container h2 {
+  font: 520 1.35rem/1.3 var(--aden-interface-font);
+}
+
+.friends-link-container li > a > div {
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  background: var(--second-background-color);
+  box-shadow: none;
+  transition: border-color var(--aden-control-duration) ease, background-color var(--aden-control-duration) ease;
+}
+
+.friends-link-container li > a:is(:hover, :focus-visible) > div {
+  border-color: color-mix(in srgb, var(--aden-signal) 55%, var(--border-color));
+  background: var(--third-background-color);
+}
+
 /* Status page pointer, added by optimize-site.cjs under the footer motto with the motto's classes. */
 footer .aden-status-hint a {
   font: inherit;

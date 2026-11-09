@@ -209,9 +209,17 @@ async function optimize(directory = 'public') {
         if (link.attr('href') === pathname) link.attr('aria-current', 'page');
       });
     }
-    // 404 "signal lost" screen (lib/styles/cyber.css) shows just the code.
+    // 404 panel (lib/styles/cyber.css) shows just the code and a standard-size primary button. Older
+    // English snapshots may still carry the cut-corner frame layer; it is no longer drawn.
     $('.nf-text h1').text('404');
-    $('.nf-container').not(':has(.aden-nf-frame)').append('<span class="aden-nf-frame" aria-hidden="true"></span>');
+    // Copyright labels come from the theme as "创建于 :" or "标题:"; give each one a single colon in the
+    // page language so the label column reads evenly.
+    $('.article-copyright-info-container li > strong').each((_, el) => {
+      const label = $(el);
+      label.text(label.text().replace(/\s*[:：]\s*$/, $('html').attr('lang')?.startsWith('en') ? ':' : '：'));
+    });
+    $('.nf-button a.button').removeClass('large center');
+    $('.aden-nf-frame').remove();
     // Point visitors who hit errors to the status page (footer on every page, plus the 404 panel).
     // Added after translation, so cached English pages are replaced rather than duplicated.
     {
