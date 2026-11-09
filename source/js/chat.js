@@ -225,9 +225,7 @@
       const previous = active; active = null; previous?.abort(); history = []; retryPrompt = null;
       transcript.querySelectorAll('.chat-message').forEach(el => el.remove());
       empty.hidden = false; input.value = ''; controls();
-      // Sending stays possible when the probe fails: the provider may be back by the time the visitor asks.
-      if (available && data.reachable === false) setStatus(errors.provider_connect_timeout, true);
-      else setStatus(available ? t('对话仅在当前页面保留。', 'This conversation stays only on this page.') : errors.not_configured);
+      setStatus(available ? t('对话仅在当前页面保留。', 'This conversation stays only on this page.') : errors.not_configured);
     }
     function setOpen(open) {
       root.hidden = !open;
@@ -263,7 +261,9 @@
       if (configuredModel) assistantLabel = configuredModel;
       available = data.available === true; controls();
       if (available && !root.hidden && !matchMedia('(pointer: coarse)').matches) input.focus();
-      setStatus(available ? t('对话仅在当前页面保留。', 'This conversation stays only on this page.') : errors.not_configured);
+      // Sending stays possible when the probe fails: the provider may be back by the time the visitor asks.
+      if (available && data.reachable === false) setStatus(errors.provider_connect_timeout, true);
+      else setStatus(available ? t('对话仅在当前页面保留。', 'This conversation stays only on this page.') : errors.not_configured);
     }).catch(() => {
       if (!scope.signal.aborted) { available = true; controls(); setStatus(t('服务状态暂不可用，可以尝试发送。', 'Service status unavailable. You can try sending a message.')); }
     }).finally(() => clearTimeout(checkTimeout));
