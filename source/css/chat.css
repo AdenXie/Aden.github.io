@@ -10,7 +10,9 @@
 #aden-chat button { min-height: var(--aden-control-height); border: 1px solid var(--border-color); border-radius: var(--aden-control-radius); padding: .4rem .75rem; background: var(--second-background-color); color: var(--first-text-color); font: 500 .8rem var(--aden-interface-font); cursor: pointer; white-space: nowrap; }
 #aden-chat button:hover:not(:disabled) { background: var(--third-background-color); }
 #aden-chat button:disabled { opacity: .5; cursor: not-allowed; }
-#aden-chat :is(button,textarea,input,.chat-transcript):focus-visible { outline: 2px solid var(--aden-cyan); outline-offset: 2px; }
+#aden-chat :is(button,input,.chat-transcript):focus-visible { outline: 2px solid var(--aden-cyan); outline-offset: 2px; }
+/* The textarea sits inside the rounded composer, which shows focus for it (:focus-within below); a second square ring would overlap the frame. */
+#aden-chat textarea:focus { outline: none; }
 #aden-chat .chat-context { display: flex; align-items: center; gap: .6rem; min-height: var(--aden-control-height); margin: 0 0 .5rem; padding: .35rem .6rem; border: 1px solid var(--border-color); border-radius: var(--aden-control-radius); background: var(--second-background-color); color: var(--second-text-color); font-size: .78rem; cursor: pointer; }
 #aden-chat .chat-context span { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 #aden-chat .chat-context input { flex: none; width: 15px; height: 15px; margin: 0; accent-color: var(--aden-signal); cursor: pointer; }
@@ -44,7 +46,7 @@
 #aden-chat .chat-privacy { margin: .35rem 0 0; font-size: .68rem; line-height: 1.45; color: var(--second-text-color); }
 #aden-chat [data-chat="close"] { min-width: var(--aden-control-height); }
 #aden-chat [data-chat="send"]:hover:not(:disabled) { background: color-mix(in srgb, var(--aden-signal) 85%, var(--background-color)); }
-#aden-chat .chat-composer:focus-within { border-color: var(--aden-cyan); }
+#aden-chat .chat-composer:focus-within { border-color: var(--aden-cyan); box-shadow: 0 0 0 1px var(--aden-cyan); }
 #aden-chat .chat-status:empty { display: none; }
 #aden-chat .chat-message-progress[data-pending]::before {
   content: ""; display: inline-block; width: 6px; height: 6px; margin-inline-end: .45rem;
