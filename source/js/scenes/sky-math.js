@@ -5,10 +5,10 @@
 const RAD = Math.PI / 180;
 
 // Representative point per country (where most people live, not the geographic centre),
-// by ISO 3166-1 alpha-2 code as Vercel reports it. Anything else, or no country: Sydney.
-export const DEFAULT_PLACE = [-33.87, 151.21];
+// by ISO 3166-1 alpha-2 code as Vercel reports it. Anything else, or no country: China.
+export const DEFAULT_PLACE = [32.0, 114.0];
 const PLACES = {
-  AU: DEFAULT_PLACE, NZ: [-37.8, 175.3], CN: [32.0, 114.0], HK: [22.3, 114.2], MO: [22.2, 113.5],
+  AU: [-33.87, 151.21], NZ: [-37.8, 175.3], CN: DEFAULT_PLACE, HK: [22.3, 114.2], MO: [22.2, 113.5],
   TW: [24.5, 121.0], JP: [35.4, 137.0], KR: [37.0, 127.3], KP: [39.0, 125.8], MN: [47.9, 106.9],
   SG: [1.35, 103.8], MY: [3.4, 102.0], TH: [14.5, 100.6], VN: [16.0, 106.5], PH: [13.0, 121.5],
   ID: [-6.6, 108.5], KH: [11.8, 104.9], LA: [17.9, 102.6], MM: [19.5, 96.2], BD: [23.8, 90.4],

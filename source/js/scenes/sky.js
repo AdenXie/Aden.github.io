@@ -1,4 +1,4 @@
-// Home banner scene: the real sky over the visitor's country right now (Sydney when the
+// Home banner scene: the real sky over the visitor's country right now (China when the
 // country is unknown), always as a dark night: catalogue stars, faint constellation
 // figures, the Milky Way, the bright planets and a generic ridge line. The camera faces
 // whichever way shows the most Milky Way. No labels and no interaction beyond a slight

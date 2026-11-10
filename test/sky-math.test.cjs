@@ -57,11 +57,12 @@ test('planets: the 2020 great conjunction and the 2020 Mars opposition', async (
   assert(venus.mag < -3.5 && venus.mag > -5, `Venus magnitude ${venus.mag}`);
 });
 
-test('places: country codes, case-insensitive, Sydney otherwise', async () => {
+test('places: country codes, case-insensitive, China otherwise', async () => {
   const m = await load();
   assert.deepEqual(m.placeOf('AU'), [-33.87, 151.21]);
   assert.deepEqual(m.placeOf('cn'), m.placeOf('CN'));
-  assert.notDeepEqual(m.placeOf('CN'), m.DEFAULT_PLACE);
+  assert.deepEqual(m.placeOf('CN'), m.DEFAULT_PLACE);
+  assert.notDeepEqual(m.placeOf('AU'), m.DEFAULT_PLACE);
   for (const c of [undefined, null, '', 'XX', 42, '__proto__', 'constructor']) assert.deepEqual(m.placeOf(c), m.DEFAULT_PLACE, String(c));
 });
 
