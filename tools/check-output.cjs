@@ -204,10 +204,10 @@ function checkOutput(directory = 'public') {
     assert(/font-family:["']?MiSans VF/.test(css), `${file}: missing MiSans`);
     assert(css.includes('https://cdn-file.hyperos.mi.com/mi-font-service/misans_vf/'), `${file}: missing official MiSans slices`);
     assert(css.includes('unicode-range:'), `${file}: missing on-demand font ranges`);
-    assert(!/Newsreader|Plus Jakarta Sans|Aden Han|Geist Variable/.test(css), `${file}: retired prose font remains`);
+    assert(!/Newsreader|Plus Jakarta Sans|Aden Han|Geist Variable|Geist Mono/.test(css), `${file}: retired prose font remains`);
     assert(css.includes('Chillax-Variable'), `${file}: missing theme branding font`);
   }
-  for (const family of ['reading', 'Geist']) assert(!fs.existsSync(path.join(root, 'fonts', family)), `Retired font directory: ${family}`);
+  for (const family of ['reading', 'Geist', 'GeistMono']) assert(!fs.existsSync(path.join(root, 'fonts', family)), `Retired font directory: ${family}`);
   assert(fs.existsSync(path.join(root, 'fonts/Chillax/Chillax-Variable.woff2')), 'Missing theme branding font');
   console.log(`Verified ${pages} pages: local asset paths, scoped scripts, lazy search, comment wiring and reading fonts.`);
   return pages;

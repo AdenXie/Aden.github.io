@@ -54,7 +54,7 @@ function pruneOutput(out) {
     if (!references(pathname)) bytes += remove(path.join(out, pathname));
   }
   if (!references('/fontawesome/')) bytes += remove(path.join(out, 'fontawesome'));
-  for (const family of ['Geist']) {
+  for (const family of ['Geist', 'GeistMono']) {
     if (!references(`/fonts/${family}/`)) bytes += remove(path.join(out, 'fonts', family));
   }
 
@@ -106,7 +106,7 @@ async function optimize(directory = 'public') {
       if ($(el).attr(attr)) $(el).attr(attr, localize($(el).attr(attr)));
     });
     // Cached English pages can still reference the retired theme typefaces.
-    $('link[href*="/fonts/Geist/"]').remove();
+    $('link[href*="/fonts/Geist/"], link[href*="/fonts/GeistMono/"]').remove();
     $('link[data-aden-font-connect]').remove();
     $('head').append('<link rel="preconnect" href="https://cdn-file.hyperos.mi.com" crossorigin data-aden-font-connect>');
     $('.aden-font-credit').remove();

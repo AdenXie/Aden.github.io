@@ -89,7 +89,11 @@ async function prepare() {
     const dest = path.join(target, 'source/css', file);
     fs.writeFileSync(dest, fs.readFileSync(dest, 'utf8').replaceAll('Geist Variable', 'MiSans VF'));
   }
-  for (const font of ['Geist/geist']) {
+  // Geist Mono is retired: code uses the visitor's own monospace font (no download); Waline drops it.
+  replace('source/css/common/codeblock/highlight.styl', "hexo-config('articles.code_block.font.family'), 'Geist Mono', Courier, monospace !important", "hexo-config('articles.code_block.font.family'), ui-monospace, 'Cascadia Code', Consolas, 'SF Mono', Menlo, 'Roboto Mono', monospace !important");
+  replace('source/css/common/codeblock/highlight.styl', "font-family 'Geist Mono', Courier, monospace !important", "font-family ui-monospace, 'Cascadia Code', Consolas, 'SF Mono', Menlo, 'Roboto Mono', monospace !important");
+  replace('source/css/layout/_partials/comments/waline.styl', "'Andale Mono', 'Geist Mono', monospace", "'Andale Mono', monospace");
+  for (const font of ['Geist/geist', 'GeistMono/geist-mono']) {
     replace('layout/components/header/head.ejs', `    <%- renderCSS('fonts/${font}.css') %>`, '');
   }
   // Search and the mobile menu were clickable <div>s. Make them buttons so keyboards can reach and
