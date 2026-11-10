@@ -32,7 +32,11 @@ vec3 extinct(vec3 c, float s) {
   return c * vec3(pow(10.0, -0.4 * 0.20 * x), pow(10.0, -0.4 * 0.27 * x), pow(10.0, -0.4 * 0.38 * x));
 }`;
 
-export function mount(container, { fps = 60, maxDpr = 1.5, lite = false } = {}) {
+// The loader's lite settings (lower pixel ratio, fewer stars) made phones visibly soft;
+// this scene is light enough to draw at full sharpness everywhere, so lite only lowers
+// the frame rate (the sky barely moves).
+export function mount(container, { lite = false } = {}) {
+  const fps = lite ? 30 : 60;
   const controller = new AbortController();
   let disposed = false, stop = () => {};
   const country = cachedCountry();
@@ -40,22 +44,28 @@ export function mount(container, { fps = 60, maxDpr = 1.5, lite = false } = {}) 
     const timer = setTimeout(() => resolve(null), LOCATION_WAIT_MS);
     addEventListener('aden:visitor-location', e => { clearTimeout(timer); resolve(e.detail?.country || null); }, { once: true, signal: controller.signal });
   });
-  // The 4096 image is small to download but 32 MB on the GPU; low-memory devices get 2048.
-  const texture = new THREE.TextureLoader().loadAsync(`/images/sky/milkyway-${(navigator.deviceMemory ?? 8) < 4 ? 2048 : 4096}-v1.webp`);
+  // Milky Way in two layers: a small whole-sky base for the faint glow and the band in
+  // galactic coordinates at full detail (8192 wide, ~57 MB on the GPU; 4096 on devices
+  // reporting under 4 GB).
+  const loader = new THREE.TextureLoader();
+  const textures = Promise.all([
+    loader.loadAsync('/images/sky/milkyway-2048-v1.webp'),
+    loader.loadAsync(`/images/sky/milkyway-band-${(navigator.deviceMemory ?? 8) < 4 ? 4096 : 8192}-v1.webp`),
+  ]);
   const data = fetch('/images/sky/stars-v1.bin', { signal: controller.signal }).then(r => {
     if (!r.ok) throw new Error(`sky data ${r.status}`);
     return r.arrayBuffer();
   });
-  Promise.all([data, texture, located]).then(([buffer, map, first]) => {
-    if (disposed) { map.dispose(); return; }
-    stop = build(container, { fps, maxDpr, lite, sky: decodeSky(buffer), map, country: first, signal: controller.signal });
+  Promise.all([data, textures, located]).then(([buffer, maps, first]) => {
+    if (disposed) { maps.forEach(m => m.dispose()); return; }
+    stop = build(container, { fps, sky: decodeSky(buffer), maps, country: first, signal: controller.signal });
   }).catch(() => {});
   return () => { disposed = true; controller.abort(); stop(); };
 }
 
-function build(container, { fps, maxDpr, lite, sky, map, country, signal }) {
+function build(container, { fps, sky, maps, country, signal }) {
   const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, maxDpr));
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   renderer.toneMapping = THREE.NoToneMapping;
   renderer.domElement.className = 'aden-scene-canvas';
   container.prepend(renderer.domElement);
@@ -91,26 +101,41 @@ function build(container, { fps, maxDpr, lite, sky, map, country, signal }) {
   const celestial = new THREE.Group();
   scene.add(celestial);
 
-  // Milky Way: equirectangular, RA 0h at the centre, RA growing to the left.
-  map.colorSpace = THREE.SRGBColorSpace;
-  map.generateMipmaps = false;
-  map.minFilter = THREE.LinearFilter;
-  map.wrapS = THREE.RepeatWrapping;
+  // Milky Way. Base: equirectangular, RA 0h at the centre growing to the left. Band:
+  // galactic longitude 0 at the centre growing to the left, latitude -46 (bottom) to +30
+  // (top), as tools/build-sky-data.cjs writes it.
+  for (const map of maps) {
+    map.colorSpace = THREE.SRGBColorSpace;
+    map.generateMipmaps = false;
+    map.minFilter = THREE.LinearFilter;
+    map.wrapS = THREE.RepeatWrapping;
+  }
   celestial.add(new THREE.Mesh(new THREE.SphereGeometry(1500, 96, 48), new THREE.ShaderMaterial({
     side: THREE.BackSide, depthWrite: false, transparent: true, blending: THREE.AdditiveBlending,
-    uniforms: { uMap: { value: map }, uExposure: { value: 1.35 }, uFloor: { value: 0.012 } },
+    uniforms: { uBase: { value: maps[0] }, uBand: { value: maps[1] }, uExposure: { value: 1.25 }, uFloor: { value: 0.012 }, uSaturation: { value: 0.68 } },
     vertexShader: 'varying vec3 vEq; varying float vS; void main() { vEq = normalize(position); vS = normalize((modelMatrix * vec4(position, 1.0)).xyz).y; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
     fragmentShader: /* glsl */ `
-      uniform sampler2D uMap; uniform float uExposure; uniform float uFloor; varying vec3 vEq; varying float vS;
+      uniform sampler2D uBase; uniform sampler2D uBand; uniform float uExposure; uniform float uFloor; uniform float uSaturation;
+      varying vec3 vEq; varying float vS;
       ${EXTINCTION_GLSL}
       void main() {
+        const float TAU = 6.28318530718, PI = 3.14159265359;
         float ra = atan(vEq.y, vEq.x), dec = asin(clamp(vEq.z, -1.0, 1.0));
-        vec2 uv = vec2(fract(0.5 - ra / 6.28318530718), 0.5 + dec / 3.14159265359);
-        // Black level: the image's faint background (and its stretched noise near the poles) goes to black.
-        vec3 col = max(texture2D(uMap, uv).rgb - uFloor, 0.0) / (1.0 - uFloor) * uExposure;
-        // The equirectangular image pinches into streaks at the celestial poles, which sit
-        // far from the Milky Way (galactic latitude 27 degrees); fade the last ~20 degrees.
-        col *= smoothstep(0.985, 0.93, abs(vEq.z));
+        vec3 base = texture2D(uBase, vec2(fract(0.5 - ra / TAU), 0.5 + dec / PI)).rgb;
+        // The equirectangular base pinches into streaks at the celestial poles; fade its
+        // last ~20 degrees there (the band covers the Milky Way near them).
+        base *= smoothstep(0.985, 0.93, abs(vEq.z));
+        // Equatorial to galactic (J2000).
+        vec3 g = vec3(dot(vec3(-0.0548755604, -0.8734370902, -0.4838350155), vEq),
+                      dot(vec3(0.4941094279, -0.4448296300, 0.7469822445), vEq),
+                      dot(vec3(-0.8676661490, -0.1980763734, 0.4559837762), vEq));
+        float l = atan(g.y, g.x), b = degrees(asin(clamp(g.z, -1.0, 1.0)));
+        vec3 band = texture2D(uBand, vec2(fract(0.5 - l / TAU), (b + 46.0) / 76.0)).rgb;
+        vec3 col = mix(base, band, smoothstep(-46.0, -40.0, b) * (1.0 - smoothstep(24.0, 30.0, b)));
+        // Black level: the image's faint background goes to black.
+        col = max(col - uFloor, 0.0) / (1.0 - uFloor) * uExposure;
+        // Muted colour: the dust lanes stay warm without turning orange.
+        col = mix(vec3(dot(col, vec3(0.2126, 0.7152, 0.0722))), col, uSaturation);
         col = extinct(col, vS) * smoothstep(-0.02, 0.06, vS);
         gl_FragColor = vec4(col, 1.0);
         ${colorOut}
@@ -119,7 +144,7 @@ function build(container, { fps, maxDpr, lite, sky, map, country, signal }) {
 
   // Stars: catalogue (to magnitude 6) and the fainter dust drawn from the Milky Way.
   {
-    const dust = lite ? sky.dust.slice(0, 10000) : sky.dust;
+    const dust = sky.dust;
     const n = sky.stars.length + dust.length;
     const pos = new Float32Array(n * 3), mag = new Float32Array(n), col = new Float32Array(n * 3), phase = new Float32Array(n);
     let seed = 7;
@@ -277,7 +302,7 @@ function build(container, { fps, maxDpr, lite, sky, map, country, signal }) {
     sizing.disconnect();
     container.classList.remove('aden-scene-ready');
     scene.traverse(o => { o.geometry?.dispose(); [].concat(o.material || []).forEach(m => m.dispose()); });
-    map.dispose();
+    maps.forEach(m => m.dispose());
     renderer.dispose();
     renderer.forceContextLoss();
     renderer.domElement.remove();

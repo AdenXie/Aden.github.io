@@ -6,7 +6,13 @@
 //   mw.f32                                     NASA SVS milkyway_2020_4k.exr as raw
 //                                              float32 RGB, 4096x2048, rows bottom-up
 //                                              (tools/sky-exr-to-raw.py in Blender).
-// Writes source/images/sky/: stars-v1.bin and milkyway-{2048,4096}-v1.webp.
+//   mwgal.f32                                  milkyway_2020_8k_gal.exr, galactic latitude
+//                                              -46 to +30 only (same script, "-46 30"):
+//                                              8192x1730.
+// Writes source/images/sky/: stars-v1.bin, milkyway-2048-v1.webp (whole sky, equatorial,
+// the faint base) and milkyway-band-{4096,8192}-v1.webp (the band in galactic
+// coordinates, l = 0 at the centre growing to the left, b from BAND[0] at the bottom to
+// BAND[1] at the top; scenes/sky.js uses the same range).
 //
 // stars-v1.bin, little-endian:
 //   header  uint32 starCount, segmentCount, dustCount
@@ -26,6 +32,7 @@ const out = path.join(__dirname, '../source/images/sky');
 fs.mkdirSync(out, { recursive: true });
 
 const W = 4096, H = 2048, DUST = 24000;
+const GW = 8192, GH = 1730, BAND = [-46, 30];
 const ra16 = lon => Math.round((((lon % 360) + 360) % 360) / 360 * 65536) % 65536;
 const dec16 = d => Math.round(Math.max(-90, Math.min(90, d)) / 90 * 32767);
 const u8 = v => Math.max(0, Math.min(255, Math.round(v)));
@@ -40,13 +47,41 @@ for (let i = 0; i < W * H; i++) lum[i] = (raw[i * 3] + raw[i * 3 + 1] + raw[i * 
 const sorted = Float32Array.from(lum).sort();
 const black = sorted[Math.floor(sorted.length * 0.4)];
 const white = sorted[Math.floor(sorted.length * 0.999)];
-const rgb = Buffer.alloc(W * H * 3);
-for (let y = 0; y < H; y++) {
-  const row = (H - 1 - y) * W; // flip to top-down
-  for (let x = 0; x < W; x++) for (let c = 0; c < 3; c++) {
-    rgb[(y * W + x) * 3 + c] = u8(255 * Math.pow(Math.min(1, Math.max(0, raw[(row + x) * 3 + c] - black) / (white - black)), 1 / 2.2));
+// Linear float RGB (bottom-up) to gamma-encoded 8-bit (top-down) with the shared levels.
+function tone(data, w, h, scale = 1) {
+  const rgb = Buffer.alloc(w * h * 3);
+  for (let y = 0; y < h; y++) {
+    const row = (h - 1 - y) * w;
+    for (let x = 0; x < w; x++) for (let c = 0; c < 3; c++) {
+      rgb[(y * w + x) * 3 + c] = u8(255 * Math.pow(Math.min(1, Math.max(0, data[(row + x) * 3 + c] * scale - black) / (white - black)), 1 / 2.2));
+    }
   }
+  return rgb;
 }
+const rgb = tone(raw, W, H);
+
+// The 8k file stores flux per (four times smaller) pixel: match it to the 4k levels by the
+// median ratio over bright sky both cover, so the band and the base blend seamlessly.
+const gal = new Float32Array(fs.readFileSync(path.join(src, 'mwgal.f32')).buffer.slice(0));
+if (gal.length !== GW * GH * 3) throw new Error(`mwgal.f32: expected ${GW * GH * 3} floats, got ${gal.length}`);
+const GAL_TO_EQ = [[-0.0548755604, 0.4941094279, -0.867666149], [-0.8734370902, -0.44482963, -0.1980763734], [-0.4838350155, 0.7469822445, 0.4559837762]];
+const galScale = (() => {
+  const R = Math.PI / 180, ratios = [];
+  let s = 1;
+  const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
+  for (let k = 0; k < 20000; k++) {
+    const l = rnd() * 360, b = BAND[0] + rnd() * (BAND[1] - BAND[0]);
+    const g = [Math.cos(b * R) * Math.cos(l * R), Math.cos(b * R) * Math.sin(l * R), Math.sin(b * R)];
+    const e = GAL_TO_EQ.map(row => row[0] * g[0] + row[1] * g[1] + row[2] * g[2]);
+    const ra = Math.atan2(e[1], e[0]) / R, dec = Math.asin(e[2]) / R;
+    const ex = Math.floor((((0.5 - ra / 360) % 1) + 1) % 1 * W), ey = Math.min(H - 1, Math.floor((dec + 90) / 180 * H));
+    const gx = Math.floor((((0.5 - l / 360) % 1) + 1) % 1 * GW), gy = Math.min(GH - 1, Math.floor((b - BAND[0]) / (BAND[1] - BAND[0]) * GH));
+    const a = lum[ey * W + ex], c = (gal[(gy * GW + gx) * 3] + gal[(gy * GW + gx) * 3 + 1] + gal[(gy * GW + gx) * 3 + 2]) / 3;
+    if (a > 0.05 && c > 0) ratios.push(a / c);
+  }
+  return ratios.sort((x, y) => x - y)[ratios.length >> 1];
+})();
+const band = tone(gal, GW, GH, galScale);
 
 // Dust: rejection-sample pixels by brightness (area-weighted by cos(dec)), plus a floor
 // so the dark sky is not empty.
@@ -92,22 +127,31 @@ for (const [ra, dec, mag] of dust) {
 }
 fs.writeFileSync(path.join(out, 'stars-v1.bin'), buf);
 
-(async () => {
-  // Denoise by brightness: the faint background is mostly sensor-like grain that a black
-  // level would shatter into blotches, so it takes a heavy blur; the bright band keeps
-  // its detail. Then a light blur for the dust lanes' grain and the file size.
-  const raw3 = { raw: { width: W, height: H, channels: 3 } };
-  const soft = await sharp(rgb, raw3).blur(10).raw().toBuffer();
-  const mixed = Buffer.alloc(rgb.length);
-  for (let i = 0; i < W * H; i++) {
+// Denoise by brightness: the faint background is mostly sensor-like grain that a black
+// level would shatter into blotches, so it takes a heavy blur; the bright band keeps its
+// detail.
+async function denoise(pixels, w, h, sigma) {
+  const raw3 = { raw: { width: w, height: h, channels: 3 } };
+  const soft = await sharp(pixels, raw3).blur(sigma).raw().toBuffer();
+  const mixed = Buffer.alloc(pixels.length);
+  for (let i = 0; i < w * h; i++) {
     const l = (soft[i * 3] + soft[i * 3 + 1] + soft[i * 3 + 2]) / 765;
-    const t = Math.min(1, Math.max(0, (l - 0.1) / 0.3)), w = t * t * (3 - 2 * t);
-    for (let c = 0; c < 3; c++) mixed[i * 3 + c] = u8(soft[i * 3 + c] + (rgb[i * 3 + c] - soft[i * 3 + c]) * w);
+    const t = Math.min(1, Math.max(0, (l - 0.1) / 0.3)), k = t * t * (3 - 2 * t);
+    for (let c = 0; c < 3; c++) mixed[i * 3 + c] = u8(soft[i * 3 + c] + (pixels[i * 3 + c] - soft[i * 3 + c]) * k);
   }
-  for (const width of [2048, 4096]) {
-    // A light blur drops pixel-level grain (the dust stars draw that) and most of the file size.
-    await sharp(mixed, raw3).resize(width, width / 2).blur(width === 4096 ? 1 : 0.6).webp({ quality: 72, smartSubsample: true }).toFile(path.join(out, `milkyway-${width}-v1.webp`));
+  return sharp(mixed, raw3);
+}
+
+(async () => {
+  for (const old of ['milkyway-4096-v1.webp']) fs.rmSync(path.join(out, old), { force: true });
+  await (await denoise(rgb, W, H, 10)).resize(2048, 1024).blur(0.6).webp({ quality: 72, smartSubsample: true }).toFile(path.join(out, 'milkyway-2048-v1.webp'));
+  // The 8k map is grainy pixel to pixel; a 3x3 median keeps the dust-lane edges that a
+  // blur would soften and brings the file from ~2.4 MB to ~0.65 MB.
+  const bandRaw = await (await denoise(band, GW, GH, 20)).median(3).raw().toBuffer();
+  for (const width of [4096, 8192]) {
+    await sharp(bandRaw, { raw: { width: GW, height: GH, channels: 3 } }).resize(width, Math.round(GH * width / GW)).webp({ quality: 72, smartSubsample: true }).toFile(path.join(out, `milkyway-band-${width}-v1.webp`));
   }
+  console.log('band scale', galScale.toFixed(3));
   for (const f of fs.readdirSync(out)) console.log(f, fs.statSync(path.join(out, f)).size);
   console.log(`stars ${stars.length}, segments ${segments.length}, dust ${dust.length}`);
 })();

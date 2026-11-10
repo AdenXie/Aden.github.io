@@ -49,7 +49,7 @@ function checkOutput(directory = 'public') {
   exists('/js/scene-loader.js');
   for (const size of [1024, 2048]) for (const kind of ['day', 'night']) exists(`/images/earth/${kind}-${size}-v1.webp`);
   exists('/images/earth/NOTICE.txt');
-  for (const file of ['stars-v1.bin', 'milkyway-2048-v1.webp', 'milkyway-4096-v1.webp', 'NOTICE.txt']) exists(`/images/sky/${file}`);
+  for (const file of ['stars-v1.bin', 'milkyway-2048-v1.webp', 'milkyway-band-4096-v1.webp', 'milkyway-band-8192-v1.webp', 'NOTICE.txt']) exists(`/images/sky/${file}`);
   let pages = 0;
   for (const file of files(root).filter(f => f.endsWith('.html'))) {
     const $ = cheerio.load(fs.readFileSync(file, 'utf8')); pages++;
