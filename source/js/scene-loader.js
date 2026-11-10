@@ -1,4 +1,4 @@
-/* 3D scenes: Saturn behind the home banner, the "404 Mart" on the not-found page.
+/* 3D scenes: the live night sky behind the home banner, the "404 Mart" on the not-found page.
    Loaded after first paint on devices with WebGL2 and enough memory, unless the
    visitor asks for reduced motion or data saving; those keep the static banner
    image and the blackwall 404. Touch devices and devices reporting under 4 GB get a
@@ -35,6 +35,8 @@
     });
   }
   window.AdenScenes = true;
-  scene('saturn', '.home-banner-container', '/js/scenes/saturn.js');
+  scene('sky', '.home-banner-container', '/js/scenes/sky.js');
+  // Saturn (scenes/saturn.js) is kept for later use and not mounted anywhere:
+  // scene('saturn', '.home-banner-container', '/js/scenes/saturn.js');
   scene('store', '.nf-container', '/js/scenes/store.js');
 })();

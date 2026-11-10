@@ -330,6 +330,11 @@
         if (!isValidWeather(payload)) throw weatherError("invalid_response");
         if (signal?.aborted || !card.isConnected) return;
         cacheWeather(payload);
+        // The home sky (scenes/sky.js) picks its country from this, cached or live; the
+        // card must not depend on it.
+        try {
+          window.dispatchEvent(new CustomEvent("aden:visitor-location", { detail: { country: payload.location?.country } }));
+        } catch (_) { /* no listener support: the sky stays on its default */ }
         renderWeather(card, payload, "vercel");
         return;
       } catch (error) {
