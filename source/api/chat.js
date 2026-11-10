@@ -146,7 +146,8 @@ async function readCompletion(body, onText, acceptTools) {
   const reader = body.getReader();
   const decoder = new TextDecoder();
   const toolCalls = [];
-  let buffer = '', finish, lines = [], content = '', extraContent;
+  let buffer = '', finish, lines = [], content = '', extraContent, text = 0;
+  const shape = new Set(); // Field names only (never values), to diagnose responses with nothing usable in them.
   const event = () => {
     if (!lines.length) return;
     const data = lines.join('\n'); lines = [];
@@ -154,6 +155,8 @@ async function readCompletion(body, onText, acceptTools) {
     const payload = JSON.parse(data);
     if (payload.error) throw new Error('provider_error');
     const choice = payload.choices?.[0], delta = choice?.delta;
+    for (const key of Object.keys(delta ?? {})) if (shape.size < 20) shape.add(key.slice(0, 40));
+    if (!choice) for (const key of Object.keys(payload)) if (shape.size < 20) shape.add('payload.' + key.slice(0, 40));
     if (acceptTools && delta?.extra_content) extraContent = delta.extra_content;
     for (const chunk of delta?.tool_calls ?? []) {
       // Some Gemini models omit the index (or the id) on streamed tool calls: a chunk that names a call
@@ -168,7 +171,7 @@ async function readCompletion(body, onText, acceptTools) {
       if (call.function.name.length > 100 || call.function.arguments.length > 4000) throw new Error('invalid_tool_call');
     }
     if (typeof delta?.content === 'string') {
-      onText(delta.content);
+      onText(delta.content); text += delta.content.trim().length;
       if (acceptTools) content += delta.content;
     }
     if (choice?.finish_reason) finish = choice.finish_reason;
@@ -192,7 +195,10 @@ async function readCompletion(body, onText, acceptTools) {
       // Gemini requires the original thought signature when the function call is replayed.
       return { assistant: { role: 'assistant', content: content || null, tool_calls: calls, ...(extraContent ? { extra_content: extraContent } : {}) } };
     }
-    if (!['done', 'stop', 'length'].includes(finish)) throw new Error('interrupted');
+    if (!['done', 'stop', 'length'].includes(finish) || !text) {
+      console.warn(JSON.stringify({ event: 'chat_unusable_round', finish: typeof finish === 'string' ? finish.slice(0, 40) : null, fields: [...shape], tools: acceptTools }));
+      throw new Error(text ? 'interrupted' : 'empty_response');
+    }
     return { finish };
   } finally {
     await reader.cancel().catch(() => {});
@@ -329,7 +335,7 @@ async function handler(req, res) {
       } catch (cause) {
         // A malformed tool round must not cost the visitor the answer: before any text has gone out,
         // ask again once without the search tool.
-        if (request.tool_choice !== 'auto' || output || res.headersSent || !['invalid_tool_call', 'interrupted', 'provider_error'].includes(cause?.message)) throw cause;
+        if (request.tool_choice !== 'auto' || output || res.headersSent || !['invalid_tool_call', 'interrupted', 'provider_error', 'empty_response'].includes(cause?.message)) throw cause;
         console.warn(JSON.stringify({ event: 'chat_tool_round_failed', error: cause.message }));
         delete request.tools; delete request.tool_choice;
         request.messages[0] = { role: 'system', content: systemPrompt(page, false) };
@@ -357,7 +363,7 @@ async function handler(req, res) {
     const safeCode = ['UND_ERR_CONNECT_TIMEOUT', 'ENOTFOUND', 'EAI_AGAIN', 'ECONNRESET', 'ECONNREFUSED', 'CERT_HAS_EXPIRED', 'UNABLE_TO_VERIFY_LEAF_SIGNATURE'].includes(code) ? code : 'UNKNOWN';
     if (connectionTimeout) provider = { at: Date.now(), ok: false, failedAt: Date.now() };
     const addresses = connectionTimeout ? [...new Set((cause?.cause?.message || '').match(/\b(?:\d{1,3}\.){3}\d{1,3}\b/g) || [])] : [];
-    const internal = ['invalid_tool_call', 'interrupted', 'provider_error', 'invalid_stream', 'output_limit'].includes(cause?.message) ? cause.message : undefined;
+    const internal = ['invalid_tool_call', 'empty_response', 'interrupted', 'provider_error', 'invalid_stream', 'output_limit'].includes(cause?.message) ? cause.message : undefined;
     console.warn(JSON.stringify({ event: 'chat_upstream_failure', phase: res.headersSent ? 'stream' : 'connect', code: safeCode, ...(internal && { error: internal }), addresses }));
     const error = timedOut ? 'timeout' : res.headersSent ? 'interrupted' : connectionTimeout ? 'provider_connect_timeout' : 'provider_unavailable';
     if (res.headersSent) { emit({ error }); res.end(); }

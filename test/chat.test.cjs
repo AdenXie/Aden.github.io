@@ -71,6 +71,16 @@ test('tool calls without index or id still search, and a malformed tool round fa
   assert.equal(sent[1].tools, undefined);
   assert.match(fallback.output, /回答/);
 });
+test('an empty reply while search is offered is asked again without the tool', async () => {
+  const sent = [];
+  const res = await harness(async (url, options) => {
+    sent.push(JSON.parse(options.body));
+    return sent.length === 1 ? completion({ delta: { role: 'assistant' }, finish_reason: 'stop' }) : answer();
+  }, searchEnv)();
+  assert.equal(sent.length, 2);
+  assert.equal(sent[1].tools, undefined);
+  assert.match(res.output, /回答/);
+});
 test('replays fragmented Gemini tool calls and their signatures while limiting Exa to one search', async () => {
   for (const fresh of [false, true]) {
     const requests = [];
