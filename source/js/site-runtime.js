@@ -195,12 +195,25 @@
       setAsking(false);
       opener?.focus({ preventScroll: true });
     }, { signal });
+    // Phones: lift the dock (and the chat panel, which reads the same variable) above the on-screen
+    // keyboard while this field has focus. This runs before chat.js loads, so the first tap is covered;
+    // fixed elements otherwise stay behind the keyboard (Safari, and Chrome/Edge on Android).
+    const root = document.documentElement, viewport = window.visualViewport;
+    const fit = () => {
+      const keyboard = viewport && form.contains(document.activeElement) ? window.innerHeight - viewport.height - viewport.offsetTop : 0;
+      // Ignore small differences from collapsing browser toolbars.
+      root.style.setProperty('--aden-keyboard', `${keyboard > 80 ? Math.round(keyboard) : 0}px`);
+    };
+    viewport?.addEventListener('resize', fit, { signal });
+    viewport?.addEventListener('scroll', fit, { signal });
+    form.addEventListener('focusin', fit, { signal });
+    form.addEventListener('focusout', () => setTimeout(fit), { signal });
     sync();
     if (new URLSearchParams(location.search).get('chat') === 'open') {
       if (opener?.getClientRects().length) setAsking(true);
       else input.focus({ preventScroll: true });
     }
-    return () => dock?.classList.remove('is-asking');
+    return () => { dock?.classList.remove('is-asking'); root.style.removeProperty('--aden-keyboard'); };
   });
   // The menu button mirrors the theme's drawer state; Escape closes the drawer through the
   // theme's own toggle and returns focus to the button, as it does for the search popup.

@@ -285,14 +285,6 @@
       setOpen(false); input.focus({ preventScroll: true });
     }, { signal });
 
-    // Phones: keep the dock and the panel above the on-screen keyboard (Safari leaves fixed elements behind it).
-    const viewport = window.visualViewport;
-    const fit = () => {
-      const keyboard = viewport ? Math.max(0, window.innerHeight - viewport.height - viewport.offsetTop) : 0;
-      document.documentElement.style.setProperty('--aden-keyboard', `${Math.round(keyboard)}px`);
-    };
-    viewport?.addEventListener('resize', fit, { signal }); viewport?.addEventListener('scroll', fit, { signal }); fit();
-
     // Availability and provider reachability (cached by the server); sending stays possible either way.
     const check = new AbortController();
     const checkTimeout = setTimeout(() => check.abort(), 10000);
@@ -319,7 +311,6 @@
       panel.remove(); toast.remove(); context.remove();
       document.documentElement.classList.remove('aden-ask-has-context');
       document.documentElement.classList.remove('aden-chat-open');
-      document.documentElement.style.removeProperty('--aden-keyboard');
       form.classList.remove('is-working', 'is-typing');
     };
   });

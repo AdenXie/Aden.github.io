@@ -213,6 +213,21 @@ html .navbar-container .navbar-drawer {
   transition: transform 0.38s ease, visibility 0s linear 0.38s;
 }
 
+/* Phones: the theme pins the tag/category/post counts to the bottom of the drawer, where the dock and
+   the browser's own toolbar cover them. Keep them right below the menu instead. */
+@media (max-width: 768px) {
+  html .navbar-container .navbar-drawer {
+    justify-content: flex-start;
+    overflow-y: auto;
+    padding-bottom: calc(var(--aden-dock-gap, 14px) + var(--aden-dock-item, 40px) + 32px);
+  }
+  html .navbar-container .navbar-drawer .statistics {
+    margin: 1rem 1rem 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--aden-glass-divider, var(--border-color));
+  }
+}
+
 body.navbar-drawer-show .navbar-drawer {
   visibility: visible;
   transition: transform 0.38s ease, visibility 0s;
