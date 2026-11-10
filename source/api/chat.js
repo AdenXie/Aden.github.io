@@ -272,7 +272,7 @@ async function readCompletion(body, onText, acceptTools) {
       // Gemini requires the original thought signature when the function call is replayed.
       return { assistant: { role: 'assistant', content: content || null, tool_calls: calls, ...(extraContent ? { extra_content: extraContent } : {}) } };
     }
-    if (!['done', 'stop', 'length'].includes(finish)) throw new Error('interrupted');
+    if (!['done', 'stop', 'length'].includes(finish)) throw Object.assign(new Error('interrupted'), { finish });
     return { finish };
   } finally {
     await reader.cancel().catch(() => {});
@@ -410,7 +410,14 @@ async function handler(req, res) {
         return fail(502, { error: 'provider_unavailable' });
       }
       if (!exaKey) startStream();
-      const { finish, assistant } = await readCompletion(upstream.body, onText, request.tool_choice === 'auto');
+      const { finish, assistant } = await readCompletion(upstream.body, onText, request.tool_choice === 'auto').catch(cause => {
+        // A round that ended without a known finish: log why (Gemini's finish_reason, or eof when the stream
+        // just stopped), which round, and whether tools were allowed. Never content.
+        if (cause?.message === 'interrupted') console.warn(JSON.stringify({ event: 'chat_round_unfinished',
+          finish: typeof cause.finish === 'string' ? (/^[\w-]{1,40}$/.test(cause.finish) ? cause.finish : 'other') : 'eof',
+          round: toolRounds + 1, toolsAllowed: request.tool_choice === 'auto', textSent: output > 0 }));
+        throw cause;
+      });
       if (!assistant) {
         emit(finish === 'done' ? { done: true } : { done: true, truncated: finish === 'length' });
         return res.end();
