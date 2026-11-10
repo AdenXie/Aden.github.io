@@ -156,8 +156,10 @@ async function readCompletion(body, onText, acceptTools) {
     const choice = payload.choices?.[0], delta = choice?.delta;
     if (acceptTools && delta?.extra_content) extraContent = delta.extra_content;
     for (const chunk of delta?.tool_calls ?? []) {
-      const index = chunk.index;
-      if (!acceptTools || !Number.isInteger(index) || index < 0 || index >= 8) throw new Error('invalid_tool_call');
+      // Gemini 3.5 omits the index (or the id) on streamed tool calls: a chunk that names a call starts a
+      // new one, a bare chunk continues the last.
+      const index = Number.isInteger(chunk.index) ? chunk.index : (chunk.id || chunk.function?.name || !toolCalls.length ? toolCalls.length : toolCalls.length - 1);
+      if (!acceptTools || index < 0 || index >= 8) throw new Error('invalid_tool_call');
       const call = toolCalls[index] ??= { type: 'function', function: { name: '', arguments: '' } };
       if (chunk.id) call.id = chunk.id;
       if (chunk.extra_content) call.extra_content = chunk.extra_content;
@@ -186,7 +188,8 @@ async function readCompletion(body, onText, acceptTools) {
     // Gemini 3.5 ends a tool-call turn with finish_reason "stop" rather than "tool_calls".
     if (acceptTools && (finish === 'tool_calls' || (['done', 'stop'].includes(finish) && toolCalls.some(Boolean)))) {
       const calls = toolCalls.filter(Boolean);
-      if (!calls.length || calls.some(call => typeof call.id !== 'string' || !call.id)) throw new Error('invalid_tool_call');
+      if (!calls.length) throw new Error('invalid_tool_call');
+      calls.forEach((call, i) => { if (typeof call.id !== 'string' || !call.id) call.id = `call_${i + 1}`; });
       // Gemini requires the original thought signature when the function call is replayed.
       return { assistant: { role: 'assistant', content: content || null, tool_calls: calls, ...(extraContent ? { extra_content: extraContent } : {}) } };
     }
