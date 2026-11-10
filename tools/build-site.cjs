@@ -26,12 +26,14 @@ async function main() {
   fs.cpSync(path.join(ROOT, 'LICENSES'), path.join(ROOT, 'public/LICENSES'), { recursive: true });
   // Lets tools/purge-esa-cache.cjs tell when Vercel serves this build before purging the ESA edge.
   fs.writeFileSync(path.join(ROOT, 'public/build-id.txt'), `${process.env.GITHUB_SHA || 'local'}\n`);
-  // Scheduled workflows must exist on GitHub's default (generated main) branch.
-  // Initialize/update this workflow on main through an authorized GitHub user
-  // before deployment: the CI token can preserve it but cannot create workflows.
+  // The exchange-rate collector runs from the default branch (source), where it lives in
+  // .github/workflows. main still carries an identical copy from before source became the
+  // default: the CI token may push it unchanged but cannot create, change or delete a
+  // workflow, so it is copied on every build. Change both through an authorized GitHub
+  // user first (see docs/exchange-recovery.md).
   const workflows = path.join(ROOT, 'public/.github/workflows');
   fs.mkdirSync(workflows, { recursive: true });
-  fs.copyFileSync(path.join(ROOT, 'lib/workflows/exchange-rates.yml'), path.join(workflows, 'exchange-rates.yml'));
+  fs.copyFileSync(path.join(ROOT, '.github/workflows/exchange-rates.yml'), path.join(workflows, 'exchange-rates.yml'));
   const immutable = [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }];
   // Vendor files carry their version in the file name (js/vendor/three-<version>.module.min.js).
   const immutableVendor = { source: '/js/vendor/(.*)', headers: immutable };
