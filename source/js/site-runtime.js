@@ -289,9 +289,7 @@
   });
   // Bottom dock (lib/styles/dock.css). The theme's tool items are <li role="button">: Enter and Space click
   // them. The menu button opens the header drawer through the theme's own toggle. The settings toggle
-  // reports the popover state. On phones the dock slides away while the reader moves on through the page
-  // and comes back when they scroll back up; it stays while it holds keyboard focus, a popover or the drawer is open,
-  // or the chat is open. Desktop keeps it in place.
+  // reports the popover state. The dock stays in place on every screen; only the home banner hides it.
   register('dock', '.right-side-tools-container', (dock, scope) => {
     const signal = scope.signal;
     const settings = dock.querySelector('.toggle-tools-list'), popover = dock.querySelector('.hidden-tools-list');
@@ -314,20 +312,7 @@
         settings.focus({ preventScroll: true });
       }, { signal });
     }
-    const phone = window.matchMedia('(max-width: 768px)');
-    const pinned = () => Boolean(dock.querySelector(':focus-visible, .aden-ask-input:focus, .aden-ask.is-working')) || dock.classList.contains('is-asking') || popover?.classList.contains('show') || document.body.classList.contains('navbar-drawer-show') || document.documentElement.classList.contains('aden-chat-open');
-    // Browsers already deliver scroll events at most once per frame, and the work here is one class toggle.
-    let lastY = window.scrollY;
-    const update = () => {
-      const y = window.scrollY, delta = y - lastY;
-      if (!phone.matches || pinned() || y < 120) { dock.classList.remove('aden-dock-away'); lastY = y; return; }
-      if (Math.abs(delta) < 8) return;
-      dock.classList.toggle('aden-dock-away', delta > 0);
-      lastY = y;
-    };
-    window.addEventListener('scroll', update, { passive: true, signal });
-    dock.addEventListener('focusin', () => dock.classList.remove('aden-dock-away'), { signal });
-    return () => { popoverObserver?.disconnect(); dock.classList.remove('aden-dock-away'); };
+    return () => popoverObserver?.disconnect();
   });
   // APlayer draws its icon-only buttons without names. Name them in the page language; the play
   // button says "Pause" while playing (APlayer marks the container with aplayer-play / aplayer-pause).

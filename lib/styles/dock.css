@@ -16,7 +16,9 @@
   --aden-glass-field: rgb(255 255 255 / 6%);
   --aden-glass-blur: blur(18px) saturate(1.6);
   --aden-dock-gap: calc(14px + env(safe-area-inset-bottom, 0px));
-  --aden-dock-item: 42px;
+  --aden-dock-item: 48px;
+  --aden-dock-radius: 15px;
+  --aden-dock-icon: 1.25rem;
 }
 
 html.light {
@@ -54,7 +56,7 @@ html .page-container .right-side-tools-container,
 }
 
 /* The dock: centred above the bottom edge (and the phone's home indicator). The theme fades it out
-   over the home banner (.hide); on phones site-runtime.js slides it away while reading on (.aden-dock-away). */
+   over the home banner (.hide); everywhere else it stays in place. */
 html .page-container .right-side-tools-container {
   right: auto;
   bottom: var(--aden-dock-gap);
@@ -64,14 +66,11 @@ html .page-container .right-side-tools-container {
   align-items: center;
   gap: 4px;
   padding: 4px;
-  border-radius: 18px;
+  border-radius: calc(var(--aden-dock-radius) + 5px);
   transform: translateX(-50%);
   transition: opacity .2s ease, transform .28s cubic-bezier(.2, .8, .2, 1);
 }
 
-html .page-container .right-side-tools-container.aden-dock-away {
-  transform: translate(-50%, calc(100% + var(--aden-dock-gap) + 8px));
-}
 
 /* The footer keeps its last lines clear of the dock. */
 .main-content-footer {
@@ -106,11 +105,11 @@ html .page-container .right-side-tools-container.aden-dock-away {
   height: var(--aden-dock-item);
   padding: 0;
   border: 0;
-  border-radius: 13px;
+  border-radius: var(--aden-dock-radius);
   background: transparent;
   box-shadow: none;
   color: var(--default-text-color);
-  font-size: 1.1rem;
+  font-size: var(--aden-dock-icon);
   cursor: pointer;
   transition: background-color var(--aden-control-duration) ease, color var(--aden-control-duration) ease, transform var(--aden-control-duration) ease;
 }
@@ -201,11 +200,11 @@ html .page-container .right-side-tools-container.aden-dock-away {
   display: flex;
   align-items: center;
   gap: .45rem;
-  width: 19rem;
+  width: 24rem;
   height: var(--aden-dock-item);
   margin: 0 0 0 4px;
-  padding: 0 4px 0 .8rem;
-  border-radius: 13px;
+  padding: 0 5px 0 .9rem;
+  border-radius: var(--aden-dock-radius);
   background: var(--aden-glass-field);
   isolation: isolate;
 }
@@ -261,11 +260,11 @@ html .page-container .right-side-tools-container.aden-dock-away {
   flex: none;
   align-items: center;
   justify-content: center;
-  width: calc(var(--aden-dock-item) - 8px);
-  height: calc(var(--aden-dock-item) - 8px);
+  width: calc(var(--aden-dock-item) - 10px);
+  height: calc(var(--aden-dock-item) - 10px);
   padding: 0;
   border: 0;
-  border-radius: 10px;
+  border-radius: calc(var(--aden-dock-radius) - 4px);
   background: var(--aden-signal);
   color: var(--aden-on-signal);
   font-size: .85rem;
@@ -306,7 +305,7 @@ html .page-container .right-side-tools-container.aden-dock-away {
   margin-left: 4px;
   padding: 0 .85rem;
   border: 0;
-  border-radius: 13px;
+  border-radius: var(--aden-dock-radius);
   background: var(--aden-glass-field);
   color: var(--first-text-color);
   font: 560 .85rem var(--aden-interface-font);
@@ -350,7 +349,7 @@ html body.navbar-drawer-show .page-container .right-side-tools-container { z-ind
 .aden-dock-menu[aria-expanded="true"] .aden-dock-bars::after { top: 0; transform: rotate(-45deg); }
 
 @media (max-width: 768px) {
-  :root { --aden-dock-item: 40px; }
+  :root { --aden-dock-item: 40px; --aden-dock-radius: 13px; --aden-dock-icon: 1.1rem; }
 
   .right-side-tools-container .aden-dock-menu { display: flex; }
   .navbar-container .right .mobile button.navbar-bar { display: none; }

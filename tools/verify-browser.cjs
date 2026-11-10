@@ -81,8 +81,6 @@ async function main() {
       // Explicitly request light mode and confirm the site's normal control works.
       const darkBefore = await page.locator('html').evaluate(el => el.classList.contains('dark'));
       await page.mouse.wheel(0, 950);
-      // On phones the bottom dock slides away while reading on; scrolling back a little brings it back.
-      await page.mouse.wheel(0, -150); await page.waitForTimeout(400);
       await page.locator('.toggle-tools-list').click();
       await page.locator('.tool-dark-light-toggle').click();
       await page.waitForTimeout(600);

@@ -85,14 +85,20 @@
     panel.setAttribute('translate', 'no'); panel.setAttribute('role', 'region'); panel.setAttribute('aria-labelledby', 'aden-chat-title');
     // Static interface text only; article titles and model output are added as text nodes.
     panel.innerHTML = `<header class="chat-heading"><h2 id="aden-chat-title">${t('问 AI', 'Ask AI')}</h2><span class="chat-model" data-chat="model"></span><div class="chat-heading-actions"><button type="button" data-chat="clear">${t('清空', 'Clear')}</button><button type="button" data-chat="close" aria-label="${t('收起对话', 'Hide conversation')}"><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button></div></header>
-  <label class="chat-context" data-chat="context" hidden><input type="checkbox" data-chat="attach" checked><span data-chat="context-text"></span></label>
   <div class="chat-transcript" data-chat="messages" role="log" aria-label="${t('对话内容', 'Conversation')}" tabindex="0"></div>
   <p class="chat-privacy">${PRIVACY}</p>`;
     document.body.append(panel);
     const find = name => panel.querySelector(`[data-chat="${name}"]`);
-    const transcript = find('messages'), attach = find('attach');
-    find('context').hidden = !page;
-    if (page) find('context-text').textContent = t('AI 可读取本文：', 'AI can read this article: ') + page.title;
+    const transcript = find('messages');
+    // On a post, a tab on top of the dock field says the article goes with the question (ticked by default).
+    // It shows whenever the field is in use or the conversation is open, before the first question too.
+    const context = document.createElement('label');
+    context.className = 'aden-ask-context'; context.hidden = !page;
+    context.innerHTML = '<input type="checkbox" checked><span></span>';
+    const attach = context.querySelector('input');
+    if (page) context.querySelector('span').textContent = t('AI 可读取本文：', 'AI can read this article: ') + page.title;
+    form.append(context);
+    document.documentElement.classList.toggle('aden-ask-has-context', Boolean(page));
 
     // Notices above the dock: privacy on first use, errors while the panel is closed.
     const toast = document.createElement('p');
@@ -289,7 +295,8 @@
     if (form.dataset.queued !== undefined) submit();
     return () => {
       reset(); check.abort(); clearTimeout(checkTimeout); clearTimeout(toastTimer);
-      panel.remove(); toast.remove();
+      panel.remove(); toast.remove(); context.remove();
+      document.documentElement.classList.remove('aden-ask-has-context');
       document.documentElement.classList.remove('aden-chat-open');
       document.documentElement.style.removeProperty('--aden-keyboard');
       form.classList.remove('is-working', 'is-typing');

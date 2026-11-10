@@ -67,6 +67,13 @@ async function main() {
         assert.match(await toast.innerText(), /Google Gemini/);
         const title = (await page.locator('.post-page-container .article-title').innerText()).trim();
         assert.match(await input.getAttribute('placeholder'), /这篇文章|this article/);
+        // The article tab sits on top of the field as soon as it is in use, before any question.
+        assert(await page.locator('.aden-ask-context').isVisible());
+        assert((await page.locator('.aden-ask-context').innerText()).includes((await page.locator('.post-page-container .article-title').innerText()).trim()));
+        {
+          const tab = await page.locator('.aden-ask-context').boundingBox(), field = await ask.boundingBox();
+          assert(tab.y + tab.height <= field.y, 'the article tab sits above the field');
+        }
 
         // While the model works, only the dock shows it; the panel waits for the answer.
         mode = 'slow'; await input.fill('stop-me'); await send.click();
@@ -86,8 +93,8 @@ async function main() {
         assert.match(await page.locator('#aden-chat h2').innerText(), lang ? /Ask AI/ : /问 AI/);
         assert.equal(await page.locator('#aden-chat .chat-model').innerText(), 'gemini-test-model');
         assert.match(await page.locator('#aden-chat .chat-privacy').innerText(), /Google Gemini/);
-        assert((await page.locator('[data-chat="context"]').innerText()).includes(title));
-        assert(await page.locator('[data-chat="attach"]').isChecked());
+        assert((await page.locator('.aden-ask-context').innerText()).includes(title));
+        assert(await page.locator('.aden-ask-context input').isChecked());
         assert.equal(posted.at(-1).reasoningEffort, undefined);
         assert.equal(posted.at(-1).page.title, title);
         assert.equal(posted.at(-1).page.url, new URL(page.url()).pathname);
@@ -101,8 +108,8 @@ async function main() {
         else assert(box.width <= 560, 'desktop panel width');
 
         // Unticking the article box sends the follow-up without the article.
-        await page.locator('[data-chat="context"]').click();
-        assert.equal(await page.locator('[data-chat="attach"]').isChecked(), false);
+        await page.locator('.aden-ask-context').click();
+        assert.equal(await page.locator('.aden-ask-context input').isChecked(), false);
         await input.fill('follow-up'); await send.click(); await answered(2);
         assert.equal(posted.at(-1).messages.length, 3);
         assert.equal(posted.at(-1).page, undefined);
@@ -147,7 +154,7 @@ async function main() {
         // Pages without a post send no article.
         await page.goto(base + lang + '/archives/'); await openField();
         await input.fill('no-article'); await send.click(); await answered(1);
-        assert(await page.locator('[data-chat="context"]').isHidden());
+        assert(await page.locator('.aden-ask-context').isHidden());
         assert.equal(posted.at(-1).page, undefined);
         await page.goBack(); await page.waitForFunction(() => !!window.AdenSite);
         assert.equal(await page.locator('.chat-message').count(), 0);
