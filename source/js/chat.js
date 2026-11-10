@@ -196,7 +196,7 @@
           if (response.status === 429) throw Object.assign(new Error('rate_limited'), { detail: rateLimitMessage(response.headers.get('retry-after')) });
           throw new Error(typeof data.error === 'string' ? data.error : 'provider_unavailable');
         }
-        if (!response.body || !response.headers.get('content-type')?.includes('text/event-stream')) throw new Error('provider_unavailable');
+        if (!response.body || !/text\/(plain|event-stream)/.test(response.headers.get('content-type') || '')) throw new Error('provider_unavailable');
         reader = response.body.getReader();
         const decoder = new TextDecoder(); let buffer = '';
         while (!complete) {

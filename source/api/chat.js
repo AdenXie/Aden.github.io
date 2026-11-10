@@ -274,7 +274,12 @@ async function handler(req, res) {
   const timer = setTimeout(() => { timedOut = true; abort(); }, 60000);
   const startStream = () => {
     if (res.headersSent) return;
-    res.setHeader('Content-Type', 'text/event-stream; charset=utf-8');
+    // SSE-formatted events served as text/plain: Chrome and Edge hold a text/event-stream (or any other
+    // non-text/plain) fetch body for about a second and then until more data arrives, so short status
+    // events (searching, rate) only appeared together with the answer. no-transform keeps proxies from
+    // compressing (and so buffering) the stream.
+    res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+    res.setHeader('Cache-Control', 'no-store, no-transform');
     res.flushHeaders?.();
   };
   const emit = value => {

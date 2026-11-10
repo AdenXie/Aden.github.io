@@ -40,7 +40,7 @@ async function main() {
         if (mode === 'slow') { await new Promise(r => setTimeout(r, 2500)); return route.abort().catch(() => {}); }
         const text = '**Hello 世界**\n- item\n```html\n<script>alert(1)</script>\n```\n<img src=x onerror=alert(1)>\n来源 [示例](https://example.org/a?b=1) [坏链接](javascript:alert(1))';
         const body = `data: ${JSON.stringify({ text })}\n\n` + (mode === 'broken' ? '' : 'data: {"done":true}\n\n');
-        return route.fulfill({ contentType: 'text/event-stream', body });
+        return route.fulfill({ contentType: 'text/plain; charset=utf-8', body });
       });
       const ask = page.locator('#aden-ask'), input = page.locator('#aden-ask-input'), send = page.locator('.aden-ask-send'), stop = page.locator('.aden-ask-stop');
       const opener = page.locator('.aden-ask-open'), panel = page.locator('#aden-chat'), toast = page.locator('.aden-ask-toast');
