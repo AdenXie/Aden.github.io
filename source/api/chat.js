@@ -188,7 +188,8 @@ async function readCompletion(body, onText, acceptTools) {
         if (!line) event(); else if (line.startsWith('data:')) lines.push(line.slice(5).trimStart());
       }
     }
-    if (acceptTools && (finish === 'tool_calls' || (finish === 'done' && toolCalls.length))) {
+    // Gemini 3.5 ends a tool-call turn with finish_reason "stop" rather than "tool_calls".
+    if (acceptTools && (finish === 'tool_calls' || (['done', 'stop'].includes(finish) && toolCalls.some(Boolean)))) {
       const calls = toolCalls.filter(Boolean);
       if (!calls.length) throw new Error('invalid_tool_call');
       calls.forEach((call, i) => { if (typeof call.id !== 'string' || !call.id) call.id = `call_${i + 1}`; });

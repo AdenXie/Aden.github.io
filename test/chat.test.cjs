@@ -81,6 +81,18 @@ test('an empty reply while search is offered is asked again without the tool', a
   assert.equal(sent[1].tools, undefined);
   assert.match(res.output, /回答/);
 });
+test('a tool call that ends with finish_reason stop (Gemini 3.5) still runs the search', async () => {
+  const urls = [];
+  const res = await harness(async (url) => {
+    urls.push(url);
+    if (url === 'https://api.exa.ai/search') return new Response(JSON.stringify({ results: [] }), { headers: { 'content-type': 'application/json' } });
+    if (urls.length === 1) return completion({ delta: { role: 'assistant', tool_calls: [{ index: 0, id: 'c1', type: 'function', function: { name: 'search_web', arguments: '{"query":"AUD CNY"}' } }] }, finish_reason: 'stop' });
+    return answer();
+  }, searchEnv)();
+  assert.deepEqual(urls.slice(0, 2).map(u => u.includes('exa') ? 'exa' : 'gemini'), ['gemini', 'exa']);
+  assert.match(res.output, /searching/);
+  assert.match(res.output, /回答/);
+});
 test('replays fragmented Gemini tool calls and their signatures while limiting Exa to one search', async () => {
   for (const fresh of [false, true]) {
     const requests = [];
