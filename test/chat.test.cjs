@@ -41,6 +41,17 @@ test('an Exa key offers search without searching when Gemini answers directly', 
   assert.equal(urls.length, 1);
   assert.match(res.output, /回答/);
 });
+test('an overloaded Gemini (503) is retried twice with backoff before the visitor sees an error', async () => {
+  const busy = () => new Response(JSON.stringify([{ error: { code: 503, status: 'UNAVAILABLE' } }]), { status: 503 });
+  let calls = 0;
+  const ok = await harness(async () => ++calls <= 2 ? busy() : answer(), searchEnv)();
+  assert.equal(calls, 3);
+  assert.match(ok.output, /回答/);
+  calls = 0;
+  const failed = await harness(async () => { calls++; return busy(); }, searchEnv)();
+  assert.equal(calls, 3);
+  assert.equal(JSON.parse(failed.output).error, 'provider_unavailable');
+});
 test('replays fragmented Gemini tool calls and their signatures while limiting Exa to one search', async () => {
   for (const fresh of [false, true]) {
     const requests = [];

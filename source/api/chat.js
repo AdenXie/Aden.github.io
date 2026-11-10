@@ -282,6 +282,9 @@ async function handler(req, res) {
       const body = JSON.stringify(request);
       let upstream;
       // Retry one known short-window limit. Daily and ambiguous limits return immediately.
+      // Gemini's troubleshooting guide: retry transient 5xx with exponential backoff and jitter, capped.
+      // Two retries (about 2 s, then 4 s) keep the worst case well inside the 60 s request budget.
+      let overloaded = 0;
       for (let attempt = 0; ; attempt++) {
         upstream = await fetch(ENDPOINT, {
           method: 'POST', signal: controller.signal,
@@ -289,6 +292,11 @@ async function handler(req, res) {
           body
         });
         provider = { at: Date.now(), ok: true, failedAt: 0 };
+        if (overloaded < 2 && [500, 502, 503, 504].includes(upstream.status)) {
+          await upstream.body?.cancel();
+          await sleep(2000 * 2 ** overloaded++ + Math.random() * 1000, undefined, { signal: controller.signal });
+          continue;
+        }
         if (upstream.status !== 429) break;
         const limit = await geminiRateLimit(upstream);
         controller.signal.throwIfAborted();
@@ -301,7 +309,10 @@ async function handler(req, res) {
       }
       if (!upstream.ok) {
         const retryAfter = upstream.headers.get('retry-after');
-        await upstream.body?.cancel();
+        // Log the HTTP status and Gemini's error enum only (e.g. UNAVAILABLE, INVALID_ARGUMENT); never bodies or prompts.
+        const reason = await upstream.json().then(data => (Array.isArray(data) ? data[0] : data)?.error?.status).catch(() => undefined);
+        console.warn(JSON.stringify({ event: 'chat_upstream_status', status: upstream.status, reason: typeof reason === 'string' && /^[A-Z_]{1,40}$/.test(reason) ? reason : 'UNKNOWN', search: Boolean(exaKey), round: request.tool_choice }));
+        await upstream.body?.cancel().catch(() => {});
         return fail(502, { error: [401,403].includes(upstream.status) ? 'provider_auth' : 'provider_unavailable' }, retryAfter);
       }
       if (!upstream.body || !upstream.headers.get('content-type')?.includes('text/event-stream')) {
