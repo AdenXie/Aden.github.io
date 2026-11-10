@@ -38,7 +38,7 @@ async function main() {
         if (mode === 'daily') return route.fulfill({ status: 429, json: { error: 'rate_limited', reason: 'daily_quota' } });
         if (mode === 'search') { await new Promise(r => setTimeout(r, 1200)); return route.fulfill({ contentType: 'text/event-stream', body: 'data: {"status":"searching"}\n\n' }); }
         if (mode === 'slow') { await new Promise(r => setTimeout(r, 2500)); return route.abort().catch(() => {}); }
-        const text = '**Hello 世界**\n- item\n```html\n<script>alert(1)</script>\n```\n<img src=x onerror=alert(1)>';
+        const text = '**Hello 世界**\n- item\n```html\n<script>alert(1)</script>\n```\n<img src=x onerror=alert(1)>\n来源 [示例](https://example.org/a?b=1) [坏链接](javascript:alert(1))';
         const body = `data: ${JSON.stringify({ text })}\n\n` + (mode === 'broken' ? '' : 'data: {"done":true}\n\n');
         return route.fulfill({ contentType: 'text/event-stream', body });
       });
@@ -110,6 +110,13 @@ async function main() {
         assert.equal(await page.locator('.chat-message-body strong').innerText(), 'Hello 世界');
         assert.equal(await page.locator('.chat-message-body script, .chat-message-body img').count(), 0);
         assert.equal(await page.locator('.chat-message-body li').count(), 1);
+        // Sources become links (http/https only, new tab, no referrer); other schemes stay text.
+        const links = page.locator('.chat-message-body a');
+        assert.equal(await links.count(), 1);
+        assert.equal(await links.getAttribute('href'), 'https://example.org/a?b=1');
+        assert.equal(await links.getAttribute('target'), '_blank');
+        assert.match(await links.getAttribute('rel'), /noopener/);
+        assert.match(await page.locator('.chat-message[data-role="assistant"] .chat-message-body').last().innerText(), /\[坏链接\]\(javascript/);
         const box = await panel.boundingBox(), dock = await page.locator('.right-side-tools-container').boundingBox();
         assert(box.y + box.height <= dock.y, 'the panel sits above the dock');
         if (phone) assert(box.height >= 950 * 0.45 && box.height <= 950 * 0.76, 'phone panel takes half to three quarters of the screen');

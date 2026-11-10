@@ -38,10 +38,19 @@
   }
   function inline(node, text) {
     // A small safe subset: model HTML is always rendered as text.
-    const regex = /(`[^`\n]+`|\*\*[^*\n]+\*\*)/g;
+    // Links: only [text](http(s) URL), opened in a new tab without referrer; anything else stays text.
+    const regex = /(`[^`\n]+`|\*\*[^*\n]+\*\*|\[[^\]\n]{1,300}\]\(https?:\/\/[^\s()]{1,2048}\))/g;
     let last = 0;
     for (const match of text.matchAll(regex)) {
       node.append(document.createTextNode(text.slice(last, match.index)));
+      const link = match[0].match(/^\[([^\]]+)\]\((.+)\)$/);
+      if (link) {
+        const a = document.createElement('a');
+        try { const url = new URL(link[2]); if (!/^https?:$/.test(url.protocol)) throw 0; a.href = url.href; }
+        catch { node.append(document.createTextNode(match[0])); last = match.index + match[0].length; continue; }
+        a.target = '_blank'; a.rel = 'noopener noreferrer nofollow'; a.textContent = link[1].replace(/\*\*/g, '');
+        node.append(a); last = match.index + match[0].length; continue;
+      }
       const code = match[0].startsWith('`'), el = document.createElement(code ? 'code' : 'strong');
       el.textContent = match[0].slice(code ? 1 : 2, code ? -1 : -2); node.append(el);
       last = match.index + match[0].length;

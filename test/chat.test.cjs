@@ -52,35 +52,6 @@ test('an overloaded Gemini (503) is retried twice with backoff before the visito
   assert.equal(calls, 3);
   assert.equal(JSON.parse(failed.output).error, 'provider_unavailable');
 });
-test('tool calls without index or id still search, and a malformed tool round falls back to a plain answer', async () => {
-  const requests = [];
-  const res = await harness(async (url, options) => {
-    requests.push(url);
-    if (url === 'https://api.exa.ai/search') return new Response(JSON.stringify({ results: [] }), { headers: { 'content-type': 'application/json' } });
-    if (requests.length === 1) return completion({ delta: { tool_calls: [{ type: 'function', function: { name: 'search_web', arguments: '{"query":"澳元"}' } }] }, finish_reason: 'tool_calls' });
-    return answer();
-  }, searchEnv)();
-  assert.equal(requests[1], 'https://api.exa.ai/search');
-  assert.match(res.output, /回答/);
-  const sent = [];
-  const fallback = await harness(async (url, options) => {
-    sent.push(JSON.parse(options.body));
-    return sent.length === 1 ? completion({ delta: {}, finish_reason: 'MALFORMED_FUNCTION_CALL' }) : answer();
-  }, searchEnv)();
-  assert.equal(sent.length, 2);
-  assert.equal(sent[1].tools, undefined);
-  assert.match(fallback.output, /回答/);
-});
-test('an empty reply while search is offered is asked again without the tool', async () => {
-  const sent = [];
-  const res = await harness(async (url, options) => {
-    sent.push(JSON.parse(options.body));
-    return sent.length === 1 ? completion({ delta: { role: 'assistant' }, finish_reason: 'stop' }) : answer();
-  }, searchEnv)();
-  assert.equal(sent.length, 2);
-  assert.equal(sent[1].tools, undefined);
-  assert.match(res.output, /回答/);
-});
 test('a tool call that ends with finish_reason stop (Gemini 3.5) still runs the search', async () => {
   const urls = [];
   const res = await harness(async (url) => {

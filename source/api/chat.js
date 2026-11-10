@@ -146,8 +146,7 @@ async function readCompletion(body, onText, acceptTools) {
   const reader = body.getReader();
   const decoder = new TextDecoder();
   const toolCalls = [];
-  let buffer = '', finish, lines = [], content = '', extraContent, text = 0;
-  const shape = new Set(); // Field names only (never values), to diagnose responses with nothing usable in them.
+  let buffer = '', finish, lines = [], content = '', extraContent;
   const event = () => {
     if (!lines.length) return;
     const data = lines.join('\n'); lines = [];
@@ -155,14 +154,10 @@ async function readCompletion(body, onText, acceptTools) {
     const payload = JSON.parse(data);
     if (payload.error) throw new Error('provider_error');
     const choice = payload.choices?.[0], delta = choice?.delta;
-    for (const key of Object.keys(delta ?? {})) if (shape.size < 20) shape.add(key.slice(0, 40));
-    if (!choice) for (const key of Object.keys(payload)) if (shape.size < 20) shape.add('payload.' + key.slice(0, 40));
     if (acceptTools && delta?.extra_content) extraContent = delta.extra_content;
     for (const chunk of delta?.tool_calls ?? []) {
-      // Some Gemini models omit the index (or the id) on streamed tool calls: a chunk that names a call
-      // starts a new one, a bare chunk continues the last.
-      const index = Number.isInteger(chunk.index) ? chunk.index : (chunk.id || chunk.function?.name || !toolCalls.length ? toolCalls.length : toolCalls.length - 1);
-      if (!acceptTools || index < 0 || index >= 8) throw new Error('invalid_tool_call');
+      const index = chunk.index;
+      if (!acceptTools || !Number.isInteger(index) || index < 0 || index >= 8) throw new Error('invalid_tool_call');
       const call = toolCalls[index] ??= { type: 'function', function: { name: '', arguments: '' } };
       if (chunk.id) call.id = chunk.id;
       if (chunk.extra_content) call.extra_content = chunk.extra_content;
@@ -171,7 +166,7 @@ async function readCompletion(body, onText, acceptTools) {
       if (call.function.name.length > 100 || call.function.arguments.length > 4000) throw new Error('invalid_tool_call');
     }
     if (typeof delta?.content === 'string') {
-      onText(delta.content); text += delta.content.trim().length;
+      onText(delta.content);
       if (acceptTools) content += delta.content;
     }
     if (choice?.finish_reason) finish = choice.finish_reason;
@@ -191,15 +186,11 @@ async function readCompletion(body, onText, acceptTools) {
     // Gemini 3.5 ends a tool-call turn with finish_reason "stop" rather than "tool_calls".
     if (acceptTools && (finish === 'tool_calls' || (['done', 'stop'].includes(finish) && toolCalls.some(Boolean)))) {
       const calls = toolCalls.filter(Boolean);
-      if (!calls.length) throw new Error('invalid_tool_call');
-      calls.forEach((call, i) => { if (typeof call.id !== 'string' || !call.id) call.id = `call_${i + 1}`; });
+      if (!calls.length || calls.some(call => typeof call.id !== 'string' || !call.id)) throw new Error('invalid_tool_call');
       // Gemini requires the original thought signature when the function call is replayed.
       return { assistant: { role: 'assistant', content: content || null, tool_calls: calls, ...(extraContent ? { extra_content: extraContent } : {}) } };
     }
-    if (!['done', 'stop', 'length'].includes(finish) || !text) {
-      console.warn(JSON.stringify({ event: 'chat_unusable_round', finish: typeof finish === 'string' ? finish.slice(0, 40) : null, fields: [...shape], tools: acceptTools }));
-      throw new Error(text ? 'interrupted' : 'empty_response');
-    }
+    if (!['done', 'stop', 'length'].includes(finish)) throw new Error('interrupted');
     return { finish };
   } finally {
     await reader.cancel().catch(() => {});
@@ -330,18 +321,7 @@ async function handler(req, res) {
         return fail(502, { error: 'provider_unavailable' });
       }
       if (!exaKey) startStream();
-      let finish, assistant;
-      try {
-        ({ finish, assistant } = await readCompletion(upstream.body, onText, request.tool_choice === 'auto'));
-      } catch (cause) {
-        // A malformed tool round must not cost the visitor the answer: before any text has gone out,
-        // ask again once without the search tool.
-        if (request.tool_choice !== 'auto' || output || res.headersSent || !['invalid_tool_call', 'interrupted', 'provider_error', 'empty_response'].includes(cause?.message)) throw cause;
-        console.warn(JSON.stringify({ event: 'chat_tool_round_failed', error: cause.message }));
-        delete request.tools; delete request.tool_choice;
-        request.messages[0] = { role: 'system', content: systemPrompt(page, false) };
-        continue;
-      }
+      const { finish, assistant } = await readCompletion(upstream.body, onText, request.tool_choice === 'auto');
       if (!assistant) {
         emit(finish === 'done' ? { done: true } : { done: true, truncated: finish === 'length' });
         return res.end();
@@ -364,7 +344,7 @@ async function handler(req, res) {
     const safeCode = ['UND_ERR_CONNECT_TIMEOUT', 'ENOTFOUND', 'EAI_AGAIN', 'ECONNRESET', 'ECONNREFUSED', 'CERT_HAS_EXPIRED', 'UNABLE_TO_VERIFY_LEAF_SIGNATURE'].includes(code) ? code : 'UNKNOWN';
     if (connectionTimeout) provider = { at: Date.now(), ok: false, failedAt: Date.now() };
     const addresses = connectionTimeout ? [...new Set((cause?.cause?.message || '').match(/\b(?:\d{1,3}\.){3}\d{1,3}\b/g) || [])] : [];
-    const internal = ['invalid_tool_call', 'empty_response', 'interrupted', 'provider_error', 'invalid_stream', 'output_limit'].includes(cause?.message) ? cause.message : undefined;
+    const internal = ['invalid_tool_call', 'interrupted', 'provider_error', 'invalid_stream', 'output_limit'].includes(cause?.message) ? cause.message : undefined;
     console.warn(JSON.stringify({ event: 'chat_upstream_failure', phase: res.headersSent ? 'stream' : 'connect', code: safeCode, ...(internal && { error: internal }), addresses }));
     const error = timedOut ? 'timeout' : res.headersSent ? 'interrupted' : connectionTimeout ? 'provider_connect_timeout' : 'provider_unavailable';
     if (res.headersSent) { emit({ error }); res.end(); }
