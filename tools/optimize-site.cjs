@@ -179,7 +179,11 @@ async function optimize(directory = 'public') {
       if (dock.length) {
         dock.attr({ role: 'toolbar', 'aria-label': english ? 'Quick tools' : '快捷工具' });
         dock.append($('#aden-ask'), $('.aden-ask-open'));
-        dock.find('.aden-dock-menu').remove();
+        dock.find('.aden-dock-menu, .aden-dock-toc, .aden-dock-music').remove();
+        // Phones and tablets hide the article's side contents; a dock button opens them as a sheet.
+        if ($('.post-toc ol.nav').length) dock.append(`<button type="button" class="aden-dock-toc" aria-haspopup="dialog" aria-expanded="false" aria-label="${english ? 'Contents' : '目录'}"><i class="fa-solid fa-list-ul" aria-hidden="true"></i></button>`);
+        // Phones hide the music player; the settings popover offers play and pause for it.
+        if ($('#aplayer').length) dock.find('.hidden-tools-list').append(`<li class="right-bottom-tools aden-dock-music" role="button" tabindex="0" aria-pressed="false" aria-label="${english ? 'Play music' : '播放音乐'}"><i class="fa-solid fa-play" aria-hidden="true"></i></li>`);
         if ($('#navbar-drawer').length) dock.append(`<button type="button" class="aden-dock-menu" aria-controls="navbar-drawer" aria-expanded="false" aria-label="${english ? 'Menu' : '菜单'}"><span class="aden-dock-bars" aria-hidden="true"></span></button>`);
         const names = {
           'toggle-tools-list': ['更多设置', 'More settings'],

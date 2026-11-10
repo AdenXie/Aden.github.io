@@ -70,7 +70,7 @@ html.aden-ask-has-context { --aden-context-space: 30px; }
   position: absolute;
   bottom: calc(100% + 5px);
   left: 8px;
-  display: none;
+  display: flex;
   align-items: center;
   gap: .45rem;
   box-sizing: border-box;
@@ -86,13 +86,34 @@ html.aden-ask-has-context { --aden-context-space: 30px; }
   font: .78rem/1.4 var(--aden-interface-font);
   white-space: nowrap;
   cursor: pointer;
+  /* Hidden state: tucked behind the dock's top edge. It slides up and fades in when the field is used. */
+  opacity: 0;
+  visibility: hidden;
+  filter: blur(3px);
+  transform: translateY(14px) scale(.94);
+  transform-origin: 24px 100%;
+  transition: opacity .16s ease-in, filter .16s ease-in, transform .2s cubic-bezier(.4, 0, 1, 1), visibility 0s linear .2s;
+  pointer-events: none;
 }
+
+.aden-ask-context[hidden] { display: none; }
 
 .aden-ask-context input { flex: none; margin: 0; accent-color: var(--aden-signal); }
 .aden-ask-context span { overflow: hidden; text-overflow: ellipsis; }
 .aden-ask-context:has(input:focus-visible) { outline: 2px solid var(--aden-signal); outline-offset: 2px; }
-.aden-ask:is(:focus-within, .is-working) .aden-ask-context:not([hidden]),
-html.aden-chat-open .aden-ask-context:not([hidden]) { display: flex; }
+.aden-ask:is(:focus-within, .is-working) .aden-ask-context,
+html.aden-chat-open .aden-ask-context {
+  opacity: 1;
+  visibility: visible;
+  filter: none;
+  transform: none;
+  transition: opacity .24s ease-out, filter .24s ease-out, transform .36s cubic-bezier(.34, 1.3, .64, 1), visibility 0s;
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aden-ask-context, .aden-ask:is(:focus-within, .is-working) .aden-ask-context, html.aden-chat-open .aden-ask-context { filter: none; transform: none; transition: opacity .12s ease, visibility 0s linear .12s; }
+}
 
 /* Notices above the dock: privacy on first use, errors while the panel is closed. */
 .aden-ask-toast {
@@ -113,9 +134,20 @@ html.aden-chat-open .aden-ask-context:not([hidden]) { display: flex; }
   backdrop-filter: var(--aden-glass-blur, none);
   color: var(--second-text-color);
   font: .78rem/1.5 var(--aden-interface-font);
-  transform: translateX(-50%);
+  /* Rises out of the dock (grows from its bottom edge) and sinks back into it; leaving is quicker. */
+  opacity: 0;
+  filter: blur(4px);
+  transform: translate(-50%, 18px) scale(.92);
+  transform-origin: 50% 100%;
+  transition: opacity .18s ease-in, filter .18s ease-in, transform .2s cubic-bezier(.4, 0, 1, 1);
 }
 
+.aden-ask-toast.is-shown {
+  opacity: 1;
+  filter: none;
+  transform: translate(-50%, 0);
+  transition: opacity .24s ease-out, filter .24s ease-out, transform .38s cubic-bezier(.34, 1.3, .64, 1);
+}
 .aden-ask-toast[hidden] { display: none; }
 .aden-ask-toast[data-error="true"] { border-color: color-mix(in srgb, var(--aden-alert) 45%, transparent); color: var(--first-text-color); }
 html.aden-chat-open .aden-ask-toast { display: none; }
@@ -135,4 +167,5 @@ html.aden-chat-open .aden-ask-toast { display: none; }
 
 @media (prefers-reduced-motion: reduce) {
   #aden-chat { animation: none; }
+  .aden-ask-toast, .aden-ask-toast.is-shown { filter: none; transform: translate(-50%, 0); transition: opacity .12s ease; }
 }

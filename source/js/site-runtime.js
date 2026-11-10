@@ -312,7 +312,81 @@
         settings.focus({ preventScroll: true });
       }, { signal });
     }
-    return () => popoverObserver?.disconnect();
+    // Music (phones): the player itself is hidden there, so the settings popover plays or pauses it.
+    // APlayer toggles on a click on its cover and marks the state on its play button.
+    const music = dock.querySelector('.aden-dock-music');
+    let musicObserver;
+    if (music) {
+      const english = document.documentElement.lang.startsWith('en');
+      const button = () => document.querySelector('#aplayer .aplayer-button');
+      const syncMusic = () => {
+        const playing = Boolean(button()?.classList.contains('aplayer-pause'));
+        music.setAttribute('aria-pressed', String(playing));
+        music.setAttribute('aria-label', playing ? (english ? 'Pause music' : '暂停音乐') : (english ? 'Play music' : '播放音乐'));
+        music.querySelector('i')?.classList.replace(playing ? 'fa-play' : 'fa-pause', playing ? 'fa-pause' : 'fa-play');
+      };
+      music.addEventListener('click', () => { document.querySelector('#aplayer .aplayer-pic')?.click(); }, { signal });
+      const player = document.getElementById('aplayer');
+      if (player) {
+        musicObserver = new MutationObserver(syncMusic);
+        musicObserver.observe(player, { subtree: true, attributes: true, attributeFilter: ['class'] });
+      }
+      syncMusic();
+    }
+    // Contents (phones and tablets, where the side contents are hidden): a sheet above the dock with the
+    // article's headings. It marks the section being read, scrolls to a picked heading and closes; Escape,
+    // the close button or a tap on the backdrop closes it and returns focus to the dock button.
+    const tocButton = dock.querySelector('.aden-dock-toc'), toc = document.querySelector('.post-toc ol.nav');
+    let sheet, backdrop;
+    const closeSheet = (returnFocus = true) => {
+      if (!sheet) return;
+      sheet.remove(); backdrop.remove(); sheet = backdrop = null;
+      tocButton.setAttribute('aria-expanded', 'false');
+      if (returnFocus) tocButton.focus({ preventScroll: true });
+    };
+    if (tocButton && toc) {
+      const english = document.documentElement.lang.startsWith('en');
+      const headingOf = link => document.getElementById(decodeURIComponent((link.getAttribute('href') || '').slice(1)));
+      tocButton.addEventListener('click', () => {
+        if (sheet) { closeSheet(); return; }
+        backdrop = document.createElement('div'); backdrop.className = 'aden-toc-backdrop';
+        sheet = document.createElement('section');
+        sheet.className = 'aden-toc-sheet'; sheet.setAttribute('role', 'dialog'); sheet.setAttribute('aria-modal', 'true'); sheet.setAttribute('aria-labelledby', 'aden-toc-title');
+        sheet.innerHTML = `<header><h2 id="aden-toc-title">${english ? 'Contents' : '目录'}</h2><button type="button" class="aden-toc-close" aria-label="${english ? 'Close contents' : '关闭目录'}"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></header><nav></nav>`;
+        const list = toc.cloneNode(true);
+        sheet.querySelector('nav').append(list);
+        const links = [...list.querySelectorAll('a.nav-link')];
+        // The section being read: the last heading above the upper third of the window.
+        const current = links.filter(link => (headingOf(link)?.getBoundingClientRect().top ?? Infinity) < window.innerHeight / 3).pop() || links[0];
+        current?.setAttribute('aria-current', 'location');
+        list.addEventListener('click', event => {
+          const link = event.target.closest('a.nav-link');
+          if (!link) return;
+          event.preventDefault();
+          const heading = headingOf(link);
+          closeSheet(false);
+          if (!heading) return;
+          const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          window.scrollTo({ top: heading.getBoundingClientRect().top + window.scrollY - 76, behavior: reduce ? 'auto' : 'smooth' });
+          heading.setAttribute('tabindex', '-1'); heading.focus({ preventScroll: true });
+        });
+        sheet.querySelector('.aden-toc-close').addEventListener('click', () => closeSheet());
+        backdrop.addEventListener('click', () => closeSheet());
+        sheet.addEventListener('keydown', event => {
+          if (event.key === 'Escape') { event.stopPropagation(); closeSheet(); return; }
+          if (event.key !== 'Tab') return;
+          // Keep Tab inside the sheet while it is open.
+          const items = [...sheet.querySelectorAll('button, a')], first = items[0], last = items.at(-1);
+          if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+          else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+        });
+        document.body.append(backdrop, sheet);
+        tocButton.setAttribute('aria-expanded', 'true');
+        (current || sheet.querySelector('.aden-toc-close')).focus({ preventScroll: true });
+        current?.scrollIntoView({ block: 'center' });
+      }, { signal });
+    }
+    return () => { popoverObserver?.disconnect(); musicObserver?.disconnect(); closeSheet(false); };
   });
   // APlayer draws its icon-only buttons without names. Name them in the page language; the play
   // button says "Pause" while playing (APlayer marks the container with aplayer-play / aplayer-pause).

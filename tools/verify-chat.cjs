@@ -36,6 +36,7 @@ async function main() {
         posted.push(req.postDataJSON());
         if (mode === 'quota') return route.fulfill({ status: 429, headers: { 'Retry-After': '30' }, json: { error: 'rate_limited' } });
         if (mode === 'daily') return route.fulfill({ status: 429, json: { error: 'rate_limited', reason: 'daily_quota' } });
+        if (mode === 'search') { await new Promise(r => setTimeout(r, 1200)); return route.fulfill({ contentType: 'text/event-stream', body: 'data: {"status":"searching"}\n\n' }); }
         if (mode === 'slow') { await new Promise(r => setTimeout(r, 2500)); return route.abort().catch(() => {}); }
         const text = '**Hello 世界**\n- item\n```html\n<script>alert(1)</script>\n```\n<img src=x onerror=alert(1)>';
         const body = `data: ${JSON.stringify({ text })}\n\n` + (mode === 'broken' ? '' : 'data: {"done":true}\n\n');
@@ -85,6 +86,13 @@ async function main() {
         await page.waitForFunction(() => !document.querySelector('#aden-ask').classList.contains('is-working'));
         assert.match(await toast.innerText(), /停止|Stopped/);
         assert.equal(await input.inputValue(), 'stop-me');
+
+        // A web search shows its own state in the dock while the model works.
+        mode = 'search'; await input.fill('search-me'); await send.click();
+        await page.waitForFunction(() => /联网搜索|Searching the web/.test(document.querySelector('.aden-ask-thinking-label')?.textContent || ''));
+        assert(await panel.isHidden(), 'no panel while searching');
+        await page.waitForFunction(() => !document.querySelector('#aden-ask').classList.contains('is-working'));
+        await input.fill('');
 
         // The answer opens the panel; the article travels with the question.
         mode = 'ok'; await input.fill('private-test-marker'); await send.click();

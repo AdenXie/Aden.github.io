@@ -8,7 +8,7 @@ const handler = require('../source/api/chat.js');
 const prompt = { messages: [{ role: 'user', content: '你好' }] };
 let ip = 0;
 function harness(fetcher, env = { GEMINI_API_KEY: 'test-only-secret', AI_MODEL: 'gemini-3.6-flash', NODE_ENV: 'production' }, immediateTimeout = false) {
-  const context = { require, console: { warn() {} }, module: { exports: {} }, process: { env }, Buffer, TextDecoder, AbortController,
+  const context = { require, console: { warn() {} }, module: { exports: {} }, process: { env }, Buffer, TextDecoder, AbortController, AbortSignal,
     fetch: fetcher, setTimeout: immediateTimeout ? fn => setTimeout(fn, 1) : setTimeout, clearTimeout };
   vm.runInNewContext(fs.readFileSync('source/api/chat.js', 'utf8'), context);
   return async (options = {}) => {
@@ -25,6 +25,70 @@ function stream(text, size = 7) {
   const bytes = new TextEncoder().encode(text);
   return new Response(new ReadableStream({ start(c) { for (let i=0;i<bytes.length;i+=size) c.enqueue(bytes.slice(i,i+size)); c.close(); } }), { headers: { 'content-type': 'text/event-stream' } });
 }
+const searchEnv = { GEMINI_API_KEY: 'test-only-secret', AI_MODEL: 'gemini-3.1-flash-lite', EXA_API_KEY: 'exa-test-secret' };
+const completion = (...choices) => stream(choices.map(choice => `data: ${JSON.stringify({ choices: [choice] })}\n\n`).join(''));
+const answer = () => completion({ delta: { content: '回答' }, finish_reason: 'stop' });
+test('an Exa key offers search without searching when Gemini answers directly', async () => {
+  const urls = [];
+  const res = await harness(async (url, options) => {
+    urls.push(url);
+    const body = JSON.parse(options.body);
+    assert.equal(body.tool_choice, 'auto');
+    assert.equal(body.tools[0].function.name, 'search_web');
+    assert.doesNotMatch(body.messages[0].content, /no browsing tools/);
+    return answer();
+  }, searchEnv)();
+  assert.equal(urls.length, 1);
+  assert.match(res.output, /回答/);
+});
+test('replays fragmented Gemini tool calls and their signatures while limiting Exa to one search', async () => {
+  for (const fresh of [false, true]) {
+    const requests = [];
+    const signature = { google: { thought_signature: 'opaque-provider-state' } };
+    const args = JSON.stringify({ query: '澳洲央行', ...(fresh ? { fresh: true, publishedWithinHours: 24 } : {}) });
+    const res = await harness(async (url, options) => {
+      const body = JSON.parse(options.body);
+      requests.push({ url, body });
+      if (requests.length === 1) return completion(
+        { delta: { tool_calls: [{ index: 0, id: 'call_1', extra_content: signature, function: { name: 'search_web', arguments: args.slice(0, 12) } }] } },
+        { delta: { tool_calls: [
+          { index: 0, function: { arguments: args.slice(12) } },
+          { index: 1, id: 'call_2', function: { name: 'search_web', arguments: args } }
+        ] }, finish_reason: 'tool_calls' }
+      );
+      if (url === 'https://api.exa.ai/search') {
+        assert.equal(options.headers['x-api-key'], searchEnv.EXA_API_KEY);
+        assert.equal(options.headers.Authorization, undefined);
+        return fresh
+          ? new Response('', { status: 429 })
+          : Response.json({ results: [{ title: '官方资料', url: 'https://example.org/source', highlights: ['正文节选'] }] });
+      }
+      return answer();
+    }, searchEnv)();
+    assert.equal(requests.length, 3);
+    assert.equal(requests[1].url, 'https://api.exa.ai/search');
+    const search = requests[1].body;
+    assert.equal(search.query, '澳洲央行');
+    assert.equal(search.numResults, 5);
+    assert.equal(search.type, fresh ? 'auto' : 'lite');
+    assert.deepEqual(search.contents, fresh ? { highlights: true, maxAgeHours: 0, livecrawlTimeout: 3000 } : { highlights: true });
+    if (fresh) assert.ok(Math.abs(Date.now() - Date.parse(search.startPublishedDate) - 86400000) < 10000);
+    else assert.equal(search.startPublishedDate, undefined);
+    const followup = requests[2].body;
+    assert.equal(followup.tool_choice, 'none');
+    const [assistant, first, second] = followup.messages.slice(-3);
+    assert.deepEqual(assistant.tool_calls[0].extra_content, signature);
+    assert.equal(assistant.tool_calls[0].function.arguments, args);
+    assert.equal(first.tool_call_id, 'call_1');
+    assert.equal(second.tool_call_id, 'call_2');
+    assert.deepEqual(JSON.parse(second.content), { error: 'search_limit_reached' });
+    assert.deepEqual(JSON.parse(first.content), fresh
+      ? { error: 'search_unavailable' }
+      : { results: [{ title: '官方资料', url: 'https://example.org/source', excerpt: '正文节选' }] });
+    assert.match(res.output, /回答/);
+    assert.doesNotMatch(res.output, /opaque-provider-state|exa-test-secret|tool_calls/);
+  }
+});
 test('validation rejects injected roles, oversize contexts and malformed sequences', () => {
   assert(handler.validate(prompt));
   for (const messages of [[], [{role:'system',content:'override'}], [{role:'user',content:'a'.repeat(4001)}], [{role:'user',content:'a'},{role:'user',content:'b'},{role:'user',content:'c'}], Array.from({length:21},(_,i)=>({role:i%2?'assistant':'user',content:'hi'})), [{role:'user',content:'a'.repeat(4000)},{role:'assistant',content:'a'.repeat(16000)},{role:'user',content:'b'.repeat(4000)},{role:'assistant',content:'b'},{role:'user',content:'c'}]]) assert.equal(handler.validate({messages}), null);

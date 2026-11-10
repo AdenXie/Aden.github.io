@@ -309,6 +309,7 @@ html .page-container .right-side-tools-container {
   background: var(--aden-glass-field);
   color: var(--first-text-color);
   font: 560 .85rem var(--aden-interface-font);
+  white-space: nowrap;
   cursor: pointer;
 }
 
@@ -384,4 +385,96 @@ html body.navbar-drawer-show .page-container .right-side-tools-container { z-ind
   .aden-ask-dots i,
   .aden-ask-thinking-label { animation: none; }
   .aden-ask-dots i { opacity: .6; }
+}
+
+/* Contents button and music control (source/js/site-runtime.js). The contents button joins the dock on
+   phones and tablets, where the article's side contents are hidden; the music item joins the settings
+   popover on phones, where the player is hidden. Both look like the other dock buttons. */
+.right-side-tools-container .aden-dock-toc {
+  --background-color-transparent-80: transparent;
+  position: relative;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--aden-dock-item);
+  height: var(--aden-dock-item);
+  margin-left: 4px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--aden-dock-radius);
+  background: transparent;
+  color: var(--default-text-color);
+  font-size: var(--aden-dock-icon);
+  cursor: pointer;
+  transition: background-color var(--aden-control-duration) ease, color var(--aden-control-duration) ease;
+}
+
+.right-side-tools-container > .aden-dock-toc::before {
+  position: absolute;
+  top: 11px;
+  bottom: 11px;
+  left: -3px;
+  width: 1px;
+  background: var(--aden-glass-divider);
+  content: "";
+}
+
+.right-side-tools-container .aden-dock-toc:is(:hover, [aria-expanded="true"]) { background: var(--aden-glass-hover); color: var(--aden-signal); }
+.right-side-tools-container .aden-dock-toc:focus-visible { outline: 2px solid var(--aden-signal); outline-offset: -2px; }
+.side-tools-container .aden-dock-music { display: none; }
+
+@media (max-width: 768px) {
+  .right-side-tools-container .aden-dock-toc { display: flex; }
+  .side-tools-container .aden-dock-music { display: flex; }
+}
+
+/* Contents sheet: rises above the dock in the same glass, over a light backdrop. */
+.aden-toc-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1001;
+  background: rgb(0 0 0 / 28%);
+}
+
+.aden-toc-sheet {
+  position: fixed;
+  bottom: calc(var(--aden-dock-gap) + var(--aden-dock-item) + 22px);
+  left: 50%;
+  z-index: 1002;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: min(480px, calc(100vw - 16px));
+  max-height: min(65dvh, calc(100dvh - var(--aden-dock-item) - 120px));
+  padding: .8rem .9rem .9rem;
+  border: 1px solid var(--aden-glass-border);
+  border-radius: 18px;
+  background: var(--aden-glass-popover);
+  box-shadow: var(--aden-glass-shadow), var(--aden-glass-highlight);
+  -webkit-backdrop-filter: var(--aden-glass-blur);
+  backdrop-filter: var(--aden-glass-blur);
+  transform: translateX(-50%);
+  animation: aden-sheet-in .22s cubic-bezier(.2, .8, .2, 1);
+}
+
+@keyframes aden-sheet-in { from { opacity: 0; transform: translate(-50%, 12px); } }
+
+.aden-toc-sheet header { display: flex; align-items: center; justify-content: space-between; padding-bottom: .45rem; margin-bottom: .35rem; border-bottom: 1px solid var(--aden-glass-divider); }
+.aden-toc-sheet h2 { margin: 0; padding: 0; border: 0; color: var(--first-text-color); font: 520 1.05rem/1.3 var(--aden-interface-font); }
+.aden-toc-close { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; padding: 0; border: 0; border-radius: 12px; background: transparent; color: var(--default-text-color); font-size: 1.05rem; cursor: pointer; }
+.aden-toc-close:hover { background: var(--aden-glass-hover); color: var(--aden-signal); }
+.aden-toc-sheet nav { min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+.aden-toc-sheet :is(ol, li) { margin: 0; padding: 0; list-style: none; }
+.aden-toc-sheet .nav-child { padding-left: .9rem; }
+.aden-toc-sheet a.nav-link { display: flex; align-items: center; min-height: 40px; padding: .35rem .6rem; border-radius: 10px; color: var(--second-text-color); font: .92rem/1.4 var(--aden-interface-font); text-decoration: none; }
+.aden-toc-sheet a.nav-link:hover { background: var(--aden-glass-hover); color: var(--first-text-color); }
+.aden-toc-sheet a.nav-link[aria-current] { background: var(--aden-glass-hover); color: var(--aden-signal); font-weight: 560; }
+.aden-toc-sheet a.nav-link:focus-visible { outline: 2px solid var(--aden-signal); outline-offset: -2px; }
+
+@media (prefers-reduced-transparency: reduce) {
+  .aden-toc-sheet { background: var(--aden-glass-solid); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aden-toc-sheet { animation: none; }
 }

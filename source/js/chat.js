@@ -104,11 +104,20 @@
     const toast = document.createElement('p');
     toast.className = 'aden-ask-toast'; toast.setAttribute('role', 'status'); toast.setAttribute('aria-live', 'polite'); toast.hidden = true;
     document.body.append(toast);
-    let toastTimer = 0;
-    const notice = (text, error = false, ms = 6000) => {
-      clearTimeout(toastTimer);
-      toast.textContent = text; toast.dataset.error = String(error); toast.hidden = !text;
-      if (text && ms) toastTimer = setTimeout(() => { toast.hidden = true; }, ms);
+    // Notices rise out of the dock and sink back into it; errors stay a little longer (6 s) than other notes.
+    let toastTimer = 0, hideTimer = 0;
+    const notice = (text, error = false, ms = 4000) => {
+      clearTimeout(toastTimer); clearTimeout(hideTimer);
+      if (!text) {
+        toast.classList.remove('is-shown');
+        hideTimer = setTimeout(() => { toast.hidden = true; }, 220);
+        return;
+      }
+      toast.classList.remove('is-shown');
+      toast.textContent = text; toast.dataset.error = String(error); toast.hidden = false;
+      void toast.offsetWidth;
+      toast.classList.add('is-shown');
+      if (ms) toastTimer = setTimeout(() => notice(''), ms);
     };
 
     let history = [], active = null, available = true, assistantLabel = 'AI', reachable = true, privacyShown = false;
@@ -139,15 +148,15 @@
       if (active || !input.value.trim()) return;
       const prompt = input.value.trim();
       if (history.length >= 20 || history.reduce((n, m) => n + m.content.length, prompt.length) > 24000) {
-        notice(errors.invalid_request, true, 0); return;
+        notice(errors.invalid_request, true, 6000); return;
       }
       const controller = new AbortController(); active = controller;
       const timeout = setTimeout(() => { controller.timedOut = true; controller.abort(); }, 70000);
-      let reply = null, answer = '', shown = 0, complete = false, truncated = false, reader, frame = null, drained = null;
+      let reply = null, answer = '', shown = 0, complete = false, truncated = false, reader, frame = null, drained = null, searching = false;
       input.value = ''; setTyping(); setWorking(true); notice('');
       thinkingLabel.textContent = t('思考中', 'Thinking');
       // A slow connection usually means the provider is struggling; say so instead of a silent wait.
-      const slow = setTimeout(() => { if (active === controller && !answer) thinkingLabel.textContent = t('仍在连接 AI 服务商', 'Still connecting'); }, 6000);
+      const slow = setTimeout(() => { if (active === controller && !answer && !searching) thinkingLabel.textContent = t('仍在连接 AI 服务商', 'Still connecting'); }, 6000);
       // The exchange enters the transcript when the answer starts (or at once if the panel is already open).
       const reveal = () => {
         if (reply) return;
@@ -193,6 +202,9 @@
             if (!raw.startsWith('data: ')) continue;
             const data = JSON.parse(raw.slice(6));
             if (data.error) throw new Error(data.error);
+            // Model state from the server: a web search, then back to thinking over the results.
+            if (data.status === 'searching' && !answer.trim()) { searching = true; thinkingLabel.textContent = t('正在联网搜索', 'Searching the web'); }
+            if (data.status === 'thinking' && !answer.trim()) thinkingLabel.textContent = t('正在整理搜索结果', 'Reading the results');
             if (typeof data.text === 'string') {
               answer += data.text;
               if (answer.length > 16000) throw new Error('interrupted');
@@ -216,7 +228,7 @@
           reply.article.append(note);
           if (!answer) reply.body.remove();
         }
-        if (!reply || panel.hidden) notice(text, !stopped, 0);
+        if (!reply || panel.hidden) notice(text, !stopped, stopped ? 4000 : 6000);
         // The question goes back into the dock so it can be sent again.
         input.value = prompt; setTyping();
       } finally {
@@ -250,7 +262,7 @@
     input.addEventListener('input', () => { setTyping(); if (!active) send.disabled = !input.value.trim() || !available; }, { signal });
     const onFocus = event => {
       setTyping();
-      if (!privacyShown) { privacyShown = true; notice(reachable ? PRIVACY : errors.provider_connect_timeout, !reachable, reachable ? 8000 : 0); }
+      if (!privacyShown) { privacyShown = true; notice(reachable ? PRIVACY : errors.provider_connect_timeout, !reachable, reachable ? 4500 : 6000); }
       // Coming back to the field brings an earlier conversation back into view (not when the panel's own
       // hide or clear button just sent focus here).
       if (history.length && panel.hidden && !panel.contains(event?.relatedTarget)) setOpen(true);
@@ -285,7 +297,7 @@
       available = data.available === true;
       reachable = data.reachable !== false;
       if (!available) { input.disabled = true; input.placeholder = errors.not_configured; }
-      else if (!reachable && document.activeElement === input) notice(errors.provider_connect_timeout, true, 0);
+      else if (!reachable && document.activeElement === input) notice(errors.provider_connect_timeout, true, 6000);
       if (!active) setWorking(false);
     }).catch(() => {}).finally(() => clearTimeout(checkTimeout));
 
@@ -294,7 +306,7 @@
     if (document.activeElement === input) onFocus();
     if (form.dataset.queued !== undefined) submit();
     return () => {
-      reset(); check.abort(); clearTimeout(checkTimeout); clearTimeout(toastTimer);
+      reset(); check.abort(); clearTimeout(checkTimeout); clearTimeout(toastTimer); clearTimeout(hideTimer);
       panel.remove(); toast.remove(); context.remove();
       document.documentElement.classList.remove('aden-ask-has-context');
       document.documentElement.classList.remove('aden-chat-open');
