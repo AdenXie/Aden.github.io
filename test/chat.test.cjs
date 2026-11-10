@@ -8,7 +8,7 @@ const handler = require('../source/api/chat.js');
 const prompt = { messages: [{ role: 'user', content: '你好' }] };
 let ip = 0;
 function harness(fetcher, env = { GEMINI_API_KEY: 'test-only-secret', AI_MODEL: 'gemini-3.6-flash', NODE_ENV: 'production' }, immediateTimeout = false) {
-  const context = { require, console: { warn() {} }, module: { exports: {} }, process: { env }, Buffer, TextDecoder, AbortController, AbortSignal,
+  const context = { require: name => require(name.startsWith('./') ? `../source/api/${name.slice(2)}` : name), console: { warn() {} }, module: { exports: {} }, process: { env }, Buffer, TextDecoder, AbortController, AbortSignal,
     fetch: fetcher, setTimeout: immediateTimeout ? fn => setTimeout(fn, 1) : setTimeout, clearTimeout };
   vm.runInNewContext(fs.readFileSync('source/api/chat.js', 'utf8'), context);
   return async (options = {}) => {
@@ -34,7 +34,7 @@ test('an Exa key offers search without searching when Gemini answers directly', 
     urls.push(url);
     const body = JSON.parse(options.body);
     assert.equal(body.tool_choice, 'auto');
-    assert.equal(body.tools[0].function.name, 'search_web');
+    assert.deepEqual(body.tools.map(tool => tool.function.name), ['get_aud_cny_rate', 'search_web']);
     assert.doesNotMatch(body.messages[0].content, /no browsing tools/);
     return answer();
   }, searchEnv)();
@@ -77,6 +77,41 @@ test('Gemini 3.5 tool calls without index or id still run the search', async () 
   assert.equal(replay[0].tool_calls[0].id, 'call_1');
   assert.equal(replay[1].tool_call_id, 'call_1');
   assert.match(res.output, /回答/);
+});
+const SNAPSHOT = 'https://raw.githubusercontent.com/AdenXie/Aden.github.io/exchange-rates/aud-cny.json';
+const boc = (fetchedAt = new Date().toISOString()) => ({ currency: 'AUD', quoteCurrency: 'CNY', officialUnit: 'CNY per 100 AUD', spotBuy: 460.07, spotSell: 463.72,
+  publishedAt: '2026-11-10 14:59:58', source: { name: '中国银行', url: 'https://www.bankofchina.com/sourcedb/whpj/' }, fetchedAt, stale: false });
+test('the AUD/CNY tool answers from the site snapshot, also without a search key', async () => {
+  const requests = [];
+  const res = await harness(async (url, options) => {
+    requests.push({ url, body: options?.body && JSON.parse(options.body) });
+    if (url.startsWith(SNAPSHOT)) return new Response(JSON.stringify(boc()), { headers: { 'content-type': 'application/json' } });
+    if (requests.length === 1) return completion({ delta: { role: 'assistant', tool_calls: [{ index: 0, id: 'r1', type: 'function', function: { name: 'get_aud_cny_rate', arguments: '{}' } }] }, finish_reason: 'tool_calls' });
+    return answer();
+  })();
+  assert.deepEqual(requests[0].body.tools.map(tool => tool.function.name), ['get_aud_cny_rate']);
+  assert.match(requests[0].body.messages[0].content, /get_aud_cny_rate instead of searching/);
+  assert(requests[1].url.startsWith(SNAPSHOT), 'reads the same snapshot as the card');
+  const tool = JSON.parse(requests[2].body.messages.at(-1).content);
+  assert.equal(requests[2].body.messages.at(-1).tool_call_id, 'r1');
+  assert.deepEqual([tool.spotBuy, tool.spotSell, tool.unit, tool.publishedAtBeijingTime, tool.stale], [460.07, 463.72, 'CNY per 100 AUD', '2026-11-10 14:59:58', false]);
+  assert.equal(requests[2].body.tool_choice, 'none');
+  assert.match(res.output, /"status":"rate"/);
+  assert.match(res.output, /回答/);
+});
+test('an old or missing AUD/CNY snapshot is reported to the model, not invented', async () => {
+  for (const [snapshot, expected] of [[boc(new Date(Date.now() - 5 * 3600000).toISOString()), 'stale'], [null, 'missing']]) {
+    const requests = [];
+    await harness(async (url, options) => {
+      requests.push({ url, body: options?.body && JSON.parse(options.body) });
+      if (url.startsWith(SNAPSHOT)) return snapshot ? new Response(JSON.stringify(snapshot)) : new Response('', { status: 404 });
+      if (requests.length === 1) return completion({ delta: { tool_calls: [{ index: 0, id: 'r1', type: 'function', function: { name: 'get_aud_cny_rate', arguments: '{}' } }] }, finish_reason: 'tool_calls' });
+      return answer();
+    })();
+    const tool = JSON.parse(requests.at(-1).body.messages.at(-1).content);
+    if (expected === 'stale') { assert.equal(tool.stale, true); assert.match(tool.staleNote, /3 hours/); }
+    else assert.equal(tool.stale, true, 'a missing snapshot falls back to the last good quote, marked stale');
+  }
 });
 test('replays fragmented Gemini tool calls and their signatures while limiting Exa to one search', async () => {
   for (const fresh of [false, true]) {

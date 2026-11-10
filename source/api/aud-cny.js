@@ -17,13 +17,13 @@ function validSnapshot(quote) {
     age >= 0 && age < STALE_SECONDS * 1000 && quote.stale === false;
 }
 
-async function fetchSnapshot() {
+async function fetchSnapshot(fetchImpl) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 2000);
   try {
     // GitHub Raw may retain an older branch response for several minutes after
     // Actions writes a new snapshot. Each origin fetch should revalidate it.
-    const response = await fetch(`${SNAPSHOT_URL}?t=${Date.now()}`, { signal: controller.signal });
+    const response = await fetchImpl(`${SNAPSHOT_URL}?t=${Date.now()}`, { signal: controller.signal });
     if (!response.ok) return null;
     const quote = await response.json();
     return validSnapshot(quote) ? quote : null;
@@ -32,6 +32,17 @@ async function fetchSnapshot() {
   } finally {
     clearTimeout(timeout);
   }
+}
+
+// The latest usable quote: fresh when fetched in the last 3 hours, otherwise the last good one
+// marked stale. Shared with the chat's exchange-rate tool (source/api/chat.js).
+async function loadQuote(fetchImpl = fetch) {
+  const snapshot = await fetchSnapshot(fetchImpl);
+  if (snapshot) lastSuccessfulQuote = snapshot;
+  const quote = snapshot || lastSuccessfulQuote;
+  if (!quote || !validSnapshot(quote)) return null;
+  const fresh = Boolean(snapshot) && Date.now() - Date.parse(quote.fetchedAt) < CACHE_SECONDS * 1000;
+  return fresh ? quote : { ...quote, stale: true, fetchError: snapshot ? "snapshot_stale" : "snapshot_unavailable" };
 }
 
 function sendJson(response, statusCode, payload, cacheable = false) {
@@ -66,17 +77,9 @@ module.exports = async function audCnyQuote(request, response) {
   }
 
   // Vercel only reads the snapshot; bank access belongs to GitHub Actions.
-  const snapshot = await fetchSnapshot();
-  if (snapshot) lastSuccessfulQuote = snapshot;
-  const quote = snapshot || lastSuccessfulQuote;
-  if (quote && validSnapshot(quote)) {
-    const fresh = Boolean(snapshot) &&
-      Date.now() - Date.parse(quote.fetchedAt) < CACHE_SECONDS * 1000;
-    sendJson(response, 200, fresh ? quote : {
-      ...quote,
-      stale: true,
-      fetchError: snapshot ? "snapshot_stale" : "snapshot_unavailable"
-    }, fresh);
+  const quote = await loadQuote();
+  if (quote) {
+    sendJson(response, 200, quote, quote.stale === false);
     return;
   }
   console.warn("[aud-cny] No usable GitHub snapshot");
@@ -84,3 +87,4 @@ module.exports = async function audCnyQuote(request, response) {
 };
 
 module.exports.validSnapshot = validSnapshot;
+module.exports.loadQuote = loadQuote;

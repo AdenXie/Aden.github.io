@@ -212,8 +212,9 @@
             const data = JSON.parse(raw.slice(6));
             if (data.error) throw new Error(data.error);
             // Model state from the server: a web search, then back to thinking over the results.
-            if (data.status === 'searching' && !answer.trim()) { searching = true; thinkingLabel.textContent = t('正在联网搜索', 'Searching the web'); }
-            if (data.status === 'thinking' && !answer.trim()) thinkingLabel.textContent = t('正在整理搜索结果', 'Reading the results');
+            if (data.status === 'rate' && !answer.trim()) { searching = searching || 'rate'; thinkingLabel.textContent = t('正在读取汇率', 'Reading the exchange rate'); }
+            if (data.status === 'searching' && !answer.trim()) { searching = 'web'; thinkingLabel.textContent = t('正在联网搜索', 'Searching the web'); }
+            if (data.status === 'thinking' && !answer.trim()) thinkingLabel.textContent = searching === 'web' ? t('正在整理搜索结果', 'Reading the results') : t('正在整理结果', 'Putting it together');
             if (typeof data.text === 'string') {
               answer += data.text;
               if (answer.length > 16000) throw new Error('interrupted');
