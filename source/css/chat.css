@@ -61,7 +61,17 @@
 #aden-chat .chat-message-note { margin: .4rem 0 0; color: var(--second-text-color); font-size: .8rem; }
 #aden-chat .chat-message-note[data-error="true"] { padding: .45rem .6rem; border-radius: var(--aden-control-radius); background: color-mix(in srgb, var(--aden-alert) 10%, transparent); color: var(--first-text-color); }
 #aden-chat .chat-copy { min-height: 30px; margin-top: .4rem; padding: .15rem .55rem; font-size: .72rem; }
-#aden-chat .chat-privacy { margin: .4rem 0 0; color: var(--third-text-color); font-size: .68rem; line-height: 1.45; }
+/* Privacy note: one short line by default; the full text opens below it. */
+#aden-chat .chat-privacy { margin: .35rem 0 0; color: var(--third-text-color); font-size: .68rem; line-height: 1.45; }
+#aden-chat .chat-privacy summary { display: inline-flex; align-items: center; gap: .3rem; min-height: 28px; padding: 0 .2rem; border-radius: 6px; color: var(--third-text-color); font: 500 .72rem var(--aden-interface-font); cursor: pointer; list-style: none; }
+#aden-chat .chat-privacy summary::-webkit-details-marker { display: none; }
+#aden-chat .chat-privacy summary::after { content: ""; width: .38em; height: .38em; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-.12em) rotate(45deg); transition: transform .2s ease; }
+#aden-chat .chat-privacy[open] summary::after { transform: translateY(.08em) rotate(-135deg); }
+#aden-chat .chat-privacy summary:hover { color: var(--second-text-color); }
+#aden-chat .chat-privacy summary:focus-visible { outline: 2px solid var(--aden-signal); outline-offset: 2px; }
+#aden-chat .chat-privacy p { margin: .2rem 0 0; animation: aden-privacy-in .2s ease-out; }
+@keyframes aden-privacy-in { from { opacity: 0; transform: translateY(-3px); } }
+@media (prefers-reduced-motion: reduce) { #aden-chat .chat-privacy p { animation: none; } #aden-chat .chat-privacy summary::after { transition: none; } }
 
 /* Article tab on top of the dock field (source/js/chat.js): attached to the dock's top edge like a tab,
    shown while the field is in use, the model works or the conversation is open. The panel and notices

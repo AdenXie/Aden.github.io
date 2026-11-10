@@ -34,7 +34,7 @@ test('an Exa key offers search without searching when Gemini answers directly', 
     urls.push(url);
     const body = JSON.parse(options.body);
     assert.equal(body.tool_choice, 'auto');
-    assert.deepEqual(body.tools.map(tool => tool.function.name), ['get_aud_cny_rate', 'search_web']);
+    assert.deepEqual(body.tools.map(tool => tool.function.name), ['get_aud_cny_rate', 'get_local_weather', 'search_web']);
     assert.doesNotMatch(body.messages[0].content, /no browsing tools/);
     return answer();
   }, searchEnv)();
@@ -89,13 +89,13 @@ test('the AUD/CNY tool answers from the site snapshot, also without a search key
     if (requests.length === 1) return completion({ delta: { role: 'assistant', tool_calls: [{ index: 0, id: 'r1', type: 'function', function: { name: 'get_aud_cny_rate', arguments: '{}' } }] }, finish_reason: 'tool_calls' });
     return answer();
   })();
-  assert.deepEqual(requests[0].body.tools.map(tool => tool.function.name), ['get_aud_cny_rate']);
+  assert.deepEqual(requests[0].body.tools.map(tool => tool.function.name), ['get_aud_cny_rate', 'get_local_weather']);
   assert.match(requests[0].body.messages[0].content, /get_aud_cny_rate instead of searching/);
   assert(requests[1].url.startsWith(SNAPSHOT), 'reads the same snapshot as the card');
   const tool = JSON.parse(requests[2].body.messages.at(-1).content);
   assert.equal(requests[2].body.messages.at(-1).tool_call_id, 'r1');
   assert.deepEqual([tool.spotBuy, tool.spotSell, tool.unit, tool.publishedAtBeijingTime, tool.stale], [460.07, 463.72, 'CNY per 100 AUD', '2026-11-10 14:59:58', false]);
-  assert.equal(requests[2].body.tool_choice, 'none');
+  assert.equal(requests[2].body.tool_choice, 'auto', 'a second tool round is allowed');
   assert.match(res.output, /"status":"rate"/);
   assert.match(res.output, /回答/);
 });
@@ -112,6 +112,56 @@ test('an old or missing AUD/CNY snapshot is reported to the model, not invented'
     if (expected === 'stale') { assert.equal(tool.stale, true); assert.match(tool.staleNote, /3 hours/); }
     else assert.equal(tool.stale, true, 'a missing snapshot falls back to the last good quote, marked stale');
   }
+});
+const card = { label: 'Sydney', city: 'Sydney', region: 'NSW', country: 'AU', timezone: 'Australia/Sydney', savedAt: Date.now() - 5 * 60000,
+  current: { time: '2026-11-11T18:30', temperature: 21.4, apparentTemperature: 20.1, humidity: 62, weatherCode: 0, windSpeed: 11.2, isDay: true },
+  sunrise: '2026-11-11T05:49', sunset: '2026-11-11T19:31' };
+const callTool = (name, id = 'w1', args = '{}') => completion({ delta: { tool_calls: [{ index: 0, id, type: 'function', function: { name, arguments: args } }] }, finish_reason: 'tool_calls' });
+test('the weather tool hands the cached card to the model only when it asks', async () => {
+  const requests = [];
+  const res = await harness(async (url, options) => {
+    requests.push(JSON.parse(options.body));
+    return requests.length === 1 ? callTool('get_local_weather') : answer();
+  })({ body: { ...prompt, local: card } });
+  assert.doesNotMatch(JSON.stringify(requests[0].messages), /Sydney/, 'the location is not in the prompt');
+  const tool = JSON.parse(requests[1].messages.at(-1).content);
+  assert.equal(tool.location.city, 'Sydney');
+  assert.equal(tool.current.temperatureC, 21.4);
+  assert.equal(tool.current.condition, 'clear sky');
+  assert.equal(tool.observedAtLocalTime, '2026-11-11T18:30');
+  assert.equal(tool.cardSavedMinutesAgo, 5);
+  assert.match(tool.locationSource, /IP address/);
+  assert.match(res.output, /"status":"weather"/);
+  assert.match(res.output, /回答/);
+});
+test('without a cached card the weather tool says so, and malformed cards are ignored', async () => {
+  for (const local of [undefined, { label: 'x' }, { ...card, timezone: 'Not a zone!' }, 'Sydney', { ...card, current: { ...card.current, temperature: 999 } }]) {
+    const requests = [];
+    const res = await harness(async (url, options) => {
+      requests.push(JSON.parse(options.body));
+      return requests.length === 1 ? callTool('get_local_weather') : answer();
+    })({ body: { ...prompt, ...(local === undefined ? {} : { local }) } });
+    assert.equal(res.statusCode, 200);
+    assert.equal(JSON.parse(requests[1].messages.at(-1).content).error, 'location_unavailable');
+  }
+});
+test('local news: the city from the weather card, then one search, then an answer without tools', async () => {
+  const requests = [], urls = [];
+  const res = await harness(async (url, options) => {
+    urls.push(url);
+    if (url === 'https://api.exa.ai/search') { requests.push({ exa: JSON.parse(options.body) }); return new Response(JSON.stringify({ results: [] }), { headers: { 'content-type': 'application/json' } }); }
+    requests.push(JSON.parse(options.body));
+    const rounds = requests.filter(r => !r.exa).length;
+    if (rounds === 1) return callTool('get_local_weather');
+    if (rounds === 2) return callTool('search_web', 's1', JSON.stringify({ query: 'Sydney news today' }));
+    return answer();
+  }, searchEnv)({ body: { ...prompt, local: card } });
+  const gemini = requests.filter(r => !r.exa);
+  assert.equal(gemini.length, 3);
+  assert.deepEqual(gemini.map(r => r.tool_choice), ['auto', 'auto', 'none']);
+  assert.equal(requests.find(r => r.exa).exa.query, 'Sydney news today');
+  assert.match(res.output, /"status":"weather"[\s\S]*"status":"searching"/);
+  assert.match(res.output, /回答/);
 });
 test('replays fragmented Gemini tool calls and their signatures while limiting Exa to one search', async () => {
   for (const fresh of [false, true]) {
@@ -147,7 +197,7 @@ test('replays fragmented Gemini tool calls and their signatures while limiting E
     if (fresh) assert.ok(Math.abs(Date.now() - Date.parse(search.startPublishedDate) - 86400000) < 10000);
     else assert.equal(search.startPublishedDate, undefined);
     const followup = requests[2].body;
-    assert.equal(followup.tool_choice, 'none');
+    assert.equal(followup.tool_choice, 'auto');
     const [assistant, first, second] = followup.messages.slice(-3);
     assert.deepEqual(assistant.tool_calls[0].extra_content, signature);
     assert.equal(assistant.tool_calls[0].function.arguments, args);

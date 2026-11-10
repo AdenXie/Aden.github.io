@@ -100,7 +100,12 @@ async function main() {
         assert(await panel.isVisible());
         assert.match(await page.locator('#aden-chat h2').innerText(), lang ? /Ask AI/ : /问 AI/);
         assert.equal(await page.locator('#aden-chat .chat-model').innerText(), 'gemini-test-model');
-        assert.match(await page.locator('#aden-chat .chat-privacy').innerText(), /Google Gemini/);
+        // The privacy note is one line until opened.
+        const privacy = page.locator('#aden-chat .chat-privacy');
+        assert.match(await privacy.locator('summary').innerText(), lang ? /Privacy/ : /隐私说明/);
+        assert(await privacy.locator('p').isHidden());
+        await privacy.locator('summary').click();
+        assert.match(await privacy.locator('p').innerText(), /Google Gemini/);
         assert((await page.locator('.aden-ask-context').innerText()).includes(title));
         assert(await page.locator('.aden-ask-context input').isChecked());
         assert.equal(posted.at(-1).reasoningEffort, undefined);

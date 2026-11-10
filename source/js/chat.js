@@ -17,7 +17,9 @@
     interrupted: t('连接中断，已收到的内容保留在对话里。可重新发送问题。', 'Connection interrupted. Received text is kept in the conversation. You can send your question again.'),
     invalid_request: t('对话过长或消息格式有误，请清空后重新开始。', 'The conversation is too long or invalid. Clear it to start again.')
   };
-  const PRIVACY = t('本站不保存对话。消息会发送至 Google Gemini，数据处理以其政策为准；使用免费 API 时，输入和输出可能被用于改进 Google 产品。AI 回答可能有误，请核对重要信息。', 'This site does not save conversations. Messages are sent to Google Gemini under its data policies; with the free API, inputs and outputs may be used to improve Google products. AI can make mistakes; check important information.');
+  const PRIVACY = t('本站不保存对话。消息会发送至 Google Gemini，数据处理以其政策为准；使用免费 API 时，输入和输出可能被用于改进 Google 产品。问天气或当地情况时，首页天气卡片按 IP 估算的城市和天气也会发送给 Gemini。AI 回答可能有误，请核对重要信息。', 'This site does not save conversations. Messages are sent to Google Gemini under its data policies; with the free API, inputs and outputs may be used to improve Google products. Questions about your weather or area also send the home-page weather card’s IP-estimated city and conditions to Gemini. AI can make mistakes; check important information.');
+  // First-use notice above the dock; the full note is under 隐私说明 in the conversation panel.
+  const PRIVACY_SHORT = t('对话不保存，消息会发送给 Google Gemini。', 'Conversations are not saved; messages go to Google Gemini.');
   // A 429 names its wait in Retry-After when the server knows it (seconds or an HTTP date).
   function rateLimitMessage(header) {
     const value = (header || '').trim();
@@ -35,6 +37,22 @@
     if (!content) return null;
     const title = (document.querySelector('.post-page-container .article-title')?.textContent || document.title).trim().slice(0, 300);
     return { title, url: location.pathname.slice(0, 500), content: content.slice(0, ARTICLE_LIMIT), truncated: content.length > ARTICLE_LIMIT };
+  }
+  // The home-page weather card's cached reading (cyber-weather.js), if this tab has one. Sent with each
+  // question; the server gives it to the model only for questions about the visitor's weather or area.
+  function readLocal() {
+    try {
+      const cached = JSON.parse(sessionStorage.getItem('aden-visitor-weather-v2'));
+      const { location, current, daily } = cached?.payload || {};
+      if (!location?.label || !Number.isFinite(current?.temperature_2m)) return null;
+      return {
+        label: location.label, city: location.city || undefined, region: location.region || undefined, country: location.country || undefined,
+        timezone: location.timezone, savedAt: cached.savedAt,
+        current: { time: current.time, temperature: current.temperature_2m, apparentTemperature: current.apparent_temperature, humidity: current.relative_humidity_2m,
+          weatherCode: current.weather_code, windSpeed: current.wind_speed_10m, isDay: current.is_day === undefined ? undefined : Boolean(current.is_day) },
+        sunrise: daily?.sunrise?.[0], sunset: daily?.sunset?.[0]
+      };
+    } catch { return null; }
   }
   function inline(node, text) {
     // A small safe subset: model HTML is always rendered as text.
@@ -95,7 +113,7 @@
     // Static interface text only; article titles and model output are added as text nodes.
     panel.innerHTML = `<header class="chat-heading"><h2 id="aden-chat-title">${t('问 AI', 'Ask AI')}</h2><span class="chat-model" data-chat="model"></span><div class="chat-heading-actions"><button type="button" data-chat="clear">${t('清空', 'Clear')}</button><button type="button" data-chat="close" aria-label="${t('收起对话', 'Hide conversation')}"><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></button></div></header>
   <div class="chat-transcript" data-chat="messages" role="log" aria-label="${t('对话内容', 'Conversation')}" tabindex="0"></div>
-  <p class="chat-privacy">${PRIVACY}</p>`;
+  <details class="chat-privacy"><summary>${t('隐私说明', 'Privacy')}</summary><p>${PRIVACY}</p></details>`;
     document.body.append(panel);
     const find = name => panel.querySelector(`[data-chat="${name}"]`);
     const transcript = find('messages');
@@ -190,7 +208,7 @@
       const schedule = () => { if (frame === null) frame = requestAnimationFrame(update); };
       const finishTyping = () => shown >= answer.length ? Promise.resolve() : new Promise(resolve => { drained = resolve; schedule(); });
       try {
-        const response = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: [...history, { role: 'user', content: prompt }], ...(page && attach.checked && { page }) }), signal: controller.signal, cache: 'no-store' });
+        const response = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: [...history, { role: 'user', content: prompt }], ...(page && attach.checked && { page }), ...(readLocal() && { local: readLocal() }) }), signal: controller.signal, cache: 'no-store' });
         if (!response.ok) {
           const data = await response.json().catch(() => ({}));
           if (response.status === 429) throw Object.assign(new Error('rate_limited'), { detail: rateLimitMessage(response.headers.get('retry-after')) });
@@ -212,6 +230,7 @@
             const data = JSON.parse(raw.slice(6));
             if (data.error) throw new Error(data.error);
             // Model state from the server: a web search, then back to thinking over the results.
+            if (data.status === 'weather' && !answer.trim()) { searching = searching || 'card'; thinkingLabel.textContent = t('正在读取天气卡片', 'Reading the weather card'); }
             if (data.status === 'rate' && !answer.trim()) { searching = searching || 'rate'; thinkingLabel.textContent = t('正在读取汇率', 'Reading the exchange rate'); }
             if (data.status === 'searching' && !answer.trim()) { searching = 'web'; thinkingLabel.textContent = t('正在联网搜索', 'Searching the web'); }
             if (data.status === 'thinking' && !answer.trim()) thinkingLabel.textContent = searching === 'web' ? t('正在整理搜索结果', 'Reading the results') : t('正在整理结果', 'Putting it together');
@@ -272,7 +291,7 @@
     input.addEventListener('input', () => { setTyping(); if (!active) send.disabled = !input.value.trim() || !available; }, { signal });
     const onFocus = event => {
       setTyping();
-      if (!privacyShown) { privacyShown = true; notice(reachable ? PRIVACY : errors.provider_connect_timeout, !reachable, reachable ? 4500 : 6000); }
+      if (!privacyShown) { privacyShown = true; notice(reachable ? PRIVACY_SHORT : errors.provider_connect_timeout, !reachable, reachable ? 3500 : 6000); }
       // Coming back to the field brings an earlier conversation back into view (not when the panel's own
       // hide or clear button just sent focus here).
       if (history.length && panel.hidden && !panel.contains(event?.relatedTarget)) setOpen(true);
