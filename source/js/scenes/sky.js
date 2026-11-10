@@ -33,8 +33,9 @@ vec3 extinct(vec3 c, float s) {
 }`;
 
 // The loader's lite settings (lower pixel ratio, fewer stars) made phones visibly soft;
-// this scene is light enough to draw at full sharpness everywhere, so lite only lowers
-// the frame rate (the sky barely moves).
+// this scene is light enough to draw at full sharpness everywhere. Lite (touch) devices
+// render at the screen's own pixel ratio, up to 3, and at 30 fps (the sky barely moves);
+// desktops cap at 2.
 export function mount(container, { lite = false } = {}) {
   const fps = lite ? 30 : 60;
   const controller = new AbortController();
@@ -58,14 +59,14 @@ export function mount(container, { lite = false } = {}) {
   });
   Promise.all([data, textures, located]).then(([buffer, maps, first]) => {
     if (disposed) { maps.forEach(m => m.dispose()); return; }
-    stop = build(container, { fps, sky: decodeSky(buffer), maps, country: first, signal: controller.signal });
+    stop = build(container, { fps, maxDpr: lite ? 3 : 2, sky: decodeSky(buffer), maps, country: first, signal: controller.signal });
   }).catch(() => {});
   return () => { disposed = true; controller.abort(); stop(); };
 }
 
-function build(container, { fps, sky, maps, country, signal }) {
+function build(container, { fps, maxDpr, sky, maps, country, signal }) {
   const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.setPixelRatio(Math.min(devicePixelRatio, maxDpr));
   renderer.toneMapping = THREE.NoToneMapping;
   renderer.domElement.className = 'aden-scene-canvas';
   container.prepend(renderer.domElement);
@@ -75,7 +76,7 @@ function build(container, { fps, sky, maps, country, signal }) {
   scene.background = new THREE.Color(0x010207);
   const camera = new THREE.PerspectiveCamera(66, 1, 0.1, 3000);
   camera.rotation.order = 'YXZ';
-  const uniforms = { uTime: { value: 0 }, uDpr: { value: dpr } };
+  const uniforms = { uTime: { value: 0 }, uDpr: { value: dpr }, uScale: { value: 1 } };
   const colorOut = '\n#include <colorspace_fragment>\n'; // a directive needs its own line
 
   // Night sky glow in the horizon frame: near-black at the zenith, a faint cool airglow
@@ -104,10 +105,13 @@ function build(container, { fps, sky, maps, country, signal }) {
   // Milky Way. Base: equirectangular, RA 0h at the centre growing to the left. Band:
   // galactic longitude 0 at the centre growing to the left, latitude -46 (bottom) to +30
   // (top), as tools/build-sky-data.cjs writes it.
+  // Mipmaps (sampled with explicit gradients so the longitude wrap leaves no seam) keep
+  // the grain of the detailed band from shimmering on narrow, high-density screens.
   for (const map of maps) {
     map.colorSpace = THREE.SRGBColorSpace;
-    map.generateMipmaps = false;
-    map.minFilter = THREE.LinearFilter;
+    map.generateMipmaps = true;
+    map.minFilter = THREE.LinearMipmapLinearFilter;
+    map.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
     map.wrapS = THREE.RepeatWrapping;
   }
   celestial.add(new THREE.Mesh(new THREE.SphereGeometry(1500, 96, 48), new THREE.ShaderMaterial({
@@ -118,10 +122,13 @@ function build(container, { fps, sky, maps, country, signal }) {
       uniform sampler2D uBase; uniform sampler2D uBand; uniform float uExposure; uniform float uFloor; uniform float uSaturation;
       varying vec3 vEq; varying float vS;
       ${EXTINCTION_GLSL}
+      // Across the longitude wrap the raw u jumps by 1; take the short way round.
+      vec2 wrapGrad(vec2 d) { return vec2(d.x - floor(d.x + 0.5), d.y); }
       void main() {
         const float TAU = 6.28318530718, PI = 3.14159265359;
         float ra = atan(vEq.y, vEq.x), dec = asin(clamp(vEq.z, -1.0, 1.0));
-        vec3 base = texture2D(uBase, vec2(fract(0.5 - ra / TAU), 0.5 + dec / PI)).rgb;
+        vec2 baseUv = vec2(0.5 - ra / TAU, 0.5 + dec / PI);
+        vec3 base = textureGrad(uBase, vec2(fract(baseUv.x), baseUv.y), wrapGrad(dFdx(baseUv)), wrapGrad(dFdy(baseUv))).rgb;
         // The equirectangular base pinches into streaks at the celestial poles; fade its
         // last ~20 degrees there (the band covers the Milky Way near them).
         base *= smoothstep(0.985, 0.93, abs(vEq.z));
@@ -130,7 +137,8 @@ function build(container, { fps, sky, maps, country, signal }) {
                       dot(vec3(0.4941094279, -0.4448296300, 0.7469822445), vEq),
                       dot(vec3(-0.8676661490, -0.1980763734, 0.4559837762), vEq));
         float l = atan(g.y, g.x), b = degrees(asin(clamp(g.z, -1.0, 1.0)));
-        vec3 band = texture2D(uBand, vec2(fract(0.5 - l / TAU), (b + 46.0) / 76.0)).rgb;
+        vec2 bandUv = vec2(0.5 - l / TAU, (b + 46.0) / 76.0);
+        vec3 band = textureGrad(uBand, vec2(fract(bandUv.x), bandUv.y), wrapGrad(dFdx(bandUv)), wrapGrad(dFdy(bandUv))).rgb;
         vec3 col = mix(base, band, smoothstep(-46.0, -40.0, b) * (1.0 - smoothstep(24.0, 30.0, b)));
         // Black level: the image's faint background goes to black.
         col = max(col - uFloor, 0.0) / (1.0 - uFloor) * uExposure;
@@ -143,6 +151,8 @@ function build(container, { fps, sky, maps, country, signal }) {
   })));
 
   // Stars: catalogue (to magnitude 6) and the fainter dust drawn from the Milky Way.
+  // resize() trims the (shuffled) dust on screens that give the sky few pixels per degree.
+  let starGeo;
   {
     const dust = sky.dust;
     const n = sky.stars.length + dust.length;
@@ -155,7 +165,7 @@ function build(container, { fps, sky, maps, country, signal }) {
       col.set(bv === undefined ? bvColor(0.3 + rand() * 0.9) : bvColor(bv), i * 3);
       phase[i] = rand() * 6.2832;
     });
-    const g = new THREE.BufferGeometry();
+    const g = starGeo = new THREE.BufferGeometry();
     g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
     g.setAttribute('aMag', new THREE.BufferAttribute(mag, 1));
     g.setAttribute('aColor', new THREE.BufferAttribute(col, 3));
@@ -236,14 +246,21 @@ function build(container, { fps, sky, maps, country, signal }) {
   }
 
   function hfov() { return 2 * Math.atan(Math.tan(camera.fov * RAD / 2) * camera.aspect) / RAD; }
-  // Horizon about four fifths of the way down; wider field on portrait screens.
+  // Horizon about four fifths of the way down. Portrait screens get a taller field so the
+  // width still spans ~55 degrees (a narrower view magnifies the Milky Way image). Star
+  // sprites are sized in screen pixels, so where each degree gets fewer pixels than on a
+  // 1440x900 desktop (~13.6 per degree) they shrink and the dust thins out, keeping the
+  // same density to the eye.
   function resize() {
     const w = container.clientWidth, h = container.clientHeight;
     if (!w || !h) return;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
-    camera.fov = camera.aspect < 1 ? 78 : 66;
+    camera.fov = camera.aspect >= 1 ? 66 : Math.min(100, 2 * Math.atan(Math.tan(27.5 * RAD) / camera.aspect) / RAD);
     camera.updateProjectionMatrix();
+    const ratio = Math.min(1, h / camera.fov / 13.6);
+    uniforms.uScale.value = Math.max(0.55, ratio) ** 0.75;
+    starGeo.setDrawRange(0, sky.stars.length + Math.round(sky.dust.length * Math.max(0.3, ratio * ratio)));
   }
   const sizing = new ResizeObserver(resize);
   sizing.observe(container);
@@ -315,7 +332,7 @@ function starMaterial(uniforms, twinkle) {
   return new THREE.ShaderMaterial({
     uniforms, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
     vertexShader: /* glsl */ `
-      uniform float uTime; uniform float uDpr;
+      uniform float uTime; uniform float uDpr; uniform float uScale;
       attribute float aMag; attribute vec3 aColor; attribute float aPhase;
       varying vec3 vColor; varying float vCore;
       ${EXTINCTION_GLSL}
@@ -329,7 +346,7 @@ function starMaterial(uniforms, twinkle) {
         ${twinkle ? 'a *= 1.0 - (0.10 + 0.45 * (1.0 - smoothstep(0.0, 0.5, s))) * (0.5 + 0.5 * sin(uTime * (1.7 + fract(aPhase * 3.1) * 2.5) + aPhase));' : ''}
         vColor = extinct(aColor, s) * a * smoothstep(-0.01, 0.03, s);
         vCore = 1.0 / max(size, 1.0);
-        gl_PointSize = size * uDpr * (s > -0.02 ? 1.0 : 0.0);
+        gl_PointSize = size * uScale * uDpr * (s > -0.02 ? 1.0 : 0.0);
         gl_Position = projectionMatrix * viewMatrix * world;
       }`,
     fragmentShader: /* glsl */ `
