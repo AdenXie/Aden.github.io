@@ -5,6 +5,7 @@ const fs = require('node:fs');
 const { prepare } = require('./prepare-site.cjs');
 const { optimize } = require('./optimize-site.cjs');
 const { buildLatestPosts } = require('./build-latest-posts.cjs');
+const { buildBlogActivity } = require('./build-blog-activity.cjs');
 const { injectBriefStrip } = require('./lib/brief-strip.cjs');
 const ROOT = path.resolve(__dirname, '..');
 function run(args) {
@@ -21,6 +22,7 @@ async function main() {
   await optimize();
   injectBriefStrip(path.join(ROOT, 'public'));
   buildLatestPosts(path.join(ROOT, 'public'));
+  await buildBlogActivity(ROOT);
   fs.copyFileSync(path.join(ROOT, 'lib/README.main.md'), path.join(ROOT, 'public/README.md'));
   for (const file of ['LICENSE', 'LICENSE-CONTENT.md']) fs.copyFileSync(path.join(ROOT, file), path.join(ROOT, 'public', file));
   fs.cpSync(path.join(ROOT, 'LICENSES'), path.join(ROOT, 'public/LICENSES'), { recursive: true });

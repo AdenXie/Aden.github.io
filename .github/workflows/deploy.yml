@@ -28,6 +28,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: read
 
 jobs:
   translation-probe:
@@ -102,6 +103,7 @@ jobs:
       - name: Build bilingual production site
         env:
           DEEPL_API_KEY: ${{ secrets.DEEPL_API_KEY }}
+          BLOG_ACTIVITY_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TRANSLATION_CHAR_LIMIT: '160000'
         run: npm run build:site
 
