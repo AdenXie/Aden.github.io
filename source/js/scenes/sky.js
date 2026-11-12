@@ -232,10 +232,14 @@ function build(container, { fps, maxDpr, sky, maps, country, signal }) {
   // country (first visit, weather still loading) eases the sky over instead of jumping.
   let place = placeOf(country), lookAz = null;
   const targetQ = new THREE.Quaternion(), basisM = new THREE.Matrix4();
-  function aim(now = Date.now()) {
+  function orient(q, now) {
     const b = horizonBasis(place[0], place[1], now);
     basisM.makeBasis(new THREE.Vector3(...b[0]), new THREE.Vector3(...b[1]), new THREE.Vector3(...b[2]));
-    targetQ.setFromRotationMatrix(basisM);
+    q.setFromRotationMatrix(basisM);
+    return b;
+  }
+  function aim(now = Date.now()) {
+    const b = orient(targetQ, now);
     if (lookAz === null) lookAz = viewAzimuth(b, place[0], { halfWidth: hfov() / 2 });
     planets(now).forEach((p, i) => {
       planetPos.set(equatorial(p.ra, p.dec).map(v => v * 1000), i * 3);
@@ -266,9 +270,16 @@ function build(container, { fps, maxDpr, sky, maps, country, signal }) {
   sizing.observe(container);
   resize();
 
+  // Entrance: every visit opens on the sky as it stood an hour ago and turns it, the way
+  // the sky really turns (15 degrees about the pole), to now. A country that arrives late
+  // replays the move from wherever the sky is, which is the larger trip between countries.
+  const INTRO_MS = 4500, LATE_MS = 5500, INTRO_LEAD_MS = 60 * 60 * 1000;
   aim();
-  celestial.quaternion.copy(targetQ);
   let yaw = lookAz;
+  const intro = { from: new THREE.Quaternion(), fromYaw: yaw, start: null, ms: INTRO_MS, active: true };
+  orient(intro.from, Date.now() - INTRO_LEAD_MS);
+  celestial.quaternion.copy(intro.from);
+  const replay = ms => Object.assign(intro, { from: celestial.quaternion.clone(), fromYaw: yaw, start: null, ms, active: true });
   if (!country) {
     addEventListener('aden:visitor-location', e => {
       const code = e.detail?.country;
@@ -279,6 +290,7 @@ function build(container, { fps, maxDpr, sky, maps, country, signal }) {
       place = next;
       lookAz = null;
       aim();
+      replay(LATE_MS);
     }, { once: true, signal });
   } else rememberCountry(country);
   const clock = setInterval(() => aim(), 10000);
@@ -296,8 +308,17 @@ function build(container, { fps, maxDpr, sky, maps, country, signal }) {
     last = now;
     uniforms.uTime.value += dt / 1000;
     const ease = 1 - (1 - 0.05) ** (dt / 33.3), slow = 1 - (1 - 0.02) ** (dt / 33.3);
-    celestial.quaternion.slerp(targetQ, slow);
-    yaw += ((((lookAz - yaw) % 360) + 540) % 360 - 180) * slow;
+    if (intro.active) {
+      intro.start ??= now;
+      const t = Math.min(1, (now - intro.start) / intro.ms);
+      const k = t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2; // ease in-out cubic
+      celestial.quaternion.slerpQuaternions(intro.from, targetQ, k);
+      yaw = intro.fromYaw + ((((lookAz - intro.fromYaw) % 360) + 540) % 360 - 180) * k;
+      if (t === 1) intro.active = false;
+    } else {
+      celestial.quaternion.slerp(targetQ, slow);
+      yaw += ((((lookAz - yaw) % 360) + 540) % 360 - 180) * slow;
+    }
     look.x += (pointer.x - look.x) * ease;
     look.y += (pointer.y - look.y) * ease;
     const pitch = Math.atan(0.58 * Math.tan(camera.fov * RAD / 2)) / RAD;

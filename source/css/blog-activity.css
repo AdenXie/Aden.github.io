@@ -1,117 +1,237 @@
+/* About page contribution calendar (source/js/blog-activity.js).
+   Levels run cool to hot in the site's two signal colours: dim cyan, cyan, signal yellow.
+   A dimmed yellow over the dark panel turns olive, so yellow is kept for the busiest days. */
 .blog-activity {
+  --act-empty: color-mix(in srgb, var(--default-text-color) 8%, transparent);
+  --act-1: color-mix(in srgb, var(--aden-cyan) 34%, transparent);
+  --act-2: color-mix(in srgb, var(--aden-cyan) 80%, transparent);
+  --act-3: var(--aden-signal);
+  --act-ease: cubic-bezier(0.16, 1, 0.3, 1);
   margin-block: 2.5rem 1rem;
 }
+/* The light theme's signal yellow is darkened for text; cells take a brighter gold. */
+html:not(.dark) .blog-activity {
+  --act-3: #d9bd00;
+  --act-empty: color-mix(in srgb, var(--default-text-color) 7%, transparent);
+}
+.blog-activity-lede {
+  color: var(--second-text-color);
+}
 .blog-activity-panel {
-  --activity-accent: var(--aden-signal, var(--primary-color));
-  --activity-step: clamp(12px, calc(1.88cqw - 3px), 17px);
-  padding: clamp(14px, 3vw, 22px);
+  padding: clamp(16px, 3vw, 24px);
   border: 1px solid var(--border-color);
   border-radius: 16px;
   background: var(--second-background-color);
 }
-.blog-activity-panel > p[data-activity-status] {
-  margin: 0 0 .75rem;
+
+.blog-activity-summary {
+  margin: 0 0 1.1rem;
   color: var(--second-text-color);
-  font-size: .82rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  text-wrap: balance;
 }
-.blog-activity-totals {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem 2rem;
-  margin: 0 0 1rem;
+.blog-activity-clause {
+  white-space: nowrap;
+}
+.blog-activity-summary strong {
+  margin-inline: 0.12em;
+  color: var(--default-text-color);
+  font-size: 1.3em;
+  font-weight: 650;
+  letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
 }
-.blog-activity-totals dt {
-  font-size: .82rem;
-  color: var(--second-text-color);
-}
-.blog-activity-totals dd {
-  margin: 0;
-  font-size: 1.45rem;
-  font-weight: 650;
-}
+
 .blog-activity-scroll {
   container-type: inline-size;
   overflow-x: auto;
-  padding: 4px 4px 10px;
-  scrollbar-color: var(--second-text-color) transparent;
+  margin-inline: -4px;
+  padding: 4px 4px 8px;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--default-text-color) 22%, transparent) transparent;
 }
 .blog-activity-calendar {
+  --step: clamp(11px, calc((100cqw - 2.2rem) / 53 - 3px), 15px);
+  --months: 1.35rem;
+  display: flex;
   width: max-content;
 }
-.blog-activity-grid,
-.blog-activity-months {
+.blog-activity-months,
+.blog-activity-grid {
   display: grid;
-  grid-auto-columns: var(--activity-step);
+  grid-auto-columns: var(--step);
   gap: 3px;
 }
 .blog-activity-months {
-  min-height: 1.4rem;
+  height: var(--months);
   color: var(--second-text-color);
-  font-size: .72rem;
+  font-size: 0.7rem;
   white-space: nowrap;
+}
+/* Stays in view while the year scrolls sideways on narrow screens. */
+.blog-activity-weekdays {
+  position: sticky;
+  left: -4px;
+  z-index: 1;
+  display: grid;
+  flex: 0 0 2.2rem;
+  margin-left: -4px;
+  padding: var(--months) 0 0 4px;
+  background: var(--second-background-color);
+  grid-template-rows: repeat(7, var(--step));
+  gap: 3px;
+  color: var(--second-text-color);
+  font-size: 0.66rem;
+  line-height: var(--step);
 }
 .blog-activity-grid {
   grid-auto-flow: column;
-  grid-template-rows: repeat(7, var(--activity-step));
+  grid-template-rows: repeat(7, var(--step));
 }
+
 .blog-activity-grid button,
 .blog-activity-legend i {
+  display: block;
   appearance: none;
   padding: 0;
   border: 0;
-  border-radius: 3px;
-  background: var(--third-background-color);
+  border-radius: 28%;
+  background: var(--act-empty);
 }
-.blog-activity [data-level="1"] { background: color-mix(in srgb, var(--activity-accent) 32%, var(--third-background-color)); }
-.blog-activity [data-level="2"] { background: color-mix(in srgb, var(--activity-accent) 54%, var(--third-background-color)); }
-.blog-activity [data-level="3"] { background: color-mix(in srgb, var(--activity-accent) 76%, var(--third-background-color)); }
-.blog-activity [data-level="4"] { background: var(--activity-accent); }
+.blog-activity [data-level="1"] { background: var(--act-1); }
+.blog-activity [data-level="2"] { background: var(--act-2); }
+.blog-activity [data-level="3"] { background: var(--act-3); }
 .blog-activity-grid button {
   cursor: pointer;
-  transition: transform 160ms ease-out;
+  transition: transform 140ms var(--act-ease);
 }
-.blog-activity-grid button:hover { transform: scale(1.16); }
+.blog-activity-grid button:hover { transform: scale(1.2); }
 .blog-activity-grid button[aria-pressed="true"] {
-  outline: 1px solid var(--default-text-color);
-  outline-offset: 1px;
+  outline: 1.5px solid var(--default-text-color);
+  outline-offset: 1.5px;
 }
 .blog-activity-grid button:focus-visible {
-  outline: 2px solid var(--default-text-color);
-  outline-offset: 1px;
+  outline: 2px solid var(--aden-cyan);
+  outline-offset: 2px;
+}
+
+/* Entrance: a crest of light runs diagonally across the year. */
+.blog-activity-grid.is-waving button {
+  animation: blog-activity-wave 640ms var(--act-ease) var(--wave, 0ms) backwards;
+}
+@keyframes blog-activity-wave {
+  0% { opacity: 0; transform: scale(0.35); }
+  45% { opacity: 1; transform: scale(1.12); filter: brightness(1.6); }
+  100% { transform: scale(1); filter: none; }
+}
+/* Choosing a day: a short pulse spreads to the neighbouring days. */
+.blog-activity-grid.is-rippling button[style*="--ripple"] {
+  animation: blog-activity-ripple 480ms var(--act-ease) var(--ripple) backwards;
+}
+@keyframes blog-activity-ripple {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.3); filter: brightness(1.55); }
+  100% { transform: scale(1); filter: none; }
+}
+
+.blog-activity-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-top: 0.35rem;
+  color: var(--second-text-color);
+  font-size: 0.72rem;
 }
 .blog-activity-legend {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: flex-end;
   gap: 4px;
-  font-size: .72rem;
-  color: var(--second-text-color);
+  margin-left: auto;
 }
 .blog-activity-legend i {
   width: 11px;
   height: 11px;
 }
+
 .blog-activity-detail {
-  margin-top: .9rem;
-  padding-top: .75rem;
+  margin-top: 1rem;
+  padding-top: 0.9rem;
   border-top: 1px solid var(--border-color);
   overflow-wrap: anywhere;
 }
 .blog-activity-selection {
-  animation: blog-activity-select 200ms ease-out;
+  animation: blog-activity-select 260ms var(--act-ease);
 }
-.blog-activity-selection > span {
-  display: block;
+.blog-activity-day {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.75rem;
+  margin: 0;
+}
+.blog-activity-day strong {
+  font-size: 1rem;
+  font-weight: 650;
+}
+.blog-activity-day span {
   color: var(--second-text-color);
-  font-size: .86rem;
+  font-size: 0.85rem;
+}
+.blog-activity-entries {
+  margin-top: 0.55rem;
+}
+.blog-activity-entries > div {
+  display: flex;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  align-items: baseline;
+  gap: 0.65rem;
+  margin: 0;
+  padding: 0.5rem 0;
+  border-top: 1px solid color-mix(in srgb, var(--border-color) 70%, transparent);
+}
+.blog-activity-entries > div:first-child { border-top: 0; }
+.blog-activity-tag {
+  flex: none;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+.blog-activity-tag[data-kind="brief"] {
+  background: color-mix(in srgb, var(--aden-cyan) 16%, transparent);
+  color: var(--aden-cyan);
+}
+.blog-activity-tag[data-kind="article"] {
+  background: color-mix(in srgb, var(--aden-signal) 16%, transparent);
+  color: var(--aden-signal);
+}
+.blog-activity-tag[data-kind="pr"] {
+  background: var(--act-empty);
+  color: var(--default-text-color);
+}
+.blog-activity-selection a {
+  color: var(--default-text-color);
+  text-decoration: none;
+}
+.blog-activity-selection a:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--aden-cyan);
+  text-underline-offset: 3px;
 }
 @keyframes blog-activity-select {
-  from { opacity: .65; transform: translateY(3px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
 }
+
 @media (prefers-reduced-motion: reduce) {
   .blog-activity-grid button { transition: none; }
   .blog-activity-grid button:hover { transform: none; }
-  .blog-activity-selection { animation: none; }
+  .blog-activity-grid.is-waving button,
+  .blog-activity-grid.is-rippling button[style*="--ripple"] { animation: none; }
+  .blog-activity-selection { animation-duration: 1ms; }
 }
