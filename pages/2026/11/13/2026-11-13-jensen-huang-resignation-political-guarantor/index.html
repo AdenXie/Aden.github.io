@@ -1,0 +1,1698 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/2026/11/13/2026-11-13-jensen-huang-resignation-political-guarantor/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jensen Huang’s resignation: NVIDIA has lost not just its CEO, but the political guarantor of its China policy">
+<meta property="og:url" content="https://blog.adenxie.com.cn/2026/11/13/2026-11-13-jensen-huang-resignation-political-guarantor/index.html">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-11-13T15:30:00.000Z">
+<meta property="article:modified_time" content="2026-11-13T15:30:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="Anthropic">
+<meta property="article:tag" content="AI 资本开支">
+<meta property="article:tag" content="美国政治">
+<meta property="article:tag" content="英伟达">
+<meta property="article:tag" content="出口管制">
+<meta property="article:tag" content="公司治理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Jensen Huang’s Resignation: NVIDIA Has Lost Not Just a CEO, but a Political Guarantor of Its China Policy | Aden’s Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/site-runtime.js" defer=""></script>
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js"></script>
+                
+    
+            
+                
+                    <link rel="stylesheet" href="/css/custom.css">
+                
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"en","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"18px","line_height":1.8,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["科技、体验与个人判断","写下真实体验，也保留观点的棱角"],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie","name":"GitHub"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847","name":"YouTube"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie","name":"X"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Daily Brief":{"path":"/daily/","icon":"fa-regular fa-newspaper"},"archives":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"},"tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"World Time":{"path":"/world-time/","icon":"fa-regular fa-clock"},"about":{"path":"/about/","icon":"fa-regular fa-user"},"links":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":false,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.i18n = {"search":"Search...","toc":"On this page","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"POWERED BY %s","theme":"THEME","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","post":"Post","posts":"Posts","tagcloud":"Tag Cloud","comment":"Comment","comments":"Comments","home":"Home","archive":"Archive","archives":"Archives","top":"TOP","sticky":"Sticky","go-back-home":"Go Back Home","masonry_loading":"Loading photos...","image_viewer":"Image viewer","close":"Close","exif":{"title":"EXIF","cards":{"camera":"Camera","lens":"Lens","exposure":"Exposure","other":"Other"},"fields":{"make":"Brand","model":"Model","date_taken":"Date taken","lens_model":"Lens","focal_length":"Focal length","focus_mode":"Focus mode","shutter":"Shutter","aperture":"Aperture","iso":"ISO","exposure_program":"Exposure program","exposure_compensation":"Exposure compensation","metering_mode":"Metering mode","flash":"Flash","white_balance":"White balance","latitude":"Latitude","longitude":"Longitude","altitude":"Altitude"},"status":{"loading":"Loading...","no_exif":"No EXIF available","library_missing":"EXIF library not loaded","image_source_missing":"Image source unavailable","unavailable":"EXIF unavailable (blocked by CORS or missing metadata)","flag_unavailable":"EXIF unavailable"}},"about":"About","changelog":"Changelog","links":"Links","link":"Link","friends":"Friends","friend":"Friend","timeline":"Timeline","shuoshuo":"Shuoshuo","bookmarks":"Bookmarks","site_uv":"VISITOR COUNT","site_pv":"TOTAL PAGE VIEWS","read_more":"Read more","wordcount":"Words","min2read":"Mins","status":"Status","runtime":"Blog up for","days":"days","hours":"hrs","minutes":"Min","seconds":"Sec","optimized_by":"and Optimized by Evan","rights":"All Rights Reserved","site_posts":"%s posts in total","site_wordcount":"%s words in total","copyright":{"author":"Author","title":"Title","link":"Link","create_time":"Created at","update_time":"Updated at","license_title":"License","license_content":"This work is licensed under %s.","all_rights_reserved":"All Rights Reserved &#169; %s","public_domain":"This work is in the public domain."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"},"create_time":"Created","update_time":"Updated","expired":"This post is written %s days ago, and the content may not be up to date."};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/daily/">
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    DAILY BRIEF
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/categories/">
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    CATEGORIES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    WORLD TIME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search">
+                            <button type="button" class="search-popup-trigger" aria-label="Search"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <button type="button" class="icon-item search search-popup-trigger" aria-label="Search"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                
+                <button type="button" class="icon-item navbar-bar" aria-label="Menu" aria-controls="navbar-drawer" aria-expanded="false"><span class="navbar-bar-middle"></span></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div id="navbar-drawer" class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/">
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/daily/">
+                            <span>
+                                DAILY BRIEF
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/archives/">
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/categories/">
+                            <span>
+                                CATEGORIES
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/tags/">
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/world-time/">
+                            <span>
+                                WORLD TIME
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/about/">
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/link/">
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">76</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">113</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://images.pexels.com/photos/4508751/pexels-photo-4508751.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Jensen Huang’s resignation: NVIDIA has lost not just its CEO, but the political guarantor of its China policy" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">Jensen Huang’s resignation: NVIDIA has lost not just its CEO, but the political guarantor of its China policy</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-11-13 23:30</span>
+        <span class="mobile">2026-11-13 23:30</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-11-13 23:30</span>
+            <span class="mobile">2026-11-13 23:30</span>
+            <span class="hover-info">Updated</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E7%BB%8F%E6%B5%8E%E8%A7%82%E5%AF%9F/">Economic Observer</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/Anthropic/">Anthropic</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/AI-%E8%B5%84%E6%9C%AC%E5%BC%80%E6%94%AF/">AI capital expenditure</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E7%BE%8E%E5%9B%BD%E6%94%BF%E6%B2%BB/">American politics</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E8%8B%B1%E4%BC%9F%E8%BE%BE/">NVIDIA</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E5%87%BA%E5%8F%A3%E7%AE%A1%E5%88%B6/">Export controls</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E5%85%AC%E5%8F%B8%E6%B2%BB%E7%90%86/">Corporate Governance</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>6.1k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>22 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<blockquote>
+<p><strong>Introduction</strong>: This is our fifth article on AI capital expenditure. The first article<a href="/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/">‘AI: The Mainstay of Capital Expenditure’</a>A discussion on how computing infrastructure drives macroeconomic growth in the US; Part Two<a href="/2026/10/31/2026-10-31-macro-micro-ai-capex-verdict/">‘In the same week, macro and micro perspectives delivered conflicting verdicts on AI capital expenditure’</a>The dichotomy between describing GDP as ‘very strong’ and financial results as ‘too expensive’; Part Three<a href="/2026/11/05/2026-11-05-midterms-ai-capex-politics/">‘The Political Calculus of AI Capital Expenditure in the Wake of the Mid-Term Elections’</a>Assessing the impact of political variables at state level; Part Four<a href="/2026/11/08/2026-11-08-three-pricings-crash-payrolls-nvidia/">‘Pricing Three Times a Week’</a>Label the NVIDIA earnings report on 11–17 and the congressional briefing on 11–18 as ‘the first and second halves of the same event’.<strong>11–12: This script took off way earlier than expected—and in a way that went beyond the three possible outcomes we’d envisaged.</strong></p>
+</blockquote>
+<span id="more"></span>
+
+<hr>
+<h2 id="〇、先认个错：我们预测了节点，没预测到剧本"><a href="#〇、先认个错：我们预测了节点，没预测到剧本" class="headerlink" title="0. First, let me admit our mistake: we predicted the nodes, but we didn’t predict the script."></a>0. First, let me admit our mistake: we predicted the nodes, but we didn’t predict the script.</h2><p>In Part IV, we outlined three possible outcomes for the closed-door briefings on items 11–18: a technical conclusion (55 per cent), escalation to a public hearing (30 per cent), and the initiation of legislative action (15 per cent).</p>
+<p><strong>The reality is that the briefing hadn’t even started yet when the main speaker had already left.</strong></p>
+<p>On 11–12, Jensen Huang resigned as CEO, President and Director of NVIDIA, with immediate effect. In other words, whilst we had correctly assessed the significance of that date, we had not in the slightest anticipated the possibility that ‘the hearing could not go ahead because the person being questioned was no longer in post’.</p>
+<p>This incident in itself is worth including in the methodology:<strong>Scenario analysis can identify which days are significant, but it cannot identify the events that make up those days.</strong> The three branches we outlined—55/30/15—all shared the same implicit assumption: that Jensen Huang was still in office. This assumption was not included in any of the branches, as no one at the time believed it would change.<strong>This is the most typical way in which the scenario method fails: it is not a mistake in calculating probabilities, but rather an incomplete set of scenarios.</strong></p>
+<p>So this piece is not a defence, but a review.</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://files.seeusercontent.com/2026/11/13/8pqH/fig1-crisis-timeline.png" alt="5–13 November: Timeline of the crisis"><figcaption>5–13 November: Timeline of the crisis</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 1</span><span class="aden-caption-text">A seven-day timeline from 5 November to 13 November. 5 November: Three congressional committees sent a letter requesting a closed-door briefing on 18 November → 7–8 November: Reports of an extramarital affair emerged → 9 November: The board launched an independent investigation (NVDA fell by 4.3 per cent on the same day) → 11 November: Second extramarital affair revealed and Senate requests documents → 11 December: Resigned as CEO, President and Director; CFO Kress appointed interim CEO (intraday -14.35%, closed -4.34%) → 13 November: Agreed to testify before Congress before Thanksgiving. The market figures are as follows: a cumulative decline of 30.5 per cent from the 6 October high, with approximately $1.76 trillion wiped off the market.</span></p>
+<hr>
+<h2 id="一、辞职的真实原因，不是绯闻"><a href="#一、辞职的真实原因，不是绯闻" class="headerlink" title="I. The real reason for the resignation is not the rumours"></a>I. The real reason for the resignation is not the rumours</h2><h3 id="时间线上最关键的不是丑闻日期，是国会日期"><a href="#时间线上最关键的不是丑闻日期，是国会日期" class="headerlink" title="The most crucial element on the timeline is not the dates of the scandals, but the dates of the parliamentary sessions."></a>The most crucial element on the timeline is not the dates of the scandals, but the dates of the parliamentary sessions.</h3><p>Look at this table and note the interval between the two ‘increases’:</p>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>What happened?</th>
+<th>Who is driving this?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>11-05</td>
+<td>The chairs of the House Foreign Affairs Committee (Mast), the Special Committee on China (Moolenaar) and the Intelligence Committee (Crawford) jointly signed a letter requesting a closed-door briefing on 11–18.</td>
+<td>Parliament</td>
+</tr>
+<tr>
+<td>11-07/08</td>
+<td>Huang’s extramarital affair with Alice Huang, an executive at Megaspeed, has been reported; Huang admitted to it in an email to staff</td>
+<td>Media</td>
+</tr>
+<tr>
+<td><strong>11-09</strong></td>
+<td><strong>The Board of Directors has launched an independent investigation</strong></td>
+<td>Company</td>
+</tr>
+<tr>
+<td>11-11</td>
+<td>Second extramarital affair reported; Senate Banking Committee (Warren/Coons) writes to Lutnick and Rubio requesting all documents</td>
+<td>Media + Parliament</td>
+</tr>
+<tr>
+<td><strong>11-12</strong></td>
+<td><strong>Resignation from the posts of CEO, President and Director, with immediate effect</strong></td>
+<td>Company</td>
+</tr>
+<tr>
+<td>11-12</td>
+<td>Further letter from the Three Committees: Failure to appear voluntarily by 8.00 pm on Friday will result in a summons being issued</td>
+<td>Parliament</td>
+</tr>
+<tr>
+<td>11-13</td>
+<td>Huang has agreed to give evidence before Parliament before Thanksgiving</td>
+<td>Huang himself</td>
+</tr>
+</tbody></table>
+<p><strong>From 5 November, when key figures in Parliament were present, to 12 November, when they had left – exactly seven days.</strong></p>
+<p>The wording of the Board of Directors’ statement of 9 November is well worth reading word for word. It states that Jensen Huang is<strong>“Targets of foreign intelligence activities”</strong>, saying<strong>“There is no reason to believe that national security or NVIDIA’s confidential information has been compromised”</strong>, adding that Huang Renxun<strong>“I fully support this review”</strong>。</p>
+<p><strong>Please note the purpose of this statement: it is saying, ‘He is the victim, not the suspect’.</strong> This is the strongest protection a board can offer a CEO, and it also serves to pave the way for the 11–18 briefing—should anyone enquire, the company can say, ‘We’ve looked into it, and there’s nothing wrong with him’.</p>
+<p>Three days later, the line was abandoned.</p>
+<h3 id="CNBC-的说法：董事会“前一晚”就决定了"><a href="#CNBC-的说法：董事会“前一晚”就决定了" class="headerlink" title="According to CNBC: the board had made the decision ‘the night before’"></a>According to CNBC: the board had made the decision ‘the night before’</h3><p>CNBC, citing sources, reported that the board of directors, following the announcement of the resignation,<strong>The night before</strong>The decision had already been made; the team worked through the night to prepare a communication plan, finalised it the following morning, and announced that the CFO, Colette Kress, would take over on an interim basis.</p>
+<p>The significance of this detail lies in the fact that:<strong>Decisions were made faster than the scandal could spread.</strong> 11 November: a second extramarital affair was exposed and the Senate requested documents; 12 November: by the morning, he had already stepped down—this does not look like a ‘well-considered and dignified exit’; it looks like cutting one’s losses.</p>
+<p>Yet the official statement made no mention whatsoever of the scandal. The Chairman of the Board, Harvey Jones, said:<strong>“The Board has every confidence in Colette and the leadership team, and we expect the company’s operations, commitments to customers and product roadmap to continue without interruption.”</strong>(The Guardian has checked the full text of the announcement and confirmed that it contains no references to a scandal)</p>
+<p><strong>This is a standard template for a ‘civilised break-up’.</strong> It also makes one thing clear: the company does not intend to characterise this departure as an ethical issue, but rather as a risk management measure.</p>
+<h3 id="那真正的风险是什么"><a href="#那真正的风险是什么" class="headerlink" title="So what is the real risk?"></a>So what is the real risk?</h3><p>If it were merely a rumour, the board could easily keep the CEO on and let him testify before Parliament himself—after all, his track record is impeccable and the product roadmap is set until 2028.</p>
+<p><strong>What forced the board to take action was the fact that the rumours and another development coincided in the same week.</strong> That line—see the next section.</p>
+<hr>
+<h2 id="二、Alice-Huang-与-Megaspeed：把“疑似”和“已证”分开写"><a href="#二、Alice-Huang-与-Megaspeed：把“疑似”和“已证”分开写" class="headerlink" title="II. Alice Huang and Megaspeed: Distinguishing between ‘alleged’ and ‘proven’ in writing"></a>II. Alice Huang and Megaspeed: Distinguishing between ‘alleged’ and ‘proven’ in writing</h2><p>This is the section of the entire text that requires the greatest care.<strong>We must strictly distinguish between three categories of information: verified facts, allegations made in the report, and matters which the Ministry of Justice has explicitly not yet determined.</strong></p>
+<h3 id="已经核实、可以直写的事实"><a href="#已经核实、可以直写的事实" class="headerlink" title="Facts that have been verified and can be stated directly"></a>Facts that have been verified and can be stated directly</h3><table>
+<thead>
+<tr>
+<th>Facts</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Megaspeed is a Singapore-based company and a spin-off of the Chinese state-owned cloud company 7Road</td>
+<td>Letter from Senator Cotton to the Secretary of Commerce, Mr Lutnick; official document</td>
+</tr>
+<tr>
+<td>Megaspeed is an NVIDIA customer and has purchased US chips worth billions of dollars</td>
+<td>CNBC Investigative Report (from 10 October 2025)</td>
+</tr>
+<tr>
+<td>Megaspeed has been accused of helping Chinese companies subject to export restrictions to obtain Nvidia AI chips</td>
+<td>Ibid.; this constitutes an allegation in the report</td>
+</tr>
+<tr>
+<td><strong>Tim Teter, NVIDIA’s General Counsel, telephoned Jeffrey Kessler, Under-Secretary of State at the Department of Commerce, in late summer 2025 to enquire about the progress of the Megaspeed investigation</strong></td>
+<td>Bloomberg (9 November 2026), NYT (9 November 2026), two sources</td>
+</tr>
+<tr>
+<td><strong>The Ministry of Commerce’s investigation into semiconductors was subsequently terminated or transferred to the Ministry of Justice</strong></td>
+<td>NYT (9 November 2026); Senate letter requests all documents relating to the ‘termination of the Department of Commerce’s investigation into Megaspeed’</td>
+</tr>
+<tr>
+<td>Senate letter cites the FT: Lutnick once linked the easing of restrictions on Nvidia’s chip exports to China to a ‘deal with China’</td>
+<td>Letter from the Senate Banking Committee</td>
+</tr>
+<tr>
+<td>Alice Huang is currently in Beijing</td>
+<td>Bloomberg（2026-11-12）</td>
+</tr>
+</tbody></table>
+<h3 id="报道中的怀疑，必须标注"><a href="#报道中的怀疑，必须标注" class="headerlink" title="Any suspicions mentioned in the report must be clearly indicated"></a>Any suspicions mentioned in the report must be clearly indicated</h3><p>The US intelligence community fears she is passing information to Beijing—this is <strong>Content of the reports in the NYT and the FT</strong>, though this has not been officially confirmed. Whether she is a Chinese intelligence asset,<strong>The Ministry of Justice has not made a determination</strong>; The wording used in Senator Cotton’s letter was ‘suspected’.</p>
+<p><strong>Attorney General Blanche’s exact words on 11–12 were:<strong>“There’s no conclusions reached by the Department of Justice.”</strong></strong></p>
+<p>Throughout this article, all relevant terms are consistently referred to as “<strong>It has been reported that there are suspicions / the US intelligence community is concerned, whilst the Department of Justice has made it clear that no conclusions have yet been reached</strong>”This line.”<strong>This article will not portray her as a confirmed spy—that would not only be inconsistent with the verified facts, but would also undermine the credibility of the entire piece.</strong></p>
+<h3 id="指控与辩解必须并列"><a href="#指控与辩解必须并列" class="headerlink" title="The charges and the defence must be set out side by side"></a>The charges and the defence must be set out side by side</h3><p>This is the part of this article where it is easiest to stray from the point. The same New York Times report also includes the other side’s account:<strong>Teter claims that it was Kessler who first granted Nvidia permission to make contact.</strong></p>
+<p>In other words, there are two narratives along this line:</p>
+<ul>
+<li><strong>Charges Version</strong>: NVIDIA’s legal team proactively telephoned the Ministry of Commerce to enquire about an investigation into one of its clients, following which the investigation was terminated or transferred—this constitutes a chain of suspicion of interference in law enforcement.</li>
+<li><strong>The Defence Version</strong>: The Ministry of Commerce granted the licence first; NVIDIA was simply following the procedure. Enquiring about the progress of the investigation is something any company with a compliance team would do.</li>
+</ul>
+<p><strong>We are unable to determine which version is correct, and this article does not make any such judgement.</strong> But one thing is clear:<strong>The focus of Congress’s inquiry is no longer on the CEO’s private life, but on ‘whether Nvidia interfered with investigations into its own clients’.</strong></p>
+<h3 id="为什么这条线比绯闻重要"><a href="#为什么这条线比绯闻重要" class="headerlink" title="Why is this story more important than the rumours?"></a>Why is this story more important than the rumours?</h3><p>Because it links two things together:<strong>NVIDIA’s business practices (sales to China)</strong> with <strong>US National Security Procedures (Export Control Enforcement)</strong>。</p>
+<p>An extramarital affair involving a CEO is, at worst, a personal embarrassment. But the fact that ‘the world’s most important chip company’s legal team rang the relevant authorities regarding an export control investigation into one of its own clients, after which the investigation was either terminated or referred elsewhere’—this is the sort of thing that could feature in a parliamentary hearing, be included in a subpoena, or find its way into draft legislation.</p>
+<p><strong>Jensen Huang’s true value has never been limited to his ability to manage NVIDIA.</strong></p>
+<hr>
+<h2 id="三、他真正的位置：对华政策的政治担保人"><a href="#三、他真正的位置：对华政策的政治担保人" class="headerlink" title="III. His True Role: The Political Guarantor of Policy towards China"></a>III. His True Role: The Political Guarantor of Policy towards China</h2><p>This section sets out the central argument of this article.</p>
+<p><strong>Jensen Huang is one of Trump’s closest advisers on AI policy and the most vocal advocate for chip sales to China.</strong> In May 2026, he travelled to Beijing with Trump on Air Force One—the significance of this detail lies not in the courtesy shown, but in<strong>He himself is the very embodiment of the narrative of that journey.</strong>。</p>
+<p>In that role, he fulfils three roles simultaneously:</p>
+<ol>
+<li><strong>The company’s CEO</strong>: We must be accountable to our shareholders and ensure that revenue from the Chinese market continues to flow in.</li>
+<li><strong>Policy adviser</strong>: To report to the White House and provide an industry assessment on whether to ‘sell or not to sell’.</li>
+<li><strong>A buffer against political risk</strong>: When Congress asks, ‘Why are they still being sold?’, he is the one who can walk straight into the Oval Office to explain.</li>
+</ol>
+<p><strong>After 11–12, the third character disappeared.</strong></p>
+<p>There is no need to speculate on the consequences of this; a look at the mechanism is sufficient:</p>
+<ul>
+<li><strong>Export controls are being further tightened; no new legislation is required.</strong> Under the current rules (effective from 15 January 2026), H200-class chips are already subject to case-by-case approval.<strong>Approval criteria are a matter of administrative discretion; adopting criteria that do not take industry concerns into account would have the same effect as a ban, and would not require a vote in Parliament.</strong></li>
+<li><strong>The combined efforts of Parliament and the Ministry of Justice have failed to achieve the desired balance.</strong> The person who could have acted as a buffer between ‘the President wanting to sell’ and ‘Parliament wanting to investigate’ is no longer there.</li>
+<li><strong>Lutnick is in a precarious position himself.</strong> The Senate Banking Committee has requested his documents, and both parties believe he should give evidence. The FT reported that he had linked the easing of restrictions on chip exports to China to a ‘deal with China’—<strong>This is no longer just a problem for Nvidia; it is a problem for the Ministry of Commerce.</strong></li>
+<li><strong>The scope of the ‘circular trading’ investigation may be expanded.</strong> In its report, Reuters quoted a market participant directly as saying:<strong>“Nvidia is the circular-funder-in-chief; they’re the biggest by far… I assume that activity will moderate.”</strong> This is the first time the label ‘ringleader of circular financing’ has appeared in the mainstream media. It does not question the valuation, but rather<strong>Quality of income</strong>。</li>
+</ul>
+<p><strong>So the statement in the headline needs to be made clear: the CEO’s position can be filled, but there is no substitute for a political patron.</strong> Kress will host the earnings call, but she will not speak to the President on behalf of Nvidia regarding export licences – that is not the role of a CFO, nor does it fall within the remit of an interim CEO.</p>
+<h3 id="关于“Tim-Cook-接任”"><a href="#关于“Tim-Cook-接任”" class="headerlink" title="Regarding ‘Tim Cook’s succession’"></a>Regarding ‘Tim Cook’s succession’</h3><p>Trump mentioned Tim Cook several times on 11–12 and 11–13, saying, “A Legend replaces a Legend!”, and describing Cook as a “great candidate”.</p>
+<p><strong>It must be made clear that this is the President’s personal opinion, not a Board procedure.</strong> There are no reports to suggest that the board has approached Cook. It is incorrect to write that ‘a successor has emerged’.</p>
+<h3 id="关于-Kress"><a href="#关于-Kress" class="headerlink" title="About Kress"></a>About Kress</h3><p>Colette Kress has served as NVIDIA’s CFO for many years and is a key figure in the company’s financial and capital markets communications.</p>
+<p><strong>However, there are no public reports to suggest that she has ever held the position of CEO or head of a business division.</strong> We have not been able to independently verify the exact date on which she took up the post of CFO; this has therefore been listed as a gap.</p>
+<p>Whether she is seen as a ‘stabilising force’ or a ‘caretaker’ will depend entirely on the length of the search for a successor. If a successor is appointed within a month, she will be seen as a transitional figure; if the process drags on until next year, the markets will begin to ask, ‘Who is making decisions on products and production capacity?’—and this is precisely one of the questions the 11–17 financial report is intended to answer.</p>
+<hr>
+<h2 id="四、同周的两个检验：Anthropic-定价与-CoreWeave-对账"><a href="#四、同周的两个检验：Anthropic-定价与-CoreWeave-对账" class="headerlink" title="IV. Two tests from the same week: Anthropic’s pricing and CoreWeave’s reconciliation"></a>IV. Two tests from the same week: Anthropic’s pricing and CoreWeave’s reconciliation</h2><p>Last week’s ‘Pricing Three Times a Week’ left two test cases for this week. Both were put into practice this week, and the results were more nuanced than anticipated.</p>
+<h3 id="Anthropic：6-倍超额认购，估值却下了三成"><a href="#Anthropic：6-倍超额认购，估值却下了三成" class="headerlink" title="Anthropic: Six times oversubscribed, yet its valuation has fallen by a third"></a>Anthropic: Six times oversubscribed, yet its valuation has fallen by a third</h3><p><strong>Offering Structure (SEC Form S-1/A-2, original text):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Project</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Price range</td>
+<td><strong>$70.00–78.00</strong></td>
+</tr>
+<tr>
+<td>Number of shares issued</td>
+<td><strong>825 million shares</strong>(New issue of 801 million shares by the company + sale by existing shareholders)</td>
+</tr>
+<tr>
+<td>Amount raised</td>
+<td><strong>$57.75–64.35 billion</strong>（$57.75B–$64.35B）</td>
+</tr>
+<tr>
+<td>Over-allotment option</td>
+<td>At most <strong>123.75 million shares</strong></td>
+</tr>
+<tr>
+<td>Synchronised private placements</td>
+<td><strong>$26 billion Class N</strong> To AMD, Broadcom, Google, Micron, Microsoft, Nvidia and TSMC, with Google and Nvidia each receiving $10 billion</td>
+</tr>
+<tr>
+<td>Net proceeds (including the greenshoe option)</td>
+<td><strong>$84.6–93.7 billion</strong>（$84.6B–$93.7B）</td>
+</tr>
+<tr>
+<td>Listing</td>
+<td>Approx. <strong>11-19</strong>, code <strong>ANT</strong>, up to 20 per cent retail allocation</td>
+</tr>
+</tbody></table>
+<p><strong>Fundamentals (from the same source text):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Indicators</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Run-rate revenue (as at 31 October)</td>
+<td>Approx. <strong>$81 billion</strong>($81B), amounting to $71 billion between 9.00 and 30.00,<strong>a monthly increase of $10 billion</strong></td>
+</tr>
+<tr>
+<td>Revenue for 9 months</td>
+<td><strong>$33.2 billion</strong>（$33.2B）</td>
+</tr>
+<tr>
+<td><strong>Net loss for the nine-month period</strong></td>
+<td><strong>$104.039 billion</strong>（$104.039B）</td>
+</tr>
+<tr>
+<td><strong>Committed expenditure</strong></td>
+<td><strong>$900.9 billion</strong>($900.9B), of which approximately <strong>$451.6 billion</strong>($451.6B) to be paid by the end of 2030</td>
+</tr>
+<tr>
+<td>Cash and short-term investments</td>
+<td>Approx. <strong>$132 billion</strong>（$132B）</td>
+</tr>
+</tbody></table>
+<p><strong>That figure of 900.9 billion is worth pausing to consider.</strong> We are in<a href="/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/">‘Load-bearing Column’</a>The “$518 billion in computing power commitments” cited earlier was based on media estimates at the time. Now, Anthropic has provided a higher figure in its own prospectus, and<strong>With a timetable</strong>: Half of this is to be paid out by the end of 2030.</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://files.seeusercontent.com/2026/11/13/Ca5c/fig2-anthropic-ipo-structure.png" alt="Two methods of calculating Anthropic’s market capitalisation ahead of its IPO"><figcaption>Two methods of calculating Anthropic’s market capitalisation ahead of its IPO</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 2</span><span class="aden-caption-text">Two methods of calculating Anthropic’s IPO ‘market capitalisation’. Left: Based on 13.087 billion shares in free float post-offering (7.428 billion Class A shares + 5.659 billion Class N shares), a price of $70–78 corresponds to approximately $916 billion to $1.02 trillion; Right: The figure of $1.404 trillion cited by TechCrunch is based on a fully diluted basis (approximately 18 billion shares, including options and RSUs), the difference between the two figures is approximately 4.9 billion shares, representing potential ordinary shares (of which 3.86 billion shares were already reserved under the 2021 share plan).</span></p>
+<p><strong>When it comes to market capitalisation, we must first clarify the criteria:</strong></p>
+<ul>
+<li><strong>Based on 13.087 billion shares in free float following the issue, a price range of $70–$78 corresponds to a market capitalisation of approximately $916 billion to $1.02 trillion.</strong>(This article adopts this approach in its main arguments).</li>
+<li>As reported by TechCrunch, <strong>$1.404 trillion</strong>, is<strong>Fully diluted turnover</strong>— 1,404 ÷ 78 ≈ 18 billion shares, which is approximately 4.9 billion shares more than the number of shares in circulation, and corresponds exactly to the potential ordinary shares represented by options, RSUs and the like.</li>
+</ul>
+<p><strong>Both figures are correct, but they do not refer to the same thing.</strong> We do not endorse TechCrunch’s algorithm, but neither do we deny that the argument itself is valid.</p>
+<p><strong>The market’s findings are the key point of Section 2 of this paper:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Indicators</th>
+<th>Results</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Oversubscription</td>
+<td>Approx. <strong>6 times</strong>(Reuters, citing Bloomberg; reported as quoted)</td>
+<td>Demand is extremely strong</td>
+</tr>
+<tr>
+<td>Upper valuation limit</td>
+<td>Compared with the rumours circulating in September, <strong>$2 trillion</strong> Reduced to the upper limit of approximately $1.4 trillion (fully diluted)</td>
+<td>The price has been reduced by around 30 per cent</td>
+</tr>
+<tr>
+<td>Control group: OpenAI</td>
+<td>Funding <strong>$11 billion</strong>, Valuation <strong>$1.25 trillion</strong>(According to Reuters), original target<strong>Up to $30 billion</strong></td>
+<td>Private equity funding is slowing down</td>
+</tr>
+</tbody></table>
+<p><strong>Three-sentence conclusion: Demand remains strong (six-fold oversubscription); valuations have been revised downwards (the upper limit has fallen by around 30 per cent); and ‘volume makes up for price’ (exchanging lower valuations for a larger subscription volume).</strong></p>
+<p><strong>The test we set last week was a binary choice: ‘If the pricing is set at $1.5 trillion or above, it would be the strongest counter-evidence that the narrative is not dead; a downward shift in the range, on the other hand, would be evidence that the supporting pillars are crumbling.’ Reality has fallen somewhere in between—which suggests that we framed the question as a multiple-choice question at the time, whilst the market’s answer was ‘both’.</strong></p>
+<h3 id="CoreWeave-Q3：观察项全部对账"><a href="#CoreWeave-Q3：观察项全部对账" class="headerlink" title="CoreWeave Q3: All items under review have been reconciled"></a>CoreWeave Q3: All items under review have been reconciled</h3><table>
+<thead>
+<tr>
+<th>Items we observed last week</th>
+<th>Actual results</th>
+<th>determine</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Net interest expense (guidance: $860 million–$940 million)</td>
+<td><strong>$846 million</strong></td>
+<td><strong>Slightly below the lower end of the guidance range</strong>, better than expected</td>
+</tr>
+<tr>
+<td>Revenue (forecast: $3.55 billion)</td>
+<td><strong>$3.661 billion</strong>, year-on-year <strong>+168%</strong></td>
+<td>Better than expected</td>
+</tr>
+<tr>
+<td>Operating profit</td>
+<td><strong>$207 million</strong>(profit margin 6 per cent); adjusted <strong>$379 million (10 per cent)</strong></td>
+<td>Profit margin sees first double-digit adjustment; CEO says it came ‘a quarter ahead of schedule’</td>
+</tr>
+<tr>
+<td>Net loss</td>
+<td><strong>$709 million</strong></td>
+<td>Expansion (interest and depreciation)</td>
+</tr>
+<tr>
+<td>Capital expenditure for a single quarter</td>
+<td><strong>$9.441 billion</strong></td>
+<td>Still extremely high</td>
+</tr>
+<tr>
+<td>Net bond issuance in a single quarter</td>
+<td><strong>$10.301 billion</strong></td>
+<td>The debt relay continues</td>
+</tr>
+<tr>
+<td>Full-year guidance</td>
+<td>Increased to <strong>$13.3 billion</strong></td>
+<td>increase</td>
+</tr>
+<tr>
+<td>Cash</td>
+<td><strong>$6.404 billion</strong></td>
+<td>—</td>
+</tr>
+</tbody></table>
+<p><strong>The most noteworthy aspect was not the figures, but the market’s reaction: the share price surged by as much as 25 per cent following the results announcement, before giving up those gains.</strong></p>
+<p><strong>“Better-than-expected results + upward revision of guidance” failed to sustain the gains</strong>—This once again confirms the assessment we made in *Pricing Three Times a Week*:<strong>What the market wants is not growth, but to know when cash flow will turn positive.</strong> Revenue up 168 per cent year-on-year, $10.3 billion in bonds issued in a single quarter, and $9.441 billion in capital expenditure in a single quarter: taken together, these three figures paint a complete picture of ‘growth fuelled by debt’.</p>
+<hr>
+<h2 id="五、情景迭代：40-45-15-→-35-45-20"><a href="#五、情景迭代：40-45-15-→-35-45-20" class="headerlink" title="V. Scenario iterations: 40/45/15 → 35/45/20"></a>V. Scenario iterations: 40/45/15 → 35/45/20</h2><p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg" data-src="https://files.seeusercontent.com/2026/11/13/eEn4/fig3-scenario-iteration.png" alt="Probability changes across three scenarios"><figcaption>Probability changes across three scenarios</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">Figure 3</span><span class="aden-caption-text">Changes in the probabilities for the three scenarios. The ‘continuation’ scenario has been reduced from 40% to 35%, the ‘slowdown’ scenario remains at 45%, and the ‘breakdown’ scenario has been revised upwards from 15% to 20% (light-coloured figures represent previous values; solid figures represent new values). Below are the three grounds for the upward revision to the ‘breakdown’ scenario and the three reasons for not adopting a more pessimistic outlook, as well as the two trigger points for a market correction: the 11–17 financial results and the 11–19 ANT listing.</span></p>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Old probability</th>
+<th>New Probability</th>
+<th>New legal basis</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Continuation</strong>: Capital expenditure continues; share prices are fluctuating upwards</td>
+<td>40%</td>
+<td><strong>35%</strong></td>
+<td>The credibility of guidance provided by companies that have lost their CEOs has declined; the parliamentary inquiry has entered a substantive phase</td>
+</tr>
+<tr>
+<td><strong>slow down</strong>: CAPEX growth has slowed but has not collapsed</td>
+<td>45%</td>
+<td><strong>45%</strong></td>
+<td>Anthropic 6-fold oversubscribed, CoreWeave raises guidance – evidence from the demand side is actually even stronger</td>
+</tr>
+<tr>
+<td><strong>Rupture</strong>: a precipitous fall in capital expenditure</td>
+<td>15%</td>
+<td><strong>20%</strong></td>
+<td>The three grounds are set out below</td>
+</tr>
+</tbody></table>
+<h3 id="破裂上调的三条依据"><a href="#破裂上调的三条依据" class="headerlink" title="Three grounds for the upward revision of the break-even rate"></a>Three grounds for the upward revision of the break-even rate</h3><ol>
+<li><strong>The CEO position at the world’s leading chip manufacturer is vacant, and there is no clear successor.</strong> The board says it is considering both internal and external candidates, but there have been no reliable reports naming any specific candidates. The duration of this vacuum is uncertain, yet capital expenditure decisions cannot be put on hold.</li>
+<li><strong>Export controls are being further tightened; no new legislation is required.</strong> Under the current rules, approvals are already granted on a case-by-case basis, with the criteria for approval subject to administrative discretion. When political pressure mounts, all it takes is an internal directive.</li>
+<li><strong>Private equity funding is slowing down.</strong> OpenAI has raised $11 billion, which is only about a third of its original target (up to $30 billion). If funding in the private market is drying up, the fulfilment rate of computing power commitments will have to be scaled back.</li>
+</ol>
+<h3 id="为什么不更悲观"><a href="#为什么不更悲观" class="headerlink" title="Why not be more pessimistic?"></a>Why not be more pessimistic?</h3><ol>
+<li><strong>Anthropic was oversubscribed by approximately six times</strong>—The strongest evidence on the demand side: an order book backed by real money.</li>
+<li><strong>CoreWeave raises its full-year guidance to $13.3 billion in Q3</strong>—The order backlog has not collapsed.</li>
+<li><strong>Kress is the long-term CFO; short-term market communication risks are manageable</strong>—She knows every figure relating to this line of business.</li>
+<li><strong>The ‘liquidation event’ theory makes sense</strong>: Jeremiah Buckley of Janus Henderson described this resignation as<strong>“clearing event”</strong>(clearance event), adding that the company’s product roadmap “has been finalised through to 2028”. It is better to get all the bad news out of the way in one go than to drag it out.</li>
+</ol>
+<h3 id="也别忽略另一面"><a href="#也别忽略另一面" class="headerlink" title="Don’t overlook the other side either"></a>Don’t overlook the other side either</h3><p>Ann Lipton, a professor of corporate law at the University of Colorado, takes the opposite view:<strong>The resignation “underscores the seriousness of the allegations” and will strengthen the shareholders’ arguments regarding damages, the materiality of the misrepresentations and the likelihood that Mr Huang was aware of them.</strong> ‘Hundreds of investors’ have already contacted the law firm.</p>
+<p><strong>The disagreement between these two schools of thought lies not in the facts, but in the timescale.</strong>: Buckley looks to see when share prices will bottom out, whilst Lipton looks to see when the litigation will begin.</p>
+<h3 id="两个检验点"><a href="#两个检验点" class="headerlink" title="Two checkpoints"></a>Two checkpoints</h3><table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Event</th>
+<th>Callback conditions</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>11-17</strong></td>
+<td>NVIDIA Q3 Financial Results</td>
+<td>Data centre results met expectations (consensus: 108.8–109.0 billion) and the gross margin held steady at 74 per cent → “Continued” correction to 40 per cent</td>
+</tr>
+<tr>
+<td><strong>11-19</strong></td>
+<td>Anthropic goes public (ANT)</td>
+<td>If the share price falls below the issue price ($70) on the first day → ‘Breakdown’, then revise upwards</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="六、11-17-财报：六项观察清单"><a href="#六、11-17-财报：六项观察清单" class="headerlink" title="VI. 11–17: Financial Reports: Six Points to Note"></a>VI. 11–17: Financial Reports: Six Points to Note</h2><p><strong>Consensus and Guidance (First, clarify the sources):</strong></p>
+<table>
+<thead>
+<tr>
+<th>Project</th>
+<th>Value</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Analysts’ consensus revenue</td>
+<td><strong>$108.8–109.0 billion</strong>（$108.8B–109B）</td>
+<td>InsiderFinance third-party consensus, annotated</td>
+</tr>
+<tr>
+<td>Analysts’ consensus EPS</td>
+<td><strong>$2.47</strong></td>
+<td>Ibid.</td>
+</tr>
+<tr>
+<td>Company revenue guidance</td>
+<td><strong>$108 billion ±2 per cent</strong>（$108B）</td>
+<td>Official</td>
+</tr>
+<tr>
+<td>Non-GAAP gross margin guidance</td>
+<td><strong>74% ±50bp</strong></td>
+<td>Official</td>
+</tr>
+</tbody></table>
+<p><strong>Six-point checklist (items 5 and 6 have been added this time):</strong></p>
+<ol>
+<li><strong>Has the data centre met its revenue target?</strong>—With $108 billion as the benchmark, this is the item that is easiest to quantify and on which there is the least disagreement.</li>
+<li><strong>Will the gross profit margin hold steady at 74 per cent?</strong>— More important than revenue. Blackwell/Rubin’s ramp-up costs and HBM costs will be reflected in this line; a decline in gross margin indicates a loss of pricing power.</li>
+<li><strong>Will China’s figures be included again?</strong>—From 15 January 2026, the BIS will subject H200-class chips to a case-by-case approval process. The guidance issued last quarter explicitly excluded revenue from computing power in Chinese data centres.</li>
+<li><strong>Customer Concentration and Allegations of ‘Circular Trading’</strong>—Now that the media has coined the term ‘circular-funder-in-chief’, this issue is likely to come under even greater scrutiny than before.</li>
+<li><strong>(New) The credibility of guidance under the leadership of an interim CEO</strong>—As Kress is a former CFO, the market will be asking, ‘Who is making the decisions on products and production capacity?’</li>
+<li><strong>(New) Are export licensing and compliance risks included in the ‘Risk Factors’ section of the 10-Q?</strong>—The termination of the Ministry of Commerce’s investigation, the DOJ taking over, and the congressional subpoena: are these three matters included in the statutory disclosures?</li>
+</ol>
+<p><strong>Items 5 and 6 have only appeared this week, and this is where this financial report differs most from previous ones: whereas previously we looked at the figures, this time we also need to consider ‘who is accountable for those figures’.</strong></p>
+<hr>
+<h2 id="七、埋个线：下一篇文章写什么"><a href="#七、埋个线：下一篇文章写什么" class="headerlink" title="VII. A Teaser: What will the next article be about?"></a>VII. A Teaser: What will the next article be about?</h2><p>This section is merely a preview; it will not be explored in detail.</p>
+<p><strong>We believe that the story regarding Lutnick and the ‘conclusion of the Department of Commerce investigation’ takes precedence over any subsequent topics in this series.</strong></p>
+<p>Reason: There is a complete chain of documentation—a call from NVIDIA’s legal team → the investigation was terminated or referred → the Minister linked the relaxation of export controls to the ‘China deal’ → a bipartisan request for documents from the Senate. Moreover, the central figure in this matter is not a company, but a<strong>An administrative department currently under investigation for alleged interference with law enforcement</strong>。</p>
+<p>Cotton and Warren belong to different political parties, yet they are both exerting pressure on this issue. Such a combination is rare and usually suggests that the matter will not be resolved easily.</p>
+<p><strong>We’ll deal with that in the next post.</strong></p>
+<hr>
+<h2 id="八、数据缺口与口径说明"><a href="#八、数据缺口与口径说明" class="headerlink" title="VIII. Explanation of Data Gaps and Definitions"></a>VIII. Explanation of Data Gaps and Definitions</h2><ol>
+<li><strong>The full text of Huang Renxun’s own public statement has not been obtained.</strong> At present, the only evidence available is an email in which he admitted his mistake to staff (“There is no excuse for what I did. I am deeply sorry.”, as reported by Bloomberg and The Hill); no personal public statement has been issued.</li>
+<li><strong>The start date of Kress’s term of office and his experience as a CEO have not been independently verified.</strong> This article merely states that ‘there are no public reports indicating that he has experience as a CEO or as the head of a business unit’.</li>
+<li><strong>There are no reliable reports regarding the list of candidates for the succession.</strong> The board stated that both internal and external factors had been taken into account, but there were no named sources. Tim Cook’s comments were his personal views.</li>
+<li><strong>11–12 CoreWeave: Exact closing price not available</strong>, the snapshots of the quotation pages are contradictory.</li>
+<li><strong>Anthropic was oversubscribed by 6 times, according to Reuters citing Bloomberg; the original Bloomberg article was not read directly.</strong></li>
+<li><strong>Anthropic’s Q3 revenue of $17 billion, as reported by TechCrunch</strong>; The main text of this article only uses the figure of $33.2 billion for the nine-month period, which can be identified by line in S-1/A-2; quarterly figures have not been included in the table.</li>
+<li><strong>Implied volatility for the NVIDIA 11–17 options could not be found.</strong></li>
+<li><strong>Visit to China / No reports on whether the APEC itinerary has been adjusted</strong>, This article does not speculate.</li>
+<li><strong>“The decision had been made the night before the board meeting,” according to CNBC, citing sources</strong>, unofficial confirmation.</li>
+</ol>
+<hr>
+<h3 id="主要信息来源与核验索引"><a href="#主要信息来源与核验索引" class="headerlink" title="Main Sources of Information and Verification Index"></a>Main Sources of Information and Verification Index</h3><ul>
+<li><a class="link" target="_blank" rel="noopener" href="https://nvidianews.nvidia.com/news/statement-from-nvidia-board-of-directors">Statement from the NVIDIA Board of Directors (9 November 2026) – First-hand<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition">NVIDIA CEO Handover Announcement (12 November 2026) – First-hand report<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.cnbc.com/2026/11/12/nvidia-jensen-huang-ceo-live-updates.html">CNBC Resignation Broadcast Live in Full (12 November 2026)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.cnbc.com/2026/11/08/nvidia-jensen-huang-investigation-china-spy.html">CNBC (8 November 2026) – Report on the launch of a board investigation<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.theguardian.com/technology/2026/nov/12/nvidia-ceo-jensen-huang-resigns">The Guardian (12 November 2026) report on the resignation, including a verification of the full text of the official announcement<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.bloomberg.com/news/articles/2026-11-09/nvidia-intervened-in-us-probe-of-megaspeed-chip-smuggling">Bloomberg (9 November 2026) NVIDIA becomes involved in the Megaspeed investigation<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.nytimes.com/2026/11/09/business/economy/nvidia-megaspeed-investigation-huang.html">NYT (9 November 2026) Ministry of Commerce investigation suspended, including Teter’s defence<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.banking.senate.gov/imo/media/doc/20261111_warren_coons_letter_to_wh_commerce_state_re_nvidia_record_retentionpdf.pdf">Letter from Warren and Coons to Lutnick and Rubio, Senate Banking Committee (11 November 2026) – first copy<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.cotton.senate.gov/news/press-releases/cotton-to-lutnick-investigate-chinese-government-spin-off-megaspeed-for-skirting-us-export-laws/">Letter from Senator Cotton to Secretary of Commerce Lutnick (regarding the spin-off of Megaspeed from 7Road) – first draft<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.sec.gov/Archives/edgar/data/2130357/000162828026072484/anthropicpbc-sx1ax2.htm">Anthropic S-1/A-2 (SEC EDGAR) – first-hand<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://techcrunch.com/2026/11/10/anthropic-sets-ipo-price-range-of-70-to-78-per-share-to-reach-an-implied-valuation-of-1-404-trillion/">TechCrunch (10 November 2026) Anthropic’s pricing and fully diluted valuation of $1.404 trillion<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.reuters.com/legal/transactional/anthropics-ipo-is-about-six-times-oversubscribed-bloomberg-news-reports-2026-11-12/">Reuters (12 November 2026) Anthropic IPO oversubscribed by approximately six times (citing Bloomberg)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://investors.coreweave.com/news/news-details/2026/CoreWeave-Reports-Strong-Third-Quarter-2026-Results/default.aspx">CoreWeave’s Q3 2026 Results (Direct from the company’s Investor Relations department)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://finance.yahoo.com/markets/stocks/article/coreweave-stock-pops-as-q3-revenue-beats-estimates-company-raises-full-year-outlook-211533280.html">Yahoo Finance (11 November 2026) CoreWeave share price surges on better-than-expected results and an upward revision to guidance<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://thehill.com/policy/technology/6216293-trump-suggests-tim-cook-nvidia/">The Hill: Trump suggests Tim Cook should take over as CEO of Nvidia<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.forbes.com/sites/siladityaray/2026/11/13/trump-says-jensen-huang-is-going-through-hell-after-nvidia-exit-touts-tim-cook-as-replacement-again/">Forbes (13 November 2026) Trump mentions Cook again, saying Huang is ‘going through hell’<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.insiderfinance.io/news/nvidia-earnings-set-for-nov-17-amid-sell-signals">InsiderFinance: NVIDIA’s 17 November earnings consensus (revenue $108.8–109.0 billion, EPS $2.47)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+</ul>
+<hr>
+<p><em>All statements in this article concerning Alice Huang and Megaspeed are limited to publicly available reports and official documents; characterisations such as ‘suspected spy’ represent mere suspicions expressed in the reports. The US Department of Justice has explicitly stated that no conclusions have yet been reached, and this article makes no findings of fact. All content in this article regarding scenario probabilities (35 per cent continuation, 45 per cent slowdown, 20 per cent breakdown) , policy directions and succession arrangements are conditional inferences based on publicly available information as at 13 November 2026; they do not constitute a forecast of any outcome, price or policy direction, nor do they constitute investment advice. All probabilities are subject to specific triggering conditions, and should be adjusted accordingly should those conditions change.</em></p>
+<p><em>Cover image:<a class="link" target="_blank" rel="noopener" href="https://www.pexels.com/photo/server-racks-on-data-center-4508751/">Server Racks on Data Center<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> — Photo by Brett Sayles on Pexels (licensed for free commercial use)</em></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> Jensen Huang’s resignation: NVIDIA has lost not just its CEO, but the political guarantor of its China policy</li>
+        <li><strong>Author:</strong> AdenXie</li>
+        <li><strong>Created at
+                :</strong> 2026-11-13 23:30:00</li>
+        
+            <li>
+                <strong>Updated at
+                    :</strong> 2026-11-13 23:30:00
+            </li>
+        
+        <li>
+            <strong>Link:</strong> https://blog.adenxie.com.cn/2026/11/13/2026-11-13-jensen-huang-resignation-political-guarantor/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/Anthropic/">#Anthropic</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/AI-%E8%B5%84%E6%9C%AC%E5%BC%80%E6%94%AF/">#AI Capital Expenditure</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E7%BE%8E%E5%9B%BD%E6%94%BF%E6%B2%BB/">#US Politics</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E8%8B%B1%E4%BC%9F%E8%BE%BE/">#NVIDIA</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%87%BA%E5%8F%A3%E7%AE%A1%E5%88%B6/">#Export Controls</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%85%AC%E5%8F%B8%E6%B2%BB%E7%90%86/">#Corporate Governance</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/11/08/2026-11-08-three-pricings-crash-payrolls-nvidia/" title="Three Key Price Moves This Week: The Plunge, the Non-Farm Payrolls Report, and the Link to Nvidia" rel="bookmark">
+  <img src="https://images.pexels.com/photos/210607/pexels-photo-210607.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Three Key Price Moves This Week: The Plunge, the Non-Farm Payrolls Report, and the Link to Nvidia" class="!max-w-none">
+  <span class="title">Three Key Price Moves This Week: The Plunge, the Non-Farm Payrolls Report, and the Link to Nvidia</span>
+</a><a class="recommended-article-item" href="/2026/10/28/2026-10-28-anthropic-s1-open-cards/" title="Anthropic officially unveils its S-1 prospectus: a deep dive – the bets we placed a week ago have all been revealed today" rel="bookmark">
+  <img src="https://images.pexels.com/photos/38358503/pexels-photo-38358503.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Anthropic officially unveils its S-1 prospectus: a deep dive – the bets we placed a week ago have all been revealed today" class="!max-w-none">
+  <span class="title">Anthropic officially unveils its S-1 prospectus: a deep dive – the bets we placed a week ago have all been revealed today</span>
+</a><a class="recommended-article-item" href="/2026/11/13/2026-11-13-daily-brief/" title="Daily Briefing | 13 November 2026: Jensen Huang steps down as NVIDIA CEO; CFO Kress takes over on an interim basis; 10-year US Treasury yields rise above 5.1 per cent; US shares close slightly lower; Trump states “there is no need to reach an agreement with Iran”; the Ministry of Commerce states that China and the US are moving forward with the “30 billion for 30 billion” tariff reduction arrangement" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1431540015161-0bf868a2d407?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 13 November 2026: Jensen Huang steps down as NVIDIA CEO; CFO Kress takes over on an interim basis; 10-year US Treasury yields rise above 5.1 per cent; US shares close slightly lower; Trump states “there is no need to reach an agreement with Iran”; the Ministry of Commerce states that China and the US are moving forward with the “30 billion for 30 billion” tariff reduction arrangement" class="!max-w-none">
+  <span class="title">Daily Briefing | 13 November 2026: Jensen Huang steps down as NVIDIA CEO; CFO Kress takes over on an interim basis; 10-year US Treasury yields rise above 5.1 per cent; US shares close slightly lower; Trump states “there is no need to reach an agreement with Iran”; the Ministry of Commerce states that China and the US are moving forward with the “30 billion for 30 billion” tariff reduction arrangement</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/11/08/2026-11-08-three-pricings-crash-payrolls-nvidia/" title="Three Key Price Moves This Week: The Plunge, the Non-Farm Payrolls Report, and the Link to Nvidia" rel="bookmark">
+  <img src="https://images.pexels.com/photos/210607/pexels-photo-210607.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Three Key Price Moves This Week: The Plunge, the Non-Farm Payrolls Report, and the Link to Nvidia" class="!max-w-none">
+  <span class="title">Three Key Price Moves This Week: The Plunge, the Non-Farm Payrolls Report, and the Link to Nvidia</span>
+</a><a class="recommended-article-item" href="/2026/10/28/2026-10-28-anthropic-s1-open-cards/" title="Anthropic officially unveils its S-1 prospectus: a deep dive – the bets we placed a week ago have all been revealed today" rel="bookmark">
+  <img src="https://images.pexels.com/photos/38358503/pexels-photo-38358503.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Anthropic officially unveils its S-1 prospectus: a deep dive – the bets we placed a week ago have all been revealed today" class="!max-w-none">
+  <span class="title">Anthropic officially unveils its S-1 prospectus: a deep dive – the bets we placed a week ago have all been revealed today</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/11/13/2026-11-13-daily-brief/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Daily Briefing | 13 November 2026: Jensen Huang steps down as NVIDIA CEO; CFO Kress takes over on an interim basis; 10-year US Treasury yields rise above 5.1 per cent; US shares close slightly lower; Trump states “there is no need to reach an agreement with Iran”; the Ministry of Commerce states that China and the US are moving forward with the “30 billion for 30 billion” tariff reduction arrangement</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">Jensen Huang’s resignation: NVIDIA has lost not just its CEO, but the political guarantor of its China policy</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E3%80%87%E3%80%81%E5%85%88%E8%AE%A4%E4%B8%AA%E9%94%99%EF%BC%9A%E6%88%91%E4%BB%AC%E9%A2%84%E6%B5%8B%E4%BA%86%E8%8A%82%E7%82%B9%EF%BC%8C%E6%B2%A1%E9%A2%84%E6%B5%8B%E5%88%B0%E5%89%A7%E6%9C%AC"><span class="nav-text">0. First, let me admit our mistake: we predicted the nodes, but we didn’t predict the script.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E8%BE%9E%E8%81%8C%E7%9A%84%E7%9C%9F%E5%AE%9E%E5%8E%9F%E5%9B%A0%EF%BC%8C%E4%B8%8D%E6%98%AF%E7%BB%AF%E9%97%BB"><span class="nav-text">I. The real reason for the resignation is not the rumours</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E7%BA%BF%E4%B8%8A%E6%9C%80%E5%85%B3%E9%94%AE%E7%9A%84%E4%B8%8D%E6%98%AF%E4%B8%91%E9%97%BB%E6%97%A5%E6%9C%9F%EF%BC%8C%E6%98%AF%E5%9B%BD%E4%BC%9A%E6%97%A5%E6%9C%9F"><span class="nav-text">The most crucial element on the timeline is not the dates of the scandals, but the dates of the parliamentary sessions.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CNBC-%E7%9A%84%E8%AF%B4%E6%B3%95%EF%BC%9A%E8%91%A3%E4%BA%8B%E4%BC%9A%E2%80%9C%E5%89%8D%E4%B8%80%E6%99%9A%E2%80%9D%E5%B0%B1%E5%86%B3%E5%AE%9A%E4%BA%86"><span class="nav-text">According to CNBC: the board had made the decision ‘the night before’</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%82%A3%E7%9C%9F%E6%AD%A3%E7%9A%84%E9%A3%8E%E9%99%A9%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-text">So what is the real risk?</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81Alice-Huang-%E4%B8%8E-Megaspeed%EF%BC%9A%E6%8A%8A%E2%80%9C%E7%96%91%E4%BC%BC%E2%80%9D%E5%92%8C%E2%80%9C%E5%B7%B2%E8%AF%81%E2%80%9D%E5%88%86%E5%BC%80%E5%86%99"><span class="nav-text">II. Alice Huang and Megaspeed: Distinguishing between ‘alleged’ and ‘proven’ in writing</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%B2%E7%BB%8F%E6%A0%B8%E5%AE%9E%E3%80%81%E5%8F%AF%E4%BB%A5%E7%9B%B4%E5%86%99%E7%9A%84%E4%BA%8B%E5%AE%9E"><span class="nav-text">Facts that have been verified and can be stated directly</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%A5%E9%81%93%E4%B8%AD%E7%9A%84%E6%80%80%E7%96%91%EF%BC%8C%E5%BF%85%E9%A1%BB%E6%A0%87%E6%B3%A8"><span class="nav-text">Any suspicions mentioned in the report must be clearly indicated</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E6%8E%A7%E4%B8%8E%E8%BE%A9%E8%A7%A3%E5%BF%85%E9%A1%BB%E5%B9%B6%E5%88%97"><span class="nav-text">The charges and the defence must be set out side by side</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E6%9D%A1%E7%BA%BF%E6%AF%94%E7%BB%AF%E9%97%BB%E9%87%8D%E8%A6%81"><span class="nav-text">Why is this story more important than the rumours?</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E4%BB%96%E7%9C%9F%E6%AD%A3%E7%9A%84%E4%BD%8D%E7%BD%AE%EF%BC%9A%E5%AF%B9%E5%8D%8E%E6%94%BF%E7%AD%96%E7%9A%84%E6%94%BF%E6%B2%BB%E6%8B%85%E4%BF%9D%E4%BA%BA"><span class="nav-text">III. His True Role: The Political Guarantor of Policy towards China</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E2%80%9CTim-Cook-%E6%8E%A5%E4%BB%BB%E2%80%9D"><span class="nav-text">Regarding ‘Tim Cook’s succession’</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E-Kress"><span class="nav-text">About Kress</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%90%8C%E5%91%A8%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%A3%80%E9%AA%8C%EF%BC%9AAnthropic-%E5%AE%9A%E4%BB%B7%E4%B8%8E-CoreWeave-%E5%AF%B9%E8%B4%A6"><span class="nav-text">IV. Two tests from the same week: Anthropic’s pricing and CoreWeave’s reconciliation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Anthropic%EF%BC%9A6-%E5%80%8D%E8%B6%85%E9%A2%9D%E8%AE%A4%E8%B4%AD%EF%BC%8C%E4%BC%B0%E5%80%BC%E5%8D%B4%E4%B8%8B%E4%BA%86%E4%B8%89%E6%88%90"><span class="nav-text">Anthropic: Six times oversubscribed, yet its valuation has fallen by a third</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CoreWeave-Q3%EF%BC%9A%E8%A7%82%E5%AF%9F%E9%A1%B9%E5%85%A8%E9%83%A8%E5%AF%B9%E8%B4%A6"><span class="nav-text">CoreWeave Q3: All items under review have been reconciled</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E6%83%85%E6%99%AF%E8%BF%AD%E4%BB%A3%EF%BC%9A40-45-15-%E2%86%92-35-45-20"><span class="nav-text">V. Scenario iterations: 40/45/15 → 35/45/20</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A0%B4%E8%A3%82%E4%B8%8A%E8%B0%83%E7%9A%84%E4%B8%89%E6%9D%A1%E4%BE%9D%E6%8D%AE"><span class="nav-text">Three grounds for the upward revision of the break-even rate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E6%9B%B4%E6%82%B2%E8%A7%82"><span class="nav-text">Why not be more pessimistic?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B9%9F%E5%88%AB%E5%BF%BD%E7%95%A5%E5%8F%A6%E4%B8%80%E9%9D%A2"><span class="nav-text">Don’t overlook the other side either</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%A4%E4%B8%AA%E6%A3%80%E9%AA%8C%E7%82%B9"><span class="nav-text">Two checkpoints</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%8111-17-%E8%B4%A2%E6%8A%A5%EF%BC%9A%E5%85%AD%E9%A1%B9%E8%A7%82%E5%AF%9F%E6%B8%85%E5%8D%95"><span class="nav-text">VI. 11–17: Financial Reports: Six Points to Note</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E5%9F%8B%E4%B8%AA%E7%BA%BF%EF%BC%9A%E4%B8%8B%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E5%86%99%E4%BB%80%E4%B9%88"><span class="nav-text">VII. A Teaser: What will the next article be about?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E6%95%B0%E6%8D%AE%E7%BC%BA%E5%8F%A3%E4%B8%8E%E5%8F%A3%E5%BE%84%E8%AF%B4%E6%98%8E"><span class="nav-text">VIII. Explanation of Data Gaps and Definitions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E4%BF%A1%E6%81%AF%E6%9D%A5%E6%BA%90%E4%B8%8E%E6%A0%B8%E9%AA%8C%E7%B4%A2%E5%BC%95"><span class="nav-text">Main Sources of Information and Verification Index</span></a></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">Write down your real experiences while retaining the edges of your viewpoints.</div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        113 posts in total
+                    </span>
+                    
+                        <span>
+                            346.4k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days"></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/cyber-weather.js" defer=""></script>
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/cyber-exchange.js" defer=""></script>
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/scene-loader.js" defer=""></script>
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="Image viewer">
+	<button class="image-viewer-close" type="button" aria-label="Close">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="Prev">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="Close">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="Next">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Search..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js"></script>
+
+
+<script src="/js/build/plugins/aplayer.js"></script>
+
+
+	
+
+
+</body></html>
