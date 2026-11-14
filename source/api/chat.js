@@ -399,9 +399,15 @@ async function handler(req, res) {
       }
       if (!upstream.ok) {
         const retryAfter = upstream.headers.get('retry-after');
-        // Log the HTTP status and Gemini's error enum only (e.g. UNAVAILABLE, INVALID_ARGUMENT); never bodies or prompts.
-        const reason = await upstream.json().then(data => (Array.isArray(data) ? data[0] : data)?.error?.status).catch(() => undefined);
-        console.warn(JSON.stringify({ event: 'chat_upstream_status', status: upstream.status, reason: typeof reason === 'string' && /^[A-Z_]{1,40}$/.test(reason) ? reason : 'UNKNOWN', search: Boolean(exaKey), round: request.tool_choice }));
+        // Log the HTTP status, Gemini's error enum (e.g. UNAVAILABLE, FAILED_PRECONDITION) and the
+        // start of Google's own error message, which tells billing from location problems. The
+        // message is Google's text, never the prompt; long tokens are masked and it is capped.
+        const error = await upstream.json().then(data => (Array.isArray(data) ? data[0] : data)?.error).catch(() => undefined);
+        const reason = error?.status;
+        const detail = typeof error?.message === 'string'
+          ? error.message.replace(/[\u0000-\u001f]+/g, ' ').replace(/[A-Za-z0-9_-]{24,}/g, '[masked]').slice(0, 150)
+          : undefined;
+        console.warn(JSON.stringify({ event: 'chat_upstream_status', status: upstream.status, reason: typeof reason === 'string' && /^[A-Z_]{1,40}$/.test(reason) ? reason : 'UNKNOWN', detail, search: Boolean(exaKey), round: request.tool_choice }));
         await upstream.body?.cancel().catch(() => {});
         return fail(502, { error: [401,403].includes(upstream.status) ? 'provider_auth' : 'provider_unavailable' }, retryAfter);
       }
