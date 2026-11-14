@@ -1,0 +1,1709 @@
+<!DOCTYPE html><html lang="zh-CN"><head><script src="/js/language-preference.js?v=29a144036da1" data-english-home="/en/"></script><script src="/js/site-runtime.js?v=0416a8e408fa" defer=""></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/2026/11/13/2026-11-13-jensen-huang-resignation-political-guarantor/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="黄仁勋辞职：英伟达失去的不是 CEO，是对华政策的政治担保人">
+<meta property="og:url" content="https://blog.adenxie.com.cn/2026/11/13/2026-11-13-jensen-huang-resignation-political-guarantor/index.html">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-11-13T15:30:00.000Z">
+<meta property="article:modified_time" content="2026-11-13T15:30:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="Anthropic">
+<meta property="article:tag" content="AI 资本开支">
+<meta property="article:tag" content="美国政治">
+<meta property="article:tag" content="英伟达">
+<meta property="article:tag" content="出口管制">
+<meta property="article:tag" content="公司治理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png?v=fa6db12e9674" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <!--- Page Info-->
+    
+    <title>
+        
+            黄仁勋辞职：英伟达失去的不是 CEO，是对华政策的政治担保人 | Aden's Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/css/site-b1cdd4560954.css?v=b1cdd4560954">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js?v=258b1afa4680"></script>
+                
+    
+            
+                
+                    
+                
+    
+
+    
+
+
+
+    
+        
+
+
+    
+
+
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"zh-CN","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"18px","line_height":1.8,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["科技、体验与个人判断","写下真实体验，也保留观点的棱角"],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie","name":"GitHub"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847","name":"YouTube"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie","name":"X"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"每日简报":{"path":"/daily/","icon":"fa-regular fa-newspaper"},"归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"分类":{"path":"/categories/","icon":"fa-regular fa-folder"},"标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"世界时间":{"path":"/world-time/","icon":"fa-regular fa-clock"},"关于":{"path":"/about/","icon":"fa-regular fa-user"},"友链":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":false,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.i18n = {"search":"站内搜索您需要的内容...","toc":"目录","prev":"上一页","next":"下一页","prev_posts":"上一篇","next_posts":"下一篇","page":"第 %d 页","recent_posts":"最新文章","share":"分享","powered_by":"由 %s 驱动","theme":"主题","rss_feed":"RSS Feed","category":"分类","categories":"分类","tag":"标签","tags":"标签","post":"文章","posts":"文章","tagcloud":"标签云","comment":"评论","comments":"评论","top":"置顶","sticky":"置顶","go-back-home":"回到首页","masonry_loading":"照片加载中...","image_viewer":"图片查看器","close":"关闭","exif":{"title":"EXIF","cards":{"camera":"相机","lens":"镜头","exposure":"曝光","other":"其他"},"fields":{"make":"品牌","model":"机型","date_taken":"拍摄时间","lens_model":"镜头","focal_length":"焦距","focus_mode":"对焦模式","shutter":"快门","aperture":"光圈","iso":"感光度","exposure_program":"曝光程序","exposure_compensation":"曝光补偿","metering_mode":"测光模式","flash":"闪光灯","white_balance":"白平衡","latitude":"纬度","longitude":"经度","altitude":"海拔"},"status":{"loading":"加载中...","no_exif":"无 EXIF 信息","library_missing":"EXIF 库未加载","image_source_missing":"图片地址不可用","unavailable":"EXIF 不可用（可能被 CORS 阻止或缺少元数据）","flag_unavailable":"EXIF 不可用"}},"home":"首页","archive":"归档","archives":"归档","about":"关于","links":"链接","link":"链接","friends":"友情链接","friend":"友情链接","timeline":"时间轴","shuoshuo":"说说","bookmarks":"书签","site_uv":"访问人数","site_pv":"总访问量","read_more":"阅读全文","wordcount":"字","min2read":"分钟","changelog":"更新日志","status":"状态","runtime":"博客已运行","days":"天","hours":"小时","minutes":"分钟","seconds":"秒","optimized_by":"并由 Evan 进行优化","rights":"版权所有","site_posts":"共撰写了 %s 篇文章","site_wordcount":"共 %s 字","copyright":{"title":"标题","author":"作者","link":"链接","create_time":"创建于","update_time":"更新于","license_title":"版权声明","license_content":"本文章采用 %s 进行许可。","all_rights_reserved":"版权所有 &#169 %s，禁止转载。","public_domain":"本文为公有领域作品，可自由转载、引用。"},"ago":{"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"},"create_time":"创建","update_time":"更新","expired":"这篇文章最后更新于 %s 天前，内容可能已经过时。"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" hreflang="zh-CN" href="https://blog.adenxie.com.cn/2026/11/13/2026-11-13-jensen-huang-resignation-political-guarantor/"><link rel="alternate" hreflang="en" href="https://blog.adenxie.com.cn/en/2026/11/13/2026-11-13-jensen-huang-resignation-political-guarantor/"><link rel="preconnect" href="https://cdn-file.hyperos.mi.com" crossorigin="" data-aden-font-connect=""><script data-aden-analytics="">
+      if (location.hostname === 'blog.adenxie.com.cn' && !window.__adenAnalyticsLoaded) {
+        window.__adenAnalyticsLoaded = true;
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        const script = document.createElement('script');
+        script.defer = true;
+        script.src = '/_vercel/insights/script.js';
+        document.head.append(script);
+      }
+    </script></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/daily/">
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    每日简报
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    归档
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/categories/">
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    分类
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    标签
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    世界时间
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    友链
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search">
+                            <button type="button" class="search-popup-trigger" aria-label="搜索" aria-haspopup="dialog" aria-controls="aden-search-dialog" aria-expanded="false"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <button type="button" class="icon-item search search-popup-trigger" aria-label="搜索" aria-haspopup="dialog" aria-controls="aden-search-dialog" aria-expanded="false"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                
+                <button type="button" class="icon-item navbar-bar" aria-label="菜单" aria-controls="navbar-drawer" aria-expanded="false"><span class="navbar-bar-middle"></span></button>
+            </div>
+        </div>
+    <nav class="aden-language-switch" aria-label="Language"><a lang="zh-CN" href="/2026/11/13/2026-11-13-jensen-huang-resignation-political-guarantor/" aria-current="page">中文</a><span> / </span><a lang="en" href="/en/2026/11/13/2026-11-13-jensen-huang-resignation-political-guarantor/" aria-current="false" data-no-swup="">English</a></nav></div>
+
+    <!-- Mobile sheet -->
+    <div id="navbar-drawer" class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/">
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/daily/">
+                            <span>
+                                每日简报
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/archives/">
+                            <span>
+                                归档
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/categories/">
+                            <span>
+                                分类
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/tags/">
+                            <span>
+                                标签
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/world-time/">
+                            <span>
+                                世界时间
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/about/">
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/link/">
+                            <span>
+                                友链
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">76</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">114</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://images.pexels.com/photos/4508751/pexels-photo-4508751.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="黄仁勋辞职：英伟达失去的不是 CEO，是对华政策的政治担保人" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" decoding="async">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">黄仁勋辞职：英伟达失去的不是 CEO，是对华政策的政治担保人</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg?v=93ba7ebfa2ff" decoding="async" width="460" height="460">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-11-13 23:30</span>
+        <span class="mobile">2026-11-13 23:30</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+        <span class="article-date article-meta-item">
+            <i class="fa-regular fa-wrench"></i>&nbsp;
+            <span class="desktop">2026-11-13 23:30</span>
+            <span class="mobile">2026-11-13 23:30</span>
+            <span class="hover-info">更新</span>
+        </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/%E7%BB%8F%E6%B5%8E%E8%A7%82%E5%AF%9F/">经济观察</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/Anthropic/">Anthropic</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/AI-%E8%B5%84%E6%9C%AC%E5%BC%80%E6%94%AF/">AI 资本开支</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E7%BE%8E%E5%9B%BD%E6%94%BF%E6%B2%BB/">美国政治</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E8%8B%B1%E4%BC%9F%E8%BE%BE/">英伟达</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E5%87%BA%E5%8F%A3%E7%AE%A1%E5%88%B6/">出口管制</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E5%85%AC%E5%8F%B8%E6%B2%BB%E7%90%86/">公司治理</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>6.1k 字</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>22 分钟</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<blockquote>
+<p><strong>导读</strong>：这是我们关于 AI 资本开支的第五篇。第一篇<a href="/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/">《AI 资本开支承重柱》</a>讨论算力基建如何拉动美国宏观增长；第二篇<a href="/2026/10/31/2026-10-31-macro-micro-ai-capex-verdict/">《同一周内，宏观和微观对 AI 资本开支给出了相反的判决》</a>记录 GDP 说“很强”、财报季说“太贵”的分裂；第三篇<a href="/2026/11/05/2026-11-05-midterms-ai-capex-politics/">《中期选举后 AI 资本开支的政治账》</a>判断政治变量的杀伤力在州一级；第四篇<a href="/2026/11/08/2026-11-08-three-pricings-crash-payrolls-nvidia/">《一周三次定价》</a>把 11-17 英伟达财报和 11-18 国会简报会标为“同一件事的上下半场”。<strong>11-12，这个剧本提前爆炸了——而且爆的方式，超出了我们设过的三种走向。</strong></p>
+</blockquote>
+<span id="more"></span>
+
+<hr>
+<h2 id="〇、先认个错：我们预测了节点，没预测到剧本"><a href="#〇、先认个错：我们预测了节点，没预测到剧本" class="headerlink" title="〇、先认个错：我们预测了节点，没预测到剧本"></a>〇、先认个错：我们预测了节点，没预测到剧本</h2><p>第四篇里，我们给 11-18 的闭门简报会列了三种走向：技术性收场 55%、升级为公开听证 30%、引出立法动作 15%。</p>
+<p><strong>现实是：简报会还没开，主角先走了。</strong></p>
+<p>11-12，黄仁勋辞去英伟达 CEO、总裁和董事，即刻生效。也就是说，我们算准了那个日期的重要性，却完全没有想到“听证会开不成，因为被问的人已经不在位子上”这种可能。</p>
+<p>这件事本身值得写进方法论里：<strong>情景分析能标出哪一天重要，但标不出那一天由什么事构成。</strong> 我们给的 55/30/15 三个分支，共享同一个隐含假设——黄仁勋还在任。这个假设没有进入任何一条分支，因为当时没人认为它会变。<strong>这是情景法最典型的失效方式：不是概率算错，是情景集不完备。</strong></p>
+<p>所以这一篇不做辩护，做复盘。</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://files.seeusercontent.com/2026/11/13/8pqH/fig1-crisis-timeline.png" alt="11-05 至 11-13 危机时间线" decoding="async" loading="lazy" width="1000" height="500"><figcaption>11-05 至 11-13 危机时间线</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">图 1</span><span class="aden-caption-text">11-05 至 11-13 的七天时间线。11-05 国会三委员会致函要求 11-18 闭门简报 → 11-07/08 婚外情报道曝光 → 11-09 董事会启动独立调查（当日 NVDA -4.3%）→ 11-11 第二段婚外情与参院索文件 → 11-12 辞去 CEO／总裁／董事，CFO Kress 任临时 CEO（当日盘中 -14.35%、收 -4.34%）→ 11-13 同意感恩节前到国会作证。下方为市场账本：距 10-06 高点累计 -30.5%，蒸发约 $1.76 万亿。</span></p>
+<hr>
+<h2 id="一、辞职的真实原因，不是绯闻"><a href="#一、辞职的真实原因，不是绯闻" class="headerlink" title="一、辞职的真实原因，不是绯闻"></a>一、辞职的真实原因，不是绯闻</h2><h3 id="时间线上最关键的不是丑闻日期，是国会日期"><a href="#时间线上最关键的不是丑闻日期，是国会日期" class="headerlink" title="时间线上最关键的不是丑闻日期，是国会日期"></a>时间线上最关键的不是丑闻日期，是国会日期</h3><p>看这张表，注意两次“加码”的间隔：</p>
+<div class="aden-table-scroll" role="region" tabindex="0" aria-label="可横向滚动的表格"><table>
+<thead>
+<tr>
+<th>日期</th>
+<th>发生了什么</th>
+<th>谁在推动</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>11-05</td>
+<td>众院外委会（Mast）、中国特设（Moolenaar）、情报（Crawford）三位主席联署致函，要求 11-18 闭门简报</td>
+<td>国会</td>
+</tr>
+<tr>
+<td>11-07/08</td>
+<td>黄与 Megaspeed 高管 Alice Huang 的婚外情被报道；黄向员工发邮件承认</td>
+<td>媒体</td>
+</tr>
+<tr>
+<td><strong>11-09</strong></td>
+<td><strong>董事会启动独立调查</strong></td>
+<td>公司</td>
+</tr>
+<tr>
+<td>11-11</td>
+<td>第二段婚外情被报道；参院银行委员会（Warren／Coons）致函 Lutnick、Rubio 索要全部文件</td>
+<td>媒体 + 国会</td>
+</tr>
+<tr>
+<td><strong>11-12</strong></td>
+<td><strong>辞去 CEO、总裁、董事，即刻生效</strong></td>
+<td>公司</td>
+</tr>
+<tr>
+<td>11-12</td>
+<td>三委员会再函：周五 20 点前不自愿到场即发传票</td>
+<td>国会</td>
+</tr>
+<tr>
+<td>11-13</td>
+<td>黄同意感恩节前到国会作证</td>
+<td>黄本人</td>
+</tr>
+</tbody></table></div>
+<p><strong>从 11-05 国会要人，到 11-12 人就走了，正好七天。</strong></p>
+<p>董事会 11-09 的声明措辞很值得逐字读。它说黄仁勋是<strong>“外国情报活动的目标”</strong>，说<strong>“没有理由相信国家安全或英伟达的机密受损”</strong>，并说黄仁勋<strong>“完全支持这项审查”</strong>。</p>
+<p><strong>请注意这份声明的功能：它在说“他是受害者，不是嫌疑人”。</strong> 这是董事会能给一位 CEO 的最强保护，也是对 11-18 简报会的一次提前铺路——如果有人问起，公司可以说“我们已经查过，他没有问题”。</p>
+<p>三天后，这条防线放弃了。</p>
+<h3 id="CNBC-的说法：董事会“前一晚”就决定了"><a href="#CNBC-的说法：董事会“前一晚”就决定了" class="headerlink" title="CNBC 的说法：董事会“前一晚”就决定了"></a>CNBC 的说法：董事会“前一晚”就决定了</h3><p>CNBC 引述消息人士称，董事会在辞职宣布的<strong>前一晚</strong>就已作出决定，团队通宵准备沟通方案，次日上午定案并宣布由 CFO Colette Kress 代理。</p>
+<p>这个细节的意义在于：<strong>决定做得比丑闻扩散得更快。</strong> 11-11 第二段婚外情曝光、参院索要文件，11-12 上午人已经卸任——这不是“经过深思熟虑后体面退出”的节奏，这是止损的节奏。</p>
+<p>而官方公告只字未提丑闻。董事会主席 Harvey Jones 的原话是：<strong>“董事会对 Colette 和领导团队有充分信心，我们预计公司运营、客户承诺和产品路线图将不间断继续。”</strong>（Guardian 已核对公告全文，确认无丑闻表述）</p>
+<p><strong>这是标准的“体面分手”模板。</strong> 它同时说明一件事：公司不打算把这次离职定性为道德问题，而是一次风险处置。</p>
+<h3 id="那真正的风险是什么"><a href="#那真正的风险是什么" class="headerlink" title="那真正的风险是什么"></a>那真正的风险是什么</h3><p>如果只是绯闻，董事会完全可以留着 CEO、让他自己去国会作证——毕竟他的经营记录无可指摘，产品路线图锁到 2028 年。</p>
+<p><strong>迫使董事会动手的，是绯闻与另一条线在同一个星期交叉了。</strong> 那条线，见下一节。</p>
+<hr>
+<h2 id="二、Alice-Huang-与-Megaspeed：把“疑似”和“已证”分开写"><a href="#二、Alice-Huang-与-Megaspeed：把“疑似”和“已证”分开写" class="headerlink" title="二、Alice Huang 与 Megaspeed：把“疑似”和“已证”分开写"></a>二、Alice Huang 与 Megaspeed：把“疑似”和“已证”分开写</h2><p>这是全篇最需要小心的一节。<strong>我们必须把三类信息严格分开：已经核实的事实、报道中的指控、以及司法部明确尚未认定的部分。</strong></p>
+<h3 id="已经核实、可以直写的事实"><a href="#已经核实、可以直写的事实" class="headerlink" title="已经核实、可以直写的事实"></a>已经核实、可以直写的事实</h3><div class="aden-table-scroll" role="region" tabindex="0" aria-label="可横向滚动的表格"><table>
+<thead>
+<tr>
+<th>事实</th>
+<th>来源</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Megaspeed 是新加坡公司，为中国国有云公司 7Road 的分拆（spin-off）</td>
+<td>参议员 Cotton 致商务部长 Lutnick 的函件，官方文件</td>
+</tr>
+<tr>
+<td>Megaspeed 是英伟达客户，购入数十亿美元美国芯片</td>
+<td>CNBC 调查报道（2025-10-10 起）</td>
+</tr>
+<tr>
+<td>Megaspeed 被指帮助受出口限制的中国公司获取英伟达 AI 芯片</td>
+<td>同上，属报道指控</td>
+</tr>
+<tr>
+<td><strong>英伟达总法律顾问 Tim Teter 在 2025 年夏末致电商务部次部长 Jeffrey Kessler，询问 Megaspeed 调查进展</strong></td>
+<td>Bloomberg（2026-11-09）、NYT（2026-11-09），双源</td>
+</tr>
+<tr>
+<td><strong>商务部的相关芯片调查随后被终止或移交司法部</strong></td>
+<td>NYT（2026-11-09）；参院函要求提供“商务部对 Megaspeed 调查终止”的全部文件</td>
+</tr>
+<tr>
+<td>参院函引 FT：Lutnick 曾把放宽英伟达对华芯片出口与“中国交易”挂钩</td>
+<td>参院银行委员会函件</td>
+</tr>
+<tr>
+<td>Alice Huang 目前人在北京</td>
+<td>Bloomberg（2026-11-12）</td>
+</tr>
+</tbody></table></div>
+<h3 id="报道中的怀疑，必须标注"><a href="#报道中的怀疑，必须标注" class="headerlink" title="报道中的怀疑，必须标注"></a>报道中的怀疑，必须标注</h3><p>美国情报界担心她向北京传递信息——这是 <strong>NYT 与 FT 的报道内容</strong>，不是官方认定。她是否为中国情报资产，<strong>司法部未作认定</strong>；Cotton 参议员的函件使用的措辞是“疑似”（suspected）。</p>
+<p><strong>司法部长 Blanche 在 11-12 的原话是：<strong>“There’s no conclusions reached by the Department of Justice.”</strong></strong></p>
+<p>本文全部相关表述统一采用“<strong>被报道怀疑／美方情报界担心，司法部明确表示尚未得出结论</strong>”这一口径。<strong>本文不会把她写成已被认定的间谍——那既不符合已核实的事实，也会让整篇失去可信度。</strong></p>
+<h3 id="指控与辩解必须并列"><a href="#指控与辩解必须并列" class="headerlink" title="指控与辩解必须并列"></a>指控与辩解必须并列</h3><p>这是本篇最容易被写偏的地方。NYT 的同一篇报道里，同时记载了另一方说法：<strong>Teter 声称，是 Kessler 先给了英伟达联系许可。</strong></p>
+<p>也就是说，这条线上存在两种叙事：</p>
+<ul>
+<li><strong>指控版</strong>：英伟达法务主动致电商务部过问一个针对自家客户的调查，随后调查终止/移交——这构成了干预执法的嫌疑链。</li>
+<li><strong>辩解版</strong>：商务部先给了许可，英伟达只是按程序跟进；过问调查进展是任何一家有合规团队的公司都会做的事。</li>
+</ul>
+<p><strong>我们无法判断哪一版成立，本文也不下判断。</strong> 但有一点是清楚的：<strong>国会现在追究的重点，已经不是 CEO 的私生活，而是“英伟达是否干预了对自家客户的调查”。</strong></p>
+<h3 id="为什么这条线比绯闻重要"><a href="#为什么这条线比绯闻重要" class="headerlink" title="为什么这条线比绯闻重要"></a>为什么这条线比绯闻重要</h3><p>因为它把两件事接上了：<strong>英伟达的商业行为（对华销售）</strong> 与 <strong>美国国家安全程序（出口管制执法）</strong>。</p>
+<p>一个 CEO 的婚外情，最多让他个人难堪。但“全球最重要的芯片公司，其法务曾就一项针对自己客户的出口管制调查致电主管部门，随后该调查被终止或移交”，这是一条可以写进国会听证、可以写进传票、可以写进立法草案的东西。</p>
+<p><strong>黄仁勋真正的价值，从来不只是管理英伟达的能力。</strong></p>
+<hr>
+<h2 id="三、他真正的位置：对华政策的政治担保人"><a href="#三、他真正的位置：对华政策的政治担保人" class="headerlink" title="三、他真正的位置：对华政策的政治担保人"></a>三、他真正的位置：对华政策的政治担保人</h2><p>这一节是本文的核心判断。</p>
+<p><strong>黄仁勋是特朗普最亲近的 AI 政策顾问之一，也是对华芯片销售最有力的公开鼓吹者。</strong> 2026 年 5 月，他曾随特朗普乘空军一号赴北京——这个细节的意义不在于礼遇，而在于<strong>他本人就是那趟行程的产业叙事本身</strong>。</p>
+<p>在那个位置上，他同时扮演三个角色：</p>
+<ol>
+<li><strong>公司的 CEO</strong>：对股东负责，要让中国市场的收入继续进来。</li>
+<li><strong>政策的顾问</strong>：对白宫负责，提供“卖还是不卖”的产业判断。</li>
+<li><strong>政治风险的缓冲垫</strong>：当国会要追究“为什么还在卖”的时候，他是那个能直接走进椭圆形办公室解释的人。</li>
+</ol>
+<p><strong>11-12 之后，第三个角色没有了。</strong></p>
+<p>这件事的后果不需要猜测，看机制就够：</p>
+<ul>
+<li><strong>出口管制进一步收紧，不需要新立法。</strong> 现行规则（2026-01-15 起生效）已经是 H200 级芯片的逐案审批。<strong>审批尺度是行政裁量，换一个不看产业诉求的尺度，效果等同于禁令，而且不需要国会投票。</strong></li>
+<li><strong>国会与司法部的组合拳失去对冲。</strong> 原本可以在“总统想卖”和“国会要查”之间做缓冲的人不在了。</li>
+<li><strong>Lutnick 自身难保。</strong> 参院银行委员会要他的文件，两党都认为他应当作证。FT 报道他曾把放宽对华芯片出口与“中国交易”挂钩——<strong>这已经不只是英伟达的问题，是商务部的问题。</strong></li>
+<li><strong>“循环交易”审查可能扩大。</strong> Reuters 在报道中直接引用了一位市场人士的原话：<strong>“Nvidia is the circular-funder-in-chief; they’re the biggest by far… I assume that activity will moderate.”</strong> 这是“循环融资总把头”这个标签第一次进入主流媒体。它质疑的不是估值，是<strong>收入的质量</strong>。</li>
+</ul>
+<p><strong>所以标题那句话得说清楚：CEO 的位子可以补，政治担保人没有替补。</strong> Kress 会做财报电话会，但她不会替英伟达去跟总统谈出口许可——那不是 CFO 的职能，也不是临时 CEO 的授权范围。</p>
+<h3 id="关于“Tim-Cook-接任”"><a href="#关于“Tim-Cook-接任”" class="headerlink" title="关于“Tim Cook 接任”"></a>关于“Tim Cook 接任”</h3><p>特朗普在 11-12 和 11-13 多次提到 Tim Cook，说”A Legend replaces a Legend!”，称 Cook 是”great candidate”。</p>
+<p><strong>必须写清楚：这是总统的个人意见，不是董事会的程序。</strong> 没有任何报道显示董事会接触过 Cook。把它写成“继任人选浮出水面”是错误的。</p>
+<h3 id="关于-Kress"><a href="#关于-Kress" class="headerlink" title="关于 Kress"></a>关于 Kress</h3><p>Colette Kress 长期担任英伟达 CFO，是公司财务与资本市场沟通的核心人物。</p>
+<p><strong>但没有任何公开报道显示她有过 CEO 或业务线一号位的经验。</strong> 她具体何时起任 CFO，我们未独立核到，列为缺口。</p>
+<p>这意味着她是“稳定器”还是“看守政府”，完全取决于继任搜寻的长度。如果一个月内定人，她是过渡；如果拖到明年，市场会开始追问“谁在做产品与产能决策”——而这正是 11-17 财报要回答的问题之一。</p>
+<hr>
+<h2 id="四、同周的两个检验：Anthropic-定价与-CoreWeave-对账"><a href="#四、同周的两个检验：Anthropic-定价与-CoreWeave-对账" class="headerlink" title="四、同周的两个检验：Anthropic 定价与 CoreWeave 对账"></a>四、同周的两个检验：Anthropic 定价与 CoreWeave 对账</h2><p>上周的《一周三次定价》给本周留了两个检验点。它们都在这周落地了，而且结果比预想的微妙。</p>
+<h3 id="Anthropic：6-倍超额认购，估值却下了三成"><a href="#Anthropic：6-倍超额认购，估值却下了三成" class="headerlink" title="Anthropic：6 倍超额认购，估值却下了三成"></a>Anthropic：6 倍超额认购，估值却下了三成</h3><p><strong>发行结构（SEC S-1/A-2 原文）：</strong></p>
+<div class="aden-table-scroll" role="region" tabindex="0" aria-label="可横向滚动的表格"><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>数值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>价格区间</td>
+<td><strong>$70.00–78.00</strong></td>
+</tr>
+<tr>
+<td>发行股数</td>
+<td><strong>8.25 亿股</strong>（公司新发 8.01 亿股 + 存量股东出售）</td>
+</tr>
+<tr>
+<td>募资额</td>
+<td><strong>$577.5–643.5 亿</strong>（$57.75B–$64.35B）</td>
+</tr>
+<tr>
+<td>超额配售权</td>
+<td>最多 <strong>1.2375 亿股</strong></td>
+</tr>
+<tr>
+<td>同步私募</td>
+<td><strong>$260 亿 Class N</strong> 给 AMD、Broadcom、Google、Micron、Microsoft、Nvidia、TSMC，其中 Google 与 Nvidia 各 $100 亿</td>
+</tr>
+<tr>
+<td>净募资（含绿鞋）</td>
+<td><strong>$846–937 亿</strong>（$84.6B–$93.7B）</td>
+</tr>
+<tr>
+<td>挂牌</td>
+<td>约 <strong>11-19</strong>，代码 <strong>ANT</strong>，最多 20% 零售配售</td>
+</tr>
+</tbody></table></div>
+<p><strong>基本面（同一份原文）：</strong></p>
+<div class="aden-table-scroll" role="region" tabindex="0" aria-label="可横向滚动的表格"><table>
+<thead>
+<tr>
+<th>指标</th>
+<th>数值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Run-Rate 营收（截至 10-31）</td>
+<td>约 <strong>$810 亿</strong>（$81B），9-30 时为 $710 亿，<strong>月增 $100 亿</strong></td>
+</tr>
+<tr>
+<td>9 个月营收</td>
+<td><strong>$332 亿</strong>（$33.2B）</td>
+</tr>
+<tr>
+<td><strong>9 个月净亏损</strong></td>
+<td><strong>$1,040.39 亿</strong>（$104.039B）</td>
+</tr>
+<tr>
+<td><strong>承诺支出</strong></td>
+<td><strong>$9,009 亿</strong>（$900.9B），其中约 <strong>$4,516 亿</strong>（$451.6B）在 2030 年底前支付</td>
+</tr>
+<tr>
+<td>现金及短期投资</td>
+<td>约 <strong>$1,320 亿</strong>（$132B）</td>
+</tr>
+</tbody></table></div>
+<p><strong>那个 $9,009 亿值得单独停一下。</strong> 我们在<a href="/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/">《承重柱》</a>里引用过的“$5,180 亿算力承诺”，当时是媒体加总口径。现在 Anthropic 在自己的招股书里给出了一个更大的数字，而且<strong>带时间表</strong>：其中一半要在 2030 年底前付出去。</p>
+<p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://files.seeusercontent.com/2026/11/13/Ca5c/fig2-anthropic-ipo-structure.png" alt="Anthropic IPO 的两个市值口径" decoding="async" loading="lazy" width="1000" height="500"><figcaption>Anthropic IPO 的两个市值口径</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">图 2</span><span class="aden-caption-text">Anthropic IPO 的两个“市值”口径。左：按发行后流通股 130.87 亿股（Class A 74.28 亿 + Class N 56.59 亿）计算，$70–78 对应约 $9,160 亿至 $1.02 万亿；右：TechCrunch 引用的 $1.404 万亿为完全稀释口径（约 180 亿股，含期权与 RSU），两口径差额约 49 亿股即潜在普通股（2021 年股权计划预留即有 38.6 亿股）。</span></p>
+<p><strong>关于市值，必须先把尺子说清楚：</strong></p>
+<ul>
+<li><strong>按发行后流通股 130.87 亿股计算，$70–78 对应市值约 $9,160 亿至 $1.02 万亿</strong>（本文主句采用这个口径）。</li>
+<li>TechCrunch 所称的 <strong>$1.404 万亿</strong>，是<strong>完全稀释口径</strong>——1,404 ÷ 78 ≈ 180 亿股，比流通股本多出约 49 亿股，正好对应期权、RSU 等潜在普通股。</li>
+</ul>
+<p><strong>两个数字都对，说的不是同一件事。</strong> 我们不替 TechCrunch 的算法背书，但也不否认口径本身成立。</p>
+<p><strong>市场的检验结果，是本文第二节的关键：</strong></p>
+<div class="aden-table-scroll" role="region" tabindex="0" aria-label="可横向滚动的表格"><table>
+<thead>
+<tr>
+<th>指标</th>
+<th>结果</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>超额认购</td>
+<td>约 <strong>6 倍</strong>（Reuters 引 Bloomberg，标注转述）</td>
+<td>需求端极强</td>
+</tr>
+<tr>
+<td>估值上限</td>
+<td>较 9 月传闻的 <strong>$2 万亿</strong> 降至上限口径约 $1.4 万亿（完全稀释）</td>
+<td>定价被下修约三成</td>
+</tr>
+<tr>
+<td>对照组 OpenAI</td>
+<td>融资 <strong>$110 亿</strong>、估值 <strong>$1.25 万亿</strong>（Reuters 口径），原目标<strong>至多 $300 亿</strong></td>
+<td>私募输血在减速</td>
+</tr>
+</tbody></table></div>
+<p><strong>结论三句话：需求没死（6 倍超额认购）、估值降级（上限口径跌约三成）、“以量补价”（用更低的估值换更大的认购规模）。</strong></p>
+<p><strong>我们上周设的检验是二选一：“若按 $1.5 万亿以上定价，是叙事没死的最强反证；区间下移则是承重柱松动的证据。” 现实落在两者之间——这说明我们当时把问题设成了单选题，而市场的答案是“两个都要”。</strong></p>
+<h3 id="CoreWeave-Q3：观察项全部对账"><a href="#CoreWeave-Q3：观察项全部对账" class="headerlink" title="CoreWeave Q3：观察项全部对账"></a>CoreWeave Q3：观察项全部对账</h3><div class="aden-table-scroll" role="region" tabindex="0" aria-label="可横向滚动的表格"><table>
+<thead>
+<tr>
+<th>我们上周的观察项</th>
+<th>实际结果</th>
+<th>判定</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>净利息支出（指引 $8.6–9.4 亿）</td>
+<td><strong>$8.46 亿</strong></td>
+<td><strong>略低于指引下限</strong>，优于预期</td>
+</tr>
+<tr>
+<td>营收（预期 $35.5 亿）</td>
+<td><strong>$36.61 亿</strong>，同比 <strong>+168%</strong></td>
+<td>超预期</td>
+</tr>
+<tr>
+<td>经营利润</td>
+<td><strong>$2.07 亿</strong>（利润率 6%）；调整后 <strong>$3.79 亿（10%）</strong></td>
+<td>首次双位数调整后利润率，CEO 称“提前一个季度”</td>
+</tr>
+<tr>
+<td>净亏损</td>
+<td><strong>$7.09 亿</strong></td>
+<td>扩大（利息与折旧）</td>
+</tr>
+<tr>
+<td>单季资本开支</td>
+<td><strong>$94.41 亿</strong></td>
+<td>仍然极高</td>
+</tr>
+<tr>
+<td>单季净发债</td>
+<td><strong>$103.01 亿</strong></td>
+<td>债务接力继续</td>
+</tr>
+<tr>
+<td>全年指引</td>
+<td>上调至 <strong>$133 亿</strong></td>
+<td>上调</td>
+</tr>
+<tr>
+<td>现金</td>
+<td><strong>$64.04 亿</strong></td>
+<td>—</td>
+</tr>
+</tbody></table></div>
+<p><strong>最值得记的一笔不是数字，是股价的反应：财报后一度大涨 25%，随后回吐。</strong></p>
+<p><strong>“超预期 + 上调指引”没能守住涨幅</strong>——这再次验证了我们在《一周三次定价》里的判断：<strong>市场要的不是增长，是现金流什么时候转正。</strong> 营收同比 +168%、单季发债 $103 亿、单季 capex $94.41 亿，这三行放在一起看，就是“增长靠债务喂”的完整画像。</p>
+<hr>
+<h2 id="五、情景迭代：40-45-15-→-35-45-20"><a href="#五、情景迭代：40-45-15-→-35-45-20" class="headerlink" title="五、情景迭代：40/45/15 → 35/45/20"></a>五、情景迭代：40/45/15 → 35/45/20</h2><p></p><figure class="image-caption"><img lazyload="" src="/images/loading.svg?v=b38695b265b7" data-src="https://files.seeusercontent.com/2026/11/13/eEn4/fig3-scenario-iteration.png" alt="三情景概率变化" decoding="async" loading="lazy" width="1000" height="500"><figcaption>三情景概率变化</figcaption></figure><p></p>
+<p class="aden-caption"><span class="aden-caption-label">图 3</span><span class="aden-caption-text">三情景概率变化。延续从 40% 降至 35%、放缓维持 45%、破裂从 15% 上调至 20%（浅色为旧值，实心为新值）。下方为破裂上调的三条依据与不更悲观的三个理由，以及 11-17 财报与 11-19 ANT 挂牌两个回调触发点。</span></p>
+<div class="aden-table-scroll" role="region" tabindex="0" aria-label="可横向滚动的表格"><table>
+<thead>
+<tr>
+<th>情景</th>
+<th>旧概率</th>
+<th>新概率</th>
+<th>新增依据</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>延续</strong>：capex 继续、股价震荡向上</td>
+<td>40%</td>
+<td><strong>35%</strong></td>
+<td>失去 CEO 的公司提供指引的可信度下降；国会调查进入实质阶段</td>
+</tr>
+<tr>
+<td><strong>放缓</strong>：capex 增速回落但不崩</td>
+<td>45%</td>
+<td><strong>45%</strong></td>
+<td>Anthropic 6 倍超额认购、CoreWeave 上调指引——需求端证据反而更强</td>
+</tr>
+<tr>
+<td><strong>破裂</strong>：capex 断崖下降</td>
+<td>15%</td>
+<td><strong>20%</strong></td>
+<td>三条依据见下</td>
+</tr>
+</tbody></table></div>
+<h3 id="破裂上调的三条依据"><a href="#破裂上调的三条依据" class="headerlink" title="破裂上调的三条依据"></a>破裂上调的三条依据</h3><ol>
+<li><strong>全球最重要芯片公司的 CEO 空缺，且无明确继任者。</strong> 董事会说内外部都考虑，但没有任何具名候选人的可靠报道。真空期的长度不确定，而资本开支决策不能等。</li>
+<li><strong>出口管制进一步收紧，不需要新立法。</strong> 现行规则已是逐案审批，审批尺度是行政裁量。政治压力上升时，这只需要一个内部指令。</li>
+<li><strong>私募输血在减速。</strong> OpenAI 融资 $110 亿，只达原目标（至多 $300 亿）约三分之一。如果一级市场的钱在变少，算力承诺的兑现率就要打折。</li>
+</ol>
+<h3 id="为什么不更悲观"><a href="#为什么不更悲观" class="headerlink" title="为什么不更悲观"></a>为什么不更悲观</h3><ol>
+<li><strong>Anthropic 约 6 倍超额认购</strong>——需求端最硬的证据，真金白银的订单簿。</li>
+<li><strong>CoreWeave Q3 上调全年指引至 $133 亿</strong>——订单储备没有崩。</li>
+<li><strong>Kress 是长期 CFO，短期市场沟通风险可控</strong>——她熟悉这条业务线的每一个数字。</li>
+<li><strong>“出清事件”论有道理</strong>：Janus Henderson 的 Jeremiah Buckley 把这次辞职称为<strong>“clearing event”</strong>（出清事件），并称公司产品路线图“已锁定至 2028 年”。坏消息一次性出清，比拖着好。</li>
+</ol>
+<h3 id="也别忽略另一面"><a href="#也别忽略另一面" class="headerlink" title="也别忽略另一面"></a>也别忽略另一面</h3><p>科罗拉多大学公司法教授 Ann Lipton 的判断方向相反：<strong>辞职“证明了指控的严重性”，将强化股东关于损害赔偿、虚假陈述重要性以及黄可能知情的主张。</strong> 已有“数百名投资者”联系律所。</p>
+<p><strong>这两派的分歧不在事实，在时间尺度</strong>：Buckley 看的是股价何时见底，Lipton 看的是诉讼何时开始。</p>
+<h3 id="两个检验点"><a href="#两个检验点" class="headerlink" title="两个检验点"></a>两个检验点</h3><div class="aden-table-scroll" role="region" tabindex="0" aria-label="可横向滚动的表格"><table>
+<thead>
+<tr>
+<th>日期</th>
+<th>事件</th>
+<th>回调条件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>11-17</strong></td>
+<td>英伟达 Q3 财报</td>
+<td>数据中心达标（共识 $1,088–1,090 亿）且毛利率守住 74% → “延续”回调至 40%</td>
+</tr>
+<tr>
+<td><strong>11-19</strong></td>
+<td>Anthropic 挂牌（ANT）</td>
+<td>若首日破发（跌破 $70）→ “破裂”再上调</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2 id="六、11-17-财报：六项观察清单"><a href="#六、11-17-财报：六项观察清单" class="headerlink" title="六、11-17 财报：六项观察清单"></a>六、11-17 财报：六项观察清单</h2><p><strong>共识与指引（先分清来源）：</strong></p>
+<div class="aden-table-scroll" role="region" tabindex="0" aria-label="可横向滚动的表格"><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>数值</th>
+<th>来源</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>分析师共识营收</td>
+<td><strong>$1,088–1,090 亿</strong>（$108.8B–109B）</td>
+<td>InsiderFinance 第三方共识，标注</td>
+</tr>
+<tr>
+<td>分析师共识 EPS</td>
+<td><strong>$2.47</strong></td>
+<td>同上</td>
+</tr>
+<tr>
+<td>公司营收指引</td>
+<td><strong>$1,080 亿 ±2%</strong>（$108B）</td>
+<td>官方</td>
+</tr>
+<tr>
+<td>非 GAAP 毛利率指引</td>
+<td><strong>74% ±50bp</strong></td>
+<td>官方</td>
+</tr>
+</tbody></table></div>
+<p><strong>六项观察清单（本次新增第 5、6 项）：</strong></p>
+<ol>
+<li><strong>数据中心收入是否达标</strong>——以 $1,080 亿为中枢，这是最容易量化、分歧最小的一项。</li>
+<li><strong>毛利率能否守住 74%</strong>——比收入更重要。Blackwell／Rubin 爬坡与 HBM 成本会在这条线上体现，毛利率下行意味着定价权松动。</li>
+<li><strong>中国口径是否重新计入</strong>——BIS 自 2026-01-15 起对 H200 级芯片逐案审批。上一季指引明确不含中国数据中心算力收入。</li>
+<li><strong>客户集中度与“循环交易”质疑</strong>——现在有了”circular-funder-in-chief”的媒体语境，这一项会被追问得比以前更凶。</li>
+<li><strong>（新增）临时 CEO 领导下的指引可信度</strong>——Kress 是 CFO 出身，市场会追问“谁在做产品与产能决策”。</li>
+<li><strong>（新增）出口许可与合规风险是否进入 10-Q 风险因素</strong>——商务部调查终止、DOJ 接手、国会传票，这三件事是否被写进法定披露。</li>
+</ol>
+<p><strong>第 5 项和第 6 项是这周才出现的，也是这次财报与以往最不一样的地方：以前看的是数字，这次还要看“谁来为数字负责”。</strong></p>
+<hr>
+<h2 id="七、埋个线：下一篇文章写什么"><a href="#七、埋个线：下一篇文章写什么" class="headerlink" title="七、埋个线：下一篇文章写什么"></a>七、埋个线：下一篇文章写什么</h2><p>这一节只预告，不展开。</p>
+<p><strong>Lutnick 与“商务部调查终止”这条线，我们认为优先级高于本系列的任何后续题材。</strong></p>
+<p>理由：它有一条完整的文件链——英伟达法务致电 → 调查终止/移交 → 部长把放宽出口与“中国交易”挂钩 → 参院两党联署索要文件。而且它的主角不是一家公司，是一个<strong>正在被追究是否干预执法的行政部门</strong>。</p>
+<p>Cotton 与 Warren 分属两党，却在这件事上同时施压。这种组合不常见，通常意味着事情不会轻易收场。</p>
+<p><strong>我们会在下一篇处理它。</strong></p>
+<hr>
+<h2 id="八、数据缺口与口径说明"><a href="#八、数据缺口与口径说明" class="headerlink" title="八、数据缺口与口径说明"></a>八、数据缺口与口径说明</h2><ol>
+<li><strong>黄仁勋本人的公开声明全文未取得。</strong> 目前只有他向员工承认错误的邮件（”There is no excuse for what I did. I am deeply sorry.”，Bloomberg／The Hill 转述），未见个人对外声明。</li>
+<li><strong>Kress 的任期起点与 CEO 经验未独立核到。</strong> 本文只说“无公开报道显示其有 CEO 或业务线一号位经验”。</li>
+<li><strong>继任候选人名单不存在可靠报道。</strong> 董事会称内外部都考虑，但无具名信源。Tim Cook 是总统个人意见。</li>
+<li><strong>11-12 CoreWeave 精确收盘价未取到</strong>，报价页面快照相互矛盾。</li>
+<li><strong>Anthropic 6 倍超额认购来自 Reuters 引 Bloomberg，Bloomberg 原文未直读。</strong></li>
+<li><strong>Anthropic Q3 单季营收 $170 亿为 TechCrunch 表述</strong>；本文正文只采用 S-1/A-2 中可逐字定位的 9 个月 $332 亿，未将单季数字写入表格。</li>
+<li><strong>英伟达 11-17 期权隐含波动率未查到。</strong></li>
+<li><strong>访华／APEC 行程是否调整无报道</strong>，本文不推测。</li>
+<li><strong>“董事会前一晚已决定”来自 CNBC 引述消息人士</strong>，非官方确认。</li>
+</ol>
+<hr>
+<h3 id="主要信息来源与核验索引"><a href="#主要信息来源与核验索引" class="headerlink" title="主要信息来源与核验索引"></a>主要信息来源与核验索引</h3><ul>
+<li><a class="link" target="_blank" rel="noopener" href="https://nvidianews.nvidia.com/news/statement-from-nvidia-board-of-directors">英伟达董事会声明（2026-11-09）一手<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://nvidianews.nvidia.com/news/nvidia-announces-ceo-transition">英伟达 CEO 交接公告（2026-11-12）一手<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.cnbc.com/2026/11/12/nvidia-jensen-huang-ceo-live-updates.html">CNBC 辞职全程直播（2026-11-12）<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.cnbc.com/2026/11/08/nvidia-jensen-huang-investigation-china-spy.html">CNBC（2026-11-08）董事会调查启动报道<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.theguardian.com/technology/2026/nov/12/nvidia-ceo-jensen-huang-resigns">The Guardian（2026-11-12）辞职报道，含官方公告全文核对<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.bloomberg.com/news/articles/2026-11-09/nvidia-intervened-in-us-probe-of-megaspeed-chip-smuggling">Bloomberg（2026-11-09）英伟达介入 Megaspeed 调查<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.nytimes.com/2026/11/09/business/economy/nvidia-megaspeed-investigation-huang.html">NYT（2026-11-09）商务部调查被中止，含 Teter 的辩解说法<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.banking.senate.gov/imo/media/doc/20261111_warren_coons_letter_to_wh_commerce_state_re_nvidia_record_retentionpdf.pdf">参院银行委员会 Warren／Coons 致 Lutnick、Rubio 函（2026-11-11）一手<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.cotton.senate.gov/news/press-releases/cotton-to-lutnick-investigate-chinese-government-spin-off-megaspeed-for-skirting-us-export-laws/">参议员 Cotton 致商务部长 Lutnick 函（Megaspeed 为 7Road 分拆）一手<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.sec.gov/Archives/edgar/data/2130357/000162828026072484/anthropicpbc-sx1ax2.htm">Anthropic S-1/A-2（SEC EDGAR）一手<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://techcrunch.com/2026/11/10/anthropic-sets-ipo-price-range-of-70-to-78-per-share-to-reach-an-implied-valuation-of-1-404-trillion/">TechCrunch（2026-11-10）Anthropic 定价与 $1.404 万亿完全稀释估值<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.reuters.com/legal/transactional/anthropics-ipo-is-about-six-times-oversubscribed-bloomberg-news-reports-2026-11-12/">Reuters（2026-11-12）Anthropic IPO 约 6 倍超额认购（引 Bloomberg）<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://investors.coreweave.com/news/news-details/2026/CoreWeave-Reports-Strong-Third-Quarter-2026-Results/default.aspx">CoreWeave 2026 年第三季度业绩（公司 IR 一手）<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://finance.yahoo.com/markets/stocks/article/coreweave-stock-pops-as-q3-revenue-beats-estimates-company-raises-full-year-outlook-211533280.html">Yahoo Finance（2026-11-11）CoreWeave 股价因超预期与上调指引跳涨<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://thehill.com/policy/technology/6216293-trump-suggests-tim-cook-nvidia/">The Hill：特朗普建议 Tim Cook 接任英伟达 CEO<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.forbes.com/sites/siladityaray/2026/11/13/trump-says-jensen-huang-is-going-through-hell-after-nvidia-exit-touts-tim-cook-as-replacement-again/">Forbes（2026-11-13）特朗普再提 Cook，称黄”going through hell”<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+<li><a class="link" target="_blank" rel="noopener" href="https://www.insiderfinance.io/news/nvidia-earnings-set-for-nov-17-amid-sell-signals">InsiderFinance：英伟达 11-17 财报共识（营收 $1,088–1,090 亿、EPS $2.47）<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></li>
+</ul>
+<hr>
+<p><em>本文关于 Alice Huang 与 Megaspeed 的全部表述，均限于已公开报道与官方文件；“疑似间谍”等定性仅为报道中的怀疑，美国司法部已明确表示尚未得出结论，本文不作任何事实认定。文中关于情景概率（延续 35%、放缓 45%、破裂 20%）、政策走向与继任安排的全部内容，均为基于截至 2026-11-13 公开信息所作的条件性推断，不构成对任何结果、价格或政策走向的预测，也不构成投资建议。所有概率均附明确触发条件，条件变化时概率应随之调整。</em></p>
+<p><em>封面图片：<a class="link" target="_blank" rel="noopener" href="https://www.pexels.com/photo/server-racks-on-data-center-4508751/">Server Racks on Data Center<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a> — Photo by Brett Sayles on Pexels（授权免费商业使用）</em></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题：</strong> 黄仁勋辞职：英伟达失去的不是 CEO，是对华政策的政治担保人</li>
+        <li><strong>作者：</strong> AdenXie</li>
+        <li><strong>创建于：</strong> 2026-11-13 23:30:00</li>
+        
+            <li>
+                <strong>更新于：</strong> 2026-11-13 23:30:00
+            </li>
+        
+        <li>
+            <strong>链接：</strong> https://blog.adenxie.com.cn/2026/11/13/2026-11-13-jensen-huang-resignation-political-guarantor/
+        </li>
+        <li data-aden-content-license=""><strong>版权声明：</strong> 除另有标注外，AdenXie 的原创文字与原创图片采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a>，原创代码采用 <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE" target="_blank" rel="noopener">GPL-3.0</a>。引用及第三方素材保留原有权利与许可。<a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE-CONTENT.md" target="_blank" rel="noopener">范围与例外</a>。</li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/Anthropic/">#Anthropic</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/AI-%E8%B5%84%E6%9C%AC%E5%BC%80%E6%94%AF/">#AI 资本开支</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E7%BE%8E%E5%9B%BD%E6%94%BF%E6%B2%BB/">#美国政治</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E8%8B%B1%E4%BC%9F%E8%BE%BE/">#英伟达</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%87%BA%E5%8F%A3%E7%AE%A1%E5%88%B6/">#出口管制</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%85%AC%E5%8F%B8%E6%B2%BB%E7%90%86/">#公司治理</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/11/08/2026-11-08-three-pricings-crash-payrolls-nvidia/" title="一周三次定价：暴跌、非农，与英伟达的连环节点" rel="bookmark">
+  <img src="https://images.pexels.com/photos/210607/pexels-photo-210607.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="一周三次定价：暴跌、非农，与英伟达的连环节点" class="!max-w-none" decoding="async">
+  <span class="title">一周三次定价：暴跌、非农，与英伟达的连环节点</span>
+</a><a class="recommended-article-item" href="/2026/10/28/2026-10-28-anthropic-s1-open-cards/" title="Anthropic 正式公开 S-1 招股书大起底：我们一周前押的注，今天全开牌了" rel="bookmark">
+  <img src="https://images.pexels.com/photos/38358503/pexels-photo-38358503.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Anthropic 正式公开 S-1 招股书大起底：我们一周前押的注，今天全开牌了" class="!max-w-none" decoding="async">
+  <span class="title">Anthropic 正式公开 S-1 招股书大起底：我们一周前押的注，今天全开牌了</span>
+</a><a class="recommended-article-item" href="/2026/11/13/2026-11-13-daily-brief/" title="每日简报｜2026-11-13：黄仁勋辞任英伟达CEO、CFO克雷斯暂代，10年期美债收益率升破5.1%、美股小幅收跌，特朗普称“不需要与伊朗达成协议”，商务部称中美正推进“300亿对300亿”降税安排" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1431540015161-0bf868a2d407?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="每日简报｜2026-11-13：黄仁勋辞任英伟达CEO、CFO克雷斯暂代，10年期美债收益率升破5.1%、美股小幅收跌，特朗普称“不需要与伊朗达成协议”，商务部称中美正推进“300亿对300亿”降税安排" class="!max-w-none" decoding="async">
+  <span class="title">每日简报｜2026-11-13：黄仁勋辞任英伟达CEO、CFO克雷斯暂代，10年期美债收益率升破5.1%、美股小幅收跌，特朗普称“不需要与伊朗达成协议”，商务部称中美正推进“300亿对300亿”降税安排</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/11/08/2026-11-08-three-pricings-crash-payrolls-nvidia/" title="一周三次定价：暴跌、非农，与英伟达的连环节点" rel="bookmark">
+  <img src="https://images.pexels.com/photos/210607/pexels-photo-210607.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="一周三次定价：暴跌、非农，与英伟达的连环节点" class="!max-w-none" decoding="async">
+  <span class="title">一周三次定价：暴跌、非农，与英伟达的连环节点</span>
+</a><a class="recommended-article-item" href="/2026/10/28/2026-10-28-anthropic-s1-open-cards/" title="Anthropic 正式公开 S-1 招股书大起底：我们一周前押的注，今天全开牌了" rel="bookmark">
+  <img src="https://images.pexels.com/photos/38358503/pexels-photo-38358503.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1600&amp;h=900&amp;fit=crop" alt="Anthropic 正式公开 S-1 招股书大起底：我们一周前押的注，今天全开牌了" class="!max-w-none" decoding="async">
+  <span class="title">Anthropic 正式公开 S-1 招股书大起底：我们一周前押的注，今天全开牌了</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2026/11/14/2026-11-14-daily-brief/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">每日简报｜2026-11-14：英伟达董事会接触Arm CEO哈斯、贝森特称商务部拖延拉黑Megaspeed，美国10月PPI同比升至6.5%、AMD跌近9%拖累纳指，中国10月人民币贷款减少1000亿元，伊朗称LNG船触雷、IEA称油市重回过剩，创业板指跌3.32%</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/11/13/2026-11-13-daily-brief/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">每日简报｜2026-11-13：黄仁勋辞任英伟达CEO、CFO克雷斯暂代，10年期美债收益率升破5.1%、美股小幅收跌，特朗普称“不需要与伊朗达成协议”，商务部称中美正推进“300亿对300亿”降税安排</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">黄仁勋辞职：英伟达失去的不是 CEO，是对华政策的政治担保人</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E3%80%87%E3%80%81%E5%85%88%E8%AE%A4%E4%B8%AA%E9%94%99%EF%BC%9A%E6%88%91%E4%BB%AC%E9%A2%84%E6%B5%8B%E4%BA%86%E8%8A%82%E7%82%B9%EF%BC%8C%E6%B2%A1%E9%A2%84%E6%B5%8B%E5%88%B0%E5%89%A7%E6%9C%AC"><span class="nav-text">〇、先认个错：我们预测了节点，没预测到剧本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E8%BE%9E%E8%81%8C%E7%9A%84%E7%9C%9F%E5%AE%9E%E5%8E%9F%E5%9B%A0%EF%BC%8C%E4%B8%8D%E6%98%AF%E7%BB%AF%E9%97%BB"><span class="nav-text">一、辞职的真实原因，不是绯闻</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E7%BA%BF%E4%B8%8A%E6%9C%80%E5%85%B3%E9%94%AE%E7%9A%84%E4%B8%8D%E6%98%AF%E4%B8%91%E9%97%BB%E6%97%A5%E6%9C%9F%EF%BC%8C%E6%98%AF%E5%9B%BD%E4%BC%9A%E6%97%A5%E6%9C%9F"><span class="nav-text">时间线上最关键的不是丑闻日期，是国会日期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CNBC-%E7%9A%84%E8%AF%B4%E6%B3%95%EF%BC%9A%E8%91%A3%E4%BA%8B%E4%BC%9A%E2%80%9C%E5%89%8D%E4%B8%80%E6%99%9A%E2%80%9D%E5%B0%B1%E5%86%B3%E5%AE%9A%E4%BA%86"><span class="nav-text">CNBC 的说法：董事会“前一晚”就决定了</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%82%A3%E7%9C%9F%E6%AD%A3%E7%9A%84%E9%A3%8E%E9%99%A9%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-text">那真正的风险是什么</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81Alice-Huang-%E4%B8%8E-Megaspeed%EF%BC%9A%E6%8A%8A%E2%80%9C%E7%96%91%E4%BC%BC%E2%80%9D%E5%92%8C%E2%80%9C%E5%B7%B2%E8%AF%81%E2%80%9D%E5%88%86%E5%BC%80%E5%86%99"><span class="nav-text">二、Alice Huang 与 Megaspeed：把“疑似”和“已证”分开写</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%B2%E7%BB%8F%E6%A0%B8%E5%AE%9E%E3%80%81%E5%8F%AF%E4%BB%A5%E7%9B%B4%E5%86%99%E7%9A%84%E4%BA%8B%E5%AE%9E"><span class="nav-text">已经核实、可以直写的事实</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%A5%E9%81%93%E4%B8%AD%E7%9A%84%E6%80%80%E7%96%91%EF%BC%8C%E5%BF%85%E9%A1%BB%E6%A0%87%E6%B3%A8"><span class="nav-text">报道中的怀疑，必须标注</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%87%E6%8E%A7%E4%B8%8E%E8%BE%A9%E8%A7%A3%E5%BF%85%E9%A1%BB%E5%B9%B6%E5%88%97"><span class="nav-text">指控与辩解必须并列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E6%9D%A1%E7%BA%BF%E6%AF%94%E7%BB%AF%E9%97%BB%E9%87%8D%E8%A6%81"><span class="nav-text">为什么这条线比绯闻重要</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E4%BB%96%E7%9C%9F%E6%AD%A3%E7%9A%84%E4%BD%8D%E7%BD%AE%EF%BC%9A%E5%AF%B9%E5%8D%8E%E6%94%BF%E7%AD%96%E7%9A%84%E6%94%BF%E6%B2%BB%E6%8B%85%E4%BF%9D%E4%BA%BA"><span class="nav-text">三、他真正的位置：对华政策的政治担保人</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E2%80%9CTim-Cook-%E6%8E%A5%E4%BB%BB%E2%80%9D"><span class="nav-text">关于“Tim Cook 接任”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E-Kress"><span class="nav-text">关于 Kress</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%90%8C%E5%91%A8%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%A3%80%E9%AA%8C%EF%BC%9AAnthropic-%E5%AE%9A%E4%BB%B7%E4%B8%8E-CoreWeave-%E5%AF%B9%E8%B4%A6"><span class="nav-text">四、同周的两个检验：Anthropic 定价与 CoreWeave 对账</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Anthropic%EF%BC%9A6-%E5%80%8D%E8%B6%85%E9%A2%9D%E8%AE%A4%E8%B4%AD%EF%BC%8C%E4%BC%B0%E5%80%BC%E5%8D%B4%E4%B8%8B%E4%BA%86%E4%B8%89%E6%88%90"><span class="nav-text">Anthropic：6 倍超额认购，估值却下了三成</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CoreWeave-Q3%EF%BC%9A%E8%A7%82%E5%AF%9F%E9%A1%B9%E5%85%A8%E9%83%A8%E5%AF%B9%E8%B4%A6"><span class="nav-text">CoreWeave Q3：观察项全部对账</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E6%83%85%E6%99%AF%E8%BF%AD%E4%BB%A3%EF%BC%9A40-45-15-%E2%86%92-35-45-20"><span class="nav-text">五、情景迭代：40/45/15 → 35/45/20</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A0%B4%E8%A3%82%E4%B8%8A%E8%B0%83%E7%9A%84%E4%B8%89%E6%9D%A1%E4%BE%9D%E6%8D%AE"><span class="nav-text">破裂上调的三条依据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E6%9B%B4%E6%82%B2%E8%A7%82"><span class="nav-text">为什么不更悲观</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B9%9F%E5%88%AB%E5%BF%BD%E7%95%A5%E5%8F%A6%E4%B8%80%E9%9D%A2"><span class="nav-text">也别忽略另一面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%A4%E4%B8%AA%E6%A3%80%E9%AA%8C%E7%82%B9"><span class="nav-text">两个检验点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%8111-17-%E8%B4%A2%E6%8A%A5%EF%BC%9A%E5%85%AD%E9%A1%B9%E8%A7%82%E5%AF%9F%E6%B8%85%E5%8D%95"><span class="nav-text">六、11-17 财报：六项观察清单</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E5%9F%8B%E4%B8%AA%E7%BA%BF%EF%BC%9A%E4%B8%8B%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0%E5%86%99%E4%BB%80%E4%B9%88"><span class="nav-text">七、埋个线：下一篇文章写什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E6%95%B0%E6%8D%AE%E7%BC%BA%E5%8F%A3%E4%B8%8E%E5%8F%A3%E5%BE%84%E8%AF%B4%E6%98%8E"><span class="nav-text">八、数据缺口与口径说明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E4%BF%A1%E6%81%AF%E6%9D%A5%E6%BA%90%E4%B8%8E%E6%A0%B8%E9%AA%8C%E7%B4%A2%E5%BC%95"><span class="nav-text">主要信息来源与核验索引</span></a></li></ol></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">写下真实体验，也保留观点的棱角。</div><div class="customize-info my-1 aden-status-hint">页面打不开或功能出错？可在 <a href="https://status.adenxie.com.cn/" target="_blank" rel="noopener">status.adenxie.com.cn</a> 查看服务状态</div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 114 篇文章
+                    </span>
+                    
+                        <span>
+                            共 349.9k 字
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js" async=""></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days"></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/scene-loader.js?v=d4c6d7d950ec" defer=""></script>
+                    
+        
+        
+    <div class="aden-font-credit text-sm my-1">字体: <a href="https://hyperos.mi.com/font/zh/download/" target="_blank" rel="noopener">MiSans</a></div><div class="aden-license-notice text-sm my-1">原创文字与图片: <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> · 代码: <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE" target="_blank" rel="noopener">GPL-3.0</a> · <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE-CONTENT.md" target="_blank" rel="noopener">范围与例外</a></div></div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container" role="toolbar" aria-label="快捷工具">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center" role="button" tabindex="0" aria-label="放大字号">
+			<i class="fa-regular fa-magnifying-glass-plus" aria-hidden="true"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center" role="button" tabindex="0" aria-label="缩小字号">
+			<i class="fa-regular fa-magnifying-glass-minus" aria-hidden="true"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center" role="button" tabindex="0" aria-label="切换深浅色">
+			<i class="fa-regular fa-moon" aria-hidden="true"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center" role="button" tabindex="0" aria-label="到页面底部">
+			<i class="fa-regular fa-arrow-down" aria-hidden="true"></i>
+		</li>
+	<li class="right-bottom-tools aden-dock-music" role="button" tabindex="0" aria-pressed="false" aria-label="播放音乐"><i class="fa-solid fa-play" aria-hidden="true"></i></li></ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center" role="button" tabindex="0" aria-label="更多设置" aria-expanded="false" aria-haspopup="true">
+			<i class="fa-regular fa-cog " aria-hidden="true"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center" role="button" tabindex="0" aria-label="回到顶部">
+			<i class="arrow-up fas fa-arrow-up" aria-hidden="true"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	<form id="aden-ask" class="aden-ask" novalidate="" aria-label="问 AI" data-script="/js/chat.js?v=decea45cccf0" data-style="/css/chat.css?v=4a911c13bc63">
+  <span class="aden-ask-mark" aria-hidden="true">✳</span>
+  <label class="aden-sr-only" for="aden-ask-input">问 AI</label>
+  <input id="aden-ask-input" class="aden-ask-input" type="text" maxlength="4000" autocomplete="off" enterkeyhint="send" placeholder="问 AI…">
+  <span class="aden-ask-thinking" role="status" hidden=""><span class="aden-ask-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="aden-ask-thinking-label"></span></span>
+  <button type="submit" class="aden-ask-send" aria-label="发送" disabled=""><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></button>
+  <button type="button" class="aden-ask-stop" aria-label="停止生成" hidden=""><i class="fa-solid fa-stop" aria-hidden="true"></i></button>
+</form><button type="button" class="aden-ask-open" aria-controls="aden-ask" aria-expanded="false"><span aria-hidden="true">✳</span><span>问 AI</span></button><button type="button" class="aden-dock-toc" aria-haspopup="dialog" aria-expanded="false" aria-label="目录"><i class="fa-solid fa-list-ul" aria-hidden="true"></i></button><button type="button" class="aden-dock-menu" aria-controls="navbar-drawer" aria-expanded="false" aria-label="菜单"><span class="aden-dock-bars" aria-hidden="true"></span></button></div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="图片查看器">
+	<button class="image-viewer-close" type="button" aria-label="关闭">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="上一页">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="" decoding="async">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="关闭">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="下一页">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay" inert="">
+	<div class="popup search-popup" id="aden-search-dialog" role="dialog" aria-modal="true" aria-labelledby="aden-search-title">
+		<div class="aden-search-heading"><h2 id="aden-search-title">站内搜索</h2><button type="button" class="popup-btn-close" aria-label="关闭搜索"><i class="fa-solid fa-times" aria-hidden="true"></i></button></div><div class="search-header">
+			<i class="fa-solid fa-magnifying-glass aden-search-icon" aria-hidden="true"></i>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="搜索文章标题和正文" spellcheck="false" type="search" class="search-input" aria-label="站内搜索">
+			</div>
+			
+		<button type="button" class="search-input-field-pre" hidden="" aria-label="清空搜索"><i class="fa-solid fa-times" aria-hidden="true"></i></button></div>
+		<div id="search-result">
+			<div id="no-result" role="status">输入关键词，搜索文章标题和正文。</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js?v=509b91971bf2"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js?v=969d65618587"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js?v=193270b6fdb0"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js?v=647d2af612df"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js?v=c9d014a814b8"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js?v=792db0224d6b"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js?v=3691d7f361f1" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js?v=03c1e188b884"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css?v=77a3a9d5a3d0">
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js?v=e98ec22436a5"></script>
+
+
+<script src="/js/build/plugins/aplayer.js?v=d6d3c64af35f"></script>
+
+
+	
+
+
+</body></html>

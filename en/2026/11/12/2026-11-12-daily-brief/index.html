@@ -1,0 +1,1253 @@
+<!DOCTYPE html><html lang="en"><head><script src="/js/language-preference.js?v=29a144036da1" data-english-home="/en/"></script><script src="/js/site-runtime.js?v=0416a8e408fa" defer=""></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/en/2026/11/12/2026-11-12-daily-brief/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Daily Briefing | 12 November 2026: CoreWeave surges 24 per cent, driving a rebound in AI shares; the Nasdaq rises 1.6 per cent, Reuters reports that Northwestern Polytechnical University, on the US blacklist, has acquired Nvidia H200 chips; the central bank’s third-quarter monetary policy report states that counter-cyclical adjustments will be stepped up; Iran denies holding talks with the US whilst the Strait of Hormuz remains closed; and the House of Representatives has shelved the Hegesseth impeachment case">
+<meta property="og:url" content="https://blog.adenxie.com.cn/en/2026/11/12/2026-11-12-daily-brief/">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-11-12T01:00:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="新闻">
+<meta property="article:tag" content="市场观察">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png?v=fa6db12e9674" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Daily Briefing | 12 November 2026: CoreWeave surges 24 per cent, driving a rebound in AI shares; Nasdaq rises 1.6 per cent, Reuters reports that Northwestern Polytechnical University, on the US blacklist, has acquired Nvidia H200 chips; the central bank’s third-quarter monetary policy report states it will step up counter-cyclical adjustments; Iran denies negotiations with the US whilst the Strait of Hormuz remains closed; the House of Representatives shelves the Hegesseth impeachment case | Aden’s Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/css/site-b1cdd4560954.css?v=b1cdd4560954">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js?v=258b1afa4680"></script>
+                
+    
+            
+                
+                    
+                
+    
+
+    
+
+
+
+    
+        
+
+
+    
+
+
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"en","path":"en/search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"18px","line_height":1.8,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["Technology, experience and independent thinking","Real experiences. A personal perspective."],"hitokoto":{"enable":false,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie","name":"GitHub"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847","name":"YouTube"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie","name":"X"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Daily Brief":{"path":"/daily/","icon":"fa-regular fa-newspaper"},"archives":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"},"tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"World Time":{"path":"/world-time/","icon":"fa-regular fa-clock"},"about":{"path":"/about/","icon":"fa-regular fa-user"},"links":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":false,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.i18n = {"search":"Search...","toc":"On this page","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"POWERED BY %s","theme":"THEME","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","post":"Post","posts":"Posts","tagcloud":"Tag Cloud","comment":"Comment","comments":"Comments","home":"Home","archive":"Archive","archives":"Archives","top":"TOP","sticky":"Sticky","go-back-home":"Go Back Home","masonry_loading":"Loading photos...","image_viewer":"Image viewer","close":"Close","exif":{"title":"EXIF","cards":{"camera":"Camera","lens":"Lens","exposure":"Exposure","other":"Other"},"fields":{"make":"Brand","model":"Model","date_taken":"Date taken","lens_model":"Lens","focal_length":"Focal length","focus_mode":"Focus mode","shutter":"Shutter","aperture":"Aperture","iso":"ISO","exposure_program":"Exposure program","exposure_compensation":"Exposure compensation","metering_mode":"Metering mode","flash":"Flash","white_balance":"White balance","latitude":"Latitude","longitude":"Longitude","altitude":"Altitude"},"status":{"loading":"Loading...","no_exif":"No EXIF available","library_missing":"EXIF library not loaded","image_source_missing":"Image source unavailable","unavailable":"EXIF unavailable (blocked by CORS or missing metadata)","flag_unavailable":"EXIF unavailable"}},"about":"About","changelog":"Changelog","links":"Links","link":"Link","friends":"Friends","friend":"Friend","timeline":"Timeline","shuoshuo":"Shuoshuo","bookmarks":"Bookmarks","site_uv":"VISITOR COUNT","site_pv":"TOTAL PAGE VIEWS","read_more":"Read more","wordcount":"Words","min2read":"Mins","status":"Status","runtime":"Blog up for","days":"days","hours":"hrs","minutes":"Min","seconds":"Sec","optimized_by":"and Optimized by Evan","rights":"All Rights Reserved","site_posts":"%s posts in total","site_wordcount":"%s words in total","copyright":{"author":"Author","title":"Title","link":"Link","create_time":"Created at","update_time":"Updated at","license_title":"License","license_content":"This work is licensed under %s.","all_rights_reserved":"All Rights Reserved &#169; %s","public_domain":"This work is in the public domain."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"},"create_time":"Created","update_time":"Updated","expired":"This post is written %s days ago, and the content may not be up to date."};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" hreflang="zh-CN" href="https://blog.adenxie.com.cn/2026/11/12/2026-11-12-daily-brief/"><link rel="alternate" hreflang="en" href="https://blog.adenxie.com.cn/en/2026/11/12/2026-11-12-daily-brief/"><link rel="preconnect" href="https://cdn-file.hyperos.mi.com" crossorigin="" data-aden-font-connect=""><script data-aden-analytics="">
+      if (location.hostname === 'blog.adenxie.com.cn' && !window.__adenAnalyticsLoaded) {
+        window.__adenAnalyticsLoaded = true;
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        const script = document.createElement('script');
+        script.defer = true;
+        script.src = '/_vercel/insights/script.js';
+        document.head.append(script);
+      }
+    </script></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/en/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/daily/">
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    DAILY BRIEF
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/categories/">
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    CATEGORIES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    WORLD TIME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search">
+                            <button type="button" class="search-popup-trigger" aria-label="Search" aria-haspopup="dialog" aria-controls="aden-search-dialog" aria-expanded="false"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <button type="button" class="icon-item search search-popup-trigger" aria-label="Search" aria-haspopup="dialog" aria-controls="aden-search-dialog" aria-expanded="false"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                
+                <button type="button" class="icon-item navbar-bar" aria-label="Menu" aria-controls="navbar-drawer" aria-expanded="false"><span class="navbar-bar-middle"></span></button>
+            </div>
+        </div>
+    <nav class="aden-language-switch" aria-label="Language"><a lang="zh-CN" href="/2026/11/12/2026-11-12-daily-brief/" aria-current="false" data-no-swup="">中文</a><span> / </span><a lang="en" href="/en/2026/11/12/2026-11-12-daily-brief/" aria-current="page" data-no-swup="">English</a></nav></div>
+
+    <!-- Mobile sheet -->
+    <div id="navbar-drawer" class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/">
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/daily/">
+                            <span>
+                                DAILY BRIEF
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/archives/">
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/categories/">
+                            <span>
+                                CATEGORIES
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/tags/">
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/world-time/">
+                            <span>
+                                WORLD TIME
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/about/">
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/link/">
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/tags/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">76</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/categories/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/archives/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">114</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://images.unsplash.com/photo-1584169417032-d34e8d805e8b?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 12 November 2026: CoreWeave surges 24 per cent, driving a rebound in AI shares; the Nasdaq rises 1.6 per cent, Reuters reports that Northwestern Polytechnical University, on the US blacklist, has acquired Nvidia H200 chips; the central bank’s third-quarter monetary policy report states that counter-cyclical adjustments will be stepped up; Iran denies holding talks with the US whilst the Strait of Hormuz remains closed; and the House of Representatives has shelved the Hegesseth impeachment case" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" decoding="async">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">Daily Briefing | 12 November 2026: CoreWeave surges 24 per cent, driving a rebound in AI shares; the Nasdaq rises 1.6 per cent, Reuters reports that Northwestern Polytechnical University, on the US blacklist, has acquired Nvidia H200 chips; the central bank’s third-quarter monetary policy report states that counter-cyclical adjustments will be stepped up; Iran denies holding talks with the US whilst the Strait of Hormuz remains closed; and the House of Representatives has shelved the Hegesseth impeachment case</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg?v=93ba7ebfa2ff" decoding="async" width="460" height="460">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-11-12 09:00</span>
+        <span class="mobile">2026-11-12 09:00</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/en/daily/">Daily Briefing</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/en/tags/%E6%96%B0%E9%97%BB/">News</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/">Market Watch</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>3.8k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>13 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8"><p class="aden-translation-notice">Automatically translated. <a href="/2026/11/12/2026-11-12-daily-brief/">Read the Chinese original</a>.</p>
+			<h2 id="今日主线"><a href="#今日主线" class="headerlink" title="Today's main theme"></a>Today's main theme</h2><p>This edition covers the period from the evening of Tuesday 10 November to Wednesday 11 November. AI stocks, which had been weighed down by the CPI figures the previous day, staged a comeback on Wednesday following the release of a set of financial results: CoreWeave’s third-quarter revenue exceeded expectations, the company raised its guidance and stated it would not issue unsecured bonds at current yield levels; its share price closed up by approximately 24 per cent, with Nebius, SanDisk, Dell and Arm following suit. The Nasdaq rose by 1.6 per cent, recouping the losses incurred since the mid-term elections. Nvidia rebounded by approximately 2.9 per cent, but on the same day, Reuters revealed that Northwestern Polytechnical University—which is on the US Entity List—had acquired two H200 chips via domestic suppliers in October, further increasing the pressure on Nvidia regarding export controls to China. Domestically, the People’s Bank of China released its third-quarter monetary policy implementation report, maintaining the phrasing of ‘moderately loose’ and proposing to intensify counter-cyclical adjustments whilst promoting a transition in the benchmark for loan interest rate pricing from a sole reference to the LPR towards a more diversified approach; the ChiNext Index rose by 3.11 per cent, with CPO and semiconductor stocks leading the gains. In the Middle East, Iranian security official Rezaei described claims of negotiations with the US as “utter lies”, stating that the Strait of Hormuz would not reopen until the US met seven conditions; attacks on vessels near the strait in November reached the highest monthly total since the start of hostilities. In the US, on 10 November, the House of Representatives voted 211 to 204 to refer the impeachment resolution against Defence Secretary Hegses to a committee, effectively shelving the matter for the remainder of the current congressional session.</p>
+<span id="more"></span>
+
+<h2 id="重点新闻"><a href="#重点新闻" class="headerlink" title="Key News"></a>Key News</h2><h3 id="1-CoreWeave收涨约24-点燃AI交易，纳指涨1-6-、英伟达反弹2-9"><a href="#1-CoreWeave收涨约24-点燃AI交易，纳指涨1-6-、英伟达反弹2-9" class="headerlink" title="1. CoreWeave closed up around 24 per cent, fuelling AI-related trading; the Nasdaq rose 1.6 per cent and Nvidia rebounded by 2.9 per cent"></a>1. CoreWeave closed up around 24 per cent, fuelling AI-related trading; the Nasdaq rose 1.6 per cent and Nvidia rebounded by 2.9 per cent</h3><p>According to Yahoo Finance’s closing figures, on 11 November, the Dow Jones Industrial Average rose by 254.60 points, or 0.49 per cent, to close at 52,486.49; the S&amp;P 500 gained 98.45 points, or 1.31 per cent, to close at 7,619.38; the Nasdaq rose by 400.31 points, or 1.60 per cent, to close at 25,466.19; the VIX fell by 10.12 per cent to 17.49. It was Veterans Day in the US; the stock market traded as usual, whilst the bond market was closed. Yahoo Finance noted that the Nasdaq had recouped the losses incurred following the mid-term elections.</p>
+<p>Leading the gains was CoreWeave, which had released its third-quarter results after the market closed the previous day. According to 24/7 Wall St., the share closed at US$60.51, up 24.2 per cent; Nebius, a fellow ‘new cloud’ company, rose by around 17 per cent during the session, whilst SanDisk gained 13.3 per cent, and Dell and Arm each rose by approximately 11.9 per cent; memory stocks such as Micron and SK Hynix also surged. According to Yahoo Finance, CoreWeave’s third-quarter revenue grew by 168 per cent, with losses coming in lower than expected, whilst the lower end of its full-year revenue guidance was raised by US$1 billion. The market was more focused on the company’s stance on financing: CEO Intratto stated that the company would not enter the unsecured bond market “at current yields”, and that the remaining capital expenditure would be primarily funded through term loans with deferred drawdowns linked to specific customer contracts, which can cover between 70 per cent and 100 per cent of expenditure; of the capital expenditure already committed through to 2027, more than 75 per cent relates to investment-grade and enterprise clients.</p>
+<p>Debt pressures remain. According to Yahoo Finance, CoreWeave’s interest expenses for the first nine months stood at US$2 billion, compared with US$841 million a year earlier, whilst operating profit for the same period was just US$14 million; non-current recourse debt rose from US$14.6 billion to US$32.4 billion. Bernstein analysts described this as the company’s “best quarter yet”, but maintained an “underperform” rating. The share price had fallen by more than 40 per cent over the previous month and remains approximately 65 per cent below its May high. NVIDIA closed up 2.92 per cent at $173.73, ending a two-day losing streak; however, according to TheStreet, Baird downgraded its rating to “Neutral” and lowered its target price to $200, whilst Morgan Stanley maintained its “Overweight” rating but removed the stock from its top picks list in accordance with stop-loss rules. Apple’s market capitalisation reached approximately US$5.16 trillion during trading, setting a new all-time high. The December WTI contract rose 0.43 per cent to US$86.41 per barrel, whilst gold fell 0.97 per cent to US$3,991.2. Key developments to watch: Nebius’s earnings report on Thursday, and whether the 10-year yield will break above 5 per cent once US Treasury trading resumes on Thursday.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://finance.yahoo.com/markets/live/stock-market-today-wednesday-november-11-dow-sp-500-nasdaq-nvidia-treasurys-veterans-day-140638547.html">Yahoo Finance (Market Close)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://finance.yahoo.com/markets/article/coreweave-stock-pops--but-its-debt-problem-hasnt-gone-anywhere-164359122.html">Yahoo Finance (CoreWeave Debt)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://247wallst.com/cards/tech-did-the-heavy-lifting-again-the-nasdaq-s-1-55-close-m-gspc-market-bell-01m766s5wqxj8egm37q8ks13gp">24/7 Wall St.<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-nov-11-2026">TheStreet<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.marketscreener.com/news/coreweave-sparks-ai-cloud-stock-rally-lifts-nvidia-ce785edbd18af220">MarketScreener (Reuters)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="2-路透：美国实体清单上的西北工业大学经国内供应商买到英伟达H200"><a href="#2-路透：美国实体清单上的西北工业大学经国内供应商买到英伟达H200" class="headerlink" title="2. Reuters: Northwestern Polytechnical University, which is on the US Entity List, has acquired NVIDIA H200 chips through domestic suppliers"></a>2. Reuters: Northwestern Polytechnical University, which is on the US Entity List, has acquired NVIDIA H200 chips through domestic suppliers</h3><p>According to a Reuters investigation (reprinted by ANI) on 11 November, Xi’an’s Northwestern Polytechnical University purchased two Nvidia H200 chips in October for 874,700 yuan (approximately US$123,000). Procurement records show that the purchase was made through a Chinese technology supplier rather than directly from Nvidia. The university, which has close ties to the military and is one of the ‘Seven Defence Universities’, was placed on the US Department of Commerce’s Entity List in 2001. Following the tightening of restrictions in 2019, licence applications involving controlled US technology are, in principle, rejected. In January this year, the university’s School of Cyberspace Security also signed two seven-month contracts to lease servers, each equipped with eight H200 chips, for large-scale model training and reinforcement learning, at a cost of 441,700 yuan and 441,000 yuan respectively; it also leased servers fitted with A100 and A800 chips.</p>
+<p>Reuters reviewed a total of 26 procurement and corporate records. According to reports, Shenzhen University purchased three H100s for 769,800 yuan in September, Wuhan University of Technology purchased a server equipped with one H100 and four A100s, and Beihang University purchased four A800s in April. The report did not name the suppliers, nor did it include responses from Nvidia or the US Department of Commerce.</p>
+<p>The background is as follows: since January this year, the Trump administration has permitted the export of certain H200 chips to China, subject to case-by-case approval; however, restrictions on entities on the Entity List have not been lifted, and the rules also require measures to prevent listed entities and military end-users from remotely utilising these chips. The value of the two chips is not significant; the issue is that it demonstrates that channels for reselling and leasing servers still exist. This news, combined with the ‘spy scandal’ involving Jensen Huang and Congress’s request for him to attend a closed-door briefing on 18 November, may prompt Washington to tighten export licences for H200 chips to China and step up scrutiny of secondary channels. Key points to watch: the responses from the Department of Commerce and NVIDIA; whether Congress will use this as an opportunity to push for new export control legislation; and the closed-door briefing on 18 November.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://www.aninews.in/news/business/us-blacklisted-chinese-university-buys-nvidia-h200-ai-chips-through-domestic-suppliers-report20261111125644">Reuters (reprinted by ANI)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.taiwanplus.com/news/world-news/china/261111014/reuters-blacklisted-chinese-university-acquired-nvidia-h200-ai-chips">TaiwanPlus<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="3-央行三季度货币政策执行报告：加大逆周期调节，推动贷款定价基准多元化"><a href="#3-央行三季度货币政策执行报告：加大逆周期调节，推动贷款定价基准多元化" class="headerlink" title="3. The People’s Bank of China’s Third-Quarter Monetary Policy Implementation Report: Strengthening counter-cyclical adjustments and promoting diversification of loan pricing benchmarks"></a>3. The People’s Bank of China’s Third-Quarter Monetary Policy Implementation Report: Strengthening counter-cyclical adjustments and promoting diversification of loan pricing benchmarks</h3><p>On 11 November, the People’s Bank of China released the ‘Report on the Implementation of China’s Monetary Policy in the Third Quarter of 2026’. According to CCTV Finance (as reprinted by 21st Century Business Herald and The Paper), the report stated that a moderately accommodative monetary policy had continued to be implemented during the first three quarters. In the next phase, the aim is to harness the synergistic effects of existing and new policies, intensify counter-cyclical adjustments, maintain ample liquidity and relatively loose social financing conditions, and ensure that the growth in social financing and the money supply is aligned with economic growth and the expected targets for the general price level. The report made no direct mention of cutting the reserve requirement ratio or lowering interest rates.</p>
+<p>The new proposals focus on the interest rate mechanism. The report calls for the prudent advancement of reforms to the monetary policy operational framework, guiding short-term money market rates to fluctuate steadily around the policy rate; promoting a shift in the benchmark for loan interest rate pricing from a relatively narrow reliance on the LPR to a more diversified set of pricing benchmarks; and continuing to explicitly state the comprehensive financing costs of corporate loans whilst reducing intermediary financing fees. With regard to the exchange rate, the report retains the wording on “maintaining exchange rate flexibility and guarding against the risk of excessive exchange rate fluctuations” and “maintaining the basic stability of the renminbi exchange rate at a reasonable and balanced level”.</p>
+<p>The report features five sections. According to the ‘Comparison of International Interest Rate Levels’ section, as reported by The Paper, by September 2026, China’s policy rate stood at 1.4 per cent, whilst lending rates and mortgage rates had both fallen to around 3 per cent; By comparison, when the Federal Reserve cut its policy rate to near zero in 2020, the lowest US lending rates and mortgage rates stood at 4.1 per cent and 3.5 per cent respectively. The section also noted that China’s credit spread stood at approximately 30 basis points, lower than that of the US (around 120 basis points), Japan (around 80 basis points) and the eurozone (around 50 basis points). According to Cailian Press, other columns covered changes in the structure of bank deposits and the Bond Market Non-bank Large-scale Redemption Swap Facility (BNSF). The use of international comparisons to illustrate that domestic interest rates are ‘already low’ may suggest that there is limited scope for substantial interest rate cuts in the short term, with the policy focus shifting more towards improving interest rate transmission and reducing intermediary costs. Key points to watch: the forthcoming October social financing and credit data (the average forecast from institutions surveyed by Caixin indicates new RMB loans of approximately 89.7 billion yuan for October), as well as the tone set for next year’s monetary policy at the Central Economic Work Conference in December.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://m.21jingji.com/article/20261111/herald/4feeae894240f7a4f4fc350f61801f3b.html">21st Century Business Herald (CCTV Finance)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.thepaper.cn/newsDetail_forward_34455032">The Paper (Column)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://k.sina.cn/article_2868676035_aafc85c302001zlba.html">Cailian Press (reprinted from Sina Finance)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.caixinglobal.com/2026-11-09/china-policy-tool-seen-lifting-october-social-financing-102502740.html">Caixin<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="4-伊朗称谈判说法是“谎言”、霍尔木兹继续关闭，11月海峡船只遇袭创新高"><a href="#4-伊朗称谈判说法是“谎言”、霍尔木兹继续关闭，11月海峡船只遇袭创新高" class="headerlink" title="4. Iran calls claims of negotiations ‘lies’; the Strait of Hormuz remains closed, with attacks on vessels in the strait reaching a record high in November"></a>4. Iran calls claims of negotiations ‘lies’; the Strait of Hormuz remains closed, with attacks on vessels in the strait reaching a record high in November</h3><p>According to Al Jazeera, citing Reuters, Iranian security official Rezaei stated on 11 November that claims that Tehran and Washington were still in negotiations or were due to meet in Qatar were “utter lies”, and that the US’s previous response had been “inadequate and deceptive”; He believed that Washington had leaked news of the negotiations in order to alleviate economic pressure and drive down oil prices. Iran is still awaiting the US response to its seven conditions, and the Strait of Hormuz will remain closed until these conditions are met. Iran has not published the full text of the conditions, but according to Rezaei and Foreign Minister Araghchi, they include the lifting of sanctions and the US naval blockade, as well as a cessation of hostilities on all fronts, particularly Israeli attacks on Lebanon; Araghchi stated that once the conditions are met, the Strait could reopen within two days at the earliest.</p>
+<p>The US stance, however, leans towards ‘economic pressure’. According to Al Jazeera, Secretary of State Rubio stated in Paris that the US maintains an open approach to diplomacy; if the same objectives can be achieved through economic means, there is no need for further military action, as the impact of economic measures is now so significant that ‘large-scale military operations are unnecessary’. Conflicts at sea are on the rise: the Iranian Revolutionary Guard claimed that three oil tankers struck mines and caught fire whilst travelling along an “unauthorised route” in the eastern part of the Strait, whilst the UK Maritime Trade Operations Office reported two incidents involving oil tankers; According to statistics from maritime monitoring organisations, there have been at least 37 attacks on vessels in and around the Strait since November, the highest monthly total since the outbreak of hostilities. According to TheStreet, Iran has also stated that it will not permit the export of enriched nuclear material.</p>
+<p>Oil prices did not surge in response to this news, with WTI rising only slightly by around 0.4 per cent on Wednesday, suggesting that the market remains optimistic that negotiations will eventually commence. However, the disagreement between the two sides over the sequence of negotiations has not narrowed, and security in the Strait is deteriorating; the risk premium could return at any moment. Key points to watch: whether the US will formally respond to the seven conditions, the next steps in Qatar’s mediation efforts, and whether the number of attacks on vessels in November continues to rise.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://www.aljazeera.com/news/2026/11/11/iran-denies-talks-with-us-says-hormuz-will-stay-shut-until-demands-are-met">Al Jazeera (citing Reuters)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.thestreet.com/stock-market-today/stock-market-today-dow-jones-sp-500-nasdaq-updates-nov-11-2026">TheStreet<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="5-众议院以211票对204票搁置赫格塞思弹劾案，民主党1月接手后或再追查"><a href="#5-众议院以211票对204票搁置赫格塞思弹劾案，民主党1月接手后或再追查" class="headerlink" title="5. The House of Representatives shelved the Hegeseth impeachment case by 211 votes to 204; the Democrats may reopen the investigation after taking office in January"></a>5. The House of Representatives shelved the Hegeseth impeachment case by 211 votes to 204; the Democrats may reopen the investigation after taking office in January</h3><p>According to OPB (a member station of the US Public Broadcasting Service), on Tuesday 10 November, the US House of Representatives voted 211 to 204 to refer the articles of impeachment against Defence Secretary Hegeseth, proposed by Republican Representative Marcy, to a committee for consideration; this effectively means that there will be no further plenary vote before the end of the current congressional term. According to Al Jazeera, 11 Democratic MPs were absent from the vote.</p>
+<p>The articles of impeachment tabled by Masi accuse Hegeseth of ‘high crimes and misdemeanours’, relating to the war against Iran and air strikes, operations against vessels suspected of drug trafficking in the Caribbean and the eastern Pacific, the arrest of Venezuelan President Maduro without congressional authorisation, and attempts to punish Senator Mark Kelly. This is the second time Massie has initiated impeachment proceedings: during his first attempt in September, Speaker Johnson adjourned the House prematurely, rendering the resolution null and void. At a Pentagon press conference, Hegessy described Massie as a “disgruntled, defeated lawmaker”, stating that he supported every action taken and would do it all again; Trump also said on Monday that he would “back him”.</p>
+<p>The voting results indicate that, following their defeat in the mid-term elections, dissatisfaction within the Republican Party over the war in Iran has not yet translated into a sufficient number of defections. However, with the Democrats expected to take control of the House of Representatives in January, Jeffries—who is likely to become Speaker—has stated that Hegeseth “must go”, and the Democrats have pledged to launch an investigation into the Pentagon. The domestic political cost of the war in Iran is rising, which is one of the factors behind the Trump administration’s growing preference for negotiations and economic pressure. Key points to watch: whether the Democrats will restart impeachment proceedings or hold hearings after the new Congress convenes in January, and Congress’s stance on the authorisation for the war in Iran.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://www.opb.org/article/2026/11/10/house-vote-effectively-ends-impeachment-push-against-hegseth/">OPB<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.aljazeera.com/news/liveblog/2026/11/11/iran-war-live-hegseth-survives-impeachment-bid-iran-denies-us-talks">Al Jazeera<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h2 id="市场关联与今日观察"><a href="#市场关联与今日观察" class="headerlink" title="Market Correlation and Today's Observation"></a>Market Correlation and Today's Observation</h2><p>Wednesday’s rebound suggests that market concerns regarding AI assets centre more on financing than on demand. CoreWeave’s revenue and order figures had, in fact, already been announced the previous day; the share price only surged significantly after management pledged not to issue unsecured bonds at high yields and to link capital expenditure to specific client contracts. This triggered a rebound in Nebius, alongside storage chip and server manufacturers; however, the issue of interest expenses far exceeding operating profit remains. When the bond market resumes trading on Thursday, should the 10-year US Treasury yield rise above 5 per cent, such highly leveraged companies will once again come under pressure. NVIDIA’s rebound has lagged behind that of its peers; reports of H200 shipments to entities on the Entity List, combined with the Huang Renxun incident, mean that the risk of tighter export controls is weighing on its valuation.</p>
+<p>A-shares outperformed US stocks on Wednesday. According to Sina Finance, on 11 November, the Shanghai Composite Index rose by 0.46 per cent to 3,680.64 points, whilst the Shenzhen Component Index rose by 1.32 per cent to 11,389.74 points, the ChiNext Index rose 3.11 per cent to 2,572.07 points, whilst the Beijing Stock Exchange 50 Index rose 2.3 per cent; trading volume across both markets totalled approximately 1.68 trillion yuan, an increase of around 171.5 billion yuan compared with the previous day, with 3,538 stocks rising and 85 hitting the daily upper limit. CPO, lidar, telecommunications and semiconductors led the gains, whilst baijiu, snack foods, civil aviation and airports led the declines. Today, the A-share market may capitalise on the sentiment from the rebound in US AI stocks, but the H200 report may reignite market discussions regarding the risk of the US tightening chip exports; domestic computing power and semiconductor equipment sectors may consequently benefit. The signal sent by the central bank’s report is “no change in monetary easing, with greater emphasis on transmission”; the impact on bank net interest margins and the bond market must be assessed in conjunction with the October credit data.</p>
+<p>Checklist:</p>
+<ul>
+<li>Whether the 10-year yield will rise above 5 per cent when US Treasury trading resumes on Thursday, and comments from Federal Reserve officials on the scale of the interest rate rise in December</li>
+<li>Nebius’s third-quarter results: can the AI cloud rebound driven by CoreWeave be sustained?</li>
+<li>Response from the US Department of Commerce and NVIDIA regarding the supply of H200 chips to entities on the Entity List: closed-door briefing to Congress on 18 November</li>
+<li>China’s October data on aggregate social financing, credit and economic activity: will the central bank introduce further structural policy tools?</li>
+<li>The US response to Iran’s seven conditions, as well as the attacks on vessels in the Strait of Hormuz and fluctuations in oil prices</li>
+<li>Will A-share turnover remain above 1.6 trillion yuan? The sustainability of the CPO and semiconductor sectors</li>
+</ul>
+<p>Cover image:<a class="link" target="_blank" rel="noopener" href="https://unsplash.com/photos/server-room-aisle-with-metal-equipment-racks-lVZjvw-u9V8">İsmail Enes Ayhan / Unsplash<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> Daily Briefing | 12 November 2026: CoreWeave surges 24 per cent, driving a rebound in AI shares; the Nasdaq rises 1.6 per cent, Reuters reports that Northwestern Polytechnical University, on the US blacklist, has acquired Nvidia H200 chips; the central bank’s third-quarter monetary policy report states that counter-cyclical adjustments will be stepped up; Iran denies holding talks with the US whilst the Strait of Hormuz remains closed; and the House of Representatives has shelved the Hegesseth impeachment case</li>
+        <li><strong>Author:</strong> AdenXie</li>
+        <li><strong>Created at:</strong> 2026-11-12 09:00:00</li>
+        
+        <li>
+            <strong>Link:</strong> https://blog.adenxie.com.cn/2026/11/12/2026-11-12-daily-brief/
+        </li>
+        <li data-aden-content-license=""><strong>License:</strong> Unless otherwise noted, original text and images by AdenXie: <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a>; original code: <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE" target="_blank" rel="noopener">GPL-3.0</a>. Third-party material retains its original rights and licenses. <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE-CONTENT.md" target="_blank" rel="noopener">Scope &amp; exceptions</a>.</li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E6%96%B0%E9%97%BB/">#News</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/">#MarketObservation</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/en/2026/11/11/2026-11-11-daily-brief/" title="Daily Briefing | 11 November 2026: US October CPI rises 0.4 per cent month-on-month, exceeding expectations; probability of a December rate hike rises to around 90 per cent, Anthropic sets IPO price range with a valuation of up to US$1.4 trillion; CoreWeave reports 168 per cent revenue growth in Q3 and raises guidance; China’s October exports rise by 35 per cent year-on-year, with the trade surplus for the year exceeding US$1 trillion; Trump postpones new strikes against Iran" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1643430603795-b1c753fdbdcb?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 11 November 2026: US October CPI rises 0.4 per cent month-on-month, exceeding expectations; probability of a December rate hike rises to around 90 per cent, Anthropic sets IPO price range with a valuation of up to US$1.4 trillion; CoreWeave reports 168 per cent revenue growth in Q3 and raises guidance; China’s October exports rise by 35 per cent year-on-year, with the trade surplus for the year exceeding US$1 trillion; Trump postpones new strikes against Iran" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | 11 November 2026: US October CPI rises 0.4 per cent month-on-month, exceeding expectations; probability of a December rate hike rises to around 90 per cent, Anthropic sets IPO price range with a valuation of up to US$1.4 trillion; CoreWeave reports 168 per cent revenue growth in Q3 and raises guidance; China’s October exports rise by 35 per cent year-on-year, with the trade surplus for the year exceeding US$1 trillion; Trump postpones new strikes against Iran</span>
+</a><a class="recommended-article-item" href="/en/2026/11/10/2026-11-10-daily-brief/" title="Daily Briefing | 10 November 2026: US shares staged a strong rebound, with the Nasdaq rising 2.7 per cent; Nvidia bucked the trend, falling 4 per cent amid the ‘spy scandal’ involving Jensen Huang; Trump said it was ‘highly unlikely’ that the US would strike Iran again; oil prices fell by around 5 per cent; China’s October PPI rose to 5.7 per cent, hitting a more than four-year high, whilst CPI fell to 0.7 per cent" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1758549885423-819fd86e04f0?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 10 November 2026: US shares staged a strong rebound, with the Nasdaq rising 2.7 per cent; Nvidia bucked the trend, falling 4 per cent amid the ‘spy scandal’ involving Jensen Huang; Trump said it was ‘highly unlikely’ that the US would strike Iran again; oil prices fell by around 5 per cent; China’s October PPI rose to 5.7 per cent, hitting a more than four-year high, whilst CPI fell to 0.7 per cent" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | 10 November 2026: US shares staged a strong rebound, with the Nasdaq rising 2.7 per cent; Nvidia bucked the trend, falling 4 per cent amid the ‘spy scandal’ involving Jensen Huang; Trump said it was ‘highly unlikely’ that the US would strike Iran again; oil prices fell by around 5 per cent; China’s October PPI rose to 5.7 per cent, hitting a more than four-year high, whilst CPI fell to 0.7 per cent</span>
+</a><a class="recommended-article-item" href="/en/2026/11/13/2026-11-13-daily-brief/" title="Daily Briefing | 13 November 2026: Jensen Huang steps down as NVIDIA CEO; CFO Kress takes over on an interim basis; 10-year US Treasury yields rise above 5.1 per cent; US shares close slightly lower; Trump states “there is no need to reach an agreement with Iran”; the Ministry of Commerce states that China and the US are moving forward with the “30 billion for 30 billion” tariff reduction arrangement" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1431540015161-0bf868a2d407?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 13 November 2026: Jensen Huang steps down as NVIDIA CEO; CFO Kress takes over on an interim basis; 10-year US Treasury yields rise above 5.1 per cent; US shares close slightly lower; Trump states “there is no need to reach an agreement with Iran”; the Ministry of Commerce states that China and the US are moving forward with the “30 billion for 30 billion” tariff reduction arrangement" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | 13 November 2026: Jensen Huang steps down as NVIDIA CEO; CFO Kress takes over on an interim basis; 10-year US Treasury yields rise above 5.1 per cent; US shares close slightly lower; Trump states “there is no need to reach an agreement with Iran”; the Ministry of Commerce states that China and the US are moving forward with the “30 billion for 30 billion” tariff reduction arrangement</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/en/2026/11/11/2026-11-11-daily-brief/" title="Daily Briefing | 11 November 2026: US October CPI rises 0.4 per cent month-on-month, exceeding expectations; probability of a December rate hike rises to around 90 per cent, Anthropic sets IPO price range with a valuation of up to US$1.4 trillion; CoreWeave reports 168 per cent revenue growth in Q3 and raises guidance; China’s October exports rise by 35 per cent year-on-year, with the trade surplus for the year exceeding US$1 trillion; Trump postpones new strikes against Iran" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1643430603795-b1c753fdbdcb?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 11 November 2026: US October CPI rises 0.4 per cent month-on-month, exceeding expectations; probability of a December rate hike rises to around 90 per cent, Anthropic sets IPO price range with a valuation of up to US$1.4 trillion; CoreWeave reports 168 per cent revenue growth in Q3 and raises guidance; China’s October exports rise by 35 per cent year-on-year, with the trade surplus for the year exceeding US$1 trillion; Trump postpones new strikes against Iran" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | 11 November 2026: US October CPI rises 0.4 per cent month-on-month, exceeding expectations; probability of a December rate hike rises to around 90 per cent, Anthropic sets IPO price range with a valuation of up to US$1.4 trillion; CoreWeave reports 168 per cent revenue growth in Q3 and raises guidance; China’s October exports rise by 35 per cent year-on-year, with the trade surplus for the year exceeding US$1 trillion; Trump postpones new strikes against Iran</span>
+</a><a class="recommended-article-item" href="/en/2026/11/10/2026-11-10-daily-brief/" title="Daily Briefing | 10 November 2026: US shares staged a strong rebound, with the Nasdaq rising 2.7 per cent; Nvidia bucked the trend, falling 4 per cent amid the ‘spy scandal’ involving Jensen Huang; Trump said it was ‘highly unlikely’ that the US would strike Iran again; oil prices fell by around 5 per cent; China’s October PPI rose to 5.7 per cent, hitting a more than four-year high, whilst CPI fell to 0.7 per cent" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1758549885423-819fd86e04f0?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 10 November 2026: US shares staged a strong rebound, with the Nasdaq rising 2.7 per cent; Nvidia bucked the trend, falling 4 per cent amid the ‘spy scandal’ involving Jensen Huang; Trump said it was ‘highly unlikely’ that the US would strike Iran again; oil prices fell by around 5 per cent; China’s October PPI rose to 5.7 per cent, hitting a more than four-year high, whilst CPI fell to 0.7 per cent" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | 10 November 2026: US shares staged a strong rebound, with the Nasdaq rising 2.7 per cent; Nvidia bucked the trend, falling 4 per cent amid the ‘spy scandal’ involving Jensen Huang; Trump said it was ‘highly unlikely’ that the US would strike Iran again; oil prices fell by around 5 per cent; China’s October PPI rose to 5.7 per cent, hitting a more than four-year high, whilst CPI fell to 0.7 per cent</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/en/2026/11/13/2026-11-13-daily-brief/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Daily Briefing | 13 November 2026: Jensen Huang steps down as NVIDIA CEO; CFO Kress takes over on an interim basis; 10-year US Treasury yields rise above 5.1 per cent; US shares close slightly lower; Trump states “there is no need to reach an agreement with Iran”; the Ministry of Commerce states that China and the US are moving forward with the “30 billion for 30 billion” tariff reduction arrangement</span>
+						<span class="post-nav-item">Prev posts</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/en/2026/11/11/2026-11-11-daily-brief/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Daily Briefing | 11 November 2026: US October CPI rises 0.4 per cent month-on-month, exceeding expectations; probability of a December rate hike rises to around 90 per cent, Anthropic sets IPO price range with a valuation of up to US$1.4 trillion; CoreWeave reports 168 per cent revenue growth in Q3 and raises guidance; China’s October exports rise by 35 per cent year-on-year, with the trade surplus for the year exceeding US$1 trillion; Trump postpones new strikes against Iran</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">Daily Briefing | 12 November 2026: CoreWeave surges 24 per cent, driving a rebound in AI shares; the Nasdaq rises 1.6 per cent, Reuters reports that Northwestern Polytechnical University, on the US blacklist, has acquired Nvidia H200 chips; the central bank’s third-quarter monetary policy report states that counter-cyclical adjustments will be stepped up; Iran denies holding talks with the US whilst the Strait of Hormuz remains closed; and the House of Representatives has shelved the Hegesseth impeachment case</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8A%E6%97%A5%E4%B8%BB%E7%BA%BF"><span class="nav-text">Today's main theme</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E7%82%B9%E6%96%B0%E9%97%BB"><span class="nav-text">Key News</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-CoreWeave%E6%94%B6%E6%B6%A8%E7%BA%A624-%E7%82%B9%E7%87%83AI%E4%BA%A4%E6%98%93%EF%BC%8C%E7%BA%B3%E6%8C%87%E6%B6%A81-6-%E3%80%81%E8%8B%B1%E4%BC%9F%E8%BE%BE%E5%8F%8D%E5%BC%B92-9"><span class="nav-text">1. CoreWeave closed up around 24 per cent, fuelling AI-related trading; the Nasdaq rose 1.6 per cent and Nvidia rebounded by 2.9 per cent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%B7%AF%E9%80%8F%EF%BC%9A%E7%BE%8E%E5%9B%BD%E5%AE%9E%E4%BD%93%E6%B8%85%E5%8D%95%E4%B8%8A%E7%9A%84%E8%A5%BF%E5%8C%97%E5%B7%A5%E4%B8%9A%E5%A4%A7%E5%AD%A6%E7%BB%8F%E5%9B%BD%E5%86%85%E4%BE%9B%E5%BA%94%E5%95%86%E4%B9%B0%E5%88%B0%E8%8B%B1%E4%BC%9F%E8%BE%BEH200"><span class="nav-text">2. Reuters: Northwestern Polytechnical University, which is on the US Entity List, has acquired NVIDIA H200 chips through domestic suppliers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%A4%AE%E8%A1%8C%E4%B8%89%E5%AD%A3%E5%BA%A6%E8%B4%A7%E5%B8%81%E6%94%BF%E7%AD%96%E6%89%A7%E8%A1%8C%E6%8A%A5%E5%91%8A%EF%BC%9A%E5%8A%A0%E5%A4%A7%E9%80%86%E5%91%A8%E6%9C%9F%E8%B0%83%E8%8A%82%EF%BC%8C%E6%8E%A8%E5%8A%A8%E8%B4%B7%E6%AC%BE%E5%AE%9A%E4%BB%B7%E5%9F%BA%E5%87%86%E5%A4%9A%E5%85%83%E5%8C%96"><span class="nav-text">3. The People’s Bank of China’s Third-Quarter Monetary Policy Implementation Report: Strengthening counter-cyclical adjustments and promoting diversification of loan pricing benchmarks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E4%BC%8A%E6%9C%97%E7%A7%B0%E8%B0%88%E5%88%A4%E8%AF%B4%E6%B3%95%E6%98%AF%E2%80%9C%E8%B0%8E%E8%A8%80%E2%80%9D%E3%80%81%E9%9C%8D%E5%B0%94%E6%9C%A8%E5%85%B9%E7%BB%A7%E7%BB%AD%E5%85%B3%E9%97%AD%EF%BC%8C11%E6%9C%88%E6%B5%B7%E5%B3%A1%E8%88%B9%E5%8F%AA%E9%81%87%E8%A2%AD%E5%88%9B%E6%96%B0%E9%AB%98"><span class="nav-text">4. Iran calls claims of negotiations ‘lies’; the Strait of Hormuz remains closed, with attacks on vessels in the strait reaching a record high in November</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E4%BC%97%E8%AE%AE%E9%99%A2%E4%BB%A5211%E7%A5%A8%E5%AF%B9204%E7%A5%A8%E6%90%81%E7%BD%AE%E8%B5%AB%E6%A0%BC%E5%A1%9E%E6%80%9D%E5%BC%B9%E5%8A%BE%E6%A1%88%EF%BC%8C%E6%B0%91%E4%B8%BB%E5%85%9A1%E6%9C%88%E6%8E%A5%E6%89%8B%E5%90%8E%E6%88%96%E5%86%8D%E8%BF%BD%E6%9F%A5"><span class="nav-text">5. The House of Representatives shelved the Hegeseth impeachment case by 211 votes to 204; the Democrats may reopen the investigation after taking office in January</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%82%E5%9C%BA%E5%85%B3%E8%81%94%E4%B8%8E%E4%BB%8A%E6%97%A5%E8%A7%82%E5%AF%9F"><span class="nav-text">Market Correlation and Today's Observation</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">Write down your real experiences while retaining the edges of your viewpoints.</div><div class="customize-info my-1 aden-status-hint">Something not working? Check service status at <a href="https://status.adenxie.com.cn/" target="_blank" rel="noopener">status.adenxie.com.cn</a></div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/en/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        114 posts in total
+                    </span>
+                    
+                        <span>
+                            349.9k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js" async=""></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days"></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/scene-loader.js?v=d4c6d7d950ec" defer=""></script>
+                    
+        
+        
+    <div class="aden-font-credit text-sm my-1">Typeface: <a href="https://hyperos.mi.com/font/zh/download/" target="_blank" rel="noopener">MiSans</a></div><div class="aden-license-notice text-sm my-1">Original text &amp; images: <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> · Code: <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE" target="_blank" rel="noopener">GPL-3.0</a> · <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE-CONTENT.md" target="_blank" rel="noopener">Scope &amp; exceptions</a></div></div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container" role="toolbar" aria-label="Quick tools">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center" role="button" tabindex="0" aria-label="Larger text">
+			<i class="fa-regular fa-magnifying-glass-plus" aria-hidden="true"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center" role="button" tabindex="0" aria-label="Smaller text">
+			<i class="fa-regular fa-magnifying-glass-minus" aria-hidden="true"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center" role="button" tabindex="0" aria-label="Toggle dark mode">
+			<i class="fa-regular fa-moon" aria-hidden="true"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center" role="button" tabindex="0" aria-label="Go to bottom">
+			<i class="fa-regular fa-arrow-down" aria-hidden="true"></i>
+		</li>
+	<li class="right-bottom-tools aden-dock-music" role="button" tabindex="0" aria-pressed="false" aria-label="Play music"><i class="fa-solid fa-play" aria-hidden="true"></i></li></ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center" role="button" tabindex="0" aria-label="More settings" aria-expanded="false" aria-haspopup="true">
+			<i class="fa-regular fa-cog " aria-hidden="true"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center" role="button" tabindex="0" aria-label="Back to top">
+			<i class="arrow-up fas fa-arrow-up" aria-hidden="true"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	<form id="aden-ask" class="aden-ask" novalidate="" aria-label="Ask AI" data-script="/js/chat.js?v=decea45cccf0" data-style="/css/chat.css?v=4a911c13bc63">
+  <span class="aden-ask-mark" aria-hidden="true">✳</span>
+  <label class="aden-sr-only" for="aden-ask-input">Ask AI</label>
+  <input id="aden-ask-input" class="aden-ask-input" type="text" maxlength="4000" autocomplete="off" enterkeyhint="send" placeholder="Ask AI…">
+  <span class="aden-ask-thinking" role="status" hidden=""><span class="aden-ask-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="aden-ask-thinking-label"></span></span>
+  <button type="submit" class="aden-ask-send" aria-label="Send" disabled=""><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></button>
+  <button type="button" class="aden-ask-stop" aria-label="Stop" hidden=""><i class="fa-solid fa-stop" aria-hidden="true"></i></button>
+</form><button type="button" class="aden-ask-open" aria-controls="aden-ask" aria-expanded="false"><span aria-hidden="true">✳</span><span>Ask AI</span></button><button type="button" class="aden-dock-toc" aria-haspopup="dialog" aria-expanded="false" aria-label="Contents"><i class="fa-solid fa-list-ul" aria-hidden="true"></i></button><button type="button" class="aden-dock-menu" aria-controls="navbar-drawer" aria-expanded="false" aria-label="Menu"><span class="aden-dock-bars" aria-hidden="true"></span></button></div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="Image viewer">
+	<button class="image-viewer-close" type="button" aria-label="Close">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="Prev">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="" decoding="async">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="Close">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="Next">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay" inert="">
+	<div class="popup search-popup" id="aden-search-dialog" role="dialog" aria-modal="true" aria-labelledby="aden-search-title">
+		<div class="aden-search-heading"><h2 id="aden-search-title">Search the blog</h2><button type="button" class="popup-btn-close" aria-label="Close search"><i class="fa-solid fa-times" aria-hidden="true"></i></button></div><div class="search-header">
+			<i class="fa-solid fa-magnifying-glass aden-search-icon" aria-hidden="true"></i>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Search titles and text" spellcheck="false" type="search" class="search-input" aria-label="Search the blog">
+			</div>
+			
+		<button type="button" class="search-input-field-pre" hidden="" aria-label="Clear search"><i class="fa-solid fa-times" aria-hidden="true"></i></button></div>
+		<div id="search-result">
+			<div id="no-result" role="status">Search article titles and text.</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js?v=509b91971bf2"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js?v=969d65618587"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js?v=193270b6fdb0"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js?v=647d2af612df"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js?v=c9d014a814b8"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js?v=792db0224d6b"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js?v=3691d7f361f1" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js?v=03c1e188b884"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css?v=77a3a9d5a3d0">
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js?v=e98ec22436a5"></script>
+
+
+<script src="/js/build/plugins/aplayer.js?v=d6d3c64af35f"></script>
+
+
+	
+
+
+</body></html>

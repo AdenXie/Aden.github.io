@@ -1,0 +1,1255 @@
+<!DOCTYPE html><html lang="zh-CN"><head><script src="/js/language-preference.js?v=29a144036da1" data-english-home="/en/"></script><script src="/js/site-runtime.js?v=0416a8e408fa" defer=""></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/2026/11/02/2026-11-02-daily-brief/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="每日简报｜2026-11-02：三部门今日开会研究稳市工具，韩国10月出口激增93.7%创纪录，苹果在华接入千问，OPEC+维持12月产量">
+<meta property="og:url" content="https://blog.adenxie.com.cn/2026/11/02/2026-11-02-daily-brief/index.html">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-11-02T01:00:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="新闻">
+<meta property="article:tag" content="市场观察">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png?v=fa6db12e9674" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <!--- Page Info-->
+    
+    <title>
+        
+            每日简报｜2026-11-02：三部门今日开会研究稳市工具，韩国10月出口激增93.7%创纪录，苹果在华接入千问，OPEC+维持12月产量 | Aden's Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/css/site-b1cdd4560954.css?v=b1cdd4560954">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js?v=258b1afa4680"></script>
+                
+    
+            
+                
+                    
+                
+    
+
+    
+
+
+
+    
+        
+
+
+    
+
+
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"zh-CN","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"18px","line_height":1.8,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["科技、体验与个人判断","写下真实体验，也保留观点的棱角"],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie","name":"GitHub"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847","name":"YouTube"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie","name":"X"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"每日简报":{"path":"/daily/","icon":"fa-regular fa-newspaper"},"归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"分类":{"path":"/categories/","icon":"fa-regular fa-folder"},"标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"世界时间":{"path":"/world-time/","icon":"fa-regular fa-clock"},"关于":{"path":"/about/","icon":"fa-regular fa-user"},"友链":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":false,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.i18n = {"search":"站内搜索您需要的内容...","toc":"目录","prev":"上一页","next":"下一页","prev_posts":"上一篇","next_posts":"下一篇","page":"第 %d 页","recent_posts":"最新文章","share":"分享","powered_by":"由 %s 驱动","theme":"主题","rss_feed":"RSS Feed","category":"分类","categories":"分类","tag":"标签","tags":"标签","post":"文章","posts":"文章","tagcloud":"标签云","comment":"评论","comments":"评论","top":"置顶","sticky":"置顶","go-back-home":"回到首页","masonry_loading":"照片加载中...","image_viewer":"图片查看器","close":"关闭","exif":{"title":"EXIF","cards":{"camera":"相机","lens":"镜头","exposure":"曝光","other":"其他"},"fields":{"make":"品牌","model":"机型","date_taken":"拍摄时间","lens_model":"镜头","focal_length":"焦距","focus_mode":"对焦模式","shutter":"快门","aperture":"光圈","iso":"感光度","exposure_program":"曝光程序","exposure_compensation":"曝光补偿","metering_mode":"测光模式","flash":"闪光灯","white_balance":"白平衡","latitude":"纬度","longitude":"经度","altitude":"海拔"},"status":{"loading":"加载中...","no_exif":"无 EXIF 信息","library_missing":"EXIF 库未加载","image_source_missing":"图片地址不可用","unavailable":"EXIF 不可用（可能被 CORS 阻止或缺少元数据）","flag_unavailable":"EXIF 不可用"}},"home":"首页","archive":"归档","archives":"归档","about":"关于","links":"链接","link":"链接","friends":"友情链接","friend":"友情链接","timeline":"时间轴","shuoshuo":"说说","bookmarks":"书签","site_uv":"访问人数","site_pv":"总访问量","read_more":"阅读全文","wordcount":"字","min2read":"分钟","changelog":"更新日志","status":"状态","runtime":"博客已运行","days":"天","hours":"小时","minutes":"分钟","seconds":"秒","optimized_by":"并由 Evan 进行优化","rights":"版权所有","site_posts":"共撰写了 %s 篇文章","site_wordcount":"共 %s 字","copyright":{"title":"标题","author":"作者","link":"链接","create_time":"创建于","update_time":"更新于","license_title":"版权声明","license_content":"本文章采用 %s 进行许可。","all_rights_reserved":"版权所有 &#169 %s，禁止转载。","public_domain":"本文为公有领域作品，可自由转载、引用。"},"ago":{"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"},"create_time":"创建","update_time":"更新","expired":"这篇文章最后更新于 %s 天前，内容可能已经过时。"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" hreflang="zh-CN" href="https://blog.adenxie.com.cn/2026/11/02/2026-11-02-daily-brief/"><link rel="alternate" hreflang="en" href="https://blog.adenxie.com.cn/en/2026/11/02/2026-11-02-daily-brief/"><link rel="preconnect" href="https://cdn-file.hyperos.mi.com" crossorigin="" data-aden-font-connect=""><script data-aden-analytics="">
+      if (location.hostname === 'blog.adenxie.com.cn' && !window.__adenAnalyticsLoaded) {
+        window.__adenAnalyticsLoaded = true;
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        const script = document.createElement('script');
+        script.defer = true;
+        script.src = '/_vercel/insights/script.js';
+        document.head.append(script);
+      }
+    </script></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/daily/">
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    每日简报
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    归档
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/categories/">
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    分类
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    标签
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    世界时间
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    友链
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search">
+                            <button type="button" class="search-popup-trigger" aria-label="搜索" aria-haspopup="dialog" aria-controls="aden-search-dialog" aria-expanded="false"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <button type="button" class="icon-item search search-popup-trigger" aria-label="搜索" aria-haspopup="dialog" aria-controls="aden-search-dialog" aria-expanded="false"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                
+                <button type="button" class="icon-item navbar-bar" aria-label="菜单" aria-controls="navbar-drawer" aria-expanded="false"><span class="navbar-bar-middle"></span></button>
+            </div>
+        </div>
+    <nav class="aden-language-switch" aria-label="Language"><a lang="zh-CN" href="/2026/11/02/2026-11-02-daily-brief/" aria-current="page">中文</a><span> / </span><a lang="en" href="/en/2026/11/02/2026-11-02-daily-brief/" aria-current="false" data-no-swup="">English</a></nav></div>
+
+    <!-- Mobile sheet -->
+    <div id="navbar-drawer" class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/">
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/daily/">
+                            <span>
+                                每日简报
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/archives/">
+                            <span>
+                                归档
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/categories/">
+                            <span>
+                                分类
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/tags/">
+                            <span>
+                                标签
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/world-time/">
+                            <span>
+                                世界时间
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/about/">
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/link/">
+                            <span>
+                                友链
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">76</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">114</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://images.unsplash.com/photo-1587845323226-bad89242c735?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="每日简报｜2026-11-02：三部门今日开会研究稳市工具，韩国10月出口激增93.7%创纪录，苹果在华接入千问，OPEC+维持12月产量" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" decoding="async">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">每日简报｜2026-11-02：三部门今日开会研究稳市工具，韩国10月出口激增93.7%创纪录，苹果在华接入千问，OPEC+维持12月产量</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg?v=93ba7ebfa2ff" decoding="async" width="460" height="460">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-11-02 09:00</span>
+        <span class="mobile">2026-11-02 09:00</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/daily/">每日简报</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E6%96%B0%E9%97%BB/">新闻</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/">市场观察</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>3.6k 字</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>12 分钟</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h2 id="今日主线"><a href="#今日主线" class="headerlink" title="今日主线"></a>今日主线</h2><p>本期覆盖10月31日至11月1日的周末消息。A股在10月大跌之后，监管层在周末释放了稳市信号：据多家媒体报道，央行、金融监管总局和证监会今天（11月2日）将分别召集券商、基金和各大银行开会，研究推动支持资本市场工具的使用、优化股票回购增持再贷款。外部数据则显示AI需求还在往上走：韩国10月出口达到创纪录的1153亿美元，同比增长93.7%，芯片出口增长259%，和上周美股对AI投入“烧钱太快”的担忧形成对照。科技方面，阿里巴巴宣布千问大模型将接入中国区的苹果智能，这是全球头部消费电子厂商首次在中国用本土大模型做系统级AI底座。能源方面，OPEC+七个核心成员国决定12月产量目标不变，把难题留给11月29日决定2027年配额的部长级会议。国际政治方面，二十国集团外长会没有发表联合声明，美方称黑海有限停火获得更多关注；伊朗与卡塔尔调停人的谈判进入第三天，明天就是美国中期选举日。</p>
+<span id="more"></span>
+
+<h2 id="重点新闻"><a href="#重点新闻" class="headerlink" title="重点新闻"></a>重点新闻</h2><h3 id="1-三部门11月2日开会，研究优化股票回购增持再贷款、推动稳市工具使用"><a href="#1-三部门11月2日开会，研究优化股票回购增持再贷款、推动稳市工具使用" class="headerlink" title="1. 三部门11月2日开会，研究优化股票回购增持再贷款、推动稳市工具使用"></a>1. 三部门11月2日开会，研究优化股票回购增持再贷款、推动稳市工具使用</h3><p>据澎湃新闻、星岛环球网等多家媒体11月1日报道，中国人民银行和中国证监会将于11月2日上午召开会议，研究推动支持资本市场工具的使用，部分证券公司和基金公司已接到通知；同日，人民银行、金融监管总局和证监会还将召集各大银行在央行开会，研究优化股票回购增持再贷款政策。会议具体内容尚未公布。</p>
+<p>这两项工具都是2024年9月24日由央行行长潘功胜宣布设立的：一项是面向证券、基金、保险公司的互换便利，另一项是股票回购增持专项再贷款。据星岛环球网梳理，再贷款首期额度3000亿元，年利率1.75%；此后贷款期限延长到3年，自有资金出资比例从30%降到10%，国有资本运营平台也被纳入适用主体；2025年5月两项工具额度合并，总额提高到8000亿元。据Wind统计，今年前10个月有300多家A股公司披露了“增持回购贷”相关公告，按贷款上限计算累计约781亿元，其中海尔智家专项贷款50亿元，京东方A两笔合计59亿元。</p>
+<p>开会的时间点值得注意。10月A股持续下跌，沪指10月30日收于3599.02点，跌破3600点；10月全月科创综指和创业板指跌幅都超过20%，深证成指跌15.94%，沪指跌6.33%。加上10月官方制造业PMI跌回49.3%，市场对稳市和稳增长政策的期待明显升温。南开大学金融发展研究院院长田利辉认为，这类工具能提供增量流动性、降低上市公司和大股东的资金成本，也表明监管层支持资本市场稳定的态度。</p>
+<p>后续看点：会后是否公布扩大额度、降低利率或放宽使用条件等具体措施，互换便利是否加大操作，以及本周A股科技板块能否止跌。央行同日起把隔夜逆回购作为主要公开市场操作工具，新框架下首周的资金利率也值得关注。</p>
+<p>来源：<a class="link" target="_blank" rel="noopener" href="https://www.thepaper.cn/newsDetail_forward_34382527">澎湃新闻<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://m.stnn.cc/detail/6ae718928f9d2b19dd1749e4.html">星岛环球网<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.dzwww.com/news/yw/202611/t20261101_18260437.htm">大众网<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="2-韩国10月出口1153亿美元创纪录，同比增长93-7-，芯片出口增长259"><a href="#2-韩国10月出口1153亿美元创纪录，同比增长93-7-，芯片出口增长259" class="headerlink" title="2. 韩国10月出口1153亿美元创纪录，同比增长93.7%，芯片出口增长259%"></a>2. 韩国10月出口1153亿美元创纪录，同比增长93.7%，芯片出口增长259%</h3><p>韩国产业通商部11月1日公布，10月出口额为1153亿美元，创单月纪录，同比增长93.7%；进口727.8亿美元，增长36%；贸易顺差425亿美元。据《韩国时报》，1至10月累计出口首次超过9000亿美元，产业部预计全年出口最早可能在11月突破1万亿美元。</p>
+<p>增长主要来自半导体。10月芯片出口564亿美元，同比增长259%，产业部把原因归结为全球芯片需求强劲和科技公司持续投资AI基础设施。其他品类也在增长：石油产品出口69.2亿美元，增长80%，与高油价有关；汽车出口65.5亿美元，增长18.1%；化妆品出口14.4亿美元，增长57.5%。分市场看，对中国出口269.8亿美元，增长133.6%，已连续五个月超过200亿美元；对美国出口249亿美元，增长185.8%，主要是芯片、计算机和用于AI基础设施的电气设备；对东南亚出口213.3亿美元，增长128%；对欧盟出口81亿美元，增长56.4%。</p>
+<p>韩国出口常被看作全球需求的“前哨”。这组数据说明，尽管美股在质疑大型科技公司的现金流，AI硬件的实际采购还没有放缓，存储芯片厂商仍在受益。产业部长金正官同时提醒，保护主义、供应链调整和中东局势让贸易环境仍不确定。后续看点：三星电子和SK海力士的股价表现，中国11月上旬公布的10月进出口数据，以及大型科技公司是否下调2027年资本开支。</p>
+<p>来源：<a class="link" target="_blank" rel="noopener" href="https://www.koreatimes.co.kr/amp/economy/20261101/koreas-monthly-exports-hit-1153-bil-in-oct-on-record-chip-sales">韩国时报<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="3-阿里千问将接入中国区苹果智能，12月随iOS-27-3上线"><a href="#3-阿里千问将接入中国区苹果智能，12月随iOS-27-3上线" class="headerlink" title="3. 阿里千问将接入中国区苹果智能，12月随iOS 27.3上线"></a>3. 阿里千问将接入中国区苹果智能，12月随iOS 27.3上线</h3><p>阿里巴巴10月31日宣布与苹果达成合作，千问大模型将接入中国区的苹果智能（Apple Intelligence）。据新华社（CGTN转载），千问将支持Siri、写作工具和视觉智能等功能，为中国用户提供文本和图像理解及内容生成；相关功能11月4日起可在最新的iOS开发者测试版中试用，12月随iOS 27.3正式版向中国用户推送。适用对象是在中国购买支持苹果智能的iPhone的用户，或设备所在地和Apple账户地区都设为中国的用户；用户可以自行选择是否开启、共享哪些信息，阿里巴巴承诺不会用用户的请求和生成内容训练模型。</p>
+<p>监管方面，据报道，国家网信办今年7月已完成包括苹果智能在内的7款手机端生成式AI服务的备案。北京邮电大学人工智能专家王晓杰认为，这是全球头部消费硬件厂商第一次在中国用中国大模型作为主要的系统级AI底座。苹果CEO约翰·特努斯（John Ternus）同日接受TechCrunch采访时说，苹果不会为了AI而推出AI，成功的AI整合应该让用户基本感觉不到它的存在。</p>
+<p>对苹果来说，苹果智能自2024年发布以来一直没有在中国区正式上线，这次合作补上了一块短板。对阿里来说，千问获得了中国区iPhone用户的系统级入口，国内大模型的竞争会从模型能力延伸到终端入口。后续看点：11月4日测试版的实际体验，苹果中国区销售能否因此回升，以及其他手机厂商和大模型公司的合作调整。</p>
+<p>来源：<a class="link" target="_blank" rel="noopener" href="https://news.cgtn.com/news/2026-10-31/Alibaba-s-Qwen-to-integrate-into-Apple-Intelligence-in-landmark-deal-1RHilSeJsbK/p.html">CGTN（新华社）<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://techcrunch.com/2026/10/31/apple-ceo-says-the-company-doesnt-want-to-ship-ai-for-ais-sake/">TechCrunch<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="4-OPEC-维持12月产量目标不变，2027年配额留待11月29日决定"><a href="#4-OPEC-维持12月产量目标不变，2027年配额留待11月29日决定" class="headerlink" title="4. OPEC+维持12月产量目标不变，2027年配额留待11月29日决定"></a>4. OPEC+维持12月产量目标不变，2027年配额留待11月29日决定</h3><p>据路透（GV Wire转载），沙特、俄罗斯、伊拉克、科威特、阿尔及利亚、哈萨克斯坦和阿曼七个OPEC+核心成员国11月1日召开线上会议，决定维持12月产量目标不变，并释放今年内不再调整政策的信号。这七国已在9月完成对2023年每日165万桶减产的分阶段退出，OPEC+另有约每日200万桶的减产覆盖大部分成员，持续到2026年底。阿联酋已在5月退出OPEC，不再参与这一决定。</p>
+<p>背景是伊朗战争对海湾出口的冲击。海湾成员国正在努力恢复受阻数月的出口，但多数国家的实际产量仍远低于配额。在设定2027年基准产量之前，OPEC+需要在四季度完成一次产能评估，由于战争打乱了扩产项目，评估预计要到11月中旬才能完成。21个成员国的全体部长级会议将在11月29日举行，预计决定2027年的产量框架和配额。</p>
+<p>油价仍在高位。据路透，布伦特原油10月30日上涨超过2%，收于接近118美元，是4月以来最高，交易员在为美国中期选举后伊朗战事可能升级做准备。另一方面，国际能源署等机构警告，如果海湾供应恢复正常，2027年可能出现供应过剩。Rystad分析师豪尔赫·莱昂说，这次决定是“容易的那个”，OPEC+在2027年面临一个“极其困难的决定”。后续看点：周一开盘后的油价反应，11月中旬的产能评估结果，以及霍尔木兹海峡航运能否恢复。</p>
+<p>来源：<a class="link" target="_blank" rel="noopener" href="https://gvwire.com/2026/11/01/opec-keeps-december-oil-output-targets-steady-ahead-of-tougher-call-for-2027/">路透（GV Wire转载）<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="5-二十国集团外长会无联合声明，鲁比奥称黑海有限停火获更多关注"><a href="#5-二十国集团外长会无联合声明，鲁比奥称黑海有限停火获更多关注" class="headerlink" title="5. 二十国集团外长会无联合声明，鲁比奥称黑海有限停火获更多关注"></a>5. 二十国集团外长会无联合声明，鲁比奥称黑海有限停火获更多关注</h3><p>二十国集团外长会10月31日在美国亚特兰大结束，为期两天的会议没有发表联合声明。据路透（GV Wire转载），美国国务卿鲁比奥会后表示，国际上对黑海有限停火的兴趣在增加，这一安排将允许俄罗斯和乌克兰运输能源和粮食；美方正在研究土耳其和印度提出的恢复粮食运输方案，但仍以通过谈判全面结束战争为优先。他说这“解决不了战争，但至少解决了其中一个特殊方面”，并警告战争威胁粮食和能源安全，还可能外溢。</p>
+<p>俄罗斯外长拉夫罗夫出席了会议，欧洲和加拿大方面对此表示反对，乌克兰外长没有受邀。加拿大外长阿南德说，她已与乌克兰和印度外长讨论黑海有限停火，以及暂停袭击乌克兰电力设施；印度和埃及的船只和船员都受到影响，希望获得安全通道。阿南德称乌克兰愿意参与，但俄方没有表现出推进的意愿；拉夫罗夫则表示莫斯科的立场没有变化。鲁比奥还与拉夫罗夫简短讨论了特朗普和普京可能在下月亚太经合组织会议以及12月迈阿密二十国集团峰会上会面，但他说普京是否出席峰会还没有确定。</p>
+<p>中东方面，据路透，伊朗谈判代表11月1日在多哈与卡塔尔调停人进行第三天会谈，目前没有公布结果。伊朗最高领袖穆杰塔巴·哈梅内伊10月31日要求军队对任何攻击作出“没有地理限制”的回应；伊朗最高国家安全委员会负责人雷扎伊称，如果战事重启，德黑兰正在讨论是否取消长期以来不发展核武器的禁令，但尚未作出决定。特朗普此前表示中期选举前不会发动新的打击，但没有排除选后采取行动。后续看点：黑海停火方案能否取得实质进展，11月3日中期选举后美国对伊朗的决定，以及多哈谈判的结果。</p>
+<p>来源：<a class="link" target="_blank" rel="noopener" href="https://gvwire.com/2026/11/01/us-canada-see-growing-interest-in-limited-ceasefire-in-black-sea/">路透（GV Wire转载）<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.arabnews.com/middle-east/iranian-envoys-meet-qatari-mediators-as-threat-looms-of-us-strikes-after-midterms-3009168">阿拉伯新闻（路透）<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h2 id="市场关联与今日观察"><a href="#市场关联与今日观察" class="headerlink" title="市场关联与今日观察"></a>市场关联与今日观察</h2><p>周末加密市场有一条进展：据CoinDesk，币安11月1日开始分阶段恢复提现，第一阶段覆盖比特币、以太坊、USDT、USDC、BNB和XRP，以及另外15条区块链上的提现；币安称已用公司资金补足约95%的受影响资产，高于前一天的90%，剩余5%是前十以外、流动性较差的代币；约30亿美元被冻结，主要是USDT和USDC。据CoinDesk页面行情，比特币在77,900美元附近，以太坊在2,260美元附近，市场没有出现新的恐慌性抛售。</p>
+<p>几条新闻放在一起看：本周开局的几个变量方向并不一致。国内方面，三部门开会是A股最直接的变量，如果会议推出扩容或降成本的措施，10月被大幅抛售的科技成长股可能率先反弹；但PMI显示需求偏弱，政策能否带来持续的增量资金还要看细则。海外方面，韩国出口说明AI硬件需求仍然很强，这对存储芯片和A股算力产业链是支撑，也让“AI泡沫”的讨论更多集中在下游公司的回报上，而不是需求本身。苹果接入千问对阿里和国内AI应用链是利好。油价方面，OPEC+不加产、选后对伊朗动武的风险都在，布伦特原油大概率维持高位，继续给美联储和其他央行的加息预期加码。明天（11月3日）美国中期选举和澳储行议息同日，澳储行市场普遍预期加息25个基点至4.85%。</p>
+<p>观察清单：</p>
+<ul>
+<li>11月2日三部门会议结果，以及A股科技板块能否止跌</li>
+<li>中国10月RatingDog制造业PMI（预计本周初公布）和新框架下隔夜逆回购利率</li>
+<li>澳储行11月3日议息结果，以及澳元对美元和人民币的反应</li>
+<li>美国11月3日中期选举结果，以及选后对伊朗的军事决定</li>
+<li>多哈谈判进展、布伦特原油能否站上120美元</li>
+<li>三星电子、SK海力士股价和苹果中国区AI功能测试情况</li>
+</ul>
+<p>来源：<a class="link" target="_blank" rel="noopener" href="https://www.coindesk.com/markets/2026/11/01/binance-opens-crypto-withdrawals-in-phases-starting-with-bitcoin-following-usd6-3-billion-hack">CoinDesk<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<p>封面图片：<a class="link" target="_blank" rel="noopener" href="https://unsplash.com/photos/pink-green-and-blue-square-pattern-qOx9KsvpqcM">Laura Ockel / Unsplash<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题：</strong> 每日简报｜2026-11-02：三部门今日开会研究稳市工具，韩国10月出口激增93.7%创纪录，苹果在华接入千问，OPEC+维持12月产量</li>
+        <li><strong>作者：</strong> AdenXie</li>
+        <li><strong>创建于：</strong> 2026-11-02 09:00:00</li>
+        
+        <li>
+            <strong>链接：</strong> https://blog.adenxie.com.cn/2026/11/02/2026-11-02-daily-brief/
+        </li>
+        <li data-aden-content-license=""><strong>版权声明：</strong> 除另有标注外，AdenXie 的原创文字与原创图片采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a>，原创代码采用 <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE" target="_blank" rel="noopener">GPL-3.0</a>。引用及第三方素材保留原有权利与许可。<a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE-CONTENT.md" target="_blank" rel="noopener">范围与例外</a>。</li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E6%96%B0%E9%97%BB/">#新闻</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/">#市场观察</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/11/03/2026-11-03-daily-brief/" title="每日简报｜2026-11-03：回购增持再贷款转为长期安排、利率降至1%，A股收复3600点，油价单日跌逾7%，苹果营收创纪录，迈威尔1150亿美元收购Lumentum" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1767187571489-e2499f056f74?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="每日简报｜2026-11-03：回购增持再贷款转为长期安排、利率降至1%，A股收复3600点，油价单日跌逾7%，苹果营收创纪录，迈威尔1150亿美元收购Lumentum" class="!max-w-none" decoding="async">
+  <span class="title">每日简报｜2026-11-03：回购增持再贷款转为长期安排、利率降至1%，A股收复3600点，油价单日跌逾7%，苹果营收创纪录，迈威尔1150亿美元收购Lumentum</span>
+</a><a class="recommended-article-item" href="/2026/11/04/2026-11-04-daily-brief/" title="每日简报｜2026-11-04：澳储行6比3加息至4.85%，千亿互换便利落地但A股光模块重挫，苹果毛利率指引下滑，AMD季度营收创纪录，美军空袭格什姆岛" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1728042153273-8f9eefe78590?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="每日简报｜2026-11-04：澳储行6比3加息至4.85%，千亿互换便利落地但A股光模块重挫，苹果毛利率指引下滑，AMD季度营收创纪录，美军空袭格什姆岛" class="!max-w-none" decoding="async">
+  <span class="title">每日简报｜2026-11-04：澳储行6比3加息至4.85%，千亿互换便利落地但A股光模块重挫，苹果毛利率指引下滑，AMD季度营收创纪录，美军空袭格什姆岛</span>
+</a><a class="recommended-article-item" href="/2026/11/01/2026-11-01-daily-brief/" title="每日简报｜2026-11-01：中国10月制造业PMI跌回49.3，OpenAI下调融资目标、Meta遭标普负面展望，伊朗代表团赴多哈，澳储行周二料加息" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1647427060118-4911c9821b82?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="每日简报｜2026-11-01：中国10月制造业PMI跌回49.3，OpenAI下调融资目标、Meta遭标普负面展望，伊朗代表团赴多哈，澳储行周二料加息" class="!max-w-none" decoding="async">
+  <span class="title">每日简报｜2026-11-01：中国10月制造业PMI跌回49.3，OpenAI下调融资目标、Meta遭标普负面展望，伊朗代表团赴多哈，澳储行周二料加息</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/11/03/2026-11-03-daily-brief/" title="每日简报｜2026-11-03：回购增持再贷款转为长期安排、利率降至1%，A股收复3600点，油价单日跌逾7%，苹果营收创纪录，迈威尔1150亿美元收购Lumentum" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1767187571489-e2499f056f74?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="每日简报｜2026-11-03：回购增持再贷款转为长期安排、利率降至1%，A股收复3600点，油价单日跌逾7%，苹果营收创纪录，迈威尔1150亿美元收购Lumentum" class="!max-w-none" decoding="async">
+  <span class="title">每日简报｜2026-11-03：回购增持再贷款转为长期安排、利率降至1%，A股收复3600点，油价单日跌逾7%，苹果营收创纪录，迈威尔1150亿美元收购Lumentum</span>
+</a><a class="recommended-article-item" href="/2026/11/04/2026-11-04-daily-brief/" title="每日简报｜2026-11-04：澳储行6比3加息至4.85%，千亿互换便利落地但A股光模块重挫，苹果毛利率指引下滑，AMD季度营收创纪录，美军空袭格什姆岛" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1728042153273-8f9eefe78590?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="每日简报｜2026-11-04：澳储行6比3加息至4.85%，千亿互换便利落地但A股光模块重挫，苹果毛利率指引下滑，AMD季度营收创纪录，美军空袭格什姆岛" class="!max-w-none" decoding="async">
+  <span class="title">每日简报｜2026-11-04：澳储行6比3加息至4.85%，千亿互换便利落地但A股光模块重挫，苹果毛利率指引下滑，AMD季度营收创纪录，美军空袭格什姆岛</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2026/11/03/2026-11-03-daily-brief/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">每日简报｜2026-11-03：回购增持再贷款转为长期安排、利率降至1%，A股收复3600点，油价单日跌逾7%，苹果营收创纪录，迈威尔1150亿美元收购Lumentum</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/11/01/2026-11-01-daily-brief/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">每日简报｜2026-11-01：中国10月制造业PMI跌回49.3，OpenAI下调融资目标、Meta遭标普负面展望，伊朗代表团赴多哈，澳储行周二料加息</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">每日简报｜2026-11-02：三部门今日开会研究稳市工具，韩国10月出口激增93.7%创纪录，苹果在华接入千问，OPEC+维持12月产量</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8A%E6%97%A5%E4%B8%BB%E7%BA%BF"><span class="nav-text">今日主线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E7%82%B9%E6%96%B0%E9%97%BB"><span class="nav-text">重点新闻</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%B8%89%E9%83%A8%E9%97%A811%E6%9C%882%E6%97%A5%E5%BC%80%E4%BC%9A%EF%BC%8C%E7%A0%94%E7%A9%B6%E4%BC%98%E5%8C%96%E8%82%A1%E7%A5%A8%E5%9B%9E%E8%B4%AD%E5%A2%9E%E6%8C%81%E5%86%8D%E8%B4%B7%E6%AC%BE%E3%80%81%E6%8E%A8%E5%8A%A8%E7%A8%B3%E5%B8%82%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8"><span class="nav-text">1. 三部门11月2日开会，研究优化股票回购增持再贷款、推动稳市工具使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E9%9F%A9%E5%9B%BD10%E6%9C%88%E5%87%BA%E5%8F%A31153%E4%BA%BF%E7%BE%8E%E5%85%83%E5%88%9B%E7%BA%AA%E5%BD%95%EF%BC%8C%E5%90%8C%E6%AF%94%E5%A2%9E%E9%95%BF93-7-%EF%BC%8C%E8%8A%AF%E7%89%87%E5%87%BA%E5%8F%A3%E5%A2%9E%E9%95%BF259"><span class="nav-text">2. 韩国10月出口1153亿美元创纪录，同比增长93.7%，芯片出口增长259%</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E9%98%BF%E9%87%8C%E5%8D%83%E9%97%AE%E5%B0%86%E6%8E%A5%E5%85%A5%E4%B8%AD%E5%9B%BD%E5%8C%BA%E8%8B%B9%E6%9E%9C%E6%99%BA%E8%83%BD%EF%BC%8C12%E6%9C%88%E9%9A%8FiOS-27-3%E4%B8%8A%E7%BA%BF"><span class="nav-text">3. 阿里千问将接入中国区苹果智能，12月随iOS 27.3上线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-OPEC-%E7%BB%B4%E6%8C%8112%E6%9C%88%E4%BA%A7%E9%87%8F%E7%9B%AE%E6%A0%87%E4%B8%8D%E5%8F%98%EF%BC%8C2027%E5%B9%B4%E9%85%8D%E9%A2%9D%E7%95%99%E5%BE%8511%E6%9C%8829%E6%97%A5%E5%86%B3%E5%AE%9A"><span class="nav-text">4. OPEC+维持12月产量目标不变，2027年配额留待11月29日决定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E4%BA%8C%E5%8D%81%E5%9B%BD%E9%9B%86%E5%9B%A2%E5%A4%96%E9%95%BF%E4%BC%9A%E6%97%A0%E8%81%94%E5%90%88%E5%A3%B0%E6%98%8E%EF%BC%8C%E9%B2%81%E6%AF%94%E5%A5%A5%E7%A7%B0%E9%BB%91%E6%B5%B7%E6%9C%89%E9%99%90%E5%81%9C%E7%81%AB%E8%8E%B7%E6%9B%B4%E5%A4%9A%E5%85%B3%E6%B3%A8"><span class="nav-text">5. 二十国集团外长会无联合声明，鲁比奥称黑海有限停火获更多关注</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%82%E5%9C%BA%E5%85%B3%E8%81%94%E4%B8%8E%E4%BB%8A%E6%97%A5%E8%A7%82%E5%AF%9F"><span class="nav-text">市场关联与今日观察</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">写下真实体验，也保留观点的棱角。</div><div class="customize-info my-1 aden-status-hint">页面打不开或功能出错？可在 <a href="https://status.adenxie.com.cn/" target="_blank" rel="noopener">status.adenxie.com.cn</a> 查看服务状态</div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 114 篇文章
+                    </span>
+                    
+                        <span>
+                            共 349.9k 字
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js" async=""></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days"></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/scene-loader.js?v=d4c6d7d950ec" defer=""></script>
+                    
+        
+        
+    <div class="aden-font-credit text-sm my-1">字体: <a href="https://hyperos.mi.com/font/zh/download/" target="_blank" rel="noopener">MiSans</a></div><div class="aden-license-notice text-sm my-1">原创文字与图片: <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> · 代码: <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE" target="_blank" rel="noopener">GPL-3.0</a> · <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE-CONTENT.md" target="_blank" rel="noopener">范围与例外</a></div></div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container" role="toolbar" aria-label="快捷工具">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center" role="button" tabindex="0" aria-label="放大字号">
+			<i class="fa-regular fa-magnifying-glass-plus" aria-hidden="true"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center" role="button" tabindex="0" aria-label="缩小字号">
+			<i class="fa-regular fa-magnifying-glass-minus" aria-hidden="true"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center" role="button" tabindex="0" aria-label="切换深浅色">
+			<i class="fa-regular fa-moon" aria-hidden="true"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center" role="button" tabindex="0" aria-label="到页面底部">
+			<i class="fa-regular fa-arrow-down" aria-hidden="true"></i>
+		</li>
+	<li class="right-bottom-tools aden-dock-music" role="button" tabindex="0" aria-pressed="false" aria-label="播放音乐"><i class="fa-solid fa-play" aria-hidden="true"></i></li></ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center" role="button" tabindex="0" aria-label="更多设置" aria-expanded="false" aria-haspopup="true">
+			<i class="fa-regular fa-cog " aria-hidden="true"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center" role="button" tabindex="0" aria-label="回到顶部">
+			<i class="arrow-up fas fa-arrow-up" aria-hidden="true"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	<form id="aden-ask" class="aden-ask" novalidate="" aria-label="问 AI" data-script="/js/chat.js?v=decea45cccf0" data-style="/css/chat.css?v=4a911c13bc63">
+  <span class="aden-ask-mark" aria-hidden="true">✳</span>
+  <label class="aden-sr-only" for="aden-ask-input">问 AI</label>
+  <input id="aden-ask-input" class="aden-ask-input" type="text" maxlength="4000" autocomplete="off" enterkeyhint="send" placeholder="问 AI…">
+  <span class="aden-ask-thinking" role="status" hidden=""><span class="aden-ask-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="aden-ask-thinking-label"></span></span>
+  <button type="submit" class="aden-ask-send" aria-label="发送" disabled=""><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></button>
+  <button type="button" class="aden-ask-stop" aria-label="停止生成" hidden=""><i class="fa-solid fa-stop" aria-hidden="true"></i></button>
+</form><button type="button" class="aden-ask-open" aria-controls="aden-ask" aria-expanded="false"><span aria-hidden="true">✳</span><span>问 AI</span></button><button type="button" class="aden-dock-toc" aria-haspopup="dialog" aria-expanded="false" aria-label="目录"><i class="fa-solid fa-list-ul" aria-hidden="true"></i></button><button type="button" class="aden-dock-menu" aria-controls="navbar-drawer" aria-expanded="false" aria-label="菜单"><span class="aden-dock-bars" aria-hidden="true"></span></button></div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="图片查看器">
+	<button class="image-viewer-close" type="button" aria-label="关闭">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="上一页">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="" decoding="async">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="关闭">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="下一页">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay" inert="">
+	<div class="popup search-popup" id="aden-search-dialog" role="dialog" aria-modal="true" aria-labelledby="aden-search-title">
+		<div class="aden-search-heading"><h2 id="aden-search-title">站内搜索</h2><button type="button" class="popup-btn-close" aria-label="关闭搜索"><i class="fa-solid fa-times" aria-hidden="true"></i></button></div><div class="search-header">
+			<i class="fa-solid fa-magnifying-glass aden-search-icon" aria-hidden="true"></i>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="搜索文章标题和正文" spellcheck="false" type="search" class="search-input" aria-label="站内搜索">
+			</div>
+			
+		<button type="button" class="search-input-field-pre" hidden="" aria-label="清空搜索"><i class="fa-solid fa-times" aria-hidden="true"></i></button></div>
+		<div id="search-result">
+			<div id="no-result" role="status">输入关键词，搜索文章标题和正文。</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js?v=509b91971bf2"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js?v=969d65618587"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js?v=193270b6fdb0"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js?v=647d2af612df"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js?v=c9d014a814b8"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js?v=792db0224d6b"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js?v=3691d7f361f1" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js?v=03c1e188b884"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css?v=77a3a9d5a3d0">
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js?v=e98ec22436a5"></script>
+
+
+<script src="/js/build/plugins/aplayer.js?v=d6d3c64af35f"></script>
+
+
+	
+
+
+</body></html>

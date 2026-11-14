@@ -1,0 +1,1253 @@
+<!DOCTYPE html><html lang="zh-CN"><head><script src="/js/language-preference.js?v=29a144036da1" data-english-home="/en/"></script><script src="/js/site-runtime.js?v=0416a8e408fa" defer=""></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/2026/11/13/2026-11-13-daily-brief/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="每日简报｜2026-11-13：黄仁勋辞任英伟达CEO、CFO克雷斯暂代，10年期美债收益率升破5.1%、美股小幅收跌，特朗普称“不需要与伊朗达成协议”，商务部称中美正推进“300亿对300亿”降税安排">
+<meta property="og:url" content="https://blog.adenxie.com.cn/2026/11/13/2026-11-13-daily-brief/index.html">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-11-13T01:00:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="新闻">
+<meta property="article:tag" content="市场观察">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png?v=fa6db12e9674" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <!--- Page Info-->
+    
+    <title>
+        
+            每日简报｜2026-11-13：黄仁勋辞任英伟达CEO、CFO克雷斯暂代，10年期美债收益率升破5.1%、美股小幅收跌，特朗普称“不需要与伊朗达成协议”，商务部称中美正推进“300亿对300亿”降税安排 | Aden's Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/css/site-b1cdd4560954.css?v=b1cdd4560954">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js?v=258b1afa4680"></script>
+                
+    
+            
+                
+                    
+                
+    
+
+    
+
+
+
+    
+        
+
+
+    
+
+
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"zh-CN","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"18px","line_height":1.8,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["科技、体验与个人判断","写下真实体验，也保留观点的棱角"],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie","name":"GitHub"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847","name":"YouTube"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie","name":"X"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"每日简报":{"path":"/daily/","icon":"fa-regular fa-newspaper"},"归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"分类":{"path":"/categories/","icon":"fa-regular fa-folder"},"标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"世界时间":{"path":"/world-time/","icon":"fa-regular fa-clock"},"关于":{"path":"/about/","icon":"fa-regular fa-user"},"友链":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":false,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"};
+    window.i18n = {"search":"站内搜索您需要的内容...","toc":"目录","prev":"上一页","next":"下一页","prev_posts":"上一篇","next_posts":"下一篇","page":"第 %d 页","recent_posts":"最新文章","share":"分享","powered_by":"由 %s 驱动","theme":"主题","rss_feed":"RSS Feed","category":"分类","categories":"分类","tag":"标签","tags":"标签","post":"文章","posts":"文章","tagcloud":"标签云","comment":"评论","comments":"评论","top":"置顶","sticky":"置顶","go-back-home":"回到首页","masonry_loading":"照片加载中...","image_viewer":"图片查看器","close":"关闭","exif":{"title":"EXIF","cards":{"camera":"相机","lens":"镜头","exposure":"曝光","other":"其他"},"fields":{"make":"品牌","model":"机型","date_taken":"拍摄时间","lens_model":"镜头","focal_length":"焦距","focus_mode":"对焦模式","shutter":"快门","aperture":"光圈","iso":"感光度","exposure_program":"曝光程序","exposure_compensation":"曝光补偿","metering_mode":"测光模式","flash":"闪光灯","white_balance":"白平衡","latitude":"纬度","longitude":"经度","altitude":"海拔"},"status":{"loading":"加载中...","no_exif":"无 EXIF 信息","library_missing":"EXIF 库未加载","image_source_missing":"图片地址不可用","unavailable":"EXIF 不可用（可能被 CORS 阻止或缺少元数据）","flag_unavailable":"EXIF 不可用"}},"home":"首页","archive":"归档","archives":"归档","about":"关于","links":"链接","link":"链接","friends":"友情链接","friend":"友情链接","timeline":"时间轴","shuoshuo":"说说","bookmarks":"书签","site_uv":"访问人数","site_pv":"总访问量","read_more":"阅读全文","wordcount":"字","min2read":"分钟","changelog":"更新日志","status":"状态","runtime":"博客已运行","days":"天","hours":"小时","minutes":"分钟","seconds":"秒","optimized_by":"并由 Evan 进行优化","rights":"版权所有","site_posts":"共撰写了 %s 篇文章","site_wordcount":"共 %s 字","copyright":{"title":"标题","author":"作者","link":"链接","create_time":"创建于","update_time":"更新于","license_title":"版权声明","license_content":"本文章采用 %s 进行许可。","all_rights_reserved":"版权所有 &#169 %s，禁止转载。","public_domain":"本文为公有领域作品，可自由转载、引用。"},"ago":{"second":"%s 秒前","minute":"%s 分钟前","hour":"%s 小时前","day":"%s 天前","week":"%s 周前","month":"%s 个月前","year":"%s 年前"},"create_time":"创建","update_time":"更新","expired":"这篇文章最后更新于 %s 天前，内容可能已经过时。"};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" hreflang="zh-CN" href="https://blog.adenxie.com.cn/2026/11/13/2026-11-13-daily-brief/"><link rel="alternate" hreflang="en" href="https://blog.adenxie.com.cn/en/2026/11/13/2026-11-13-daily-brief/"><link rel="preconnect" href="https://cdn-file.hyperos.mi.com" crossorigin="" data-aden-font-connect=""><script data-aden-analytics="">
+      if (location.hostname === 'blog.adenxie.com.cn' && !window.__adenAnalyticsLoaded) {
+        window.__adenAnalyticsLoaded = true;
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        const script = document.createElement('script');
+        script.defer = true;
+        script.src = '/_vercel/insights/script.js';
+        document.head.append(script);
+      }
+    </script></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    首页
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/daily/">
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    每日简报
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    归档
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/categories/">
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    分类
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    标签
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    世界时间
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    关于
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    友链
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search">
+                            <button type="button" class="search-popup-trigger" aria-label="搜索" aria-haspopup="dialog" aria-controls="aden-search-dialog" aria-expanded="false"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <button type="button" class="icon-item search search-popup-trigger" aria-label="搜索" aria-haspopup="dialog" aria-controls="aden-search-dialog" aria-expanded="false"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                
+                <button type="button" class="icon-item navbar-bar" aria-label="菜单" aria-controls="navbar-drawer" aria-expanded="false"><span class="navbar-bar-middle"></span></button>
+            </div>
+        </div>
+    <nav class="aden-language-switch" aria-label="Language"><a lang="zh-CN" href="/2026/11/13/2026-11-13-daily-brief/" aria-current="page">中文</a><span> / </span><a lang="en" href="/en/2026/11/13/2026-11-13-daily-brief/" aria-current="false" data-no-swup="">English</a></nav></div>
+
+    <!-- Mobile sheet -->
+    <div id="navbar-drawer" class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/">
+                            <span>
+                                首页
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/daily/">
+                            <span>
+                                每日简报
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/archives/">
+                            <span>
+                                归档
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/categories/">
+                            <span>
+                                分类
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/tags/">
+                            <span>
+                                标签
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/world-time/">
+                            <span>
+                                世界时间
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/about/">
+                            <span>
+                                关于
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/link/">
+                            <span>
+                                友链
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">76</div>
+        <div class="label text-third-text-color text-sm">标签</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">分类</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">114</div>
+        <div class="label text-third-text-color text-sm">文章</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://images.unsplash.com/photo-1431540015161-0bf868a2d407?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="每日简报｜2026-11-13：黄仁勋辞任英伟达CEO、CFO克雷斯暂代，10年期美债收益率升破5.1%、美股小幅收跌，特朗普称“不需要与伊朗达成协议”，商务部称中美正推进“300亿对300亿”降税安排" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" decoding="async">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">每日简报｜2026-11-13：黄仁勋辞任英伟达CEO、CFO克雷斯暂代，10年期美债收益率升破5.1%、美股小幅收跌，特朗普称“不需要与伊朗达成协议”，商务部称中美正推进“300亿对300亿”降税安排</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg?v=93ba7ebfa2ff" decoding="async" width="460" height="460">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-11-13 09:00</span>
+        <span class="mobile">2026-11-13 09:00</span>
+        <span class="hover-info">创建</span>
+    </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/daily/">每日简报</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E6%96%B0%E9%97%BB/">新闻</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/">市场观察</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>4k 字</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>14 分钟</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h2 id="今日主线"><a href="#今日主线" class="headerlink" title="今日主线"></a>今日主线</h2><p>本期覆盖11月11日（周三）晚间到11月12日（周四）。一周之内，英伟达的“间谍门”从个人丑闻变成了管理层更替：周四早间，英伟达宣布黄仁勋辞去总裁、CEO和董事职务，首席财务官科莱特·克雷斯出任临时CEO，公司启动正式CEO遴选。英伟达股价盘中一度跌约13%，收跌4.34%，距离11月17日的财报只剩几天。同一天，美债收益率继续上行，10年期收益率收在5.10%附近、盘中触及5.12%，30年期国债拍卖需求偏弱，三大股指小幅收跌，小盘股跌幅更大。中东方面，特朗普在社交媒体上称美国“不需要与伊朗达成协议”，原本负责对伊沟通的副总统万斯被转派去处理国内事务，霍尔木兹海峡又有多艘油轮被炸，油价由跌转涨。国内方面，商务部表示中美正就“300亿对300亿”对等降税安排的落地保持密切沟通，同时对欧盟部分国家禁用中国企业5G设备表达严重关切。A股周四冲高回落，创业板指跌2.44%，全市场超过4300只个股下跌。</p>
+<span id="more"></span>
+
+<h2 id="重点新闻"><a href="#重点新闻" class="headerlink" title="重点新闻"></a>重点新闻</h2><h3 id="1-黄仁勋辞去英伟达CEO和董事职务，CFO克雷斯任临时CEO"><a href="#1-黄仁勋辞去英伟达CEO和董事职务，CFO克雷斯任临时CEO" class="headerlink" title="1. 黄仁勋辞去英伟达CEO和董事职务，CFO克雷斯任临时CEO"></a>1. 黄仁勋辞去英伟达CEO和董事职务，CFO克雷斯任临时CEO</h3><p>英伟达11月12日（周四）宣布，联合创始人黄仁勋辞去总裁、CEO和董事会成员职务，即时生效，结束了33年的任期。据TechCrunch，公司提交的监管文件显示，董事会在11月11日（周三）接受了他的辞职；首席财务官兼执行副总裁科莱特·克雷斯在找到正式继任者之前担任临时CEO，同时继续兼任CFO；自1993年起就在董事会任职的哈维·琼斯被任命为英伟达历史上第一位董事会主席。董事会在声明中称黄仁勋对英伟达的贡献“深远”，感谢他为公司和行业作出的“不可估量的贡献”。公司没有公布辞职原因。</p>
+<p>辞职距离黄仁勋11月8日承认婚外情只有四天。据半岛电视台，事件的一方是被美国情报官员认为与中国情报机构有关的前Megaspeed高管Alice Huang；《纽约时报》随后报道，他与直接向其汇报的医疗业务副总裁Kimberly Powell也有私人关系，引发利益冲突问题；据雅虎财经，路透周四又报道了涉及另一名英伟达员工的第三段关系。这些都还是指控。路透周三曾报道董事会开会讨论是否撤换他。董事会此前表示，没有理由认为国家安全或公司机密受到损害，目前也没有证据显示黄仁勋知情协助北京。克雷斯2013年9月起任英伟达CFO，此前在德州仪器、微软和思科担任财务职务。</p>
+<p>据雅虎财经，英伟达周四盘中一度下跌约13%，跌破过去14个月两次守住的164美元附近，收跌4.34%至166.19美元，市值跌破4万亿美元，过去一个月累计下跌约30%。分析师的反应分歧明显：伯恩斯坦给出“与大盘持平”评级、目标价200美元，称“很难主张现在入场”；Oppenheimer下调评级并取消目标价；Wedbush的丹·艾夫斯把目标价从300美元降到225美元，但认为按2028年盈利约10倍市盈率计算估值“太便宜”。特朗普在社交媒体上建议由苹果前CEO、现任执行董事长蒂姆·库克接任，称“传奇接替传奇”，目前没有迹象显示库克有意接手。民主党参议员沃伦和库恩斯要求政府“保留所有记录”。这件事还牵涉Anthropic上市：据雅虎财经，英伟达承诺在Anthropic 260亿美元的配套私募中认购100亿美元，Anthropic预计11月18日定价、19日开始交易。后续看点：11月17日的财报和管理层电话会、11月18日国会闭门简报是否照常举行，以及董事会的继任人选。</p>
+<p>来源：<a class="link" target="_blank" rel="noopener" href="https://techcrunch.com/2026/11/12/nvidias-jensen-huang-resigns-chipmaker-names-cfo-colette-kress-as-interim-ceo/">TechCrunch<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.aljazeera.com/news/2026/11/12/why-did-nvidia-ceo-jensen-huang-resign-and-who-is-colette-kress">半岛电视台<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://finance.yahoo.com/technology/live/nvidia-live-updates-jensen-huang-resigns-cfo-colette-kress-to-serve-as-interim-ceo-140341430.html">雅虎财经（英伟达直播）<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://finance.yahoo.com/markets/live/stock-market-today-thursday-november-12-sp-500-nasdaq-dow-nvidia-invest-110027430.html">雅虎财经（收盘）<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://abcnews.com/Business/nvidia-ceo-jensen-huang-resigns-amid-alleged-affair/story?id=138076256">ABC新闻<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="2-10年期美债收益率升破5-1-，30年期拍卖需求偏弱，美股小幅收跌"><a href="#2-10年期美债收益率升破5-1-，30年期拍卖需求偏弱，美股小幅收跌" class="headerlink" title="2. 10年期美债收益率升破5.1%，30年期拍卖需求偏弱，美股小幅收跌"></a>2. 10年期美债收益率升破5.1%，30年期拍卖需求偏弱，美股小幅收跌</h3><p>周四是退伍军人节后债市恢复交易的第一天，收益率延续CPI公布后的上行。据雅虎财经，10年期美债收益率上涨约10个基点至5.10%，盘中最高5.12%；30年期收益率盘中升至5.44%。据TokenPost，当天250亿美元30年期国债拍卖的投标倍数为2.401，低于上次的2.542和最近六次平均的2.437，拍卖期间10年期收益率升破5.10%。芝加哥联储主席古尔斯比称通胀正处于“不稳定的时刻”，交易员进一步押注美联储12月加息。</p>
+<p>劳动力市场没有给出降温信号。据雅虎财经，截至11月7日当周首次申领失业救济人数增加9000人至20万，略高于预期的19.5万，但仍处于低位；持续申领人数减少约2万至约170万。</p>
+<p>美股收盘小幅下跌：据雅虎财经，道指跌189.40点、跌幅0.36%，收于52297.09点；标普500跌26.98点、跌幅0.35%，收于7592.40点；纳指跌100.10点、跌幅0.39%，收于25366.09点；对利率更敏感的罗素2000跌1.66%；VIX涨6.98%至18.71。前一天带领反弹的AI云公司走弱，Nebius盘前随AI股下跌。据Nebius提交给美国证监会的文件，公司三季度营收9.808亿美元，同比增长571%，调整后EBITDA为4.658亿美元，持续经营业务净亏损3750万美元；当季资本开支约73亿美元，同期发行可转债募资57.5亿美元。其他资产方面，黄金跌3.07%至每盎司3877.8美元，比特币跌3.71%至约7.15万美元；Strategy在MSCI决定把它从两个美国指数中剔除后一度跌约6%。据彭博（雅虎财经转述），SpaceX与特斯拉的合并谈判有进展，最早可能12月宣布。后续看点：后续公布的通胀数据、美联储官员对12月加息幅度的表态，以及10年期收益率能否稳在5%上方。</p>
+<p>来源：<a class="link" target="_blank" rel="noopener" href="https://finance.yahoo.com/markets/live/stock-market-today-thursday-november-12-sp-500-nasdaq-dow-nvidia-invest-110027430.html">雅虎财经（收盘）<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://tokenpost.com/news/investing/55914">TokenPost<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.sec.gov/Archives/edgar/data/0001513845/000110465926126008/tm2629571d1_ex99-1.htm">Nebius（美国证监会6-K）<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="3-特朗普称“不需要与伊朗达成协议”，霍尔木兹又有油轮被炸，油价由跌转涨"><a href="#3-特朗普称“不需要与伊朗达成协议”，霍尔木兹又有油轮被炸，油价由跌转涨" class="headerlink" title="3. 特朗普称“不需要与伊朗达成协议”，霍尔木兹又有油轮被炸，油价由跌转涨"></a>3. 特朗普称“不需要与伊朗达成协议”，霍尔木兹又有油轮被炸，油价由跌转涨</h3><p>据阿联酋《国民报》，特朗普11月12日在Truth Social上写道：“我们不需要与伊朗达成协议，那样的日子早已过去。”他说美国已经掌握了伊朗“数千亿美元”的资金，“也掌握了他们的海峡”。他还表示，此前参与对伊沟通的副总统万斯将把“全部注意力”转向明尼苏达、加利福尼亚、伊利诺伊等民主党执政州的所谓腐败和犯罪问题。这与他前几周“中期选举后结束战争”“协议仍有可能”的说法明显不同；周二他还称近期再动武“不太可能”，但美国仍“枕戈待旦”。</p>
+<p>海上冲突继续升级。据路透（雅虎新闻转载），伊朗军方称有四艘油轮在霍尔木兹海峡遭爆炸：革命卫队海军称两艘超级油轮周三因无视警告、走“未经授权的航线”而失去动力，伊朗陆军称另外两艘周四下午在海峡东部触雷起火。英国海事贸易行动办公室则报告，周三一艘船在阿联酋哈伊马角西北约14海里处被不明飞行物击中、机舱起火，船员已全部撤离，该机构多次表示受袭船只是被不明飞行物而非水雷击中。路透援引华盛顿近东政策研究所数据称，11月前10天至少10艘船遇袭，10月为37起，是2月底开战以来单月最多。据布赖特巴特新闻援引伊朗法尔斯通讯社，革命卫队还称打击了阿曼在海峡内的迪达马尔岛上的导航设施，但阿曼一名高级官员对Maritime Executive表示该岛没有受损。</p>
+<p>油价当天由跌转涨。据《国民报》，此前沙特把产量提高到接近战前水平，油价一度下跌，特朗普发文后跌幅被抹去。据土耳其阿纳多卢通讯社旗下aNews，格林尼治时间16:45，布伦特涨1.1%至每桶93.80美元，但本周仍累计下跌4.9%；欧洲天然气涨6.7%至每兆瓦时92.5欧元。据雅虎财经报价，WTI 12月合约收于每桶88.90美元，涨2.74%。后续看点：白宫是否正式放弃谈判路线、卡塔尔斡旋是否中断，以及海峡遇袭事件和油轮保险费率的变化。</p>
+<p>来源：<a class="link" target="_blank" rel="noopener" href="https://www.thenationalnews.com/news/us/2026/11/12/iran-deal-trump/">《国民报》<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.yahoo.com/news/articles/four-tankers-struck-explosions-strait-162708977.html">路透（雅虎新闻转载）<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.breitbart.com/national-security/2026/11/12/iran-escalates-with-attacks-on-ships-and-omani-island/">布赖特巴特新闻<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.anews.com.tr/europe/2026/11/12/energy-prices-rise-after-trump-says-us-does-not-need-a-deal-with-iran">aNews<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://finance.yahoo.com/markets/live/stock-market-today-thursday-november-12-sp-500-nasdaq-dow-nvidia-invest-110027430.html">雅虎财经<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="4-商务部：中美就“300亿对300亿”降税安排密切沟通，对欧盟部分国家禁用中国5G设备表达严重关切"><a href="#4-商务部：中美就“300亿对300亿”降税安排密切沟通，对欧盟部分国家禁用中国5G设备表达严重关切" class="headerlink" title="4. 商务部：中美就“300亿对300亿”降税安排密切沟通，对欧盟部分国家禁用中国5G设备表达严重关切"></a>4. 商务部：中美就“300亿对300亿”降税安排密切沟通，对欧盟部分国家禁用中国5G设备表达严重关切</h3><p>商务部新闻发言人何亚东在11月12日的例行发布会上表示，中美双方正就贸易、投资等共同关心的问题保持密切沟通，有进展会适时发布。据中新网，他说“300亿对300亿”对等降税框架安排有助于稳定和拓展中美双边贸易，两国工商界对此期待很高，中方希望美方相向而行，推动安排尽快落地见效，为两国农产品贸易创造更多有利条件。他还提到，自2025年5月以来双方已进行八轮经贸磋商，中方全面落实了此前磋商达成的共识，“合作是唯一正确道路”。发布会没有公布这一安排的具体商品清单和生效时间，报道也没有注明金额的计价货币。</p>
+<p>同一场发布会上，何亚东回应欧盟部分国家禁用中国企业设备的做法。据新华社，他说商务部已向相关国家政府表达严重关切，5G是全球数字经济发展的关键基础设施，建设和运营应尊重市场规律、技术中立和国际规则，中方坚决反对将技术问题政治化、泛安全化，敦促有关国家纠正错误做法，为中国企业提供公平、公正、非歧视的营商环境。新华社没有点名具体国家。欧盟近年一直在讨论以立法形式要求成员国逐步淘汰华为、中兴设备。</p>
+<p>国内同日还有两条政策消息。据东方财富援引国家发改委通知，国内汽油、柴油价格自11月12日24时起每吨分别下调645元和625元，92号汽油平均每升下调0.51元，这是国际油价近两周大幅回落的传导。国务院当天举行第二十二次专题学习，总理李强强调提高社保基金长期可持续性，落实企业职工基本养老保险全国统筹、推进基本医保省级统筹。后续看点：中美降税安排的落地时间和商品范围、下一轮经贸磋商的安排，以及欧盟对华电信设备立法的进展。</p>
+<p>来源：<a class="link" target="_blank" rel="noopener" href="https://www.chinanews.com.cn/cj/2026/11-12/10730989.shtml">中新网<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://news.china.com/socialgd/10000169/20261112/49866420.html">中华网<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://english.news.cn/20261112/73ec430f4b8748ac8c560a37fc693502/c.html">新华社<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.sohu.com/a/1100612676_121627717">搜狐（新华社转载）<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://finance.eastmoney.com/a/202611123929818842.html">东方财富<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="5-A股冲高回落：创业板指跌2-44-，两市成交1-93万亿元，超4300只个股下跌"><a href="#5-A股冲高回落：创业板指跌2-44-，两市成交1-93万亿元，超4300只个股下跌" class="headerlink" title="5. A股冲高回落：创业板指跌2.44%，两市成交1.93万亿元，超4300只个股下跌"></a>5. A股冲高回落：创业板指跌2.44%，两市成交1.93万亿元，超4300只个股下跌</h3><p>据21世纪经济报道，11月12日A股三大股指早盘冲高、午后跳水：沪指跌0.67%，收于3655.83点；深证成指跌1.68%，收于11197.98点；创业板指跌2.44%，收于2509.43点；科创50逆势上涨0.73%，收于1309.84点。两市成交约1.93万亿元，比前一天的约1.68万亿元明显放量；838只个股上涨、4320只下跌，37只涨停、6只跌停。</p>
+<p>板块分化很大。地面兵装、航海装备等军工方向，以及渔业、林业和半导体涨幅居前；贵金属、数字媒体、影视院线和电机领跌。成交额前五依次是中际旭创（336.2亿元）、新易盛（256.7亿元）、寒武纪（201.7亿元）、东山精密（182.6亿元）和长鑫科技（177.9亿元），资金仍然集中在光模块和国产算力。贵金属走弱与当天金价下跌一致，军工走强可能与中东局势重新紧张有关。</p>
+<p>A股收盘时，英伟达尚未宣布黄仁勋辞职，美债收益率也还没有升破5.1%。放量下跌说明前一天的反弹之后有资金选择兑现，科创50和半导体的逆势上涨则反映市场对“国产替代”逻辑的偏好。后续看点：今天A股如何消化英伟达管理层变动和美债收益率上行，光模块等英伟达产业链个股的波动，以及成交额能否维持在1.8万亿元以上。</p>
+<p>来源：<a class="link" target="_blank" rel="noopener" href="https://m.21jingji.com/article/20261112/herald/d87d4bcbee907a8b9748ece9b255d0a9.html">21世纪经济报道（收评）<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.21jingji.com/article/20261112/herald/e4929fc0b784266cc9b6891d3bfd49d7.html">21世纪经济报道<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h2 id="市场关联与今日观察"><a href="#市场关联与今日观察" class="headerlink" title="市场关联与今日观察"></a>市场关联与今日观察</h2><p>周四市场面对的是两种不同的风险。第一种是利率：10年期美债收益率站上5.1%、30年期拍卖需求偏弱、初请失业金仍在20万附近，说明美联储12月加息的理由还在加强，对利率敏感的小盘股和高估值成长股压力最大。第二种是单一公司的治理风险：英伟达是标普500中权重最大的公司之一，又是AI资本开支链条的核心供应商，CEO突然离任会影响市场对它的估值，也可能影响它对Anthropic等公司的战略投资，以及华盛顿对其对华出口的审查。不过指数当天只小幅下跌，说明市场暂时把这件事看作英伟达自身的问题，而不是AI需求的问题；真正的检验是11月17日的财报和指引。</p>
+<p>油价重新成为变量。特朗普放弃“协议”口径、海峡遇袭事件增加，可能让本周下跌的能源风险溢价回来一部分，这会推高通胀预期，和美债收益率上行形成叠加。国内方面，成品油调价反映的是此前的油价下跌，如果国际油价重新走高，下一轮调价窗口可能转向。中美降税安排如果落地，对农产品贸易和相关板块是利好，但目前时间表仍不明确。</p>
+<p>观察清单：</p>
+<ul>
+<li>英伟达11月17日财报：克雷斯首次以临时CEO身份出席电话会，以及数据中心收入和指引</li>
+<li>Anthropic 11月18日定价、19日上市，英伟达100亿美元认购承诺是否有变化</li>
+<li>10年期美债收益率能否稳在5%上方，美联储官员对12月加息25还是50个基点的表态</li>
+<li>白宫对伊朗的下一步行动、霍尔木兹遇袭事件，以及布伦特能否重回95美元以上</li>
+<li>中美“300亿对300亿”降税安排的落地时间和覆盖商品</li>
+<li>A股光模块、算力板块对英伟达变动的反应，成交额能否维持在1.8万亿元以上</li>
+</ul>
+<p>封面图片：<a class="link" target="_blank" rel="noopener" href="https://unsplash.com/photos/oval-brown-wooden-conference-table-and-chairs-inside-conference-room-GWe0dlVD9e0">Benjamin Child / Unsplash<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>标题：</strong> 每日简报｜2026-11-13：黄仁勋辞任英伟达CEO、CFO克雷斯暂代，10年期美债收益率升破5.1%、美股小幅收跌，特朗普称“不需要与伊朗达成协议”，商务部称中美正推进“300亿对300亿”降税安排</li>
+        <li><strong>作者：</strong> AdenXie</li>
+        <li><strong>创建于：</strong> 2026-11-13 09:00:00</li>
+        
+        <li>
+            <strong>链接：</strong> https://blog.adenxie.com.cn/2026/11/13/2026-11-13-daily-brief/
+        </li>
+        <li data-aden-content-license=""><strong>版权声明：</strong> 除另有标注外，AdenXie 的原创文字与原创图片采用 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a>，原创代码采用 <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE" target="_blank" rel="noopener">GPL-3.0</a>。引用及第三方素材保留原有权利与许可。<a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE-CONTENT.md" target="_blank" rel="noopener">范围与例外</a>。</li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E6%96%B0%E9%97%BB/">#新闻</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/">#市场观察</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/11/10/2026-11-10-daily-brief/" title="每日简报｜2026-11-10：美股强劲反弹、纳指涨2.7%，英伟达因黄仁勋“间谍门”逆势跌4%，特朗普称“极不可能”再打伊朗、油价跌约5%，中国10月PPI升至5.7%创逾四年新高、CPI回落至0.7%" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1758549885423-819fd86e04f0?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="每日简报｜2026-11-10：美股强劲反弹、纳指涨2.7%，英伟达因黄仁勋“间谍门”逆势跌4%，特朗普称“极不可能”再打伊朗、油价跌约5%，中国10月PPI升至5.7%创逾四年新高、CPI回落至0.7%" class="!max-w-none" decoding="async">
+  <span class="title">每日简报｜2026-11-10：美股强劲反弹、纳指涨2.7%，英伟达因黄仁勋“间谍门”逆势跌4%，特朗普称“极不可能”再打伊朗、油价跌约5%，中国10月PPI升至5.7%创逾四年新高、CPI回落至0.7%</span>
+</a><a class="recommended-article-item" href="/2026/11/14/2026-11-14-daily-brief/" title="每日简报｜2026-11-14：英伟达董事会接触Arm CEO哈斯、贝森特称商务部拖延拉黑Megaspeed，美国10月PPI同比升至6.5%、AMD跌近9%拖累纳指，中国10月人民币贷款减少1000亿元，伊朗称LNG船触雷、IEA称油市重回过剩，创业板指跌3.32%" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1758549885423-819fd86e04f0?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="每日简报｜2026-11-14：英伟达董事会接触Arm CEO哈斯、贝森特称商务部拖延拉黑Megaspeed，美国10月PPI同比升至6.5%、AMD跌近9%拖累纳指，中国10月人民币贷款减少1000亿元，伊朗称LNG船触雷、IEA称油市重回过剩，创业板指跌3.32%" class="!max-w-none" decoding="async">
+  <span class="title">每日简报｜2026-11-14：英伟达董事会接触Arm CEO哈斯、贝森特称商务部拖延拉黑Megaspeed，美国10月PPI同比升至6.5%、AMD跌近9%拖累纳指，中国10月人民币贷款减少1000亿元，伊朗称LNG船触雷、IEA称油市重回过剩，创业板指跌3.32%</span>
+</a><a class="recommended-article-item" href="/2026/11/11/2026-11-11-daily-brief/" title="每日简报｜2026-11-11：美国10月CPI环比涨0.4%超预期、12月加息概率升至约90%，Anthropic定下IPO区间、估值最高1.4万亿美元，CoreWeave三季度营收增168%并上调指引，中国10月出口同比增35%、年内顺差破万亿美元，特朗普暂缓对伊朗新打击" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1643430603795-b1c753fdbdcb?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="每日简报｜2026-11-11：美国10月CPI环比涨0.4%超预期、12月加息概率升至约90%，Anthropic定下IPO区间、估值最高1.4万亿美元，CoreWeave三季度营收增168%并上调指引，中国10月出口同比增35%、年内顺差破万亿美元，特朗普暂缓对伊朗新打击" class="!max-w-none" decoding="async">
+  <span class="title">每日简报｜2026-11-11：美国10月CPI环比涨0.4%超预期、12月加息概率升至约90%，Anthropic定下IPO区间、估值最高1.4万亿美元，CoreWeave三季度营收增168%并上调指引，中国10月出口同比增35%、年内顺差破万亿美元，特朗普暂缓对伊朗新打击</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>推荐阅读</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/11/10/2026-11-10-daily-brief/" title="每日简报｜2026-11-10：美股强劲反弹、纳指涨2.7%，英伟达因黄仁勋“间谍门”逆势跌4%，特朗普称“极不可能”再打伊朗、油价跌约5%，中国10月PPI升至5.7%创逾四年新高、CPI回落至0.7%" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1758549885423-819fd86e04f0?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="每日简报｜2026-11-10：美股强劲反弹、纳指涨2.7%，英伟达因黄仁勋“间谍门”逆势跌4%，特朗普称“极不可能”再打伊朗、油价跌约5%，中国10月PPI升至5.7%创逾四年新高、CPI回落至0.7%" class="!max-w-none" decoding="async">
+  <span class="title">每日简报｜2026-11-10：美股强劲反弹、纳指涨2.7%，英伟达因黄仁勋“间谍门”逆势跌4%，特朗普称“极不可能”再打伊朗、油价跌约5%，中国10月PPI升至5.7%创逾四年新高、CPI回落至0.7%</span>
+</a><a class="recommended-article-item" href="/2026/11/14/2026-11-14-daily-brief/" title="每日简报｜2026-11-14：英伟达董事会接触Arm CEO哈斯、贝森特称商务部拖延拉黑Megaspeed，美国10月PPI同比升至6.5%、AMD跌近9%拖累纳指，中国10月人民币贷款减少1000亿元，伊朗称LNG船触雷、IEA称油市重回过剩，创业板指跌3.32%" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1758549885423-819fd86e04f0?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="每日简报｜2026-11-14：英伟达董事会接触Arm CEO哈斯、贝森特称商务部拖延拉黑Megaspeed，美国10月PPI同比升至6.5%、AMD跌近9%拖累纳指，中国10月人民币贷款减少1000亿元，伊朗称LNG船触雷、IEA称油市重回过剩，创业板指跌3.32%" class="!max-w-none" decoding="async">
+  <span class="title">每日简报｜2026-11-14：英伟达董事会接触Arm CEO哈斯、贝森特称商务部拖延拉黑Megaspeed，美国10月PPI同比升至6.5%、AMD跌近9%拖累纳指，中国10月人民币贷款减少1000亿元，伊朗称LNG船触雷、IEA称油市重回过剩，创业板指跌3.32%</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/2026/11/13/2026-11-13-jensen-huang-resignation-political-guarantor/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">黄仁勋辞职：英伟达失去的不是 CEO，是对华政策的政治担保人</span>
+						<span class="post-nav-item">上一篇</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/11/12/2026-11-12-daily-brief/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">每日简报｜2026-11-12：CoreWeave大涨24%带动AI股反弹、纳指涨1.6%，路透称美国黑名单上的西北工业大学买到英伟达H200，央行三季度货币政策报告称加大逆周期调节，伊朗否认与美谈判、霍尔木兹继续关闭，众议院搁置赫格塞思弹劾案</span>
+						<span class="post-nav-item">下一篇</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        评论
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">目录</div>
+		<div class="page-title">每日简报｜2026-11-13：黄仁勋辞任英伟达CEO、CFO克雷斯暂代，10年期美债收益率升破5.1%、美股小幅收跌，特朗普称“不需要与伊朗达成协议”，商务部称中美正推进“300亿对300亿”降税安排</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8A%E6%97%A5%E4%B8%BB%E7%BA%BF"><span class="nav-text">今日主线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E7%82%B9%E6%96%B0%E9%97%BB"><span class="nav-text">重点新闻</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E9%BB%84%E4%BB%81%E5%8B%8B%E8%BE%9E%E5%8E%BB%E8%8B%B1%E4%BC%9F%E8%BE%BECEO%E5%92%8C%E8%91%A3%E4%BA%8B%E8%81%8C%E5%8A%A1%EF%BC%8CCFO%E5%85%8B%E9%9B%B7%E6%96%AF%E4%BB%BB%E4%B8%B4%E6%97%B6CEO"><span class="nav-text">1. 黄仁勋辞去英伟达CEO和董事职务，CFO克雷斯任临时CEO</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-10%E5%B9%B4%E6%9C%9F%E7%BE%8E%E5%80%BA%E6%94%B6%E7%9B%8A%E7%8E%87%E5%8D%87%E7%A0%B45-1-%EF%BC%8C30%E5%B9%B4%E6%9C%9F%E6%8B%8D%E5%8D%96%E9%9C%80%E6%B1%82%E5%81%8F%E5%BC%B1%EF%BC%8C%E7%BE%8E%E8%82%A1%E5%B0%8F%E5%B9%85%E6%94%B6%E8%B7%8C"><span class="nav-text">2. 10年期美债收益率升破5.1%，30年期拍卖需求偏弱，美股小幅收跌</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%89%B9%E6%9C%97%E6%99%AE%E7%A7%B0%E2%80%9C%E4%B8%8D%E9%9C%80%E8%A6%81%E4%B8%8E%E4%BC%8A%E6%9C%97%E8%BE%BE%E6%88%90%E5%8D%8F%E8%AE%AE%E2%80%9D%EF%BC%8C%E9%9C%8D%E5%B0%94%E6%9C%A8%E5%85%B9%E5%8F%88%E6%9C%89%E6%B2%B9%E8%BD%AE%E8%A2%AB%E7%82%B8%EF%BC%8C%E6%B2%B9%E4%BB%B7%E7%94%B1%E8%B7%8C%E8%BD%AC%E6%B6%A8"><span class="nav-text">3. 特朗普称“不需要与伊朗达成协议”，霍尔木兹又有油轮被炸，油价由跌转涨</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%95%86%E5%8A%A1%E9%83%A8%EF%BC%9A%E4%B8%AD%E7%BE%8E%E5%B0%B1%E2%80%9C300%E4%BA%BF%E5%AF%B9300%E4%BA%BF%E2%80%9D%E9%99%8D%E7%A8%8E%E5%AE%89%E6%8E%92%E5%AF%86%E5%88%87%E6%B2%9F%E9%80%9A%EF%BC%8C%E5%AF%B9%E6%AC%A7%E7%9B%9F%E9%83%A8%E5%88%86%E5%9B%BD%E5%AE%B6%E7%A6%81%E7%94%A8%E4%B8%AD%E5%9B%BD5G%E8%AE%BE%E5%A4%87%E8%A1%A8%E8%BE%BE%E4%B8%A5%E9%87%8D%E5%85%B3%E5%88%87"><span class="nav-text">4. 商务部：中美就“300亿对300亿”降税安排密切沟通，对欧盟部分国家禁用中国5G设备表达严重关切</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-A%E8%82%A1%E5%86%B2%E9%AB%98%E5%9B%9E%E8%90%BD%EF%BC%9A%E5%88%9B%E4%B8%9A%E6%9D%BF%E6%8C%87%E8%B7%8C2-44-%EF%BC%8C%E4%B8%A4%E5%B8%82%E6%88%90%E4%BA%A41-93%E4%B8%87%E4%BA%BF%E5%85%83%EF%BC%8C%E8%B6%854300%E5%8F%AA%E4%B8%AA%E8%82%A1%E4%B8%8B%E8%B7%8C"><span class="nav-text">5. A股冲高回落：创业板指跌2.44%，两市成交1.93万亿元，超4300只个股下跌</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%82%E5%9C%BA%E5%85%B3%E8%81%94%E4%B8%8E%E4%BB%8A%E6%97%A5%E8%A7%82%E5%AF%9F"><span class="nav-text">市场关联与今日观察</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">写下真实体验，也保留观点的棱角。</div><div class="customize-info my-1 aden-status-hint">页面打不开或功能出错？可在 <a href="https://status.adenxie.com.cn/" target="_blank" rel="noopener">status.adenxie.com.cn</a> 查看服务状态</div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        共撰写了 114 篇文章
+                    </span>
+                    
+                        <span>
+                            共 349.9k 字
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js" async=""></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">访问人数</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">总访问量</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">由 <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a> 驱动</span>
+            <span class="text-sm lg:block">主题&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                博客已运行 <span class="odometer" id="runtime_days"></span> 天 <span class="odometer" id="runtime_hours"></span> 小时 <span class="odometer" id="runtime_minutes"></span> 分钟 <span class="odometer" id="runtime_seconds"></span> 秒
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/scene-loader.js?v=d4c6d7d950ec" defer=""></script>
+                    
+        
+        
+    <div class="aden-font-credit text-sm my-1">字体: <a href="https://hyperos.mi.com/font/zh/download/" target="_blank" rel="noopener">MiSans</a></div><div class="aden-license-notice text-sm my-1">原创文字与图片: <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> · 代码: <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE" target="_blank" rel="noopener">GPL-3.0</a> · <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE-CONTENT.md" target="_blank" rel="noopener">范围与例外</a></div></div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container" role="toolbar" aria-label="快捷工具">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center" role="button" tabindex="0" aria-label="放大字号">
+			<i class="fa-regular fa-magnifying-glass-plus" aria-hidden="true"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center" role="button" tabindex="0" aria-label="缩小字号">
+			<i class="fa-regular fa-magnifying-glass-minus" aria-hidden="true"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center" role="button" tabindex="0" aria-label="切换深浅色">
+			<i class="fa-regular fa-moon" aria-hidden="true"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center" role="button" tabindex="0" aria-label="到页面底部">
+			<i class="fa-regular fa-arrow-down" aria-hidden="true"></i>
+		</li>
+	<li class="right-bottom-tools aden-dock-music" role="button" tabindex="0" aria-pressed="false" aria-label="播放音乐"><i class="fa-solid fa-play" aria-hidden="true"></i></li></ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center" role="button" tabindex="0" aria-label="更多设置" aria-expanded="false" aria-haspopup="true">
+			<i class="fa-regular fa-cog " aria-hidden="true"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center" role="button" tabindex="0" aria-label="回到顶部">
+			<i class="arrow-up fas fa-arrow-up" aria-hidden="true"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	<form id="aden-ask" class="aden-ask" novalidate="" aria-label="问 AI" data-script="/js/chat.js?v=decea45cccf0" data-style="/css/chat.css?v=4a911c13bc63">
+  <span class="aden-ask-mark" aria-hidden="true">✳</span>
+  <label class="aden-sr-only" for="aden-ask-input">问 AI</label>
+  <input id="aden-ask-input" class="aden-ask-input" type="text" maxlength="4000" autocomplete="off" enterkeyhint="send" placeholder="问 AI…">
+  <span class="aden-ask-thinking" role="status" hidden=""><span class="aden-ask-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="aden-ask-thinking-label"></span></span>
+  <button type="submit" class="aden-ask-send" aria-label="发送" disabled=""><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></button>
+  <button type="button" class="aden-ask-stop" aria-label="停止生成" hidden=""><i class="fa-solid fa-stop" aria-hidden="true"></i></button>
+</form><button type="button" class="aden-ask-open" aria-controls="aden-ask" aria-expanded="false"><span aria-hidden="true">✳</span><span>问 AI</span></button><button type="button" class="aden-dock-toc" aria-haspopup="dialog" aria-expanded="false" aria-label="目录"><i class="fa-solid fa-list-ul" aria-hidden="true"></i></button><button type="button" class="aden-dock-menu" aria-controls="navbar-drawer" aria-expanded="false" aria-label="菜单"><span class="aden-dock-bars" aria-hidden="true"></span></button></div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="图片查看器">
+	<button class="image-viewer-close" type="button" aria-label="关闭">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="上一页">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="" decoding="async">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="关闭">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="下一页">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay" inert="">
+	<div class="popup search-popup" id="aden-search-dialog" role="dialog" aria-modal="true" aria-labelledby="aden-search-title">
+		<div class="aden-search-heading"><h2 id="aden-search-title">站内搜索</h2><button type="button" class="popup-btn-close" aria-label="关闭搜索"><i class="fa-solid fa-times" aria-hidden="true"></i></button></div><div class="search-header">
+			<i class="fa-solid fa-magnifying-glass aden-search-icon" aria-hidden="true"></i>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="搜索文章标题和正文" spellcheck="false" type="search" class="search-input" aria-label="站内搜索">
+			</div>
+			
+		<button type="button" class="search-input-field-pre" hidden="" aria-label="清空搜索"><i class="fa-solid fa-times" aria-hidden="true"></i></button></div>
+		<div id="search-result">
+			<div id="no-result" role="status">输入关键词，搜索文章标题和正文。</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js?v=509b91971bf2"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js?v=969d65618587"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js?v=193270b6fdb0"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js?v=647d2af612df"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js?v=c9d014a814b8"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js?v=792db0224d6b"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js?v=3691d7f361f1" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js?v=03c1e188b884"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css?v=77a3a9d5a3d0">
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js?v=e98ec22436a5"></script>
+
+
+<script src="/js/build/plugins/aplayer.js?v=d6d3c64af35f"></script>
+
+
+	
+
+
+</body></html>

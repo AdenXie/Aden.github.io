@@ -1,0 +1,2024 @@
+<!DOCTYPE html><html lang="en"><head><script src="/js/language-preference.js?v=29a144036da1" data-english-home="/en/"></script><script src="/js/site-runtime.js?v=0416a8e408fa" defer=""></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/en/archives/2026/11/page/2/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Aden's Space">
+<meta property="og:url" content="https://blog.adenxie.com.cn/en/archives/2026/11/page/2/">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="科技">
+<meta property="article:tag" content="数码">
+<meta property="article:tag" content="设备体验">
+<meta property="article:tag" content="系统教程">
+<meta property="article:tag" content="AdenXie">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png?v=fa6db12e9674" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Archive: 2026/11 | Aden's Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/css/site-b1cdd4560954.css?v=b1cdd4560954">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js?v=258b1afa4680"></script>
+                
+    
+            
+                
+                    
+                
+    
+
+    
+
+
+
+    
+        
+
+
+    
+
+
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"en","path":"en/search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"18px","line_height":1.8,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["Technology, experience and independent thinking","Real experiences. A personal perspective."],"hitokoto":{"enable":false,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie","name":"GitHub"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847","name":"YouTube"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie","name":"X"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Daily Brief":{"path":"/daily/","icon":"fa-regular fa-newspaper"},"archives":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"},"tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"World Time":{"path":"/world-time/","icon":"fa-regular fa-clock"},"about":{"path":"/about/","icon":"fa-regular fa-user"},"links":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":false,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.i18n = {"search":"Search...","toc":"On this page","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"POWERED BY %s","theme":"THEME","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","post":"Post","posts":"Posts","tagcloud":"Tag Cloud","comment":"Comment","comments":"Comments","home":"Home","archive":"Archive","archives":"Archives","top":"TOP","sticky":"Sticky","go-back-home":"Go Back Home","masonry_loading":"Loading photos...","image_viewer":"Image viewer","close":"Close","exif":{"title":"EXIF","cards":{"camera":"Camera","lens":"Lens","exposure":"Exposure","other":"Other"},"fields":{"make":"Brand","model":"Model","date_taken":"Date taken","lens_model":"Lens","focal_length":"Focal length","focus_mode":"Focus mode","shutter":"Shutter","aperture":"Aperture","iso":"ISO","exposure_program":"Exposure program","exposure_compensation":"Exposure compensation","metering_mode":"Metering mode","flash":"Flash","white_balance":"White balance","latitude":"Latitude","longitude":"Longitude","altitude":"Altitude"},"status":{"loading":"Loading...","no_exif":"No EXIF available","library_missing":"EXIF library not loaded","image_source_missing":"Image source unavailable","unavailable":"EXIF unavailable (blocked by CORS or missing metadata)","flag_unavailable":"EXIF unavailable"}},"about":"About","changelog":"Changelog","links":"Links","link":"Link","friends":"Friends","friend":"Friend","timeline":"Timeline","shuoshuo":"Shuoshuo","bookmarks":"Bookmarks","site_uv":"VISITOR COUNT","site_pv":"TOTAL PAGE VIEWS","read_more":"Read more","wordcount":"Words","min2read":"Mins","status":"Status","runtime":"Blog up for","days":"days","hours":"hrs","minutes":"Min","seconds":"Sec","optimized_by":"and Optimized by Evan","rights":"All Rights Reserved","site_posts":"%s posts in total","site_wordcount":"%s words in total","copyright":{"author":"Author","title":"Title","link":"Link","create_time":"Created at","update_time":"Updated at","license_title":"License","license_content":"This work is licensed under %s.","all_rights_reserved":"All Rights Reserved &#169; %s","public_domain":"This work is in the public domain."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"},"create_time":"Created","update_time":"Updated","expired":"This post is written %s days ago, and the content may not be up to date."};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" hreflang="zh-CN" href="https://blog.adenxie.com.cn/archives/2026/11/page/2/"><link rel="alternate" hreflang="en" href="https://blog.adenxie.com.cn/en/archives/2026/11/page/2/"><link rel="preconnect" href="https://cdn-file.hyperos.mi.com" crossorigin="" data-aden-font-connect=""><script data-aden-analytics="">
+      if (location.hostname === 'blog.adenxie.com.cn' && !window.__adenAnalyticsLoaded) {
+        window.__adenAnalyticsLoaded = true;
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        const script = document.createElement('script');
+        script.defer = true;
+        script.src = '/_vercel/insights/script.js';
+        document.head.append(script);
+      }
+    </script></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/en/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/daily/">
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    DAILY BRIEF
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="active" href="/en/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/categories/">
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    CATEGORIES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    WORLD TIME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search">
+                            <button type="button" class="search-popup-trigger" aria-label="Search" aria-haspopup="dialog" aria-controls="aden-search-dialog" aria-expanded="false"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <button type="button" class="icon-item search search-popup-trigger" aria-label="Search" aria-haspopup="dialog" aria-controls="aden-search-dialog" aria-expanded="false"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                
+                <button type="button" class="icon-item navbar-bar" aria-label="Menu" aria-controls="navbar-drawer" aria-expanded="false"><span class="navbar-bar-middle"></span></button>
+            </div>
+        </div>
+    <nav class="aden-language-switch" aria-label="Language"><a lang="zh-CN" href="/archives/2026/11/page/2/" aria-current="false" data-no-swup="">中文</a><span> / </span><a lang="en" href="/en/archives/2026/11/page/2/" aria-current="page" data-no-swup="">English</a></nav></div>
+
+    <!-- Mobile sheet -->
+    <div id="navbar-drawer" class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/">
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/daily/">
+                            <span>
+                                DAILY BRIEF
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full active aden-drawer-link" href="/en/archives/">
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/categories/">
+                            <span>
+                                CATEGORIES
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/tags/">
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/world-time/">
+                            <span>
+                                WORLD TIME
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/about/">
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/link/">
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/tags/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">76</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/categories/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/archives/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">114</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content"><p class="aden-translation-notice">Automatically translated. <a href="/archives/2026/11/page/2/">Read the Chinese original</a>.</p>
+				
+
+<header class="aden-archive-header">
+    <h1 class="page-title-header">Archive</h1>
+    <p class="aden-archive-summary">114 posts · 4 years</p>
+</header>
+
+
+<div class="aden-archive">
+    
+        <nav class="aden-archive-jump" aria-label="Jump to a year">
+            <ul>
+                
+                    <li><a href="#year-2026">2026<span class="aden-archive-count">99</span></a></li>
+                
+                    <li><a href="#year-2024">2024<span class="aden-archive-count">3</span></a></li>
+                
+                    <li><a href="#year-2023">2023<span class="aden-archive-count">11</span></a></li>
+                
+                    <li><a href="#year-2022">2022<span class="aden-archive-count">1</span></a></li>
+                
+            </ul>
+        </nav>
+    
+    
+        <section class="aden-archive-year" id="year-2026" aria-labelledby="year-2026-title">
+            <h2 class="aden-archive-year-title" id="year-2026-title">2026<span class="aden-archive-count">99 posts</span></h2>
+            
+                <section class="aden-archive-month" aria-labelledby="month-2026-11">
+                    <h3 class="aden-archive-month-title" id="month-2026-11">November<span class="aden-archive-count">17</span></h3>
+                    <ol class="aden-archive-entries">
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-11-14T01:00:00.000Z">11-14</time>
+                                <a class="aden-archive-link" href="/en/2026/11/14/2026-11-14-daily-brief/" title="Daily Briefing | 14 November 2026: NVIDIA’s board approaches Arm CEO Haas; Bessent claims the Department of Commerce is delaying the blacklisting of Megaspeed; US October PPI rises to 6.5 per cent year-on-year; AMD falls nearly 9 per cent, dragging down the Nasdaq; China’s renminbi-denominated loans fall by 100 billion yuan in October; Iran says LNG tanker struck a mine; IEA says oil market returns to surplus; ChiNext Index falls 3.32 per cent"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 14 November 2026: </span><span class="aden-entry-title">NVIDIA’s board approaches Arm CEO Haas; Bessent claims the Department of Commerce is delaying the blacklisting of Megaspeed; US October PPI rises to 6.5 per cent year-on-year; AMD falls nearly 9 per cent, dragging down the Nasdaq; China’s renminbi-denominated loans fall by 100 billion yuan in October; Iran says LNG tanker struck a mine; IEA says oil market returns to surplus; ChiNext Index falls 3.32 per cent</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-11-13T15:30:00.000Z">11-13</time>
+                                <a class="aden-archive-link" href="/en/2026/11/13/2026-11-13-jensen-huang-resignation-political-guarantor/" title="Jensen Huang’s resignation: NVIDIA has lost not just its CEO, but the political guarantor of its China policy">Jensen Huang’s resignation: NVIDIA has lost not just its CEO, but the political guarantor of its China policy</a>
+                                
+                                    <span class="aden-archive-meta">Economic Observer</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-11-13T01:00:00.000Z">11-13</time>
+                                <a class="aden-archive-link" href="/en/2026/11/13/2026-11-13-daily-brief/" title="Daily Briefing | 13 November 2026: Jensen Huang steps down as NVIDIA CEO; CFO Kress takes over on an interim basis; 10-year US Treasury yields rise above 5.1 per cent; US shares close slightly lower; Trump states “there is no need to reach an agreement with Iran”; the Ministry of Commerce states that China and the US are moving forward with the “30 billion for 30 billion” tariff reduction arrangement"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 13 November 2026: </span><span class="aden-entry-title">Jensen Huang steps down as NVIDIA CEO; CFO Kress takes over on an interim basis; 10-year US Treasury yields rise above 5.1 per cent; US shares close slightly lower; Trump states “there is no need to reach an agreement with Iran”; the Ministry of Commerce states that China and the US are moving forward with the “30 billion for 30 billion” tariff reduction arrangement</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-11-12T01:00:00.000Z">11-12</time>
+                                <a class="aden-archive-link" href="/en/2026/11/12/2026-11-12-daily-brief/" title="Daily Briefing | 12 November 2026: CoreWeave surges 24 per cent, driving a rebound in AI shares; the Nasdaq rises 1.6 per cent, Reuters reports that Northwestern Polytechnical University, on the US blacklist, has acquired Nvidia H200 chips; the central bank’s third-quarter monetary policy report states that counter-cyclical adjustments will be stepped up; Iran denies holding talks with the US whilst the Strait of Hormuz remains closed; and the House of Representatives has shelved the Hegesseth impeachment case"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 12 November 2026: </span><span class="aden-entry-title">CoreWeave surges 24 per cent, driving a rebound in AI shares; the Nasdaq rises 1.6 per cent, Reuters reports that Northwestern Polytechnical University, on the US blacklist, has acquired Nvidia H200 chips; the central bank’s third-quarter monetary policy report states that counter-cyclical adjustments will be stepped up; Iran denies holding talks with the US whilst the Strait of Hormuz remains closed; and the House of Representatives has shelved the Hegesseth impeachment case</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-11-11T01:00:00.000Z">11-11</time>
+                                <a class="aden-archive-link" href="/en/2026/11/11/2026-11-11-daily-brief/" title="Daily Briefing | 11 November 2026: US October CPI rises 0.4 per cent month-on-month, exceeding expectations; probability of a December rate hike rises to around 90 per cent, Anthropic sets IPO price range with a valuation of up to US$1.4 trillion; CoreWeave reports 168 per cent revenue growth in Q3 and raises guidance; China’s October exports rise by 35 per cent year-on-year, with the trade surplus for the year exceeding US$1 trillion; Trump postpones new strikes against Iran"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 11 November 2026: </span><span class="aden-entry-title">US October CPI rises 0.4 per cent month-on-month, exceeding expectations; probability of a December rate hike rises to around 90 per cent, Anthropic sets IPO price range with a valuation of up to US$1.4 trillion; CoreWeave reports 168 per cent revenue growth in Q3 and raises guidance; China’s October exports rise by 35 per cent year-on-year, with the trade surplus for the year exceeding US$1 trillion; Trump postpones new strikes against Iran</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-11-10T01:00:00.000Z">11-10</time>
+                                <a class="aden-archive-link" href="/en/2026/11/10/2026-11-10-daily-brief/" title="Daily Briefing | 10 November 2026: US shares staged a strong rebound, with the Nasdaq rising 2.7 per cent; Nvidia bucked the trend, falling 4 per cent amid the ‘spy scandal’ involving Jensen Huang; Trump said it was ‘highly unlikely’ that the US would strike Iran again; oil prices fell by around 5 per cent; China’s October PPI rose to 5.7 per cent, hitting a more than four-year high, whilst CPI fell to 0.7 per cent"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 10 November 2026: </span><span class="aden-entry-title">US shares staged a strong rebound, with the Nasdaq rising 2.7 per cent; Nvidia bucked the trend, falling 4 per cent amid the ‘spy scandal’ involving Jensen Huang; Trump said it was ‘highly unlikely’ that the US would strike Iran again; oil prices fell by around 5 per cent; China’s October PPI rose to 5.7 per cent, hitting a more than four-year high, whilst CPI fell to 0.7 per cent</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-11-08T10:00:00.000Z">11-08</time>
+                                <a class="aden-archive-link" href="/en/2026/11/08/2026-11-08-rba-stagflationary-hike-aud-paradox/" title="Interest Rate Hikes Cannot Save the Australian Dollar: The Exchange Rate Paradox of a ‘Stagflationary Rate Hike’">Interest Rate Hikes Cannot Save the Australian Dollar: The Exchange Rate Paradox of a ‘Stagflationary Rate Hike’</a>
+                                
+                                    <span class="aden-archive-meta">Economic Observer</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-11-08T01:00:00.000Z">11-08</time>
+                                <a class="aden-archive-link" href="/en/2026/11/08/2026-11-08-daily-brief/" title="Daily Briefing | 8 November 2026: US military carries out ‘small-scale’ strike on Iran’s Qeshm Island; Trump says progress has been made in negotiations; Israeli President appoints Eisenkot to form a government; OpenAI raises US$11 billion at a valuation of US$1.25 trillion; Microsoft scales back its computing power lease with Oracle; China’s central bank increases its gold reserves for the 24th consecutive month"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 8 November 2026: </span><span class="aden-entry-title">US military carries out ‘small-scale’ strike on Iran’s Qeshm Island; Trump says progress has been made in negotiations; Israeli President appoints Eisenkot to form a government; OpenAI raises US$11 billion at a valuation of US$1.25 trillion; Microsoft scales back its computing power lease with Oracle; China’s central bank increases its gold reserves for the 24th consecutive month</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-11-07T17:30:00.000Z">11-08</time>
+                                <a class="aden-archive-link" href="/en/2026/11/08/2026-11-08-three-pricings-crash-payrolls-nvidia/" title="Three Key Price Moves This Week: The Plunge, the Non-Farm Payrolls Report, and the Link to Nvidia">Three Key Price Moves This Week: The Plunge, the Non-Farm Payrolls Report, and the Link to Nvidia</a>
+                                
+                                    <span class="aden-archive-meta">Economic Observer</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-11-07T01:00:00.000Z">11-07</time>
+                                <a class="aden-archive-link" href="/en/2026/11/07/2026-11-07-daily-brief/" title="Daily Briefing | 7 November 2026: US October non-farm payrolls rose by 165,000, far exceeding expectations; the probability of a December interest rate hike has risen to 78 per cent; the AI sell-off has spread to Asia, triggering a circuit breaker on the South Korean stock market; China’s ChiNext Index fell by nearly 4 per cent; the China Securities Regulatory Commission plans to relax restrictions on share buybacks aimed at stabilising the market; and the expected valuation for Anthropic’s IPO has been revised downwards."><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 7 November 2026: </span><span class="aden-entry-title">US October non-farm payrolls rose by 165,000, far exceeding expectations; the probability of a December interest rate hike has risen to 78 per cent; the AI sell-off has spread to Asia, triggering a circuit breaker on the South Korean stock market; China’s ChiNext Index fell by nearly 4 per cent; the China Securities Regulatory Commission plans to relax restrictions on share buybacks aimed at stabilising the market; and the expected valuation for Anthropic’s IPO has been revised downwards.</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-11-06T01:00:00.000Z">11-06</time>
+                                <a class="aden-archive-link" href="/en/2026/11/06/2026-11-06-daily-brief/" title="Daily Briefing | 6 November 2026: AI-driven sell-off sends the Nasdaq down 5.5 per cent into a correction; the Philadelphia Semiconductor Index plummets 12 per cent; the Bank of England raises interest rates to 4 per cent; oil prices rebound; the A-share market is led higher by the solar sector; the 9th China International Import Expo opens"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 6 November 2026: </span><span class="aden-entry-title">AI-driven sell-off sends the Nasdaq down 5.5 per cent into a correction; the Philadelphia Semiconductor Index plummets 12 per cent; the Bank of England raises interest rates to 4 per cent; oil prices rebound; the A-share market is led higher by the solar sector; the 9th China International Import Expo opens</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-11-05T01:00:00.000Z">11-05</time>
+                                <a class="aden-archive-link" href="/en/2026/11/05/2026-11-05-daily-brief/" title="Daily Briefing | 5 November 2026: Democrats sweep the mid-term elections to secure control of both the Senate and the House of Representatives; the Dow Jones rises by over 3 per cent whilst Brent crude falls by nearly 10 per cent; the A-share STAR 50 index surges by 9.92 per cent; capital shifts from the semiconductor sector to cloud giants; the National Development and Reform Commission publishes the ‘15th Five-Year Plan’ infrastructure list"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 5 November 2026: </span><span class="aden-entry-title">Democrats sweep the mid-term elections to secure control of both the Senate and the House of Representatives; the Dow Jones rises by over 3 per cent whilst Brent crude falls by nearly 10 per cent; the A-share STAR 50 index surges by 9.92 per cent; capital shifts from the semiconductor sector to cloud giants; the National Development and Reform Commission publishes the ‘15th Five-Year Plan’ infrastructure list</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-11-04T17:00:00.000Z">11-05</time>
+                                <a class="aden-archive-link" href="/en/2026/11/05/2026-11-05-midterms-ai-capex-politics/" title="The political calculus of AI capital expenditure following the mid-term elections: the federal government is toothless, whilst the states hold the knife">The political calculus of AI capital expenditure following the mid-term elections: the federal government is toothless, whilst the states hold the knife</a>
+                                
+                                    <span class="aden-archive-meta">Economic Observer</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-11-04T01:00:00.000Z">11-04</time>
+                                <a class="aden-archive-link" href="/en/2026/11/04/2026-11-04-daily-brief/" title="Daily Briefing | 4 November 2026: RBA raises interest rates to 4.85 per cent by a 6–3 vote; 100 billion swap facility comes into effect but A-share optical module stocks plummet; Apple’s gross margin guidance falls; AMD posts record quarterly revenue; US military airstrike on Geshum Island"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 4 November 2026: </span><span class="aden-entry-title">RBA raises interest rates to 4.85 per cent by a 6–3 vote; 100 billion swap facility comes into effect but A-share optical module stocks plummet; Apple’s gross margin guidance falls; AMD posts record quarterly revenue; US military airstrike on Geshum Island</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-11-03T01:00:00.000Z">11-03</time>
+                                <a class="aden-archive-link" href="/en/2026/11/03/2026-11-03-daily-brief/" title="Daily Briefing | 3 November 2026: Repurchase and share buyback programmes converted to long-term arrangements; interest rates cut to 1 per cent; A-shares regain the 3,600-point mark; oil prices fall by over 7 per cent in a single day; Apple posts record revenue; Marvell to acquire Lumentum for US$115 billion"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 3 November 2026: </span><span class="aden-entry-title">Repurchase and share buyback programmes converted to long-term arrangements; interest rates cut to 1 per cent; A-shares regain the 3,600-point mark; oil prices fall by over 7 per cent in a single day; Apple posts record revenue; Marvell to acquire Lumentum for US$115 billion</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-11-02T01:00:00.000Z">11-02</time>
+                                <a class="aden-archive-link" href="/en/2026/11/02/2026-11-02-daily-brief/" title="Daily Briefing | 2 November 2026: Three departments meet today to discuss market stabilisation measures; South Korea’s October exports surge by 93.7 per cent to a record high; Apple launches ‘Qianwen’ in China; OPEC+ maintains December output levels"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2 November 2026: </span><span class="aden-entry-title">Three departments meet today to discuss market stabilisation measures; South Korea’s October exports surge by 93.7 per cent to a record high; Apple launches ‘Qianwen’ in China; OPEC+ maintains December output levels</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-11-01T01:00:00.000Z">11-01</time>
+                                <a class="aden-archive-link" href="/en/2026/11/01/2026-11-01-daily-brief/" title="Daily Briefing | 1 November 2026: China’s October manufacturing PMI falls back to 49.3; OpenAI lowers its funding target; S&amp;P issues a negative outlook on Meta; Iranian delegation heads to Doha; RBA expected to raise interest rates on Tuesday"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 1 November 2026: </span><span class="aden-entry-title">China’s October manufacturing PMI falls back to 49.3; OpenAI lowers its funding target; S&amp;P issues a negative outlook on Meta; Iranian delegation heads to Doha; RBA expected to raise interest rates on Tuesday</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                    </ol>
+                </section>
+            
+                <section class="aden-archive-month" aria-labelledby="month-2026-10">
+                    <h3 class="aden-archive-month-title" id="month-2026-10">October<span class="aden-archive-count">41</span></h3>
+                    <ol class="aden-archive-entries">
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-31T01:00:00.000Z">10-31</time>
+                                <a class="aden-archive-link" href="/en/2026/10/31/2026-10-31-daily-brief/" title="Daily Briefing | 31 October 2026: Intel posts its biggest fall since 1974; the Nasdaq closes October with a sharp drop; the Bank of Japan says inflation has reached target; Binance suffers the largest-ever theft of US$6.3 billion"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 31 October 2026: </span><span class="aden-entry-title">Intel posts its biggest fall since 1974; the Nasdaq closes October with a sharp drop; the Bank of Japan says inflation has reached target; Binance suffers the largest-ever theft of US$6.3 billion</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-30T18:30:00.000Z">10-31</time>
+                                <a class="aden-archive-link" href="/en/2026/10/31/2026-10-31-macro-micro-ai-capex-verdict/" title="In the same week, macro and micro perspectives delivered conflicting assessments of AI capital expenditure">In the same week, macro and micro perspectives delivered conflicting assessments of AI capital expenditure</a>
+                                
+                                    <span class="aden-archive-meta">Economic Observer</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-30T01:00:00.000Z">10-30</time>
+                                <a class="aden-archive-link" href="/en/2026/10/30/2026-10-30-daily-brief/" title="Daily Briefing | 30 October 2026: Alphabet plummets 12.6 per cent in a single day; US Q3 GDP grows by 3.4 per cent; PCE inflation rises to 3.6 per cent; Iran rejects Qatar’s ceasefire proposal"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 30 October 2026: </span><span class="aden-entry-title">Alphabet plummets 12.6 per cent in a single day; US Q3 GDP grows by 3.4 per cent; PCE inflation rises to 3.6 per cent; Iran rejects Qatar’s ceasefire proposal</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-29T01:00:00.000Z">10-29</time>
+                                <a class="aden-archive-link" href="/en/2026/10/29/2026-10-29-daily-brief/" title="Daily Briefing | 29 October 2026: The Fed holds rates steady but two members vote for a hike; mixed results from Microsoft and Google; SK Hynix says memory chips are sold out until 2029"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 29 October 2026: </span><span class="aden-entry-title">The Fed holds rates steady but two members vote for a hike; mixed results from Microsoft and Google; SK Hynix says memory chips are sold out until 2029</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-28T18:40:00.000Z">10-29</time>
+                                <a class="aden-archive-link" href="/en/2026/10/29/2026-10-29-serbia-election-economic-crossroads/" title="Serbia’s Economic Crossroads Amid Political Upheaval: Lithium Mines, Russian Gas and ‘Ironclad Friendship’">Serbia’s Economic Crossroads Amid Political Upheaval: Lithium Mines, Russian Gas and ‘Ironclad Friendship’</a>
+                                
+                                    <span class="aden-archive-meta">Economic Observer</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-28T01:00:00.000Z">10-28</time>
+                                <a class="aden-archive-link" href="/en/2026/10/28/2026-10-28-daily-brief/" title="Daily Briefing | 28 October 2026: Neither of the two main blocs secured a majority in the Israeli general election; China’s industrial profits rose by 14.4 per cent in September; OpenAI launched GPT-6.1 Terra"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 28 October 2026: </span><span class="aden-entry-title">Neither of the two main blocs secured a majority in the Israeli general election; China’s industrial profits rose by 14.4 per cent in September; OpenAI launched GPT-6.1 Terra</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-27T19:30:00.000Z">10-28</time>
+                                <a class="aden-archive-link" href="/en/2026/10/28/2026-10-28-anthropic-s1-open-cards/" title="Anthropic officially unveils its S-1 prospectus: a deep dive – the bets we placed a week ago have all been revealed today">Anthropic officially unveils its S-1 prospectus: a deep dive – the bets we placed a week ago have all been revealed today</a>
+                                
+                                    <span class="aden-archive-meta">Business Insights</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-27T01:00:00.000Z">10-27</time>
+                                <a class="aden-archive-link" href="/en/2026/10/27/2026-10-27-daily-brief/" title="Daily Briefing | 27 October 2026: Lula’s re-election triggers sharp falls in Brazilian shares and currency; Anthropic files for an IPO; Meta plans to raise US$95 billion through an equity offering"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 27 October 2026: </span><span class="aden-entry-title">Lula’s re-election triggers sharp falls in Brazilian shares and currency; Anthropic files for an IPO; Meta plans to raise US$95 billion through an equity offering</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-26T01:00:00.000Z">10-26</time>
+                                <a class="aden-archive-link" href="/en/2026/10/26/2026-10-26-daily-brief/" title="Daily Briefing | 26 October 2026: Lula secures a comeback victory to win a second term as Brazilian President; Houthi rebels claim to have attacked a Saudi oil pipeline; Trump says the choice between ‘negotiation or war’ with Iran will be decided"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 26 October 2026: </span><span class="aden-entry-title">Lula secures a comeback victory to win a second term as Brazilian President; Houthi rebels claim to have attacked a Saudi oil pipeline; Trump says the choice between ‘negotiation or war’ with Iran will be decided</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-25T01:00:00.000Z">10-25</time>
+                                <a class="aden-archive-link" href="/en/2026/10/25/2026-10-25-daily-brief/" title="Daily Briefing | 25 October 2026: Trump suggests he may strike Iran again; over 400,000 protest in France; OpenAI switches to offline training for cutting-edge models"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 25 October 2026: </span><span class="aden-entry-title">Trump suggests he may strike Iran again; over 400,000 protest in France; OpenAI switches to offline training for cutting-edge models</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-24T19:30:00.000Z">10-25</time>
+                                <a class="aden-archive-link" href="/en/2026/10/25/2026-10-25-ai-agent-loss-of-control-era/" title="The Year AI Agents Ran Amok: The first large-scale cyberattack driven by an AI agent, and the surveillance camera that was quietly switched off">The Year AI Agents Ran Amok: The first large-scale cyberattack driven by an AI agent, and the surveillance camera that was quietly switched off</a>
+                                
+                                    <span class="aden-archive-meta">Science and technology observation</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-24T12:00:00.000Z">10-24</time>
+                                <a class="aden-archive-link" href="/en/2026/10/24/2026-10-24-ai-capex-us-gdp-pillar/" title="Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP">Consumption is no longer the defining feature of the US economy: how AI capital expenditure has become the ‘backbone’ of US GDP</a>
+                                
+                                    <span class="aden-archive-meta">Economic Observer</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-24T10:30:00.000Z">10-24</time>
+                                <a class="aden-archive-link" href="/en/2026/10/24/2026-10-24-openai-vs-anthropic-ipo-race/" title="OpenAI vs Anthropic: Why is the larger of the two giants going public later?">OpenAI vs Anthropic: Why is the larger of the two giants going public later?</a>
+                                
+                                    <span class="aden-archive-meta">Business Insights</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-24T01:00:00.000Z">10-24</time>
+                                <a class="aden-archive-link" href="/en/2026/10/24/2026-10-24-daily-brief/" title="Daily Briefing | 24 October 2026: Brent crude nears US$117; US expands technology investment restrictions on China; OpenAI plans to raise funds at a valuation of US$1.25 trillion"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 24 October 2026: </span><span class="aden-entry-title">Brent crude nears US$117; US expands technology investment restrictions on China; OpenAI plans to raise funds at a valuation of US$1.25 trillion</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-23T01:00:00.000Z">10-23</time>
+                                <a class="aden-archive-link" href="/en/2026/10/23/2026-10-23-daily-brief/" title="Daily Briefing | 23 October 2026: Escalating conflict in the Middle East pushes Brent crude above US$110; Meta’s shift to negative cash flow sparks concerns over AI funding"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 23 October 2026: </span><span class="aden-entry-title">Escalating conflict in the Middle East pushes Brent crude above US$110; Meta’s shift to negative cash flow sparks concerns over AI funding</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-22T17:30:00.000Z">10-23</time>
+                                <a class="aden-archive-link" href="/en/2026/10/23/2026-10-23-anthropic-loss-ipo/" title="Anthropic, with a loss of 80.7 billion, is currently in the healthiest state in its history – why is that?">Anthropic, with a loss of 80.7 billion, is currently in the healthiest state in its history – why is that?</a>
+                                
+                                    <span class="aden-archive-meta">Business Insights</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-22T01:00:00.000Z">10-22</time>
+                                <a class="aden-archive-link" href="/en/2026/10/22/2026-10-22-daily-brief/" title="Daily Briefing | 22 October 2026: Prospects for the resumption of trilateral Russia-Ukraine talks, security concerns in Saudi Arabia and further increases in AI capital expenditure"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 22 October 2026: </span><span class="aden-entry-title">Prospects for the resumption of trilateral Russia-Ukraine talks, security concerns in Saudi Arabia and further increases in AI capital expenditure</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-21T04:00:00.000Z">10-21</time>
+                                <a class="aden-archive-link" href="/en/2026/10/21/2026-10-21-rba-rate-hikes-aud-cny/" title="Australia Rate Hikes and the AUD/CNY Exchange Rate: RBA 2026 Tightening Cycle and AUD/CNY Scenario Analysis">Australia Rate Hikes and the AUD/CNY Exchange Rate: RBA 2026 Tightening Cycle and AUD/CNY Scenario Analysis</a>
+                                
+                                    <span class="aden-archive-meta">Economic Observer</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-21T01:00:00.000Z">10-21</time>
+                                <a class="aden-archive-link" href="/en/2026/10/21/2026-10-21-daily-brief/" title="Daily Briefing | 21 October 2026: Attacks on Black Sea shipping, a new proposal for Russia-Ukraine, and the deepening integration of AI into industry"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 21 October 2026: </span><span class="aden-entry-title">Attacks on Black Sea shipping, a new proposal for Russia-Ukraine, and the deepening integration of AI into industry</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-20T23:00:00.000Z">10-21</time>
+                                <a class="aden-archive-link" href="/en/2026/10/21/2026-10-21-europe-protest-wave-cost-of-living/" title="The Synchronisation of the Wave of Protests Across Europe: How Interest Rate Cycles and the Cost-of-Living Crisis Have Fuelled a Wave of Transnational Protests">The Synchronisation of the Wave of Protests Across Europe: How Interest Rate Cycles and the Cost-of-Living Crisis Have Fuelled a Wave of Transnational Protests</a>
+                                
+                                    <span class="aden-archive-meta">Economic Observer</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-20T17:30:00.000Z">10-21</time>
+                                <a class="aden-archive-link" href="/en/2026/10/21/2026-10-21-fed-rate-hike-oil-stagflation/" title="Fed Rate Hikes and Oil Prices: Why This ‘Stagflation’ Has Left the Fed in a Tight Spot">Fed Rate Hikes and Oil Prices: Why This ‘Stagflation’ Has Left the Fed in a Tight Spot</a>
+                                
+                                    <span class="aden-archive-meta">Economic Observer</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-20T01:00:00.000Z">10-20</time>
+                                <a class="aden-archive-link" href="/en/2026/10/20/2026-10-20-daily-brief/" title="Daily Briefing | 2026-10-20: Policy Support and the AI Compute Race Run in Parallel, Markets Still Driven by Energy and Political Risks"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-10-20: </span><span class="aden-entry-title">Policy Support and the AI Compute Race Run in Parallel, Markets Still Driven by Energy and Political Risks</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-19T01:00:00.000Z">10-19</time>
+                                <a class="aden-archive-link" href="/en/2026/10/19/2026-10-19-daily-brief/" title="Daily Briefing | 2026-10-19: Debt, AI and Energy Security Repricing Global Risks"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-10-19: </span><span class="aden-entry-title">Debt, AI and Energy Security Repricing Global Risks</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-17T17:32:46.000Z">10-18</time>
+                                <a class="aden-archive-link" href="/en/2026/10/18/2026-10-18-claude-opus-5-5-pricing-myth/" title="Claude Opus 5.5 and the Myth of Cheaper AI: Engineering Progress or a Pre-IPO Price War?">Claude Opus 5.5 and the Myth of Cheaper AI: Engineering Progress or a Pre-IPO Price War?</a>
+                                
+                                    <span class="aden-archive-meta">AI and Technology</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-17T01:00:00.000Z">10-17</time>
+                                <a class="aden-archive-link" href="/en/2026/10/17/2026-10-17-daily-brief/" title="Daily Briefing | October 17, 2026: Bond market tightening, AI investment, and geopolitical risks intertwine"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | October 17, 2026: </span><span class="aden-entry-title">Bond market tightening, AI investment, and geopolitical risks intertwine</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-16T01:00:00.000Z">10-16</time>
+                                <a class="aden-archive-link" href="/en/2026/10/16/2026-10-16-daily-brief/" title="Daily Briefing | 2026-10-16: High Interest Rates and War Reshape Growth Paths"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-10-16: </span><span class="aden-entry-title">High Interest Rates and War Reshape Growth Paths</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-15T01:00:00.000Z">10-15</time>
+                                <a class="aden-archive-link" href="/en/2026/10/15/2026-10-15-daily-brief/" title="Daily Briefing | 2026-10-15: Inflation and Shipping Risks Raise Capital Costs"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-10-15: </span><span class="aden-entry-title">Inflation and Shipping Risks Raise Capital Costs</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-14T04:00:00.000Z">10-14</time>
+                                <a class="aden-archive-link" href="/en/2026/10/14/2026-10-14-gemini-4-argon-vs-claude-opus-5-5-writing-test/" title="Who is better at &quot;speaking human language&quot;? Gemini 4 Argon and Claude Opus 5.5 Writing Test">Who is better at "speaking human language"? Gemini 4 Argon and Claude Opus 5.5 Writing Test</a>
+                                
+                                    <span class="aden-archive-meta">AI and Technology</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-14T01:00:00.000Z">10-14</time>
+                                <a class="aden-archive-link" href="/en/2026/10/14/2026-10-14-daily-brief/" title="Daily Briefing | October 14, 2026: IMF raises growth rate, energy and AI risks resonate"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | October 14, 2026: </span><span class="aden-entry-title">IMF raises growth rate, energy and AI risks resonate</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-13T01:00:00.000Z">10-13</time>
+                                <a class="aden-archive-link" href="/en/2026/10/13/2026-10-13-daily-brief/" title="Daily Briefing | October 13, 2026: Oil Prices and US Dollars Rise Together, Computing Power and Trade Rearrange"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | October 13, 2026: </span><span class="aden-entry-title">Oil Prices and US Dollars Rise Together, Computing Power and Trade Rearrange</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-12T01:00:00.000Z">10-12</time>
+                                <a class="aden-archive-link" href="/en/2026/10/12/2026-10-12-daily-brief/" title="Daily Briefing | October 12, 2026: Energy Shocks Coupled with AI M&amp;A and Market Stability Signals"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | October 12, 2026: </span><span class="aden-entry-title">Energy Shocks Coupled with AI M&amp;A and Market Stability Signals</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-11T01:00:00.000Z">10-11</time>
+                                <a class="aden-archive-link" href="/en/2026/10/11/2026-10-11-daily-brief/" title="Daily Briefing | October 11, 2026: Employment Support and AI Capital Reassessment Go Hand in Hand"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | October 11, 2026: </span><span class="aden-entry-title">Employment Support and AI Capital Reassessment Go Hand in Hand</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-10T01:00:00.000Z">10-10</time>
+                                <a class="aden-archive-link" href="/en/2026/10/10/2026-10-10-daily-brief/" title="Daily Briefing | 2026-10-10: High Interest Rates Test AI Investment and Policy Support"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-10-10: </span><span class="aden-entry-title">High Interest Rates Test AI Investment and Policy Support</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-08T16:00:00.000Z">10-09</time>
+                                <a class="aden-archive-link" href="/en/2026/10/09/2026-10-09-daily-brief/" title="Daily Briefing | October 9, 2026: Fed Tightening and Middle East Negotiations Affect Global Assets"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | October 9, 2026: </span><span class="aden-entry-title">Fed Tightening and Middle East Negotiations Affect Global Assets</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-05T04:53:00.000Z">10-05</time>
+                                <a class="aden-archive-link" href="/en/2026/10/05/2026-10-05-daily-brief/" title="Daily Briefing | October 5, 2026: Interest Rate Cut Expectations Resurge, Safety Costs Continue to Rise"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | October 5, 2026: </span><span class="aden-entry-title">Interest Rate Cut Expectations Resurge, Safety Costs Continue to Rise</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-05T04:00:00.000Z">10-05</time>
+                                <a class="aden-archive-link" href="/en/2026/10/05/2026-10-05-llama-cpp-qwen35-9b-8gb-laptop/" title="With just 8GB of video memory, you can deploy a 30 tk/s multimodal AI in your laptop.">With just 8GB of video memory, you can deploy a 30 tk/s multimodal AI in your laptop.</a>
+                                
+                                    <span class="aden-archive-meta">AI and Technology</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-04T09:38:00.000Z">10-04</time>
+                                <a class="aden-archive-link" href="/en/2026/10/04/2026-10-04-daily-brief/" title="Daily Briefing | 2026-10-04: Security Anxiety Reshapes the Capital and Policy Agenda"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-10-04: </span><span class="aden-entry-title">Security Anxiety Reshapes the Capital and Policy Agenda</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-03T01:02:56.000Z">10-03</time>
+                                <a class="aden-archive-link" href="/en/2026/10/03/2026-10-03-daily-brief/" title="Daily Briefing | 2026-10-03: Energy Shocks Reshape Global Policy Paths"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-10-03: </span><span class="aden-entry-title">Energy Shocks Reshape Global Policy Paths</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-02T01:00:00.000Z">10-02</time>
+                                <a class="aden-archive-link" href="/en/2026/10/02/2026-10-02-daily-brief/" title="Daily Briefing | October 2, 2026: High Bond Market Pressure and Tightening Global Fuel Supply"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | October 2, 2026: </span><span class="aden-entry-title">High Bond Market Pressure and Tightening Global Fuel Supply</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-01T06:44:00.000Z">10-01</time>
+                                <a class="aden-archive-link" href="/en/2026/10/01/2026-10-01-gemini-4-argon/" title="Gemini 4 Argon: The reasons I like Gemini are all written in Argon this time.">Gemini 4 Argon: The reasons I like Gemini are all written in Argon this time.</a>
+                                
+                                    <span class="aden-archive-meta">AI and Technology</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-10-01T01:00:00.000Z">10-01</time>
+                                <a class="aden-archive-link" href="/en/2026/10/01/2026-10-01-daily-brief/" title="Daily Briefing | October 1, 2026: Policy Divergence between China, Europe, and the United States and the Reassessment of Energy Interest Rates"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | October 1, 2026: </span><span class="aden-entry-title">Policy Divergence between China, Europe, and the United States and the Reassessment of Energy Interest Rates</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                    </ol>
+                </section>
+            
+                <section class="aden-archive-month" aria-labelledby="month-2026-09">
+                    <h3 class="aden-archive-month-title" id="month-2026-09">September<span class="aden-archive-count">30</span></h3>
+                    <ol class="aden-archive-entries">
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-30T01:00:00.000Z">09-30</time>
+                                <a class="aden-archive-link" href="/en/2026/09/30/2026-09-30-daily-brief/" title="Daily Briefing | 2026-09-30: Rising Interest Rates and Accelerated AI Capital Spending"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-09-30: </span><span class="aden-entry-title">Rising Interest Rates and Accelerated AI Capital Spending</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-29T01:00:00.000Z">09-29</time>
+                                <a class="aden-archive-link" href="/en/2026/09/29/2026-09-29-daily-brief/" title="Daily Briefing | 2026-09-29: Tariff Easing and Interest Rate Risks Intertwine"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-09-29: </span><span class="aden-entry-title">Tariff Easing and Interest Rate Risks Intertwine</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-28T01:00:00.000Z">09-28</time>
+                                <a class="aden-archive-link" href="/en/2026/09/28/2026-09-28-daily-brief/" title="Daily Briefing | 2026-09-28: Oil prices rebound, AI regulation and geopolitical risks escalate again"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-09-28: </span><span class="aden-entry-title">Oil prices rebound, AI regulation and geopolitical risks escalate again</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-27T14:04:00.000Z">09-27</time>
+                                <a class="aden-archive-link" href="/en/2026/09/27/2026-09-27-daily-brief/" title="Daily Briefing | 2026-09-27: China and the US lower tariffs, AI security and Hormuz risks escalate"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-09-27: </span><span class="aden-entry-title">China and the US lower tariffs, AI security and Hormuz risks escalate</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-25T13:36:00.000Z">09-25</time>
+                                <a class="aden-archive-link" href="/en/2026/09/25/2026-09-25-daily-brief/" title="Daily Briefing | 2026-09-25: US Treasury Bonds Under Long-Term Pressure, AI Financing Intertwined with US-China Game"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-09-25: </span><span class="aden-entry-title">US Treasury Bonds Under Long-Term Pressure, AI Financing Intertwined with US-China Game</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-24T00:58:00.000Z">09-24</time>
+                                <a class="aden-archive-link" href="/en/2026/09/24/2026-09-24-daily-brief/" title="Daily Briefing | 2026-09-24: Obstacles Removed Ahead of US-China Summit: Interest Rate and Energy Risks Intertwine"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-09-24: </span><span class="aden-entry-title">Obstacles Removed Ahead of US-China Summit: Interest Rate and Energy Risks Intertwine</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-23T00:57:00.000Z">09-23</time>
+                                <a class="aden-archive-link" href="/en/2026/09/23/2026-09-23-daily-brief/" title="Daily Briefing | 2026-09-23: AI Regulation Intensifies, Sino-European Auto Investment and Hormuz Risks Go Hand in Hand"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-09-23: </span><span class="aden-entry-title">AI Regulation Intensifies, Sino-European Auto Investment and Hormuz Risks Go Hand in Hand</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-22T02:23:00.000Z">09-22</time>
+                                <a class="aden-archive-link" href="/en/2026/09/22/2026-09-22-daily-brief/" title="Daily Briefing | 2026-09-22: AI Reignites Risk Appetite, China-US Security Dialogue Launched"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-09-22: </span><span class="aden-entry-title">AI Reignites Risk Appetite, China-US Security Dialogue Launched</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-21T07:11:00.000Z">09-21</time>
+                                <a class="aden-archive-link" href="/en/2026/09/21/2026-09-21-daily-brief/" title="Daily Briefing | 2026-09-21: Global tightening coupled with energy risks: China and the US turn to crisis management"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-09-21: </span><span class="aden-entry-title">Global tightening coupled with energy risks: China and the US turn to crisis management</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-20T13:00:00.000Z">09-20</time>
+                                <a class="aden-archive-link" href="/en/2026/09/20/jev-system-one/" title="Why Jev became popular: When AI stopped writing answers and instead made judgments for the software.">Why Jev became popular: When AI stopped writing answers and instead made judgments for the software.</a>
+                                
+                                    <span class="aden-archive-meta">Science and technology observation</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-20T01:00:00.000Z">09-20</time>
+                                <a class="aden-archive-link" href="/en/2026/09/20/2026-09-20-daily-brief/" title="Daily Briefing | 2026-09-20: Saudi Arabia Attack and US-China Talks Affect Energy and Technology Expectations"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-09-20: </span><span class="aden-entry-title">Saudi Arabia Attack and US-China Talks Affect Energy and Technology Expectations</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-19T01:00:00.000Z">09-19</time>
+                                <a class="aden-archive-link" href="/en/2026/09/19/2026-09-19-daily-brief/" title="Daily Briefing | 2026-09-19: Energy Shocks and AI Security Reshaping Risk Pricing"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-09-19: </span><span class="aden-entry-title">Energy Shocks and AI Security Reshaping Risk Pricing</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-18T01:02:00.000Z">09-18</time>
+                                <a class="aden-archive-link" href="/en/2026/09/18/2026-09-18-daily-brief/" title="Daily Briefing | 2026-09-18: Oil prices hold above 100 yuan, global policies shift towards inflation prevention"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-09-18: </span><span class="aden-entry-title">Oil prices hold above 100 yuan, global policies shift towards inflation prevention</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-17T01:00:00.000Z">09-17</time>
+                                <a class="aden-archive-link" href="/en/2026/09/17/2026-09-17-daily-brief/" title="Daily Briefing | 2026-09-17: Federal Reserve Resumes Rate Hikes, Oil Routes and AI Regulations Tighten Simultaneously"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-09-17: </span><span class="aden-entry-title">Federal Reserve Resumes Rate Hikes, Oil Routes and AI Regulations Tighten Simultaneously</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-16T01:00:00.000Z">09-16</time>
+                                <a class="aden-archive-link" href="/en/2026/09/16/2026-09-16-daily-brief/" title="Daily Briefing | 2026-09-16: Oil Prices and Bond Yields Resonate, Global Risk Asset Repricing"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-09-16: </span><span class="aden-entry-title">Oil Prices and Bond Yields Resonate, Global Risk Asset Repricing</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-15T01:00:00.000Z">09-15</time>
+                                <a class="aden-archive-link" href="/en/2026/09/15/2026-09-15-daily-brief/" title="Daily Briefing | 2026-09-15: High oil prices near interest rate hikes, AI valuations suddenly revalued"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-09-15: </span><span class="aden-entry-title">High oil prices near interest rate hikes, AI valuations suddenly revalued</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-14T01:02:00.000Z">09-14</time>
+                                <a class="aden-archive-link" href="/en/2026/09/14/2026-09-14-daily-brief/" title="Daily Briefing | 2026-09-14: Saudi Arabia faces oil supply crisis, AI governance and BRICS agenda heat up"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-09-14: </span><span class="aden-entry-title">Saudi Arabia faces oil supply crisis, AI governance and BRICS agenda heat up</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-13T01:01:00.000Z">09-13</time>
+                                <a class="aden-archive-link" href="/en/2026/09/13/2026-09-13-daily-brief/" title="Daily Briefing | 2026-09-13: Red Sea shipping lanes under renewed pressure, Fed rate hike expectations rise"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-09-13: </span><span class="aden-entry-title">Red Sea shipping lanes under renewed pressure, Fed rate hike expectations rise</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-12T01:00:00.000Z">09-12</time>
+                                <a class="aden-archive-link" href="/en/2026/09/12/2026-09-12-daily-brief/" title="Daily Briefing | 2026-09-12: Oil market gap widens, interest rates and AI regulations tighten in tandem"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-09-12: </span><span class="aden-entry-title">Oil market gap widens, interest rates and AI regulations tighten in tandem</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-11T01:03:00.000Z">09-11</time>
+                                <a class="aden-archive-link" href="/en/2026/09/11/2026-09-11-daily-brief/" title="Daily Briefing | 2026-09-11: Oil Prices Breaking 100 Force Global Reassessment of Interest Rate Path"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-09-11: </span><span class="aden-entry-title">Oil Prices Breaking 100 Force Global Reassessment of Interest Rate Path</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-10T01:00:00.000Z">09-10</time>
+                                <a class="aden-archive-link" href="/en/2026/09/10/2026-09-10-daily-brief/" title="Daily Briefing | 2026-09-10: Oil Prices Return to 100 Yuan, AI Governance Pressure Intensifies"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-09-10: </span><span class="aden-entry-title">Oil Prices Return to 100 Yuan, AI Governance Pressure Intensifies</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-09T00:57:10.000Z">09-09</time>
+                                <a class="aden-archive-link" href="/en/2026/09/09/2026-09-09-daily-brief/" title="Daily Briefing | 2026-09-09: Oil prices approach 100 yuan again, China's foreign trade and AI investment strengthen"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-09-09: </span><span class="aden-entry-title">Oil prices approach 100 yuan again, China's foreign trade and AI investment strengthen</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-08T00:58:52.000Z">09-08</time>
+                                <a class="aden-archive-link" href="/en/2026/09/08/2026-09-08-daily-brief/" title="Daily Briefing | 2026-09-08: Oil prices approach $100, pressures on growth and AI security"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-09-08: </span><span class="aden-entry-title">Oil prices approach $100, pressures on growth and AI security</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-07T01:02:39.000Z">09-07</time>
+                                <a class="aden-archive-link" href="/en/2026/09/07/2026-09-07-daily-brief/" title="Daily Briefing | 2026-09-07: Hormuz tightens again, China's financial system replenishes capital"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-09-07: </span><span class="aden-entry-title">Hormuz tightens again, China's financial system replenishes capital</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-06T01:02:42.000Z">09-06</time>
+                                <a class="aden-archive-link" href="/en/2026/09/06/2026-09-06-daily-brief/" title="Daily Briefing | 2026-09-06: US-Iran escalate again, AI computing power continues to expand"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-09-06: </span><span class="aden-entry-title">US-Iran escalate again, AI computing power continues to expand</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-05T00:59:27.000Z">09-05</time>
+                                <a class="aden-archive-link" href="/en/2026/09/05/2026-09-05-daily-brief/" title="Daily Briefing | 2026-09-05: Strong Employment, High Oil Prices Tighten Policy Space"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-09-05: </span><span class="aden-entry-title">Strong Employment, High Oil Prices Tighten Policy Space</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-04T01:00:00.000Z">09-04</time>
+                                <a class="aden-archive-link" href="/en/2026/09/04/2026-09-04-daily-brief/" title="Daily Briefing | 2026-09-04: Oil prices surge again, Nvidia bets on opening up AI"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-09-04: </span><span class="aden-entry-title">Oil prices surge again, Nvidia bets on opening up AI</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-03T01:00:30.000Z">09-03</time>
+                                <a class="aden-archive-link" href="/en/2026/09/03/2026-09-03-daily-brief/" title="Daily Briefing | 2026-09-03: Oil prices approach $96, policy and AI strengthen defenses"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-09-03: </span><span class="aden-entry-title">Oil prices approach $96, policy and AI strengthen defenses</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-02T01:01:07.000Z">09-02</time>
+                                <a class="aden-archive-link" href="/en/2026/09/02/2026-09-02-daily-brief/" title="Daily Briefing | 2026-09-02: Eurozone Inflation Rises Again, Policy Intervention Intensifies Across the Board"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-09-02: </span><span class="aden-entry-title">Eurozone Inflation Rises Again, Policy Intervention Intensifies Across the Board</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-09-01T00:57:44.000Z">09-01</time>
+                                <a class="aden-archive-link" href="/en/2026/09/01/2026-09-01-daily-brief/" title="Daily Briefing | 2026-09-01: Oil prices climb above $90 again, the gap between growth and computing power widens."><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-09-01: </span><span class="aden-entry-title">Oil prices climb above $90 again, the gap between growth and computing power widens.</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                    </ol>
+                </section>
+            
+                <section class="aden-archive-month" aria-labelledby="month-2026-08">
+                    <h3 class="aden-archive-month-title" id="month-2026-08">August<span class="aden-archive-count">11</span></h3>
+                    <ol class="aden-archive-entries">
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-08-31T01:00:00.000Z">08-31</time>
+                                <a class="aden-archive-link" href="/en/2026/08/31/2026-08-31-daily-brief/" title="Daily Briefing | August 31, 2026: Tensions Rise Again in Hormuz, Global Funds Reassess Risks"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | August 31, 2026: </span><span class="aden-entry-title">Tensions Rise Again in Hormuz, Global Funds Reassess Risks</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-08-30T01:02:00.000Z">08-30</time>
+                                <a class="aden-archive-link" href="/en/2026/08/30/2026-08-30-daily-brief/" title="Daily Briefing | 2026-08-30: Japanese Yen Approaches 160 Again, Technology and Energy Risks Heat Up"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-08-30: </span><span class="aden-entry-title">Japanese Yen Approaches 160 Again, Technology and Energy Risks Heat Up</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-08-29T01:00:00.000Z">08-29</time>
+                                <a class="aden-archive-link" href="/en/2026/08/29/2026-08-29-daily-brief/" title="Daily Briefing | August 29, 2026: Federal Reserve Turns Hawkish Again, China's Real Estate Reshapes Pre-sale Rules"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | August 29, 2026: </span><span class="aden-entry-title">Federal Reserve Turns Hawkish Again, China's Real Estate Reshapes Pre-sale Rules</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-08-28T13:18:00.000Z">08-28</time>
+                                <a class="aden-archive-link" href="/en/2026/08/28/2026-08-28-econ3116-international-trade-review/" title="ECON3116 What We Learned from International Trade Theory and Policy: A Complete Review Note on From Comparative Advantage to Trade Policy">ECON3116 What We Learned from International Trade Theory and Policy: A Complete Review Note on From Comparative Advantage to Trade Policy</a>
+                                
+                                    <span class="aden-archive-meta">Study Notes</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-08-28T12:20:54.000Z">08-28</time>
+                                <a class="aden-archive-link" href="/en/2026/08/28/2026-08-28-econ3124-behavioural-economics-review/" title="ECON3124 What I Learned in Behavioral Economics: Complete Notes from Core Theories to Final Review">ECON3124 What I Learned in Behavioral Economics: Complete Notes from Core Theories to Final Review</a>
+                                
+                                    <span class="aden-archive-meta">Study Notes</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-08-28T00:58:00.000Z">08-28</time>
+                                <a class="aden-archive-link" href="/en/2026/08/28/2026-08-28-daily-brief/" title="Daily Briefing | 2026-08-28: Hawkish Trends Rise Again, Nvidia Supports AI Narrative"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-08-28: </span><span class="aden-entry-title">Hawkish Trends Rise Again, Nvidia Supports AI Narrative</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-08-27T08:54:57.000Z">08-27</time>
+                                <a class="aden-archive-link" href="/en/2026/08/27/2026-08-27-zhongyuan-festival/" title="Zhongyuan Festival: The 15th day of the seventh lunar month for Chinese people, from ancestor worship and Obon to Zhongyuan tradition.">Zhongyuan Festival: The 15th day of the seventh lunar month for Chinese people, from ancestor worship and Obon to Zhongyuan tradition.</a>
+                                
+                                    <span class="aden-archive-meta">Chinese traditional festivals</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-08-27T01:00:00.000Z">08-27</time>
+                                <a class="aden-archive-link" href="/en/2026/08/27/2026-08-27-daily-brief/" title="Daily Briefing | 2026-08-27: Inflationary pressures resurface, AI and energy risks intertwine"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | 2026-08-27: </span><span class="aden-entry-title">Inflationary pressures resurface, AI and energy risks intertwine</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-08-26T06:01:06.000Z">08-26</time>
+                                <a class="aden-archive-link" href="/en/2026/08/26/2026-08-26-daily-brief/" title="Daily Briefing | August 26, 2026: Economy Shows Resilience, AI Enters Professional Track"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | August 26, 2026: </span><span class="aden-entry-title">Economy Shows Resilience, AI Enters Professional Track</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-08-25T04:20:00.000Z">08-25</time>
+                                <a class="aden-archive-link" href="/en/2026/08/25/2026-08-25-daily-brief/" title="Daily Briefing | August 25, 2026: Reserve Bank of Australia Turns Hawkish, Global Policy Constraints Tighten"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | August 25, 2026: </span><span class="aden-entry-title">Reserve Bank of Australia Turns Hawkish, Global Policy Constraints Tighten</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2026-08-24T04:30:00.000Z">08-24</time>
+                                <a class="aden-archive-link" href="/en/2026/08/24/2026-08-24-daily-brief/" title="Daily Briefing | August 24, 2026: AI Competition Heats Up, Geopolitical Risks Affect Markets"><span class="aden-entry-brief">Brief</span><span class="aden-sr-only">Daily Briefing | August 24, 2026: </span><span class="aden-entry-title">AI Competition Heats Up, Geopolitical Risks Affect Markets</span></a>
+                                
+                                    <span class="aden-archive-meta">Daily Briefing</span>
+                                
+                            </li>
+                        
+                    </ol>
+                </section>
+            
+        </section>
+    
+        <section class="aden-archive-year" id="year-2024" aria-labelledby="year-2024-title">
+            <h2 class="aden-archive-year-title" id="year-2024-title">2024<span class="aden-archive-count">3 posts</span></h2>
+            
+                <section class="aden-archive-month" aria-labelledby="month-2024-07">
+                    <h3 class="aden-archive-month-title" id="month-2024-07">July<span class="aden-archive-count">1</span></h3>
+                    <ol class="aden-archive-entries">
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2024-07-16T00:41:58.000Z">07-16</time>
+                                <a class="aden-archive-link" href="/en/2024/07/16/%E5%B0%8F%E7%B1%B313Ultra%E5%8D%8A%E5%B9%B4%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A/" title="Xiaomi 13 Ultra Half-Year Usage Report - Xiaomi 13 Ultra Demystification">Xiaomi 13 Ultra Half-Year Usage Report - Xiaomi 13 Ultra Demystification</a>
+                                
+                                    <span class="aden-archive-meta"></span>
+                                
+                            </li>
+                        
+                    </ol>
+                </section>
+            
+                <section class="aden-archive-month" aria-labelledby="month-2024-06">
+                    <h3 class="aden-archive-month-title" id="month-2024-06">June<span class="aden-archive-count">1</span></h3>
+                    <ol class="aden-archive-entries">
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2024-06-21T01:10:38.000Z">06-21</time>
+                                <a class="aden-archive-link" href="/en/2024/06/21/%E5%B0%8F%E7%B1%B3%E5%B9%B4%E5%BA%A6%E6%97%97%E8%88%B0-%E5%B0%8F%E7%B1%B314Ultra%E5%8F%91%E5%B8%83/" title="Xiaomi's flagship of the year --- Xiaomi 14 Ultra released">Xiaomi's flagship of the year --- Xiaomi 14 Ultra released</a>
+                                
+                                    <span class="aden-archive-meta"></span>
+                                
+                            </li>
+                        
+                    </ol>
+                </section>
+            
+                <section class="aden-archive-month" aria-labelledby="month-2024-01">
+                    <h3 class="aden-archive-month-title" id="month-2024-01">January<span class="aden-archive-count">1</span></h3>
+                    <ol class="aden-archive-entries">
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2024-01-05T11:07:05.000Z">01-05</time>
+                                <a class="aden-archive-link" href="/en/2024/01/05/MIUI-EU%E6%B7%BB%E5%8A%A0%E5%9B%BD%E5%86%85%E7%89%88%E9%92%B1%E5%8C%85%E5%AE%9E%E7%8E%B0%E5%88%B7%E5%85%AC%E4%BA%A4%E5%8D%A1%E5%92%8C%E9%97%A8%E5%8D%A1/" title="MIUI EU adds a domestic wallet to enable swiping public transport cards and door cards.">MIUI EU adds a domestic wallet to enable swiping public transport cards and door cards.</a>
+                                
+                                    <span class="aden-archive-meta"></span>
+                                
+                            </li>
+                        
+                    </ol>
+                </section>
+            
+        </section>
+    
+        <section class="aden-archive-year" id="year-2023" aria-labelledby="year-2023-title">
+            <h2 class="aden-archive-year-title" id="year-2023-title">2023<span class="aden-archive-count">11 posts</span></h2>
+            
+                <section class="aden-archive-month" aria-labelledby="month-2023-08">
+                    <h3 class="aden-archive-month-title" id="month-2023-08">August<span class="aden-archive-count">1</span></h3>
+                    <ol class="aden-archive-entries">
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2023-08-15T09:18:12.000Z">08-15</time>
+                                <a class="aden-archive-link" href="/en/2023/08/15/%E5%B0%8F%E7%B1%B3MIX-Fold-3%E2%80%94%E2%80%94%E8%BD%BB%E8%96%84%E6%8A%98%E5%8F%A0%E7%9C%9F%E6%97%97%E8%88%B0/" title="Xiaomi MIX Fold 3">Xiaomi MIX Fold 3</a>
+                                
+                                    <span class="aden-archive-meta"></span>
+                                
+                            </li>
+                        
+                    </ol>
+                </section>
+            
+                <section class="aden-archive-month" aria-labelledby="month-2023-07">
+                    <h3 class="aden-archive-month-title" id="month-2023-07">July<span class="aden-archive-count">1</span></h3>
+                    <ol class="aden-archive-entries">
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2023-07-23T08:57:46.000Z">07-23</time>
+                                <a class="aden-archive-link" href="/en/2023/07/23/%E5%8A%AA%E6%AF%94%E4%BA%9AZ50S-Pro/" title="Nubia Z50S Pro">Nubia Z50S Pro</a>
+                                
+                                    <span class="aden-archive-meta"></span>
+                                
+                            </li>
+                        
+                    </ol>
+                </section>
+            
+                <section class="aden-archive-month" aria-labelledby="month-2023-05">
+                    <h3 class="aden-archive-month-title" id="month-2023-05">May<span class="aden-archive-count">1</span></h3>
+                    <ol class="aden-archive-entries">
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2023-05-31T13:49:26.000Z">05-31</time>
+                                <a class="aden-archive-link" href="/en/2023/05/31/%E8%8D%A3%E8%80%8090%E7%B3%BB%E5%88%97%E6%89%8B%E6%9C%BA%E8%AF%84%E6%B5%8B/" title="Honor 90 series mobile phone review">Honor 90 series mobile phone review</a>
+                                
+                                    <span class="aden-archive-meta"></span>
+                                
+                            </li>
+                        
+                    </ol>
+                </section>
+            
+                <section class="aden-archive-month" aria-labelledby="month-2023-04">
+                    <h3 class="aden-archive-month-title" id="month-2023-04">April<span class="aden-archive-count">1</span></h3>
+                    <ol class="aden-archive-entries">
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2023-04-03T01:23:40.000Z">04-03</time>
+                                <a class="aden-archive-link" href="/en/2023/04/03/%E8%AE%BA%E5%88%86%E5%B1%82/" title="On stratification">On stratification</a>
+                                
+                                    <span class="aden-archive-meta"></span>
+                                
+                            </li>
+                        
+                    </ol>
+                </section>
+            
+                <section class="aden-archive-month" aria-labelledby="month-2023-03">
+                    <h3 class="aden-archive-month-title" id="month-2023-03">March<span class="aden-archive-count">6</span></h3>
+                    <ol class="aden-archive-entries">
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2023-03-28T11:39:52.000Z">03-28</time>
+                                <a class="aden-archive-link" href="/en/2023/03/28/AP-Macroeconomics-2018/" title="AP Macroeconomics 2018">AP Macroeconomics 2018</a>
+                                
+                                    <span class="aden-archive-meta"></span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2023-03-23T11:56:25.000Z">03-23</time>
+                                <a class="aden-archive-link" href="/en/2023/03/23/%E5%8D%8E%E4%B8%BAP60%E7%B3%BB%E5%88%97/" title="Huawei P60 series">Huawei P60 series</a>
+                                
+                                    <span class="aden-archive-meta"></span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2023-03-21T13:51:37.000Z">03-21</time>
+                                <a class="aden-archive-link" href="/en/2023/03/21/OPPOPad2%20%E5%92%8C%20OPPO%20FindX6/" title="OPPO Pad2 and OPPO FindX6">OPPO Pad2 and OPPO FindX6</a>
+                                
+                                    <span class="aden-archive-meta"></span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2023-03-12T11:47:39.000Z">03-12</time>
+                                <a class="aden-archive-link" href="/en/2023/03/12/%E8%8D%A3%E8%80%80Magic5%E7%B3%BB%E5%88%97%E5%8F%91%E5%B8%83/" title="Honor Magic5 series released">Honor Magic5 series released</a>
+                                
+                                    <span class="aden-archive-meta"></span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2023-03-12T00:24:29.000Z">03-12</time>
+                                <a class="aden-archive-link" href="/en/2023/03/12/%E8%8D%A3%E8%80%80%E9%9D%92%E6%B5%B7%E6%B9%96-%E5%9B%BA%E6%80%81%E7%94%B5%E6%B1%A0%E6%8A%80%E6%9C%AF/" title="Honor Qinghai Lake &amp; Solid State Battery Technology">Honor Qinghai Lake &amp; Solid State Battery Technology</a>
+                                
+                                    <span class="aden-archive-meta"></span>
+                                
+                            </li>
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2023-03-06T11:09:13.000Z">03-06</time>
+                                <a class="aden-archive-link" href="/en/2023/03/06/Windows11%E6%AD%A3%E5%BC%8F%E7%89%88%E4%BD%BF%E7%94%A8WSA%E6%96%B9%E6%B3%95/" title="Windows 11 official version uses WSA method">Windows 11 official version uses WSA method</a>
+                                
+                                    <span class="aden-archive-meta"></span>
+                                
+                            </li>
+                        
+                    </ol>
+                </section>
+            
+                <section class="aden-archive-month" aria-labelledby="month-2023-02">
+                    <h3 class="aden-archive-month-title" id="month-2023-02">February<span class="aden-archive-count">1</span></h3>
+                    <ol class="aden-archive-entries">
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2023-02-27T14:52:38.000Z">02-27</time>
+                                <a class="aden-archive-link" href="/en/2023/02/27/%E5%85%B3%E4%BA%8E%E8%81%94%E6%83%B3%E5%B0%8F%E6%96%B0%E7%B3%BB%E5%88%97%E4%BD%8E%E6%B8%A9%E9%94%A1%E4%BA%8B%E4%BB%B6%E4%B8%AA%E4%BA%BA%E7%9C%8B%E6%B3%95/" title="My personal opinion on the Lenovo Xiaoxin series low-temperature tin incident">My personal opinion on the Lenovo Xiaoxin series low-temperature tin incident</a>
+                                
+                                    <span class="aden-archive-meta"></span>
+                                
+                            </li>
+                        
+                    </ol>
+                </section>
+            
+        </section>
+    
+        <section class="aden-archive-year" id="year-2022" aria-labelledby="year-2022-title">
+            <h2 class="aden-archive-year-title" id="year-2022-title">2022<span class="aden-archive-count">1 post</span></h2>
+            
+                <section class="aden-archive-month" aria-labelledby="month-2022-07">
+                    <h3 class="aden-archive-month-title" id="month-2022-07">July<span class="aden-archive-count">1</span></h3>
+                    <ol class="aden-archive-entries">
+                        
+                            <li class="aden-archive-entry">
+                                <time class="aden-archive-date" datetime="2022-07-23T03:45:14.000Z">07-23</time>
+                                <a class="aden-archive-link" href="/en/2022/07/23/%E6%96%B0%E5%AD%A6%E6%9C%9F%E9%80%89%E8%B4%AD%E5%B9%B3%E6%9D%BF%E7%94%B5%E8%84%91%E6%8C%87%E5%8D%97/" title="Guide to Buying a Tablet for the New Semester">Guide to Buying a Tablet for the New Semester</a>
+                                
+                                    <span class="aden-archive-meta"></span>
+                                
+                            </li>
+                        
+                    </ol>
+                </section>
+            
+        </section>
+    
+</div>
+
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">Write down your real experiences while retaining the edges of your viewpoints.</div><div class="customize-info my-1 aden-status-hint">Something not working? Check service status at <a href="https://status.adenxie.com.cn/" target="_blank" rel="noopener">status.adenxie.com.cn</a></div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/en/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        114 posts in total
+                    </span>
+                    
+                        <span>
+                            349.9k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js" async=""></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days"></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/scene-loader.js?v=d4c6d7d950ec" defer=""></script>
+                    
+        
+        
+    <div class="aden-font-credit text-sm my-1">Typeface: <a href="https://hyperos.mi.com/font/zh/download/" target="_blank" rel="noopener">MiSans</a></div><div class="aden-license-notice text-sm my-1">Original text &amp; images: <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> · Code: <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE" target="_blank" rel="noopener">GPL-3.0</a> · <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE-CONTENT.md" target="_blank" rel="noopener">Scope &amp; exceptions</a></div></div>  
+</footer>
+		</div>
+	</div>
+
+	
+
+	<div class="right-side-tools-container" role="toolbar" aria-label="Quick tools">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center" role="button" tabindex="0" aria-label="Larger text">
+			<i class="fa-regular fa-magnifying-glass-plus" aria-hidden="true"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center" role="button" tabindex="0" aria-label="Smaller text">
+			<i class="fa-regular fa-magnifying-glass-minus" aria-hidden="true"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center" role="button" tabindex="0" aria-label="Toggle dark mode">
+			<i class="fa-regular fa-moon" aria-hidden="true"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center" role="button" tabindex="0" aria-label="Go to bottom">
+			<i class="fa-regular fa-arrow-down" aria-hidden="true"></i>
+		</li>
+	<li class="right-bottom-tools aden-dock-music" role="button" tabindex="0" aria-pressed="false" aria-label="Play music"><i class="fa-solid fa-play" aria-hidden="true"></i></li></ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center" role="button" tabindex="0" aria-label="More settings" aria-expanded="false" aria-haspopup="true">
+			<i class="fa-regular fa-cog " aria-hidden="true"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center" role="button" tabindex="0" aria-label="Back to top">
+			<i class="arrow-up fas fa-arrow-up" aria-hidden="true"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	<form id="aden-ask" class="aden-ask" novalidate="" aria-label="Ask AI" data-script="/js/chat.js?v=decea45cccf0" data-style="/css/chat.css?v=4a911c13bc63">
+  <span class="aden-ask-mark" aria-hidden="true">✳</span>
+  <label class="aden-sr-only" for="aden-ask-input">Ask AI</label>
+  <input id="aden-ask-input" class="aden-ask-input" type="text" maxlength="4000" autocomplete="off" enterkeyhint="send" placeholder="Ask AI…">
+  <span class="aden-ask-thinking" role="status" hidden=""><span class="aden-ask-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="aden-ask-thinking-label"></span></span>
+  <button type="submit" class="aden-ask-send" aria-label="Send" disabled=""><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></button>
+  <button type="button" class="aden-ask-stop" aria-label="Stop" hidden=""><i class="fa-solid fa-stop" aria-hidden="true"></i></button>
+</form><button type="button" class="aden-ask-open" aria-controls="aden-ask" aria-expanded="false"><span aria-hidden="true">✳</span><span>Ask AI</span></button><button type="button" class="aden-dock-menu" aria-controls="navbar-drawer" aria-expanded="false" aria-label="Menu"><span class="aden-dock-bars" aria-hidden="true"></span></button></div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="Image viewer">
+	<button class="image-viewer-close" type="button" aria-label="Close">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="Prev">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="" decoding="async">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="Close">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="Next">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay" inert="">
+	<div class="popup search-popup" id="aden-search-dialog" role="dialog" aria-modal="true" aria-labelledby="aden-search-title">
+		<div class="aden-search-heading"><h2 id="aden-search-title">Search the blog</h2><button type="button" class="popup-btn-close" aria-label="Close search"><i class="fa-solid fa-times" aria-hidden="true"></i></button></div><div class="search-header">
+			<i class="fa-solid fa-magnifying-glass aden-search-icon" aria-hidden="true"></i>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Search titles and text" spellcheck="false" type="search" class="search-input" aria-label="Search the blog">
+			</div>
+			
+		<button type="button" class="search-input-field-pre" hidden="" aria-label="Clear search"><i class="fa-solid fa-times" aria-hidden="true"></i></button></div>
+		<div id="search-result">
+			<div id="no-result" role="status">Search article titles and text.</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js?v=509b91971bf2"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js?v=969d65618587"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js?v=193270b6fdb0"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js?v=647d2af612df"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js?v=c9d014a814b8"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js?v=792db0224d6b"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+	
+<script src="/js/build/main.js?v=3691d7f361f1" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js?v=03c1e188b884"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css?v=77a3a9d5a3d0">
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js?v=e98ec22436a5"></script>
+
+
+<script src="/js/build/plugins/aplayer.js?v=d6d3c64af35f"></script>
+
+
+	
+
+
+</body></html>
