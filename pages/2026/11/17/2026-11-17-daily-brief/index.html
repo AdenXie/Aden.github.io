@@ -1,0 +1,1241 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/2026/11/17/2026-11-17-daily-brief/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Daily Briefing | 17 November 2026: US tightens rules on AI chip exports and remote computing power; Trump says Huang Renxun’s return is “not a bad idea”; Nasdaq falls 2.49 per cent; Nvidia drops 4 per cent ahead of earnings report, China’s October retail sales rose by just 0.4 per cent; the ChiNext Index fell by 4.37 per cent; Japan’s third-quarter GDP turned negative; ASEAN and China failed to finalise the Code of Conduct in the South China Sea">
+<meta property="og:url" content="https://blog.adenxie.com.cn/2026/11/17/2026-11-17-daily-brief/index.html">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-11-17T01:00:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="新闻">
+<meta property="article:tag" content="市场观察">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Daily Briefing | 17 November 2026: US tightens rules on AI chip exports and remote computing power; Trump says Huang Renxun’s return ‘wouldn’t be a bad idea’; Nasdaq falls 2.49 per cent; Nvidia drops 4 per cent ahead of earnings report, China’s October retail sales rose by just 0.4 per cent; the ChiNext Index fell by 4.37 per cent; Japan’s third-quarter GDP turned negative; ASEAN and China failed to finalise the Code of Conduct in the South China Sea | Aden’s Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/site-runtime.js" defer=""></script>
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js"></script>
+                
+    
+            
+                
+                    <link rel="stylesheet" href="/css/custom.css">
+                
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"en","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"18px","line_height":1.8,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["科技、体验与个人判断","写下真实体验，也保留观点的棱角"],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie","name":"GitHub"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847","name":"YouTube"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie","name":"X"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Daily Brief":{"path":"/daily/","icon":"fa-regular fa-newspaper"},"archives":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"},"tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"World Time":{"path":"/world-time/","icon":"fa-regular fa-clock"},"about":{"path":"/about/","icon":"fa-regular fa-user"},"links":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":false,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.i18n = {"search":"Search...","toc":"On this page","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"POWERED BY %s","theme":"THEME","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","post":"Post","posts":"Posts","tagcloud":"Tag Cloud","comment":"Comment","comments":"Comments","home":"Home","archive":"Archive","archives":"Archives","top":"TOP","sticky":"Sticky","go-back-home":"Go Back Home","masonry_loading":"Loading photos...","image_viewer":"Image viewer","close":"Close","exif":{"title":"EXIF","cards":{"camera":"Camera","lens":"Lens","exposure":"Exposure","other":"Other"},"fields":{"make":"Brand","model":"Model","date_taken":"Date taken","lens_model":"Lens","focal_length":"Focal length","focus_mode":"Focus mode","shutter":"Shutter","aperture":"Aperture","iso":"ISO","exposure_program":"Exposure program","exposure_compensation":"Exposure compensation","metering_mode":"Metering mode","flash":"Flash","white_balance":"White balance","latitude":"Latitude","longitude":"Longitude","altitude":"Altitude"},"status":{"loading":"Loading...","no_exif":"No EXIF available","library_missing":"EXIF library not loaded","image_source_missing":"Image source unavailable","unavailable":"EXIF unavailable (blocked by CORS or missing metadata)","flag_unavailable":"EXIF unavailable"}},"about":"About","changelog":"Changelog","links":"Links","link":"Link","friends":"Friends","friend":"Friend","timeline":"Timeline","shuoshuo":"Shuoshuo","bookmarks":"Bookmarks","site_uv":"VISITOR COUNT","site_pv":"TOTAL PAGE VIEWS","read_more":"Read more","wordcount":"Words","min2read":"Mins","status":"Status","runtime":"Blog up for","days":"days","hours":"hrs","minutes":"Min","seconds":"Sec","optimized_by":"and Optimized by Evan","rights":"All Rights Reserved","site_posts":"%s posts in total","site_wordcount":"%s words in total","copyright":{"author":"Author","title":"Title","link":"Link","create_time":"Created at","update_time":"Updated at","license_title":"License","license_content":"This work is licensed under %s.","all_rights_reserved":"All Rights Reserved &#169; %s","public_domain":"This work is in the public domain."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"},"create_time":"Created","update_time":"Updated","expired":"This post is written %s days ago, and the content may not be up to date."};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/daily/">
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    DAILY BRIEF
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/categories/">
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    CATEGORIES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    WORLD TIME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search">
+                            <button type="button" class="search-popup-trigger" aria-label="Search"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <button type="button" class="icon-item search search-popup-trigger" aria-label="Search"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                
+                <button type="button" class="icon-item navbar-bar" aria-label="Menu" aria-controls="navbar-drawer" aria-expanded="false"><span class="navbar-bar-middle"></span></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div id="navbar-drawer" class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/">
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/daily/">
+                            <span>
+                                DAILY BRIEF
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/archives/">
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/categories/">
+                            <span>
+                                CATEGORIES
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/tags/">
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/world-time/">
+                            <span>
+                                WORLD TIME
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/about/">
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/link/">
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">76</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">117</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://images.unsplash.com/photo-1634097538301-5d5f8b09eb84?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 17 November 2026: US tightens rules on AI chip exports and remote computing power; Trump says Huang Renxun’s return is “not a bad idea”; Nasdaq falls 2.49 per cent; Nvidia drops 4 per cent ahead of earnings report, China’s October retail sales rose by just 0.4 per cent; the ChiNext Index fell by 4.37 per cent; Japan’s third-quarter GDP turned negative; ASEAN and China failed to finalise the Code of Conduct in the South China Sea" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">Daily Briefing | 17 November 2026: US tightens rules on AI chip exports and remote computing power; Trump says Huang Renxun’s return is “not a bad idea”; Nasdaq falls 2.49 per cent; Nvidia drops 4 per cent ahead of earnings report, China’s October retail sales rose by just 0.4 per cent; the ChiNext Index fell by 4.37 per cent; Japan’s third-quarter GDP turned negative; ASEAN and China failed to finalise the Code of Conduct in the South China Sea</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-11-17 09:00</span>
+        <span class="mobile">2026-11-17 09:00</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/daily/">Daily Briefing</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E6%96%B0%E9%97%BB/">News</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/">Market Watch</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>3.7k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>13 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h2 id="今日主线"><a href="#今日主线" class="headerlink" title="Today's main theme"></a>Today's main theme</h2><p>This issue covers the period from the Asian trading session on Monday 16 November until the close of US markets. The unease that had built up over the weekend came to a head on Monday, with the main themes being ‘pressure on AI hardware, coupled with weaker-than-expected economic data from China and Japan’. The US Department of Commerce issued a provisional final rule requiring licences for exports of advanced AI chips to five countries, including Malaysia and Singapore, whilst also closing a loophole that had allowed Chinese companies to use US chips remotely via overseas data centres. This marks the first set of regulatory measures introduced following the exposure of the NVIDIA scandal. On the same day, Trump remarked that Jensen Huang’s return “wouldn’t be a bad idea”, but CNBC subsequently reported that NVIDIA’s board was not considering bringing him back. US equities fell across the board, with the Nasdaq dropping 2.49 per cent and NVIDIA falling 4.12 per cent, whilst the VIX rose above 23 ahead of the company’s earnings report on Tuesday. Domestically, October’s retail sales grew by just 0.4 per cent year-on-year, industrial output rose by 4.8 per cent, and fixed-asset investment for January to October fell by 8.1 per cent; all three figures were below expectations. The ChiNext Index on the A-share market fell by 4.37 per cent, hitting a new low for the year. Japan’s real GDP contracted by 0.1 per cent on an annualised basis in the third quarter, marking the first contraction in four quarters. On the international political front, during the ASEAN Summit in Manila, ASEAN and China failed to conclude negotiations on the Code of Conduct in the South China Sea; Trump is due to arrive on Tuesday, before travelling to Shenzhen to attend the APEC meeting.</p>
+<span id="more"></span>
+
+<h2 id="重点新闻"><a href="#重点新闻" class="headerlink" title="Key News"></a>Key News</h2><h3 id="1-美国收紧AI芯片出口和远程算力规则，特朗普称黄仁勋回归“不是坏主意”"><a href="#1-美国收紧AI芯片出口和远程算力规则，特朗普称黄仁勋回归“不是坏主意”" class="headerlink" title="1. The US tightens rules on AI chip exports and remote computing power; Trump says Huang Renxun’s return “is not a bad idea”"></a>1. The US tightens rules on AI chip exports and remote computing power; Trump says Huang Renxun’s return “is not a bad idea”</h3><p>According to TechCrunch and Yahoo News, the US Department of Commerce’s Bureau of Industry and Security (BIS) issued an interim final rule on 16 November, which primarily comprises three key provisions. Firstly, exports of advanced AI chips and servers to Malaysia, Singapore, Indonesia, Thailand and Brazil will require a licence; the Department of Commerce stated that these countries present a ‘higher-than-normal risk of diversion’. Secondly, any data centre anywhere in the world that provides more than 12 million TPP of computing power to enterprises headquartered in China, Russia, Iran and other D:5 Group countries, require a licence, including where such provision is made indirectly through intermediaries or agents; Data centres already serving such clients have 90 days to obtain the necessary licences. Third, the regulations formally revoke the Biden administration’s ‘AI Proliferation Rules’ of January 2025. The regulations come into force upon publication in the Federal Register, with a 60-day public comment period. Recommendation systems used by e-commerce platforms and social media are not subject to these controls.</p>
+<p>This regulation is directly linked to the NVIDIA scandal. According to *Fortune*, this marks the first time the Department of Commerce has updated its control measures since the scandal came to light; the press release states that the regulation was drafted in accordance with instructions from the Treasury Department and the National Security Council; Megaspeed, which has been accused of transhipping NVIDIA chips to China, is headquartered in Singapore and reportedly operates data centres in Malaysia; Megaspeed denies any wrongdoing. The rules provide exemptions for US-based companies (such as Microsoft, Oracle and Amazon) and their controlled entities. Analysts believe this will have the greatest impact on Malaysia, which hopes to become a hub for Chinese corporate data centres. Prior to the rule’s publication, Chinese Foreign Ministry spokesperson Mao Ning stated that the US should cease imposing technological restrictions under the pretext of ‘Chinese espionage’; at the time of writing, no formal response from the Chinese side regarding the rule itself had been observed.</p>
+<p>On the same day, conflicting signals emerged regarding Huang Renxun’s future. According to Yahoo Finance, before setting off for Asia on Monday, Trump told reporters that he “wouldn’t mind” Huang Renxun returning to his post, that it “wasn’t a bad idea”, and that Huang Renxun “did not pose a threat to national security”, but “should not have done what he did”; He also said he might discuss chip sales with Xi Jinping during his visit. According to Yahoo Finance Live, CNBC subsequently quoted sources familiar with the matter as saying that NVIDIA’s board was not considering reinstating Huang as CEO. NVIDIA’s share price fell to an intraday low following the news, closing at US$156.14, down 4.12 per cent. Key developments to watch: NVIDIA’s earnings report on Tuesday and interim CEO Kress’s first earnings call; the effective date of the regulations in the Federal Register; and whether Congress will proceed with chip-related bills such as the Remote Access Security Act.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://techcrunch.com/2026/11/16/us-tightens-ai-chip-export-controls-to-deter-chinese-companies-from-accessing-compute-remotely/">TechCrunch<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.yahoo.com/news/politics/articles/trump-moves-block-chinas-backdoor-175919926.html">Yahoo News<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://fortune.com/2026/11/16/new-commerce-rule-nvidia-chip-singapore-malaysia-china/">*Fortune*<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://finance.yahoo.com/markets/stocks/articles/trump-says-welcome-jensen-huang-152625454.html">Yahoo Finance (Trump’s Statement)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="2-美股全线下跌：纳指跌2-49-、VIX涨近20-，WTI原油跌3-7"><a href="#2-美股全线下跌：纳指跌2-49-、VIX涨近20-，WTI原油跌3-7" class="headerlink" title="2. US shares fell across the board: the Nasdaq dropped 2.49 per cent, the VIX rose by nearly 20 per cent, and WTI crude oil fell by 3.7 per cent"></a>2. US shares fell across the board: the Nasdaq dropped 2.49 per cent, the VIX rose by nearly 20 per cent, and WTI crude oil fell by 3.7 per cent</h3><p>According to closing figures from Yahoo Finance Live, on 16 November the S&amp;P 500 fell by 145.08 points, a drop of 1.92 per cent, to close at 7,416.59 points; the Dow Jones Industrial Average fell by 739.38 points, or 1.41 per cent, to close at 51,608.17; the Nasdaq fell by 626.52 points, or 2.49 per cent, to close at 24,509.76; and the Russell 2000 fell by 1.70 per cent. The VIX rose by 19.81 per cent to 23.12. Having only just ended a four-week losing streak last week, the S&amp;P 500 and the Nasdaq Composite fell sharply again on the first trading day of the new week.</p>
+<p>The sell-off was widespread. The semiconductor sector was weighed down by new export regulations; Alphabet fell by more than 3 per cent, Amazon by around 3 per cent, and the ‘Big Seven’ as a whole traded lower; Intel fell by more than 6 per cent following a shareholder class action; Bank of America, Citigroup, Wells Fargo and JPMorgan Chase each fell by around 2 per cent, following reports that day of glitches in these banks’ mobile apps; JPMorgan Chase stated that technical issues had caused delays in some transactions. Crypto-related shares fell sharply in pre-market trading, whilst Bitcoin hovered around the US$64,000 to US$65,000 mark. The yield on the 10-year US Treasury note edged back slightly to around 5.12 per cent.</p>
+<p>Anthropic’s IPO remains a key variable in the broader picture. According to the same live broadcast, Vanda Research estimates that retail investors may have made net purchases of approximately US$250 million on the first day of trading—more than double the record set by SpaceX in June this year; Bank of America CEO Mooneyhan said that this offering is causing some smaller-scale IPOs (including those of biotech companies) to be postponed until 2027. Oil prices were one of the few bright spots: WTI closed at US$85.32 per barrel, down 3.66 per cent, whilst Brent fell to around US$92. According to a Reuters report republished by RTÉ, shipping through the Strait of Hormuz has largely returned to pre-war levels, and the IEA forecasts a supply surplus in the fourth quarter; however, the Iranian Revolutionary Guard claimed over the weekend that two oil tankers had struck mines, and shipping costs remain high. Key points to watch: whether AI stocks can stabilise following Nvidia’s earnings report, Anthropic’s pricing on Wednesday, and whether the fall in oil prices will ease inflation and expectations of interest rate rises.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://finance.yahoo.com/markets/live/stock-market-today-monday-november-16-dow-sp-500-nasdaq-nvidia-oil-091631084.html">Yahoo Finance (Live)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.rte.ie/news/business/2026/1116/1599343-oil-prices/">RTÉ (Reuters)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="3-中国10月经济数据全面低于预期，社零增长0-4-，A股创业板指跌4-37-创年内新低"><a href="#3-中国10月经济数据全面低于预期，社零增长0-4-，A股创业板指跌4-37-创年内新低" class="headerlink" title="3. China’s October economic data fell short of expectations across the board, with retail sales rising by 0.4 per cent and the ChiNext Index on the A-share market falling by 4.37 per cent to a new low for the year"></a>3. China’s October economic data fell short of expectations across the board, with retail sales rising by 0.4 per cent and the ChiNext Index on the A-share market falling by 4.37 per cent to a new low for the year</h3><p>The National Bureau of Statistics announced on 16 November that industrial output from enterprises above a specified scale rose by 4.8 per cent year-on-year in October, compared with 5.5 per cent in September; total retail sales of consumer goods stood at 4,646.3 billion yuan, up 0.4 per cent year-on-year, compared with 1.1 per cent in September; fixed-asset investment (excluding rural households) for the period from January to October fell by 8.1 per cent year-on-year, compared with a 7.2 per cent decline for January to September. According to a Reuters report republished by MarketScreener, the forecasts from a Reuters survey were 5.3 per cent, 0.8 per cent and a 7.0 per cent decline respectively; all three figures fell short of expectations. According to Sina Finance, investment in property development from January to October fell by 21.6 per cent year-on-year, whilst the sales area and sales value of new commercial housing fell by 13.7 per cent and 14.3 per cent respectively, and private investment fell by 11.4 per cent. According to Xinhua News Agency, the service sector production index rose by 4.6 per cent in October, whilst the surveyed urban unemployment rate stood at 5.1 per cent, down 0.1 percentage points from the previous month.</p>
+<p>Fu Linghui, a spokesperson for the National Bureau of Statistics, said that the national economy remained generally stable in October, continuing its trend of ‘moving towards innovation and quality’. However, he also acknowledged that there are many uncertainties in the international environment, that the issue of strong supply and weak demand remains prominent domestically, and that some enterprises are facing operational difficulties. The data shows that consumption growth has approached zero, whilst the decline in investment continues to widen, with the property sector remaining the biggest drag; furthermore, according to a Reuters report republished by RTÉ, China’s refinery throughput fell by 8.1 per cent year-on-year in October, with weak demand also weighing on oil prices. Combined with the negative growth in renminbi lending for October announced last week, the weakness in domestic demand has become quite evident, and the market will be paying closer attention to whether the Central Economic Work Conference in December will step up support measures.</p>
+<p>A-shares fell sharply on the day. According to the 21st Century Business Herald, the Shanghai Composite Index fell by 0.87 per cent to close at 3,602.57 points, having briefly dipped below the 3,600-point mark during trading; the Shenzhen Component Index fell by 2.53 per cent to close at 10,690.78 points; the ChiNext Index fell by 4.37 per cent to close at 2,320.02 points, hitting a new low for the year and recording a cumulative decline of approximately 47 per cent from its late-June high; the STAR Market Composite Index fell by 5.41 per cent. Trading volume across both markets totalled approximately 1.49 trillion yuan, a decline of more than 170 billion yuan compared with the previous trading day; 4,344 individual stocks fell, with 63 hitting their daily lower limit. The telecommunications sector (down 7.06 per cent) and the electronics sector (down 5.99 per cent) led the decline, whilst banking (up 1.91 per cent), coal and transport sectors bucked the trend to rise. Analysts quoted in the report suggested that doubts over the sustainability of AI capital expenditure, management changes at Nvidia and expectations of Federal Reserve interest rate hikes collectively weighed on technology growth stocks. Key points to watch going forward include the November LPR announcement, whether new measures to stabilise economic growth will be introduced, and the performance of computing power-related stocks—such as optical modules—following Nvidia’s earnings report.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://www.news.cn/fortune/20261116/9e572fdeafbe4df991a7d92603b24094/c.html">Xinhua News<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.marketscreener.com/news/china-s-factory-output-retail-sales-growth-slow-in-october-ce785ededf81fe2c">MarketScreener (Reuters)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://finance.sina.com.cn/stock/bxjj/2026-11-16/doc-iniywwze5727627.shtml">Sina Finance<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://m.21jingji.com/article/20261116/herald/155b21405b603ba475258e55e20594e1.html">21st Century Business Herald<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="4-日本三季度实际GDP年化下降0-1-，四个季度以来首次萎缩"><a href="#4-日本三季度实际GDP年化下降0-1-，四个季度以来首次萎缩" class="headerlink" title="4. Japan’s real GDP fell by 0.1 per cent on an annualised basis in the third quarter, marking the first contraction in four quarters"></a>4. Japan’s real GDP fell by 0.1 per cent on an annualised basis in the third quarter, marking the first contraction in four quarters</h3><p>According to Xinhua News Agency, citing data from Japan’s Cabinet Office, Japan’s real GDP fell by 0.02 per cent quarter-on-quarter in the July–September period and by 0.1 per cent on an annualised basis, marking the first contraction in four quarters and falling short of the average forecast of 0.2 per cent growth by private-sector institutions. Nominal GDP rose by 0.4 per cent quarter-on-quarter and by 1.6 per cent on an annualised basis.</p>
+<p>Looking at the breakdown, private consumption—which accounts for around half of GDP—fell by 0.3 per cent quarter-on-quarter. According to the Seoul Economic Daily, this marks the second consecutive quarter of decline, attributed to rising prices, weather conditions and the front-loading of some car and air-conditioner purchases to the second quarter; housing investment fell by 1.1 per cent, whilst government consumption fell by 0.03 per cent. Corporate capital expenditure rose by 1.6 per cent, driven primarily by investments aimed at labour savings, digitalisation and AI. In terms of external demand, exports fell by 0.2 per cent whilst imports rose by 2.5 per cent; the increase in imports acted as a drag on GDP growth.</p>
+<p>Following the release of the data, there has been some divergence of opinion in the market regarding whether the Bank of Japan will raise interest rates in December. According to the Seoul Economic Daily, Maeda of Meiji Yasuda and Minami of Daiwa believe that the weakness in consumption is primarily due to rising prices and will not derail the path to interest rate hikes; Katagi of Mizuho, however, cautions that weak consumption may give dovish board members further grounds to oppose further rate rises. This bears similarities to the situation in China: AI-related investment is underpinning the economy, whilst household consumption is weakening. Key points to watch going forward: Japan’s October CPI figures, statements from Bank of Japan officials ahead of the December meeting, and movements in the yen exchange rate.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://english.news.cn/20261116/0c28de96af58410caa740fd0f0001fe6/c.html">Xinhua News<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://en.sedaily.com/world/2026/11/16/japans-gdp-shrinks-01-percent-in-third-quarter-first-drop">Seoul Economic Daily<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="5-东盟峰会期间南海行为准则仍未完成，李强称中国-东盟关系“非同寻常”，特朗普周二抵达马尼拉"><a href="#5-东盟峰会期间南海行为准则仍未完成，李强称中国-东盟关系“非同寻常”，特朗普周二抵达马尼拉" class="headerlink" title="5. With the Code of Conduct for the South China Sea still unfinished during the ASEAN Summit, Li Qiang described China–ASEAN relations as “extraordinary”, whilst Trump arrived in Manila on Tuesday"></a>5. With the Code of Conduct for the South China Sea still unfinished during the ASEAN Summit, Li Qiang described China–ASEAN relations as “extraordinary”, whilst Trump arrived in Manila on Tuesday</h3><p>The 49th ASEAN Summit was held in Manila. According to Agence France-Presse (as reported by Dawn), the Philippines, as this year’s ASEAN Chair, had originally hoped to conclude negotiations on the Code of Conduct in the South China Sea between ASEAN and China within the year, but no agreement was reached at this meeting. Philippine Foreign Minister Lazaro stated that provisional agreement had been reached on approximately 80 per cent of the draft, but key issues—such as whether the Code of Conduct would be legally binding—remained unresolved, adding that “no conclusion has been reached at this stage”. Singapore, which will assume the rotating chairmanship in 2027, will take over this issue along with the matter concerning Myanmar.</p>
+<p>According to Rappler, Li Qiang, Premier of the State Council of China, said on 16 November at the 29th China–ASEAN Leaders’ Meeting that the past five years had been “extraordinary”. He added that China had firmly upheld multilateralism and promoted free trade, “striving to make the pie bigger”, and called on both sides to jointly resist external interference. China is ASEAN’s largest trading partner, with annual bilateral trade exceeding US$1 trillion and cumulative two-way investment exceeding US$500 billion.</p>
+<p>According to AFP, Trump is expected to arrive on Tuesday, as the summit draws to a close; during the meeting, he will hold a ‘Quadrilateral Security Dialogue’ meeting with India, Japan and Australia – the first such meeting of his second term. The US-led ‘Pax Silica’ supply chain initiative has sparked controversy locally; its flagship project in the Philippines is an AI manufacturing park covering approximately 1,620 hectares north of Manila, which may force indigenous families to relocate. Left-wing groups are planning a protest march on Tuesday, with nearly 20,000 police officers deployed in Manila. On Saturday, Canadian Prime Minister Carney also announced the conclusion of a trade agreement with the Philippines. Following the ASEAN meeting, the APEC Leaders’ Meeting will take place in Shenzhen on the 18th and 19th. Key points to watch: whether Trump will announce new trade or supply chain arrangements in Manila; statements from the Quadrilateral Security Dialogue; and whether the APEC summit in Shenzhen and the trilateral meeting between China, the US and Russia will take place as scheduled.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://www.dawn.com/news/2044788/asean-summit-opens-under-cloud-of-us-china-rivalry">Dawn (AFP)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.rappler.com/philippines/chinese-premier-li-qiang-remarks-asean-summit-2026/">Rappler<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h2 id="市场关联与今日观察"><a href="#市场关联与今日观察" class="headerlink" title="Market Correlation and Today's Observation"></a>Market Correlation and Today's Observation</h2><p>Several news reports on Monday all pointed in the same direction: uncertainty surrounding AI hardware is mounting, whilst the real economies of China and Japan are not robust enough to provide support for risk assets. New export regulations have directly curtailed the ability of companies such as Nvidia and AMD to reach Chinese customers via data centres in Southeast Asia, whilst also impacting data centres and related server manufacturers in Malaysia and Singapore; conflicting statements from Trump and Nvidia’s board regarding Jensen Huang’s future have further muddied the mood ahead of the earnings report. The US Nasdaq fell by nearly 2.5 per cent, whilst China’s ChiNext Index dropped by over 4 per cent, with optical modules and the electronics sector leading the decline, indicating that global markets are repricing the AI supply chain.</p>
+<p>On the macroeconomic front, China’s October data was generally below expectations, whilst Japan recorded negative growth in the third quarter—both pointing to ‘insufficient demand’; in the US, meanwhile, inflation remains high and the Federal Reserve is preparing to raise interest rates. The decline in oil prices is one of the few positive developments; WTI has fallen to around US$85, which helps to ease US inflation expectations, but the incident involving the mine in the Strait of Hormuz is not yet over, and oil prices could rebound at any moment. High-dividend sectors in the A-share market, such as banking and coal, have risen against the broader trend, with capital continuing to shift from growth stocks to defensive sectors.</p>
+<p>Checklist:</p>
+<ul>
+<li>NVIDIA’s Tuesday earnings report: data centre revenue, Q4 gross margin guidance, and management’s comments on the impact of new export regulations</li>
+<li>The date on which the new rules were published in the Federal Gazette, and the responses from the governments of Malaysia and Singapore and the Chinese side</li>
+<li>Whether Anthropic’s pricing on 18 November will fall within the $70–$78 range, and how the share price performs on its first day of trading on 19 November</li>
+<li>China’s November LPR rates and whether new measures to stabilise growth will be introduced; will the ChiNext Index halt its decline?</li>
+<li>Comments by Bank of Japan officials regarding a December interest rate rise, and Japan’s October CPI</li>
+<li>Progress on Trump’s Quadrilateral Summit and trade arrangements in Manila, the APEC meeting in Shenzhen, and the trilateral meeting on 19 November</li>
+</ul>
+<p>Cover image:<a class="link" target="_blank" rel="noopener" href="https://unsplash.com/photos/a-cell-phone-displaying-a-stock-chart-on-a-red-background-_6KWbHyfJDE">Jack B / Unsplash<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> Daily Briefing | 17 November 2026: US tightens rules on AI chip exports and remote computing power; Trump says Huang Renxun’s return is “not a bad idea”; Nasdaq falls 2.49 per cent; Nvidia drops 4 per cent ahead of earnings report, China’s October retail sales rose by just 0.4 per cent; the ChiNext Index fell by 4.37 per cent; Japan’s third-quarter GDP turned negative; ASEAN and China failed to finalise the Code of Conduct in the South China Sea</li>
+        <li><strong>Author:</strong> AdenXie</li>
+        <li><strong>Created at
+                :</strong> 2026-11-17 09:00:00</li>
+        
+        <li>
+            <strong>Link:</strong> https://blog.adenxie.com.cn/2026/11/17/2026-11-17-daily-brief/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E6%96%B0%E9%97%BB/">#News</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/">#MarketObservation</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/11/10/2026-11-10-daily-brief/" title="Daily Briefing | 10 November 2026: US shares staged a strong rebound, with the Nasdaq rising 2.7 per cent; Nvidia bucked the trend, falling 4 per cent amid the ‘spy scandal’ involving Jensen Huang; Trump said it was ‘highly unlikely’ that the US would strike Iran again; oil prices fell by around 5 per cent; China’s October PPI rose to 5.7 per cent, hitting a more than four-year high, whilst CPI fell to 0.7 per cent" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1758549885423-819fd86e04f0?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 10 November 2026: US shares staged a strong rebound, with the Nasdaq rising 2.7 per cent; Nvidia bucked the trend, falling 4 per cent amid the ‘spy scandal’ involving Jensen Huang; Trump said it was ‘highly unlikely’ that the US would strike Iran again; oil prices fell by around 5 per cent; China’s October PPI rose to 5.7 per cent, hitting a more than four-year high, whilst CPI fell to 0.7 per cent" class="!max-w-none">
+  <span class="title">Daily Briefing | 10 November 2026: US shares staged a strong rebound, with the Nasdaq rising 2.7 per cent; Nvidia bucked the trend, falling 4 per cent amid the ‘spy scandal’ involving Jensen Huang; Trump said it was ‘highly unlikely’ that the US would strike Iran again; oil prices fell by around 5 per cent; China’s October PPI rose to 5.7 per cent, hitting a more than four-year high, whilst CPI fell to 0.7 per cent</span>
+</a><a class="recommended-article-item" href="/2026/11/14/2026-11-14-daily-brief/" title="Daily Briefing | 14 November 2026: NVIDIA’s board approaches Arm CEO Haas; Bessent claims the Department of Commerce is delaying the blacklisting of Megaspeed; US October PPI rises to 6.5 per cent year-on-year; AMD falls nearly 9 per cent, dragging down the Nasdaq; China’s renminbi-denominated loans fall by 100 billion yuan in October; Iran says LNG tanker struck a mine; IEA says oil market returns to surplus; ChiNext Index falls 3.32 per cent" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1758549885423-819fd86e04f0?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 14 November 2026: NVIDIA’s board approaches Arm CEO Haas; Bessent claims the Department of Commerce is delaying the blacklisting of Megaspeed; US October PPI rises to 6.5 per cent year-on-year; AMD falls nearly 9 per cent, dragging down the Nasdaq; China’s renminbi-denominated loans fall by 100 billion yuan in October; Iran says LNG tanker struck a mine; IEA says oil market returns to surplus; ChiNext Index falls 3.32 per cent" class="!max-w-none">
+  <span class="title">Daily Briefing | 14 November 2026: NVIDIA’s board approaches Arm CEO Haas; Bessent claims the Department of Commerce is delaying the blacklisting of Megaspeed; US October PPI rises to 6.5 per cent year-on-year; AMD falls nearly 9 per cent, dragging down the Nasdaq; China’s renminbi-denominated loans fall by 100 billion yuan in October; Iran says LNG tanker struck a mine; IEA says oil market returns to surplus; ChiNext Index falls 3.32 per cent</span>
+</a><a class="recommended-article-item" href="/2026/11/13/2026-11-13-daily-brief/" title="Daily Briefing | 13 November 2026: Jensen Huang steps down as NVIDIA CEO; CFO Kress takes over on an interim basis; 10-year US Treasury yields rise above 5.1 per cent; US shares close slightly lower; Trump states “there is no need to reach an agreement with Iran”; the Ministry of Commerce states that China and the US are moving forward with the “30 billion for 30 billion” tariff reduction arrangement" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1431540015161-0bf868a2d407?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 13 November 2026: Jensen Huang steps down as NVIDIA CEO; CFO Kress takes over on an interim basis; 10-year US Treasury yields rise above 5.1 per cent; US shares close slightly lower; Trump states “there is no need to reach an agreement with Iran”; the Ministry of Commerce states that China and the US are moving forward with the “30 billion for 30 billion” tariff reduction arrangement" class="!max-w-none">
+  <span class="title">Daily Briefing | 13 November 2026: Jensen Huang steps down as NVIDIA CEO; CFO Kress takes over on an interim basis; 10-year US Treasury yields rise above 5.1 per cent; US shares close slightly lower; Trump states “there is no need to reach an agreement with Iran”; the Ministry of Commerce states that China and the US are moving forward with the “30 billion for 30 billion” tariff reduction arrangement</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/11/10/2026-11-10-daily-brief/" title="Daily Briefing | 10 November 2026: US shares staged a strong rebound, with the Nasdaq rising 2.7 per cent; Nvidia bucked the trend, falling 4 per cent amid the ‘spy scandal’ involving Jensen Huang; Trump said it was ‘highly unlikely’ that the US would strike Iran again; oil prices fell by around 5 per cent; China’s October PPI rose to 5.7 per cent, hitting a more than four-year high, whilst CPI fell to 0.7 per cent" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1758549885423-819fd86e04f0?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 10 November 2026: US shares staged a strong rebound, with the Nasdaq rising 2.7 per cent; Nvidia bucked the trend, falling 4 per cent amid the ‘spy scandal’ involving Jensen Huang; Trump said it was ‘highly unlikely’ that the US would strike Iran again; oil prices fell by around 5 per cent; China’s October PPI rose to 5.7 per cent, hitting a more than four-year high, whilst CPI fell to 0.7 per cent" class="!max-w-none">
+  <span class="title">Daily Briefing | 10 November 2026: US shares staged a strong rebound, with the Nasdaq rising 2.7 per cent; Nvidia bucked the trend, falling 4 per cent amid the ‘spy scandal’ involving Jensen Huang; Trump said it was ‘highly unlikely’ that the US would strike Iran again; oil prices fell by around 5 per cent; China’s October PPI rose to 5.7 per cent, hitting a more than four-year high, whilst CPI fell to 0.7 per cent</span>
+</a><a class="recommended-article-item" href="/2026/11/14/2026-11-14-daily-brief/" title="Daily Briefing | 14 November 2026: NVIDIA’s board approaches Arm CEO Haas; Bessent claims the Department of Commerce is delaying the blacklisting of Megaspeed; US October PPI rises to 6.5 per cent year-on-year; AMD falls nearly 9 per cent, dragging down the Nasdaq; China’s renminbi-denominated loans fall by 100 billion yuan in October; Iran says LNG tanker struck a mine; IEA says oil market returns to surplus; ChiNext Index falls 3.32 per cent" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1758549885423-819fd86e04f0?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 14 November 2026: NVIDIA’s board approaches Arm CEO Haas; Bessent claims the Department of Commerce is delaying the blacklisting of Megaspeed; US October PPI rises to 6.5 per cent year-on-year; AMD falls nearly 9 per cent, dragging down the Nasdaq; China’s renminbi-denominated loans fall by 100 billion yuan in October; Iran says LNG tanker struck a mine; IEA says oil market returns to surplus; ChiNext Index falls 3.32 per cent" class="!max-w-none">
+  <span class="title">Daily Briefing | 14 November 2026: NVIDIA’s board approaches Arm CEO Haas; Bessent claims the Department of Commerce is delaying the blacklisting of Megaspeed; US October PPI rises to 6.5 per cent year-on-year; AMD falls nearly 9 per cent, dragging down the Nasdaq; China’s renminbi-denominated loans fall by 100 billion yuan in October; Iran says LNG tanker struck a mine; IEA says oil market returns to surplus; ChiNext Index falls 3.32 per cent</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/11/16/2026-11-16-daily-brief/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Daily Briefing | 16 November 2026: The Kremlin announces that the leaders of China, the US and Russia will meet in Shenzhen on 19 November; the FT reports that Jensen Huang is considering a return to Nvidia; 107 new medicines added to the 2026 National Reimbursement Drug List; Starship successfully catches upper stage with tower arm for the first time; first launch of the Vulcan rocket fails; Bitcoin falls to a three-month low</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">Daily Briefing | 17 November 2026: US tightens rules on AI chip exports and remote computing power; Trump says Huang Renxun’s return is “not a bad idea”; Nasdaq falls 2.49 per cent; Nvidia drops 4 per cent ahead of earnings report, China’s October retail sales rose by just 0.4 per cent; the ChiNext Index fell by 4.37 per cent; Japan’s third-quarter GDP turned negative; ASEAN and China failed to finalise the Code of Conduct in the South China Sea</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8A%E6%97%A5%E4%B8%BB%E7%BA%BF"><span class="nav-text">Today's main theme</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E7%82%B9%E6%96%B0%E9%97%BB"><span class="nav-text">Key News</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%BE%8E%E5%9B%BD%E6%94%B6%E7%B4%A7AI%E8%8A%AF%E7%89%87%E5%87%BA%E5%8F%A3%E5%92%8C%E8%BF%9C%E7%A8%8B%E7%AE%97%E5%8A%9B%E8%A7%84%E5%88%99%EF%BC%8C%E7%89%B9%E6%9C%97%E6%99%AE%E7%A7%B0%E9%BB%84%E4%BB%81%E5%8B%8B%E5%9B%9E%E5%BD%92%E2%80%9C%E4%B8%8D%E6%98%AF%E5%9D%8F%E4%B8%BB%E6%84%8F%E2%80%9D"><span class="nav-text">1. The US tightens rules on AI chip exports and remote computing power; Trump says Huang Renxun’s return “is not a bad idea”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%BE%8E%E8%82%A1%E5%85%A8%E7%BA%BF%E4%B8%8B%E8%B7%8C%EF%BC%9A%E7%BA%B3%E6%8C%87%E8%B7%8C2-49-%E3%80%81VIX%E6%B6%A8%E8%BF%9120-%EF%BC%8CWTI%E5%8E%9F%E6%B2%B9%E8%B7%8C3-7"><span class="nav-text">2. US shares fell across the board: the Nasdaq dropped 2.49 per cent, the VIX rose by nearly 20 per cent, and WTI crude oil fell by 3.7 per cent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E4%B8%AD%E5%9B%BD10%E6%9C%88%E7%BB%8F%E6%B5%8E%E6%95%B0%E6%8D%AE%E5%85%A8%E9%9D%A2%E4%BD%8E%E4%BA%8E%E9%A2%84%E6%9C%9F%EF%BC%8C%E7%A4%BE%E9%9B%B6%E5%A2%9E%E9%95%BF0-4-%EF%BC%8CA%E8%82%A1%E5%88%9B%E4%B8%9A%E6%9D%BF%E6%8C%87%E8%B7%8C4-37-%E5%88%9B%E5%B9%B4%E5%86%85%E6%96%B0%E4%BD%8E"><span class="nav-text">3. China’s October economic data fell short of expectations across the board, with retail sales rising by 0.4 per cent and the ChiNext Index on the A-share market falling by 4.37 per cent to a new low for the year</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%97%A5%E6%9C%AC%E4%B8%89%E5%AD%A3%E5%BA%A6%E5%AE%9E%E9%99%85GDP%E5%B9%B4%E5%8C%96%E4%B8%8B%E9%99%8D0-1-%EF%BC%8C%E5%9B%9B%E4%B8%AA%E5%AD%A3%E5%BA%A6%E4%BB%A5%E6%9D%A5%E9%A6%96%E6%AC%A1%E8%90%8E%E7%BC%A9"><span class="nav-text">4. Japan’s real GDP fell by 0.1 per cent on an annualised basis in the third quarter, marking the first contraction in four quarters</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E4%B8%9C%E7%9B%9F%E5%B3%B0%E4%BC%9A%E6%9C%9F%E9%97%B4%E5%8D%97%E6%B5%B7%E8%A1%8C%E4%B8%BA%E5%87%86%E5%88%99%E4%BB%8D%E6%9C%AA%E5%AE%8C%E6%88%90%EF%BC%8C%E6%9D%8E%E5%BC%BA%E7%A7%B0%E4%B8%AD%E5%9B%BD-%E4%B8%9C%E7%9B%9F%E5%85%B3%E7%B3%BB%E2%80%9C%E9%9D%9E%E5%90%8C%E5%AF%BB%E5%B8%B8%E2%80%9D%EF%BC%8C%E7%89%B9%E6%9C%97%E6%99%AE%E5%91%A8%E4%BA%8C%E6%8A%B5%E8%BE%BE%E9%A9%AC%E5%B0%BC%E6%8B%89"><span class="nav-text">5. With the Code of Conduct for the South China Sea still unfinished during the ASEAN Summit, Li Qiang described China–ASEAN relations as “extraordinary”, whilst Trump arrived in Manila on Tuesday</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%82%E5%9C%BA%E5%85%B3%E8%81%94%E4%B8%8E%E4%BB%8A%E6%97%A5%E8%A7%82%E5%AF%9F"><span class="nav-text">Market Correlation and Today's Observation</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">Write down your real experiences while retaining the edges of your viewpoints.</div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        117 posts in total
+                    </span>
+                    
+                        <span>
+                            360.9k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days"></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/cyber-weather.js" defer=""></script>
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/cyber-exchange.js" defer=""></script>
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/scene-loader.js" defer=""></script>
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="Image viewer">
+	<button class="image-viewer-close" type="button" aria-label="Close">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="Prev">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="Close">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="Next">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Search..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js"></script>
+
+
+<script src="/js/build/plugins/aplayer.js"></script>
+
+
+	
+
+
+</body></html>
