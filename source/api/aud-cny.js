@@ -45,6 +45,15 @@ async function loadQuote(fetchImpl = fetch) {
   return fresh ? quote : { ...quote, stale: true, fetchError: snapshot ? "snapshot_stale" : "snapshot_unavailable" };
 }
 
+// Daily closes carried in the snapshot as [date, spotBuy, spotSell], oldest first (written by
+// tools/collect-exchange.cjs). Anything malformed is dropped rather than drawn.
+function historyOf(quote) {
+  if (!Array.isArray(quote?.history)) return [];
+  return quote.history.filter(day => Array.isArray(day) && day.length === 3 &&
+    /^\d{4}-\d{2}-\d{2}$/.test(day[0]) && Number.isFinite(day[1]) && Number.isFinite(day[2]) &&
+    day[1] > 0 && day[2] >= day[1] && day[2] < 10000);
+}
+
 function sendJson(response, statusCode, payload, cacheable = false) {
   response.statusCode = statusCode;
   response.setHeader("Content-Type", "application/json; charset=utf-8");
@@ -79,7 +88,9 @@ module.exports = async function audCnyQuote(request, response) {
   // Vercel only reads the snapshot; bank access belongs to GitHub Actions.
   const quote = await loadQuote();
   if (quote) {
-    sendJson(response, 200, quote, quote.stale === false);
+    // The card only needs the quote; history has its own endpoint (/api/aud-cny-history).
+    const { history, ...current } = quote;
+    sendJson(response, 200, current, quote.stale === false);
     return;
   }
   console.warn("[aud-cny] No usable GitHub snapshot");
@@ -88,3 +99,5 @@ module.exports = async function audCnyQuote(request, response) {
 
 module.exports.validSnapshot = validSnapshot;
 module.exports.loadQuote = loadQuote;
+module.exports.historyOf = historyOf;
+module.exports.sendJson = sendJson;

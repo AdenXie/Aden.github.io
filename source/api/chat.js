@@ -1,7 +1,7 @@
 'use strict';
 const { createHash } = require('node:crypto');
 const { setTimeout: sleep } = require('node:timers/promises');
-const { loadQuote } = require('./aud-cny.js');
+const { loadQuote, historyOf } = require('./aud-cny.js');
 const ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions';
 const EXA_ENDPOINT = 'https://api.exa.ai/search';
 const SEARCH_TOOL = {
@@ -25,11 +25,11 @@ const RATE_TOOL = {
   type: 'function',
   function: {
     name: 'get_aud_cny_rate',
-    description: 'Current Australian dollar to Chinese yuan (AUD/CNY) quote shown on this site: Bank of China spot exchange buy and sell prices per 100 AUD, with the publish time. Use it instead of searching for the current AUD/CNY or CNY/AUD rate.',
+    description: 'Current Australian dollar to Chinese yuan (AUD/CNY) quote shown on this site: Bank of China spot exchange buy and sell prices per 100 AUD, with the publish time, plus the high, low and change of the last 30 Bank of China trading days. Use it instead of searching for the current AUD/CNY or CNY/AUD rate.',
     parameters: { type: 'object', properties: {} }
   }
 };
-const RATE_INSTRUCTIONS = ' For the current AUD/CNY (澳元/人民币) rate, call get_aud_cny_rate instead of searching. It returns Bank of China spot exchange (现汇) buy and sell prices per 100 AUD: quote them with the unit and the publish time (Beijing time), you may convert to per-1-AUD figures, and if it is marked stale say it may be out of date. It has no middle rate, cash rates, history or forecasts; for those, say so and search if search is available.';
+const RATE_INSTRUCTIONS = ' For the current AUD/CNY (澳元/人民币) rate, call get_aud_cny_rate instead of searching. It returns Bank of China spot exchange (现汇) buy and sell prices per 100 AUD: quote them with the unit and the publish time (Beijing time), you may convert to per-1-AUD figures, and if it is marked stale say it may be out of date. It also has the spot sell high, low and change over the last 30 trading days (the trend line on the card); it has no middle rate, cash rates, longer history or forecasts; for those, say so and search if search is available.';
 // The visitor's own weather card, cached in their browser: sent with the question, given to the model
 // only when it calls this tool. Nothing is fetched for it; without a cached card it reports so.
 const WEATHER_TOOL = {
@@ -208,6 +208,20 @@ async function searchWeb(call, apiKey, signal) {
   }
 }
 
+// The card's 30-day trend in numbers: spot sell high, low and change since the first day.
+function recentTrend(quote) {
+  const days = historyOf(quote).slice(-30);
+  if (days.length < 2) return null;
+  const sells = days.map(day => day[2]);
+  const first = days[0], last = days[days.length - 1];
+  const change = Math.round((last[2] - first[2]) * 100) / 100;
+  return {
+    from: first[0], to: last[0], tradingDays: days.length, unit: 'CNY per 100 AUD, spot sell',
+    high: Math.max(...sells), low: Math.min(...sells), first: first[2], last: last[2],
+    change, changePercent: Math.round(change / first[2] * 10000) / 100
+  };
+}
+
 // The quote as the model should use it; never more than the card itself shows.
 async function audCnyRate() {
   const quote = await loadQuote(fetch).catch(() => null);
@@ -217,7 +231,8 @@ async function audCnyRate() {
     pair: 'AUD/CNY', unit: 'CNY per 100 AUD', spotBuy: quote.spotBuy, spotSell: quote.spotSell,
     publishedAtBeijingTime: quote.publishedAt, stale: quote.stale === true,
     ...(quote.stale ? { staleNote: 'Not refreshed in the last 3 hours; Bank of China quotes are collected on Beijing workdays only.' } : {}),
-    note: 'Spot exchange (现汇) buy and sell prices only: no middle rate, cash rates or history.'
+    ...(recentTrend(quote) ? { last30TradingDays: recentTrend(quote) } : {}),
+    note: 'Spot exchange (现汇) buy and sell prices only, with the 30-day spot sell trend the card draws: no middle rate or cash rates.'
   };
 }
 

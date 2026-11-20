@@ -375,6 +375,250 @@
   line-height: 1.55;
 }
 
+/* Trend line under the quotes (cyber-exchange.js). It shares the body's two columns: the readout
+   sits under the card title, the line under the two figures. One line, in the colour of the
+   figure it plots; scrubbing moves the figure itself, as in Apple Stocks. */
+.fx-trend {
+  --fx-line: var(--aden-signal);
+  display: grid;
+  grid-template-columns: minmax(210px, 0.72fr) minmax(0, 1.5fr);
+  border-top: 1px solid var(--border-color);
+}
+
+.fx-trend[hidden] { display: none; }
+.fx-trend[data-series="buy"] { --fx-line: var(--aden-cyan); }
+
+.fx-trend-meta {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.9rem;
+  min-width: 0;
+  padding: 1rem 1.2rem;
+  border-right: 1px solid var(--border-color);
+}
+
+.fx-trend-readout {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin: 0;
+}
+
+.fx-trend-readout [data-trend="label"] {
+  color: var(--third-text-color);
+  font-family: var(--aden-body-font);
+  font-size: 0.77rem;
+}
+
+.fx-trend-readout [data-trend="change"] {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  color: var(--first-text-color);
+  font-size: 1.3rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.fx-trend-readout [data-trend="change"] small {
+  margin-left: 0.15rem;
+  color: var(--second-text-color);
+  font-size: 0.8rem;
+  font-weight: 550;
+  letter-spacing: 0;
+}
+
+.fx-trend-arrow {
+  align-self: center;
+  width: 0.6rem;
+  height: 0.6rem;
+  fill: var(--fx-line);
+}
+
+.fx-trend-readout [data-trend="span"] {
+  color: var(--third-text-color);
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Segmented control: a recessed track with the chosen range raised on the card surface. */
+.fx-trend-ranges {
+  display: inline-flex;
+  align-self: flex-start;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--first-text-color) 7%, transparent);
+}
+
+.fx-trend-ranges button {
+  min-width: 2.9rem;
+  min-height: 28px;
+  padding: 0 0.6rem;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: var(--second-text-color);
+  font: 550 0.74rem/1 var(--aden-interface-font);
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: background-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
+}
+
+.fx-trend-ranges[hidden],
+.fx-trend-ranges button[hidden] { display: none; }
+.fx-trend-ranges button:hover { color: var(--first-text-color); }
+
+.fx-trend-ranges button[aria-pressed="true"] {
+  background: var(--second-background-color);
+  color: var(--first-text-color);
+  box-shadow: 0 1px 3px rgb(7 10 15 / 14%), 0 0 0 0.5px var(--border-color);
+}
+
+.fx-trend-ranges button:focus-visible,
+.fx-trend-plot:focus-visible,
+.cyber-exchange-quotes > [role="button"]:focus-visible {
+  outline: 2px solid var(--aden-cyan);
+  outline-offset: 2px;
+}
+
+/* The plot box is exactly the line's box, so the cursor and dot can be placed in percent. */
+.fx-trend-plot {
+  --fx-plot-height: 88px;
+  position: relative;
+  height: var(--fx-plot-height);
+  margin: 1.1rem 1.35rem 2.1rem;
+  color: var(--fx-line);
+  cursor: crosshair;
+  touch-action: pan-y;
+  border-radius: 4px;
+}
+
+.fx-trend-plot svg {
+  display: block;
+  width: 100%;
+  height: var(--fx-plot-height);
+  overflow: visible;
+}
+
+.fx-trend-line {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.fx-trend-base {
+  stroke: color-mix(in srgb, var(--third-text-color) 55%, transparent);
+  stroke-width: 1;
+  stroke-dasharray: 2 4;
+  vector-effect: non-scaling-stroke;
+}
+
+.fx-trend-axis {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  color: var(--third-text-color);
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.fx-trend-cursor,
+.fx-trend-dot {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease;
+}
+
+.fx-trend-cursor {
+  top: -0.35rem;
+  bottom: -0.35rem;
+  width: 1px;
+  background: color-mix(in srgb, var(--first-text-color) 32%, transparent);
+}
+
+.fx-trend-dot {
+  width: 9px;
+  height: 9px;
+  border: 2px solid var(--second-background-color);
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 1px 3px rgb(7 10 15 / 25%);
+  transform: translate(-50%, -50%);
+}
+
+.fx-trend.is-scrubbing :is(.fx-trend-cursor, .fx-trend-dot) { opacity: 1; }
+.fx-trend.is-scrubbing .fx-trend-axis { opacity: 0.45; }
+
+/* The line draws in from the left once, the first time it scrolls into view. */
+.fx-trend.is-drawing svg { clip-path: inset(-4px 100% -4px 0); }
+.fx-trend.is-drawing .fx-trend-area { opacity: 0; }
+
+.fx-trend.is-drawn svg {
+  clip-path: inset(-4px -4px -4px 0);
+  transition: clip-path 1100ms cubic-bezier(0.16, 1, 0.3, 1) 120ms;
+}
+
+.fx-trend.is-drawn .fx-trend-area {
+  opacity: 1;
+  transition: opacity 700ms ease 700ms;
+}
+
+/* The two figures switch the plotted series; a dot in the line's colour marks the plotted one. */
+.cyber-exchange-quotes > [role="button"] {
+  cursor: pointer;
+  transition: background-color 160ms ease;
+}
+
+.cyber-exchange-quotes > [role="button"]:hover {
+  background: color-mix(in srgb, var(--first-text-color) 3%, transparent);
+}
+
+.cyber-exchange-quotes > .is-plotted dt::before {
+  display: inline-block;
+  width: 0.42rem;
+  height: 0.42rem;
+  margin-right: 0.45rem;
+  border-radius: 50%;
+  vertical-align: 0.1em;
+  content: "";
+  background: var(--aden-signal);
+}
+
+.cyber-exchange-quotes > .is-buy.is-plotted dt::before { background: var(--aden-cyan); }
+
+@media (max-width: 640px) {
+  .fx-trend { grid-template-columns: minmax(0, 1fr); }
+
+  .fx-trend-meta {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    padding: 0.9rem 0.85rem 0;
+    border-right: 0;
+  }
+
+  .fx-trend-readout { flex: 1 1 10rem; }
+  .fx-trend-ranges { align-self: flex-end; }
+  .fx-trend-ranges button { min-height: 32px; }
+  .fx-trend-plot { --fx-plot-height: 72px; margin: 1rem 0.85rem 2rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fx-trend.is-drawn svg,
+  .fx-trend.is-drawn .fx-trend-area { transition: none; }
+}
+
 /* Details toggle in the widget footers; only phones collapse the cards (pages.css). */
 .aden-widget-toggle {
   display: none;

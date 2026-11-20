@@ -11,6 +11,13 @@
 - 三小时至七天内的旧快照明确标识为未更新，返回 `no-store`，不重新授予 CDN 缓存有效期。GitHub 无法读取时，可显示函数内上次验证通过且未超过七天的快照；冷启动无可用快照则返回 502 `snapshot_unavailable`。浏览器也不会将旧数据重新缓存为新数据。
 - `publishedAt` 是中行发布时间，`fetchedAt` 是真实采集时间，转发不修改这两个时间。页面保留原有三小时缓存策略。
 
+## 历史走势
+
+- 快照 `aud-cny.json` 里带 `history`：`[北京交易日, 现汇买入价, 现汇卖出价]`，旧到新，每日只留当天最后一次牌价，最多 400 天。北京时间 06:00 前的牌价算前一个交易日（中行过午夜仍在发布）。规则在 `tools/lib/boc-history.cjs`，卡片里有一份同样的 `tradingDay`，测试保证两者一致。
+- 采集时先读上一份快照里的历史再合并新牌价，所以采集工作流本身不用改。上一份快照读不到（不是 404）就整次失败、不写入，避免写出一份没有历史的快照把历史抹掉；404 视为首次运行，从种子开始。
+- `tools/data/aud-cny-history-seed.json` 是 2026-09-17 起从 `exchange-rates` 分支提交记录里恢复的每日数据，每次采集都会并入，即使快照被意外覆盖也能补回这段。中行网站的历史牌价查询页（srh.bankofchina.com）目前返回 404，没有更早的数据来源。
+- `/api/aud-cny-history` 只返回历史，缓存规则同 `/api/aud-cny`；`/api/aud-cny` 不再带 `history` 字段。聊天的汇率工具附带近 30 个交易日的卖出价最高、最低和涨跌。
+
 ## 核验与维护
 
 1. 在 GitHub Actions 打开 `Refresh official BOC exchange quote`，可用 `Run workflow` 手动采集；查看两个步骤是否均成功。

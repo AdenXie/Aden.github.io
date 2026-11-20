@@ -51,6 +51,7 @@
           </div>
         </dl>
       </div>
+      ${trendMarkup()}
       <div class="cyber-exchange-footer">
         <span data-exchange="status">${pick("正在连接中国银行牌价…", "Connecting to Bank of China rates…")}</span>
         <a href="https://www.bankofchina.com/sourcedb/whpj/" target="_blank" rel="noopener noreferrer">${pick("数据来源于中国银行 ↗", "Source: Bank of China ↗")}</a>
@@ -97,9 +98,21 @@
     );
   }
 
+  // Same rule as tools/lib/boc-history.cjs: a quote before 06:00 Beijing time closes the previous
+  // trading day, and a Sunday key belongs to Monday.
+  function tradingDay(publishedAt) {
+    const match = /^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/.exec(String(publishedAt || ""));
+    if (!match) return null;
+    const [, y, mo, d, h, mi, s] = match.map(Number);
+    const date = new Date(Date.UTC(y, mo - 1, d, h, mi, s) - 6 * 3600 * 1000);
+    if (date.getUTCDay() === 0) date.setUTCDate(date.getUTCDate() + 1);
+    return date.toISOString().slice(0, 10);
+  }
+
   function renderQuote(card, payload, state = "live", error = null) {
     if (!card?.isConnected || !isValidQuote(payload)) return;
     card.querySelector('[data-exchange="buy"]').textContent = formatRate(payload.spotBuy);
+    if (card.dataset) card.dataset.quoteDay = tradingDay(payload.publishedAt) || "";
     card.querySelector('[data-exchange="sell"]').textContent = formatRate(payload.spotSell);
 
     const updated = `${formatPublishedAt(payload.publishedAt)} ${pick("北京时间", "Beijing time")}`;
@@ -228,6 +241,309 @@
     }
   }
 
+  // ---- Trend line: daily Bank of China closes from /api/aud-cny-history ----
+  // One line for the selected price (sell by default; tap the buy or sell figure to switch),
+  // over 7, 30 or 90 calendar days. Scrubbing the line shows that day in the big figure.
+  const HISTORY_URL = "/api/aud-cny-history?v=1";
+  const HISTORY_KEY = "aden-aud-cny-history-v1";
+  const SERIES_KEY = "aden-aud-cny-series";
+  const RANGES = [7, 30, 90];
+  const DAY_MS = 24 * 60 * 60 * 1000;
+
+  function trendMarkup() {
+    const ranges = RANGES.map(days => `<button type="button" data-range="${days}" aria-pressed="false">${pick(`${days}天`, `${days}D`)}</button>`).join("");
+    return `
+      <div class="fx-trend" hidden>
+        <div class="fx-trend-meta">
+          <p class="fx-trend-readout" aria-live="polite">
+            <span data-trend="label"></span>
+            <strong data-trend="change"></strong>
+            <span data-trend="span"></span>
+          </p>
+          <div class="fx-trend-ranges" role="group" aria-label="${pick("走势时间范围", "Trend range")}">${ranges}</div>
+        </div>
+        <div class="fx-trend-plot" tabindex="0" role="img">
+          <svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <defs><linearGradient id="fx-trend-fill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="currentColor" stop-opacity=".2"></stop>
+              <stop offset="1" stop-color="currentColor" stop-opacity="0"></stop>
+            </linearGradient></defs>
+            <path class="fx-trend-area" fill="url(#fx-trend-fill)"></path>
+            <line class="fx-trend-base" x1="0" x2="1000"></line>
+            <path class="fx-trend-line"></path>
+          </svg>
+          <i class="fx-trend-cursor" aria-hidden="true"></i>
+          <i class="fx-trend-dot" aria-hidden="true"></i>
+          <div class="fx-trend-axis" aria-hidden="true"><span data-trend="start"></span><span data-trend="end"></span></div>
+        </div>
+      </div>`;
+  }
+
+  function validDays(days) {
+    return Array.isArray(days) ? days.filter(day => Array.isArray(day) && /^\d{4}-\d{2}-\d{2}$/.test(day[0]) &&
+      Number.isFinite(day[1]) && Number.isFinite(day[2]) && day[1] >= 100 && day[2] >= day[1]) : [];
+  }
+
+  function readHistory(allowExpired) {
+    try {
+      const cached = JSON.parse(localStorage.getItem(HISTORY_KEY));
+      const age = Date.now() - Number(cached?.savedAt || 0);
+      if (age < 0 || age >= (allowExpired ? FALLBACK_TTL : CACHE_TTL)) return null;
+      const days = validDays(cached.days);
+      return days.length ? days : null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  async function fetchHistory(signal) {
+    const controller = new AbortController();
+    const cancel = () => controller.abort();
+    signal?.addEventListener("abort", cancel, { once: true });
+    const timeout = window.setTimeout(cancel, REQUEST_TIMEOUT_MS);
+    try {
+      const response = await fetch(HISTORY_URL, { signal: controller.signal, headers: { Accept: "application/json" } });
+      if (!response.ok) return null;
+      const payload = await response.json();
+      if (payload?.officialUnit !== "CNY per 100 AUD") return null;
+      const days = validDays(payload.days);
+      if (!days.length) return null;
+      if (!payload.stale) {
+        try { localStorage.setItem(HISTORY_KEY, JSON.stringify({ savedAt: Date.now(), days })); } catch (_) { /* optional */ }
+      }
+      return days;
+    } catch (_) {
+      return null;
+    } finally {
+      window.clearTimeout(timeout);
+      signal?.removeEventListener("abort", cancel);
+    }
+  }
+
+  const dateOf = day => new Date(`${day}T00:00:00Z`);
+  function formatDay(day) {
+    const date = dateOf(day);
+    return english()
+      ? new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "short", timeZone: "UTC" }).format(date)
+      : `${date.getUTCMonth() + 1}月${date.getUTCDate()}日`;
+  }
+  const money = value => `¥${value.toFixed(2)}`;
+  // Direction is carried by the sign and a drawn triangle, never by colour alone.
+  function changeMarkup(from, to) {
+    const delta = to - from;
+    const pct = from ? (delta / from) * 100 : 0;
+    const dir = delta > 0.004 ? "up" : delta < -0.004 ? "down" : "flat";
+    const sign = dir === "up" ? "+" : dir === "down" ? "−" : "";
+    const arrow = dir === "flat" ? "" : `<svg class="fx-trend-arrow" viewBox="0 0 10 10" aria-hidden="true"><path d="${dir === "up" ? "M5 1.5 9 8.5H1z" : "M5 8.5 9 1.5H1z"}"/></svg>`;
+    return { dir, html: `${arrow}${sign}${Math.abs(delta).toFixed(2)}<small>${sign}${Math.abs(pct).toFixed(2)}%</small>` };
+  }
+
+  function mountTrend(card, signal) {
+    const trend = card.querySelector(".fx-trend");
+    const plot = trend.querySelector(".fx-trend-plot");
+    const line = trend.querySelector(".fx-trend-line");
+    const area = trend.querySelector(".fx-trend-area");
+    const base = trend.querySelector(".fx-trend-base");
+    const cursor = trend.querySelector(".fx-trend-cursor");
+    const dot = trend.querySelector(".fx-trend-dot");
+    const field = name => trend.querySelector(`[data-trend="${name}"]`);
+    const cells = { buy: card.querySelector(".cyber-exchange-quotes .is-buy"), sell: card.querySelector(".cyber-exchange-quotes .is-sell") };
+    const figures = { buy: card.querySelector('[data-exchange="buy"]'), sell: card.querySelector('[data-exchange="sell"]') };
+    let series = "sell";
+    try { if (localStorage.getItem(SERIES_KEY) === "buy") series = "buy"; } catch (_) { /* optional */ }
+    let range = 30, all = [], shown = [], ys = [], active = -1, drawn = false;
+
+    const value = day => day[series === "buy" ? 1 : 2];
+    const seriesName = () => series === "buy" ? pick("买入价", "Spot buy") : pick("卖出价", "Spot sell");
+
+    // The latest quote may be newer than the cached history: it closes today's point.
+    function withQuote(days) {
+      const live = node => Number.parseFloat(String(node.dataset.live || node.textContent).replace(/[^\d.]/g, ""));
+      const buy = live(figures.buy), sell = live(figures.sell);
+      const day = card.dataset.quoteDay;
+      if (!day || !(buy >= 100) || !(sell >= buy) || !days.length || day < days[days.length - 1][0]) return days;
+      return [...days.filter(entry => entry[0] !== day), [day, buy, sell]];
+    }
+
+    function select(nextRange) {
+      const end = dateOf(all[all.length - 1][0]).getTime();
+      // A range shows only when history reaches past the next shorter one, so no two buttons draw
+      // the same line; the longest is labelled "all" while history is shorter than it. A chosen
+      // range that is not shown falls back to the longest one shown.
+      const span = (end - dateOf(all[0][0]).getTime()) / DAY_MS;
+      const buttons = [...trend.querySelectorAll("[data-range]")];
+      const shownRanges = RANGES.filter((days, i) => i === 0 || span > RANGES[i - 1]);
+      if (!shownRanges.includes(nextRange)) nextRange = shownRanges[shownRanges.length - 1];
+      buttons.forEach(button => {
+        const days = Number(button.dataset.range);
+        button.hidden = !shownRanges.includes(days);
+        if (days === RANGES[RANGES.length - 1]) button.textContent = span < days - 5 ? pick("全部", "All") : pick(`${days}天`, `${days}D`);
+        button.setAttribute("aria-pressed", String(days === nextRange));
+      });
+      // One range is no choice: the control goes away.
+      trend.querySelector(".fx-trend-ranges").hidden = shownRanges.length < 2;
+      shown = all.filter(day => end - dateOf(day[0]).getTime() <= nextRange * DAY_MS);
+      range = nextRange;
+    }
+
+    function rangeLabel() {
+      const longest = range === RANGES[RANGES.length - 1];
+      const span = (dateOf(all[all.length - 1][0]) - dateOf(all[0][0])) / DAY_MS;
+      if (longest && span < range - 5) return pick("全部", "all days");
+      return pick(`近${range}天`, `${range} days`);
+    }
+
+    function draw() {
+      const values = shown.map(value);
+      const low = Math.min(...values), high = Math.max(...values);
+      const pad = Math.max((high - low) * 0.14, 0.25);
+      const y = v => 100 - ((v - (low - pad)) / (high - low + pad * 2)) * 100;
+      const x = i => (shown.length === 1 ? 500 : (i / (shown.length - 1)) * 1000);
+      const points = values.map((v, i) => `${x(i).toFixed(1)},${y(v).toFixed(2)}`);
+      line.setAttribute("d", `M${points.join("L")}`);
+      area.setAttribute("d", `M${points.join("L")}L1000,100L0,100Z`);
+      base.setAttribute("y1", y(values[0]).toFixed(2));
+      base.setAttribute("y2", y(values[0]).toFixed(2));
+      trend.dataset.series = series;
+      ys = values.map(y);
+      field("start").textContent = formatDay(shown[0][0]);
+      field("end").textContent = formatDay(shown[shown.length - 1][0]);
+      field("span").textContent = `${pick("最高", "High")} ${money(high)} · ${pick("最低", "Low")} ${money(low)}`;
+      Object.entries(cells).forEach(([name, cell]) => {
+        cell.classList.toggle("is-plotted", name === series);
+        cell.setAttribute("aria-pressed", String(name === series));
+      });
+      plot.setAttribute("aria-label", pick(
+        `${seriesName()}${rangeLabel()}走势：${formatDay(shown[0][0])} ${money(values[0])}，${formatDay(shown[shown.length - 1][0])} ${money(values[values.length - 1])}。用左右方向键逐日查看。`,
+        `${seriesName()}, ${rangeLabel()}: ${money(values[0])} on ${formatDay(shown[0][0])}, ${money(values[values.length - 1])} on ${formatDay(shown[shown.length - 1][0])}. Use the arrow keys to read each day.`));
+      readout();
+    }
+
+    function readout() {
+      const values = shown.map(value);
+      const scrubbing = active >= 0;
+      const index = scrubbing ? active : values.length - 1;
+      const change = changeMarkup(values[0], values[index]);
+      field("label").textContent = scrubbing
+        ? `${formatDay(shown[index][0])} · ${seriesName()}`
+        : `${seriesName()} · ${rangeLabel()}`;
+      field("change").innerHTML = change.html;
+      field("change").dataset.dir = change.dir;
+      trend.classList.toggle("is-scrubbing", scrubbing);
+      // The big figure follows the cursor, then returns to the live quote.
+      Object.entries(figures).forEach(([name, node]) => {
+        if (scrubbing && name === series) {
+          if (!node.dataset.live) node.dataset.live = node.textContent;
+          node.textContent = money(values[index]);
+        } else if (node.dataset.live) {
+          node.textContent = node.dataset.live;
+          delete node.dataset.live;
+        }
+        cells[name].classList.toggle("is-scrubbed", scrubbing && name === series);
+      });
+      if (scrubbing) {
+        const left = shown.length === 1 ? 50 : (index / (shown.length - 1)) * 100;
+        cursor.style.left = dot.style.left = `${left}%`;
+        dot.style.top = `${ys[index]}%`;
+      }
+    }
+
+    function setActive(index) {
+      const next = index < 0 || !shown.length ? -1 : Math.max(0, Math.min(shown.length - 1, index));
+      if (next === active) return;
+      active = next;
+      readout();
+    }
+
+    function render(days) {
+      all = withQuote(days);
+      if (all.length < 2) { trend.hidden = true; return; }
+      trend.hidden = false;
+      select(range);
+      if (shown.length < 2) select(RANGES[RANGES.length - 1]);
+      active = -1;
+      draw();
+      if (drawn) return;
+      drawn = true;
+      // One authored moment: the line draws in once, the first time it scrolls into view.
+      if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) return;
+      trend.classList.add("is-drawing");
+      const observer = new IntersectionObserver(entries => {
+        if (!entries.some(entry => entry.isIntersecting)) return;
+        observer.disconnect();
+        trend.classList.add("is-drawn");
+      }, { threshold: 0.4 });
+      observer.observe(plot);
+      signal.addEventListener("abort", () => observer.disconnect(), { once: true });
+    }
+
+    const indexAt = clientX => {
+      const box = plot.getBoundingClientRect();
+      return Math.round(((clientX - box.left) / box.width) * (shown.length - 1));
+    };
+    plot.addEventListener("pointermove", event => setActive(indexAt(event.clientX)), { signal });
+    plot.addEventListener("pointerdown", event => setActive(indexAt(event.clientX)), { signal });
+    for (const type of ["pointerleave", "pointercancel"]) plot.addEventListener(type, () => setActive(-1), { signal });
+    plot.addEventListener("pointerup", event => { if (event.pointerType !== "mouse") setActive(-1); }, { signal });
+    plot.addEventListener("keydown", event => {
+      const last = shown.length - 1;
+      const from = active >= 0 ? active : last + 1;
+      const moves = { ArrowLeft: from - 1, ArrowRight: Math.min(from + 1, last), Home: 0, End: last };
+      if (event.key === "Escape" && active >= 0) { setActive(-1); return; }
+      if (!(event.key in moves) || !shown.length) return;
+      event.preventDefault();
+      setActive(moves[event.key]);
+    }, { signal });
+    plot.addEventListener("blur", () => setActive(-1), { signal });
+
+    trend.querySelector(".fx-trend-ranges").addEventListener("click", event => {
+      const button = event.target.closest("[data-range]");
+      if (!button || !all.length) return;
+      setActive(-1);
+      select(Number(button.dataset.range));
+      draw();
+    }, { signal });
+
+    // The buy and sell figures double as the series switch.
+    Object.entries(cells).forEach(([name, cell]) => {
+      const choose = () => {
+        if (!all.length || series === name) return;
+        setActive(-1);
+        series = name;
+        try { localStorage.setItem(SERIES_KEY, name); } catch (_) { /* optional */ }
+        draw();
+      };
+      cell.addEventListener("click", choose, { signal });
+      cell.addEventListener("keydown", event => {
+        if (event.key !== "Enter" && event.key !== " ") return;
+        event.preventDefault();
+        choose();
+      }, { signal });
+    });
+    signal.addEventListener("abort", () => setActive(-1), { once: true });
+
+    function enableSwitch() {
+      Object.values(cells).forEach(cell => {
+        cell.setAttribute("role", "button");
+        cell.setAttribute("tabindex", "0");
+        cell.setAttribute("aria-label", cell === cells.buy ? pick("在走势线中显示现汇买入价", "Show spot buy on the trend line") : pick("在走势线中显示现汇卖出价", "Show spot sell on the trend line"));
+      });
+    }
+
+    return {
+      async load() {
+        const fresh = readHistory(false);
+        const previous = fresh || readHistory(true);
+        if (previous) { render(previous); enableSwitch(); }
+        if (fresh) return;
+        const days = await fetchHistory(signal);
+        if (signal.aborted || !card.isConnected) return;
+        if (days) { render(days); enableSwitch(); }
+      },
+      refresh() { if (all.length) render(all); }
+    };
+  }
+
   function mountExchangeCard(_root, scope) {
     const homeContent = document.querySelector(".home-content-container");
     // /daily/ reuses the home card list; after a Swup visit from home this script is
@@ -246,7 +562,14 @@
     const fresh = readCachedQuote(false);
     const cached = fresh || readCachedQuote(true);
     if (cached) renderQuote(card, cached, fresh ? "cache" : "syncing");
-    scope.afterPaint(() => loadQuote(card, scope.signal));
+    const trend = mountTrend(card, scope.signal);
+    scope.afterPaint(async () => {
+      await loadQuote(card, scope.signal);
+      if (scope.signal.aborted || !card.isConnected) return;
+      // A newer quote than the history's last day extends the line to today.
+      trend.refresh();
+      await trend.load();
+    });
   }
 
   window.AdenSite?.register('exchange', '.home-content-container', mountExchangeCard);
