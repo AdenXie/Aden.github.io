@@ -1,0 +1,1253 @@
+<!DOCTYPE html><html lang="en"><head><script src="/js/language-preference.js?v=29a144036da1" data-english-home="/en/"></script><script src="/js/site-runtime.js?v=7840fd507160" defer=""></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/en/2026/11/19/2026-11-19-daily-brief/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Daily Briefing | 19 November 2026: Anthropic priced its IPO at US$83 per share, above the upper end of the range; the Fed minutes revealed that almost all officials expect further rate rises, with Waller proposing a 50-basis-point hike in December; Nvidia fell for the fifth consecutive day; the Dow Jones fell by 561 points; gold fell by 3.5 per cent; Xi Jinping put forward four proposals in his speech at the APEC CEO Summit; Trump arrived in Shenzhen following the conclusion of a trade agreement with the Philippines; Xi Jinping welcomed him at the airport">
+<meta property="og:url" content="https://blog.adenxie.com.cn/en/2026/11/19/2026-11-19-daily-brief/">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-11-19T01:00:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="新闻">
+<meta property="article:tag" content="市场观察">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png?v=fa6db12e9674" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Daily Briefing | 19 November 2026: Anthropic prices its IPO at $83 per share, above the upper end of the range; Fed minutes show almost all officials expect further rate rises; Waller proposes a 50-basis-point rate hike in December; Nvidia falls for the fifth consecutive day; the Dow drops 561 points; gold falls 3.5 per cent; Xi Jinping puts forward four proposals in his speech at the APEC CEO Summit; Trump arrives in Shenzhen following a trade agreement with the Philippines and is greeted by Xi Jinping at the airport | Aden’s Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/css/site-3900bc4f03b9.css?v=3900bc4f03b9">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js?v=258b1afa4680"></script>
+                
+    
+            
+                
+                    
+                
+    
+
+    
+
+
+
+    
+        
+
+
+    
+
+
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"en","path":"en/search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"18px","line_height":1.8,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["Technology, experience and independent thinking","Real experiences. A personal perspective."],"hitokoto":{"enable":false,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie","name":"GitHub"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847","name":"YouTube"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie","name":"X"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Daily Brief":{"path":"/daily/","icon":"fa-regular fa-newspaper"},"archives":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"},"tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"World Time":{"path":"/world-time/","icon":"fa-regular fa-clock"},"about":{"path":"/about/","icon":"fa-regular fa-user"},"links":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":false,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.i18n = {"search":"Search...","toc":"On this page","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"POWERED BY %s","theme":"THEME","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","post":"Post","posts":"Posts","tagcloud":"Tag Cloud","comment":"Comment","comments":"Comments","home":"Home","archive":"Archive","archives":"Archives","top":"TOP","sticky":"Sticky","go-back-home":"Go Back Home","masonry_loading":"Loading photos...","image_viewer":"Image viewer","close":"Close","exif":{"title":"EXIF","cards":{"camera":"Camera","lens":"Lens","exposure":"Exposure","other":"Other"},"fields":{"make":"Brand","model":"Model","date_taken":"Date taken","lens_model":"Lens","focal_length":"Focal length","focus_mode":"Focus mode","shutter":"Shutter","aperture":"Aperture","iso":"ISO","exposure_program":"Exposure program","exposure_compensation":"Exposure compensation","metering_mode":"Metering mode","flash":"Flash","white_balance":"White balance","latitude":"Latitude","longitude":"Longitude","altitude":"Altitude"},"status":{"loading":"Loading...","no_exif":"No EXIF available","library_missing":"EXIF library not loaded","image_source_missing":"Image source unavailable","unavailable":"EXIF unavailable (blocked by CORS or missing metadata)","flag_unavailable":"EXIF unavailable"}},"about":"About","changelog":"Changelog","links":"Links","link":"Link","friends":"Friends","friend":"Friend","timeline":"Timeline","shuoshuo":"Shuoshuo","bookmarks":"Bookmarks","site_uv":"VISITOR COUNT","site_pv":"TOTAL PAGE VIEWS","read_more":"Read more","wordcount":"Words","min2read":"Mins","status":"Status","runtime":"Blog up for","days":"days","hours":"hrs","minutes":"Min","seconds":"Sec","optimized_by":"and Optimized by Evan","rights":"All Rights Reserved","site_posts":"%s posts in total","site_wordcount":"%s words in total","copyright":{"author":"Author","title":"Title","link":"Link","create_time":"Created at","update_time":"Updated at","license_title":"License","license_content":"This work is licensed under %s.","all_rights_reserved":"All Rights Reserved &#169; %s","public_domain":"This work is in the public domain."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"},"create_time":"Created","update_time":"Updated","expired":"This post is written %s days ago, and the content may not be up to date."};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" hreflang="zh-CN" href="https://blog.adenxie.com.cn/2026/11/19/2026-11-19-daily-brief/"><link rel="alternate" hreflang="en" href="https://blog.adenxie.com.cn/en/2026/11/19/2026-11-19-daily-brief/"><link rel="preconnect" href="https://cdn-file.hyperos.mi.com" crossorigin="" data-aden-font-connect=""><script data-aden-analytics="">
+      if (location.hostname === 'blog.adenxie.com.cn' && !window.__adenAnalyticsLoaded) {
+        window.__adenAnalyticsLoaded = true;
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        const script = document.createElement('script');
+        script.defer = true;
+        script.src = '/_vercel/insights/script.js';
+        document.head.append(script);
+      }
+    </script></head>
+
+
+<body data-terminal-script="/js/terminal.js?v=8215a8acc54e" data-terminal-style="/css/terminal.css?v=825fbc0b18ff">
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/en/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/daily/">
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    DAILY BRIEF
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/categories/">
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    CATEGORIES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    WORLD TIME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search">
+                            <button type="button" class="search-popup-trigger" aria-label="Search" aria-haspopup="dialog" aria-controls="aden-search-dialog" aria-expanded="false"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <button type="button" class="icon-item search search-popup-trigger" aria-label="Search" aria-haspopup="dialog" aria-controls="aden-search-dialog" aria-expanded="false"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                
+                <button type="button" class="icon-item navbar-bar" aria-label="Menu" aria-controls="navbar-drawer" aria-expanded="false"><span class="navbar-bar-middle"></span></button>
+            </div>
+        </div>
+    <nav class="aden-language-switch" aria-label="Language"><a lang="zh-CN" href="/2026/11/19/2026-11-19-daily-brief/" aria-current="false" data-no-swup="">中文</a><span> / </span><a lang="en" href="/en/2026/11/19/2026-11-19-daily-brief/" aria-current="page" data-no-swup="">English</a></nav></div>
+
+    <!-- Mobile sheet -->
+    <div id="navbar-drawer" class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/">
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/daily/">
+                            <span>
+                                DAILY BRIEF
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/archives/">
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/categories/">
+                            <span>
+                                CATEGORIES
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/tags/">
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/world-time/">
+                            <span>
+                                WORLD TIME
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/about/">
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/link/">
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/tags/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">77</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/categories/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/archives/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">123</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://images.unsplash.com/photo-1518103800393-ad559c4061f9?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 19 November 2026: Anthropic priced its IPO at US$83 per share, above the upper end of the range; the Fed minutes revealed that almost all officials expect further rate rises, with Waller proposing a 50-basis-point hike in December; Nvidia fell for the fifth consecutive day; the Dow Jones fell by 561 points; gold fell by 3.5 per cent; Xi Jinping put forward four proposals in his speech at the APEC CEO Summit; Trump arrived in Shenzhen following the conclusion of a trade agreement with the Philippines; Xi Jinping welcomed him at the airport" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" decoding="async">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">Daily Briefing | 19 November 2026: Anthropic priced its IPO at US$83 per share, above the upper end of the range; the Fed minutes revealed that almost all officials expect further rate rises, with Waller proposing a 50-basis-point hike in December; Nvidia fell for the fifth consecutive day; the Dow Jones fell by 561 points; gold fell by 3.5 per cent; Xi Jinping put forward four proposals in his speech at the APEC CEO Summit; Trump arrived in Shenzhen following the conclusion of a trade agreement with the Philippines; Xi Jinping welcomed him at the airport</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg?v=93ba7ebfa2ff" decoding="async" width="460" height="460">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-11-19 09:00</span>
+        <span class="mobile">2026-11-19 09:00</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/en/daily/">Daily Briefing</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/en/tags/%E6%96%B0%E9%97%BB/">News</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/">Market Watch</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>3.8k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>13 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8"><p class="aden-translation-notice">Automatically translated. <a href="/2026/11/19/2026-11-19-daily-brief/">Read the Chinese original</a>.</p>
+			<h2 id="今日主线"><a href="#今日主线" class="headerlink" title="Today's main theme"></a>Today's main theme</h2><p>This edition covers the period from the Asian trading session on Wednesday 18 November until the close of US markets. The main theme of the day was ‘the eve of a major test for the AI capital markets, coupled with an increasingly hawkish Federal Reserve’. Following the close of US markets, Anthropic priced its IPO at US$83 per share, above the previously indicated range of US$70 to US$78, and the size of the offering was also increased; the company will list on the Nasdaq under the ticker symbol ‘ANT’ on Thursday. The minutes of the Federal Reserve’s October meeting, released on the same day, revealed that almost all officials believed a further rate hike might be appropriate, whilst Governor Waller publicly advocated a 50-basis-point hike in December; the market is pricing in a December rate hike with a probability of nearly 95 per cent. US equities were mixed, with the Dow Jones Industrial Average falling 561 points whilst the Nasdaq edged up slightly; Nvidia fell 2.68 per cent despite strong earnings, marking its fifth consecutive trading day of losses; gold fell 3.5 per cent, crude oil fell by around 3 per cent, and Bitcoin dropped to around US$62,000. In China, Xi Jinping attended the opening ceremony of the APEC CEO Summit in Shenzhen and delivered a keynote speech; A-shares fluctuated on reduced trading volumes, with turnover of 1.37 trillion yuan hitting a new low for the year, whilst computing power stocks rebounded. In international politics, Trump held talks with Marcos Jr. in Manila and announced the conclusion of a trade agreement, before flying to Shenzhen, where he was met at the airport by Xi Jinping; the US confirmed that Trump and Putin would hold a bilateral meeting on the 19th.</p>
+<span id="more"></span>
+
+<h2 id="重点新闻"><a href="#重点新闻" class="headerlink" title="Key News"></a>Key News</h2><h3 id="1-Anthropic以每股83美元定价IPO，高于70至78美元区间，周四以“ANT”在纳斯达克上市"><a href="#1-Anthropic以每股83美元定价IPO，高于70至78美元区间，周四以“ANT”在纳斯达克上市" class="headerlink" title="1. Anthropic priced its IPO at $83 per share, above the $70–$78 range, and listed on the Nasdaq on Thursday under the ticker symbol ‘ANT’"></a>1. Anthropic priced its IPO at $83 per share, above the $70–$78 range, and listed on the Nasdaq on Thursday under the ticker symbol ‘ANT’</h3><p>According to Reuters (as reported by MarketScreener), citing sources familiar with the matter, Anthropic finalised the pricing of its IPO after the close of US trading on 18 November at US$83 per share, above the previously indicated target range of US$70 to US$78; The company had originally planned to issue 825 million shares; sources said the offering size had been increased, though the final number of shares has not yet been announced. The shares are expected to begin trading on the Nasdaq on Thursday, 19 November, under the ticker symbol ‘ANT’. Goldman Sachs and Morgan Stanley are the lead underwriters, with a syndicate comprising 22 banks; the two firms also led SpaceX’s listing in June this year. According to Yahoo Finance, based on the original price range, Anthropic’s valuation would be approximately US$1.3 trillion to US$1.45 trillion; with a price of US$83, the valuation would be even higher, though the final figure is subject to the company’s official announcement.</p>
+<p>Reuters reported that this is one of the largest IPOs on record and marks the first listing of a major cutting-edge AI modelling company. Subscription demand during the roadshow was several times the number of shares on offer. According to the prospectus, as at 31 October, Anthropic’s annualised revenue stood at US$81 billion, an increase of US$10 billion from the end of September; Revenue for the third quarter stood at US$16.96 billion, up 47 per cent year-on-year, but the company recorded an operating loss of US$567 million (compared with an operating profit of US$974 million in the second quarter). The net loss for the third quarter was US$23.3 billion, primarily attributable to non-operating items related to convertible bonds. The company spent approximately US$9 billion on computing power and infrastructure in the first half of this year, with a further US$5 billion in computing power costs in the third quarter, and has signed computing power procurement commitments totalling nearly US$900 billion with partners such as Amazon and Google. One of the risks highlighted in the prospectus is that, should infrastructure partners be unable to secure third-party financing, the agreed computing power may be delayed, repriced, reduced or fail to be delivered.</p>
+<p>The fact that the pricing exceeded the indicative range suggests that, even amidst NVIDIA’s consecutive declines and a sharp slump in software shares, institutional investors remain willing to pay a premium for leading AI model companies. This IPO serves as a ‘pricing anchor’ for the entire AI industry chain: a strong performance on the first day would help allay market concerns regarding AI valuations and capital expenditure; whereas a poor performance could exacerbate the correction in tech shares. According to Yahoo Finance, OpenAI CEO Sam Altman stated on the same day that the company still plans to go public. Key points to watch going forward include: the final number of shares issued and the scale of funds raised; Thursday’s opening price and the first-day price movement; and whether retail investor inflows prove as strong as Vanda Research has forecast.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://www.marketscreener.com/news/anthropic-prices-blockbuster-ipo-at-83-a-share-source-says-ce785edddc80f624">MarketScreener (Reuters)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.cnbc.com/2026/11/18/anthropic-ipo-ai-offering-price.html">CNBC<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://finance.yahoo.com/markets/live/stock-market-today-wednesday-november-18-dow-sp-500-nasdaq-nvidia-earnings-anthropic-ipo-143530588.html">Yahoo Finance (Live)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="2-美联储10月会议纪要：几乎所有官员预期继续加息，沃勒主张12月加息50个基点"><a href="#2-美联储10月会议纪要：几乎所有官员预期继续加息，沃勒主张12月加息50个基点" class="headerlink" title="2. Minutes of the Federal Reserve’s October meeting: Almost all officials expect interest rates to rise further; Waller advocates a 50-basis-point rate rise in December"></a>2. Minutes of the Federal Reserve’s October meeting: Almost all officials expect interest rates to rise further; Waller advocates a 50-basis-point rate rise in December</h3><p>On 18 November, the Federal Reserve released the minutes of its monetary policy meeting held on 27–28 October. According to the Associated Press (as reported by Yahoo Finance), almost all officials anticipated a 25-basis-point rate rise in December; the “overwhelming majority” of participants were concerned that inflation might remain persistently high. Governor Cook and Cleveland Fed President Hammack voted against the decision at the October meeting, arguing in favour of raising rates at that time. In October, the Fed kept its policy rate at 3.75 per cent to 4.00 per cent, having raised it in September for the first time in three years. The minutes also noted that inflation could persist even as petrol prices continue to fall and the effects of tariffs and AI infrastructure investment gradually fade.</p>
+<p>The disagreement centres on the magnitude of the increase. According to the Associated Press, the minutes show that two officials proposed a 50-basis-point rate rise in December, with Governor Waller being one of them. Waller stated that core inflation had averaged around 3.5 per cent over the past three months, that inflation was “moving in the wrong direction”, and that businesses were still willing to pass on costs to consumers. “If we really want to bring inflation down, we must take more aggressive action,” he said. According to Yahoo Finance Live, he stated that if the rate were to be raised by only 25 basis points in December, it would be necessary to send a clear signal of a further rate rise in January; otherwise, a 50-basis-point hike should be implemented in a single move. New York Fed President Williams, however, opposed a 50-basis-point hike, arguing that “the situation does not call for such a drastic move”.</p>
+<p>Market pricing has shifted accordingly. According to the Associated Press, the CME FedWatch tool indicates a probability of nearly 95 per cent for a rate rise in December; according to Yahoo Finance, 69 per cent of traders expect cumulative rate rises of 50 basis points by the end of January next year, compared with just 38 per cent a month ago. The impact of the rate rise has already been felt in the property market: in October, pending sales of existing homes fell by 4.7 per cent month-on-month and by nearly 17 per cent year-on-year, dropping to their lowest level since at least 2001 and falling short of market expectations. The yield on the 10-year US Treasury note edged back slightly to around 5.07 per cent on the day. Key events to watch: the November non-farm payrolls and CPI figures, as well as whether the December monetary policy meeting will result in a 25- or 50-basis-point rate hike.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://ca.finance.yahoo.com/news/fed-minutes-higher-interest-rates-191215222.html">Yahoo Finance (Associated Press)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.cnbc.com/2026/11/18/fed-minutes-october-2026.html">CNBC<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://finance.yahoo.com/markets/live/stock-market-today-wednesday-november-18-dow-sp-500-nasdaq-nvidia-earnings-anthropic-ipo-143530588.html">Yahoo Finance (Live)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="3-美股分化：道指跌561点、纳指涨0-42-，英伟达财报后仍跌2-68-，黄金跌3-5"><a href="#3-美股分化：道指跌561点、纳指涨0-42-，英伟达财报后仍跌2-68-，黄金跌3-5" class="headerlink" title="3. Mixed performance on US stock markets: the Dow fell by 561 points, whilst the Nasdaq rose by 0.42 per cent; Nvidia fell by 2.68 per cent following its earnings report; gold fell by 3.5 per cent"></a>3. Mixed performance on US stock markets: the Dow fell by 561 points, whilst the Nasdaq rose by 0.42 per cent; Nvidia fell by 2.68 per cent following its earnings report; gold fell by 3.5 per cent</h3><p>According to closing figures from Yahoo Finance Live, on 18 November the S&amp;P 500 fell by 16.90 points, a decline of 0.23 per cent, to close at 7,323.63 points; the Dow Jones Industrial Average fell by 561.25 points, or 1.11 per cent, to close at 50,198.17; the Nasdaq rose by 101.50 points, or 0.42 per cent, to close at 24,429.89; and the Russell 2000 rose by 0.46 per cent. The VIX fell by 3.46 per cent to 24.58.</p>
+<p>NVIDIA was unable to hold onto its after-hours gains. Although the company had reported third-quarter revenue of US$115.8 billion the previous evening—a year-on-year increase of 103 per cent—and provided fourth-quarter guidance that exceeded expectations, its share price closed 2.68 per cent lower that day, marking its fifth consecutive trading day of declines. According to Yahoo Finance, the board will not reinstate Jensen Huang, and the company has also delayed the submission of its 10-Q quarterly report. According to The Motley Fool, the muted reaction suggests the market believes the strong growth has already been largely priced into the share price. Healthcare insurance stocks were the main drag on the Dow Jones Industrial Average: according to Yahoo Finance, the US Centres for Medicare and Medicaid Services (CMS) proposed an anti-fraud rule, causing UnitedHealth and Humana to fall by around 6 per cent each. Retail shares, however, performed well: Target reported third-quarter sales of US$27.1 billion and like-for-like sales growth of 5.6 per cent, both exceeding expectations; according to The Motley Fool, the share price rose by more than 5 per cent during trading, whilst TJX saw an even larger increase.</p>
+<p>Commodities and crypto assets fell across the board. According to Yahoo Finance, gold fell by 3.52 per cent to $3,728.30 per ounce; December WTI crude fell by 3.04 per cent to US$82.08 per barrel, whilst Brent crude opened below US$90, its lowest level since late August; Bitcoin fell by 2.81 per cent to approximately US$62,464. Rising expectations of interest rate hikes and rising real interest rates are the main reasons behind the simultaneous pressure on gold and Bitcoin. Key points to watch going forward: whether Anthropic’s debut on the stock market will boost tech shares, and when Nvidia will file its 10-Q and whether it will disclose any new information regarding the investigation.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://finance.yahoo.com/markets/live/stock-market-today-wednesday-november-18-dow-sp-500-nasdaq-nvidia-earnings-anthropic-ipo-143530588.html">Yahoo Finance (Live)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.fool.com/coverage/stock-market-today/2026/11/18/stock-market-midday-nov-18-nvidia-doubles-revenue-but-wall-street-s-sell-off-continues/">The Motley Fool<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="4-习近平出席APEC工商领导人峰会并发表主旨演讲，A股缩量震荡、成交额创年内新低"><a href="#4-习近平出席APEC工商领导人峰会并发表主旨演讲，A股缩量震荡、成交额创年内新低" class="headerlink" title="4. Xi Jinping attended the APEC CEO Summit and delivered a keynote speech; A-shares traded in a narrow range on lower volume, with turnover hitting a new low for the year"></a>4. Xi Jinping attended the APEC CEO Summit and delivered a keynote speech; A-shares traded in a narrow range on lower volume, with turnover hitting a new low for the year</h3><p>According to Xinhua News Agency, on the morning of 18 November, President Xi Jinping attended the opening ceremony of the 2026 APEC CEO Summit at the Qianhai International Conference Centre in Shenzhen, where he delivered a keynote speech entitled ‘Staying Confident, Forging Ahead with Courage: Working Together to Create a Bright Future for the Asia-Pacific’. This marks the third time China has hosted the APEC summit. Xi Jinping put forward four proposals: to safeguard peace and stability, and to resolve differences through dialogue and consultation; to build bridges of openness and cooperation, uphold the multilateral trading system with the World Trade Organisation at its core, and steadily advance the Asia-Pacific Free Trade Area process; to stimulate the momentum of innovation-driven growth, promote cooperation on the digital economy and artificial intelligence, and facilitate a green and low-carbon transition; expand pathways for mutual benefit and win-win outcomes, remove trade and investment barriers, and support the establishment of the World Bay Area Economic Cooperation Alliance. He noted that China’s economy had grown by 4.6 per cent in the first three quarters of the year, and stated that China would expand imports of high-quality products and services, maintain policy stability and predictability, provide a better business environment for foreign-invested enterprises, and described the 15th Five-Year Plan as an invitation to cooperation extended to the global business community. According to a market commentary by Bosera Asset Management, the summit was attended by more than 2,000 figures from the political and business spheres and will, for the first time, issue an outcome document, the ‘Shenzhen Initiative’, in the form of a declaration.</p>
+<p>A-shares traded in a narrow range on the day amid lower trading volumes. According to Financial World, the Shanghai Composite Index rose by 0.09 per cent to close at 3,587.83 points; the Shenzhen Component Index rose by 0.20 per cent to close at 10,659.41 points; the ChiNext Index fell by more than 1 per cent at one point during the session but closed up 0.85 per cent at 2,311.62 points; the STAR 50 Index rose 2.19 per cent to close at 1,247.99 points. According to China National Radio, trading volume on the Shanghai and Shenzhen markets totalled 1.37 trillion yuan, down by 88 billion yuan from the previous trading day and marking a new low for the year; more than 4,100 individual stocks fell, whilst, according to statistics from Bosera Fund, only 1,318 rose.</p>
+<p>In terms of sectors, computing power leasing, CPO, components and NVIDIA-related stocks led the gains, with more than ten computing power leasing stocks—including Hongjing Technology and Qingyun Technology—hitting the daily price limit; the Huawei computing power sector was also very active; Cinema chains, precious metals, gaming, healthcare services and CROs led the declines, whilst the AI short-form drama sector saw China Investment Holdings and Zhejiang Literature and Film Group hit their daily lower limits for two consecutive days. With indices rising whilst individual stocks fell across the board, coupled with trading volumes hitting a record low, this indicates that capital is concentrated solely on a handful of computing power-related sectors buoyed by NVIDIA’s positive earnings report, whilst overall risk appetite remains subdued. Key developments to watch: the LPR quote on 20 November, the specific details of the ‘Shenzhen Initiative’, and whether the meeting between Chinese and US leaders during the APEC summit will yield any new developments regarding trade and economic relations.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://www.news.cn/politics/leaders/20261118/ece32917902d45ea8c13840c3d04a06e/c.html">Xinhua News<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://stock.jrj.com.cn/2026/11/18150559192102.shtml">The Financial Sector<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://finance.cnr.cn/ycbd/20261118/t20261118_527876702.shtml">China National Radio Network<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://k.sina.cn/article_5182171545_134e1a99902002lmuc.html">Sina Finance (Bosera Fund)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="5-特朗普在马尼拉宣布与菲律宾达成贸易协议，飞抵深圳获习近平机场迎接，美俄首脑19日会晤"><a href="#5-特朗普在马尼拉宣布与菲律宾达成贸易协议，飞抵深圳获习近平机场迎接，美俄首脑19日会晤" class="headerlink" title="5. Trump announced a trade agreement with the Philippines in Manila; upon arriving in Shenzhen, he was greeted at the airport by Xi Jinping; the US and Russian leaders are due to meet on the 19th"></a>5. Trump announced a trade agreement with the Philippines in Manila; upon arriving in Shenzhen, he was greeted at the airport by Xi Jinping; the US and Russian leaders are due to meet on the 19th</h3><p>According to a live broadcast by ABC News, Philippine President Marcos Jr. welcomed Trump with a 21-gun salute at Malacañang Palace on 18 November. The talks between the two leaders covered energy and defence cooperation; Marcos Jr. mentioned that artificial intelligence and technology were new areas for cooperation, adding that “the United States is our only treaty ally”; Trump referred to the planned Alaska energy pipeline, stating that the Philippines could be a natural partner. Following the meeting, Trump announced the conclusion of a trade agreement with the Philippines, describing it as “the largest trade agreement we have ever concluded, by a wide margin”. The White House subsequently released details of the agreements with the Philippines and Thailand; as of the time of writing, no comprehensive reports on the terms have been published. According to Al Jazeera, Trump also met with an old friend, Imelda Marcos, the mother of Marcos Jr.</p>
+<p>After leaving Manila, Trump flew to Shenzhen. According to ABC News, Xi Jinping personally went to the Air Force One boarding ramp at Shenzhen Bao’an International Airport to welcome him; this arrangement came as a surprise to the outside world, as Xi had not been at the airport to welcome Trump during his visit to Beijing in May this year. At the start of the APEC summit, Trump shook hands with Putin, whilst Xi stood by. A US official confirmed that Trump and Putin are due to hold bilateral talks on 19 November; a trilateral meeting between the US, China and Russia is scheduled to take place later this week. According to a previous report by ABC News, US officials stated that Trump would discuss the war in Iran with Xi Jinping and Putin, but not the situation in Ukraine; Trump also said that North Korean leader Kim Jong-un ‘might’ come to China to meet him, ‘depending on President Xi’.</p>
+<p>The diplomatic agenda for the day—ranging from the trade agreement in Manila to the high-profile reception in Shenzhen—served to set the stage for Thursday’s summit. The honour of Xi Jinping personally welcoming him at the airport was a higher-level gesture than in May; observers will be watching to see whether this signals the atmosphere of the US-China meeting, though all parties have previously indicated they do not expect any concrete agreements to be reached at the trilateral meeting. Key points to watch: the timing and agenda of the US-China bilateral meeting; the outcome of the talks between Trump and Putin; and whether the trilateral meeting will issue a joint statement on the Iran issue and arms control.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://abcnews.com/Politics/live-updates/trump-asia-trip-2026?id=138187702&amp;amp=&amp;entryId=138241381">ABC News (Live)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.yahoo.com/news/politics/articles/trump-asia-trip-live-updates-201900298.html">Yahoo News (ABC Live)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.aljazeera.com/news/2026/11/18/donald-trump-meets-longtime-friend-imelda-marcos-during-philippines-visit">Al Jazeera<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h2 id="市场关联与今日观察"><a href="#市场关联与今日观察" class="headerlink" title="Market Correlation and Today's Observation"></a>Market Correlation and Today's Observation</h2><p>There were two key themes in the markets on Wednesday. The first was interest rates. The Fed minutes and Waller’s comments have shifted expectations of a ‘December rate rise’ from mere anticipation to near certainty, with the debate now centring on whether the increase will be 25 or 50 basis points; Gold fell by 3.5 per cent, Bitcoin dropped by nearly 3 per cent, and pending sales of existing homes hit a more than two-decade low – all direct consequences of rising interest rates. The continued decline in oil prices is helping to ease inflation, but the minutes made it clear that inflation may persist even after oil prices have fallen, so this exerts only limited constraints on the Federal Reserve.</p>
+<p>The second factor is AI valuations. The fact that Nvidia’s share price has continued to fall even after reporting strong financial results suggests that market concerns no longer centre on demand, but rather on governance and policy: Jensen Huang will not be reinstated, the filing of the 10-Q has been delayed, and investigations by the SEC and Congress are still ongoing. Meanwhile, Anthropic’s pricing above the indicative range indicates that there remains ample institutional demand for top-tier AI assets. The Nasdaq edged up slightly that day, whilst the Dow Jones Industrial Average fell sharply due to a slump in healthcare insurance shares, reflecting investors’ tendency to pick and choose within technology stocks whilst avoiding policy risks in defensive sectors. The situation in the A-share market was similar: computing power leasing and CPO stocks rebounded on the back of Nvidia’s earnings report, but trading volume hit a new low for the year and over 4,000 individual stocks fell, indicating an overall cautious sentiment. Anthropic’s performance on its first day of trading on Thursday and the high-level meeting in Shenzhen will determine the direction of the AI sector and the geopolitical risk premium, respectively.</p>
+<p>Checklist:</p>
+<ul>
+<li>Anthropic’s opening price and closing performance on Thursday, as well as the final number of shares issued and the amount raised</li>
+<li>Will Nvidia be able to halt its losing streak? When will it file its 10-Q? Are there any new developments regarding regulatory matters or investigations?</li>
+<li>Further comments from Federal Reserve officials on the scale of the December interest rate rise, as well as the November non-farm payrolls and CPI figures</li>
+<li>LPR quote on 20 November: Will A-share trading volumes rebound? Can the computing power sector sustain its momentum?</li>
+<li>Arrangements and outcomes of the meeting between Trump and Putin, the trilateral meeting between China, the US and Russia, and the bilateral meeting between China and the US on 19 November</li>
+<li>Specific terms of the US-Philippines and US-Thailand trade agreements published by the White House</li>
+</ul>
+<p>Cover image:<a class="link" target="_blank" rel="noopener" href="https://unsplash.com/photos/people-walking-on-pedestrian-lane-near-vehicles-XR5Fudiw1Z4">Meriç Dağlı / Unsplash<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> Daily Briefing | 19 November 2026: Anthropic priced its IPO at US$83 per share, above the upper end of the range; the Fed minutes revealed that almost all officials expect further rate rises, with Waller proposing a 50-basis-point hike in December; Nvidia fell for the fifth consecutive day; the Dow Jones fell by 561 points; gold fell by 3.5 per cent; Xi Jinping put forward four proposals in his speech at the APEC CEO Summit; Trump arrived in Shenzhen following the conclusion of a trade agreement with the Philippines; Xi Jinping welcomed him at the airport</li>
+        <li><strong>Author:</strong> AdenXie</li>
+        <li><strong>Created at:</strong> 2026-11-19 09:00:00</li>
+        
+        <li>
+            <strong>Link:</strong> https://blog.adenxie.com.cn/2026/11/19/2026-11-19-daily-brief/
+        </li>
+        <li data-aden-content-license=""><strong>License:</strong> Unless otherwise noted, original text and images by AdenXie: <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a>; original code: <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE" target="_blank" rel="noopener">GPL-3.0</a>. Third-party material retains its original rights and licenses. <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE-CONTENT.md" target="_blank" rel="noopener">Scope &amp; exceptions</a>.</li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E6%96%B0%E9%97%BB/">#News</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/">#MarketObservation</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/en/2026/11/20/2026-11-20-daily-brief/" title="Daily Briefing | 20 November 2026: Anthropic opened 34 per cent higher on its first day of trading before closing up 17 per cent, raising a record US$81.3 billion; the three major US stock indices fell by more than 2 per cent, with the Dow Jones dropping 1,101 points; AMD plummeted 7.7 per cent following a short-selling report by Hunterbrook; Xi Jinping and Trump met in Shenzhen, but the first trilateral meeting between China, the US and Russia yielded no results; A-share turnover hit 1.31 trillion yuan, marking another new low for the year" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1637287140143-1299580afe4f?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 20 November 2026: Anthropic opened 34 per cent higher on its first day of trading before closing up 17 per cent, raising a record US$81.3 billion; the three major US stock indices fell by more than 2 per cent, with the Dow Jones dropping 1,101 points; AMD plummeted 7.7 per cent following a short-selling report by Hunterbrook; Xi Jinping and Trump met in Shenzhen, but the first trilateral meeting between China, the US and Russia yielded no results; A-share turnover hit 1.31 trillion yuan, marking another new low for the year" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | 20 November 2026: Anthropic opened 34 per cent higher on its first day of trading before closing up 17 per cent, raising a record US$81.3 billion; the three major US stock indices fell by more than 2 per cent, with the Dow Jones dropping 1,101 points; AMD plummeted 7.7 per cent following a short-selling report by Hunterbrook; Xi Jinping and Trump met in Shenzhen, but the first trilateral meeting between China, the US and Russia yielded no results; A-share turnover hit 1.31 trillion yuan, marking another new low for the year</span>
+</a><a class="recommended-article-item" href="/en/2026/11/18/2026-11-18-daily-brief/" title="Daily Briefing | 18 November 2026: NVIDIA’s first ‘post-Jensen Huang’ financial report shows revenue of US$115.8 billion, exceeding expectations, with Q4 guidance of US$130 billion; Jensen Huang states he is willing to return to his post if the board approves, US software shares plummet ahead of Anthropic’s IPO pricing; US October retail sales rise by 0.2 per cent, import prices exceed expectations; A-share chip and AI sectors show divergent trends; Trump arrives in Manila to attend the Quad summit and sign a trade declaration with Thailand" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1733741020205-1ed0208314b6?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 18 November 2026: NVIDIA’s first ‘post-Jensen Huang’ financial report shows revenue of US$115.8 billion, exceeding expectations, with Q4 guidance of US$130 billion; Jensen Huang states he is willing to return to his post if the board approves, US software shares plummet ahead of Anthropic’s IPO pricing; US October retail sales rise by 0.2 per cent, import prices exceed expectations; A-share chip and AI sectors show divergent trends; Trump arrives in Manila to attend the Quad summit and sign a trade declaration with Thailand" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | 18 November 2026: NVIDIA’s first ‘post-Jensen Huang’ financial report shows revenue of US$115.8 billion, exceeding expectations, with Q4 guidance of US$130 billion; Jensen Huang states he is willing to return to his post if the board approves, US software shares plummet ahead of Anthropic’s IPO pricing; US October retail sales rise by 0.2 per cent, import prices exceed expectations; A-share chip and AI sectors show divergent trends; Trump arrives in Manila to attend the Quad summit and sign a trade declaration with Thailand</span>
+</a><a class="recommended-article-item" href="/en/2026/11/17/2026-11-17-daily-brief/" title="Daily Briefing | 17 November 2026: US tightens rules on AI chip exports and remote computing power; Trump says Huang Renxun’s return is “not a bad idea”; Nasdaq falls 2.49 per cent; Nvidia drops 4 per cent ahead of earnings report, China’s October retail sales rose by just 0.4 per cent; the ChiNext Index fell by 4.37 per cent; Japan’s third-quarter GDP turned negative; ASEAN and China failed to finalise the Code of Conduct in the South China Sea" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1634097538301-5d5f8b09eb84?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 17 November 2026: US tightens rules on AI chip exports and remote computing power; Trump says Huang Renxun’s return is “not a bad idea”; Nasdaq falls 2.49 per cent; Nvidia drops 4 per cent ahead of earnings report, China’s October retail sales rose by just 0.4 per cent; the ChiNext Index fell by 4.37 per cent; Japan’s third-quarter GDP turned negative; ASEAN and China failed to finalise the Code of Conduct in the South China Sea" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | 17 November 2026: US tightens rules on AI chip exports and remote computing power; Trump says Huang Renxun’s return is “not a bad idea”; Nasdaq falls 2.49 per cent; Nvidia drops 4 per cent ahead of earnings report, China’s October retail sales rose by just 0.4 per cent; the ChiNext Index fell by 4.37 per cent; Japan’s third-quarter GDP turned negative; ASEAN and China failed to finalise the Code of Conduct in the South China Sea</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/en/2026/11/20/2026-11-20-daily-brief/" title="Daily Briefing | 20 November 2026: Anthropic opened 34 per cent higher on its first day of trading before closing up 17 per cent, raising a record US$81.3 billion; the three major US stock indices fell by more than 2 per cent, with the Dow Jones dropping 1,101 points; AMD plummeted 7.7 per cent following a short-selling report by Hunterbrook; Xi Jinping and Trump met in Shenzhen, but the first trilateral meeting between China, the US and Russia yielded no results; A-share turnover hit 1.31 trillion yuan, marking another new low for the year" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1637287140143-1299580afe4f?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 20 November 2026: Anthropic opened 34 per cent higher on its first day of trading before closing up 17 per cent, raising a record US$81.3 billion; the three major US stock indices fell by more than 2 per cent, with the Dow Jones dropping 1,101 points; AMD plummeted 7.7 per cent following a short-selling report by Hunterbrook; Xi Jinping and Trump met in Shenzhen, but the first trilateral meeting between China, the US and Russia yielded no results; A-share turnover hit 1.31 trillion yuan, marking another new low for the year" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | 20 November 2026: Anthropic opened 34 per cent higher on its first day of trading before closing up 17 per cent, raising a record US$81.3 billion; the three major US stock indices fell by more than 2 per cent, with the Dow Jones dropping 1,101 points; AMD plummeted 7.7 per cent following a short-selling report by Hunterbrook; Xi Jinping and Trump met in Shenzhen, but the first trilateral meeting between China, the US and Russia yielded no results; A-share turnover hit 1.31 trillion yuan, marking another new low for the year</span>
+</a><a class="recommended-article-item" href="/en/2026/11/18/2026-11-18-daily-brief/" title="Daily Briefing | 18 November 2026: NVIDIA’s first ‘post-Jensen Huang’ financial report shows revenue of US$115.8 billion, exceeding expectations, with Q4 guidance of US$130 billion; Jensen Huang states he is willing to return to his post if the board approves, US software shares plummet ahead of Anthropic’s IPO pricing; US October retail sales rise by 0.2 per cent, import prices exceed expectations; A-share chip and AI sectors show divergent trends; Trump arrives in Manila to attend the Quad summit and sign a trade declaration with Thailand" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1733741020205-1ed0208314b6?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 18 November 2026: NVIDIA’s first ‘post-Jensen Huang’ financial report shows revenue of US$115.8 billion, exceeding expectations, with Q4 guidance of US$130 billion; Jensen Huang states he is willing to return to his post if the board approves, US software shares plummet ahead of Anthropic’s IPO pricing; US October retail sales rise by 0.2 per cent, import prices exceed expectations; A-share chip and AI sectors show divergent trends; Trump arrives in Manila to attend the Quad summit and sign a trade declaration with Thailand" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | 18 November 2026: NVIDIA’s first ‘post-Jensen Huang’ financial report shows revenue of US$115.8 billion, exceeding expectations, with Q4 guidance of US$130 billion; Jensen Huang states he is willing to return to his post if the board approves, US software shares plummet ahead of Anthropic’s IPO pricing; US October retail sales rise by 0.2 per cent, import prices exceed expectations; A-share chip and AI sectors show divergent trends; Trump arrives in Manila to attend the Quad summit and sign a trade declaration with Thailand</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/en/2026/11/20/2026-11-20-daily-brief/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Daily Briefing | 20 November 2026: Anthropic opened 34 per cent higher on its first day of trading before closing up 17 per cent, raising a record US$81.3 billion; the three major US stock indices fell by more than 2 per cent, with the Dow Jones dropping 1,101 points; AMD plummeted 7.7 per cent following a short-selling report by Hunterbrook; Xi Jinping and Trump met in Shenzhen, but the first trilateral meeting between China, the US and Russia yielded no results; A-share turnover hit 1.31 trillion yuan, marking another new low for the year</span>
+						<span class="post-nav-item">Prev posts</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/en/2026/11/18/2026-11-18-daily-brief/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Daily Briefing | 18 November 2026: NVIDIA’s first ‘post-Jensen Huang’ financial report shows revenue of US$115.8 billion, exceeding expectations, with Q4 guidance of US$130 billion; Jensen Huang states he is willing to return to his post if the board approves, US software shares plummet ahead of Anthropic’s IPO pricing; US October retail sales rise by 0.2 per cent, import prices exceed expectations; A-share chip and AI sectors show divergent trends; Trump arrives in Manila to attend the Quad summit and sign a trade declaration with Thailand</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">Daily Briefing | 19 November 2026: Anthropic priced its IPO at US$83 per share, above the upper end of the range; the Fed minutes revealed that almost all officials expect further rate rises, with Waller proposing a 50-basis-point hike in December; Nvidia fell for the fifth consecutive day; the Dow Jones fell by 561 points; gold fell by 3.5 per cent; Xi Jinping put forward four proposals in his speech at the APEC CEO Summit; Trump arrived in Shenzhen following the conclusion of a trade agreement with the Philippines; Xi Jinping welcomed him at the airport</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8A%E6%97%A5%E4%B8%BB%E7%BA%BF"><span class="nav-text">Today's main theme</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E7%82%B9%E6%96%B0%E9%97%BB"><span class="nav-text">Key News</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Anthropic%E4%BB%A5%E6%AF%8F%E8%82%A183%E7%BE%8E%E5%85%83%E5%AE%9A%E4%BB%B7IPO%EF%BC%8C%E9%AB%98%E4%BA%8E70%E8%87%B378%E7%BE%8E%E5%85%83%E5%8C%BA%E9%97%B4%EF%BC%8C%E5%91%A8%E5%9B%9B%E4%BB%A5%E2%80%9CANT%E2%80%9D%E5%9C%A8%E7%BA%B3%E6%96%AF%E8%BE%BE%E5%85%8B%E4%B8%8A%E5%B8%82"><span class="nav-text">1. Anthropic priced its IPO at $83 per share, above the $70–$78 range, and listed on the Nasdaq on Thursday under the ticker symbol ‘ANT’</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%BE%8E%E8%81%94%E5%82%A810%E6%9C%88%E4%BC%9A%E8%AE%AE%E7%BA%AA%E8%A6%81%EF%BC%9A%E5%87%A0%E4%B9%8E%E6%89%80%E6%9C%89%E5%AE%98%E5%91%98%E9%A2%84%E6%9C%9F%E7%BB%A7%E7%BB%AD%E5%8A%A0%E6%81%AF%EF%BC%8C%E6%B2%83%E5%8B%92%E4%B8%BB%E5%BC%A012%E6%9C%88%E5%8A%A0%E6%81%AF50%E4%B8%AA%E5%9F%BA%E7%82%B9"><span class="nav-text">2. Minutes of the Federal Reserve’s October meeting: Almost all officials expect interest rates to rise further; Waller advocates a 50-basis-point rate rise in December</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%BE%8E%E8%82%A1%E5%88%86%E5%8C%96%EF%BC%9A%E9%81%93%E6%8C%87%E8%B7%8C561%E7%82%B9%E3%80%81%E7%BA%B3%E6%8C%87%E6%B6%A80-42-%EF%BC%8C%E8%8B%B1%E4%BC%9F%E8%BE%BE%E8%B4%A2%E6%8A%A5%E5%90%8E%E4%BB%8D%E8%B7%8C2-68-%EF%BC%8C%E9%BB%84%E9%87%91%E8%B7%8C3-5"><span class="nav-text">3. Mixed performance on US stock markets: the Dow fell by 561 points, whilst the Nasdaq rose by 0.42 per cent; Nvidia fell by 2.68 per cent following its earnings report; gold fell by 3.5 per cent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E4%B9%A0%E8%BF%91%E5%B9%B3%E5%87%BA%E5%B8%ADAPEC%E5%B7%A5%E5%95%86%E9%A2%86%E5%AF%BC%E4%BA%BA%E5%B3%B0%E4%BC%9A%E5%B9%B6%E5%8F%91%E8%A1%A8%E4%B8%BB%E6%97%A8%E6%BC%94%E8%AE%B2%EF%BC%8CA%E8%82%A1%E7%BC%A9%E9%87%8F%E9%9C%87%E8%8D%A1%E3%80%81%E6%88%90%E4%BA%A4%E9%A2%9D%E5%88%9B%E5%B9%B4%E5%86%85%E6%96%B0%E4%BD%8E"><span class="nav-text">4. Xi Jinping attended the APEC CEO Summit and delivered a keynote speech; A-shares traded in a narrow range on lower volume, with turnover hitting a new low for the year</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E7%89%B9%E6%9C%97%E6%99%AE%E5%9C%A8%E9%A9%AC%E5%B0%BC%E6%8B%89%E5%AE%A3%E5%B8%83%E4%B8%8E%E8%8F%B2%E5%BE%8B%E5%AE%BE%E8%BE%BE%E6%88%90%E8%B4%B8%E6%98%93%E5%8D%8F%E8%AE%AE%EF%BC%8C%E9%A3%9E%E6%8A%B5%E6%B7%B1%E5%9C%B3%E8%8E%B7%E4%B9%A0%E8%BF%91%E5%B9%B3%E6%9C%BA%E5%9C%BA%E8%BF%8E%E6%8E%A5%EF%BC%8C%E7%BE%8E%E4%BF%84%E9%A6%96%E8%84%9119%E6%97%A5%E4%BC%9A%E6%99%A4"><span class="nav-text">5. Trump announced a trade agreement with the Philippines in Manila; upon arriving in Shenzhen, he was greeted at the airport by Xi Jinping; the US and Russian leaders are due to meet on the 19th</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%82%E5%9C%BA%E5%85%B3%E8%81%94%E4%B8%8E%E4%BB%8A%E6%97%A5%E8%A7%82%E5%AF%9F"><span class="nav-text">Market Correlation and Today's Observation</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">Write down your real experiences while retaining the edges of your viewpoints.</div><div class="customize-info my-1 aden-status-hint">Something not working? Check service status at <a href="https://status.adenxie.com.cn/" target="_blank" rel="noopener">status.adenxie.com.cn</a></div><div class="customize-info my-1 aden-terminal-hint"><button type="button" data-terminal-open="">Press <kbd>~</kbd> for the terminal</button></div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/en/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        123 posts in total
+                    </span>
+                    
+                        <span>
+                            382.2k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js" async=""></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days"></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/scene-loader.js?v=d4c6d7d950ec" defer=""></script>
+                    
+        
+        
+    <div class="aden-font-credit text-sm my-1">Typeface: <a href="https://hyperos.mi.com/font/zh/download/" target="_blank" rel="noopener">MiSans</a></div><div class="aden-license-notice text-sm my-1">Original text &amp; images: <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> · Code: <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE" target="_blank" rel="noopener">GPL-3.0</a> · <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE-CONTENT.md" target="_blank" rel="noopener">Scope &amp; exceptions</a></div></div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container" role="toolbar" aria-label="Quick tools">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center" role="button" tabindex="0" aria-label="Larger text">
+			<i class="fa-regular fa-magnifying-glass-plus" aria-hidden="true"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center" role="button" tabindex="0" aria-label="Smaller text">
+			<i class="fa-regular fa-magnifying-glass-minus" aria-hidden="true"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center" role="button" tabindex="0" aria-label="Toggle dark mode">
+			<i class="fa-regular fa-moon" aria-hidden="true"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center" role="button" tabindex="0" aria-label="Go to bottom">
+			<i class="fa-regular fa-arrow-down" aria-hidden="true"></i>
+		</li>
+	<li class="right-bottom-tools aden-dock-terminal" role="button" tabindex="0" data-terminal-open="" aria-label="Open terminal"><i class="fa-solid fa-terminal" aria-hidden="true"></i></li><li class="right-bottom-tools aden-dock-music" role="button" tabindex="0" aria-pressed="false" aria-label="Play music"><i class="fa-solid fa-play" aria-hidden="true"></i></li></ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center" role="button" tabindex="0" aria-label="More settings" aria-expanded="false" aria-haspopup="true">
+			<i class="fa-regular fa-cog " aria-hidden="true"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center" role="button" tabindex="0" aria-label="Back to top">
+			<i class="arrow-up fas fa-arrow-up" aria-hidden="true"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	<form id="aden-ask" class="aden-ask" novalidate="" aria-label="Ask AI" data-script="/js/chat.js?v=decea45cccf0" data-style="/css/chat.css?v=4a911c13bc63">
+  <span class="aden-ask-mark" aria-hidden="true">✳</span>
+  <label class="aden-sr-only" for="aden-ask-input">Ask AI</label>
+  <input id="aden-ask-input" class="aden-ask-input" type="text" maxlength="4000" autocomplete="off" enterkeyhint="send" placeholder="Ask AI…">
+  <span class="aden-ask-thinking" role="status" hidden=""><span class="aden-ask-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="aden-ask-thinking-label"></span></span>
+  <button type="submit" class="aden-ask-send" aria-label="Send" disabled=""><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></button>
+  <button type="button" class="aden-ask-stop" aria-label="Stop" hidden=""><i class="fa-solid fa-stop" aria-hidden="true"></i></button>
+</form><button type="button" class="aden-ask-open" aria-controls="aden-ask" aria-expanded="false"><span aria-hidden="true">✳</span><span>Ask AI</span></button><button type="button" class="aden-dock-toc" aria-haspopup="dialog" aria-expanded="false" aria-label="Contents"><i class="fa-solid fa-list-ul" aria-hidden="true"></i></button><button type="button" class="aden-dock-menu" aria-controls="navbar-drawer" aria-expanded="false" aria-label="Menu"><span class="aden-dock-bars" aria-hidden="true"></span></button></div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="Image viewer">
+	<button class="image-viewer-close" type="button" aria-label="Close">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="Prev">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="" decoding="async">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="Close">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="Next">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay" inert="">
+	<div class="popup search-popup" id="aden-search-dialog" role="dialog" aria-modal="true" aria-labelledby="aden-search-title">
+		<div class="aden-search-heading"><h2 id="aden-search-title">Search the blog</h2><button type="button" class="popup-btn-close" aria-label="Close search"><i class="fa-solid fa-times" aria-hidden="true"></i></button></div><div class="search-header">
+			<i class="fa-solid fa-magnifying-glass aden-search-icon" aria-hidden="true"></i>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Search titles and text" spellcheck="false" type="search" class="search-input" aria-label="Search the blog">
+			</div>
+			
+		<button type="button" class="search-input-field-pre" hidden="" aria-label="Clear search"><i class="fa-solid fa-times" aria-hidden="true"></i></button></div>
+		<div id="search-result">
+			<div id="no-result" role="status">Search article titles and text.</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js?v=509b91971bf2"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js?v=969d65618587"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js?v=193270b6fdb0"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js?v=647d2af612df"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js?v=c9d014a814b8"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js?v=792db0224d6b"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js?v=3691d7f361f1" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js?v=03c1e188b884"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css?v=77a3a9d5a3d0">
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js?v=e98ec22436a5"></script>
+
+
+<script src="/js/build/plugins/aplayer.js?v=d6d3c64af35f"></script>
+
+
+	
+
+
+</body></html>
