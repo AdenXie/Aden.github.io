@@ -18,6 +18,8 @@ function checkOutput(directory = 'public') {
   };
   assert(!fs.existsSync(path.join(root, 'chat')) && !fs.existsSync(path.join(root, 'en/chat')), 'Retired chat page was generated');
   for (const dir of ['', 'en']) {
+    const terminal = JSON.parse(fs.readFileSync(path.join(root, dir, 'terminal-index.json'), 'utf8'));
+    assert(terminal.posts.length > 0 && terminal.posts.every(p => p.t && /^\d{4}-\d{2}-\d{2}$/.test(p.d) && p.u.startsWith(dir ? '/en/' : '/') && fs.existsSync(path.join(root, decodeURI(p.u), 'index.html'))), `Invalid ${dir}/terminal-index.json`);
     const feed = JSON.parse(fs.readFileSync(path.join(root, dir, 'latest-posts.json'), 'utf8'));
     assert(feed.posts.length > 0 && feed.posts.every(p => p.title && p.date && p.url.startsWith('https://blog.adenxie.com.cn/')), `Invalid ${dir}/latest-posts.json`);
     assert(feed.latestBrief?.url?.startsWith('https://blog.adenxie.com.cn/'), `${dir}/latest-posts.json lacks the latest brief`);
@@ -80,6 +82,13 @@ function checkOutput(directory = 'public') {
     assert.match(launcher.attr('data-script'), /^\/js\/chat\.js\?v=[a-f0-9]{12}$/, file);
     assert.match(launcher.attr('data-style'), /^\/css\/chat\.css\?v=[a-f0-9]{12}$/, file);
     exists(launcher.attr('data-script')); exists(launcher.attr('data-style'));
+    // Terminal: assets deferred until first use; one dock item and one footer hint per page.
+    assert.equal($('script[src*="/js/terminal.js"],link[href*="/css/terminal.css"]').length, 0, file);
+    assert.match($('body').attr('data-terminal-script') || '', /^\/js\/terminal\.js\?v=[a-f0-9]{12}$/, file);
+    assert.match($('body').attr('data-terminal-style') || '', /^\/css\/terminal\.css\?v=[a-f0-9]{12}$/, file);
+    exists($('body').attr('data-terminal-script')); exists($('body').attr('data-terminal-style'));
+    assert.equal($('.right-side-tools-container li.aden-dock-terminal[data-terminal-open]').length, 1, `${file}: terminal dock item`);
+    assert.equal($('footer .aden-terminal-hint button[data-terminal-open]').length, 1, `${file}: terminal footer hint`);
     const home = $('.home-content-container').not('.aden-daily .home-content-container');
     if (!home.length) assert.equal($('script[src*="cyber-weather.js"],script[src*="cyber-exchange.js"]').length, 0);
     assert.equal($('script[src*="cdnjs.cloudflare.com/ajax/libs/twikoo"]').length, 0);

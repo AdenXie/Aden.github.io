@@ -127,6 +127,33 @@
     });
   };
   bind(window.swup);
+  // Site terminal (terminal.js and css/terminal.css, versioned on <body> by optimize-site): loaded on
+  // first use. The backquote key (~ with Shift) opens it outside text fields; so does any
+  // [data-terminal-open] control, such as the dock's settings item and the footer hint.
+  {
+    let pending = null;
+    const openTerminal = from => {
+      const { terminalScript: script, terminalStyle: style } = document.body?.dataset || {};
+      if (!script) return;
+      pending ||= Promise.all([loadStyle(style), loadScript(script)]).catch(error => { pending = null; throw error; });
+      pending.then(() => window.AdenTerminal?.open(from)).catch(() => {});
+    };
+    document.addEventListener('keydown', event => {
+      if (event.code !== 'Backquote' && event.key !== '`' && event.key !== '~') return;
+      if (event.ctrlKey || event.metaKey || event.altKey || event.isComposing || event.defaultPrevented) return;
+      if (event.target.closest?.('input, textarea, select, [contenteditable]:not([contenteditable="false"])')) return;
+      event.preventDefault();
+      openTerminal(document.activeElement);
+    });
+    document.addEventListener('click', event => {
+      const trigger = event.target.closest?.('[data-terminal-open]');
+      if (!trigger) return;
+      event.preventDefault();
+      // Close the dock's settings popover behind the terminal.
+      if (trigger.closest('.hidden-tools-list.show')) document.querySelector('.toggle-tools-list')?.click();
+      openTerminal(trigger);
+    });
+  }
   window.addEventListener('redefine:swup:ready', event => bind(event.detail?.swup || window.swup));
   // Every page carries only this button; the chat panel, its styles and the first
   // /api/chat request load when a visitor opens it (or follows an old /chat/ link).

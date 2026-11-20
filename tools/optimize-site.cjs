@@ -183,6 +183,9 @@ async function optimize(directory = 'public') {
         // Phones and tablets hide the article's side contents; a dock button opens them as a sheet.
         if ($('.post-toc ol.nav').length) dock.append(`<button type="button" class="aden-dock-toc" aria-haspopup="dialog" aria-expanded="false" aria-label="${english ? 'Contents' : '目录'}"><i class="fa-solid fa-list-ul" aria-hidden="true"></i></button>`);
         // Phones hide the music player; the settings popover offers play and pause for it.
+        // The site terminal (terminal.js): ~ opens it anywhere; the settings popover is the way in on phones.
+        dock.find('.aden-dock-terminal').remove();
+        dock.find('.hidden-tools-list').append(`<li class="right-bottom-tools aden-dock-terminal" role="button" tabindex="0" data-terminal-open aria-label="${english ? 'Open terminal' : '打开终端'}"><i class="fa-solid fa-terminal" aria-hidden="true"></i></li>`);
         if ($('#aplayer').length) dock.find('.hidden-tools-list').append(`<li class="right-bottom-tools aden-dock-music" role="button" tabindex="0" aria-pressed="false" aria-label="${english ? 'Play music' : '播放音乐'}"><i class="fa-solid fa-play" aria-hidden="true"></i></li>`);
         if ($('#navbar-drawer').length) dock.append(`<button type="button" class="aden-dock-menu" aria-controls="navbar-drawer" aria-expanded="false" aria-label="${english ? 'Menu' : '菜单'}"><span class="aden-dock-bars" aria-hidden="true"></span></button>`);
         const names = {
@@ -273,7 +276,11 @@ async function optimize(directory = 'public') {
       const english = $('html').attr('lang')?.startsWith('en');
       const link = '<a href="https://status.adenxie.com.cn/" target="_blank" rel="noopener">status.adenxie.com.cn</a>';
       $('.aden-status-hint').remove();
-      $('footer .customize-info').not('.aden-status-hint').after(`<div class="customize-info my-1 aden-status-hint">${english ? `Something not working? Check service status at ${link}` : `页面打不开或功能出错？可在 ${link} 查看服务状态`}</div>`);
+      // Terminal: loaded on first use (site-runtime.js); the footer hint is for keyboards only (dock.css).
+      $('body').attr({ 'data-terminal-script': version('/js/terminal.js'), 'data-terminal-style': version('/css/terminal.css') });
+      $('.aden-terminal-hint').remove();
+      $('footer .customize-info').not('.aden-status-hint').first().after(`<div class="customize-info my-1 aden-terminal-hint"><button type="button" data-terminal-open>${english ? 'Press <kbd>~</kbd> for the terminal' : '按 <kbd>~</kbd> 打开终端'}</button></div>`);
+      $('footer .customize-info').not('.aden-status-hint, .aden-terminal-hint').after(`<div class="customize-info my-1 aden-status-hint">${english ? `Something not working? Check service status at ${link}` : `页面打不开或功能出错？可在 ${link} 查看服务状态`}</div>`);
       $('.nf-container').after(`<p class="aden-status-hint aden-nf-status">${english ? `If other pages fail too, check ${link}` : `其他页面也打不开？可在 ${link} 查看服务状态`}</p>`);
     }
     // Wide article tables scroll inside their own frame instead of overflowing the article panel.
