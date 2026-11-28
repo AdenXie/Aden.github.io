@@ -1,0 +1,1239 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/2026/11/28/2026-11-28-daily-brief/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Daily Briefing | 28 November 2026: US stocks surge on Black Friday, with chips leading the gains; Chinese shares soar; Central Huijin to act as a quasi-stabilisation fund; Saudi Arabia’s Jizan refinery attacked; Brent crude nears US$97; S&amp;P places Nvidia on review for downgrade">
+<meta property="og:url" content="https://blog.adenxie.com.cn/2026/11/28/2026-11-28-daily-brief/index.html">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-11-28T01:00:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="新闻">
+<meta property="article:tag" content="市场观察">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Daily Briefing | 28 November 2026: US stocks surge on Black Friday, led by chip shares; Chinese shares soar; Central Huijin to act as a quasi-stabilisation fund; Jizan refinery in Saudi Arabia attacked; Brent crude nears US$97; S&amp;P places Nvidia on downgrade watch | Aden’s Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/fonts/Chillax/chillax.css">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/site-runtime.js" defer=""></script>
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js"></script>
+                
+    
+            
+                
+                    <link rel="stylesheet" href="/css/custom.css">
+                
+    
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+        
+<link rel="stylesheet" href="/css/build/tailwind.css">
+
+    
+
+
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"en","path":"search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"18px","line_height":1.8,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["科技、体验与个人判断","写下真实体验，也保留观点的棱角"],"hitokoto":{"enable":true,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie","name":"GitHub"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847","name":"YouTube"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie","name":"X"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Daily Brief":{"path":"/daily/","icon":"fa-regular fa-newspaper"},"archives":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"},"tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"World Time":{"path":"/world-time/","icon":"fa-regular fa-clock"},"about":{"path":"/about/","icon":"fa-regular fa-user"},"links":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":false,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.i18n = {"search":"Search...","toc":"On this page","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"POWERED BY %s","theme":"THEME","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","post":"Post","posts":"Posts","tagcloud":"Tag Cloud","comment":"Comment","comments":"Comments","home":"Home","archive":"Archive","archives":"Archives","top":"TOP","sticky":"Sticky","go-back-home":"Go Back Home","masonry_loading":"Loading photos...","image_viewer":"Image viewer","close":"Close","exif":{"title":"EXIF","cards":{"camera":"Camera","lens":"Lens","exposure":"Exposure","other":"Other"},"fields":{"make":"Brand","model":"Model","date_taken":"Date taken","lens_model":"Lens","focal_length":"Focal length","focus_mode":"Focus mode","shutter":"Shutter","aperture":"Aperture","iso":"ISO","exposure_program":"Exposure program","exposure_compensation":"Exposure compensation","metering_mode":"Metering mode","flash":"Flash","white_balance":"White balance","latitude":"Latitude","longitude":"Longitude","altitude":"Altitude"},"status":{"loading":"Loading...","no_exif":"No EXIF available","library_missing":"EXIF library not loaded","image_source_missing":"Image source unavailable","unavailable":"EXIF unavailable (blocked by CORS or missing metadata)","flag_unavailable":"EXIF unavailable"}},"about":"About","changelog":"Changelog","links":"Links","link":"Link","friends":"Friends","friend":"Friend","timeline":"Timeline","shuoshuo":"Shuoshuo","bookmarks":"Bookmarks","site_uv":"VISITOR COUNT","site_pv":"TOTAL PAGE VIEWS","read_more":"Read more","wordcount":"Words","min2read":"Mins","status":"Status","runtime":"Blog up for","days":"days","hours":"hrs","minutes":"Min","seconds":"Sec","optimized_by":"and Optimized by Evan","rights":"All Rights Reserved","site_posts":"%s posts in total","site_wordcount":"%s words in total","copyright":{"author":"Author","title":"Title","link":"Link","create_time":"Created at","update_time":"Updated at","license_title":"License","license_content":"This work is licensed under %s.","all_rights_reserved":"All Rights Reserved &#169; %s","public_domain":"This work is in the public domain."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"},"create_time":"Created","update_time":"Updated","expired":"This post is written %s days ago, and the content may not be up to date."};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+<link rel="stylesheet" href="/fontawesome/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/brands.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/solid.min.css">
+
+    
+<link rel="stylesheet" href="/fontawesome/regular.min.css">
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+<body>
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/daily/">
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    DAILY BRIEF
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/categories/">
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    CATEGORIES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    WORLD TIME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search">
+                            <button type="button" class="search-popup-trigger" aria-label="Search"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <button type="button" class="icon-item search search-popup-trigger" aria-label="Search"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                
+                <button type="button" class="icon-item navbar-bar" aria-label="Menu" aria-controls="navbar-drawer" aria-expanded="false"><span class="navbar-bar-middle"></span></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile sheet -->
+    <div id="navbar-drawer" class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/">
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/daily/">
+                            <span>
+                                DAILY BRIEF
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/archives/">
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/categories/">
+                            <span>
+                                CATEGORIES
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/tags/">
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/world-time/">
+                            <span>
+                                WORLD TIME
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/about/">
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="py-1.5 px-2 flex flex-row items-center justify-between gap-1 hover:!text-primary active:!text-primary text-2xl font-semibold group border-b border-border-color hover:border-primary w-full " href="/link/">
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/tags">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">77</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/categories">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/archives">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">130</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://images.unsplash.com/photo-1767424412548-1a1ac7f4b9bc?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 28 November 2026: US stocks surge on Black Friday, with chips leading the gains; Chinese shares soar; Central Huijin to act as a quasi-stabilisation fund; Saudi Arabia’s Jizan refinery attacked; Brent crude nears US$97; S&amp;P places Nvidia on review for downgrade" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">Daily Briefing | 28 November 2026: US stocks surge on Black Friday, with chips leading the gains; Chinese shares soar; Central Huijin to act as a quasi-stabilisation fund; Saudi Arabia’s Jizan refinery attacked; Brent crude nears US$97; S&amp;P places Nvidia on review for downgrade</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-11-28 09:00</span>
+        <span class="mobile">2026-11-28 09:00</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/categories/daily/">Daily Briefing</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E6%96%B0%E9%97%BB/">News</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/">Market Watch</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>2.7k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>9 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8">
+			<h2 id="今日主线"><a href="#今日主线" class="headerlink" title="Today's main theme"></a>Today's main theme</h2><p>This edition covers the US stock market close from 26 November (Thursday, when markets were closed for the US Thanksgiving holiday) to 27 November (Friday). On the first trading day after Thanksgiving, global markets rebounded in unison: US shares surged during the half-day ‘Black Friday’ session, with chip stocks leading the gains, whilst the three major indices recorded their best weekly performance in over a year; Chinese equities soared on the same day, with the Shanghai Composite Index rising by 3.7 per cent and the STAR 50 Index surging by 15 per cent, triggered by a State Council executive meeting which clarified that Central Huijin should better fulfil its role as a ‘quasi-stabilisation fund’. On the same day, China’s industrial enterprise profits for October rose by 20.1 per cent year-on-year, marking the fastest growth in five months, though sectoral divergence remained pronounced. In the energy sector, a projectile struck the Jizan refinery in Saudi Arabia on 26 November, killing one worker; Brent crude approached US$97, whilst OPEC+ is set to meet on 29 November. Meanwhile, in the AI sector, S&amp;P placed Nvidia’s AA rating on review for downgrade, stating that Jensen Huang’s return to the company had exposed shortcomings in corporate governance – whilst the share price has rebounded, questions regarding governance remain unresolved.</p>
+<span id="more"></span>
+
+<h2 id="重点新闻"><a href="#重点新闻" class="headerlink" title="Key News"></a>Key News</h2><h3 id="1-美股黑色星期五大涨：道指涨1-19-、纳指涨2-31-，芯片股领涨，三大指数创一年多最佳单周"><a href="#1-美股黑色星期五大涨：道指涨1-19-、纳指涨2-31-，芯片股领涨，三大指数创一年多最佳单周" class="headerlink" title="1. US shares surged on ‘Black Friday’: the Dow rose by 1.19 per cent and the Nasdaq by 2.31 per cent, with chip stocks leading the gains; the three major indices recorded their best weekly performance in over a year."></a>1. US shares surged on ‘Black Friday’: the Dow rose by 1.19 per cent and the Nasdaq by 2.31 per cent, with chip stocks leading the gains; the three major indices recorded their best weekly performance in over a year.</h3><p>According to Reuters, US shares closed sharply higher on 27 November during the half-day trading session following Thanksgiving, as investors bought back AI-related shares that had been battered earlier this month. The Dow Jones Industrial Average rose 597.69 points, or 1.19 per cent, to close at 50,780.64; the S&amp;P 500 rose by 115.56 points, or 1.61 per cent, to close at 7,298.34; and the Nasdaq Composite gained 543.70 points, or 2.31 per cent, to close at 24,129.50. All three indices posted substantial gains for the week, marking their best weekly performance in over a year.</p>
+<p>Leading the gains were chip stocks that had previously suffered the heaviest losses: Micron and Marvell both rose by more than 7 per cent, whilst SanDisk climbed by around 16 per cent; the Philadelphia Semiconductor Index rose in tandem; AI beneficiaries such as Dell and Lumentum also rose, whilst Amazon, Microsoft, Meta, Oracle and Tesla all closed higher, with Amazon up by around 4 per cent and Tesla by over 5 per cent. NVIDIA edged up by around 0.8 per cent, though it remains down by approximately 38 per cent from its early October high. However, trading volumes were light, suggesting that the sustainability of this rally will need to be tested once normal trading resumes after the holiday.</p>
+<p>Consumer data has added fuel to the rebound. According to Adobe Analytics, US online spending totalled US$82.5 billion between 1 and 22 November, representing a year-on-year increase of 9.1 per cent; Adobe estimates that online sales on Black Friday alone reached US$12.9 billion. Key events to watch: the US November non-farm payrolls report on 4 December, the November CPI on 10 December, and the Federal Reserve’s monetary policy meeting on 8–9 December. The market is currently almost fully pricing in a 25-basis-point interest rate hike in December.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://www.kitco.com/news/off-the-wire/2026-11-27/wall-street-ends-higher-battered-ai-stocks-gain-volatile-week">Reuters (reprinted by Kitco)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.xtb.com/int/market-analysis/news-and-research/daily-summary-strong-rebound-on-wall-street-and-return-of-metals">XTB<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://candiddragon.com/economy-today-2026-11-27/">Candid Dragon (Adobe data)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="2-中国股市创两年多最大涨幅：国务院常务会议明确中央汇金发挥“准平准基金”作用，沪指涨3-7-、科创50涨15"><a href="#2-中国股市创两年多最大涨幅：国务院常务会议明确中央汇金发挥“准平准基金”作用，沪指涨3-7-、科创50涨15" class="headerlink" title="2. Chinese stock markets recorded their biggest rise in over two years: a State Council executive meeting clarified that Central Huijin would act as a ‘quasi-stabilisation fund’, with the Shanghai Composite Index rising by 3.7 per cent and the STAR 50 Index surging by 15 per cent"></a>2. Chinese stock markets recorded their biggest rise in over two years: a State Council executive meeting clarified that Central Huijin would act as a ‘quasi-stabilisation fund’, with the Shanghai Composite Index rising by 3.7 per cent and the STAR 50 Index surging by 15 per cent</h3><p>According to Reuters, on 27 November, the Chinese stock market rebounded sharply from a 17-month low, recording its largest single-day gain in more than two years. The Shanghai Composite Index closed up 3.7 per cent, whilst the CSI 300 rose 4.2 per cent—both marking their largest single-day gains since the announcement of a major stimulus package in October 2024; the STAR 50 index soared by 15 per cent, marking its largest single-day gain in two years; the semiconductor sub-index surged by 19 per cent, recording its largest single-day gain on record. The Hang Seng Index rose by 2.1 per cent, whilst the Hang Seng Tech Index climbed by over 6 per cent. The renminbi also strengthened against the US dollar, approaching its strongest level in four years.</p>
+<p>The trigger was Beijing’s clear signal to prop up the market. According to Xinhua News Agency, Premier Li Qiang presided over a State Council executive meeting on 27 November, calling on state-owned ‘national team’ investors such as Central Huijin to play a greater role, optimise Central Huijin’s function as China’s quasi-‘stabilisation fund’, and provide ample liquidity during market turbulence. The meeting also emphasised that the capital markets are crucial to the overall economic development, and that efforts must be made to channel long-term capital into the market and address external risks. As previous measures, such as the relaxation of margin trading rules, had failed to boost confidence, this statement was viewed by the market as the clearest signal to date of a commitment to propping up the market.</p>
+<p>Prior to this rally, A-shares had been on a steady downward trend since July, dragged down by factors including weak domestic demand, a prolonged slump in the property sector, and the possibility that trade tensions could impact exports—the economy’s bright spot. Key points to watch: whether Central Huijin will inject real capital into the market; the policy direction for 2027 to be set at the Central Economic Work Conference in December; and the official manufacturing PMI for November (to be released on 1 December, with a Reuters survey forecast of 49.4, still within the contractionary range).</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://wdsm710.com/2026/11/27/china-stocks-yuan-rally-after-beijing-vows-stronger-market-support/">Reuters (reprinted by WDSM)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://947thebeast.com/2026/11/27/china-to-strengthen-defense-against-imported-risks-in-capital-markets/">Reuters (Cabinet meeting)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="3-中国10月工业企业利润同比增20-1-，为五个月最快，但复苏分化明显"><a href="#3-中国10月工业企业利润同比增20-1-，为五个月最快，但复苏分化明显" class="headerlink" title="3. Profits at Chinese industrial enterprises rose by 20.1 per cent year-on-year in October, marking the fastest growth in five months, though the recovery showed marked disparities"></a>3. Profits at Chinese industrial enterprises rose by 20.1 per cent year-on-year in October, marking the fastest growth in five months, though the recovery showed marked disparities</h3><p>According to a report by Reuters, data released by the National Bureau of Statistics on 27 November showed that profits at industrial enterprises above a certain scale rose by 20.1 per cent year-on-year in October, up from 14.4 per cent in September, marking the fastest growth in five months; profits for the period from January to October rose by 16 per cent year-on-year, an acceleration from the 15.5 per cent recorded for January to September.</p>
+<p>Divergence is the central theme of these figures. Profits in the computer, communications and other electronic equipment manufacturing sector doubled between January and October, with profit growth in AI-related and upstream industries outpacing that of downstream sectors; by contrast, profits in the furniture manufacturing sector plummeted by 52.4 per cent. Song Lin, Chief Economist for Greater China at ING, said that the recovery remains uneven, sending mixed signals regarding the overall health of the economy. Although export demand remains a key pillar of support, weak domestic demand continues to weigh on most enterprises.</p>
+<p>At the policy level, Beijing has in recent months introduced interest rate cuts, injected liquidity and provided targeted financing support for the technology, manufacturing and infrastructure sectors. Analysts expect that, as the annual growth target of 4.5 per cent to 5 per cent is likely to be met, there will be no large-scale stimulus measures this year. Key points to watch: whether the official Manufacturing PMI on 1 December and the Caixin Manufacturing PMI on 2 December will confirm a stabilisation, and the policy signals from the Central Economic Work Conference.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://wdsm710.com/2026/11/26/chinas-industrial-firms-post-faster-profit-growth-as-recovery-remains-uneven/">Reuters (reprinted by WDSM)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="4-沙特吉赞炼厂遭袭、一名工人死亡，布伦特逼近97美元，OPEC-将于11月29日开会"><a href="#4-沙特吉赞炼厂遭袭、一名工人死亡，布伦特逼近97美元，OPEC-将于11月29日开会" class="headerlink" title="4. A refinery in Jizan, Saudi Arabia, was attacked, leaving one worker dead; Brent crude approached US$97; OPEC+ is due to meet on 29 November"></a>4. A refinery in Jizan, Saudi Arabia, was attacked, leaving one worker dead; Brent crude approached US$97; OPEC+ is due to meet on 29 November</h3><p>According to a Reuters report, the Saudi Ministry of Energy stated that on 26 November, a projectile struck Saudi Aramco’s Jizan refinery (with a daily processing capacity of 400,000 barrels) on the Red Sea coast, killing one Nepalese worker and injuring several others, and leading to the temporary suspension of part of the refinery’s operations. This marks the third attack on a Saudi refinery in five days, following strikes on the Rabigh and Rastanura refineries.</p>
+<p>Oil prices rose in response. On 26 November, Brent crude closed at US$96.57, marking its highest closing price since 6 November; it rose as high as $97.63 during trading on 27 November and is set to rise by around 4.5 per cent for the week, marking the first weekly gain in November; however, it remains down by around 20 per cent for the month. A series of attacks on oil tankers in the Strait of Hormuz, coupled with strikes on Saudi energy facilities, has prompted the market to reassess supply risks in the Middle East, despite the International Energy Agency’s earlier assessment that crude oil supply had begun to outstrip demand.</p>
+<p>OPEC+ is due to meet on Sunday 29 November. According to Reuters, citing sources familiar with the matter, the group of oil-producing nations may maintain its production targets until at least the first quarter of 2027. Key points to watch: the duration of the shutdown at the Jizan refinery, the state of navigation through the Strait of Hormuz, and whether the OPEC+ meeting will, as expected, take no action.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://www.lapost.com/content/brent-trades-near-month-s-high-as-mideast-conflict-threatens-supply">Reuters (reprinted by LaPost)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.el-fondo.com/en/news/oil-rises-as-brent-hits-9763-on-middle-east-supply-risks">El-Fondo (Reuters)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="5-标普将英伟达AA评级列入下调观察：黄仁勋去而复返暴露治理短板，90天内或下调一档"><a href="#5-标普将英伟达AA评级列入下调观察：黄仁勋去而复返暴露治理短板，90天内或下调一档" class="headerlink" title="5. S&amp;P places Nvidia’s ‘AA’ rating on review for downgrade: Huang Renxun’s return exposes governance shortcomings; rating may be downgraded by one notch within 90 days"></a>5. S&amp;P places Nvidia’s ‘AA’ rating on review for downgrade: Huang Renxun’s return exposes governance shortcomings; rating may be downgraded by one notch within 90 days</h3><p>According to a Reuters report, S&amp;P Global Ratings placed Nvidia’s AA issuer credit rating and senior unsecured debt rating on ‘Credit Watch’ with a negative outlook on Wednesday 25 November, citing the departure and subsequent reinstatement of CEO Jensen Huang as evidence of weaknesses in the company’s management and board oversight. S&amp;P stated that it may downgrade the ratings by one notch to AA- within 90 days, unless an investigation or new disclosures damage the company’s reputation or business outlook.</p>
+<p>The specific issues highlighted by S&amp;P include: potential compromises to the independence of long-serving board members; inadequate oversight of the code of conduct for senior executives; a lack of succession planning; and the company’s heavy reliance on Jensen Huang personally, known as ‘key person risk’. S&amp;P also stated that it has not yet seen the board take any remedial measures.</p>
+<p>On the same day, Reuters also reported that, according to three sources familiar with the matter, the US Department of Justice had not formally opened a case against Huang before Trump pushed for his reinstatement, but had concluded, based on investigations into two of Nvidia’s clients (Advanced Micro Devices and Megaspeed), that there was no evidence to suggest he had broken the law; This conclusion may change as the investigation progresses. NVIDIA’s share price closed 3.91 per cent lower at US$149.30 on Wednesday, before rebounding slightly on Friday. Jensen Huang is scheduled to appear for a closed-door hearing before the relevant House committee on 1 December. Key points to watch: whether the board will introduce governance reforms during the 90-day review period, and the content of his testimony before Congress.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://www.thehindubusinessline.com/info-tech/sp-puts-nvidias-credit-rating-on-downgrade-watch-over-governance-concerns/article71744270.ece">Reuters (reprinted from The Hindu BusinessLine)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.businesstoday.com.my/2026/11/27/sp-warns-nvidias-board-independence-may-be-compromised/">Reuters (reprinted by Business Today)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h2 id="市场关联与今日观察"><a href="#市场关联与今日观察" class="headerlink" title="Market Correlation and Today's Observation"></a>Market Correlation and Today's Observation</h2><p>Friday’s global rally had a common underlying theme: a rebound following a sharp sell-off, coupled with signals of policy support. As for US equities, AI stocks had previously fallen too sharply, and the ‘Black Friday’ rebound was more a technical correction than a fundamental reversal – Nvidia rose by just 0.8 per cent and remains nearly 40 per cent below its October high, the Nasdaq 100 had previously come close to the 20 per cent bear market threshold relative to its earlier high, whilst a Fed rate hike in December has been almost fully priced in, and rising interest rates remain the overarching factor weighing on valuations. In China, the statement from Central Huijin regarding its “quasi-stabilisation fund” represents the clearest signal of market support so far this year. The semiconductor index’s 19 per cent single-day surge indicates that capital is first flocking to the most oversold sectors; however, October’s industrial profit data reminds us that the recovery remains uneven and that weak domestic demand has yet to be resolved. a single day’s sharp rally is not sufficient to confirm a trend reversal. As for oil prices, the geopolitical premium is returning, but Brent crude is still down by around 20 per cent for the month; the fundamental assessment of oversupply remains unchanged, and it is highly likely that the OPEC+ meeting on Sunday will take no action.</p>
+<p>Checklist:</p>
+<ul>
+<li>Will the US stock market rally continue? Non-farm payrolls on 4 December, CPI on 10 December, and the Federal Reserve’s monetary policy meeting on 8–9 December (interest rate hike magnitude and dot plot)</li>
+<li>Has Central Huijin actually stepped in to prop up the market? Will the A-share market be able to hold on to Friday’s gains? The official manufacturing PMI for 1 December</li>
+<li>The Central Economic Work Conference in December set the tone for policy in 2027</li>
+<li>The duration of the Jizan refinery shutdown, the state of navigation in the Strait of Hormuz, the outcome of the OPEC+ meeting on 29 November, and whether Brent crude will break the $100 mark</li>
+<li>Progress on NVIDIA’s 90-day rating review and board governance reforms; Jensen Huang to appear before a closed-door congressional hearing on 1 December</li>
+</ul>
+<p>Cover image:<a class="link" target="_blank" rel="noopener" href="https://unsplash.com/photos/trading-charts-displayed-on-multiple-screens-and-tablet-vKNRKjSNbTo">Jakub Żerdzicki / Unsplash<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> Daily Briefing | 28 November 2026: US stocks surge on Black Friday, with chips leading the gains; Chinese shares soar; Central Huijin to act as a quasi-stabilisation fund; Saudi Arabia’s Jizan refinery attacked; Brent crude nears US$97; S&amp;P places Nvidia on review for downgrade</li>
+        <li><strong>Author:</strong> AdenXie</li>
+        <li><strong>Created at
+                :</strong> 2026-11-28 09:00:00</li>
+        
+        <li>
+            <strong>Link:</strong> https://blog.adenxie.com.cn/2026/11/28/2026-11-28-daily-brief/
+        </li>
+        <li>
+            <strong>
+                License:
+            </strong>
+            
+
+            
+                This work is licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0">CC BY-NC-SA 4.0</a>.
+            
+        </li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E6%96%B0%E9%97%BB/">#News</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/">#MarketObservation</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/11/10/2026-11-10-daily-brief/" title="Daily Briefing | 10 November 2026: US shares staged a strong rebound, with the Nasdaq rising 2.7 per cent; Nvidia bucked the trend, falling 4 per cent amid the ‘spy scandal’ involving Jensen Huang; Trump said it was ‘highly unlikely’ that the US would strike Iran again; oil prices fell by around 5 per cent; China’s October PPI rose to 5.7 per cent, hitting a more than four-year high, whilst CPI fell to 0.7 per cent" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1758549885423-819fd86e04f0?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 10 November 2026: US shares staged a strong rebound, with the Nasdaq rising 2.7 per cent; Nvidia bucked the trend, falling 4 per cent amid the ‘spy scandal’ involving Jensen Huang; Trump said it was ‘highly unlikely’ that the US would strike Iran again; oil prices fell by around 5 per cent; China’s October PPI rose to 5.7 per cent, hitting a more than four-year high, whilst CPI fell to 0.7 per cent" class="!max-w-none">
+  <span class="title">Daily Briefing | 10 November 2026: US shares staged a strong rebound, with the Nasdaq rising 2.7 per cent; Nvidia bucked the trend, falling 4 per cent amid the ‘spy scandal’ involving Jensen Huang; Trump said it was ‘highly unlikely’ that the US would strike Iran again; oil prices fell by around 5 per cent; China’s October PPI rose to 5.7 per cent, hitting a more than four-year high, whilst CPI fell to 0.7 per cent</span>
+</a><a class="recommended-article-item" href="/2026/11/24/2026-11-24-daily-brief/" title="Daily Briefing | 24 November 2026: NVIDIA’s board reinstates Jensen Huang as CEO; share price rises 31 per cent in a single day, the Nasdaq rose 6.92 per cent, marking its largest single-day gain since April 2025; the ChiNext Index rose 3.08 per cent, whilst regulators issued a notice on counter-cyclical risk management for margin trading and short selling; Iran stated it would use all means to counter US sanctions; and Oracle confirmed that all funds under its contract with OpenAI have been fully disbursed" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1587845323226-bad89242c735?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 24 November 2026: NVIDIA’s board reinstates Jensen Huang as CEO; share price rises 31 per cent in a single day, the Nasdaq rose 6.92 per cent, marking its largest single-day gain since April 2025; the ChiNext Index rose 3.08 per cent, whilst regulators issued a notice on counter-cyclical risk management for margin trading and short selling; Iran stated it would use all means to counter US sanctions; and Oracle confirmed that all funds under its contract with OpenAI have been fully disbursed" class="!max-w-none">
+  <span class="title">Daily Briefing | 24 November 2026: NVIDIA’s board reinstates Jensen Huang as CEO; share price rises 31 per cent in a single day, the Nasdaq rose 6.92 per cent, marking its largest single-day gain since April 2025; the ChiNext Index rose 3.08 per cent, whilst regulators issued a notice on counter-cyclical risk management for margin trading and short selling; Iran stated it would use all means to counter US sanctions; and Oracle confirmed that all funds under its contract with OpenAI have been fully disbursed</span>
+</a><a class="recommended-article-item" href="/2026/11/13/2026-11-13-daily-brief/" title="Daily Briefing | 13 November 2026: Jensen Huang steps down as NVIDIA CEO; CFO Kress takes over on an interim basis; 10-year US Treasury yields rise above 5.1 per cent; US shares close slightly lower; Trump states “there is no need to reach an agreement with Iran”; the Ministry of Commerce states that China and the US are moving forward with the “30 billion for 30 billion” tariff reduction arrangement" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1431540015161-0bf868a2d407?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 13 November 2026: Jensen Huang steps down as NVIDIA CEO; CFO Kress takes over on an interim basis; 10-year US Treasury yields rise above 5.1 per cent; US shares close slightly lower; Trump states “there is no need to reach an agreement with Iran”; the Ministry of Commerce states that China and the US are moving forward with the “30 billion for 30 billion” tariff reduction arrangement" class="!max-w-none">
+  <span class="title">Daily Briefing | 13 November 2026: Jensen Huang steps down as NVIDIA CEO; CFO Kress takes over on an interim basis; 10-year US Treasury yields rise above 5.1 per cent; US shares close slightly lower; Trump states “there is no need to reach an agreement with Iran”; the Ministry of Commerce states that China and the US are moving forward with the “30 billion for 30 billion” tariff reduction arrangement</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/2026/11/10/2026-11-10-daily-brief/" title="Daily Briefing | 10 November 2026: US shares staged a strong rebound, with the Nasdaq rising 2.7 per cent; Nvidia bucked the trend, falling 4 per cent amid the ‘spy scandal’ involving Jensen Huang; Trump said it was ‘highly unlikely’ that the US would strike Iran again; oil prices fell by around 5 per cent; China’s October PPI rose to 5.7 per cent, hitting a more than four-year high, whilst CPI fell to 0.7 per cent" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1758549885423-819fd86e04f0?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 10 November 2026: US shares staged a strong rebound, with the Nasdaq rising 2.7 per cent; Nvidia bucked the trend, falling 4 per cent amid the ‘spy scandal’ involving Jensen Huang; Trump said it was ‘highly unlikely’ that the US would strike Iran again; oil prices fell by around 5 per cent; China’s October PPI rose to 5.7 per cent, hitting a more than four-year high, whilst CPI fell to 0.7 per cent" class="!max-w-none">
+  <span class="title">Daily Briefing | 10 November 2026: US shares staged a strong rebound, with the Nasdaq rising 2.7 per cent; Nvidia bucked the trend, falling 4 per cent amid the ‘spy scandal’ involving Jensen Huang; Trump said it was ‘highly unlikely’ that the US would strike Iran again; oil prices fell by around 5 per cent; China’s October PPI rose to 5.7 per cent, hitting a more than four-year high, whilst CPI fell to 0.7 per cent</span>
+</a><a class="recommended-article-item" href="/2026/11/24/2026-11-24-daily-brief/" title="Daily Briefing | 24 November 2026: NVIDIA’s board reinstates Jensen Huang as CEO; share price rises 31 per cent in a single day, the Nasdaq rose 6.92 per cent, marking its largest single-day gain since April 2025; the ChiNext Index rose 3.08 per cent, whilst regulators issued a notice on counter-cyclical risk management for margin trading and short selling; Iran stated it would use all means to counter US sanctions; and Oracle confirmed that all funds under its contract with OpenAI have been fully disbursed" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1587845323226-bad89242c735?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 24 November 2026: NVIDIA’s board reinstates Jensen Huang as CEO; share price rises 31 per cent in a single day, the Nasdaq rose 6.92 per cent, marking its largest single-day gain since April 2025; the ChiNext Index rose 3.08 per cent, whilst regulators issued a notice on counter-cyclical risk management for margin trading and short selling; Iran stated it would use all means to counter US sanctions; and Oracle confirmed that all funds under its contract with OpenAI have been fully disbursed" class="!max-w-none">
+  <span class="title">Daily Briefing | 24 November 2026: NVIDIA’s board reinstates Jensen Huang as CEO; share price rises 31 per cent in a single day, the Nasdaq rose 6.92 per cent, marking its largest single-day gain since April 2025; the ChiNext Index rose 3.08 per cent, whilst regulators issued a notice on counter-cyclical risk management for margin trading and short selling; Iran stated it would use all means to counter US sanctions; and Oracle confirmed that all funds under its contract with OpenAI have been fully disbursed</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/2026/11/26/2026-11-26-daily-brief/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Daily Briefing | 26 November 2026: US plans to impose ‘overcapacity’ tariffs on 14 economies, with rates of up to 20 per cent on China; October’s core PCE rose to 3.3 per cent, making a December interest rate hike all but certain; Nvidia falls nearly 4 per cent again; China’s A-share market saw the Shanghai Composite Index fall 2.03 per cent, dropping below the 3,500-point mark, whilst the ChiNext Index fell 4.19 per cent; Huawei was found guilty on 10 counts in the US; and the Houthi rebels claimed responsibility for an attack on the Rastan Nura refinery</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">Daily Briefing | 28 November 2026: US stocks surge on Black Friday, with chips leading the gains; Chinese shares soar; Central Huijin to act as a quasi-stabilisation fund; Saudi Arabia’s Jizan refinery attacked; Brent crude nears US$97; S&amp;P places Nvidia on review for downgrade</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8A%E6%97%A5%E4%B8%BB%E7%BA%BF"><span class="nav-text">Today's main theme</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E7%82%B9%E6%96%B0%E9%97%BB"><span class="nav-text">Key News</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%BE%8E%E8%82%A1%E9%BB%91%E8%89%B2%E6%98%9F%E6%9C%9F%E4%BA%94%E5%A4%A7%E6%B6%A8%EF%BC%9A%E9%81%93%E6%8C%87%E6%B6%A81-19-%E3%80%81%E7%BA%B3%E6%8C%87%E6%B6%A82-31-%EF%BC%8C%E8%8A%AF%E7%89%87%E8%82%A1%E9%A2%86%E6%B6%A8%EF%BC%8C%E4%B8%89%E5%A4%A7%E6%8C%87%E6%95%B0%E5%88%9B%E4%B8%80%E5%B9%B4%E5%A4%9A%E6%9C%80%E4%BD%B3%E5%8D%95%E5%91%A8"><span class="nav-text">1. US shares surged on ‘Black Friday’: the Dow rose by 1.19 per cent and the Nasdaq by 2.31 per cent, with chip stocks leading the gains; the three major indices recorded their best weekly performance in over a year.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%B8%AD%E5%9B%BD%E8%82%A1%E5%B8%82%E5%88%9B%E4%B8%A4%E5%B9%B4%E5%A4%9A%E6%9C%80%E5%A4%A7%E6%B6%A8%E5%B9%85%EF%BC%9A%E5%9B%BD%E5%8A%A1%E9%99%A2%E5%B8%B8%E5%8A%A1%E4%BC%9A%E8%AE%AE%E6%98%8E%E7%A1%AE%E4%B8%AD%E5%A4%AE%E6%B1%87%E9%87%91%E5%8F%91%E6%8C%A5%E2%80%9C%E5%87%86%E5%B9%B3%E5%87%86%E5%9F%BA%E9%87%91%E2%80%9D%E4%BD%9C%E7%94%A8%EF%BC%8C%E6%B2%AA%E6%8C%87%E6%B6%A83-7-%E3%80%81%E7%A7%91%E5%88%9B50%E6%B6%A815"><span class="nav-text">2. Chinese stock markets recorded their biggest rise in over two years: a State Council executive meeting clarified that Central Huijin would act as a ‘quasi-stabilisation fund’, with the Shanghai Composite Index rising by 3.7 per cent and the STAR 50 Index surging by 15 per cent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E4%B8%AD%E5%9B%BD10%E6%9C%88%E5%B7%A5%E4%B8%9A%E4%BC%81%E4%B8%9A%E5%88%A9%E6%B6%A6%E5%90%8C%E6%AF%94%E5%A2%9E20-1-%EF%BC%8C%E4%B8%BA%E4%BA%94%E4%B8%AA%E6%9C%88%E6%9C%80%E5%BF%AB%EF%BC%8C%E4%BD%86%E5%A4%8D%E8%8B%8F%E5%88%86%E5%8C%96%E6%98%8E%E6%98%BE"><span class="nav-text">3. Profits at Chinese industrial enterprises rose by 20.1 per cent year-on-year in October, marking the fastest growth in five months, though the recovery showed marked disparities</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%B2%99%E7%89%B9%E5%90%89%E8%B5%9E%E7%82%BC%E5%8E%82%E9%81%AD%E8%A2%AD%E3%80%81%E4%B8%80%E5%90%8D%E5%B7%A5%E4%BA%BA%E6%AD%BB%E4%BA%A1%EF%BC%8C%E5%B8%83%E4%BC%A6%E7%89%B9%E9%80%BC%E8%BF%9197%E7%BE%8E%E5%85%83%EF%BC%8COPEC-%E5%B0%86%E4%BA%8E11%E6%9C%8829%E6%97%A5%E5%BC%80%E4%BC%9A"><span class="nav-text">4. A refinery in Jizan, Saudi Arabia, was attacked, leaving one worker dead; Brent crude approached US$97; OPEC+ is due to meet on 29 November</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E6%A0%87%E6%99%AE%E5%B0%86%E8%8B%B1%E4%BC%9F%E8%BE%BEAA%E8%AF%84%E7%BA%A7%E5%88%97%E5%85%A5%E4%B8%8B%E8%B0%83%E8%A7%82%E5%AF%9F%EF%BC%9A%E9%BB%84%E4%BB%81%E5%8B%8B%E5%8E%BB%E8%80%8C%E5%A4%8D%E8%BF%94%E6%9A%B4%E9%9C%B2%E6%B2%BB%E7%90%86%E7%9F%AD%E6%9D%BF%EF%BC%8C90%E5%A4%A9%E5%86%85%E6%88%96%E4%B8%8B%E8%B0%83%E4%B8%80%E6%A1%A3"><span class="nav-text">5. S&amp;P places Nvidia’s ‘AA’ rating on review for downgrade: Huang Renxun’s return exposes governance shortcomings; rating may be downgraded by one notch within 90 days</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%82%E5%9C%BA%E5%85%B3%E8%81%94%E4%B8%8E%E4%BB%8A%E6%97%A5%E8%A7%82%E5%AF%9F"><span class="nav-text">Market Correlation and Today's Observation</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">Write down your real experiences while retaining the edges of your viewpoints.</div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        130 posts in total
+                    </span>
+                    
+                        <span>
+                            404.6k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js"></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days"></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/cyber-weather.js" defer=""></script>
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/cyber-exchange.js" defer=""></script>
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/scene-loader.js" defer=""></script>
+                    
+        
+        
+    </div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-plus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center">
+			<i class="fa-regular fa-magnifying-glass-minus"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center">
+			<i class="fa-regular fa-moon"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center">
+			<i class="fa-regular fa-arrow-down"></i>
+		</li>
+	</ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center">
+			<i class="fa-regular fa-cog "></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center">
+			<i class="arrow-up fas fa-arrow-up"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	</div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="Image viewer">
+	<button class="image-viewer-close" type="button" aria-label="Close">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="Prev">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="Close">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="Next">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay">
+	<div class="popup search-popup">
+		<div class="search-header">
+			<span class="search-input-field-pre">
+				<i class="fa-solid fa-keyboard"></i>
+			</span>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Search..." spellcheck="false" type="search" class="search-input">
+			</div>
+			<span class="popup-btn-close">
+				<i class="fa-solid fa-times"></i>
+			</span>
+		</div>
+		<div id="search-result">
+			<div id="no-result">
+				<i class="fa-solid fa-spinner fa-spin-pulse fa-5x fa-fw"></i>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css">
+
+
+
+
+
+
+
+  
+<script src="/js/build/libs/Typed.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script src="/js/build/libs/moment-with-locales.min.js" data-swup-reload-script=""></script>
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js"></script>
+
+
+<script src="/js/build/plugins/aplayer.js"></script>
+
+
+	
+
+
+</body></html>
