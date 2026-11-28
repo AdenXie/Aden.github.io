@@ -1,0 +1,1254 @@
+<!DOCTYPE html><html lang="en"><head><script src="/js/language-preference.js?v=29a144036da1" data-english-home="/en/"></script><script src="/js/site-runtime.js?v=7840fd507160" defer=""></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="科技,数码,设备体验,系统教程,AdenXie">
+    
+    
+    <meta name="author" content="AdenXie">
+    
+    <!-- Completely eliminate flash of wrong theme -->
+    <script>
+        (function() {
+            const THEME_KEY = "REDEFINE-THEME-STATUS";
+            const DARK = "dark", LIGHT = "light";
+            
+            // Get preferred theme
+            function getTheme() {
+                try {
+                    const saved = localStorage.getItem(THEME_KEY);
+                    if (saved) {
+                        const { isDark } = JSON.parse(saved);
+                        return isDark ? DARK : LIGHT;
+                    }
+                } catch (e) {}
+                
+                return matchMedia("(prefers-color-scheme: dark)").matches ? DARK : LIGHT;
+            }
+            
+            // Apply theme to document
+            function applyTheme(theme) {
+                const isDark = theme === DARK;
+                const root = document.documentElement;
+                
+                // Set classes for compatibility
+                root.classList.add(theme);
+                root.classList.remove(isDark ? LIGHT : DARK);
+                root.style.colorScheme = theme;
+            }
+            
+            // Initial application
+            const theme = getTheme();
+            applyTheme(theme);
+            
+            // Listen for system preference changes
+            matchMedia("(prefers-color-scheme: dark)").addEventListener("change", ({ matches }) => {
+                // Only update if using system preference (no localStorage entry)
+                if (!localStorage.getItem(THEME_KEY)) {
+                    applyTheme(matches ? DARK : LIGHT);
+                }
+            });
+            
+            // Set body classes ASAP (before DOMContentLoaded)
+            (function() {
+                const addBodyClass = () => {
+                    const b = document.body;
+                    if (!b) return false;
+                    b.classList.add(theme + "-mode");
+                    return true;
+                };
+
+                // Try immediately
+                if (addBodyClass()) return;
+
+                // Observe until body exists
+                const mo = new MutationObserver(() => {
+                    if (addBodyClass()) mo.disconnect();
+                });
+                mo.observe(document.documentElement, { childList: true, subtree: true });
+            })();
+        })();
+    </script>
+    
+    <!-- preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+    
+    <!--- Seo Part-->
+    
+    <link rel="canonical" href="https://blog.adenxie.com.cn/en/2026/11/26/2026-11-26-daily-brief/">
+    <meta name="robots" content="index,follow">
+    <meta name="googlebot" content="index,follow">
+    <meta name="revisit-after" content="1 days">
+    
+    
+        
+        <meta name="description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Daily Briefing | 26 November 2026: US plans to impose ‘overcapacity’ tariffs on 14 economies, with rates of up to 20 per cent on China; October’s core PCE rose to 3.3 per cent, making a December interest rate hike all but certain; Nvidia falls nearly 4 per cent again; China’s A-share market saw the Shanghai Composite Index fall 2.03 per cent, dropping below the 3,500-point mark, whilst the ChiNext Index fell 4.19 per cent; Huawei was found guilty on 10 counts in the US; and the Houthi rebels claimed responsibility for an attack on the Rastan Nura refinery">
+<meta property="og:url" content="https://blog.adenxie.com.cn/en/2026/11/26/2026-11-26-daily-brief/">
+<meta property="og:site_name" content="Aden's Space">
+<meta property="og:description" content="Aden's personal tech blog, documenting device experiences, system tinkering, and technical observations.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+<meta property="article:published_time" content="2026-11-26T01:00:00.000Z">
+<meta property="article:author" content="AdenXie">
+<meta property="article:tag" content="新闻">
+<meta property="article:tag" content="市场观察">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.adenxie.com.cn/images/wallhaven-wqery6-light.webp">
+    
+    
+    <!--- Icon Part-->
+    <link rel="icon" type="image/png" href="/images/avatar-favicon.png?v=fa6db12e9674" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <meta name="theme-color" content="#F2E94E">
+    <link rel="shortcut icon" href="/images/avatar-favicon.png?v=fa6db12e9674">
+    <!--- Page Info-->
+    
+    <title>
+        
+            Daily Briefing | 26 November 2026: US plans to impose ‘overcapacity’ tariffs on 14 economies, with rates of up to 20 per cent on China; October core PCE rises to 3.3 per cent, making a December interest rate hike all but certain; Nvidia falls nearly 4 per cent again, China’s A-share market saw the Shanghai Composite Index fall 2.03 per cent, dropping below the 3,500-point mark, whilst the ChiNext Index fell 4.19 per cent; Huawei was found guilty on 10 counts in the US; and the Houthi rebels claimed responsibility for an attack on the Rastan Nura refinery | Aden’s Space
+        
+    </title>
+
+    
+<link rel="stylesheet" href="/css/site-3900bc4f03b9.css?v=3900bc4f03b9">
+
+
+    <!--- Inject Part-->
+    
+        
+            
+    
+            
+    
+            
+                
+                    
+                
+    
+            
+                
+                    <script data-swup-reload-script="" src="/js/theme-default.js?v=258b1afa4680"></script>
+                
+    
+            
+                
+                    
+                
+    
+
+    
+
+
+
+    
+        
+
+
+    
+
+
+
+    <!--- Font Part-->
+    
+    
+    
+    
+    
+    
+
+    <script id="hexo-configurations">
+    window.config = {"hostname":"blog.adenxie.com.cn","root":"/","language":"en","path":"en/search.xml"};
+    window.theme = {"articles":{"style":{"font_size":"18px","line_height":1.8,"image_border_radius":"10px","image_alignment":"center","image_caption":true,"link_icon":true,"delete_mask":false,"title_alignment":"left","headings_top_spacing":{"h1":"3.2rem","h2":"2.5rem","h3":"2rem","h4":"1.7rem","h5":"1.5rem","h6":"1.35rem"}},"word_count":{"enable":true,"count":true,"min2read":true},"author_label":{"enable":false,"auto":false,"list":[]},"code_block":{"copy":true,"style":"simple","highlight_theme":{"light":"github","dark":"github-dark"},"font":{"enable":false,"family":null,"url":null}},"toc":{"enable":true,"max_depth":3,"number":false,"expand":true,"init_open":true},"copyright":{"enable":true,"default":"cc_by_nc_sa"},"lazyload":true,"pangu_js":false,"recommendation":{"enable":true,"title":"推荐阅读","limit":3,"mobile_limit":2,"placeholder":"/images/wallhaven-wqery6-light.webp","skip_dirs":[]}},"colors":{"primary":"#F2E94E","secondary":"#18D5E8","default_mode":"dark"},"global":{"fonts":{"chinese":{"enable":false,"family":null,"url":null},"english":{"enable":false,"family":null,"url":null},"title":{"enable":false,"family":null,"url":null}},"content_max_width":"1080px","sidebar_width":"230px","hover":{"shadow":true,"scale":false},"scroll_progress":{"bar":true,"percentage":true},"website_counter":{"url":"https://cn.vercount.one/js","enable":true,"site_pv":true,"site_uv":true,"post_pv":true},"single_page":true,"preloader":{"enable":false,"custom_message":null},"side_tools":{"gear_rotation":false,"auto_expand":false},"open_graph":{"enable":true,"image":"/images/wallhaven-wqery6-light.webp","description":"Aden 的个人科技博客，记录设备体验、系统折腾与技术观察。"},"google_analytics":{"enable":false,"id":null}},"home_banner":{"enable":true,"style":"fixed","image":{"light":"/images/hero-1280.webp","dark":"/images/hero-1280.webp"},"title":"Aden's Space","subtitle":{"text":["Technology, experience and independent thinking","Real experiences. A personal perspective."],"hitokoto":{"enable":false,"show_author":true,"api":"https://v1.hitokoto.cn"},"typing_speed":85,"backing_speed":45,"starting_delay":350,"backing_delay":2200,"loop":true,"smart_backspace":true},"text_color":{"light":"#FFFFFF","dark":"#FFFFFF"},"text_style":{"title_size":"3.4rem","subtitle_size":"1.15rem","line_height":1.35},"custom_font":{"enable":false,"family":null,"url":null},"social_links":{"enable":true,"style":"default","links":[{"icon":"fa-brands fa-github","url":"https://github.com/AdenXie","name":"GitHub"},{"icon":"fa-brands fa-youtube","url":"https://www.youtube.com/@adenxie2847","name":"YouTube"},{"icon":"fa-brands fa-twitter","url":"https://x.com/aden_xie","name":"X"},{"icon":"fa-brands fa-telegram","url":null},{"icon":"/images/custom-icon.svg","url":null}],"qrs":[{"icon":"fa-brands fa-weixin","qr":null},{"icon":"/images/custom-icon.svg","qr":null}]}},"plugins":{"feed":{"enable":false},"aplayer":{"enable":true,"type":"fixed","audios":[{"name":"Die For You","artist":"VALORANT / Grabbitz","url":"https://api.injahow.cn/meting/?type=url&id=1974630461","cover":"https://p2.music.126.net/7L4ROhfRFkJxroC3zbqPqw==/109951171796456806.jpg","lrc":null}]},"mermaid":{"enable":false,"version":"11.4.1","theme":{"light":"default","dark":"dark"}}},"version":"2.9.0","navbar":{"auto_hide":false,"color":{"left":"#070A0F","right":"#111923","transparency":8},"width":{"home":"1240px","pages":"1080px"},"links":{"Home":{"path":"/","icon":"fa-regular fa-house"},"Daily Brief":{"path":"/daily/","icon":"fa-regular fa-newspaper"},"archives":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"Categories":{"path":"/categories/","icon":"fa-regular fa-folder"},"tags":{"path":"/tags/","icon":"fa-regular fa-tags"},"World Time":{"path":"/world-time/","icon":"fa-regular fa-clock"},"about":{"path":"/about/","icon":"fa-regular fa-user"},"links":{"path":"/link/","icon":"fa-regular fa-link"}},"search":{"enable":true,"preload":false}},"page_templates":{"friends_column":2,"tags_style":"blur","masonry":{"batch_size":12,"initial_batch_size":24}},"home":{"sidebar":{"enable":true,"position":"left","first_item":"info","announcement":"记录设备体验、系统折腾与技术观察。","show_on_mobile":false,"links":{"文章归档":{"path":"/archives/","icon":"fa-regular fa-box-archive"},"主题标签":{"path":"/tags/","icon":"fa-regular fa-tags"},"关于 Aden":{"path":"/about/","icon":"fa-regular fa-user"}}},"article_date_format":"YYYY-MM-DD","excerpt_length":180,"categories":{"enable":false,"limit":3},"tags":{"enable":true,"limit":3}},"footer":{"runtime":true,"icon":"<i class=\"fa-solid fa-bolt\" style=\"color: #F2E94E\"></i>","start":"2021/08/01 00:00:00","statistics":true,"customize":"写下真实体验，也保留观点的棱角。","icp":{"enable":false,"number":null,"url":null}},"footerStart":"2021/08/01 00:00:00","mermaid":{"style":{"light":"default","dark":"dark"}}};
+    window.lang_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+    window.i18n = {"search":"Search...","toc":"On this page","prev":"Prev","next":"Next","prev_posts":"Prev posts","next_posts":"Next posts","page":"Page %d","recent_posts":"Recent Posts","share":"Share","powered_by":"POWERED BY %s","theme":"THEME","rss_feed":"RSS Feed","category":"Category","categories":"Categories","tag":"Tag","tags":"Tags","post":"Post","posts":"Posts","tagcloud":"Tag Cloud","comment":"Comment","comments":"Comments","home":"Home","archive":"Archive","archives":"Archives","top":"TOP","sticky":"Sticky","go-back-home":"Go Back Home","masonry_loading":"Loading photos...","image_viewer":"Image viewer","close":"Close","exif":{"title":"EXIF","cards":{"camera":"Camera","lens":"Lens","exposure":"Exposure","other":"Other"},"fields":{"make":"Brand","model":"Model","date_taken":"Date taken","lens_model":"Lens","focal_length":"Focal length","focus_mode":"Focus mode","shutter":"Shutter","aperture":"Aperture","iso":"ISO","exposure_program":"Exposure program","exposure_compensation":"Exposure compensation","metering_mode":"Metering mode","flash":"Flash","white_balance":"White balance","latitude":"Latitude","longitude":"Longitude","altitude":"Altitude"},"status":{"loading":"Loading...","no_exif":"No EXIF available","library_missing":"EXIF library not loaded","image_source_missing":"Image source unavailable","unavailable":"EXIF unavailable (blocked by CORS or missing metadata)","flag_unavailable":"EXIF unavailable"}},"about":"About","changelog":"Changelog","links":"Links","link":"Link","friends":"Friends","friend":"Friend","timeline":"Timeline","shuoshuo":"Shuoshuo","bookmarks":"Bookmarks","site_uv":"VISITOR COUNT","site_pv":"TOTAL PAGE VIEWS","read_more":"Read more","wordcount":"Words","min2read":"Mins","status":"Status","runtime":"Blog up for","days":"days","hours":"hrs","minutes":"Min","seconds":"Sec","optimized_by":"and Optimized by Evan","rights":"All Rights Reserved","site_posts":"%s posts in total","site_wordcount":"%s words in total","copyright":{"author":"Author","title":"Title","link":"Link","create_time":"Created at","update_time":"Updated at","license_title":"License","license_content":"This work is licensed under %s.","all_rights_reserved":"All Rights Reserved &#169; %s","public_domain":"This work is in the public domain."},"ago":{"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"},"create_time":"Created","update_time":"Updated","expired":"This post is written %s days ago, and the content may not be up to date."};
+    window.data = {"masonry":false};
+  </script>
+    
+    <!--- Fontawesome Part-->
+    
+
+
+    
+
+
+    
+
+
+    
+
+
+    
+    
+    
+    
+<meta name="generator" content="Hexo 7.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" hreflang="zh-CN" href="https://blog.adenxie.com.cn/2026/11/26/2026-11-26-daily-brief/"><link rel="alternate" hreflang="en" href="https://blog.adenxie.com.cn/en/2026/11/26/2026-11-26-daily-brief/"><link rel="preconnect" href="https://cdn-file.hyperos.mi.com" crossorigin="" data-aden-font-connect=""><script data-aden-analytics="">
+      if (location.hostname === 'blog.adenxie.com.cn' && !window.__adenAnalyticsLoaded) {
+        window.__adenAnalyticsLoaded = true;
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        const script = document.createElement('script');
+        script.defer = true;
+        script.src = '/_vercel/insights/script.js';
+        document.head.append(script);
+      }
+    </script></head>
+
+
+<body data-terminal-script="/js/terminal.js?v=8215a8acc54e" data-terminal-style="/css/terminal.css?v=825fbc0b18ff">
+	<div class="progress-bar-container">
+	
+	<span class="scroll-progress-bar"></span>
+	
+
+	
+	<span class="pjax-progress-bar"></span>
+	<!--        <span class="swup-progress-icon">-->
+	<!--            <i class="fa-solid fa-circle-notch fa-spin"></i>-->
+	<!--        </span>-->
+	
+</div>
+
+<main class="page-container" id="swup">
+
+	
+
+	<div class="main-content-container flex flex-col justify-between min-h-dvh">
+		<div class="main-content-header">
+			<header class="navbar-container px-6 md:px-12">
+    <div class="navbar-content transition-navbar ">
+        <div class="left">
+            
+            <a class="logo-title" href="/en/">
+                
+                Aden's Space
+                
+            </a>
+        </div>
+
+        <div class="right">
+            <!-- PC -->
+            <div class="desktop">
+                <ul class="navbar-list">
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/">
+                                    <i class="fa-regular fa-house fa-fw"></i>
+                                    HOME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/daily/">
+                                    <i class="fa-regular fa-newspaper fa-fw"></i>
+                                    DAILY BRIEF
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/archives/">
+                                    <i class="fa-regular fa-box-archive fa-fw"></i>
+                                    ARCHIVES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/categories/">
+                                    <i class="fa-regular fa-folder fa-fw"></i>
+                                    CATEGORIES
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/tags/">
+                                    <i class="fa-regular fa-tags fa-fw"></i>
+                                    TAGS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/world-time/">
+                                    <i class="fa-regular fa-clock fa-fw"></i>
+                                    WORLD TIME
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/about/">
+                                    <i class="fa-regular fa-user fa-fw"></i>
+                                    ABOUT
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                        
+                            
+
+                            <li class="navbar-item">
+                                <!-- Menu -->
+                                <a class="" href="/en/link/">
+                                    <i class="fa-regular fa-link fa-fw"></i>
+                                    LINKS
+                                    
+                                </a>
+
+                                <!-- Submenu -->
+                                
+                            </li>
+                    
+                    
+                        <li class="navbar-item search">
+                            <button type="button" class="search-popup-trigger" aria-label="Search" aria-haspopup="dialog" aria-controls="aden-search-dialog" aria-expanded="false"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                        </li>
+                    
+                </ul>
+            </div>
+            <!-- Mobile -->
+            <div class="mobile">
+                
+                    <button type="button" class="icon-item search search-popup-trigger" aria-label="Search" aria-haspopup="dialog" aria-controls="aden-search-dialog" aria-expanded="false"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></button>
+                
+                <button type="button" class="icon-item navbar-bar" aria-label="Menu" aria-controls="navbar-drawer" aria-expanded="false"><span class="navbar-bar-middle"></span></button>
+            </div>
+        </div>
+    <nav class="aden-language-switch" aria-label="Language"><a lang="zh-CN" href="/2026/11/26/2026-11-26-daily-brief/" aria-current="false" data-no-swup="">中文</a><span> / </span><a lang="en" href="/en/2026/11/26/2026-11-26-daily-brief/" aria-current="page" data-no-swup="">English</a></nav></div>
+
+    <!-- Mobile sheet -->
+    <div id="navbar-drawer" class="navbar-drawer h-dvh w-full absolute top-0 left-0 bg-background-color flex flex-col justify-between">
+        <ul class="drawer-navbar-list flex flex-col px-4 justify-center items-start">
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/">
+                            <span>
+                                HOME
+                            </span>
+                            
+                                <i class="fa-regular fa-house fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/daily/">
+                            <span>
+                                DAILY BRIEF
+                            </span>
+                            
+                                <i class="fa-regular fa-newspaper fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/archives/">
+                            <span>
+                                ARCHIVES
+                            </span>
+                            
+                                <i class="fa-regular fa-box-archive fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/categories/">
+                            <span>
+                                CATEGORIES
+                            </span>
+                            
+                                <i class="fa-regular fa-folder fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/tags/">
+                            <span>
+                                TAGS
+                            </span>
+                            
+                                <i class="fa-regular fa-tags fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/world-time/">
+                            <span>
+                                WORLD TIME
+                            </span>
+                            
+                                <i class="fa-regular fa-clock fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/about/">
+                            <span>
+                                ABOUT
+                            </span>
+                            
+                                <i class="fa-regular fa-user fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+                
+                    
+
+                    <li class="drawer-navbar-item text-base my-1.5 flex flex-col w-full">
+                        
+                        <a class="flex flex-row items-center justify-between gap-1 group w-full aden-drawer-link" href="/en/link/">
+                            <span>
+                                LINKS
+                            </span>
+                            
+                                <i class="fa-regular fa-link fa-sm fa-fw"></i>
+                            
+                        </a>
+                        
+
+                        
+                    </li>
+            
+
+            
+            
+        </ul>
+
+        <div class="statistics flex justify-around my-2.5">
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/tags/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">77</div>
+        <div class="label text-third-text-color text-sm">Tags</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/categories/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">7</div>
+        <div class="label text-third-text-color text-sm">Categories</div>
+    </a>
+    <a class="item tag-count-item flex flex-col justify-center items-center w-20" href="/en/archives/">
+        <div class="number text-2xl sm:text-xl text-second-text-color font-semibold">130</div>
+        <div class="label text-third-text-color text-sm">Posts</div>
+    </a>
+</div>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+		</div>
+
+		<div class="main-content-body transition-fade-up">
+			
+
+			<div class="main-content">
+				<div class="post-page-container flex relative justify-between box-border w-full h-full">
+	<div class="article-content-container">
+
+		<div class="article-title relative w-full">
+			
+			
+			
+			<img src="https://images.unsplash.com/photo-1773126378915-793b5c48fb38?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 26 November 2026: US plans to impose ‘overcapacity’ tariffs on 14 economies, with rates of up to 20 per cent on China; October’s core PCE rose to 3.3 per cent, making a December interest rate hike all but certain; Nvidia falls nearly 4 per cent again; China’s A-share market saw the Shanghai Composite Index fall 2.03 per cent, dropping below the 3,500-point mark, whilst the ChiNext Index fell 4.19 per cent; Huawei was found guilty on 10 counts in the US; and the Houthi rebels claimed responsibility for an attack on the Rastan Nura refinery" class="w-full h-60 sm:h-72 md:h-80 object-cover sm:rounded-t-large dark:brightness-75" decoding="async">
+			
+			<div class="w-full flex items-center absolute bottom-0 justify-start">
+				<h1 class="article-title-cover text-center mx-6 my-6 text-second-text-color bg-background-color-transparent px-4 py-3 text-3xl sm:text-4xl md:text-5xl font-semibold backdrop-blur-lg rounded-xl border border-border-color ">Daily Briefing | 26 November 2026: US plans to impose ‘overcapacity’ tariffs on 14 economies, with rates of up to 20 per cent on China; October’s core PCE rose to 3.3 per cent, making a December interest rate hike all but certain; Nvidia falls nearly 4 per cent again; China’s A-share market saw the Shanghai Composite Index fall 2.03 per cent, dropping below the 3,500-point mark, whilst the ChiNext Index fell 4.19 per cent; Huawei was found guilty on 10 counts in the US; and the Houthi rebels claimed responsibility for an attack on the Rastan Nura refinery</h1>
+			</div>
+			
+		</div>
+
+		
+		<div class="article-header flex flex-row gap-2 items-center px-2 sm:px-6 md:px-8">
+			<div class="avatar w-[46px] h-[46px] shrink-0 rounded-medium border border-border-color p-px">
+				<img src="/images/avatar.jpg?v=93ba7ebfa2ff" decoding="async" width="460" height="460">
+			</div>
+			<div class="info flex flex-col justify-between">
+				<div class="author flex items-center">
+					<span class="name text-default-text-color text-lg font-semibold">AdenXie</span>
+					
+				</div>
+				<div class="meta-info">
+					<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fa-regular fa-pen-fancy"></i>&nbsp;
+        <span class="desktop">2026-11-26 09:00</span>
+        <span class="mobile">2026-11-26 09:00</span>
+        <span class="hover-info">Created</span>
+    </span>
+    
+
+    
+        <span class="article-categories article-meta-item">
+            <i class="fa-regular fa-folders"></i>&nbsp;
+            <ul>
+                
+                
+                    
+                        
+                        <li>
+                            <a href="/en/daily/">Daily Briefing</a>&nbsp;
+                        </li>
+                    
+                    
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fa-regular fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/en/tags/%E6%96%B0%E9%97%BB/">News</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/en/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/">Market Watch</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+        <span class="article-wordcount article-meta-item">
+            <i class="fa-regular fa-typewriter"></i>&nbsp;<span>4k Words</span>
+        </span>
+    
+    
+        <span class="article-min2read article-meta-item">
+            <i class="fa-regular fa-clock"></i>&nbsp;<span>14 Mins</span>
+        </span>
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fa-regular fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+				</div>
+			</div>
+		</div>
+		
+
+		
+
+
+		<div class="article-content markdown-body px-2 sm:px-6 md:px-8 pb-8"><p class="aden-translation-notice">Automatically translated. <a href="/2026/11/26/2026-11-26-daily-brief/">Read the Chinese original</a>.</p>
+			<h2 id="今日主线"><a href="#今日主线" class="headerlink" title="Today's main theme"></a>Today's main theme</h2><p>This edition covers the period from the Asian trading session on Wednesday 25 November until the close of US markets, with a Huawei-related item dating back to the evening of 24 November (US Eastern Time). The Section 301 tariffs reported by Reuters the previous day were formally implemented on Wednesday: US Trade Representative Greer determined that the ‘structural overcapacity’ practices of 14 economies were ‘unreasonable’ and proposed new tariffs ranging from 15 per cent to 35 per cent, with the highest rate of 20 per cent applying to China, which will not take effect until after hearings, expected as early as late January next year. On the same day, the US October PCE price index rose to 3.8 per cent year-on-year, whilst the core PCE rose to 3.3 per cent, slightly higher than expected; the revised third-quarter GDP figure was raised to 4.3 per cent, and the market’s pricing in of a Federal Reserve rate rise in December rose to approximately 98 per cent. US equities fell sharply in early trading, with the Nasdaq dropping by more than 3% at one point and Nvidia falling by 8%; losses narrowed significantly towards the close, with the Dow Jones closing higher whilst the Nasdaq ended down 0.62 per cent. Chinese A-shares, however, failed to stage a rebound: the Shanghai Composite fell by 2.03 per cent, dropping below the 3,500-point mark, whilst the ChiNext Index fell by 4.19 per cent and the STAR 50 Index by 5.12 per cent, with the semiconductor and battery sectors leading the decline. Elsewhere, a US federal jury found Huawei guilty on 10 of the 12 charges but dismissed the most serious charge of conspiracy to commit organised crime; in the Middle East, Iran reported that two more oil tankers had struck mines, whilst Saudi Arabia stated it had shot down four drones over Rastanura, with oil prices rising by over 2 per cent.</p>
+<span id="more"></span>
+
+<h2 id="重点新闻"><a href="#重点新闻" class="headerlink" title="Key News"></a>Key News</h2><h3 id="1-USTR认定14个经济体存在“结构性产能过剩”，提议加征15-—35-关税，对华最高20-，明年1月听证"><a href="#1-USTR认定14个经济体存在“结构性产能过剩”，提议加征15-—35-关税，对华最高20-，明年1月听证" class="headerlink" title="1. The USTR has determined that 14 economies suffer from ‘structural overcapacity’ and has proposed imposing tariffs of between 15 per cent and 35 per cent, with a maximum of 20 per cent on China; a hearing is scheduled for January next year."></a>1. The USTR has determined that 14 economies suffer from ‘structural overcapacity’ and has proposed imposing tariffs of between 15 per cent and 35 per cent, with a maximum of 20 per cent on China; a hearing is scheduled for January next year.</h3><p>According to a press release issued by the Office of the United States Trade Representative (USTR) on 25 November, Trade Representative Greer, pursuant to Section 301 of the Trade Act of 1974, determined that China, the European Union, Singapore, Switzerland, Indonesia, Malaysia, Cambodia, Thailand, South Korea, Vietnam, the Taiwan region, Bangladesh, Japan and India—a total of 14 economies—engaged in ‘unreasonable’ practices linked to ‘structural overcapacity’ in the manufacturing sector, which impose a burden on US business, and that action may be taken. When the investigation was launched in March, there were 16 subjects under review; no findings were made regarding Mexico and Norway on this occasion. The issues with China highlighted by the USTR include long-term industrial planning, fiscal support for the manufacturing sector and state-owned enterprises, forced technology transfer, intellectual property theft, inadequate labour and environmental protection, financial repression and exchange rate practices, as well as the promotion of capacity expansion into third countries, affecting more than twenty industries including steel and aluminium, automobiles, batteries, semiconductors, photovoltaics, wind power and shipbuilding.</p>
+<p>Tariff rates are set out separately for each economy. According to Baker McKenzie’s analysis of the pre-release text of the Federal Register: the European Union, Japan, South Korea, Switzerland and Taiwan have a maximum rate of 15 per cent (calculated after deducting the most-favoured-nation rate and existing Section 301 tariffs); Indonesia, Malaysia, Thailand, Cambodia and Bangladesh have a maximum rate of 18 per cent; Singapore has a maximum rate of 20 per cent, which could be reduced to 10 per cent upon the conclusion of a reciprocal trade agreement; India has a maximum rate of 25 per cent, which could be reduced to 17 per cent upon the conclusion of an agreement; Vietnam: up to 35 per cent, reducible to 20 per cent upon conclusion of an agreement; China’s proposal is a maximum of 20 per cent (calculated after deducting the ‘forced labour’ Section 301 tariffs), with a maximum of 10 per cent for goods listed in Annex A, and exemptions for goods listed in Annex B derived from the US-China ‘30-for-30’ list; Should the USTR deem that engagement with the Chinese side is insufficient to resolve the issue, this may be amended to impose a tariff of up to 40 per cent on all Chinese goods. Eleven economies, excluding Vietnam, India and Singapore, are subject to similar ‘fallback’ higher tariff rates. For the 13 economies other than China, steel, aluminium and copper; motor vehicles and parts; wood products; patented medicines; and semiconductors—which are already subject to Section 232 tariffs—are excluded from the additional tariffs; the proposal for China, however, does not include this exemption.</p>
+<p>The tariffs will not come into effect immediately. According to Baker McKenzie, the deadline for submitting written comments and applications to attend the hearings is 5 January 2027; public hearings will begin on 25 January, and the final measures are expected to be announced early next year, after the 10 January expiry date of the US-China trade truce. Yahoo Finance, citing a US official, reported that the new tariffs could come into effect “as early as January”, with the cumulative tariff rate on some Chinese goods exceeding 40 per cent. These tariffs are widely regarded as a replacement for the IEEPA tariffs that were overturned by the Supreme Court in February this year. At the time of writing, no official response from China’s Ministry of Commerce regarding this determination has been found. Key points to watch going forward include: China’s response and countermeasures; whether the US and China can extend the truce before 10 January; and whether the EU, Japan and South Korea will accept the 15 per cent cap arrangement.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://ustr.gov/about/policy-offices/press-office/press-releases/2026/november/ustr-makes-determinations-and-proposes-actions-14-section-301-investigations-relating-structural">USTR Press Release<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://globalimportblog.bakermckenzie.com/2026/11/25/us-ustr-proposes-section-301-tariffs-on-14-economies-over-structural-excess-capacity/">Baker McKenzie<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://finance.yahoo.com/markets/live/stock-market-today-wednesday-november-25-dow-sp-500-nasdaq-pce-inflation-data-091428237.html">Yahoo Finance<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="2-10月核心PCE同比3-3-、高于预期，三季度GDP上修至4-3-；美股早盘重挫后收窄，英伟达跌3-91"><a href="#2-10月核心PCE同比3-3-、高于预期，三季度GDP上修至4-3-；美股早盘重挫后收窄，英伟达跌3-91" class="headerlink" title="2. Core PCE for October rose 3.3 per cent year-on-year, exceeding expectations, whilst third-quarter GDP was revised upwards to 4.3 per cent; US shares fell sharply in early trading before recovering somewhat, with Nvidia down 3.91 per cent"></a>2. Core PCE for October rose 3.3 per cent year-on-year, exceeding expectations, whilst third-quarter GDP was revised upwards to 4.3 per cent; US shares fell sharply in early trading before recovering somewhat, with Nvidia down 3.91 per cent</h3><p>According to Yahoo Finance, citing data from the US Bureau of Economic Analysis (BEA), the PCE price index rose by 0.3 per cent month-on-month in October and by 3.8 per cent year-on-year, the highest since 2023; The core PCE, excluding food and energy, rose by 0.3 per cent month-on-month and 3.3 per cent year-on-year, exceeding economists’ expectations of 3.2 per cent and up from 3.1 per cent in September. The revised third-quarter GDP growth figure stood at 4.3 per cent on an annualised basis, higher than the initial estimate of 3.4 per cent and the expected 3.5 per cent; the BEA stated that growth was driven by investment, consumption and government spending. The Federal Reserve’s Beige Book, released on the same day, showed that cost pressures in the energy, transport, healthcare, insurance and tariff sectors persisted during the first half of November, with businesses expecting costs and selling prices to rise further in the coming months. According to CME data, traders have priced in a 25-basis-point rate hike by the Federal Reserve in December at approximately 98 per cent.</p>
+<p>The stock market staged a sharp ‘V’-shaped recovery. According to Yahoo Finance, the Dow Jones Industrial Average was down by around 700 points at the opening bell, the S&amp;P 500 was down 2.1 per cent, the Nasdaq was down 3.2 per cent, Nvidia opened 8 per cent lower, and the Philadelphia Semiconductor Index fell by more than 6 per cent at one point, with Micron and SanDisk seeing the sharpest declines; the Nasdaq 100 briefly entered bear market territory (a fall of more than 20 per cent from its recent high) during the session. The losses subsequently narrowed gradually; Yahoo’s page showed that at the close, the S&amp;P 500 was down 0.25 per cent at 7,182.78 points; the Dow Jones Industrial Average was up 0.33 per cent at 50,182.95 points; the Nasdaq fell 0.62 per cent to 23,585.80 points; and the Russell 2000 rose 0.71 per cent. Nvidia closed at US$149.30, down 3.91 per cent, marking its second consecutive day of losses. Funds flowed into government bonds, with the yield on the 10-year US Treasury note falling back to around 4.85 per cent; data from Fannie Mae showed that the 30-year fixed mortgage rate fell from 7.28 per cent to 7.21 per cent. Deere &amp; Company issued a weaker full-year guidance, but its share price closed 4.44 per cent higher.</p>
+<p>Political risks for Nvidia remain. According to a report by the *New York Post*, as cited by Yahoo Finance and relayed by Bloomberg, Trump said in an interview that granting Huang Renxun a pardon “has always been an option”, but he did not consider it necessary and called on Huang to “tell the truth” when testifying before Congress next week. Nomura strategist McElligott stated in a report that the so-called “Jensen put” does not resolve the issue of tightening financial conditions. US stock markets were closed on 26 November for Thanksgiving and traded for only a half-day on 27 November. Key developments to watch: Huang Renxun’s testimony before Congress next week, the Federal Reserve’s monetary policy meeting on 9 December, and whether chip stocks can stabilise during the half-day trading session following the holiday.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://finance.yahoo.com/markets/live/stock-market-today-wednesday-november-25-dow-sp-500-nasdaq-pce-inflation-data-091428237.html">Yahoo Finance<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="3-A股沪指跌2-03-失守3500点，创业板指跌4-19-、科创50跌5-12-，半导体和电池领跌"><a href="#3-A股沪指跌2-03-失守3500点，创业板指跌4-19-、科创50跌5-12-，半导体和电池领跌" class="headerlink" title="3. The Shanghai Composite Index fell by 2.03 per cent, dropping below the 3,500-point mark, whilst the ChiNext Index fell by 4.19 per cent and the STAR 50 Index by 5.12 per cent, with the semiconductor and battery sectors leading the decline"></a>3. The Shanghai Composite Index fell by 2.03 per cent, dropping below the 3,500-point mark, whilst the ChiNext Index fell by 4.19 per cent and the STAR 50 Index by 5.12 per cent, with the semiconductor and battery sectors leading the decline</h3><p>According to China Economic Net and China News Service (as reported by Sina Finance), on 25 November, the Shanghai Composite Index fell by 2.03 per cent to close at 3,476.47 points, dropping below the 3,500-point mark; the Shenzhen Component Index fell by 3.24 per cent to close at 10,086.36 points; the ChiNext Index fell by 4.19 per cent to 2,183.58 points. According to the market review republished by Sina, the STAR 50 Index fell by 5.12 per cent, whilst the Beijing Stock Exchange 50 Index fell by 4.75 per cent; Total market turnover stood at 1,392.7 billion yuan, down by 275.1 billion yuan from the previous trading day, with more than 4,900 individual stocks falling. The Shanghai Composite Index opened 0.73 per cent lower that day, finding support near the 3,500-point mark at one stage during the session, before the decline widened in the afternoon.</p>
+<p>In the market, the electronic chemicals, semiconductors, lithography equipment, photoresist, PCB, memory chip and battery sectors led the decline, whilst the ‘National Integrated Circuit Industry Investment Fund holdings’ concept also fell sharply; Pharmaceutical distribution, traditional Chinese medicine, tourism and hospitality, retail, duty-free shops and the artemisinin concept bucked the trend to rise, with retail stocks such as Central Department Store, Guofang Group, Hangzhou Jieba and Jiajia Yue hitting the daily upper price limit. According to a news flash republished by Sina, CATL fell by more than 6 per cent in the afternoon, with its share price retreating by over 54 per cent from its all-time high on 7 May, hitting a 19-month low, whilst its combined A+H share market capitalisation fell below 1 trillion yuan. Cailian Press reported during the trading session that the ChiNext Index has fallen by approximately 50 per cent from its all-time high on 25 June.</p>
+<p>In terms of liquidity, according to the *Daily Economic News*, the central bank conducted 617 billion yuan in overnight reverse repo operations that day via a fixed-rate, fixed-volume tender, at an interest rate of 1.25 per cent, fully meeting the demand of primary dealers. The rebound following the introduction of the new margin trading regulations on Monday lasted only a day and a half; compounded by consecutive declines in overseas chip stocks and the implementation of US Section 301 tariffs, the technology and growth sectors came under pressure once again. Key points to watch: changes in margin financing balances following the implementation of the new margin financing margin requirements on 30 November; China’s response to the Section 301 tariffs; and whether the Shanghai Composite Index can reclaim the 3,500-point mark.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://k.sina.cn/article_7857201856_1d45362c001908w2s7.html">Sina Finance (Market Close Round-up)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://k.sina.com.cn/article_7857201856_1d45362c001908w2jx.html">Sina Finance (Intraday News)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="4-美国陪审团裁定华为12项指控中10项成立，驳回有组织犯罪共谋指控，华为称将采取法律行动（11月24—25日）"><a href="#4-美国陪审团裁定华为12项指控中10项成立，驳回有组织犯罪共谋指控，华为称将采取法律行动（11月24—25日）" class="headerlink" title="4. A US jury found Huawei guilty on 10 of the 12 charges, whilst dismissing the charge of conspiracy to commit organised crime; Huawei stated it would take legal action (24–25 November)"></a>4. A US jury found Huawei guilty on 10 of the 12 charges, whilst dismissing the charge of conspiracy to commit organised crime; Huawei stated it would take legal action (24–25 November)</h3><p>According to a statement from the US Department of Justice cited by CNBC, on 24 November (Eastern Time), following a trial lasting approximately three months, a federal jury in New York found Huawei and three of its subsidiaries guilty of bank fraud, telecommunications fraud, conspiracy to launder money, violations of US sanctions and conspiracy to steal trade secrets. According to the South China Morning Post, 10 of the 12 charges were upheld, whilst the jury acquitted the company of two charges: conspiracy to obstruct justice and conspiracy under the Racketeer Influenced and Corrupt Organisations (RICO) Act; the latter was the most serious charge and could have led to the forfeiture of some of the company’s assets. According to Al Jazeera (AP, Reuters), the prosecution called more than 60 witnesses, whilst the defence called 15.</p>
+<p>The Department of Justice stated that Huawei concealed its business operations in Iran from banks in order to secure billions of dollars in funding and maintain access to US dollar settlement channels, and that it also supplied Iranian authorities with cameras used to monitor protests. The intellectual property cases cited by the prosecution include the copying of Cisco router source code, as well as employees photographing and removing components from T-Mobile’s touchscreen test robots. US Attorney General Blanche said, “No individual or company is above the law.” Sentencing is scheduled for 14 September 2027, and Huawei could face fines, forfeiture and compensation.</p>
+<p>In a statement issued on 25 November, Huawei said it welcomed the dismissal of the RICO charges, maintaining that the remaining charges were likewise “devoid of legal and factual basis”. The company noted that the five trade secret disputes cited by the prosecution had previously been resolved as civil cases, and stated that it would review the judgement and take the necessary legal action, whilst ensuring that business operations would continue uninterrupted. Defence lawyer Heberlig told the media that an appeal would be lodged. The case originated in December 2018 when Meng Wanzhou was arrested in Canada; she returned to China in 2021 after reaching a deferred prosecution agreement with the US authorities. The judgement came on the same day that the Section 301 tariffs came into effect, adding a further layer of uncertainty to US-China relations ahead of the expiry of the truce on 10 January. Key points to watch going forward include the progress of Huawei’s appeal, the Chinese government’s official response, and whether a settlement or fine arrangement will be reached prior to sentencing.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="https://www.cnbc.com/2026/11/25/huawei-fraud-trade-trial.html">CNBC<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.scmp.com/news/us/article/3375673/huawei-guilty-10-12-counts-after-2-month-battle-us-courtroom">*South China Morning Post*<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.aljazeera.com/economy/2026/11/24/chinese-tech-giant-huawei-found-guilty-of-conspiracy-to-steal-trade-secrets">Al Jazeera (AP, Reuters)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h3 id="5-伊朗称又有两艘油轮在霍尔木兹触雷，胡塞武装称袭击沙特拉斯坦努拉炼厂，油价涨超2"><a href="#5-伊朗称又有两艘油轮在霍尔木兹触雷，胡塞武装称袭击沙特拉斯坦努拉炼厂，油价涨超2" class="headerlink" title="5. Iran claims two more oil tankers have struck mines in the Strait of Hormuz; the Houthi rebels claim to have attacked the Rastanura refinery in Saudi Arabia; oil prices rise by more than 2 per cent"></a>5. Iran claims two more oil tankers have struck mines in the Strait of Hormuz; the Houthi rebels claim to have attacked the Rastanura refinery in Saudi Arabia; oil prices rise by more than 2 per cent</h3><p>According to *The Jerusalem Post*, citing Reuters and Iranian state media, the Iranian Revolutionary Guard Corps Navy stated on 25 November that two oil tankers had struck mines and caught fire whilst attempting to pass through the Strait of Hormuz via an “unauthorised route”; According to OilPrice, citing the Islamic Republic News Agency (IRNA), the fire broke out in the engine room. This is the second such report this week; previously, Iranian authorities claimed that three oil tankers had struck mines. None of these claims have yet been independently verified, nor have the names of the vessels been disclosed. Iranian Army Spokesperson Akramian stated that the military had deployed new systems and upgraded existing ones to strengthen surveillance and control of the Strait, adding that vessels passing through without coordination with the Iranian side faced greater risks. The proposal conveyed by Iran via Qatar stipulates that, once the US meets conditions such as lifting the port blockade and ending hostilities on all fronts, navigation through the Strait will resume within 48 hours. Trump, however, described the US blockade as “the strongest in history” and stated that more oil is currently passing through the Strait than before the conflict began.</p>
+<p>The conflict has also spread to Saudi Arabia’s oil facilities. According to the UAE’s *Al-Watan*, the Saudi-led coalition stated on 25 November that it had intercepted and destroyed four drones over Rastanura in the Eastern Province. It did not mention that the refinery had been hit, but videos circulating online showed smoke rising from the area around the refinery; Houthi spokesperson Saraya claimed the attack caused a fire at the refinery, a claim that could not be immediately verified. The Rastanura refinery has a daily processing capacity of 550,000 barrels, accounting for approximately 16 per cent of Saudi Arabia’s refining capacity, whilst the adjacent export terminal can load approximately 6.5 million barrels per day, primarily supplying China, Japan, South Korea and India. The previous day, the Public Investment Fund headquarters in Riyadh’s financial district was attacked for the second time in a week; the Saudi Civil Defence Department reported that 11 people were injured.</p>
+<p>Oil prices have halted their decline and are rebounding. According to a breaking news headline from OilPrice, oil prices rose by more than 2 per cent following reports that Saudi Arabia had shot down a drone; the Yahoo page shows that the WTI January contract closed at US$84.14, up 2.55 per cent. OilPrice, citing data from Bloomberg, reported that the volume of crude oil transported through the Strait of Hormuz has declined in recent days. Key points to watch going forward include whether the claims of a landmine strike can be substantiated, whether Saudi Aramco’s facilities have sustained damage, and whether there has been any progress in Qatar’s mediation efforts.</p>
+<p>Source:<a class="link" target="_blank" rel="noopener" href="http://www.jpost.com/middle-east/iran-news/article-916095">The Jerusalem Post (Reuters)<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://oilprice.com/Latest-Energy-News/World-News/Iran-Reports-Fresh-Tanker-Explosions-as-Hormuz-Attacks-Intensify.html">OilPrice<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a>、<a class="link" target="_blank" rel="noopener" href="https://www.thenationalnews.com/news/gulf/2026/11/25/yemens-houthis-say-they-attacked-saudi-arabias-ras-tanura-refinery/">*The National*<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+<h2 id="市场关联与今日观察"><a href="#市场关联与今日观察" class="headerlink" title="Market Correlation and Today's Observation"></a>Market Correlation and Today's Observation</h2><p>Several reports on Wednesday pointed in the same direction: with inflation and tariffs both on the rise, it will be difficult to bring interest rates down. With core PCE exceeding expectations, GDP figures revised upwards and the Beige Book indicating widespread cost pressures, a Fed rate rise in December has almost entirely been priced in; whilst the new Section 301 tariffs may not come into effect until early next year, they represent yet another round of rising costs for US importers, making it even harder for inflation expectations to subside. US equities fell during the session but recovered most of their losses by the close, indicating that bargain-hunting capital remains active; however, the Nasdaq 100 briefly dipped into bear market territory and Nvidia fell for two consecutive days, suggesting that the valuation correction in the AI sector has yet to stabilise. The decline in Treasury yields and the fall in mortgage rates reflect a flight to safety rather than expectations of monetary easing.</p>
+<p>For Chinese assets, tariffs, the Huawei ruling and a fall in global chip stocks all coincided on the same day. The proposed 20 per cent tariff on Chinese imports is in line with the ceiling set under the previous truce framework, and the exemptions in Annex B also provide room for negotiation, meaning the impact is milder than the worst-case scenario; however, the ‘up to 40 per cent’ fallback tariff rate and the expiry of the truce on 10 January mean that uncertainty will persist into early next year. A-shares fell on reduced trading volumes, with technology and growth stocks leading the decline whilst consumer and healthcare sectors bucked the trend; capital is shifting towards defensive sectors. The proposed tariff rates of 35 per cent on Vietnam and 18 per cent on Southeast Asia will also affect Chinese exporters with production capacity in those regions. As for oil prices, the view that there is a supply glut still prevails, but with incidents at facilities in the Strait of Hormuz and Saudi Arabia occurring in quick succession, a geopolitical premium could return at any moment.</p>
+<p>Checklist:</p>
+<ul>
+<li>China’s Ministry of Commerce responds to the Section 301 findings; negotiations between China and the US ahead of the expiry of the truce on 10 January</li>
+<li>Reactions from the EU, Japan, South Korea, Vietnam and India to their respective proposed duty rates; deadline for comments is 5 January 2027 and the hearing is on 25 January</li>
+<li>The Federal Reserve’s Monetary Policy Meeting on 9 December: Interest Rate Hike Magnitude and Dot Plot</li>
+<li>Can Nvidia halt its slide? Jensen Huang is due to testify before Congress next week; trading volume during the half-day session on the 27th</li>
+<li>Will the Shanghai Composite Index regain the 3,500-point mark? New margin trading regulations come into force on 30 November; the performance of CATL and the semiconductor sector</li>
+<li>Huawei’s appeal and the Chinese government’s response</li>
+<li>Verification of the reports that the Hormuz Strait was struck by a mine; whether the Saudi Rastanura facility was damaged; WTI and Brent oil prices</li>
+</ul>
+<p>Cover image:<a class="link" target="_blank" rel="noopener" href="https://unsplash.com/photos/shipping-containers-stacked-high-at-a-busy-port-1gveplodu04">Double film / Unsplash<i class="fa-solid fa-arrow-up-right ml-[0.2em] font-light align-text-top text-[0.7em] link-icon"></i></a></p>
+
+		</div>
+
+		
+		<div class="post-copyright-info w-full my-8 px-2 sm:px-6 md:px-8">
+			<div class="article-copyright-info-container">
+    <ul>
+        <li><strong>Title:</strong> Daily Briefing | 26 November 2026: US plans to impose ‘overcapacity’ tariffs on 14 economies, with rates of up to 20 per cent on China; October’s core PCE rose to 3.3 per cent, making a December interest rate hike all but certain; Nvidia falls nearly 4 per cent again; China’s A-share market saw the Shanghai Composite Index fall 2.03 per cent, dropping below the 3,500-point mark, whilst the ChiNext Index fell 4.19 per cent; Huawei was found guilty on 10 counts in the US; and the Houthi rebels claimed responsibility for an attack on the Rastan Nura refinery</li>
+        <li><strong>Author:</strong> AdenXie</li>
+        <li><strong>Created at:</strong> 2026-11-26 09:00:00</li>
+        
+        <li>
+            <strong>Link:</strong> https://blog.adenxie.com.cn/2026/11/26/2026-11-26-daily-brief/
+        </li>
+        <li data-aden-content-license=""><strong>License:</strong> Unless otherwise noted, original text and images by AdenXie: <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a>; original code: <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE" target="_blank" rel="noopener">GPL-3.0</a>. Third-party material retains its original rights and licenses. <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE-CONTENT.md" target="_blank" rel="noopener">Scope &amp; exceptions</a>.</li>
+    </ul>
+</div>
+
+		</div>
+		
+
+		
+		<ul class="post-tags-box text-lg mt-1.5 flex-wrap justify-center flex md:hidden">
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E6%96%B0%E9%97%BB/">#News</a>&nbsp;
+			</li>
+			
+			<li class="tag-item mx-0.5">
+				<a href="/en/tags/%E5%B8%82%E5%9C%BA%E8%A7%82%E5%AF%9F/">#MarketObservation</a>&nbsp;
+			</li>
+			
+		</ul>
+		
+
+		
+  <div class="recommended-article px-2 sm:px-6 md:px-8">
+   <div class="recommended-desktop">
+    <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+    </div>
+    <div class="recommended-article-group"><a class="recommended-article-item" href="/en/2026/11/25/2026-11-25-daily-brief/" title="Daily Briefing | 25 November 2026: Chip stocks give up gains, semiconductor ETFs fall nearly 7 per cent, the Dow Jones closes above 50,000 points for the first time, Anthropic falls below its IPO price, US plans to impose tariffs on 16 trading partners under Section 301; China’s ChiNext Index turns negative after reaching a high; Iran claims three oil tankers struck mines and has blacklisted a tugboat; OpenAI and Anthropic employees say internal models are difficult to release safely" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1782155789465-8acb598726e1?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 25 November 2026: Chip stocks give up gains, semiconductor ETFs fall nearly 7 per cent, the Dow Jones closes above 50,000 points for the first time, Anthropic falls below its IPO price, US plans to impose tariffs on 16 trading partners under Section 301; China’s ChiNext Index turns negative after reaching a high; Iran claims three oil tankers struck mines and has blacklisted a tugboat; OpenAI and Anthropic employees say internal models are difficult to release safely" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | 25 November 2026: Chip stocks give up gains, semiconductor ETFs fall nearly 7 per cent, the Dow Jones closes above 50,000 points for the first time, Anthropic falls below its IPO price, US plans to impose tariffs on 16 trading partners under Section 301; China’s ChiNext Index turns negative after reaching a high; Iran claims three oil tankers struck mines and has blacklisted a tugboat; OpenAI and Anthropic employees say internal models are difficult to release safely</span>
+</a><a class="recommended-article-item" href="/en/2026/11/13/2026-11-13-daily-brief/" title="Daily Briefing | 13 November 2026: Jensen Huang steps down as NVIDIA CEO; CFO Kress takes over on an interim basis; 10-year US Treasury yields rise above 5.1 per cent; US shares close slightly lower; Trump states “there is no need to reach an agreement with Iran”; the Ministry of Commerce states that China and the US are moving forward with the “30 billion for 30 billion” tariff reduction arrangement" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1431540015161-0bf868a2d407?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 13 November 2026: Jensen Huang steps down as NVIDIA CEO; CFO Kress takes over on an interim basis; 10-year US Treasury yields rise above 5.1 per cent; US shares close slightly lower; Trump states “there is no need to reach an agreement with Iran”; the Ministry of Commerce states that China and the US are moving forward with the “30 billion for 30 billion” tariff reduction arrangement" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | 13 November 2026: Jensen Huang steps down as NVIDIA CEO; CFO Kress takes over on an interim basis; 10-year US Treasury yields rise above 5.1 per cent; US shares close slightly lower; Trump states “there is no need to reach an agreement with Iran”; the Ministry of Commerce states that China and the US are moving forward with the “30 billion for 30 billion” tariff reduction arrangement</span>
+</a><a class="recommended-article-item" href="/en/2026/11/17/2026-11-17-daily-brief/" title="Daily Briefing | 17 November 2026: US tightens rules on AI chip exports and remote computing power; Trump says Huang Renxun’s return is “not a bad idea”; Nasdaq falls 2.49 per cent; Nvidia drops 4 per cent ahead of earnings report, China’s October retail sales rose by just 0.4 per cent; the ChiNext Index fell by 4.37 per cent; Japan’s third-quarter GDP turned negative; ASEAN and China failed to finalise the Code of Conduct in the South China Sea" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1634097538301-5d5f8b09eb84?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 17 November 2026: US tightens rules on AI chip exports and remote computing power; Trump says Huang Renxun’s return is “not a bad idea”; Nasdaq falls 2.49 per cent; Nvidia drops 4 per cent ahead of earnings report, China’s October retail sales rose by just 0.4 per cent; the ChiNext Index fell by 4.37 per cent; Japan’s third-quarter GDP turned negative; ASEAN and China failed to finalise the Code of Conduct in the South China Sea" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | 17 November 2026: US tightens rules on AI chip exports and remote computing power; Trump says Huang Renxun’s return is “not a bad idea”; Nasdaq falls 2.49 per cent; Nvidia drops 4 per cent ahead of earnings report, China’s October retail sales rose by just 0.4 per cent; the ChiNext Index fell by 4.37 per cent; Japan’s third-quarter GDP turned negative; ASEAN and China failed to finalise the Code of Conduct in the South China Sea</span>
+</a></div>
+   </div>
+   <div class="recommended-mobile">
+   <div class="recommended-article-header text-xl md:text-3xl font-bold mt-10">
+     <i aria-hidden="true"></i><span>Recommended reading</span>
+   </div>
+   <div class="recommended-article-group"><a class="recommended-article-item" href="/en/2026/11/25/2026-11-25-daily-brief/" title="Daily Briefing | 25 November 2026: Chip stocks give up gains, semiconductor ETFs fall nearly 7 per cent, the Dow Jones closes above 50,000 points for the first time, Anthropic falls below its IPO price, US plans to impose tariffs on 16 trading partners under Section 301; China’s ChiNext Index turns negative after reaching a high; Iran claims three oil tankers struck mines and has blacklisted a tugboat; OpenAI and Anthropic employees say internal models are difficult to release safely" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1782155789465-8acb598726e1?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 25 November 2026: Chip stocks give up gains, semiconductor ETFs fall nearly 7 per cent, the Dow Jones closes above 50,000 points for the first time, Anthropic falls below its IPO price, US plans to impose tariffs on 16 trading partners under Section 301; China’s ChiNext Index turns negative after reaching a high; Iran claims three oil tankers struck mines and has blacklisted a tugboat; OpenAI and Anthropic employees say internal models are difficult to release safely" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | 25 November 2026: Chip stocks give up gains, semiconductor ETFs fall nearly 7 per cent, the Dow Jones closes above 50,000 points for the first time, Anthropic falls below its IPO price, US plans to impose tariffs on 16 trading partners under Section 301; China’s ChiNext Index turns negative after reaching a high; Iran claims three oil tankers struck mines and has blacklisted a tugboat; OpenAI and Anthropic employees say internal models are difficult to release safely</span>
+</a><a class="recommended-article-item" href="/en/2026/11/13/2026-11-13-daily-brief/" title="Daily Briefing | 13 November 2026: Jensen Huang steps down as NVIDIA CEO; CFO Kress takes over on an interim basis; 10-year US Treasury yields rise above 5.1 per cent; US shares close slightly lower; Trump states “there is no need to reach an agreement with Iran”; the Ministry of Commerce states that China and the US are moving forward with the “30 billion for 30 billion” tariff reduction arrangement" rel="bookmark">
+  <img src="https://images.unsplash.com/photo-1431540015161-0bf868a2d407?auto=format&amp;fit=crop&amp;w=1600&amp;q=80" alt="Daily Briefing | 13 November 2026: Jensen Huang steps down as NVIDIA CEO; CFO Kress takes over on an interim basis; 10-year US Treasury yields rise above 5.1 per cent; US shares close slightly lower; Trump states “there is no need to reach an agreement with Iran”; the Ministry of Commerce states that China and the US are moving forward with the “30 billion for 30 billion” tariff reduction arrangement" class="!max-w-none" decoding="async">
+  <span class="title">Daily Briefing | 13 November 2026: Jensen Huang steps down as NVIDIA CEO; CFO Kress takes over on an interim basis; 10-year US Treasury yields rise above 5.1 per cent; US shares close slightly lower; Trump states “there is no need to reach an agreement with Iran”; the Ministry of Commerce states that China and the US are moving forward with the “30 billion for 30 billion” tariff reduction arrangement</span>
+</a></div>
+   </div>
+  </div>
+
+		
+		<div class="article-nav my-8 flex justify-between items-center px-2 sm:px-6 md:px-8">
+			
+			<div class="article-prev border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="prev" rel="prev" href="/en/2026/11/28/2026-11-28-daily-brief/">
+					<span class="left arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-left"></i>
+					</span>
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Daily Briefing | 28 November 2026: US stocks surge on Black Friday, with chips leading the gains; Chinese shares soar; Central Huijin to act as a quasi-stabilisation fund; Saudi Arabia’s Jizan refinery attacked; Brent crude nears US$97; S&amp;P places Nvidia on review for downgrade</span>
+						<span class="post-nav-item">Prev posts</span>
+					</span>
+				</a>
+			</div>
+			
+			
+			<div class="article-next border-border-color shadow-redefine-flat shadow-shadow-color-2 rounded-medium px-4 py-2 hover:shadow-redefine-flat-hover hover:shadow-shadow-color-2">
+				<a class="next" rel="next" href="/en/2026/11/25/2026-11-25-daily-brief/">
+					<span class="title flex justify-center items-center">
+						<span class="post-nav-title-item truncate max-w-48">Daily Briefing | 25 November 2026: Chip stocks give up gains, semiconductor ETFs fall nearly 7 per cent, the Dow Jones closes above 50,000 points for the first time, Anthropic falls below its IPO price, US plans to impose tariffs on 16 trading partners under Section 301; China’s ChiNext Index turns negative after reaching a high; Iran claims three oil tankers struck mines and has blacklisted a tugboat; OpenAI and Anthropic employees say internal models are difficult to release safely</span>
+						<span class="post-nav-item">Next posts</span>
+					</span>
+					<span class="right arrow-icon flex justify-center items-center">
+						<i class="fa-solid fa-chevron-right"></i>
+					</span>
+				</a>
+			</div>
+			
+		</div>
+		
+
+
+		
+		<div class="comment-container px-2 sm:px-6 md:px-8 pb-8">
+			<div class="comments-container mt-10 w-full ">
+    <div id="comment-anchor" class="w-full h-2.5"></div>
+    <div class="comment-area-title w-full my-1.5 md:my-2.5 text-xl md:text-3xl font-bold">
+        Comments
+    </div>
+    
+
+        
+            
+<div class="twikoo-container">
+  <div id="twikoo-comment" style="min-height:220px" data-env="https://twikoo-six-weld.vercel.app" data-region=""></div>
+</div>
+
+
+        
+        
+    
+</div>
+
+		</div>
+		
+	</div>
+
+	
+	<div class="toc-content-container">
+		<div class="post-toc-wrap">
+	<div class="post-toc">
+		<div class="toc-title">On this page</div>
+		<div class="page-title">Daily Briefing | 26 November 2026: US plans to impose ‘overcapacity’ tariffs on 14 economies, with rates of up to 20 per cent on China; October’s core PCE rose to 3.3 per cent, making a December interest rate hike all but certain; Nvidia falls nearly 4 per cent again; China’s A-share market saw the Shanghai Composite Index fall 2.03 per cent, dropping below the 3,500-point mark, whilst the ChiNext Index fell 4.19 per cent; Huawei was found guilty on 10 counts in the US; and the Houthi rebels claimed responsibility for an attack on the Rastan Nura refinery</div>
+		<ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8A%E6%97%A5%E4%B8%BB%E7%BA%BF"><span class="nav-text">Today's main theme</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E7%82%B9%E6%96%B0%E9%97%BB"><span class="nav-text">Key News</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-USTR%E8%AE%A4%E5%AE%9A14%E4%B8%AA%E7%BB%8F%E6%B5%8E%E4%BD%93%E5%AD%98%E5%9C%A8%E2%80%9C%E7%BB%93%E6%9E%84%E6%80%A7%E4%BA%A7%E8%83%BD%E8%BF%87%E5%89%A9%E2%80%9D%EF%BC%8C%E6%8F%90%E8%AE%AE%E5%8A%A0%E5%BE%8115-%E2%80%9435-%E5%85%B3%E7%A8%8E%EF%BC%8C%E5%AF%B9%E5%8D%8E%E6%9C%80%E9%AB%9820-%EF%BC%8C%E6%98%8E%E5%B9%B41%E6%9C%88%E5%90%AC%E8%AF%81"><span class="nav-text">1. The USTR has determined that 14 economies suffer from ‘structural overcapacity’ and has proposed imposing tariffs of between 15 per cent and 35 per cent, with a maximum of 20 per cent on China; a hearing is scheduled for January next year.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-10%E6%9C%88%E6%A0%B8%E5%BF%83PCE%E5%90%8C%E6%AF%943-3-%E3%80%81%E9%AB%98%E4%BA%8E%E9%A2%84%E6%9C%9F%EF%BC%8C%E4%B8%89%E5%AD%A3%E5%BA%A6GDP%E4%B8%8A%E4%BF%AE%E8%87%B34-3-%EF%BC%9B%E7%BE%8E%E8%82%A1%E6%97%A9%E7%9B%98%E9%87%8D%E6%8C%AB%E5%90%8E%E6%94%B6%E7%AA%84%EF%BC%8C%E8%8B%B1%E4%BC%9F%E8%BE%BE%E8%B7%8C3-91"><span class="nav-text">2. Core PCE for October rose 3.3 per cent year-on-year, exceeding expectations, whilst third-quarter GDP was revised upwards to 4.3 per cent; US shares fell sharply in early trading before recovering somewhat, with Nvidia down 3.91 per cent</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-A%E8%82%A1%E6%B2%AA%E6%8C%87%E8%B7%8C2-03-%E5%A4%B1%E5%AE%883500%E7%82%B9%EF%BC%8C%E5%88%9B%E4%B8%9A%E6%9D%BF%E6%8C%87%E8%B7%8C4-19-%E3%80%81%E7%A7%91%E5%88%9B50%E8%B7%8C5-12-%EF%BC%8C%E5%8D%8A%E5%AF%BC%E4%BD%93%E5%92%8C%E7%94%B5%E6%B1%A0%E9%A2%86%E8%B7%8C"><span class="nav-text">3. The Shanghai Composite Index fell by 2.03 per cent, dropping below the 3,500-point mark, whilst the ChiNext Index fell by 4.19 per cent and the STAR 50 Index by 5.12 per cent, with the semiconductor and battery sectors leading the decline</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E7%BE%8E%E5%9B%BD%E9%99%AA%E5%AE%A1%E5%9B%A2%E8%A3%81%E5%AE%9A%E5%8D%8E%E4%B8%BA12%E9%A1%B9%E6%8C%87%E6%8E%A7%E4%B8%AD10%E9%A1%B9%E6%88%90%E7%AB%8B%EF%BC%8C%E9%A9%B3%E5%9B%9E%E6%9C%89%E7%BB%84%E7%BB%87%E7%8A%AF%E7%BD%AA%E5%85%B1%E8%B0%8B%E6%8C%87%E6%8E%A7%EF%BC%8C%E5%8D%8E%E4%B8%BA%E7%A7%B0%E5%B0%86%E9%87%87%E5%8F%96%E6%B3%95%E5%BE%8B%E8%A1%8C%E5%8A%A8%EF%BC%8811%E6%9C%8824%E2%80%9425%E6%97%A5%EF%BC%89"><span class="nav-text">4. A US jury found Huawei guilty on 10 of the 12 charges, whilst dismissing the charge of conspiracy to commit organised crime; Huawei stated it would take legal action (24–25 November)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E4%BC%8A%E6%9C%97%E7%A7%B0%E5%8F%88%E6%9C%89%E4%B8%A4%E8%89%98%E6%B2%B9%E8%BD%AE%E5%9C%A8%E9%9C%8D%E5%B0%94%E6%9C%A8%E5%85%B9%E8%A7%A6%E9%9B%B7%EF%BC%8C%E8%83%A1%E5%A1%9E%E6%AD%A6%E8%A3%85%E7%A7%B0%E8%A2%AD%E5%87%BB%E6%B2%99%E7%89%B9%E6%8B%89%E6%96%AF%E5%9D%A6%E5%8A%AA%E6%8B%89%E7%82%BC%E5%8E%82%EF%BC%8C%E6%B2%B9%E4%BB%B7%E6%B6%A8%E8%B6%852"><span class="nav-text">5. Iran claims two more oil tankers have struck mines in the Strait of Hormuz; the Houthi rebels claim to have attacked the Rastanura refinery in Saudi Arabia; oil prices rise by more than 2 per cent</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%82%E5%9C%BA%E5%85%B3%E8%81%94%E4%B8%8E%E4%BB%8A%E6%97%A5%E8%A7%82%E5%AF%9F"><span class="nav-text">Market Correlation and Today's Observation</span></a></li></ol>
+
+	</div>
+</div>
+	</div>
+	
+</div>
+
+			</div>
+
+			
+		</div>
+
+		<div class="main-content-footer">
+			<footer class="footer mt-5 py-5 h-auto text-base text-third-text-color relative border-t-2 border-t-border-color">
+    <div class="info-container py-3 text-center">
+        
+            <div class="customize-info my-1">Write down your real experiences while retaining the edges of your viewpoints.</div><div class="customize-info my-1 aden-status-hint">Something not working? Check service status at <a href="https://status.adenxie.com.cn/" target="_blank" rel="noopener">status.adenxie.com.cn</a></div><div class="customize-info my-1 aden-terminal-hint"><button type="button" data-terminal-open="">Press <kbd>~</kbd> for the terminal</button></div>
+        
+        <div class="text-center">
+            ©
+            
+              <span>2021</span>
+              -
+            
+            2026&nbsp;&nbsp;<i class="fa-solid fa-bolt" style="color: #F2E94E"></i>&nbsp;&nbsp;<a href="/en/">AdenXie</a>
+            
+                
+                <p class="post-count space-x-0.5">
+                    <span>
+                        130 posts in total
+                    </span>
+                    
+                        <span>
+                            404.6k words in total
+                        </span>
+                    
+                </p>
+            
+        </div>
+        
+            <script data-swup-reload-script="" src="https://cn.vercount.one/js" async=""></script>
+            <div class="relative text-center lg:absolute lg:right-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-right">
+                
+                    <span id="busuanzi_container_site_uv" class="lg:!block">
+                        <span class="text-sm">VISITOR COUNT</span>
+                        <span id="busuanzi_value_site_uv"></span>
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv" class="lg:!block">
+                        <span class="text-sm">TOTAL PAGE VIEWS</span>
+                        <span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="relative text-center lg:absolute lg:left-[20px] lg:top-1/2 lg:-translate-y-1/2 lg:text-left">
+            <span class="lg:block text-sm">POWERED BY <!--?xml version="1.0" encoding="utf-8"?--><svg class="relative top-[2px] inline-block align-baseline" version="1.1" id="圖層_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1rem" height="1rem" viewBox="0 0 512 512" enable-background="new 0 0 512 512" xml:space="preserve"><path fill="#0E83CD" d="M256.4,25.8l-200,115.5L56,371.5l199.6,114.7l200-115.5l0.4-230.2L256.4,25.8z M349,354.6l-18.4,10.7l-18.6-11V275H200v79.6l-18.4,10.7l-18.6-11v-197l18.5-10.6l18.5,10.8V237h112v-79.6l18.5-10.6l18.5,10.8V354.6z"></path></svg><a target="_blank" class="text-base" href="https://hexo.io">Hexo</a></span>
+            <span class="text-sm lg:block">THEME&nbsp;<a class="text-base" target="_blank" href="https://github.com/EvanNotFound/hexo-theme-redefine">Redefine v2.9.0</a></span>
+        </div>
+        
+        
+            <div>
+                Blog up for <span class="odometer" id="runtime_days"></span> days <span class="odometer" id="runtime_hours"></span> hrs <span class="odometer" id="runtime_minutes"></span> Min <span class="odometer" id="runtime_seconds"></span> Sec
+            </div>
+        
+        
+            <script data-swup-reload-script="">
+                try {
+                    function odometer_init() {
+                    const elements = document.querySelectorAll('.odometer');
+                    elements.forEach(el => {
+                        new Odometer({
+                            el,
+                            format: '( ddd).dd',
+                            duration: 200
+                        });
+                    });
+                    }
+                    odometer_init();
+                } catch (error) {}
+            </script>
+        
+        
+            
+                
+        
+                
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        
+                    
+        
+                
+
+                    
+                        <script data-swup-reload-script="" src="/js/scene-loader.js?v=d4c6d7d950ec" defer=""></script>
+                    
+        
+        
+    <div class="aden-font-credit text-sm my-1">Typeface: <a href="https://hyperos.mi.com/font/zh/download/" target="_blank" rel="noopener">MiSans</a></div><div class="aden-license-notice text-sm my-1">Original text &amp; images: <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> · Code: <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE" target="_blank" rel="noopener">GPL-3.0</a> · <a href="https://github.com/AdenXie/Aden.github.io/blob/main/LICENSE-CONTENT.md" target="_blank" rel="noopener">Scope &amp; exceptions</a></div></div>  
+</footer>
+		</div>
+	</div>
+
+	
+	<div class="post-tools">
+		<div class="post-tools-container">
+	<ul class="article-tools-list">
+		<!-- TOC aside toggle -->
+		
+		<li class="right-bottom-tools page-aside-toggle">
+			<i class="fa-regular fa-outdent"></i>
+		</li>
+		
+
+		<!-- go comment -->
+		
+		<li class="go-comment">
+			<i class="fa-regular fa-comments"></i>
+		</li>
+		
+	</ul>
+</div>
+	</div>
+	
+
+	<div class="right-side-tools-container" role="toolbar" aria-label="Quick tools">
+		<div class="side-tools-container">
+	<ul class="hidden-tools-list">
+		<li class="right-bottom-tools tool-font-adjust-plus flex justify-center items-center" role="button" tabindex="0" aria-label="Larger text">
+			<i class="fa-regular fa-magnifying-glass-plus" aria-hidden="true"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-font-adjust-minus flex justify-center items-center" role="button" tabindex="0" aria-label="Smaller text">
+			<i class="fa-regular fa-magnifying-glass-minus" aria-hidden="true"></i>
+		</li>
+
+		<li class="right-bottom-tools tool-dark-light-toggle flex justify-center items-center" role="button" tabindex="0" aria-label="Toggle dark mode">
+			<i class="fa-regular fa-moon" aria-hidden="true"></i>
+		</li>
+
+		<!-- rss -->
+		
+
+		
+
+		<li class="right-bottom-tools tool-scroll-to-bottom flex justify-center items-center" role="button" tabindex="0" aria-label="Go to bottom">
+			<i class="fa-regular fa-arrow-down" aria-hidden="true"></i>
+		</li>
+	<li class="right-bottom-tools aden-dock-terminal" role="button" tabindex="0" data-terminal-open="" aria-label="Open terminal"><i class="fa-solid fa-terminal" aria-hidden="true"></i></li><li class="right-bottom-tools aden-dock-music" role="button" tabindex="0" aria-pressed="false" aria-label="Play music"><i class="fa-solid fa-play" aria-hidden="true"></i></li></ul>
+
+	<ul class="visible-tools-list">
+		<li class="right-bottom-tools toggle-tools-list flex justify-center items-center" role="button" tabindex="0" aria-label="More settings" aria-expanded="false" aria-haspopup="true">
+			<i class="fa-regular fa-cog " aria-hidden="true"></i>
+		</li>
+		
+		<li class="right-bottom-tools tool-scroll-to-top flex justify-center items-center" role="button" tabindex="0" aria-label="Back to top">
+			<i class="arrow-up fas fa-arrow-up" aria-hidden="true"></i>
+			<span class="percent"></span>
+		</li>
+		
+		
+	</ul>
+</div>
+	<form id="aden-ask" class="aden-ask" novalidate="" aria-label="Ask AI" data-script="/js/chat.js?v=decea45cccf0" data-style="/css/chat.css?v=4a911c13bc63">
+  <span class="aden-ask-mark" aria-hidden="true">✳</span>
+  <label class="aden-sr-only" for="aden-ask-input">Ask AI</label>
+  <input id="aden-ask-input" class="aden-ask-input" type="text" maxlength="4000" autocomplete="off" enterkeyhint="send" placeholder="Ask AI…">
+  <span class="aden-ask-thinking" role="status" hidden=""><span class="aden-ask-dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="aden-ask-thinking-label"></span></span>
+  <button type="submit" class="aden-ask-send" aria-label="Send" disabled=""><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></button>
+  <button type="button" class="aden-ask-stop" aria-label="Stop" hidden=""><i class="fa-solid fa-stop" aria-hidden="true"></i></button>
+</form><button type="button" class="aden-ask-open" aria-controls="aden-ask" aria-expanded="false"><span aria-hidden="true">✳</span><span>Ask AI</span></button><button type="button" class="aden-dock-toc" aria-haspopup="dialog" aria-expanded="false" aria-label="Contents"><i class="fa-solid fa-list-ul" aria-hidden="true"></i></button><button type="button" class="aden-dock-menu" aria-controls="navbar-drawer" aria-expanded="false" aria-label="Menu"><span class="aden-dock-bars" aria-hidden="true"></span></button></div>
+
+	<div class="image-viewer-container" role="dialog" aria-modal="true" aria-label="Image viewer">
+	<button class="image-viewer-close" type="button" aria-label="Close">
+		<i class="fa-solid fa-xmark"></i>
+	</button>
+	<button class="image-viewer-prev" type="button" aria-label="Prev">
+		<i class="fa-solid fa-chevron-left"></i>
+	</button>
+	<div class="image-viewer-frame">
+		<img src="" alt="" decoding="async">
+	</div>
+	<div class="image-viewer-exif-panel hidden absolute left-1/2 bottom-20 -translate-x-1/2 w-[min(92vw,420px)] max-h-[60vh] overflow-hidden rounded-2xl bg-background-color-transparent-80 p-4 text-left shadow-redefine-flat backdrop-blur-md" role="dialog" aria-label="EXIF" aria-hidden="true">
+		<div class="flex items-center justify-between mb-3">
+			<span class="text-sm font-semibold text-first-text-color">EXIF</span>
+			<button class="image-viewer-exif-close flex h-8 w-8 items-center justify-center rounded-full bg-background-color-transparent-80 text-first-text-color transition hover:bg-background-color-transparent-40" type="button" aria-label="Close">
+				<i class="fa-solid fa-xmark text-[0.65rem]"></i>
+			</button>
+		</div>
+		<div class="image-viewer-exif-cards grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 scrollbar-hide"></div>
+		<template class="image-viewer-exif-card-template">
+			<div class="rounded-lg bg-background-color-transparent-40 px-3 py-2">
+				<div class="image-viewer-exif-card-header flex items-center gap-2 mb-1">
+					<i class="image-viewer-exif-card-icon fa-solid fa-circle-info text-xs text-third-text-color"></i>
+					<div class="image-viewer-exif-card-title text-xs font-semibold text-first-text-color"></div>
+				</div>
+				<div class="image-viewer-exif-card-items flex flex-col gap-1"></div>
+			</div>
+		</template>
+	</div>
+	<button class="image-viewer-exif-toggle flex items-center gap-2 hidden absolute left-1/2 bottom-6 -translate-x-1/2 rounded-full border border-border-color bg-background-color-transparent-80 px-4 py-2 text-first-text-color backdrop-blur-md transition hover:bg-background-color-transparent-40" type="button" aria-label="EXIF" aria-expanded="false">
+		<i class="fa-solid fa-circle-info text-xs"></i>
+		<span class="text-xs font-semibold uppercase tracking-wider">EXIF</span>
+	</button>
+	<button class="image-viewer-next" type="button" aria-label="Next">
+		<i class="fa-solid fa-chevron-right"></i>
+	</button>
+</div>
+
+
+	
+	<div class="search-pop-overlay" inert="">
+	<div class="popup search-popup" id="aden-search-dialog" role="dialog" aria-modal="true" aria-labelledby="aden-search-title">
+		<div class="aden-search-heading"><h2 id="aden-search-title">Search the blog</h2><button type="button" class="popup-btn-close" aria-label="Close search"><i class="fa-solid fa-times" aria-hidden="true"></i></button></div><div class="search-header">
+			<i class="fa-solid fa-magnifying-glass aden-search-icon" aria-hidden="true"></i>
+			<div class="search-input-container">
+				<input autocomplete="off" autocorrect="off" autocapitalize="off" placeholder="Search titles and text" spellcheck="false" type="search" class="search-input" aria-label="Search the blog">
+			</div>
+			
+		<button type="button" class="search-input-field-pre" hidden="" aria-label="Clear search"><i class="fa-solid fa-times" aria-hidden="true"></i></button></div>
+		<div id="search-result">
+			<div id="no-result" role="status">Search article titles and text.</div>
+		</div>
+	</div>
+</div>
+	
+
+</main>
+
+
+
+<script src="/js/build/libs/Swup.min.js?v=509b91971bf2"></script>
+
+<script src="/js/build/libs/SwupSlideTheme.min.js?v=969d65618587"></script>
+
+<script src="/js/build/libs/SwupScriptsPlugin.min.js?v=193270b6fdb0"></script>
+
+<script src="/js/build/libs/SwupProgressPlugin.min.js?v=647d2af612df"></script>
+
+<script src="/js/build/libs/SwupScrollPlugin.min.js?v=c9d014a814b8"></script>
+
+<script src="/js/build/libs/SwupPreloadPlugin.min.js?v=792db0224d6b"></script>
+
+<script>
+    window.swup = new Swup({
+        plugins: [
+            new SwupScriptsPlugin({
+                optin: true,
+            }),
+            new SwupProgressPlugin(),
+            new SwupScrollPlugin({
+                offset: 80,
+            }),
+            new SwupSlideTheme({
+                mainElement: ".main-content-body",
+            }),
+            new SwupPreloadPlugin(),
+        ],
+        containers: ["#swup"],
+    });
+
+    window.dispatchEvent(
+        new CustomEvent("redefine:swup:ready", {
+            detail: {
+                swup: window.swup,
+            },
+        }),
+    );
+</script>
+
+
+
+
+	
+<script src="/js/build/main.js?v=3691d7f361f1" type="module"></script>
+
+
+
+    
+<script src="/js/build/libs/odometer.min.js?v=03c1e188b884"></script>
+
+    
+<link rel="stylesheet" href="/assets/odometer-theme-minimal.css?v=77a3a9d5a3d0">
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	<div id="aplayer"></div>
+
+<script src="/js/build/libs/APlayer.min.js?v=e98ec22436a5"></script>
+
+
+<script src="/js/build/plugins/aplayer.js?v=d6d3c64af35f"></script>
+
+
+	
+
+
+</body></html>
